@@ -1,6 +1,6 @@
 CFLAGS= -I ~/include -O2 -c
 
-PopGenLib:	handytools.o
+PopGenLib:	haploid_gt_dis.o    haploid_population.o hypercube_function.o hypercube.o
 	ar  rcs libPopGenLib.a  haploid_gt_dis.o    haploid_population.o hypercube_function.o hypercube.o
 
 
