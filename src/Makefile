@@ -1,9 +1,12 @@
-CFLAGS= -I ~/include -O2 -c -g
+CFLAGS= -O2 -c -g
 
 
-PopGenLib:	haploid_gt_dis.o    haploid_population.o hypercube_function.o hypercube.o
-	ar  rcs libPopGenLib.a  haploid_gt_dis.o haploid_population.o hypercube_function.o hypercube.o
+PopGenLib:	haploid_gt_dis.o    haploid_population.o hypercube_function.o hypercube.o sample.o
+	ar  rcs libPopGenLib.a  haploid_gt_dis.o haploid_population.o hypercube_function.o hypercube.o sample.o
 
+
+sample.o:	sample.cpp popgen.h
+	g++ ${CFLAGS} sample.cpp
 
 haploid_gt_dis.o:	popgen.h haploid_gt_dis.cpp
 	g++ ${CFLAGS} haploid_gt_dis.cpp
