@@ -14,6 +14,7 @@
 #include <time.h>
 #include <cmath>
 #include <vector>
+#include <bitset>
 #include <string>
 #include <sstream>
 #include <gsl/gsl_sf.h>
@@ -24,12 +25,15 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_eigen.h>
+#include <boost/dynamic_bitset.hpp>
 using namespace std;
 
+#define MIN(a,b) (a<b)?a:b
 
 #ifndef SAMPLE_H_
 #define SAMPLE_H_
 #define SAMPLE_ERROR -12312154
+
 
 class sample {
 public:
@@ -110,6 +114,7 @@ public:
 	int additive(double* additive_effects, bool add=false);
 	int init_rand_gauss(double sigma, bool add=false);
 	int init_list(vector<index_value_pair> iv, bool add=false);
+	int init_coeff_list(vector <index_value_pair> iv, bool add=false);
 	void calc_order();
 	void set_state(int s){state=s;}
 	//in and out
@@ -222,6 +227,10 @@ public:
 	double fitness_mean();
 	double fitness_variance();
 	double get_population_size(){return population_size;}
+	double N(){return population_size;}
+	int L(){return number_of_loci;}
+	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
+	double get_outcrossing_rate() {return outcrossing_rate;}
 	//testing
 	int test_recombinant_distribution();
 	int test_recombination(double *rec_rates);
@@ -281,7 +290,6 @@ public:
 	vector <coeff> coefficients_epistasis;
 	double epistatic_std;
 	int rng_offset;
-	int nwords;
 
 	//random number generator
 	gsl_rng *rng;
@@ -294,12 +302,15 @@ public:
 
 	hypercube_function();
 	~hypercube_function();
-	int set_up(int dim_in, int no_words, int s=0);
+	int set_up(int dim_in,  int s=0);
 
 	unsigned int get_seed() {return seed;};
-	double get_func_words(int *sigma, int n_o_w);
+	double get_func(boost::dynamic_bitset<> *gt);
+	double get_func_words(int *gt, int n_o_w);
 	double get_additive_coefficient(int locus);
+	int add_coefficient(double value, vector <int> loci);
 	int add_coefficient(double value, vector <int> loci, int n_o_w, int* n_o_b);
+	int set_additive_coefficient(double value, int locus, int expected_locus=-1);
 	int set_random_epistasis_strength(double sigma);
 };
 
@@ -308,14 +319,34 @@ public:
 #define HAPLOIDPOPULATION_H_
 #define HP_VERBOSE 0
 #define NO_GENOTYPE -1
-#define WORD_LENGTH 20
 #define HP_BADARG -879564
 #define HP_MEMERR -986465
 #define HP_MINAF 0.02
+#define HP_NOTHING 1e-12
+#define HP_RANDOM_SAMPLE_FRAC 0.01
 #define FREE_RECOMBINATION 1
 #define CROSSOVERS 2
+#define WORD_LENGTH 20
 
-class haploid_population {
+struct gt {
+	boost::dynamic_bitset<> genotype;
+	vector <double> trait;
+	double fitness;
+	int clone_size;
+	gt(int n_traits){trait.resize(n_traits);}
+};
+
+struct stat{
+	double mean;
+	double variance;
+};
+
+
+struct label_gt_pair{ int gt; double label; };
+
+
+class haploid_clone {
+	int number_of_traits;
 	int number_of_individuals;	//maximal population size in terms of memory allocated to hold genotypes
 	int pop_size;				//actual population size
 	int target_pop_size;		//average population size
@@ -323,27 +354,21 @@ class haploid_population {
 	int generation;
 
 	double mutation_rate; 		//rate of mutation per locus per generation
-	double fixed_rec_rate;		//fixed recombination rate, in case no recombination modifiers needed
+	double outcrossing_probability;
+	double crossover_rate;
 	bool circular;				//topology of the chromosome
 	int recombination_model;	//model of recombination to be used
 
 	int number_of_loci;			//total number of loci
-	int number_of_words;		//number of integers used to store one genotype
-	int *number_of_bits;		//number of bits used in each word
-	int *genotypes;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	int *new_genotypes;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	int *sex_gametes;				//array holding the indices of gametes
-	int *asex_gametes;				//array holding the indices of gametes
-	int n_asex_gametes;
-	int n_sex_gametes;
+	vector <int> sex_gametes;				//array holding the indices of gametes
+	vector <int> random_sample;				//array holding the indices of gametes
 
 	int *genome;				//Auxiliary array holding the positions along the genome
 	int *crossovers;			//
 
-	sample *fitness_values;		//structure holding the fitness values of the individuals in the population
-	sample *new_fitness_values;	//same as above, used for swapping
-	sample *rec_rates;			//structure holding the recombination rate of the individuals in the population
-	sample *new_rec_rates;		//same as above, used for swapping
+	stat fitness_stat;		//structure holding the fitness values of the individuals in the population
+	stat *trait_stat;
+	double **trait_covariance;
 
 	double *allele_frequencies;
 	double *gamete_allele_frequencies;
@@ -357,6 +382,138 @@ class haploid_population {
 	int allocate_mem();
 	int free_mem();
 	gsl_rng* evo_generator;
+	gsl_rng* label_generator;
+	int seed;
+
+	int recombine_crossover(int parent1, int parent2, int ng);
+	boost::dynamic_bitset<> reassortment_pattern();
+	boost::dynamic_bitset<> crossover_pattern();
+	int recombine(int parent1, int parent2);
+	double chemical_potential();
+
+	void flip_single_locus(int individual, int locus);
+
+public:
+	hypercube_function *trait;	//genotype to fitness map
+	vector <gt> *current_pop;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	vector <gt> *new_pop;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	vector <gt> pop2;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	vector <gt> pop1;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+
+	haploid_clone();
+	virtual ~haploid_clone();
+	int set_up(int N_in,int L,  int rng_seed=0, int number_of_traits=1);
+	void set_target_pop_size(int tgps){target_pop_size=tgps;}
+	void set_mutation_rate(double mu){mutation_rate=mu;}
+	void set_outcrossing_probability(double r){outcrossing_probability=r;}
+	void set_fixed_rec_rate(double r){outcrossing_probability=r;}		//Depreciated
+	void set_crossover_rate(double c){crossover_rate=c;}
+	void set_recombination_model(int c) {recombination_model=c;}
+	void set_circular(bool c) {circular=c;}
+	void produce_random_sample(int size);
+	int init_genotypes(double *nu, int n_o_genotypes=0);
+	int init_genotypes_diverse(int n_o_genotypes, int no_copies=1);
+	int init_genotypes(int n_o_genotypes=-1);
+
+	int evolve();
+	int bottleneck(int size_of_bottleneck);
+	void mutate();
+	int select_gametes();
+	int add_recombinants();
+	int swap_populations();
+	int new_generation();
+	int flip_single_locus(int locus);
+	void shuffle_genotypes();
+	void update_fitness();
+	void calc_stat();
+	void calc_fit();
+	void calc_fitness_stat();
+	void calc_trait_stat();
+	void calc_individual_fitness(gt *tempgt);
+	void calc_everybodies_traits();
+	virtual void calc_fitness_from_traits(gt *tempgt){tempgt->fitness = tempgt->trait[0];}
+	double fitness_mean() {return fitness_stat.mean;}
+	double fitness_var() {return fitness_stat.variance;}
+	double trait_mean(int t=0) {return trait_stat[t].mean;}
+	double trait_var(int t=0) {return trait_stat[t].variance;}
+	double trait_cov(int t1, int t2) {return trait_covariance[t1][t2];}
+	double get_multi_point_frequency(vector <int> loci);
+	double get_pair_frequency(int locus1, int locus2);
+	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
+	double get_allele_frequency(int l) {return allele_frequencies[l];}
+	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
+	double get_number_of_clones(){return current_pop->size();}
+	int N() {return pop_size;}
+	double mu() {return mutation_rate;}
+	int get_pop_size() {return pop_size;}		//Depreciated
+	int get_target_pop_size() {return target_pop_size;}
+	int L(){return number_of_loci;}
+
+	//int get_genotype(int i) {return genotypes[i].genotype;}
+	string get_genotype_string(int i);
+	void add_genotypes(boost::dynamic_bitset<> newgt,  int n);
+	int add_fitness_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
+	void clear_fitness_function(){for (int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
+	int random_clone();
+
+	double get_fitness(int n) {return (*current_pop)[n].fitness;}
+	double get_trait(int n, int t) {return (*current_pop)[n].trait[t];}
+	double get_max_fitness();
+	int get_generation(){return generation;}
+	int print_allele_frequencies(ostream &out);
+	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
+	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
+};
+
+class haploid_population {
+	int number_of_individuals;	//maximal population size in terms of memory allocated to hold genotypes
+	int pop_size;				//actual population size
+	int target_pop_size;		//average population size
+	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
+	int generation;
+
+	double mutation_rate; 		//rate of mutation per locus per generation
+	double fixed_outcrossing_rate;		//fixed recombination rate, in case no recombination modifiers needed
+	bool circular;				//topology of the chromosome
+	int recombination_model;	//model of recombination to be used
+
+	int number_of_loci;			//total number of loci
+	int number_of_words;		//number of integers used to store one genotype
+	int *number_of_bits;		//number of bits used in each word
+	int *genotypes;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	int *new_genotypes;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	int *sex_gametes;				//array holding the indices of gametes
+	int *asex_gametes;				//array holding the indices of gametes
+	int n_asex_gametes;
+	int n_sex_gametes;
+
+	int *clone_size_distribution;
+	int number_of_clones;
+
+	int *genome;				//Auxiliary array holding the positions along the genome
+	int *crossovers;			//
+
+	sample *fitness_values;		//structure holding the fitness values of the individuals in the population
+	sample *new_fitness_values;	//same as above, used for swapping
+	sample *outcrossing_rates;			//structure holding the recombination rate of the individuals in the population
+	sample *new_outcrossing_rates;		//same as above, used for swapping
+	sample *gt_labels;			//structure holding the labels of the genotype, this is used for genotype comparison and genotype sorting
+	sample *new_gt_labels;		//same as above, used for swapping
+
+	double *allele_frequencies;
+	double *gamete_allele_frequencies;
+	double *chi1;				//symmetric allele frequencies
+	double **chi2;				//symmetric two locus correlations
+
+	bool mem;
+	bool clone_size_mem;
+	bool cumulants_mem;
+	bool evolve_outcrossing_rates;
+
+	int allocate_mem();
+	int free_mem();
+	gsl_rng* evo_generator;
+	gsl_rng* label_generator;
 	int seed;
 	int* numbers;
 
@@ -365,13 +522,13 @@ class haploid_population {
 	double chemical_potential();
 
 	int index(int individual, int word) {return individual*number_of_words+word;}
-	int locus_word(int locus) {return locus/WORD_LENGTH;}
-	int locus_bit(int locus) {return locus%WORD_LENGTH;}
+	int locus_word(int locus) {return locus / WORD_LENGTH;}
+	int locus_bit(int locus) {return locus % WORD_LENGTH;}
 	void flip_single_locus(int individual, int locus);
 
 public:
 	hypercube_function fitness;	//genotype to fitness map
-	hypercube_function rec_rate;	//genotype to recombination map
+	hypercube_function outcrossing_rate;	//genotype to recombination map
 
 
 	haploid_population();
@@ -379,9 +536,12 @@ public:
 	int set_up(int N_in,int L,  int rng_seed=0);
 	void set_target_pop_size(int tgps){target_pop_size=tgps;}
 	void set_mutation_rate(double mu){mutation_rate=mu;}
-	void set_fixed_rec_rate(double r){fixed_rec_rate=r; evolve_rec_rates=false;}
+	void set_fixed_outcrossing_rate(double r){fixed_outcrossing_rate=r; evolve_outcrossing_rates=false;}
+	void set_fixed_rec_rate(double r){fixed_outcrossing_rate=r; evolve_outcrossing_rates=false;} //compatibility function kept after making rec_rate outcrossing_rate
 	void set_recombination_model(int c) {recombination_model=c;}
 	void set_circular(bool c) {circular=c;}
+	int allocate_clone_size_distribution();
+	int set_evolve_outcrossing_rates();
 
 	int init_genotypes(double *nu, int n_o_genotypes=0);
 	int init_genotypes_diverse(int n_o_genotypes, int no_copies=1);
@@ -398,16 +558,25 @@ public:
 	void calc_stat();
 	void calc_rec();
 	void calc_fit();
+	void calc_gt_labels();
 	void calc_individual_fitness(int individual);
+	double calc_label(int* individual);
+	int calc_clone_size_distribution();
 
 	double fitness_mean() {return fitness_values->mean;}
 	double fitness_var() {return fitness_values->variance;}
-	double rec_mean() {return rec_rates->mean;}
-	double rec_var() {return rec_rates->variance;}
+	double rec_mean() {return outcrossing_rates->mean;}
+	double rec_var() {return outcrossing_rates->variance;}
 	int get_pop_size() {return pop_size;}
 	double get_multi_point_frequency(vector <int> loci);
 	double get_allele_frequency(int l) {return allele_frequencies[l];}
+	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
+	double get_number_of_clones(){if (clone_size_mem) return number_of_clones; else return HP_BADARG;}
+	double get_clone_size(int c){if (clone_size_mem and c<number_of_clones) return clone_size_distribution[2*c]; else return HP_BADARG;}
+	double get_clone_individual(int c){if (clone_size_mem and c<number_of_clones) return clone_size_distribution[2*c+1]; else return HP_BADARG;}
 	int L(){return number_of_loci;}
+	int N(){return pop_size;}
+	double mu(){return mutation_rate;}
 
 	int get_genotype(int i, int w) {if (i<pop_size and w<number_of_words) return genotypes[index(i,w)]; else return NO_GENOTYPE;}
 	string get_genotype_string(int i);
@@ -415,17 +584,18 @@ public:
 	int add_genotype(int *gt);
 	int add_genotypes(int *gt, int n);
 	int add_fitness_coefficient(double value, vector <int> loci){return fitness.add_coefficient(value, loci, number_of_words, number_of_bits);}
-	int add_rec_coefficient(double value, vector <int> loci){return rec_rate.add_coefficient(value, loci, number_of_words, number_of_bits);}
+	int add_rec_coefficient(double value, vector <int> loci){return outcrossing_rate.add_coefficient(value, loci, number_of_words, number_of_bits);}
 	void clear_fitness_function(){fitness.coefficients_single_locus.clear(); fitness.coefficients_epistasis.clear();}
 
 	double get_fitness(int n) {return fitness_values->values[n];}
+	double get_rec(int n) {return outcrossing_rates->values[n];}
+	double get_label(int n) {return gt_labels->values[n];}
 	double get_max_fitness();
 	int get_generation(){return generation;}
 	int print_allele_frequencies(ostream &out);
-	int read_ms_sample(istream &gts, int initial_locus);
+	int read_ms_sample(istream &gts, int initial_locus, int multiplicity=1);
 };
 
-struct fitgt_pair{ int gt; double fit; };
 
 #endif /* HAPLOIDPOPULATION_H_ */
 

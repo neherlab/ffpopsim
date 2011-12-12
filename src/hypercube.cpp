@@ -196,6 +196,18 @@ int hypercube::init_list(vector <index_value_pair> iv, bool add){
 }
 
 
+int hypercube::init_coeff_list(vector <index_value_pair> iv, bool add){
+	if (add==false){
+		reset();
+	}else if (state==HC_FUNC)	fft_func_to_coeff();
+
+	for (unsigned int pair=0; pair<iv.size(); pair++){
+		coeff[iv[pair].index]=iv[pair].val;
+	}
+	return fft_coeff_to_func();
+}
+
+
 void hypercube::calc_order()
 {
 	int spin;
