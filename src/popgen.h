@@ -328,6 +328,7 @@ public:
 #define CROSSOVERS 2
 #define WORD_LENGTH 20
 
+/* Use dynamic bitsets because they require little memory */
 struct gt {
 	boost::dynamic_bitset<> genotype;
 	vector <double> trait;
@@ -347,26 +348,26 @@ struct label_gt_pair{ int gt; double label; };
 
 class haploid_clone {
 	int number_of_traits;
-	int number_of_individuals;	//maximal population size in terms of memory allocated to hold genotypes
+	int number_of_individuals;		//maximal population size in terms of memory allocated to hold genotypes
 	int pop_size;				//actual population size
-	int target_pop_size;		//average population size
+	int target_pop_size;			//average population size
 	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
 	int generation;
 
-	double mutation_rate; 		//rate of mutation per locus per generation
+	double mutation_rate;			//rate of mutation per locus per generation
 	double outcrossing_probability;
 	double crossover_rate;
 	bool circular;				//topology of the chromosome
-	int recombination_model;	//model of recombination to be used
+	int recombination_model;		//model of recombination to be used
 
 	int number_of_loci;			//total number of loci
-	vector <int> sex_gametes;				//array holding the indices of gametes
-	vector <int> random_sample;				//array holding the indices of gametes
+	vector <int> sex_gametes;		//array holding the indices of gametes
+	vector <int> random_sample;		//array holding the indices of gametes
 
 	int *genome;				//Auxiliary array holding the positions along the genome
-	int *crossovers;			//
+	int *crossovers;
 
-	stat fitness_stat;		//structure holding the fitness values of the individuals in the population
+	stat fitness_stat;			//structure holding the fitness values of the individuals in the population
 	stat *trait_stat;
 	double **trait_covariance;
 
@@ -394,11 +395,11 @@ class haploid_clone {
 	void flip_single_locus(int individual, int locus);
 
 public:
-	hypercube_function *trait;	//genotype to fitness map
-	vector <gt> *current_pop;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	vector <gt> *new_pop;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	vector <gt> pop2;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	vector <gt> pop1;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	hypercube_function *trait;		// genotype to fitness map
+	vector <gt> *current_pop;		// genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	vector <gt> *new_pop;			// newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	vector <gt> pop2;			// genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	vector <gt> pop1;			// newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
 
 	haploid_clone();
 	virtual ~haploid_clone();
@@ -406,7 +407,7 @@ public:
 	void set_target_pop_size(int tgps){target_pop_size=tgps;}
 	void set_mutation_rate(double mu){mutation_rate=mu;}
 	void set_outcrossing_probability(double r){outcrossing_probability=r;}
-	void set_fixed_rec_rate(double r){outcrossing_probability=r;}		//Depreciated
+	void set_fixed_rec_rate(double r){outcrossing_probability=r;}		// deprecated
 	void set_crossover_rate(double c){crossover_rate=c;}
 	void set_recombination_model(int c) {recombination_model=c;}
 	void set_circular(bool c) {circular=c;}
@@ -445,9 +446,13 @@ public:
 	double get_number_of_clones(){return current_pop->size();}
 	int N() {return pop_size;}
 	double mu() {return mutation_rate;}
-	int get_pop_size() {return pop_size;}		//Depreciated
+	int get_pop_size() {return pop_size;}		//Deprecated
 	int get_target_pop_size() {return target_pop_size;}
 	int L(){return number_of_loci;}
+
+	double diversity_mean();
+	double divergence_mean();
+	unsigned int distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1);
 
 	//int get_genotype(int i) {return genotypes[i].genotype;}
 	string get_genotype_string(int i);

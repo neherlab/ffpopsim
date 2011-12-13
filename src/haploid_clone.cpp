@@ -1,10 +1,11 @@
-
-
+// vim: tabstop=8:softtabstop=8:shiftwidth=8:noexpandtab
 /*
  * haploid_clone.cpp
  *
  *  Created on: Aug 28, 2008
  *      Author: neher
+ *    Modified: Dec 13, 2011
+ *   Committer: Fabio Zanini
  */
 
 #include "popgen.h"
@@ -39,7 +40,6 @@ int haploid_clone::set_up(int N_in,int L_in,  int rng_seed, int n_o_traits)
 		cerr <<"haploid_clone requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
 		return HP_BADARG;
 	}
-
 
 	number_of_traits=n_o_traits;
 	number_of_loci=L_in;
@@ -318,11 +318,10 @@ double haploid_clone::get_pair_frequency(int locus1, int locus2)
 	unsigned int i;
 	double frequency=0;
 	for (i=0; i<current_pop->size(); i++)
-	{
-		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2]) frequency+=(*current_pop)[i].clone_size;
-	}
+		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2])
+		        frequency += (*current_pop)[i].clone_size;
 	if (HP_VERBOSE) cerr<<"done.\n";
-	return frequency/pop_size;
+	return frequency / pop_size;
 }
 
 vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *loci)
@@ -782,6 +781,8 @@ void haploid_clone::calc_trait_stat(){
 	double temp,temp1;
 	int t,t1, csize;
 	pop_size=0;
+
+	// reset class attributes
 	for(t=0; t<number_of_traits; t++){
 		trait_stat[t].mean=0;
 		trait_stat[t].variance=0;
@@ -789,6 +790,7 @@ void haploid_clone::calc_trait_stat(){
 			trait_covariance[t][t1]=0;
 		}
 	}
+
 	//loop over clones and add stuff up
 	for (unsigned int c=0; c<current_pop->size(); c++){
 		csize = (*current_pop)[c].clone_size;
@@ -840,6 +842,52 @@ int haploid_clone::print_allele_frequencies(ostream &out)
 	for (int l=0; l<number_of_loci; l++) out <<setw(15)<<allele_frequencies[l];
 	out <<endl;
 	return 0;
+}
+
+/*
+ * Calculate mean divergence from the [00...0] bitset
+ */
+double haploid_clone::divergence_mean()
+{
+	double divergence = 0.0;
+	boost::dynamic_bitset<> genotype;
+	for (unsigned int c = 1; c < get_number_of_clones(); c++){
+		int csize = (*current_pop)[c].clone_size;
+		genotype = (*current_pop)[c].genotype;
+		for (int i = 0; i < genotype.size(); i++)
+			divergence += genotype[i] * csize;
+	}
+			
+	divergence /= N();
+	return divergence;
+}
+
+/*
+ * Calculate diversity in the current population, i.e. Hamming distance between all pairs of sequences, and average.
+ */
+double haploid_clone::diversity_mean()
+{
+	double diversity = 0.0;
+	// iterate over all pairs of clones (excluding self-distance)
+	for (unsigned int c = 1; c < get_number_of_clones(); c++){
+		int csize = (*current_pop)[c].clone_size;
+		for (unsigned int c1 = 0; c1 < c; c1++){
+			int csize1 = (*current_pop)[c1].clone_size;
+			diversity += distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype) * csize * csize1;
+		}
+	}
+	diversity /= 0.5 * N() * (N() -1);
+	return diversity;
+}
+/*
+ * Calculate the hamming distance between two sequences (not normalized)
+ */
+unsigned int haploid_clone::distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1)
+{
+	unsigned int d = 0;
+	for (int i = 0; i != genotype.size(); i++)
+		d += genotype[i] ^ genotype1[i];
+	return d;
 }
 
 /*
@@ -986,5 +1034,3 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 	delete [] line;
 	return 0;
 }
-
-
