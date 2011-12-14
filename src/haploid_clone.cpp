@@ -849,16 +849,34 @@ int haploid_clone::print_allele_frequencies(ostream &out)
  */
 double haploid_clone::divergence_mean()
 {
-	double divergence = 0.0;
+	int n_sample = 1000;
+	
+	// Random number generator
+	int seedtmp = time(NULL) + getpid() + generation;
+	gsl_rng* int_gen = gsl_rng_alloc(RNG);
+	gsl_rng_set(int_gen, seedtmp);
+
+	// Cumulative partition the population according to clones
+	vector <unsigned long> partition_cum = partition_cumulative();
+
+	// Calculate divergence of the sample
+	unsigned long NN = N(); 
+	unsigned long c,tmp;
 	boost::dynamic_bitset<> genotype;
-	for (unsigned int c = 1; c < get_number_of_clones(); c++){
-		int csize = (*current_pop)[c].clone_size;
+	double divergence = 0.0;
+	for (int i = 0; i < n_sample; i++) {
+		c = gsl_rng_uniform_int(int_gen, NN);
+		// What clones do they belong to?
+		tmp = 0;
+		while (c > partition_cum[tmp])	tmp++;
+		c = tmp;
+		// Calculate divergence
 		genotype = (*current_pop)[c].genotype;
 		for (int i = 0; i < genotype.size(); i++)
-			divergence += genotype[i] * csize;
+			divergence += genotype[i];
 	}
-			
-	divergence /= N();
+	gsl_rng_free(int_gen);
+	divergence /= n_sample;
 	return divergence;
 }
 
@@ -867,16 +885,41 @@ double haploid_clone::divergence_mean()
  */
 double haploid_clone::diversity_mean()
 {
+	int n_sample = 1000;
+	
+	// Random number generator
+	int seedtmp = time(NULL) + getpid() + generation;
+	gsl_rng* int_gen = gsl_rng_alloc(RNG);
+	gsl_rng_set(int_gen, seedtmp);
+
+	// Cumulative partition the population according to clones
+	vector <unsigned long> partition_cum = partition_cumulative();
+
+	// Calcolate random distances
 	double diversity = 0.0;
-	// iterate over all pairs of clones (excluding self-distance)
-	for (unsigned int c = 1; c < get_number_of_clones(); c++){
-		int csize = (*current_pop)[c].clone_size;
-		for (unsigned int c1 = 0; c1 < c; c1++){
-			int csize1 = (*current_pop)[c1].clone_size;
-			diversity += distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype) * csize * csize1;
+	long tmp;
+	unsigned long NN = N(); 
+	unsigned long c, c1;
+        c = c1 = 0;
+	for (int i = 0; i < n_sample; i++) {
+		while (c == c1) {
+			c = gsl_rng_uniform_int(int_gen, NN);
+			c1 = gsl_rng_uniform_int(int_gen, NN);
 		}
+		// What clones do they belong to?
+		tmp = 0;
+		while (c > partition_cum[tmp])	tmp++;
+		c = tmp;
+		tmp = 0;
+		while (c1 > partition_cum[tmp])	tmp++;
+		c1 = tmp;
+		// Calculate distance if they belong to different clones
+		if (c != c1 )
+			diversity += distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype);
+		c = c1 = 0;
 	}
-	diversity /= 0.5 * N() * (N() -1);
+	gsl_rng_free(int_gen);
+	diversity /= n_sample;
 	return diversity;
 }
 /*
@@ -886,8 +929,22 @@ unsigned int haploid_clone::distance_Hamming(boost::dynamic_bitset<> genotype, b
 {
 	unsigned int d = 0;
 	for (int i = 0; i != genotype.size(); i++)
-		d += genotype[i] ^ genotype1[i];
+		d += (genotype[i] != genotype1[i]);
 	return d;
+}
+
+/*
+ * Calculate the cumulative partition of sequences in the clones
+ */
+vector <unsigned long> haploid_clone::partition_cumulative()
+{
+	vector <unsigned long> partition_cum;
+	unsigned long tmp;
+	partition_cum.push_back((*current_pop)[0].clone_size);		
+	for (int i = 1; i < get_number_of_clones(); i++) {
+		partition_cum.push_back((*current_pop)[i].clone_size + partition_cum[i-1]);		
+	}
+	return partition_cum;
 }
 
 /*
