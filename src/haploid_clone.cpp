@@ -7,7 +7,7 @@
  *    Modified: Dec 13, 2011
  *   Committer: Fabio Zanini
  */
-
+#include <math.h>
 #include "popgen.h"
 
 haploid_clone::haploid_clone() {
@@ -845,17 +845,12 @@ int haploid_clone::print_allele_frequencies(ostream &out)
 }
 
 /*
- * Calculate mean divergence from the [00...0] bitset
+ * Calculate mean and variance of the divergence from the [00...0] bitset
  */
-double haploid_clone::divergence_mean()
+stat haploid_clone::get_divergence()
 {
 	int n_sample = 1000;
 	
-	// Random number generator
-	int seedtmp = time(NULL) + getpid() + generation;
-	gsl_rng* int_gen = gsl_rng_alloc(RNG);
-	gsl_rng_set(int_gen, seedtmp);
-
 	// Cumulative partition the population according to clones
 	vector <unsigned long> partition_cum = partition_cumulative();
 
@@ -863,65 +858,196 @@ double haploid_clone::divergence_mean()
 	unsigned long NN = N(); 
 	unsigned long c,tmp;
 	boost::dynamic_bitset<> genotype;
-	double divergence = 0.0;
-	for (int i = 0; i < n_sample; i++) {
-		c = gsl_rng_uniform_int(int_gen, NN);
+	stat divergence;
+	double tmpdouble;
+	for (int i = 0; i < n_sample; i++, tmp = tmpdouble = 0) {
+		c = gsl_rng_uniform_int(evo_generator, NN);
 		// What clones do they belong to?
-		tmp = 0;
-		while (c > partition_cum[tmp])	tmp++;
-		c = tmp;
+		while (c > partition_cum[tmp])	tmp++;	c = tmp;
 		// Calculate divergence
 		genotype = (*current_pop)[c].genotype;
-		for (int i = 0; i < genotype.size(); i++)
-			divergence += genotype[i];
+		for (int j = 0; j < genotype.size(); j++)
+			tmpdouble += genotype[j];
+		divergence.mean += tmpdouble;
+		divergence.variance += tmpdouble * tmpdouble;
 	}
-	gsl_rng_free(int_gen);
-	divergence /= n_sample;
+	divergence.mean /= n_sample;
+	divergence.variance /= n_sample;
+	divergence.variance -= divergence.mean * divergence.mean;
 	return divergence;
 }
 
 /*
- * Calculate diversity in the current population, i.e. Hamming distance between all pairs of sequences, and average.
+ * Calculate diversity in the current population, i.e. Hamming distance between all pairs of sequences, with mean and variance.
  */
-double haploid_clone::diversity_mean()
+stat haploid_clone::get_diversity()
 {
 	int n_sample = 1000;
 	
-	// Random number generator
-	int seedtmp = time(NULL) + getpid() + generation;
-	gsl_rng* int_gen = gsl_rng_alloc(RNG);
-	gsl_rng_set(int_gen, seedtmp);
-
 	// Cumulative partition the population according to clones
 	vector <unsigned long> partition_cum = partition_cumulative();
 
 	// Calcolate random distances
-	double diversity = 0.0;
-	long tmp;
+	stat diversity;
+	unsigned long tmp;
 	unsigned long NN = N(); 
 	unsigned long c, c1;
-        c = c1 = 0;
-	for (int i = 0; i < n_sample; i++) {
+	for (int i = 0, c = c1 = 0; i < n_sample; i++, tmp = c = c1 = 0) {
 		while (c == c1) {
-			c = gsl_rng_uniform_int(int_gen, NN);
-			c1 = gsl_rng_uniform_int(int_gen, NN);
+			c = gsl_rng_uniform_int(evo_generator, NN);
+			c1 = gsl_rng_uniform_int(evo_generator, NN);
 		}
 		// What clones do they belong to?
-		tmp = 0;
-		while (c > partition_cum[tmp])	tmp++;
-		c = tmp;
-		tmp = 0;
-		while (c1 > partition_cum[tmp])	tmp++;
-		c1 = tmp;
+		tmp = 0; while (c > partition_cum[tmp++]); c = tmp;
+		tmp = 0; while (c1 > partition_cum[tmp++]); c1 = tmp;
 		// Calculate distance if they belong to different clones
 		if (c != c1 )
-			diversity += distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype);
-		c = c1 = 0;
+			tmp = distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype);
+		diversity.mean += tmp;
+		diversity.variance += tmp * tmp;
 	}
-	gsl_rng_free(int_gen);
-	diversity /= n_sample;
+	diversity.mean /= n_sample;
+	diversity.variance /= n_sample;
+	diversity.variance -= diversity.mean * diversity.mean;
 	return diversity;
 }
+
+/*
+ * Get histogram of divergence, to ingestivate more in detail than just mean and variance
+ */
+int haploid_clone::get_divergence_histogram(double *leftborders, double *counts, int bins)
+{
+	int n_sample = 1000;
+	int i,j;
+	
+	// Cumulative partition the population according to clones
+	vector <unsigned long> partition_cum = partition_cumulative();
+
+	// Calculate divergence of the sample
+	unsigned long divergence[n_sample];
+	unsigned long NN = N(); 
+	unsigned long c,tmp;
+	boost::dynamic_bitset<> genotype;
+	for (i = 0; i < n_sample; i++, tmp = 0) {
+		c = gsl_rng_uniform_int(evo_generator, NN);
+		// What clones do they belong to?
+		while (c > partition_cum[tmp])	tmp++;	c = tmp;
+		// Calculate divergence
+		genotype = (*current_pop)[c].genotype;
+		for (j = 0, tmp = 0; j < genotype.size(); j++)
+			tmp += genotype[j];
+		divergence[i] = tmp;
+	}
+
+	// Prepare the histogram
+	unsigned long dmax = *max_element(divergence,divergence+n_sample);
+	unsigned long dmin = *min_element(divergence,divergence+n_sample);
+	/* Aliasing: see get_diversity_histogram */
+	int width, binsnew;
+	if (dmin == dmax)
+		width = 1;
+	else
+		width = (dmax - dmin) / (bins-1);
+		width += ((dmax - dmin)%(bins-1))?1:0;
+	binsnew = ((dmax - dmin) / width) + 1;
+	if (binsnew > bins) {
+		cout<<"binsnew: "<<binsnew<<"\tbins: "<<bins<<endl;
+		return 1;
+	} else {
+		for (i = 0; i < binsnew; i++)
+			leftborders[i] = dmin + (i - 0.5) * width;
+		for (i = binsnew; i < bins + 1; i++)
+			leftborders[i] = dmin + (binsnew - 0.5) * width;
+	
+		// Fill the histogram
+		for (i = 0; i < n_sample; i++) {
+			j = 1;
+			while((divergence[i] > leftborders[j]) && (j < binsnew+1))
+				j++;
+			counts[j-1] += 1;
+		}
+		// Normalize
+		for (i = 0; i < binsnew + 1; i++)
+			counts[i] /= n_sample;
+	
+		// Prepare output
+		return 0;
+	}
+}
+
+
+/*
+ * Get histogram of diversity, to ingestivate more in detail than just mean and variance
+ */
+int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, int bins)
+{
+	int n_sample = 1000;
+	int i,j;
+	
+	// Cumulative partition the population according to clones
+	vector <unsigned long> partition_cum = partition_cumulative();
+
+	// Calcolate random distances
+	unsigned long diversity[n_sample];
+	unsigned long tmp;
+	unsigned long NN = N(); 
+	unsigned long c, c1;
+	for (int i = 0, c = c1 = 0; i < n_sample; i++, tmp = c = c1 = 0) {
+		while (c == c1) {
+			c = gsl_rng_uniform_int(evo_generator, NN);
+			c1 = gsl_rng_uniform_int(evo_generator, NN);
+		}
+		// What clones do they belong to?
+		tmp = 0; while (c > partition_cum[tmp++]); c = tmp;
+		tmp = 0; while (c1 > partition_cum[tmp++]); c1 = tmp;
+		// Calculate distance if they belong to different clones
+		if (c != c1 )
+			diversity[i] = distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype);
+		else
+			diversity[i] = 0;
+	}
+
+	// Prepare the histogram
+	unsigned long dmax = *max_element(diversity,diversity+n_sample);
+	unsigned long dmin = *min_element(diversity,diversity+n_sample);
+
+	/* Aliasing: change the number of bins and the width as needed.
+	 * This induces a (negative) bias in the last bin, but we cannot do anything for it;
+	 * moreover, for memory reasons we must output a vector of the same size, so we set
+	 * the rest equal to the top leftborder, and the counts at zero (note that binsnew <= bins) */
+	int width, binsnew;
+	if (dmin == dmax)
+		width = 1;
+	else
+		width = (dmax - dmin) / (bins -1);
+		width += ((dmax - dmin)%(bins-1))?1:0;
+	binsnew = ((dmax - dmin) / width) + 1;
+	if (binsnew > bins) {
+		cout<<"binsnew: "<<binsnew<<"\tbins: "<<bins<<"\tdelta: "<<(dmax - dmin)<<endl;
+		return 1;
+	} else {
+		for (i = 0; i < binsnew; i++)
+			leftborders[i] = dmin + (i - 0.5) * width;
+		for (i = binsnew; i < bins + 1; i++)
+			leftborders[i] = dmin + (binsnew - 0.5) * width;
+	
+		// Fill the histogram
+		for (i = 0; i < n_sample; i++) {
+			j = 1;
+			while((diversity[i] > leftborders[j]) && (j < binsnew+1))
+				j++;
+			counts[j-1] += 1;
+		}
+		// Normalize
+		for (i = 0; i < binsnew + 1; i++)
+			counts[i] /= n_sample;
+	
+		// Prepare output
+		return 0;
+	}
+}
+
+
 /*
  * Calculate the hamming distance between two sequences (not normalized)
  */

@@ -450,10 +450,12 @@ public:
 	int get_target_pop_size() {return target_pop_size;}
 	int L(){return number_of_loci;}
 
-	double diversity_mean();
-	double divergence_mean();
+	stat get_diversity();
+	stat get_divergence();
 	unsigned int distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1);
 	vector <unsigned long> partition_cumulative();
+	int get_divergence_histogram(double *leftborders, double *counts, int bins=10);
+	int get_diversity_histogram(double *leftborders, double *counts, int bins=10);
 
 	//int get_genotype(int i) {return genotypes[i].genotype;}
 	string get_genotype_string(int i);
