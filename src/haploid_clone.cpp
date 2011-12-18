@@ -915,10 +915,20 @@ stat haploid_clone::get_diversity()
 /*
  * Get histogram of divergence, to ingestivate more in detail than just mean and variance
  */
-int haploid_clone::get_divergence_histogram(double *leftborders, double *counts, int bins)
+int haploid_clone::get_divergence_histogram(double *leftborders, double *counts, int bins, int position, int begin, int end)
 {
 	int n_sample = 1000;
 	int i,j;
+
+	// Set begin, end, and jump in comparisons
+	if (end < 0) end = L() - 1;			// If end is not specified, compare till the end
+	int jump = 1;
+	if (position) {
+		begin += - (begin % 3) + (position-1);	// Start at the first compatible position in {1,2,3}
+		end -= ((end - (position-1)) % 3);	// Stop at the last compatible position
+		jump = 3;
+	}
+	if (end - begin < 0) return -2;			// Check boundaries
 	
 	// Cumulative partition the population according to clones
 	vector <unsigned long> partition_cum = partition_cumulative();
@@ -934,12 +944,13 @@ int haploid_clone::get_divergence_histogram(double *leftborders, double *counts,
 		while (c > partition_cum[tmp])	tmp++;	c = tmp;
 		// Calculate divergence
 		genotype = (*current_pop)[c].genotype;
-		for (j = 0, tmp = 0; j < genotype.size(); j++)
+		for (j = begin, tmp = 0; j <= end; j+=jump)
 			tmp += genotype[j];
 		divergence[i] = tmp;
 	}
 
 	// Prepare the histogram
+	for (i=0;i<bins;i++) leftborders[i] = counts[i] = 0;			// Initialize vectors (memory is allocated outside)
 	unsigned long dmax = *max_element(divergence,divergence+n_sample);
 	unsigned long dmin = *min_element(divergence,divergence+n_sample);
 	/* Aliasing: see get_diversity_histogram */
@@ -952,7 +963,7 @@ int haploid_clone::get_divergence_histogram(double *leftborders, double *counts,
 	binsnew = ((dmax - dmin) / width) + 1;
 	if (binsnew > bins) {
 		cout<<"binsnew: "<<binsnew<<"\tbins: "<<bins<<endl;
-		return 1;
+		return -1;
 	} else {
 		for (i = 0; i < binsnew; i++)
 			leftborders[i] = dmin + (i - 0.5) * width;
@@ -979,7 +990,7 @@ int haploid_clone::get_divergence_histogram(double *leftborders, double *counts,
 /*
  * Get histogram of diversity, to ingestivate more in detail than just mean and variance
  */
-int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, int bins)
+int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, int bins, int position, int begin, int end)
 {
 	int n_sample = 1000;
 	int i,j;
@@ -1002,7 +1013,7 @@ int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, 
 		tmp = 0; while (c1 > partition_cum[tmp++]); c1 = tmp;
 		// Calculate distance if they belong to different clones
 		if (c != c1 )
-			diversity[i] = distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype);
+			diversity[i] = distance_Hamming((*current_pop)[c].genotype,(*current_pop)[c1].genotype, position, begin, end);
 		else
 			diversity[i] = 0;
 	}
@@ -1024,7 +1035,7 @@ int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, 
 	binsnew = ((dmax - dmin) / width) + 1;
 	if (binsnew > bins) {
 		cout<<"binsnew: "<<binsnew<<"\tbins: "<<bins<<"\tdelta: "<<(dmax - dmin)<<endl;
-		return 1;
+		return -1;
 	} else {
 		for (i = 0; i < binsnew; i++)
 			leftborders[i] = dmin + (i - 0.5) * width;
@@ -1051,10 +1062,20 @@ int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, 
 /*
  * Calculate the hamming distance between two sequences (not normalized)
  */
-unsigned int haploid_clone::distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1)
+unsigned int haploid_clone::distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1, int position, int begin, int end)
 {
 	unsigned int d = 0;
-	for (int i = 0; i != genotype.size(); i++)
+	// Set begin, end, and jump in comparisons
+	if (end < 0) end = L() - 1;			// If end is not specified, compare till the end
+	int jump = 1;
+	if (position) {
+		begin += - (begin % 3) + (position-1);	// Start at the first compatible position in {1,2,3}
+		end -= ((end - (position-1)) % 3);	// Stop at the last compatible position
+		jump = 3;
+	}
+	if (end - begin < 0) return -2;			// Check boundaries
+
+	for (int i = begin; i < end; i+=jump)
 		d += (genotype[i] != genotype1[i]);
 	return d;
 }
