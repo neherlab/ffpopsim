@@ -979,9 +979,9 @@ int haploid_clone::get_divergence_histogram(double *leftborders, double *counts,
 				j++;
 			counts[j-1] += 1;
 		}
-		// Normalize
+		// Normalize (the area under the curve must be 1)
 		for (i = 0; i < binsnew + 1; i++)
-			counts[i] /= n_sample;
+			counts[i] /= n_sample * width;
 	
 		// Prepare output
 		return 0;
@@ -1052,9 +1052,9 @@ int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, 
 				j++;
 			counts[j-1] += 1;
 		}
-		// Normalize
+		// Normalize (the area under the curve must be 1)
 		for (i = 0; i < binsnew + 1; i++)
-			counts[i] /= n_sample;
+			counts[i] /= n_sample * width;
 	
 		// Prepare output
 		return 0;
