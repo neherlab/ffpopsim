@@ -917,15 +917,17 @@ stat haploid_clone::get_diversity()
  */
 int haploid_clone::get_divergence_histogram(double *leftborders, double *counts, int bins, int position, int begin, int end)
 {
+	/* Note: position is in {1,2,3} */
 	int n_sample = 1000;
 	int i,j;
+	int Ltmp = L();
 
 	// Set begin, end, and jump in comparisons
-	if (end < 0) end = L() - 1;			// If end is not specified, compare till the end
+	if (end < 0) end = Ltmp - 1;			// If end is not specified, compare till the end
 	int jump = 1;
 	if (position) {
-		begin += - (begin % 3) + (position-1);	// Start at the first compatible position in {1,2,3}
-		end -= ((end - (position-1)) % 3);	// Stop at the last compatible position
+		begin += ((Ltmp - Ltmp%3 + (position-1) - begin) % 3);	// Start at the first compatible position (avoid negative numbers)
+		end -= ((3 + end - (position-1)) % 3);	// Stop at the last compatible position
 		jump = 3;
 	}
 	if (end - begin < 0) return -2;			// Check boundaries
@@ -950,7 +952,7 @@ int haploid_clone::get_divergence_histogram(double *leftborders, double *counts,
 	}
 
 	// Prepare the histogram
-	for (i=0;i<bins;i++) leftborders[i] = counts[i] = 0;			// Initialize vectors (memory is allocated outside)
+	for (i=0;i<bins+1;i++) leftborders[i] = counts[i] = 0;			// Initialize vectors (memory is allocated outside)
 	unsigned long dmax = *max_element(divergence,divergence+n_sample);
 	unsigned long dmin = *min_element(divergence,divergence+n_sample);
 	/* Aliasing: see get_diversity_histogram */
@@ -1019,6 +1021,7 @@ int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, 
 	}
 
 	// Prepare the histogram
+	for (i=0;i<bins+1;i++) leftborders[i] = counts[i] = 0;			// Initialize vectors (memory is allocated outside)
 	unsigned long dmax = *max_element(diversity,diversity+n_sample);
 	unsigned long dmin = *min_element(diversity,diversity+n_sample);
 
@@ -1065,16 +1068,17 @@ int haploid_clone::get_diversity_histogram(double *leftborders, double *counts, 
 unsigned int haploid_clone::distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1, int position, int begin, int end)
 {
 	unsigned int d = 0;
+	int Ltmp = L();
 	// Set begin, end, and jump in comparisons
-	if (end < 0) end = L() - 1;			// If end is not specified, compare till the end
+	if (end < 0) end = Ltmp - 1;			// If end is not specified, compare till the end
 	int jump = 1;
 	if (position) {
-		begin += - (begin % 3) + (position-1);	// Start at the first compatible position in {1,2,3}
-		end -= ((end - (position-1)) % 3);	// Stop at the last compatible position
+		begin += ((Ltmp - Ltmp%3 + (position-1) - begin) % 3);	// Start at the first compatible position (avoid negative numbers)
+		end -= ((3 + end - (position-1)) % 3);	// Stop at the last compatible position
 		jump = 3;
 	}
 	if (end - begin < 0) return -2;			// Check boundaries
-
+	
 	for (int i = begin; i < end; i+=jump)
 		d += (genotype[i] != genotype1[i]);
 	return d;
