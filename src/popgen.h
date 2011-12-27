@@ -382,9 +382,6 @@ class haploid_clone {
 
 	int allocate_mem();
 	int free_mem();
-	gsl_rng* evo_generator;
-	gsl_rng* label_generator;
-	int seed;
 
 	int recombine_crossover(int parent1, int parent2, int ng);
 	boost::dynamic_bitset<> reassortment_pattern();
@@ -393,6 +390,11 @@ class haploid_clone {
 	double chemical_potential();
 
 	void flip_single_locus(int individual, int locus);
+
+protected:
+	gsl_rng* evo_generator;
+	gsl_rng* label_generator;
+	int seed;
 
 public:
 	hypercube_function *trait;		// genotype to fitness map
@@ -449,13 +451,6 @@ public:
 	int get_pop_size() {return pop_size;}		//Deprecated
 	int get_target_pop_size() {return target_pop_size;}
 	int L(){return number_of_loci;}
-
-	stat get_diversity();
-	stat get_divergence();
-	unsigned int distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1, int position=0, int begin=0, int end=-1);
-	vector <unsigned long> partition_cumulative();
-	int get_divergence_histogram(double *leftborders, double *counts, int bins=10, int position=0, int begin=0, int end=-1);
-	int get_diversity_histogram(double *leftborders, double *counts, int bins=10, int position=0, int begin=0, int end=-1);
 
 	//int get_genotype(int i) {return genotypes[i].genotype;}
 	string get_genotype_string(int i);
