@@ -260,22 +260,43 @@ void haploid_clone::calc_stat()
 	calc_fitness_stat();
 	int locus,cs;
 	pop_size=0;
-	for (locus=0; locus<number_of_loci; locus++) allele_frequencies[locus]=0;
+	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] = 0);
 	//loop over all clones
 	for (unsigned int i=0; i<current_pop->size(); i++)
 	{
 		cs=(*current_pop)[i].clone_size;
-		for (locus=0; locus<number_of_loci; locus++){	//add clone size to allele frequency of clone carries allele
-			if ((*current_pop)[i].genotype[locus]) allele_frequencies[locus]+=cs;
-		}
-		pop_size+=cs;
+		for (locus=0; locus<number_of_loci; locus++)	//add clone size to allele frequency of clone carries allele
+			if ((*current_pop)[i].genotype[locus])
+				allele_frequencies[locus] += cs;
+		pop_size += cs;
 	}
 	//convert counts into frequencies
-	for (locus=0; locus<number_of_loci; locus++)
-	{
-		allele_frequencies[locus]/=pop_size;
-	}
+	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] /= pop_size);
 	if (HP_VERBOSE) cerr<<"done.\n";
+}
+
+double haploid_clone::get_pair_frequency(int locus1, int locus2)
+{
+	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequency()...";
+	double frequency = 0;
+	for (unsigned i=0; i<current_pop->size(); i++)
+		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2])
+		        frequency += (*current_pop)[i].clone_size;
+	frequency /= pop_size;
+	if (HP_VERBOSE) cerr<<"done.\n";
+	return frequency;
+}
+
+vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *loci)
+{
+	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequencies()...";
+	unsigned int pair;
+
+	vector <double> freq (loci->size(), 0.0);
+	for (pair = 0; pair < loci->size(); pair++)
+		freq[pair] = get_pair_frequency((*loci)[pair][0], (*loci)[pair][1]);
+	if (HP_VERBOSE) cerr<<"done.\n";
+	return freq;
 }
 
 /*double haploid_clone::get_multi_point_frequency(vector <int> loci)
@@ -311,36 +332,6 @@ void haploid_clone::calc_stat()
 	return frequency/pop_size;
 }
 */
-
-double haploid_clone::get_pair_frequency(int locus1, int locus2)
-{
-	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequency()...";
-	unsigned int i;
-	double frequency=0;
-	for (i=0; i<current_pop->size(); i++)
-		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2])
-		        frequency += (*current_pop)[i].clone_size;
-	if (HP_VERBOSE) cerr<<"done.\n";
-	return frequency / pop_size;
-}
-
-vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *loci)
-{
-	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequencies()...";
-	unsigned int i, pair;
-
-	vector <double> freq;
-	for (pair=0; pair<loci->size(); pair++) freq.push_back(0.0);
-	for (i=0; i<current_pop->size(); i++)
-	{
-		for (pair=0; pair<loci->size(); pair++){
-			if ((*current_pop)[i].genotype[(*loci)[pair][0]] and (*current_pop)[i].genotype[(*loci)[pair][1]]) freq[pair]+=(*current_pop)[i].clone_size;
-		}
-	}
-	if (HP_VERBOSE) cerr<<"done.\n";
-	for (pair=0; pair<loci->size(); pair++) freq[pair]/=pop_size;
-	return freq;
-}
 
 
 
