@@ -457,7 +457,7 @@ public:
 	void add_genotypes(boost::dynamic_bitset<> newgt,  int n);
 	int add_fitness_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
 	void clear_fitness_function(){for (int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
-	int random_clone();
+	int random_clone(int size=1000);
 
 	double get_fitness(int n) {return (*current_pop)[n].fitness;}
 	double get_trait(int n, int t) {return (*current_pop)[n].trait[t];}

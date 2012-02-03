@@ -602,7 +602,7 @@ void haploid_clone::produce_random_sample(int size){
 /*
  * return the clone index of a random genotype and remove it from the random_sample vector
  */
-int haploid_clone::random_clone()
+int haploid_clone::random_clone(int size)
 {
 	int rclone;
 	if (random_sample.size()>1){
@@ -610,7 +610,7 @@ int haploid_clone::random_clone()
 		random_sample.pop_back();
 		return rclone;
 	}else{	//if no genotypes left in sample, produce new sample
-		produce_random_sample(min(pop_size, 1000));
+		produce_random_sample(min(pop_size, size));
 		rclone=random_sample.back();
 		random_sample.pop_back();
 		return rclone;
