@@ -127,21 +127,25 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 	}
 	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) ....";
 	generation=0;
-
+	int ngt=0;
 	// if number of genotypes to be drawn is not specified, use default target population size
-	if (n_o_genotypes==0) pop_size=target_pop_size;
-	else pop_size=n_o_genotypes;
+	if (n_o_genotypes==0) ngt=target_pop_size;
+	else ngt=n_o_genotypes;
 
+	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) reset current\n";
 	current_pop->clear();	//reset the current population
+	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) reset random sample\n";
 	random_sample.clear();	//and the random sample
 	boost::dynamic_bitset<> tempgt(number_of_loci);
-	for (i=0; i<pop_size; i++)
+	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) add "<<ngt<<" genotypes of length "<<number_of_loci<<"\n";
+	for (i=0; i<ngt; i++)
 	{
 		tempgt.reset();
 		for(locus=0; locus<number_of_loci; locus++){	//set all loci
 			if (gsl_rng_uniform(evo_generator)<nu[locus])	tempgt.set(locus);
 		}
 		add_genotypes(tempgt,1);	//add genotype with multiplicity 1
+		if (HP_VERBOSE) cerr <<i<<endl;
 	}
 
 	//calculate its fitness and recombination rates
