@@ -158,6 +158,7 @@ public:
 
 class haploid_gt_dis
 {
+protected:
 	//hypercubes that store the distribution of recombinations and the change in the
 	//population distribution due to muations
 	hypercube recombinants;
