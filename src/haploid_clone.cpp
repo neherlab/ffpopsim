@@ -74,15 +74,15 @@ int haploid_clone::allocate_mem()
 	evo_generator=gsl_rng_alloc(RNG);
 	gsl_rng_set(evo_generator, seed);
 	//allocate all the memory
-	genome = new int [number_of_loci+1];		// aux array holding range(0,number_of_loci) used to draw crossover points
+	genome = new int [number_of_loci+1];					// aux array holding range(0,number_of_loci) used to draw crossover points
 	for (int i=0; i<number_of_loci; i++) genome[i]=i;
-	crossovers= new int [number_of_loci];		// aux array holding crossover points
+	crossovers= new int [number_of_loci];					// aux array holding crossover points
 
 	if (HP_VERBOSE) cerr <<"allele frequencies...";
 	allele_frequencies =new double [number_of_loci];
-	gamete_allele_frequencies =new double [number_of_loci]; //allele frequencies after selection
+	gamete_allele_frequencies =new double [number_of_loci];			//allele frequencies after selection
 
-	trait = new hypercube_function [number_of_traits];		//genotype trait function
+	trait = new hypercube_function [number_of_traits];			//genotype trait function
 	trait_stat = new stat [number_of_traits];				//structure holding trait statistics
 	trait_covariance = new double* [number_of_traits];
 	//initialize trait functions
@@ -91,7 +91,7 @@ int haploid_clone::allocate_mem()
 		trait_covariance[t]=new double [number_of_traits];
 	}
 
-	mem=true;	//set memory flag to true
+	mem=true;								//set memory flag to true
 	if (HP_VERBOSE) cerr <<"done.\n";
 	generation=0;
 	return 0;

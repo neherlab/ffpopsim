@@ -1,3 +1,7 @@
+# Documentation
+doc/latex/*
+doc/html/*
+
 # C++
 ## Compiled Object files
 *.slo

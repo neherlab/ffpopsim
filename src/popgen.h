@@ -1,10 +1,10 @@
-/*
- * popgen.h
- *
- *  Created on: Oct 27, 2010
- *      Author: richard
+/**
+ * @file popgen.h
+ * @brief Header file with the classes and types provided with the library. 
+ * @author Richard Neher, Boris Shraiman, Fabio Zanini
+ * @version 
+ * @date 2010-10-27
  */
-
 #ifndef POPGEN_H_
 #define POPGEN_H_
 
@@ -30,11 +30,47 @@ using namespace std;
 
 #define MIN(a,b) (a<b)?a:b
 
+
+/**
+ * @brief Pairs of an index and a value (like hash tables).
+ */
+struct index_value_pair{
+	int index;
+	double val;
+};
+
+/**
+ * @brief Clone with a single genotype and a vector of phenotypic traits.
+ *
+ * Note: it uses dynamic bitsets because they require little memory.
+ */
+struct gt {
+	boost::dynamic_bitset<> genotype;
+	vector <double> trait;
+	double fitness;
+	int clone_size;
+	gt(int n_traits){trait.resize(n_traits);}
+};
+
+/**
+ * @brief Structure for short summary statistics.
+ */
+struct stat{
+	double mean;
+	double variance;
+};
+
+
 #ifndef SAMPLE_H_
 #define SAMPLE_H_
 #define SAMPLE_ERROR -12312154
 
-
+/**
+ * @brief Sample of any scalar property.
+ * 
+ * This class is used to store samples of scalar quantities used in the evolution of the population,
+ * for instance fitness or allele frequencies. I enables simple manipulations (mean, variance, etc.).
+ */
 class sample {
 public:
 	int number_of_values;
@@ -68,22 +104,29 @@ public:
 
 #define HC_MEMERR -131545
 #define HC_BADARG -131546
-#define RNG gsl_rng_taus	//choose the random number generator algorithm, see http://www.gnu.org/software/gsl/manual/html_node/Random-number-generator-algorithms.html
+#define RNG gsl_rng_taus		//choose the random number generator algorithm, see http://www.gnu.org/software/gsl/manual/html_node/Random-number-generator-algorithms.html
 #define HC_VERBOSE 0			//debugging: if set to one, each function prints out a message into the error stream
 
-#define HC_FUNC 1				//hypercube.func is up-to-date
+#define HC_FUNC 1			//hypercube.func is up-to-date
 #define HC_COEFF -1			//hypercube.coeff is up-to-date
 #define HC_FUNC_EQ_COEFF 0		//hypercube.func equal hypercube.coeff
 
-using namespace std;
-
-struct index_value_pair{
-	int index;
-	double val;
-};
-
+/**
+ * @brief Binary hypercube used in low-dimensional simulations.
+ *
+ * This class is a generic object that can be used to represent various things, e.g.
+ * - the fitness landscape or any other phenotypic landscape;
+ * - the genotype frequencies of a population with a genome of size L.
+ *
+ * If you are planning to model a whole population evolving on the hypercube, see the class haploid_gt_dis.
+ *
+ * Notes on scalability:
+ * - The number of genotypes to store increases as \f$2^L\f$, where L is the number of sites. This class can thus only be used for \f$L \lesssim 20\f$.
+ * - The population size N is actually unimportant, as far as it can be stored as a long integer. In other words, this class scales with N like O(1).
+ */
 class hypercube
 {
+private:
 	//dimension of the hypercube
 	int dim;
 
@@ -93,16 +136,17 @@ class hypercube
 
 	//checks and memory
 	bool mem;
-	int state;		//takes values HC_FUNC, HC_COEFF, HC_HC_FUNC_EQ_COEFF, depending on the current state of hypercube
+	int state;				//takes values HC_FUNC, HC_COEFF, HC_HC_FUNC_EQ_COEFF, depending on the current state of hypercube
 	int allocate_mem();
 	int free_mem();
-	const static double hypercubeversion=0.91;
 public:
-	double *coeff;		//array holding 2^N coefficients.
-						///a entry 0101001101 corresponds to a term with spins at each 1
-	double *func;		//array holding the values of the function on the hypercube
+	const static double hypercubeversion=0.91;
 
-	int *order;			//Auxiliary array holding the number of spins, i.e. the number of ones of coeff[k]
+	double *coeff;				//array holding 2^N coefficients.
+						///a entry 0101001101 corresponds to a term with spins at each 1
+	double *func;				//array holding the values of the function on the hypercube
+
+	int *order;				//Auxiliary array holding the number of spins, i.e. the number of ones of coeff[k]
 
 	hypercube();
 	hypercube(int dim_in, int s=0);
@@ -110,6 +154,7 @@ public:
 	int set_up(int dim_in, int s=0);
 	double version(){return hypercubeversion;}
 
+	// 
 	int gaussian_coefficients(double* vark, bool add=false);
 	int additive(double* additive_effects, bool add=false);
 	int init_rand_gauss(double sigma, bool add=false);
@@ -117,6 +162,7 @@ public:
 	int init_coeff_list(vector <index_value_pair> iv, bool add=false);
 	void calc_order();
 	void set_state(int s){state=s;}
+
 	//in and out
 	int read_coeff(istream &in);
 	int write_func(ostream &out);
@@ -156,22 +202,30 @@ public:
 #define HG_EXTINCT -9287465
 #define HG_MEMERR -32656845
 
+/**
+ * @brief Low-dimensional population evolving on the hypercube.
+ *
+ * This class enables simulation of short genomes (\f$L \lesssim 20\f$) but potentially large populations.
+ * Random mutation, recombination and selection are supported.
+ * A number of properties of the population can be obtained using methods of this class, including:
+ * - genotype and allele frequencies;
+ * - statistics on fitness and phenotypic traits;
+ * - linkage disequilibrium.
+ */
 class haploid_gt_dis
 {
 protected:
 	//hypercubes that store the distribution of recombinations and the change in the
-	//population distribution due to muations
+	//population distribution due to mutations
 	hypercube recombinants;
 	hypercube mutants;
-	//array that holds the probabilities of all possible recombination outcomes for every subset of loci
-	double** recombination_patters;
+	double** recombination_patters;				//array that holds the probabilities of all possible recombination outcomes for every subset of loci
 
 	double population_size;
 	int number_of_loci;
 	int generation;
 	double long_time_generation;
-	//mutation rate could be made locus specific and genotype dependent.
-	double** mutation_rates;
+	double** mutation_rates;				//mutation rate can be made locus specific and genotype dependent.
 	double outcrossing_rate;
 	bool free_recombination;
 
@@ -182,10 +236,13 @@ protected:
 	int allocate_mem();
 	int free_mem();
 	bool mem;
-	const static double haploidversion=0.61;
 public:
+	const static double haploidversion=0.61;
+
+	// public hypercubes
 	hypercube fitness;
 	hypercube population;
+
 	//setting up
 	haploid_gt_dis();
 	~haploid_gt_dis();
@@ -232,6 +289,7 @@ public:
 	int L(){return number_of_loci;}
 	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
 	double get_outcrossing_rate() {return outcrossing_rate;}
+
 	//testing
 	int test_recombinant_distribution();
 	int test_recombination(double *rec_rates);
@@ -244,8 +302,11 @@ public:
 #define HC_VERBOSE 0
 
 
-using namespace std;
-
+/**
+ * @brief Trait coefficient for a set of loci.
+ *
+ * Note: words and bits are deprecated.
+ */
 class coeff
 {
 public:
@@ -269,6 +330,12 @@ public:
 	}
 };
 
+/**
+ * @brief Trait coefficient for a single locus.
+ *
+ * Note: word and bit are deprecated. For this reason, this class is actually equivalent
+ * to the index_value_pair struct.
+ */
 class coeff_single_locus{
 public:
 	double value;
@@ -282,8 +349,27 @@ public:
 
 };
 
+/**
+ * @brief Hypercube class for high-dimensional simulations.
+ *
+ * This class is used for representing properties of genotypes.
+ * Unlike the low-dimensional sister class, no attempt is made to monitor the whole hypercube,
+ * because the dimension the space of genotypes of length L is \f$2^L\f$.
+ * As a consequence, no Fourier transformations are implemented.
+ *
+ * The main use of this class is either for pointwise assigment of values
+ * (for instance, we assign fitness only for the actually observed genotypes)
+ * or for low-order Fourier coefficients, like like main fitness effects and two-site epistasis,
+ * which scale like L and \f$L^2\f$, respectively.
+ *
+ */
 class hypercube_function
 {
+private:
+	//random number generator
+	gsl_rng *rng;
+	unsigned int seed;
+
 public:
 	int dim;
 	double hypercube_mean;
@@ -292,19 +378,18 @@ public:
 	double epistatic_std;
 	int rng_offset;
 
-	//random number generator
-	gsl_rng *rng;
-	unsigned int seed;
-
+	// memory management
 	bool hcube_allocated;
 	bool mem;
 	int allocate_mem();
 	int free_mem();
 
+	// setting up
 	hypercube_function();
 	~hypercube_function();
 	int set_up(int dim_in,  int s=0);
 
+	// methods
 	unsigned int get_seed() {return seed;};
 	double get_func(boost::dynamic_bitset<> *gt);
 	double get_func_words(int *gt, int n_o_w);
@@ -314,6 +399,7 @@ public:
 	int set_additive_coefficient(double value, int locus, int expected_locus=-1);
 	int set_random_epistasis_strength(double sigma);
 };
+
 
 
 #ifndef HAPLOIDPOPULATION_H_
@@ -329,25 +415,23 @@ public:
 #define CROSSOVERS 2
 #define WORD_LENGTH 20
 
-/* Use dynamic bitsets because they require little memory */
-struct gt {
-	boost::dynamic_bitset<> genotype;
-	vector <double> trait;
-	double fitness;
-	int clone_size;
-	gt(int n_traits){trait.resize(n_traits);}
-};
-
-struct stat{
-	double mean;
-	double variance;
-};
 
 
-struct label_gt_pair{ int gt; double label; };
-
-
+/**
+ * @brief Population class for high-dimensional simulations.
+ *
+ * This class is the main object storing the state of and enabling the manipulation of populations with long genomes (\f$L \gtrsim 20\f$).
+ *
+ * Both asexual and sexual populations can be simulated. Since asexual populations under selection are often structured as a small list of
+ * large clones, the class stores the clones and their sizes instead of the individuals.
+ *
+ * Class methods give access to a variety of information on the population, including:
+ * - the fitness distribution;
+ * - summary statistics of fitness and other phenotypic trits;
+ * - genetic structure (linkage disequilibrium, allele frequencies, number of clones).
+ */
 class haploid_clone {
+private:
 	int number_of_traits;
 	int number_of_individuals;		//maximal population size in terms of memory allocated to hold genotypes
 	int pop_size;				//actual population size
@@ -467,137 +551,6 @@ public:
 	int print_allele_frequencies(ostream &out);
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
-};
-
-class haploid_population {
-	int number_of_individuals;	//maximal population size in terms of memory allocated to hold genotypes
-	int pop_size;				//actual population size
-	int target_pop_size;		//average population size
-	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
-	int generation;
-
-	double mutation_rate; 		//rate of mutation per locus per generation
-	double fixed_outcrossing_rate;		//fixed recombination rate, in case no recombination modifiers needed
-	bool circular;				//topology of the chromosome
-	int recombination_model;	//model of recombination to be used
-
-	int number_of_loci;			//total number of loci
-	int number_of_words;		//number of integers used to store one genotype
-	int *number_of_bits;		//number of bits used in each word
-	int *genotypes;				//genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	int *new_genotypes;			//newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	int *sex_gametes;				//array holding the indices of gametes
-	int *asex_gametes;				//array holding the indices of gametes
-	int n_asex_gametes;
-	int n_sex_gametes;
-
-	int *clone_size_distribution;
-	int number_of_clones;
-
-	int *genome;				//Auxiliary array holding the positions along the genome
-	int *crossovers;			//
-
-	sample *fitness_values;		//structure holding the fitness values of the individuals in the population
-	sample *new_fitness_values;	//same as above, used for swapping
-	sample *outcrossing_rates;			//structure holding the recombination rate of the individuals in the population
-	sample *new_outcrossing_rates;		//same as above, used for swapping
-	sample *gt_labels;			//structure holding the labels of the genotype, this is used for genotype comparison and genotype sorting
-	sample *new_gt_labels;		//same as above, used for swapping
-
-	double *allele_frequencies;
-	double *gamete_allele_frequencies;
-	double *chi1;				//symmetric allele frequencies
-	double **chi2;				//symmetric two locus correlations
-
-	bool mem;
-	bool clone_size_mem;
-	bool cumulants_mem;
-	bool evolve_outcrossing_rates;
-
-	int allocate_mem();
-	int free_mem();
-	gsl_rng* evo_generator;
-	gsl_rng* label_generator;
-	int seed;
-	int* numbers;
-
-	int recombine_crossover(int parent1, int parent2, int ng);
-	int recombine_free(int parent1, int parent2, int ng);
-	double chemical_potential();
-
-	int index(int individual, int word) {return individual*number_of_words+word;}
-	int locus_word(int locus) {return locus / WORD_LENGTH;}
-	int locus_bit(int locus) {return locus % WORD_LENGTH;}
-	void flip_single_locus(int individual, int locus);
-
-public:
-	hypercube_function fitness;	//genotype to fitness map
-	hypercube_function outcrossing_rate;	//genotype to recombination map
-
-
-	haploid_population();
-	virtual ~haploid_population();
-	int set_up(int N_in,int L,  int rng_seed=0);
-	void set_target_pop_size(int tgps){target_pop_size=tgps;}
-	void set_mutation_rate(double mu){mutation_rate=mu;}
-	void set_fixed_outcrossing_rate(double r){fixed_outcrossing_rate=r; evolve_outcrossing_rates=false;}
-	void set_fixed_rec_rate(double r){fixed_outcrossing_rate=r; evolve_outcrossing_rates=false;} //compatibility function kept after making rec_rate outcrossing_rate
-	void set_recombination_model(int c) {recombination_model=c;}
-	void set_circular(bool c) {circular=c;}
-	int allocate_clone_size_distribution();
-	int set_evolve_outcrossing_rates();
-
-	int init_genotypes(double *nu, int n_o_genotypes=0);
-	int init_genotypes_diverse(int n_o_genotypes, int no_copies=1);
-	int init_genotypes(int n_o_genotypes);
-
-	int evolve();
-	int bottleneck(int size_of_bottleneck);
-	void mutate();
-	int select_gametes();
-	int new_generation();
-	int flip_single_locus(int locus);
-	void shuffle_genotypes();
-
-	void calc_stat();
-	void calc_rec();
-	void calc_fit();
-	void calc_gt_labels();
-	void calc_individual_fitness(int individual);
-	double calc_label(int* individual);
-	int calc_clone_size_distribution();
-
-	double fitness_mean() {return fitness_values->mean;}
-	double fitness_var() {return fitness_values->variance;}
-	double rec_mean() {return outcrossing_rates->mean;}
-	double rec_var() {return outcrossing_rates->variance;}
-	int get_pop_size() {return pop_size;}
-	double get_multi_point_frequency(vector <int> loci);
-	double get_allele_frequency(int l) {return allele_frequencies[l];}
-	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
-	double get_number_of_clones(){if (clone_size_mem) return number_of_clones; else return HP_BADARG;}
-	double get_clone_size(int c){if (clone_size_mem and c<number_of_clones) return clone_size_distribution[2*c]; else return HP_BADARG;}
-	double get_clone_individual(int c){if (clone_size_mem and c<number_of_clones) return clone_size_distribution[2*c+1]; else return HP_BADARG;}
-	int L(){return number_of_loci;}
-	int N(){return pop_size;}
-	double mu(){return mutation_rate;}
-
-	int get_genotype(int i, int w) {if (i<pop_size and w<number_of_words) return genotypes[index(i,w)]; else return NO_GENOTYPE;}
-	string get_genotype_string(int i);
-	int remove_last_genotypes(int m);
-	int add_genotype(int *gt);
-	int add_genotypes(int *gt, int n);
-	int add_fitness_coefficient(double value, vector <int> loci){return fitness.add_coefficient(value, loci, number_of_words, number_of_bits);}
-	int add_rec_coefficient(double value, vector <int> loci){return outcrossing_rate.add_coefficient(value, loci, number_of_words, number_of_bits);}
-	void clear_fitness_function(){fitness.coefficients_single_locus.clear(); fitness.coefficients_epistasis.clear();}
-
-	double get_fitness(int n) {return fitness_values->values[n];}
-	double get_rec(int n) {return outcrossing_rates->values[n];}
-	double get_label(int n) {return gt_labels->values[n];}
-	double get_max_fitness();
-	int get_generation(){return generation;}
-	int print_allele_frequencies(ostream &out);
-	int read_ms_sample(istream &gts, int initial_locus, int multiplicity=1);
 };
 
 

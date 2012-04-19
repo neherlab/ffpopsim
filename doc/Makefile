@@ -9,26 +9,21 @@
 # Makefile for the PopGenLib library.
 #
 ##==========================================================================
-# Compiler and flags
-CXX = g++
-CXXFLAGS= -O2 -g3 -fPIC
+# Documentation generator
+DOXY       = doxygen
+DOXYFILE   = Doxyfile
 
 ##==========================================================================
-PROGRAM   := PopGenLib
+# Rules for generating the documentation.
+doc:
+	$(VERBOSE)$(DOXY) $(DOXYFILE)
 
-##==========================================================================
-# Rules for generating the final executable.
-$(PROGRAM): haploid_gt_dis.o haploid_clone.o hypercube_function.o hypercube.o sample.o
-	ar rcs libPopGenLib.a $^
-
-##==========================================================================
-# Rules for generating object files.
-%.o: %.cpp popgen.h 
-	$(CXX) ${CXXFLAGS} -c $<
+doc-%:
+	$(VERBOSE)$(DOXY) $(DOXYFILE).$*
 
 ##==========================================================================
 # Rules for cleaning.
 clean:
-	rm -rf *.a *.o
+	rm -rf latex html
 
 #############################################################################
