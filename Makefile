@@ -9,21 +9,102 @@
 # Makefile for the PopGenLib library.
 #
 ##==========================================================================
-DIRS := doc src
-CLEANDIRS = $(DIRS:%=clean-%)
+SRCDIR = src
+DOCDIR = doc
+TESTSDIR = tests
+
+DIRS = $(SRCDIR) $(DOCDIR) $(TESTSDIR)
+
+.PHONY : all clean src doc tests clean-src clean-doc clean-tests
+all: src doc tests
+clean: clean-src clean-doc clean-tests
 
 ##==========================================================================
-# Rules for compiling and generating documentation.
-all: $(DIRS)
-$(DIRS):
-	$(MAKE) -C $@
+# SOURCE
+##==========================================================================
+CXX = g++
+CXXFLAGS= -O2 -g3 -fPIC
 
-clean: $(CLEANDIRS)
-$(CLEANDIRS): 
-	$(MAKE) -C $(@:clean-%=%) clean
+LIBRARY := libPopGenLib.a
+
+HEADER_GENERIC = popgen.h
+HEADER_LOWD = $(HEADER_GENERIC) popgen_lowd.h
+HEADER_HIGHD = $(HEADER_GENERIC) popgen_highd.h
+
+SOURCE_GENERIC = sample.cpp
+SOURCE_LOWD = hypercube.cpp haploid_gt_dis.cpp
+SOURCE_HIGHD = hypercube_function.cpp haploid_clone.cpp
+
+OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
+OBJECT_LOWD = $(SOURCE_LOWD:%.cpp=%.o)
+OBJECT_HIGHD = $(SOURCE_HIGHD:%.cpp=%.o)
+OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD)
+
+src: $(SRCDIR)/$(LIBRARY)
+
+$(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
+	ar rcs $@ $^
+
+$(OBJECT_GENERIC:%=$(SRCDIR)/%): $(SOURCE_GENERIC:%=$(SRCDIR)/%)
+	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+$(OBJECT_LOWD:%=$(SRCDIR)/%): $(SOURCE_LOWD:%=$(SRCDIR)/%) $(HEADER_LOWD:%=$(SRCDIR)/%)
+	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+$(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(SRCDIR)/%)
+	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+clean-src:
+	cd $(SRCDIR); rm -rf $(LIBRARY) *.o
+
+##==========================================================================
+# DOCUMENTATION
+##==========================================================================
+DOXYFILE   = $(DOCDIR)/Doxyfile
+DOXY       = doxygen
+
+doc:
+	$(DOXY) $(DOXYFILE)
+
+clean-doc:
+	rm -rf $(DOCDIR)/latex $(DOCDIR)/html
 
 
-.PHONY: $(DIRS)
-.PHONY: $(CLEANDIRS)
-.PHONY: all clean
+##==========================================================================
+# TESTS
+##==========================================================================
+testlibraries =  -lgsl -lgslcblas -lHandyTools -lPopGenLib 
+
+TESTS_LDFLAGS = -L$(SRCDIR)/ -L../HandyTools/src/ -L/usr/ -O2
+TESTS_CXXFLAGS = -I$(SRCDIR)/ -I../HandyTools/src/ -Wall -O2 -c -fPIC -g3
+
+TESTS_LOWD = lowd
+TESTS_HIGHD = highd
+
+TESTS_SOURCE_LOWD = $(TESTS_LOWD:%=%.cpp)
+TESTS_SOURCE_HIGHD = $(TESTS_HIGHD:%=%.cpp)
+
+TESTS_HEADER_LOWD = $(TESTS_LOWD:%=%.h)
+TESTS_HEADER_HIGHD = $(TESTS_HIGHD:%=%.h)
+
+TESTS_OBJECT_LOWD = $(TESTS_LOWD:%=%.o)
+TESTS_OBJECT_HIGHD = $(TESTS_HIGHD:%=%.o)
+
+tests: $(TESTS_LOWD:%=$(TESTSDIR)/%) $(TESTS_HIGHD:%=$(TESTSDIR)/%)
+
+$(TESTS_LOWD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%) $(SRCDIR)/$(LIBRARY)
+	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(testlibraries)
+
+$(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_LOWD:%=$(TESTSDIR)/%) $(TESTS_HEADER_LOWD:%=$(TESTSDIR)/%)
+	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+$(TESTS_HIGHD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%) $(SRCDIR)/$(LIBRARY)
+	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(testlibraries)
+
+$(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_HIGHD:%=$(TESTSDIR)/%) $(TESTS_HEADER_HIGHD:%=$(TESTSDIR)/%)
+	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+clean-tests:
+	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD)
+
 #############################################################################

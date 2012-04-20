@@ -9,7 +9,13 @@
  */
 #include <math.h>
 #include "popgen.h"
+#include "popgen_highd.h"
 
+/**
+ * @brief Default constructor.
+ *
+ * The sequence is assumed to be linear (not circular).
+ */
 haploid_clone::haploid_clone() {
 	current_pop = &pop1;
 	new_pop = &pop2;
@@ -18,9 +24,32 @@ haploid_clone::haploid_clone() {
 	circular=false;
 }
 
+/**
+ * @brief Destructor.
+ *
+ * Memory is released here.
+ */
 haploid_clone::~haploid_clone() {
 	if (mem) free_mem();
 }
+
+/**
+ * @brief Construct a population with certain parameters.
+ *
+ * @param N_in number of individuals
+ * @param L_in length of the genome
+ * @param rng_seed seed for the random number generator
+ * @param n_o_traits number of phenotypic traits (including fitness). Must be \f$\geq1\f$.
+ */
+haploid_clone::haploid_clone(int N_in,int L_in,  int rng_seed, int n_o_traits) {
+	current_pop = &pop1;
+	new_pop = &pop2;
+	mem=false;
+	cumulants_mem=false;
+	circular=false;
+	set_up(N_in, L_in, rng_seed, n_o_traits);
+}
+
 
 /**
  * Set up the population by specifying the population size, the length of the genome,
@@ -30,9 +59,9 @@ haploid_clone::~haploid_clone() {
 int haploid_clone::set_up(int N_in,int L_in,  int rng_seed, int n_o_traits)
 {
 	boost::dynamic_bitset<> temp;
-	if (N_in<1 or L_in <1)
+	if (N_in<1 or L_in <1 or n_o_traits<1)
 	{
-		cerr <<"haploid_clone::set_up(): Bad Arguments!\n";
+		cerr <<"haploid_clone::set_up(): Bad Arguments! All of N, L and the number of traits must be larger or equal one.\n";
 		return HP_BADARG;
 	}
 
@@ -158,54 +187,13 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 }
 
 
-//init with all allele frequencies equal to 0.5 -- n copies of each inital draw-default is 1
-/*
-int haploid_clone::init_genotypes_diverse(int n_o_genotypes, int no_copies)
-{
-	if (!mem)
-	{
-		cerr <<"haploid_clone::init_genotypes_diverse(): Allocate and set up first!\n";
-		return HP_MEMERR;
-	}
-	if (n_o_genotypes<0 or n_o_genotypes>number_of_individuals)
-	{
-		cerr <<"haploid_clone::init_genotypes_diverse(): number of genotypes has to be positive and smaller than max! got: "<<n_o_genotypes<<"!\n";
-		return HP_BADARG;
-	}
-	pop_size=0;
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes_diverse(int n_o_genotypes, int no_copies) with population size "<<n_o_genotypes<<"...";
-	generation=0;
-	int i,j,w;
-	for (i=0; i<n_o_genotypes;)
-	{
-		for(j=0;j<no_copies; j++);
-		{
-			for (w=0; w<number_of_words; w++)
-			{		//random integer in 0:(1<<number_of_bits[k])-1 for each word
-				genotypes[index(i,w)]=gsl_rng_uniform_int(evo_generator,(1<<number_of_bits[w]));
-			}
-			i++; pop_size++;
-		}
-	}
-	fitness_values->number_of_values=pop_size;
-	rec_rates->number_of_values=pop_size;
-	gt_labels->number_of_values=pop_size;
-	for (i=pop_size; i<number_of_individuals; i++)
-	{
-		for (w=0; w<number_of_words; w++) genotypes[index(i,w)]=NO_GENOTYPE;
-	}
-	//calculate its fitness and recombination rates
-	calc_fit();
-	calc_gt_labels();
-	calc_rec();
-	calc_stat();	//make sure everything is calculated
-	if (HP_VERBOSE) cerr <<"done."<<endl;
-	return 0;
-}*/
 
-
-/*
- * init with genotypes with 0
+/**
+ * @brief Initialize with a single genotypic clone (00...0)
+ *
+ * @param n_o_genotypes size of the clone. If not chosen, use target_pop_size.
+ *
+ * @returns 0 if successful, nonzero otherwise.
  */
 int haploid_clone::init_genotypes(int n_o_genotypes)
 {
@@ -222,21 +210,20 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 		return HP_BADARG;
 	}
 	pop_size=0;
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(int n_o_genotypes, int no_copies) with population size "<<n_o_genotypes<<"...";
+	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(int n_o_genotypes) with population size "<<n_o_genotypes<<"...";
 	generation=0;
 	current_pop->clear();
 	random_sample.clear();
 	boost::dynamic_bitset<> tempgt(number_of_loci);
-	tempgt.reset();			//set all bits to zero
-	if (n_o_genotypes>=0){	//add n_o_genotypes copies of this genotype
+	tempgt.reset();					//set all bits to zero
+	if (n_o_genotypes>=0){				//add n_o_genotypes copies of this genotype
 		add_genotypes(tempgt,n_o_genotypes);
 	}else{
 		add_genotypes(tempgt,target_pop_size);
 	}
 
-	//calculate its fitness and recombination rates
-	calc_fit();
-	calc_stat();	//make sure everything is calculated
+	calc_fit();					//calculate its fitness and recombination rates
+	calc_stat();					//make sure everything is calculated
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
@@ -339,8 +326,10 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
 
 
 
-/*
- * Do the evolution step
+/**
+ * @brief do the evolution step
+ *
+ * @returns zero if successful, number of errors found otherwise
  */
 int haploid_clone::evolve(){
 	int err=0;
@@ -348,6 +337,20 @@ int haploid_clone::evolve(){
 	err+=select_gametes();		//select a new set of gametes (partitioned into sex and asex)
 	err+=add_recombinants();	//do the recombination between pairs of sex gametes
 	err+=swap_populations();	//make the new population the current population
+	return err;
+}
+
+/**
+ * @brief Evolve for g generations
+ *
+ * @param g number of generations.
+ *
+ * @returns sum of error codes of the single evolve() steps. It is therefore a multiple of g.
+ */
+int haploid_clone::evolve(int g){
+	int err=0;
+	for(int i=0; i<g; i++)
+		err += evolve();
 	return err;
 }
 
@@ -361,8 +364,10 @@ void haploid_clone::update_fitness(){
 	}
 }
 
-/*
- * Do the selection step
+/**
+ * @brief selection step
+ *
+ * Random Poisson offspring numbers are drawn from all parents, proportionally to their fitness.
  */
 int haploid_clone::select_gametes()
 {
@@ -399,8 +404,10 @@ int haploid_clone::select_gametes()
 	return 0;
 }
 
-/*
- * using the previously produced list of sex_gametes, pair them at random and mate
+/**
+ * @brief pair and mate sexual gametes.
+ *
+ * Using the previously produced list of sex_gametes, pair them at random and mate
  */
 int haploid_clone::add_recombinants()
 {
@@ -423,12 +430,13 @@ int haploid_clone::add_recombinants()
 	return 0;
 }
 
-/*
+/**
+ * @brief make the the temporary population the current one
+ *
  * After the new population is completely assembled, we have to make it the current
- * population. this is done simply by swaping pointers
+ * population. This is implemented simply by swaping pointers.
  */
 int haploid_clone::swap_populations(){
-	//make the new generation the old one
 	vector <gt> *temp_gt;
 	temp_gt=current_pop;
 	current_pop=new_pop;
@@ -579,9 +587,13 @@ boost::dynamic_bitset<> haploid_clone::reassortment_pattern(){
 	return rec_pattern;
 }
 
-/*
+/**
+ * @brief Sample the population for stochastic processes.
+ *
  * produce a random sample of genotypes (labeled by their clone of origin)
- * whcih is to be used for mutations and sampling.
+ * which is to be used for mutations and sampling.
+ *
+ * @param size size of the sample
  */
 void haploid_clone::produce_random_sample(int size){
 	if (HP_VERBOSE) cerr<<"haploid_clone::produce_random_sample(): size "<<size;
@@ -703,9 +715,10 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n)
 	pop_size+=n;
 }
 
-/*
- * return the chemical potential, i.e. the current mean fitness
- * plus term that causes the population size to relax to target_pop_size
+/**
+ * @brief get the mean fitness plus relaxation term.
+ *
+ * @return the chemical potential, i.e. the current mean fitness plus term that causes the population size to relax to target_pop_size
  */
 double haploid_clone::chemical_potential()
 {

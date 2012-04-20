@@ -1,10 +1,11 @@
 /*
- *  hypercube_function.cpp
+ *  hypercube.cpp
  *
  *  Created by Richard Neher on 01/27/09.
  */
 
 #include "popgen.h"
+#include "popgen_lowd.h"
 
 //default constructor
 hypercube::hypercube()
@@ -17,7 +18,7 @@ hypercube::hypercube()
 hypercube::hypercube(int dim_in, int s)
 {
 	if (HC_VERBOSE) cerr<<"hypercube::hypercube(): constructing...!\n";
-	set_up(dim_in);
+	set_up(dim_in, s);
 }
 
 //check consistency of input dimension and call allocation routine, seed for the rng is provided (s)
@@ -72,7 +73,7 @@ int hypercube::allocate_mem()
 	gsl_rng_set(rng, seed);
 	calc_order();
 	mem=true;
-	reset();
+	reset();				// the hypercube is reset before starting!
 	if (HC_VERBOSE) cerr<<"done.\n";
 	return 0;
 }

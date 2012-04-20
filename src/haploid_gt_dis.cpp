@@ -6,6 +6,7 @@
  */
 
 #include "popgen.h"
+#include "popgen_lowd.h"
 
 haploid_gt_dis::haploid_gt_dis()
 {
