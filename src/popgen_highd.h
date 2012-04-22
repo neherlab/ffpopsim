@@ -70,6 +70,12 @@ private:
 	gsl_rng *rng;
 	unsigned int seed;
 
+	// memory management
+	bool hcube_allocated;
+	bool mem;
+	int allocate_mem();
+	int free_mem();
+
 public:
 	int dim;
 	double hypercube_mean;
@@ -78,16 +84,10 @@ public:
 	double epistatic_std;
 	int rng_offset;
 
-	// memory management
-	bool hcube_allocated;
-	bool mem;
-	int allocate_mem();
-	int free_mem();
-
 	// setting up
 	hypercube_function();
 	hypercube_function(int dim_in, int s=0);
-	~hypercube_function();
+	virtual ~hypercube_function();
 	int set_up(int dim_in,  int s=0);
 
 	// methods
@@ -181,11 +181,17 @@ protected:
 	boost::dynamic_bitset<> crossover_pattern();
 
 	int flip_single_locus(int locus);
+	void produce_random_sample(int size);
 	void shuffle_genotypes();
 	int swap_populations();
 	int new_generation();
+
+	// calculate fitness (chunks thereof)
 	void update_fitness();
-	void produce_random_sample(int size);
+	void calc_fitness_stat();
+	virtual void calc_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
+	void calc_individual_traits(clone_t *tempgt);
+	void calc_individual_fitness(clone_t *tempgt);
 
 	// random number generator
 	gsl_rng* evo_generator;
@@ -232,8 +238,8 @@ public:
 	// modify population
 	void add_genotypes(boost::dynamic_bitset<> newgt,  int n);
 	int add_fitness_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
-	void clear_fitness_function(){for (int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
-	void flip_single_locus(int clonenum, int locus);
+	void clear_fitness_function(){for(int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
+	void flip_single_locus(unsigned int clonenum, int locus);
 
 	// evolve
 	int evolve(int gen=1);
@@ -243,30 +249,37 @@ public:
 	double chemical_potential();
 
 	// readout
+	// Note: these functions are for the general public and are not expected to be
+	// extremely fast. If speed is a major concern, consider subclassing and working
+	// with protected methods.
+
+	// genotype readout
 	int random_clone(int size=1000);
-	string get_genotype_string(int i);
-	void calc_stat();
+	string get_genotype_string(unsigned int i){string gts; boost::to_string((*current_pop)[i].genotype, gts); return gts;}
+
+	// fitness/phenotype readout
+	double get_fitness(int n) {calc_individual_fitness((*current_pop)+n); return (*current_pop)[n].fitness;}
+	double get_trait(int n, int t=0) {calc_individual_traits((*current_pop)+n); return (*current_pop)[n].trait[t];}
+	stat_t get_fitness_statistics(){calc_fit(); return fitness_stat;}
+	stat_t get_trait_statistics(int t=0){calc_trait_stat(); return trait_stat[t];}
+	double get_trait_covariance(int t1, int t2) {calc_trait_stat(); return trait_covariance[t1][t2];}
+
 	void calc_fit();
-	void calc_fitness_stat();
+	void calc_allele_freqs();
 	void calc_trait_stat();
-	void calc_individual_fitness(clone_t *tempgt);
+	void calc_stat(){calc_fit(); calc_trait_stat(); calc_allele_freqs();}
 	void calc_everybodies_traits();
-	virtual void calc_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild
-	double fitness_mean() {return fitness_stat.mean;}
-	double fitness_var() {return fitness_stat.variance;}
-	double trait_mean(int t=0) {return trait_stat[t].mean;}
-	double trait_var(int t=0) {return trait_stat[t].variance;}
-	double trait_cov(int t1, int t2) {return trait_covariance[t1][t2];}
 	double get_multi_point_frequency(vector <int> loci);
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_allele_frequency(int l) {return allele_frequencies[l];}
 	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
 	double get_number_of_clones(){return current_pop->size();}
-	double get_fitness(int n) {return (*current_pop)[n].fitness;}
 	double get_trait(int n, int t) {return (*current_pop)[n].trait[t];}
 	double get_max_fitness();
 	int print_allele_frequencies(ostream &out);
+
+	// stream I/O
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 };

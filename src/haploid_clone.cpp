@@ -247,10 +247,9 @@ void haploid_clone::calc_everybodies_traits(){
 /**
  * @brief calculate allele frequencies and mean and variance in fitness
  */
-void haploid_clone::calc_stat()
+void haploid_clone::calc_allele_freqs()
 {
-	if (HP_VERBOSE) cerr<<"haploid_clone::calc_stat()...";
-	calc_fitness_stat();
+	if (HP_VERBOSE) cerr<<"haploid_clone::calc_allele_freqs()...";
 	int locus,cs;
 	pop_size=0;
 	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] = 0);
@@ -318,16 +317,6 @@ int haploid_clone::evolve(int gen){
 	}
 	generation+=gen;
 	return err;
-}
-
-/*
- * for each clone, recalculate its fitness
- */
-void haploid_clone::update_fitness(){
-	for (unsigned int i=0; i<current_pop->size(); i++)
-	{
-		calc_fitness_from_traits(&(*current_pop)[i]);
-	}
 }
 
 /**
@@ -414,7 +403,7 @@ int haploid_clone::flip_single_locus(int locus)
 
 
 //flip a spin (locus) in individual, assign new fitness and recombination rate.
-void haploid_clone::flip_single_locus(int clonenum, int locus)
+void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
 {
 	//produce new genotype
 	clone_t tempgt(number_of_traits);
@@ -524,10 +513,44 @@ int haploid_clone::recombine(int parent1, int parent2)
 }
 
 /*
+ * for each clone, recalculate its fitness
+ */
+void haploid_clone::update_fitness(){
+	for (unsigned int i=0; i<current_pop->size(); i++) {
+		calc_fitness_from_traits(&(*current_pop)[i]);
+	}
+}
+
+/**
+ * @brief Calculate traits of the chosen clone
+ *
+ * @param tempgt clone whose traits are to be calculated
+ */
+void haploid_clone::calc_individual_traits(clone_t *tempgt){
+	for (int t=0; t<number_of_traits; t++){
+		tempgt->trait[t] = trait[t].get_func(&(tempgt->genotype));
+	}
+}
+
+/**
+ * @brief calculate fitness of a particular clone
+ *
+ * @param tempgt clone whose fitness is being calculated
+ *
+ * The calculation is done in two steps, as natural:
+ * 1. genotype -> traits (phenotype)
+ * 2. traits -> fitness
+ */
+void haploid_clone::calc_individual_fitness(clone_t *tempgt){
+	//calculate the new fitness value of the mutant
+	calc_individual_traits(tempgt);
+	calc_fitness_from_traits(tempgt);
+}
+
+/*
  * choose a certain number of crossover points and produce a 0000111100011111101101 crossover pattern
  */
-boost::dynamic_bitset<> haploid_clone::crossover_pattern()
-{
+boost::dynamic_bitset<> haploid_clone::crossover_pattern(){
 	int n_o_c=0;
 
 	double total_rec = number_of_loci*crossover_rate;
@@ -658,28 +681,6 @@ int haploid_clone::random_clone(int size)
 		random_sample.pop_back();
 		return rclone;
 	}
-}
-
-
-/*
- * calculate the traits for the genotype and use them to calculate the fitness
- */
-void haploid_clone::calc_individual_fitness(clone_t *tempgt)
-{
-	//calculate the new fitness value of the mutant
-	for (int t=0; t<number_of_traits; t++){
-		tempgt->trait[t] = trait[t].get_func(&(tempgt->genotype));
-	}
-	calc_fitness_from_traits(tempgt);
-}
-
-/*
- * convenience function, returns a genoytpe as string
- */
-string haploid_clone::get_genotype_string(int i){
-	string gts;
-	boost::to_string((*current_pop)[i].genotype, gts);
-	return gts;
 }
 
 /*
