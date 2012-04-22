@@ -20,7 +20,7 @@ int main(int argc, char **argv){
 		status += hc_setting();
 		status += pop_initialize();
 		status += pop_evolve();
-//		status += pop_observables();
+		status += pop_observables();
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;
@@ -100,7 +100,7 @@ int pop_initialize() {
 	int L = 1000;
 	int N = 100;
 
-	haploid_clone pop(N, L, 3, 0);
+	haploid_clone pop(N, L, 3, 1);
 	if(HIGHD_VERBOSE)
 		cerr<<"L = "<<pop.L()<<", N = "<<pop.get_target_pop_size()<<endl;	
 	return 0;	
@@ -111,40 +111,55 @@ int pop_evolve() {
 	int L = 1000;
 	int N = 100;
 
-	haploid_clone pop(N, L, 3, 0);
+	haploid_clone pop(N, L, 3, 1);
 
 	pop.set_mutation_rate(1e-2);
 	pop.set_crossover_rate(1e-2);
 	pop.init_genotypes();		// start with a population of the right size
-
 	pop.evolve(5);
-
-
 
 	return 0;	
 }
 
-///* Test genotype and allele frequency */
-//int pop_observables() {
-//	int L = 4;
-//	int N = 100;
-//
-//	haploid_gt_dis pop(L, N, 3);
-//	double freq[1<<L];
-//	for(int i=0; i<(1<<L);i++)
-//		freq[i] = 1.0 / (1<<L);
-//	pop.init_frequencies(freq);
-//	pop.set_mutation_rate(1e-2);
-//	pop.set_population_size(N);
-//	pop.evolve(5);
-//
-//	if(HIGHD_VERBOSE) {
-//		cerr<<"Allele freq[0]: "<<pop.get_allele_frequency(0)<<endl;
-//		cerr<<"Fitness mean and variance: "<<pop.fitness_mean()<<", "<<pop.fitness_variance()<<endl;
-//
-//	}
-//
-//	return 0;	
-//}
-//
-//
+/* Test genotype and allele frequency */
+int pop_observables() {
+	int L = 1000;
+	int N = 100;
+
+	haploid_clone pop(N, L);
+
+	pop.set_mutation_rate(1e-3);
+	pop.set_outcrossing_probability(1e-2);
+	pop.set_crossover_rate(1e-2);
+	pop.set_recombination_model(CROSSOVERS);
+	pop.init_genotypes();		// start with a population of the right size
+
+	vector <int> loci;
+	for(int i=0; i< 100; i++) {
+		loci.assign(1, i);
+		pop.add_fitness_coefficient(0.1, loci);
+		loci.clear();
+	}
+
+	pop.calc_everybodies_traits();
+	pop.evolve(10);
+	pop.calc_stat();
+
+
+	if(HIGHD_VERBOSE) {
+		double af = 0;
+		double tmp;
+		for(int i=0; i< L; i++) {
+			tmp = pop.get_allele_frequency(i);
+			af = MAX(af, tmp);
+		}
+
+		cerr<<"Generation: "<<pop.get_generation()<<endl;
+		cerr<<"Max allele freq: "<<af<<endl;
+		cerr<<"Fitness mean and variance: "<<pop.fitness_mean()<<", "<<pop.fitness_var()<<endl;
+	}
+
+	return 0;	
+}
+
+

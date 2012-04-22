@@ -1,8 +1,9 @@
-/*
- * main.h
- *
- *  Created on: Dec 28, 2011
- *  Author: Fabio Zanini
+/**
+ * @file highd.cpp
+ * @brief Tests for the high-dimensional simulation library (header).
+ * @author Richard Neher, Boris Shraiman, Fabio Zanini
+ * @version 
+ * @date 2012-04-20
  */
 #ifndef HIGHD_H_
 #define HIGHD_H_

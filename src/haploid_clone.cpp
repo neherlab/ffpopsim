@@ -230,7 +230,8 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 
 
 /*
- * calculate the traits for all clones in the population
+ * @brief calculate the traits for all clones in the population
+ *
  * to be called when the fitness function is changed
  */
 void haploid_clone::calc_everybodies_traits(){
@@ -242,8 +243,8 @@ void haploid_clone::calc_everybodies_traits(){
 	}
 }
 
-/*
- * Calculate allele frequencies and mean and variance in fitness
+/**
+ * @brief calculate allele frequencies and mean and variance in fitness
  */
 void haploid_clone::calc_stat()
 {
@@ -290,67 +291,31 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
 	return freq;
 }
 
-/*double haploid_clone::get_multi_point_frequency(vector <int> loci)
-{
-	if (HP_VERBOSE) cerr<<"haploid_clone::calc_multi_point_frequency()...";
-	int *gt_mask=new int [number_of_words];
-	int w,k,i;
-	unsigned int  locus;
-	double frequency=0;
-	for (w=0; w<number_of_words; w++) gt_mask[w]=0;
-	for (locus=0; locus<loci.size(); locus++)
-	{
-		w=locus_word(loci[locus]);
-		k=locus_bit(loci[locus]);
-		gt_mask[w]+=(1<<k);
-		//cerr <<w<<" "<<k<<" "<<gt_mask[w]<<" ";
-	}
-	int temp;
-	for (i=0; i<pop_size; i++)
-	{
-		temp=0;
-		for (w=0; w<number_of_words; w++)
-		{
-			if ((genotypes[index(i,w)]&gt_mask[w])==gt_mask[w]) temp++;
-		}
-		if (temp==number_of_words) {
-			frequency+=1.0;
-		}
-	}
-	if (HP_VERBOSE) cerr<<"done.\n";
-	delete [] gt_mask;
-	//cerr <<" "<< frequency/pop_size<<endl;
-	return frequency/pop_size;
-}
-*/
-
-
 
 /**
- * @brief do the evolution step
+ * @brief evolve for g generations
  *
- * @returns zero if successful, number of errors found otherwise
+ * The order of steps performed is
+ * 1. mutation
+ * 2. selection
+ * 3. recombination
+ * but should not be important except for extremely high selection coefficients and/or very short times,
+ * for which the discrete nature of the Fisher-Wright model becomes relevant.
+ *
+ * @param gen number of generations.
+ *
+ * @returns sum of error codes of the single evolution steps. It is therefore a multiple of gen.
  */
-int haploid_clone::evolve(){
+int haploid_clone::evolve(int gen){
 	int err=0;
-	random_sample.clear(); 		//discard the old random sample
-	err+=select_gametes();		//select a new set of gametes (partitioned into sex and asex)
-	err+=add_recombinants();	//do the recombination between pairs of sex gametes
-	err+=swap_populations();	//make the new population the current population
-	return err;
-}
-
-/**
- * @brief Evolve for g generations
- *
- * @param g number of generations.
- *
- * @returns sum of error codes of the single evolve() steps. It is therefore a multiple of g.
- */
-int haploid_clone::evolve(int g){
-	int err=0;
-	for(int i=0; i<g; i++)
-		err += evolve();
+	for(int i=0; i<gen; i++) {
+		random_sample.clear(); 		//discard the old random sample
+		mutate();			//mutation step
+		err+=select_gametes();		//select a new set of gametes (partitioned into sex and asex)
+		err+=add_recombinants();	//do the recombination between pairs of sex gametes
+		err+=swap_populations();	//make the new population the current population
+	}
+	generation+=gen;
 	return err;
 }
 
@@ -405,6 +370,68 @@ int haploid_clone::select_gametes()
 }
 
 /**
+ * @brief mutation step (all loci)
+ *
+ * For efficiency reasons, if the mutation rate is zero, an if cycle skips the body altogether.
+ * The user can therefore call this function safely even if in non-mutating populations, without
+ * loss of performance.
+ */
+void haploid_clone::mutate()
+{
+	if (HP_VERBOSE)
+		cerr <<"haploid_clone::mutate() .....";
+	int i, actual_n_o_mutations,locus;
+	if(mutation_rate) {
+		locus=0;
+		produce_random_sample(number_of_loci*mutation_rate*pop_size*2);
+		for (locus = 0; locus<number_of_loci; locus++) {
+			//draw the number of mutation that are to happen at this locus
+			actual_n_o_mutations = gsl_ran_poisson(evo_generator, mutation_rate*pop_size);
+			//introduce these mutations one by one
+			for (i = 0; i < actual_n_o_mutations; ++i) {
+				flip_single_locus(random_clone(), locus);
+			}
+		}
+	}
+	if (HP_VERBOSE)
+		cerr <<"done";
+}
+
+/**
+ * @brief flip a spin at locus in random individual
+ *
+ * @param locus locus to flip
+ *
+ * @returns the (random) flipped individual clone
+ */
+int haploid_clone::flip_single_locus(int locus)
+{
+	int clone = random_clone();
+	flip_single_locus(clone, locus);
+	return clone;
+}
+
+
+//flip a spin (locus) in individual, assign new fitness and recombination rate.
+void haploid_clone::flip_single_locus(int clone, int locus)
+{
+	//produce new genotype
+	gt tempgt(number_of_traits);
+	tempgt.genotype.resize(number_of_loci);
+	tempgt.genotype= (*current_pop)[clone].genotype;
+	//new clone size == 1, old clone reduced by 1 TODO:check that this makes sense
+	tempgt.clone_size=1;
+	(*current_pop)[clone].clone_size--;
+	//flip the locus in new clone and calculate fitness
+	tempgt.genotype.flip(locus);
+	calc_individual_fitness(&tempgt);
+	//add clone to current population
+	current_pop->push_back(tempgt);
+
+	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clone<<" at locus "<<locus<<endl;
+}
+
+/**
  * @brief pair and mate sexual gametes.
  *
  * Using the previously produced list of sex_gametes, pair them at random and mate
@@ -442,7 +469,6 @@ int haploid_clone::swap_populations(){
 	current_pop=new_pop;
 	new_pop=temp_gt;
 
-	generation++;
 	return 0;
 }
 
@@ -633,53 +659,6 @@ int haploid_clone::random_clone(int size)
 	}
 }
 
-
-//mutate all loci
-void haploid_clone::mutate()
-{
-	if (HP_VERBOSE)
-		cerr <<"haploid_clone::mutate() .....";
-	int i, actual_n_o_mutations,locus=0;
-	produce_random_sample(number_of_loci*mutation_rate*pop_size*2);
-	for (locus = 0; locus<number_of_loci; locus++) {
-		//draw the number of mutation that are to happen at this locus
-		actual_n_o_mutations = gsl_ran_poisson(evo_generator, mutation_rate*pop_size);
-		//introduce these mutations one by one
-		for (i = 0; i < actual_n_o_mutations; ++i) {
-			flip_single_locus(random_clone(), locus);
-		}
-	}
-	if (HP_VERBOSE)
-		cerr <<"done";
-}
-
-//flip a spin at locus in random individual.
-int haploid_clone::flip_single_locus(int locus)
-{
-	int clone = random_clone();
-	flip_single_locus(clone, locus);
-	return clone;
-}
-
-
-//flip a spin (locus) in individual, assign new fitness and recombination rate.
-void haploid_clone::flip_single_locus(int clone, int locus)
-{
-	//produce new genotype
-	gt tempgt(number_of_traits);
-	tempgt.genotype.resize(number_of_loci);
-	tempgt.genotype= (*current_pop)[clone].genotype;
-	//new clone size == 1, old clone reduced by 1
-	tempgt.clone_size=1;
-	(*current_pop)[clone].clone_size--;
-	//flip the locus in new clone and calculate fitness
-	tempgt.genotype.flip(locus);
-	calc_individual_fitness(&tempgt);
-	//add clone to current population
-	current_pop->push_back(tempgt);
-
-	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clone<<" at locus "<<locus<<endl;
-}
 
 /*
  * calculate the traits for the genotype and use them to calculate the fitness

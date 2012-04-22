@@ -27,6 +27,7 @@
 #include <boost/dynamic_bitset.hpp>
 
 #define MIN(a,b) (a<b)?a:b
+#define MAX(a,b) (a>b)?a:b
 #define RNG gsl_rng_taus		//choose the random number generator algorithm, see http://www.gnu.org/software/gsl/manual/html_node/Random-number-generator-algorithms.html
 
 using namespace std;

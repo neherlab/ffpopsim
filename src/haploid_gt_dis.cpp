@@ -125,12 +125,18 @@ int haploid_gt_dis::init_genotypes(vector <index_value_pair> gt){
 	return population.normalize();
 }
 
-/*
+/**
+ * @brief evolve the population for gen generations
+ *
  * Evolve the population for one generation, for finite and infinite populations
  * The order of selection, mutation, recombination, and resampling could be changed
  * according to needs and beliefs. Note that only recombination calculates the inverse
  * fourier transform of the population. It does so BEFORE the recombination step.
  * To evaluate all allele frequencies and linkage disequilibria, call population.fft_func_to_coeff()
+ *
+ * @param gen number of generations
+ *
+ * @returns sum of error codes for the four steps (selection, mutation, recombination, resampling)
  */
 int haploid_gt_dis::evolve(int gen){
 	int err=0;
@@ -316,7 +322,9 @@ int haploid_gt_dis::calculate_recombinants_free()
 	return 0;
 }
 
-/*
+/**
+ * @brief calculate recombinants in the general case
+ *
  * Calculate the distribution after recombination assumed in random mating with
  * pairs sampled with replacement.
  */

@@ -228,8 +228,7 @@ public:
 	void clear_fitness_function(){for (int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
 
 	// evolve
-	int evolve();
-	int evolve(int g);
+	int evolve(int gen=1);
 	int bottleneck(int size_of_bottleneck);
 	void mutate();
 	int select_gametes();
