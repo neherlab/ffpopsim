@@ -29,7 +29,7 @@ int main(int argc, char **argv){
 
 /* Test generic library access */
 int library_access() {
-	index_value_pair ivp;
+	index_value_pair_t ivp;
 	ivp.index = 4;
 	ivp.val = 4.5;
 

@@ -18,30 +18,19 @@ using namespace std;
 /**
  * @brief Trait coefficient for a set of loci.
  *
- * This class is used in the hypercube_function class for saving trait coefficients. See also hypercube_function::add_coefficient.
+ * This struct is used in the hypercube_function class for saving trait coefficients. See also hypercube_function::add_coefficient.
  *
  * Note: words and bits are deprecated.
  */
-class coeff
-{
-public:
+struct coeff_t {
 	int order;
 	double value;
 	int *loci;
-	int *words;
-	int *bits;
-	coeff(double value_in, vector <int> loci_in){
+	coeff_t(double value_in, vector <int> loci_in){
 		value=value_in;
 		order=loci_in.size();
 		loci=new int [order];
-		words=new int [order];
-		bits=new int [order];
 		for (int i=0; i<order; i++) loci[i]=loci_in[i];
-	}
-	~coeff(){
-		//delete [] loci;
-		//delete [] words;
-		//delete [] bits;
 	}
 };
 
@@ -49,19 +38,15 @@ public:
  * @brief Trait coefficient for a single locus.
  *
  * Note: word and bit are deprecated. For this reason, this class is actually equivalent
- * to the index_value_pair struct.
+ * to the index_value_pair_t struct, with a mandatory constructor.
  */
-class coeff_single_locus{
-public:
+struct coeff_single_locus_t {
 	double value;
 	int locus;
-	int word;
-	int bit;
-	coeff_single_locus(double value_in, int locus_in){
+	coeff_single_locus_t(double value_in, int locus_in){
 		value=value_in;
 		locus=locus_in;
 	}
-
 };
 
 /**
@@ -88,8 +73,8 @@ private:
 public:
 	int dim;
 	double hypercube_mean;
-	vector <coeff_single_locus> coefficients_single_locus;
-	vector <coeff> coefficients_epistasis;
+	vector <coeff_single_locus_t> coefficients_single_locus;
+	vector <coeff_t> coefficients_epistasis;
 	double epistatic_std;
 	int rng_offset;
 
@@ -108,7 +93,7 @@ public:
 	// methods
 	unsigned int get_dim(){return dim;}
 	unsigned int get_seed() {return seed;};
-	double get_func(boost::dynamic_bitset<> *gt);
+	double get_func(boost::dynamic_bitset<> *genotype);
 	double get_additive_coefficient(int locus);
 	int set_additive_coefficient(double value, int locus, int expected_locus=-1);
 	int add_coefficient(double value, vector <int> loci);
@@ -126,9 +111,19 @@ public:
 #define HP_RANDOM_SAMPLE_FRAC 0.01
 #define FREE_RECOMBINATION 1
 #define CROSSOVERS 2
-#define WORD_LENGTH 20
 
-
+/**
+ * @brief clone with a single genotype and a vector of phenotypic traits.
+ *
+ * Note: it uses dynamic bitsets because they require little memory.
+ */
+struct clone_t {
+	boost::dynamic_bitset<> genotype;
+	vector <double> trait;
+	double fitness;
+	int clone_size;
+	clone_t(int n_traits){trait.resize(n_traits);}
+};
 
 /**
  * @brief Population class for high-dimensional simulations.
@@ -145,28 +140,34 @@ public:
  */
 class haploid_clone {
 private:
-	int number_of_traits;
-	int number_of_individuals;		//maximal population size in terms of memory allocated to hold genotypes
-	int pop_size;				//actual population size
-	int target_pop_size;			//target (average) population size
-	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
-	int generation;
+	// Memory management is private, subclasses must take care only of their own memory
+	bool mem;
+	bool cumulants_mem;
+	int allocate_mem();
+	int free_mem();
 
-	double mutation_rate;			//rate of mutation per locus per generation
-	double outcrossing_probability;
-	double crossover_rate;
-	bool circular;				//topology of the chromosome
-	int recombination_model;		//model of recombination to be used
+	// These two vectors are referenced by subclasses and programs using their pointers,
+	// current_pop and new_pop, which are public. In fact, these vectors are created only
+	// to ensure their memory is released upon destruction of the class.
+	vector <clone_t> current_pop_vector;
+	vector <clone_t> new_pop_vector;
 
-	int number_of_loci;			//total number of loci
-	vector <int> sex_gametes;		//array holding the indices of gametes
-	vector <int> random_sample;		//array holding the indices of gametes
-
+	// not knowing exactly what the following guys do, better keep them private
 	int *genome;				//Auxiliary array holding the positions along the genome
 	int *crossovers;
 
-	stat fitness_stat;			//structure holding the fitness values of the individuals in the population
-	stat *trait_stat;
+
+protected:
+	int number_of_traits;
+	int number_of_individuals_max;		//maximal population size in terms of memory allocated to hold genotypes
+	int pop_size;				//actual population size
+	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
+	int generation;
+	int number_of_loci;			//total number of loci
+	vector <int> random_sample;		//array holding the indices of gametes
+
+	stat_t fitness_stat;			//structure holding the fitness values of the individuals in the population
+	stat_t *trait_stat;
 	double **trait_covariance;
 
 	double *allele_frequencies;
@@ -174,75 +175,72 @@ private:
 	double *chi1;				//symmetric allele frequencies
 	double **chi2;				//symmetric two locus correlations
 
-	bool mem;
-	bool cumulants_mem;
 	bool evolve_rec_rates;
-
-	int allocate_mem();
-	int free_mem();
 
 	boost::dynamic_bitset<> reassortment_pattern();
 	boost::dynamic_bitset<> crossover_pattern();
 
 	int flip_single_locus(int locus);
-	void flip_single_locus(int individual, int locus);
 	void shuffle_genotypes();
 	int swap_populations();
-	int add_recombinants();
 	int new_generation();
 	void update_fitness();
+	void produce_random_sample(int size);
 
-protected:
+	// random number generator
 	gsl_rng* evo_generator;
 	gsl_rng* label_generator;
 	int seed;
 
+	// recombination details
+	vector <int> sex_gametes;		//array holding the indices of gametes
+	int add_recombinants();
+	int recombine(int parent1, int parent2);
+	int recombine_crossover(int parent1, int parent2, int ng);
+
 public:
-	hypercube_function *trait;		// genotype to fitness map
-	vector <gt> *current_pop;		// genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	vector <gt> *new_pop;			// newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	vector <gt> pop2;			// genotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
-	vector <gt> pop1;			// newgenotypes is a [number_of_individuals*number_of_words] array storing the alleles of each individual
+	// genotype to traits maps, which in turn are used in the trait-to-fitness map
+	hypercube_function *trait;
+
+	// pointers to the current population and the temporary one
+	vector <clone_t> *current_pop;
+	vector <clone_t> *new_pop;
 
 	// constructors/destructors
 	haploid_clone();
 	haploid_clone(int N_in,int L,  int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_clone();
-	int set_up(int N_in,int L,  int rng_seed=0, int number_of_traits=1);
+	virtual int set_up(int N_in,int L,  int rng_seed=0, int number_of_traits=1);
+
+	// population parameters (read only)
+	int get_generation(){return generation;}
+	int L(){return number_of_loci;}
+	int N() {return pop_size;}
+
+	// population parameters (read/write)
+	int target_pop_size;			// target (average) population size
+	double mutation_rate;			// rate of mutation per locus per generation
+	double outcrossing_probability;		// probability of having sex
+	double crossover_rate;			// rate of crossover during sex
+	int recombination_model;		//model of recombination to be used
+	bool circular;				//topology of the chromosome
 
 	// initialization
-	void set_target_pop_size(int tgps){target_pop_size=tgps;}
-	void set_mutation_rate(double mu){mutation_rate=mu;}
-	void set_outcrossing_probability(double r){outcrossing_probability=r;}
-	void set_fixed_rec_rate(double r){outcrossing_probability=r;}		// deprecated
-	void set_crossover_rate(double c){crossover_rate=c;}
-	void set_recombination_model(int c) {recombination_model=c;}
 	int init_genotypes(int n_o_genotypes=-1);
 	int init_genotypes(double *nu, int n_o_genotypes=0);
-	void set_circular(bool c) {circular=c;}
-	void produce_random_sample(int size);
 
 	// modify population
 	void add_genotypes(boost::dynamic_bitset<> newgt,  int n);
 	int add_fitness_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
 	void clear_fitness_function(){for (int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
+	void flip_single_locus(int clonenum, int locus);
 
 	// evolve
 	int evolve(int gen=1);
 	int bottleneck(int size_of_bottleneck);
 	void mutate();
 	int select_gametes();
-	int recombine(int parent1, int parent2);
-	int recombine_crossover(int parent1, int parent2, int ng);
 	double chemical_potential();
-
-	// population parameters
-	int L(){return number_of_loci;}
-	int N() {return pop_size;}
-	double mu() {return mutation_rate;}
-	int get_pop_size() {return pop_size;}
-	int get_target_pop_size() {return target_pop_size;}
-	int get_generation(){return generation;}
 
 	// readout
 	int random_clone(int size=1000);
@@ -251,9 +249,9 @@ public:
 	void calc_fit();
 	void calc_fitness_stat();
 	void calc_trait_stat();
-	void calc_individual_fitness(gt *tempgt);
+	void calc_individual_fitness(clone_t *tempgt);
 	void calc_everybodies_traits();
-	virtual void calc_fitness_from_traits(gt *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild
+	virtual void calc_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild
 	double fitness_mean() {return fitness_stat.mean;}
 	double fitness_var() {return fitness_stat.variance;}
 	double trait_mean(int t=0) {return trait_stat[t].mean;}

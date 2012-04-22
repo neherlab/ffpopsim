@@ -29,13 +29,18 @@ int main(int argc, char **argv){
 
 /* Test generic library access */
 int library_access() {
-	index_value_pair ivp;
+	index_value_pair_t ivp;
 	ivp.index = 4;
 	ivp.val = 4.5;
-
 	if(HIGHD_VERBOSE) {
-		cerr<<"index_value_pair: index = "<<ivp.index;
+		cerr<<"index_value_pair_t: index = "<<ivp.index;
 		cerr<<", val = "<<ivp.val<<endl;
+	}
+
+	coeff_single_locus_t csl(ivp.val, ivp.index);
+	if(HIGHD_VERBOSE) {
+		cerr<<"coeff_single_locus_t: locus = "<<csl.locus;
+		cerr<<", value = "<<csl.value<<endl;
 	}
 	return 0;
 }
@@ -102,7 +107,7 @@ int pop_initialize() {
 
 	haploid_clone pop(N, L, 3, 1);
 	if(HIGHD_VERBOSE)
-		cerr<<"L = "<<pop.L()<<", N = "<<pop.get_target_pop_size()<<endl;	
+		cerr<<"L = "<<pop.L()<<", N = "<<pop.target_pop_size<<endl;	
 	return 0;	
 }
 
@@ -113,8 +118,10 @@ int pop_evolve() {
 
 	haploid_clone pop(N, L, 3, 1);
 
-	pop.set_mutation_rate(1e-2);
-	pop.set_crossover_rate(1e-2);
+	pop.mutation_rate = 1e-3;
+	pop.outcrossing_probability = 1e-2;
+	pop.crossover_rate = 1e-2;
+	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
 	pop.evolve(5);
 
@@ -128,10 +135,10 @@ int pop_observables() {
 
 	haploid_clone pop(N, L);
 
-	pop.set_mutation_rate(1e-3);
-	pop.set_outcrossing_probability(1e-2);
-	pop.set_crossover_rate(1e-2);
-	pop.set_recombination_model(CROSSOVERS);
+	pop.mutation_rate = 1e-3;
+	pop.outcrossing_probability = 1e-2;
+	pop.crossover_rate = 1e-2;
+	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
 
 	vector <int> loci;
@@ -144,7 +151,6 @@ int pop_observables() {
 	pop.calc_everybodies_traits();
 	pop.evolve(10);
 	pop.calc_stat();
-
 
 	if(HIGHD_VERBOSE) {
 		double af = 0;

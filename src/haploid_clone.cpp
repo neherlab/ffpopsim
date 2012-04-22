@@ -17,8 +17,8 @@
  * The sequence is assumed to be linear (not circular).
  */
 haploid_clone::haploid_clone() {
-	current_pop = &pop1;
-	new_pop = &pop2;
+	current_pop = &current_pop_vector;
+	new_pop = &new_pop_vector;
 	mem=false;
 	cumulants_mem=false;
 	circular=false;
@@ -27,7 +27,8 @@ haploid_clone::haploid_clone() {
 /**
  * @brief Destructor.
  *
- * Memory is released here.
+ * Memory is released here. This needs to be virtual, because subclasses might want to free their own memory
+ * (but is a small detail in our typical usage cases). Subclasses invoke the baseclass destructor at the end anyway
  */
 haploid_clone::~haploid_clone() {
 	if (mem) free_mem();
@@ -42,8 +43,8 @@ haploid_clone::~haploid_clone() {
  * @param n_o_traits number of phenotypic traits (including fitness). Must be \f$\geq1\f$.
  */
 haploid_clone::haploid_clone(int N_in,int L_in,  int rng_seed, int n_o_traits) {
-	current_pop = &pop1;
-	new_pop = &pop2;
+	current_pop = &current_pop_vector;
+	new_pop = &new_pop_vector;
 	mem=false;
 	cumulants_mem=false;
 	circular=false;
@@ -72,7 +73,7 @@ int haploid_clone::set_up(int N_in,int L_in,  int rng_seed, int n_o_traits)
 
 	number_of_traits=n_o_traits;
 	number_of_loci=L_in;
-	number_of_individuals=2*N_in;
+	number_of_individuals_max=2*N_in;
 	target_pop_size=N_in;
 
 	//In case no seed is provided use current second and add process ID
@@ -97,7 +98,7 @@ int haploid_clone::allocate_mem()
 		free_mem();
 	}
 
-	if (HP_VERBOSE) cerr <<"haploid_clone::allocate_mem(): genotypes: "<<number_of_individuals<<"  loci: "<<number_of_loci<<endl;
+	if (HP_VERBOSE) cerr <<"haploid_clone::allocate_mem(): genotypes: "<<number_of_individuals_max<<"  loci: "<<number_of_loci<<endl;
 
 	//Random number generator
 	evo_generator=gsl_rng_alloc(RNG);
@@ -112,7 +113,7 @@ int haploid_clone::allocate_mem()
 	gamete_allele_frequencies =new double [number_of_loci];			//allele frequencies after selection
 
 	trait = new hypercube_function [number_of_traits];			//genotype trait function
-	trait_stat = new stat [number_of_traits];				//structure holding trait statistics
+	trait_stat = new stat_t [number_of_traits];				//structure holding trait statistics
 	trait_covariance = new double* [number_of_traits];
 	//initialize trait functions
 	for (int t=0; t<number_of_traits;t++){
@@ -149,7 +150,7 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 		cerr <<"haploid_clone::init_genotypes(): Allocate and set up first!\n";
 		return HP_MEMERR;
 	}
-	if (n_o_genotypes<0 or n_o_genotypes>=number_of_individuals)
+	if (n_o_genotypes<0 or n_o_genotypes>=number_of_individuals_max)
 	{
 		cerr <<"haploid_clone::init_genotypes(): number of genotypes has to be positive and smaller than max! got: "<<n_o_genotypes<<"!\n";
 		return HP_BADARG;
@@ -204,7 +205,7 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 		cerr <<"haploid_clone::init_genotypes(): Allocate and set up first!\n";
 		return HP_MEMERR;
 	}
-	if (n_o_genotypes>number_of_individuals)
+	if (n_o_genotypes>number_of_individuals_max)
 	{
 		cerr <<"haploid_clone::init_genotypes(): number of genotypes has to be smaller than max! got: "<<n_o_genotypes<<"!\n";
 		return HP_BADARG;
@@ -406,29 +407,29 @@ void haploid_clone::mutate()
  */
 int haploid_clone::flip_single_locus(int locus)
 {
-	int clone = random_clone();
-	flip_single_locus(clone, locus);
-	return clone;
+	int clonenum = random_clone();
+	flip_single_locus(clonenum, locus);
+	return clonenum;
 }
 
 
 //flip a spin (locus) in individual, assign new fitness and recombination rate.
-void haploid_clone::flip_single_locus(int clone, int locus)
+void haploid_clone::flip_single_locus(int clonenum, int locus)
 {
 	//produce new genotype
-	gt tempgt(number_of_traits);
+	clone_t tempgt(number_of_traits);
 	tempgt.genotype.resize(number_of_loci);
-	tempgt.genotype= (*current_pop)[clone].genotype;
+	tempgt.genotype= (*current_pop)[clonenum].genotype;
 	//new clone size == 1, old clone reduced by 1 TODO:check that this makes sense
 	tempgt.clone_size=1;
-	(*current_pop)[clone].clone_size--;
+	(*current_pop)[clonenum].clone_size--;
 	//flip the locus in new clone and calculate fitness
 	tempgt.genotype.flip(locus);
 	calc_individual_fitness(&tempgt);
 	//add clone to current population
 	current_pop->push_back(tempgt);
 
-	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clone<<" at locus "<<locus<<endl;
+	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
 }
 
 /**
@@ -464,7 +465,7 @@ int haploid_clone::add_recombinants()
  * population. This is implemented simply by swaping pointers.
  */
 int haploid_clone::swap_populations(){
-	vector <gt> *temp_gt;
+	vector <clone_t> *temp_gt;
 	temp_gt=current_pop;
 	current_pop=new_pop;
 	new_pop=temp_gt;
@@ -493,8 +494,8 @@ int haploid_clone::recombine(int parent1, int parent2)
 	else {rec_pattern.resize(number_of_loci);}
 
 	//produce two new genoytes
-	gt offspring1(number_of_traits);
-	gt offspring2(number_of_traits);
+	clone_t offspring1(number_of_traits);
+	clone_t offspring2(number_of_traits);
 	offspring1.genotype.resize(number_of_loci);
 	offspring2.genotype.resize(number_of_loci);
 
@@ -663,7 +664,7 @@ int haploid_clone::random_clone(int size)
 /*
  * calculate the traits for the genotype and use them to calculate the fitness
  */
-void haploid_clone::calc_individual_fitness(gt *tempgt)
+void haploid_clone::calc_individual_fitness(clone_t *tempgt)
 {
 	//calculate the new fitness value of the mutant
 	for (int t=0; t<number_of_traits; t++){
@@ -676,9 +677,9 @@ void haploid_clone::calc_individual_fitness(gt *tempgt)
  * convenience function, returns a genoytpe as string
  */
 string haploid_clone::get_genotype_string(int i){
-	string gt;
-	boost::to_string((*current_pop)[i].genotype, gt);
-	return gt;
+	string gts;
+	boost::to_string((*current_pop)[i].genotype, gts);
+	return gts;
 }
 
 /*
@@ -686,7 +687,7 @@ string haploid_clone::get_genotype_string(int i){
  */
 void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n)
 {
-	gt tempgt(number_of_traits);
+	clone_t tempgt(number_of_traits);
 	tempgt.genotype=genotype;
 	tempgt.clone_size = n;
 	calc_individual_fitness(&tempgt);

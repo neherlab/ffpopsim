@@ -55,7 +55,7 @@ $(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(
 	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 clean-src:
-	cd $(SRCDIR); rm -rf $(LIBRARY) *.o
+	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
 
 ##==========================================================================
 # DOCUMENTATION

@@ -118,7 +118,7 @@ int haploid_gt_dis::init_frequencies(double *freq){
 /*
  * Initialize the population in linkage equilibrium
  */
-int haploid_gt_dis::init_genotypes(vector <index_value_pair> gt){
+int haploid_gt_dis::init_genotypes(vector <index_value_pair_t> gt){
 	population.init_list(gt, false);
 	generation=0;
 	long_time_generation=0.0;

@@ -185,7 +185,7 @@ int hypercube::init_rand_gauss(double sigma, bool add)
 	return fft_func_to_coeff();
 }
 
-int hypercube::init_list(vector <index_value_pair> iv, bool add){
+int hypercube::init_list(vector <index_value_pair_t> iv, bool add){
 	if (add==false){
 		reset();
 	}else if (state==HC_COEFF)	fft_coeff_to_func();
@@ -197,7 +197,7 @@ int hypercube::init_list(vector <index_value_pair> iv, bool add){
 }
 
 
-int hypercube::init_coeff_list(vector <index_value_pair> iv, bool add){
+int hypercube::init_coeff_list(vector <index_value_pair_t> iv, bool add){
 	if (add==false){
 		reset();
 	}else if (state==HC_FUNC)	fft_func_to_coeff();

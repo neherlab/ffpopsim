@@ -59,8 +59,8 @@ public:
 	int gaussian_coefficients(double* vark, bool add=false);
 	int additive(double* additive_effects, bool add=false);
 	int init_rand_gauss(double sigma, bool add=false);
-	int init_list(vector<index_value_pair> iv, bool add=false);
-	int init_coeff_list(vector <index_value_pair> iv, bool add=false);
+	int init_list(vector<index_value_pair_t> iv, bool add=false);
+	int init_coeff_list(vector <index_value_pair_t> iv, bool add=false);
 	void calc_order();
 	void set_state(int s){state=s;}
 
@@ -151,7 +151,7 @@ public:
 
 	//initialization
 	int init_frequencies(double *freq);
-	int init_genotypes(vector <index_value_pair> gt);
+	int init_genotypes(vector <index_value_pair_t> gt);
 	int set_recombination_rates(double *rec_rates);
 	void set_population_size(double popsize){population_size=popsize;}
 	void set_outcrossing_rate(double orate){outcrossing_rate=orate;}

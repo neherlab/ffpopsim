@@ -35,7 +35,7 @@ using namespace std;
 /**
  * @brief Pairs of an index and a value (like hash tables).
  */
-struct index_value_pair{
+struct index_value_pair_t {
 	int index;
 	double val;
 };
@@ -43,24 +43,10 @@ struct index_value_pair{
 /**
  * @brief Structure for short summary statistics.
  */
-struct stat{
+struct stat_t {
 	double mean;
 	double variance;
 };
-
-/**
- * @brief Clone with a single genotype and a vector of phenotypic traits.
- *
- * Note: it uses dynamic bitsets because they require little memory.
- */
-struct gt {
-	boost::dynamic_bitset<> genotype;
-	vector <double> trait;
-	double fitness;
-	int clone_size;
-	gt(int n_traits){trait.resize(n_traits);}
-};
-
 
 #define SAMPLE_ERROR -12312154
 

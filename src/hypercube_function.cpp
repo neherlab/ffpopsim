@@ -88,14 +88,14 @@ int hypercube_function::free_mem()
 }
 
 
-double hypercube_function::get_func(boost::dynamic_bitset<> *gt)
+double hypercube_function::get_func(boost::dynamic_bitset<> *genotype)
 {
 	if (HCF_VERBOSE) cerr<<"fluct_hypercube::get_func()\n";
 	double result=hypercube_mean;
 	int sign=1, locus;
 	//first order contributions
 	for (unsigned int c=0; c<coefficients_single_locus.size();c++){
-		if ((*gt)[coefficients_single_locus[c].locus]) result+=coefficients_single_locus[c].value;
+		if ((*genotype)[coefficients_single_locus[c].locus]) result+=coefficients_single_locus[c].value;
 		else result-=coefficients_single_locus[c].value;
 	}
 	//interaction contributions
@@ -103,7 +103,7 @@ double hypercube_function::get_func(boost::dynamic_bitset<> *gt)
 	for (unsigned int c=0; c<coefficients_epistasis.size();c++){
 		sign=1;
 		for (locus=0; locus<coefficients_epistasis[c].order; locus++){
-			if (!(*gt)[coefficients_epistasis[c].loci[locus]]) sign*=-1;
+			if (!(*genotype)[coefficients_epistasis[c].loci[locus]]) sign*=-1;
 		}
 		result+=sign*coefficients_epistasis[c].value;
 	}
@@ -116,7 +116,7 @@ double hypercube_function::get_func(boost::dynamic_bitset<> *gt)
 	/*if (epistatic_std>0)
 	{
 		//calculate the seed for the random number generator
-		for (int i=0; i<n_o_w; i++) gt_seed+=(*gt)[i];
+		for (int i=0; i<n_o_w; i++) gt_seed+=(*genotype)[i];
 		//add a gaussion random number to the fitness from the rng seeded with the genoytpe
 		gsl_rng_set(rng,gt_seed+rng_offset);
 		result+=gsl_ran_gaussian(rng,epistatic_std);
@@ -148,10 +148,10 @@ double hypercube_function::get_additive_coefficient(int locus){
 int hypercube_function::add_coefficient(double value, vector <int> loci)
 {
 	if (loci.size()>1){
-		coeff temp_coeff(value, loci);
+		coeff_t temp_coeff(value, loci);
 		coefficients_epistasis.push_back(temp_coeff);
 	}else if (loci.size()==1){
-		coeff_single_locus temp_coeff(value, loci[0]);
+		coeff_single_locus_t temp_coeff(value, loci[0]);
 		coefficients_single_locus.push_back(temp_coeff);
 	}else{ hypercube_mean=value;}
 	return 0;
