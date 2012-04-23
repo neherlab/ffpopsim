@@ -20,7 +20,7 @@ int main(int argc, char **argv){
 		status += hc_setting();
 		status += pop_initialize();
 		status += pop_evolve();
-		status += pop_observables();
+		status += pop_sampling();
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;
@@ -107,29 +107,12 @@ int pop_initialize() {
 
 	haploid_clone pop(N, L, 3, 1);
 	if(HIGHD_VERBOSE)
-		cerr<<"L = "<<pop.L()<<", N = "<<pop.target_pop_size<<endl;	
+		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.target_pop_size<<endl;	
 	return 0;	
 }
 
 /* Test evolution */
 int pop_evolve() {
-	int L = 1000;
-	int N = 100;
-
-	haploid_clone pop(N, L, 3, 1);
-
-	pop.mutation_rate = 1e-3;
-	pop.outcrossing_probability = 1e-2;
-	pop.crossover_rate = 1e-2;
-	pop.recombination_model = CROSSOVERS;
-	pop.init_genotypes();		// start with a population of the right size
-	pop.evolve(5);
-
-	return 0;	
-}
-
-/* Test genotype and allele frequency */
-int pop_observables() {
 	int L = 1000;
 	int N = 100;
 
@@ -148,9 +131,10 @@ int pop_observables() {
 		loci.clear();
 	}
 
-	pop.calc_everybodies_traits();
 	pop.evolve(10);
 	pop.calc_stat();
+
+	stat_t fitness = pop.get_fitness_statistics();
 
 	if(HIGHD_VERBOSE) {
 		double af = 0;
@@ -162,10 +146,41 @@ int pop_observables() {
 
 		cerr<<"Generation: "<<pop.get_generation()<<endl;
 		cerr<<"Max allele freq: "<<af<<endl;
-		cerr<<"Fitness mean and variance: "<<pop.fitness_mean()<<", "<<pop.fitness_var()<<endl;
+		cerr<<"Fitness mean and variance: "<<fitness.mean<<", "<<fitness.variance<<endl;
 	}
 
 	return 0;	
 }
+
+/* Test sampling */
+int pop_sampling() {
+	int L = 1000;
+	int N = 100;
+
+	haploid_clone pop(N, L);
+
+	pop.mutation_rate = 1e-3;
+	pop.outcrossing_probability = 1e-2;
+	pop.crossover_rate = 1e-2;
+	pop.recombination_model = CROSSOVERS;
+	pop.init_genotypes();		// start with a population of the right size
+
+	pop.evolve(10);
+
+	vector <int> sample;
+	pop.random_clones(10, &sample);
+
+	if(HIGHD_VERBOSE) {
+		cout<<"Number of clones: "<<pop.get_number_of_clones()<<endl;
+		cout<<"Random individuals:";
+		for(unsigned int i=0; i < sample.size(); i++)
+			cout<<" "<<sample[i];
+		cout<<endl;
+	}
+
+
+	return 0;
+}
+
 
 

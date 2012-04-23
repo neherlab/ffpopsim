@@ -179,7 +179,6 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 	}
 
 	//calculate its fitness and recombination rates
-	calc_fit();
 	calc_stat();
 	if (HP_VERBOSE) cerr <<"done.\n";
 	//set generations counter to zero and calculate the statistics for the intial configuration
@@ -223,26 +222,11 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 		add_genotypes(tempgt,target_pop_size);
 	}
 
-	calc_fit();					//calculate its fitness and recombination rates
 	calc_stat();					//make sure everything is calculated
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
 
-
-/*
- * @brief calculate the traits for all clones in the population
- *
- * to be called when the fitness function is changed
- */
-void haploid_clone::calc_everybodies_traits(){
-	if (HP_VERBOSE) cerr<<"haploid_clone::calc_everybodies_traits()...";
-	unsigned int ti;
-	for (unsigned int i=0; i<current_pop->size(); i++)
-	{
-		calc_individual_fitness(&(*current_pop)[i]);
-	}
-}
 
 /**
  * @brief calculate allele frequencies and mean and variance in fitness
@@ -512,13 +496,42 @@ int haploid_clone::recombine(int parent1, int parent2)
 	return 1;
 }
 
-/*
- * for each clone, recalculate its fitness
+/**
+ * @brief for each clone, update fitness assuming traits are already up to date
  */
-void haploid_clone::update_fitness(){
+void haploid_clone::update_fitness() {
 	for (unsigned int i=0; i<current_pop->size(); i++) {
-		calc_fitness_from_traits(&(*current_pop)[i]);
+		calc_individual_fitness_from_traits(&(*current_pop)[i]);
 	}
+}
+
+/**
+ * @brief for each clone, recalculate its traits
+ */
+void haploid_clone::update_traits(){
+	for (unsigned int i=0; i<current_pop->size(); i++) {
+		calc_individual_traits(&(*current_pop)[i]);
+	}
+}
+
+/**
+ * @brief calculate trait and fitness statistics and allele frequences
+ *
+ * Four things are done in a row:
+ * 1. traits are updated
+ * 2. fitness is updated based on the new traits
+ * 3. statistics of traits and fitness are calculated
+ * 4. allele freqs are calculated
+ * This function is therefore quite expensive. Please use its subblocks
+ * whenever possible, and rely on this only when you want to make sure,
+ * at the expense of performance, that everything is up to date.
+ */
+void haploid_clone::calc_stat() {
+	update_traits();
+	update_fitness();
+	calc_trait_stat();
+	calc_fitness_stat();
+	calc_allele_freqs();
 }
 
 /**
@@ -537,14 +550,13 @@ void haploid_clone::calc_individual_traits(clone_t *tempgt){
  *
  * @param tempgt clone whose fitness is being calculated
  *
- * The calculation is done in two steps, as natural:
- * 1. genotype -> traits (phenotype)
- * 2. traits -> fitness
+ * Note: this function also updates the traits information for the same clone,
+ * because the phenotype is needed to calculate fitness.
  */
 void haploid_clone::calc_individual_fitness(clone_t *tempgt){
 	//calculate the new fitness value of the mutant
 	calc_individual_traits(tempgt);
-	calc_fitness_from_traits(tempgt);
+	calc_individual_fitness_from_traits(tempgt);
 }
 
 /*
@@ -640,10 +652,13 @@ boost::dynamic_bitset<> haploid_clone::reassortment_pattern(){
 /**
  * @brief Sample the population for stochastic processes.
  *
- * produce a random sample of genotypes (labeled by their clone of origin)
- * which is to be used for mutations and sampling.
- *
  * @param size size of the sample
+ *
+ * produce a random sample of genotypes (labeled by their clone of origin)
+ * which is to be used for mutations and sampling. The vector random_sample
+ * exists for efficiency reasons, for it is faster to call the random number
+ * generator once than many times.
+ *
  */
 void haploid_clone::produce_random_sample(int size){
 	if (HP_VERBOSE) cerr<<"haploid_clone::produce_random_sample(): size "<<size;
@@ -665,12 +680,22 @@ void haploid_clone::produce_random_sample(int size){
 	if (HP_VERBOSE) cerr<<"done"<<endl;
 }
 
-/*
- * return the clone index of a random genotype and remove it from the random_sample vector
+/**
+ * @brief get a random clone from the population
+ *
+ * @returns 
+ *
+ * return the clone index of a random individual.
+ *
+ * The probability density function from which the individual is chosen is flat over the
+ * population (larger clones are proportionally more likely to be returned here).
+ *
+ * The index is then removed from the random_sample vector, which, for efficiency reasons,
+ * keeps a list of random indices ready for use.
  */
-int haploid_clone::random_clone(int size)
-{
+int haploid_clone::random_clone() {
 	int rclone;
+	int size = 1000;
 	if (random_sample.size()>1){
 		rclone=random_sample.back();
 		random_sample.pop_back();
@@ -683,11 +708,30 @@ int haploid_clone::random_clone(int size)
 	}
 }
 
+/**
+ * @brief Sample random indivduals from the population
+ *
+ * @param n_o_individuals number of individuals to sample
+ * @param sample pointer to vector where to put the result.
+ *
+ * @returns zero if successful, nonzero otherwise
+ *
+ * The results are not returned as a vector to avoid copying (for performance reasons),
+ * and *sample may be not empty (but must be allocated). In any case, clone numbers of
+ * the sampled individuals are appended to *sample. Hence, you can use this function
+ * iteratively (although there might not be a good reason to do so).
+ */
+int haploid_clone::random_clones(unsigned int n_o_individuals, vector <int> *sample) {
+	sample->reserve(n_o_individuals);
+	for(unsigned int i=0; i< n_o_individuals; i++)
+		sample->push_back(random_clone());
+	return 0;
+}
+
 /*
  * add the genotype specified by a bitset to the current population in in n copies
  */
-void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n)
-{
+void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 	clone_t tempgt(number_of_traits);
 	tempgt.genotype=genotype;
 	tempgt.clone_size = n;
@@ -701,44 +745,31 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n)
  *
  * @return the chemical potential, i.e. the current mean fitness plus term that causes the population size to relax to target_pop_size
  */
-double haploid_clone::chemical_potential()
-{
+double haploid_clone::chemical_potential() {
 	calc_fitness_stat();
 	return fitness_stat.mean+ (MIN(0.6931*(double(pop_size)/target_pop_size-1),2.0));
 }
 
-/*
- * go over every clone and calculate its fitness, followed by calculating the fitness statistics
- */
-void haploid_clone::calc_fit()
-{
-	if (HP_VERBOSE)
-		cerr <<"haploid_clone::calc_fit() .....";
-	//recalculate the fitness of each clone
-	update_fitness();
-	calc_fitness_stat();
-	if (HP_VERBOSE)
-		cerr <<"done"<<endl;
-}
 
-/*
- * convenience function: return the fitness of the fittest clone
+/**
+ * @brief get the fitness of the fittest individual
+ *
+ * @returns the fitness of the fittest clone
  */
-double haploid_clone::get_max_fitness()
-{
+double haploid_clone::get_max_fitness() {
 	double mf=(*current_pop)[0].fitness;
 	for (unsigned int i=0; i<current_pop->size(); i++)
-	{
-		if (mf<(*current_pop)[i].fitness) mf=(*current_pop)[i].fitness;
-	}
+		mf = MAX(mf, (*current_pop)[i].fitness);
 	return mf;
 }
 
 
-/*
- * calculate the statistics of fitness in the population
+/**
+ * @brief calculate fitness population statistics
+ *
+ * Note: this function assumes that fitness is up to date. If you are not sure, call update_traits() and update_fitness() first.
  */
-void haploid_clone::calc_fitness_stat(){
+void haploid_clone::calc_fitness_stat() {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_fitness_stat()...";}
 	double temp,temp1;
 	int t,t1, csize;
@@ -762,10 +793,12 @@ void haploid_clone::calc_fitness_stat(){
 	if (HP_VERBOSE) {cerr <<"done"<<endl;}
 }
 
-/*
- * calculate trait statistics in the population and the trait covariances
+/**
+ * @brief calculate trait population statistics and covariances
+ *
+ * Note: this function assumes that traits are up to date. If you are not sure, call update_traits() first.
  */
-void haploid_clone::calc_trait_stat(){
+void haploid_clone::calc_trait_stat() {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_trait_stat()...";}
 	double temp,temp1;
 	int t,t1, csize;
@@ -819,8 +852,7 @@ void haploid_clone::calc_trait_stat(){
 /*
  * convenience function, printing all allele frequency into a stream provided
  */
-int haploid_clone::print_allele_frequencies(ostream &out)
-{
+int haploid_clone::print_allele_frequencies(ostream &out) {
 	if (out.bad())
 	{
 		cerr <<"haploid_clone::print_allele_frequencies: bad stream\n";
@@ -837,7 +869,7 @@ int haploid_clone::print_allele_frequencies(ostream &out)
  * function that reads the output of Hudson's ms and uses it to initialize the genotype distribution.
  * ms loci are fed into the genotype with a locus that is skipped. Each ms genotype is added multiplicity times
  */
-int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity){
+int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity) {
 	if (gts.bad()){
 		cerr<<"haploid_clone::read_ms_sample(): bad stream!\n";
 		return HP_BADARG;
@@ -912,7 +944,7 @@ int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity
  * ms loci are fed into the genotype at distance "distance", i.e. there are distance-1 monomorphic loci
  * one locus is skipped. Each ms genotype is added multiplicity times
  */
-int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance){
+int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance) {
 	if (gts.bad()){
 		cerr<<"haploid_clone::read_ms_sample(): bad stream!\n";
 		return HP_BADARG;
@@ -947,7 +979,7 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 			if (found_gt and line[0]!='\0'){
 				newgt.reset();
 				//go over the line and assing loci, skip over the "skip_locus"
-				for (site=0; site<segsites and site*distance<L(); site++){
+				for (site=0; site<segsites and site*distance<get_number_of_loci(); site++){
 					if (line[site]=='1'){
 					    locus=site*distance;
 					    if (locus!=skip_locus){

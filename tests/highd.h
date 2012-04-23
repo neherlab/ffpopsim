@@ -33,7 +33,7 @@ int hc_setting();
 /* population testing */
 int pop_initialize();
 int pop_evolve();
-int pop_observables();
+int pop_sampling();
 
 
 #endif /* HIGHD_H_ */

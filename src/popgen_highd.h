@@ -152,57 +152,54 @@ private:
 	vector <clone_t> current_pop_vector;
 	vector <clone_t> new_pop_vector;
 
-	// not knowing exactly what the following guys do, better keep them private
-	int *genome;				//Auxiliary array holding the positions along the genome
-	int *crossovers;
-
-
 protected:
+	// random number generator
+	gsl_rng* evo_generator;
+	gsl_rng* label_generator;
+	int seed;
+	vector <int> random_sample;
+	void produce_random_sample(int size=1000);
+
+	// population parameters
 	int number_of_traits;
 	int number_of_individuals_max;		//maximal population size in terms of memory allocated to hold genotypes
 	int pop_size;				//actual population size
 	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
 	int generation;
 	int number_of_loci;			//total number of loci
-	vector <int> random_sample;		//array holding the indices of gametes
 
-	stat_t fitness_stat;			//structure holding the fitness values of the individuals in the population
-	stat_t *trait_stat;
-	double **trait_covariance;
-
-	double *allele_frequencies;
-	double *gamete_allele_frequencies;
-	double *chi1;				//symmetric allele frequencies
-	double **chi2;				//symmetric two locus correlations
-
-	bool evolve_rec_rates;
-
-	boost::dynamic_bitset<> reassortment_pattern();
-	boost::dynamic_bitset<> crossover_pattern();
-
+	// evolution
 	int flip_single_locus(int locus);
-	void produce_random_sample(int size);
 	void shuffle_genotypes();
 	int swap_populations();
 	int new_generation();
 
-	// calculate fitness (chunks thereof)
-	void update_fitness();
-	void calc_fitness_stat();
-	virtual void calc_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
-	void calc_individual_traits(clone_t *tempgt);
-	void calc_individual_fitness(clone_t *tempgt);
-
-	// random number generator
-	gsl_rng* evo_generator;
-	gsl_rng* label_generator;
-	int seed;
+	// allele_frequencies
+	double *allele_frequencies;
+	double *gamete_allele_frequencies;
+	double *chi1;				//symmetric allele frequencies
+	double **chi2;				//symmetric two locus correlations
+	void calc_allele_freqs();
 
 	// recombination details
+	int *genome;				//Auxiliary array holding the positions along the genome
+	int *crossovers;
+	boost::dynamic_bitset<> reassortment_pattern();
+	boost::dynamic_bitset<> crossover_pattern();
 	vector <int> sex_gametes;		//array holding the indices of gametes
 	int add_recombinants();
 	int recombine(int parent1, int parent2);
 	int recombine_crossover(int parent1, int parent2, int ng);
+
+	// fitness and traits
+	stat_t fitness_stat;
+	stat_t *trait_stat;
+	double **trait_covariance;
+	void calc_fitness_stat();
+	void calc_trait_stat();
+	void calc_individual_traits(clone_t *tempgt);
+	void calc_individual_fitness(clone_t *tempgt);
+	virtual void calc_individual_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
 
 public:
 	// genotype to traits maps, which in turn are used in the trait-to-fitness map
@@ -220,8 +217,9 @@ public:
 
 	// population parameters (read only)
 	int get_generation(){return generation;}
-	int L(){return number_of_loci;}
-	int N() {return pop_size;}
+	int get_number_of_loci(){return number_of_loci;}
+	int get_pop_size() {return pop_size;}
+	double get_number_of_clones(){return current_pop->size();}
 
 	// population parameters (read/write)
 	int target_pop_size;			// target (average) population size
@@ -248,38 +246,38 @@ public:
 	int select_gametes();
 	double chemical_potential();
 
+	// update traits and fitness and calculate statistics
+	void update_traits();
+	void update_fitness();
+	void calc_stat();
+
 	// readout
 	// Note: these functions are for the general public and are not expected to be
 	// extremely fast. If speed is a major concern, consider subclassing and working
 	// with protected methods.
 
 	// genotype readout
-	int random_clone(int size=1000);
+	int random_clone();
+	int random_clones(unsigned int n_o_individuals, vector <int> *sample);
 	string get_genotype_string(unsigned int i){string gts; boost::to_string((*current_pop)[i].genotype, gts); return gts;}
 
 	// fitness/phenotype readout
-	double get_fitness(int n) {calc_individual_fitness((*current_pop)+n); return (*current_pop)[n].fitness;}
-	double get_trait(int n, int t=0) {calc_individual_traits((*current_pop)+n); return (*current_pop)[n].trait[t];}
-	stat_t get_fitness_statistics(){calc_fit(); return fitness_stat;}
+	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}
+	double get_trait(int n, int t=0) {calc_individual_traits(&((*current_pop)[n])); return (*current_pop)[n].trait[t];}
+	stat_t get_fitness_statistics(){update_fitness(); calc_fitness_stat(); return fitness_stat;}
 	stat_t get_trait_statistics(int t=0){calc_trait_stat(); return trait_stat[t];}
 	double get_trait_covariance(int t1, int t2) {calc_trait_stat(); return trait_covariance[t1][t2];}
+	double get_max_fitness();
 
-	void calc_fit();
-	void calc_allele_freqs();
-	void calc_trait_stat();
-	void calc_stat(){calc_fit(); calc_trait_stat(); calc_allele_freqs();}
-	void calc_everybodies_traits();
+	// allele frequencies
+	double get_allele_frequency(int l) {return allele_frequencies[l];}
 	double get_multi_point_frequency(vector <int> loci);
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
-	double get_allele_frequency(int l) {return allele_frequencies[l];}
 	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
-	double get_number_of_clones(){return current_pop->size();}
-	double get_trait(int n, int t) {return (*current_pop)[n].trait[t];}
-	double get_max_fitness();
-	int print_allele_frequencies(ostream &out);
 
 	// stream I/O
+	int print_allele_frequencies(ostream &out);
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 };
