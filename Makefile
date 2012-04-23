@@ -28,19 +28,24 @@ CXXFLAGS= -O2 -g3 -fPIC
 LIBRARY := libPopGenLib.a
 
 HEADER_GENERIC = popgen.h
-HEADER_LOWD = $(HEADER_GENERIC) popgen_lowd.h
-HEADER_HIGHD = $(HEADER_GENERIC) popgen_highd.h
-
 SOURCE_GENERIC = sample.cpp
-SOURCE_LOWD = hypercube.cpp haploid_gt_dis.cpp
-SOURCE_HIGHD = hypercube_function.cpp haploid_clone.cpp
-
 OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
+
+HEADER_LOWD = $(HEADER_GENERIC) popgen_lowd.h
+SOURCE_LOWD = hypercube.cpp haploid_gt_dis.cpp
 OBJECT_LOWD = $(SOURCE_LOWD:%.cpp=%.o)
+
+HEADER_HIGHD = $(HEADER_GENERIC) popgen_highd.h
+SOURCE_HIGHD = hypercube_function.cpp haploid_clone.cpp
 OBJECT_HIGHD = $(SOURCE_HIGHD:%.cpp=%.o)
+
+HEADER_HIV = hivpopulation.h
+SOURCE_HIV = $(HEADER_HIV:%.h=%.cpp)
+OBJECT_HIV = $(SOURCE_HIV:%.cpp=%.o)
+
 OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD)
 
-src: $(SRCDIR)/$(LIBRARY)
+src: $(SRCDIR)/$(LIBRARY) $(OBJECT_HIV:%=$(SRCDIR)/%)
 
 $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
 	ar rcs $@ $^
@@ -52,6 +57,9 @@ $(OBJECT_LOWD:%=$(SRCDIR)/%): $(SOURCE_LOWD:%=$(SRCDIR)/%) $(HEADER_LOWD:%=$(SRC
 	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(SRCDIR)/%)
+	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+$(OBJECT_HIV:%=$(SRCDIR)/%): $(SOURCE_HIV:%=$(SRCDIR)/%) $(HEADER_HIV:%=$(SRCDIR)/%)
 	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 clean-src:
@@ -98,7 +106,7 @@ $(TESTS_LOWD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%) $(SRCDIR)/$(
 $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_LOWD:%=$(TESTSDIR)/%) $(TESTS_HEADER_LOWD:%=$(TESTSDIR)/%)
 	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
-$(TESTS_HIGHD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%) $(SRCDIR)/$(LIBRARY)
+$(TESTS_HIGHD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%) $(OBJECT_HIV:%=$(SRCDIR)/%) $(SRCDIR)/$(LIBRARY)
 	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(testlibraries)
 
 $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_HIGHD:%=$(TESTSDIR)/%) $(TESTS_HEADER_HIGHD:%=$(TESTSDIR)/%)

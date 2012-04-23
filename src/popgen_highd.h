@@ -211,9 +211,8 @@ public:
 
 	// constructors/destructors
 	haploid_clone();
-	haploid_clone(int N_in,int L,  int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_clone();
-	virtual int set_up(int N_in,int L,  int rng_seed=0, int number_of_traits=1);
+	virtual int set_up(int N_in, int L,  int rng_seed=0, int number_of_traits=1);
 
 	// population parameters (read only)
 	int get_generation(){return generation;}

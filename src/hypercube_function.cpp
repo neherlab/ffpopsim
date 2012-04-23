@@ -147,13 +147,14 @@ double hypercube_function::get_additive_coefficient(int locus){
  */
 int hypercube_function::add_coefficient(double value, vector <int> loci)
 {
-	if (loci.size()>1){
+	if (loci.size()>1) {
 		coeff_t temp_coeff(value, loci);
 		coefficients_epistasis.push_back(temp_coeff);
-	}else if (loci.size()==1){
+	} else if (loci.size()==1) {
 		coeff_single_locus_t temp_coeff(value, loci[0]);
 		coefficients_single_locus.push_back(temp_coeff);
-	}else{ hypercube_mean=value;}
+	} else { hypercube_mean=value;
+	}
 	return 0;
 }
 

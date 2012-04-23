@@ -9,10 +9,12 @@
 #define HIGHD_H_
 
 /* Include directives */
+#include <fstream>
 #include <string>
 #include "handytools.h"
 #include "popgen.h"
 #include "popgen_highd.h"
+#include "hivpopulation.h"
 #define HIGHD_BADARG -1354341
 #define NOTHING 1e-10
 
@@ -35,5 +37,8 @@ int pop_initialize();
 int pop_evolve();
 int pop_sampling();
 
+/* HIV subclass testing */
+int hiv_initialize();
+int hiv_evolve();
 
 #endif /* HIGHD_H_ */

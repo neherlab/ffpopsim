@@ -39,25 +39,12 @@ haploid_clone::~haploid_clone() {
  *
  * @param N_in number of individuals
  * @param L_in length of the genome
- * @param rng_seed seed for the random number generator
+ * @param rng_seed seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
  * @param n_o_traits number of phenotypic traits (including fitness). Must be \f$\geq1\f$.
+ *
+ * @returns zero if successful, error codes otherwise
  */
-haploid_clone::haploid_clone(int N_in,int L_in,  int rng_seed, int n_o_traits) {
-	current_pop = &current_pop_vector;
-	new_pop = &new_pop_vector;
-	mem=false;
-	cumulants_mem=false;
-	circular=false;
-	set_up(N_in, L_in, rng_seed, n_o_traits);
-}
-
-
-/**
- * Set up the population by specifying the population size, the length of the genome,
- * the random number generator seed and the number of traits for which genotype-trait maps
- * are allocated
- */
-int haploid_clone::set_up(int N_in,int L_in,  int rng_seed, int n_o_traits)
+int haploid_clone::set_up(int N_in, int L_in,  int rng_seed, int n_o_traits)
 {
 	boost::dynamic_bitset<> temp;
 	if (N_in<1 or L_in <1 or n_o_traits<1)
@@ -292,14 +279,17 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  */
 int haploid_clone::evolve(int gen){
 	int err=0;
+	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
 	for(int i=0; i<gen; i++) {
+		if (HP_VERBOSE) cerr<<"generation "<<(generation+i)<<endl;
 		random_sample.clear(); 		//discard the old random sample
-		mutate();			//mutation step
 		err+=select_gametes();		//select a new set of gametes (partitioned into sex and asex)
 		err+=add_recombinants();	//do the recombination between pairs of sex gametes
 		err+=swap_populations();	//make the new population the current population
+		mutate();			//mutation step
 	}
 	generation+=gen;
+	if (HP_VERBOSE) cerr<<"done."<<endl;
 	return err;
 }
 
@@ -310,23 +300,26 @@ int haploid_clone::evolve(int gen){
  */
 int haploid_clone::select_gametes()
 {
+	if (HP_VERBOSE) cerr<<"haploid_clone::select_gametes()...";
 	//determine the current mean fitness, which includes a term to keep the population size constant
 	double cpot=chemical_potential();
 	//draw gametes according to parental fitness
 	int os,o, nrec;
 	pop_size=0;
+	
+	double temptemp;
 
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
 	sex_gametes.reserve(pop_size*outcrossing_probability*1.1);
 	sex_gametes.clear();
 	new_pop->reserve(current_pop->size()*1.1);
 	new_pop->clear();
-	for (unsigned int i=0; i<current_pop->size(); i++)
-	{
+	for (unsigned int i=0; i<current_pop->size(); i++) {
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)}) (since death rate is one, the growth rate is (f-bar{f})
 		if ((*current_pop)[i].clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^{F-mF}(1-r)
 			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability));
+
 			if (os>0){
 				// clone[i] to new_pop with os as clone size
 				new_pop->push_back((*current_pop)[i]);
@@ -340,6 +333,7 @@ int haploid_clone::select_gametes()
 			}
 		}
 	}
+	if (HP_VERBOSE) cerr<<"done."<<endl;
 	return 0;
 }
 
@@ -353,10 +347,9 @@ int haploid_clone::select_gametes()
 void haploid_clone::mutate()
 {
 	if (HP_VERBOSE)
-		cerr <<"haploid_clone::mutate() .....";
-	int i, actual_n_o_mutations,locus;
+		cerr <<"haploid_clone::mutate() ...\n";
+	int i, actual_n_o_mutations,locus=0;
 	if(mutation_rate) {
-		locus=0;
 		produce_random_sample(number_of_loci*mutation_rate*pop_size*2);
 		for (locus = 0; locus<number_of_loci; locus++) {
 			//draw the number of mutation that are to happen at this locus
@@ -368,7 +361,7 @@ void haploid_clone::mutate()
 		}
 	}
 	if (HP_VERBOSE)
-		cerr <<"done";
+		cerr <<"done.\n";
 }
 
 /**
@@ -401,7 +394,6 @@ void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
 	calc_individual_fitness(&tempgt);
 	//add clone to current population
 	current_pop->push_back(tempgt);
-
 	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
 }
 
@@ -661,7 +653,7 @@ boost::dynamic_bitset<> haploid_clone::reassortment_pattern(){
  *
  */
 void haploid_clone::produce_random_sample(int size){
-	if (HP_VERBOSE) cerr<<"haploid_clone::produce_random_sample(): size "<<size;
+	if (HP_VERBOSE) cerr<<"haploid_clone::produce_random_sample(int): size "<<size<<"...";
 
 	random_sample.reserve((size+50)*1.1);
 	random_sample.clear();
@@ -746,8 +738,15 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
  * @return the chemical potential, i.e. the current mean fitness plus term that causes the population size to relax to target_pop_size
  */
 double haploid_clone::chemical_potential() {
+	if (HP_VERBOSE) {cerr <<"haploid_clone::chemical_potential()...\n";}
+	double chem_pot;
+	update_traits();
+	update_fitness();
 	calc_fitness_stat();
-	return fitness_stat.mean+ (MIN(0.6931*(double(pop_size)/target_pop_size-1),2.0));
+	chem_pot = fitness_stat.mean + (MIN(0.6931*(double(pop_size)/target_pop_size-1),2.0));
+	if (HP_VERBOSE) {cerr<<"mean fitness = "<<fitness_stat.mean<<"..."<<endl;}
+	if (HP_VERBOSE) {cerr<<"cpot = "<<chem_pot<<"...done."<<endl;}
+	return chem_pot;
 }
 
 
@@ -780,6 +779,7 @@ void haploid_clone::calc_fitness_stat() {
 	for (unsigned int c=0; c<current_pop->size(); c++){
 		csize = (*current_pop)[c].clone_size;
 		temp=(*current_pop)[c].fitness;
+		//if (HP_VERBOSE) {cerr <<"fitness["<<c<<"] = "<<temp<<"...";}
 		fitness_stat.mean+=temp*csize;
 		fitness_stat.variance+=temp*temp*csize;
 		pop_size+=csize;
@@ -787,10 +787,11 @@ void haploid_clone::calc_fitness_stat() {
 	if (pop_size==0){
 		cerr <<"haploid_clone::calc_fitness_stat(): population extinct! clones: "<<current_pop->size()<<endl;
 	}
+	//if (HP_VERBOSE) {cerr <<"pop size: "<<pop_size<<", sum of fitnesses: "<<fitness_stat.mean<<"...";}
 	fitness_stat.mean/=pop_size;
 	fitness_stat.variance/=pop_size;
 	fitness_stat.variance-=fitness_stat.mean*fitness_stat.mean;
-	if (HP_VERBOSE) {cerr <<"done"<<endl;}
+	if (HP_VERBOSE) {cerr <<"done."<<endl;}
 }
 
 /**
