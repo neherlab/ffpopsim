@@ -24,6 +24,8 @@ clean: clean-src clean-doc clean-tests
 ##==========================================================================
 CXX = g++
 CXXFLAGS= -O2 -g3 -fPIC
+SWIG = swig
+SWIGFLAGS = -c++ -python
 
 LIBRARY := libPopGenLib.a
 
@@ -43,9 +45,17 @@ HEADER_HIV = hivpopulation.h
 SOURCE_HIV = $(HEADER_HIV:%.h=%.cpp)
 OBJECT_HIV = $(SOURCE_HIV:%.cpp=%.o)
 
+SWIG_HIV = $(HEADER_HIV:%.h=%.i)
+SWIG_HEADER_HIV = $(HEADER_HIV:%.h=%_test.h)
+SWIG_SOURCE_HIV = $(HEADER_HIV:%.h=%_test.cpp)
+SWIG_WRAP_HIV = $(HEADER_HIV:%.h=%_test_wrap.cpp)
+SWIG_OBJECT_HIV = $(HEADER_HIV:%.h=_%.so)
+SWIG_PYMODULE_HIV = $(HEADER_HIV:%.h=%.py)
+SWIG_PYCMODULE_HIV = $(HEADER_HIV:%.h=%.pyc)
+
 OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD)
 
-src: $(SRCDIR)/$(LIBRARY) $(OBJECT_HIV:%=$(SRCDIR)/%)
+src: $(SRCDIR)/$(LIBRARY) $(OBJECT_HIV:%=$(SRCDIR)/%) $(SWIG_OBJECT_HIV:%=$(SRCDIR)/%)
 
 $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
 	ar rcs $@ $^
@@ -62,8 +72,14 @@ $(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(
 $(OBJECT_HIV:%=$(SRCDIR)/%): $(SOURCE_HIV:%=$(SRCDIR)/%) $(HEADER_HIV:%=$(SRCDIR)/%)
 	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
+$(SWIG_PYMODULE_HIV:%=$(SRCDIR)/%) $(SWIG_PYMCODULE_HIV:%=$(SRCDIR)/%) $(SWIG_OBJECT_HIV:%=$(SRCDIR)/%): $(SWIG_WRAP_HIV:%=$(SRCDIR)/%) $(SWIG_SOURCE_HIV:%=$(SRCDIR)/%)
+	cd $(SRCDIR); python2 setup.py build_ext --inplace
+
+$(SWIG_WRAP_HIV:%=$(SRCDIR)/%): $(SWIG_HEADER_HIV:%=$(SRCDIR)/%) $(SWIG_HIV:%=$(SRCDIR)/%)
+	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_HIV:%=$(SRCDIR)/%)
+
 clean-src:
-	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
+	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch *_wrap.cpp
 
 ##==========================================================================
 # DOCUMENTATION
