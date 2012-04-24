@@ -58,14 +58,6 @@ public:
 	int read_resistance_coefficients(istream &model);
 	int write_genotypes(ostream &out, int sample_size, string gt_label, int start=0, int length=0);
 
-	// statistics
-	stat_t get_diversity();
-	stat_t get_divergence();
-	unsigned int distance_Hamming(boost::dynamic_bitset<> genotype, boost::dynamic_bitset<> genotype1, int position=0, int begin=0, int end=-1);
-	vector <unsigned long> partition_cumulative();
-	int get_divergence_histogram(gsl_histogram **hist, int bins=10, int position=0, int begin=0, int end=-1);
-	int get_diversity_histogram(gsl_histogram **hist, int bins=10, int position=0, int begin=0, int end=-1);
-	int get_fitness_histogram(gsl_histogram **hist, int bins=10);
 };
 
 #endif /* HIVPOPULATION_H_ */

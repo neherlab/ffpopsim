@@ -11,6 +11,13 @@
 #include "popgen.h"
 #include "popgen_highd.h"
 
+
+// This is the initialization of the zero-length vector used in default args.
+// Note that this must be in this file (in any case, outside the class and must
+// be sourced only once!).
+vector<unsigned int *> haploid_clone::hc_empty_vector = vector<unsigned int *>();
+
+
 /**
  * @brief Default constructor.
  *
@@ -67,7 +74,6 @@ int haploid_clone::set_up(int N_in, int L_in,  int rng_seed, int n_o_traits)
 	if (rng_seed==0){
 		seed=time(NULL)+getpid();
 	}else{seed=rng_seed;}
-
 
 	mem=false;
 	int err=allocate_mem();
@@ -1022,3 +1028,292 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 	delete [] line;
 	return 0;
 }
+
+
+/**
+ * @brief calculate Hamming distance between two sequences
+ *
+ * @param gt1 first sequence
+ * @param gt2 second sequence
+ * @param chunks (pointer to) vector of ranges (C pairs), e.g. ((0,10), (25, 28), (68, 70))
+ * @param every check only every X sites, starting from the first of each chunk
+ *
+ * *Note*: you cannot use `every` without `chunks`.
+ *
+ * *Note*: every chunk is a C array of length 2, i.e. a pointer to lower boundary of the interval. Thus we have the following situation:
+ * - `chunks` is of type vector `<unsigned int *> *`
+ * - `*chunks` is of type vector `<unsigned int *>`
+ * - `(*chunks)[i]` is of type `*unsigned int`
+ * - `(*chunks)[i][0]` is of type `unsigned int`, and indicates the initial site for this chunk
+ * - `(*chunks)[i][1]` is of type `unsigned int`, and indicates the (final site +1) for this chunk
+ *
+ * As a consequence, for each chunk, chunk[1] - chunk[0] is the length of the chunk.
+ *
+ * @returns Hamming distance, not normalized
+ *
+ * When you prepare the vector of chunks for this function, please use C++ methods (`new`) that take care of memory management, or be very careful about memory leaks.
+ *
+ * *Note*: this function is overloaded with simpler arguments (e.g. if you want to use clone indices).
+ */
+int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector <unsigned int *> *chunks, unsigned int every) {
+	// check whether we have chunks at all
+	if(chunks->size() == 0) {
+		if(every!=1) return HP_BADARG;
+		else return (gt1 ^ gt2).count();
+	}
+
+	unsigned int d = 0;
+	unsigned int pos;
+
+	// check that the chunks make sense
+	if((every<1) || (every>=number_of_loci)) return HP_BADARG;
+	for(int i=0; i < chunks->size(); i++) {
+		if((*chunks)[i][1] <= (*chunks)[i][0]) return HP_BADARG;
+		if((*chunks)[i][1] >= number_of_loci) return HP_BADARG;
+		if((*chunks)[i][0] >= number_of_loci) return HP_BADARG;
+		
+		for(pos = (*chunks)[i][0]; pos < (*chunks)[i][1]; pos+=every) {
+			d += (unsigned int)(gt1[pos] != gt2[pos]);
+		}
+	}
+	return d;
+}
+
+
+/**
+ * @brief calculate the cumulative partition of sequences in the clones
+ *
+ * @returns vector of cumulative clone sizes
+ *
+ * *Example*: if there are three clones of sizes (100, 22, 3) this function will
+ * return the vector (100, 122, 125). The last element is of course the population
+ * size See also haploid_clone::get_pop_size().
+ */
+vector <unsigned int> haploid_clone::partition_cumulative()
+{
+	vector <unsigned int> partition_cum;
+	partition_cum.push_back((*current_pop)[0].clone_size);		
+	for (size_t i = 1; i < get_number_of_clones(); i++) {
+		partition_cum.push_back((*current_pop)[i].clone_size + partition_cum[i-1]);		
+	}
+	return partition_cum;
+}
+
+/**
+ * @brief Calculate mean and variance of the divergence from the [00...0] bitset
+ *
+ * @param n_sample size of the statistical sample to use (the whole pop is often too large)
+ *
+ * @returns mean and variance of the divergence in a struct_t 
+ */
+stat_t haploid_clone::get_divergence_statistics(unsigned int n_sample)
+{
+	stat_t div;
+	unsigned int tmp;
+	vector <int> clones;
+	produce_random_sample(n_sample);
+	random_clones(n_sample, &clones);
+
+	for (size_t i=0; i < n_sample; i++) {
+		tmp = ((*current_pop)[clones[i]].genotype).count();
+		div.mean += tmp;
+		div.variance += tmp * tmp;
+	}
+	div.mean /= n_sample;
+	div.variance /= n_sample;
+	div.variance -= div.mean * div.mean;
+	return div;
+}
+
+/**
+ * @brief calculate diversity in the current population (Hamming distance between pairs of sequences)
+ *
+ * @param n_sample size of the statistical sample to use (the whole pop is often too large)
+ *
+ * @returns mean and variance of the diversity in a struct_t
+ */
+stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample)
+{
+	stat_t div;
+	unsigned int tmp;
+	vector <int> clones1;
+	vector <int> clones2;
+	produce_random_sample(n_sample * 2);
+	random_clones(n_sample, &clones1);
+	random_clones(n_sample, &clones2);
+
+	for (size_t i=0; i < n_sample; i++) {
+		if (clones1[i] != clones2[i]) {
+			tmp = distance_Hamming(clones1[i],clones2[i]);
+			div.mean += tmp;
+			div.variance += tmp * tmp;
+		}
+	}
+	div.mean /= n_sample;
+	div.variance /= n_sample;
+	div.variance -= div.mean * div.mean;
+	return div;
+}
+
+
+/**
+ * @brief calculate histogram of fitness from traits
+ *
+ * @param hist pointer to the histogram to fill
+ * @param bins number of bins in the histogram 
+ * @param n_sample size of the random sample to use (the whole population is
+ * often too large)
+ *
+ * *Note*: the output histogram might have less bins than requested if the
+ * sample size is too small.
+ *
+ * @returns zero if successful, nonzero otherwise
+ *
+ * There is a small problem here, namely that the fitness distribution has a horrible tail which
+ * messes up the calculation of the bin width. Thus we first calculate the fitness average and
+ * variance, and then set the bin width so that the deleterious tail is within 2 sigma or so.
+ *
+ * *Note*: this function allocates memory for the histogram. The user is expected to release it
+ * manually.
+ */
+int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins, unsigned int n_sample) {
+	// Calculate fitness of the sample
+	double fitnesses[n_sample];
+	vector <int> clones;
+	produce_random_sample(n_sample);
+	random_clones(n_sample, &clones);
+	for(size_t i=0; i < n_sample; i++)
+		fitnesses[i] = (*current_pop)[clones[i]].fitness;
+
+	// Set the bins according to average and variance in fitness in the population
+	calc_fitness_stat();
+	double fitmean = fitness_stat.mean;
+	double fitstd = sqrt(fitness_stat.variance);
+	double histtail = 2 * fitstd;
+
+	// Prepare histogram
+	double fmax = *max_element(fitnesses, fitnesses+n_sample);
+	double fmin = fitmean - histtail;
+
+	// Sometimes the population is homogeneous (neutral models)
+	if(fmin >= fmax)
+		return HP_NOBINSERR;
+
+	bins = MIN(n_sample / 30, bins);	//TODO: choose a decent criterion
+	double width = (fmax - fmin) / (bins - 1);
+	*hist = gsl_histogram_alloc(bins); 
+	gsl_histogram_set_ranges_uniform(*hist, fmin - 0.5 * width, fmax + 0.5 * width);
+
+	// Fill and scale histogram
+	for (size_t i = 0; i < n_sample; i++)
+		gsl_histogram_increment(*hist, fitnesses[i]);
+	gsl_histogram_scale(*hist, 1/(double)n_sample);
+
+	// Of course, the user must take care of the memory allocated
+	return 0;
+}
+
+
+/*
+ * Get histogram of divergence, to ingestivate more in detail than just mean and variance
+ */
+int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)
+{
+	if (HP_VERBOSE) {cerr <<"haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
+
+	boost::dynamic_bitset<> gt_wt(number_of_loci);	// the [00...0] bitset
+	int temp;
+	unsigned int divs[n_sample];
+	vector <int> clones;
+	produce_random_sample(n_sample);
+	random_clones(n_sample, &clones);
+	for(size_t i=0; i < n_sample; i++) {
+		temp = distance_Hamming(gt_wt, (*current_pop)[clones[i]].genotype, chunks, every);
+		// negative distances are error codes
+		if(temp < 0) return temp;
+		else divs[i] = temp;
+	}
+
+	// Prepare the histogram
+	unsigned long dmax = *max_element(divs, divs + n_sample);
+	unsigned long dmin = *min_element(divs, divs + n_sample);
+
+	// Aliasing
+	int width, binsnew;
+	if (dmin == dmax)
+		width = 1;
+	else {
+		width = (dmax - dmin) / (bins-1);
+		width += ((dmax - dmin)%(bins-1))?1:0;
+	}
+	binsnew = ((dmax - dmin) / width) + 1;
+	if (binsnew > bins) {
+		if (HP_VERBOSE) cerr<<"wrong bins!: "<<"binsnew: "<<binsnew<<", bins: "<<bins<<", delta: "<<(dmax - dmin)<<endl;
+		return HP_WRONGBINSERR;
+	}
+
+	// Fill and scale histogram
+	*hist = gsl_histogram_alloc(binsnew); 
+	gsl_histogram_set_ranges_uniform(*hist, dmin - 0.5 * width, dmax + 0.5 * width);
+	for (size_t i = 0; i < n_sample; i++)
+		gsl_histogram_increment(*hist, divs[i]);
+	gsl_histogram_scale(*hist, 1/(double)n_sample);
+	
+	if (HP_VERBOSE) cerr<<"done.";
+	return 0;
+}
+
+/*
+ * Get histogram of diversity, to ingestivate more in detail than just mean and variance
+ *
+ * *Note*: the calculation of bin width and number requires an anti-aliasing algorithm.
+ * This induces a (negative) bias in the last bin, but we cannot do anything for it (?).
+ */
+int haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)
+{
+	if (HP_VERBOSE) {cerr <<"haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
+	int temp;
+	unsigned int divs[n_sample];
+	vector <int> clones1;
+	vector <int> clones2;
+	produce_random_sample(n_sample * 2);
+	random_clones(n_sample, &clones1);
+	random_clones(n_sample, &clones2);
+	for(size_t i=0; i < n_sample; i++) {
+		temp = distance_Hamming(clones1[i], clones2[i], chunks, every);
+		// negative distances are error codes
+		if(temp < 0) return temp;
+		else divs[i] = temp;
+	}
+
+	// Prepare the histogram
+	unsigned long dmax = *max_element(divs, divs + n_sample);
+	unsigned long dmin = *min_element(divs, divs + n_sample);
+
+	// Aliasing
+	int width, binsnew;
+	if (dmin == dmax)
+		width = 1;
+	else {
+		width = (dmax - dmin) / (bins -1);
+		width += ((dmax - dmin)%(bins-1))?1:0;
+	}
+	binsnew = ((dmax - dmin) / width) + 1;
+	if (binsnew > bins) {
+		if (HP_VERBOSE) cerr<<"wrong bins!: "<<"binsnew: "<<binsnew<<", bins: "<<bins<<", delta: "<<(dmax - dmin)<<endl;
+		return HP_WRONGBINSERR;
+	}
+	
+	// Fill and scale histogram
+	*hist = gsl_histogram_alloc(binsnew); 
+	gsl_histogram_set_ranges_uniform(*hist, dmin - 0.5 * width, dmax + 0.5 * width);
+	for (size_t i = 0; i < n_sample; i++)
+		gsl_histogram_increment(*hist, divs[i]);
+	gsl_histogram_scale(*hist, 1/(double)n_sample);
+	
+	if (HP_VERBOSE) cerr<<"done.";
+	return 0;
+}
+
+
+

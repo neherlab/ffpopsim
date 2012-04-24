@@ -10,7 +10,6 @@
 #include "popgen.h"
 #include "popgen_highd.h"
 
-
 hypercube_function::hypercube_function()
 {
 mem=false;

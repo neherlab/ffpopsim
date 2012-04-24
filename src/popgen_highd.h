@@ -101,17 +101,22 @@ public:
 };
 
 
-
+// Control constants
 #define HP_VERBOSE 0
 #define NO_GENOTYPE -1
-#define HP_BADARG -879564
-#define HP_MEMERR -986465
-#define HP_EXTINCTERR 5
 #define HP_MINAF 0.02
 #define HP_NOTHING 1e-12
 #define HP_RANDOM_SAMPLE_FRAC 0.01
 #define FREE_RECOMBINATION 1
 #define CROSSOVERS 2
+
+// Error Codes
+#define HP_BADARG -879564
+#define HP_MEMERR -986465
+#define HP_EXTINCTERR 5
+#define HP_NOBINSERR 6
+#define HP_WRONGBINSERR 7
+
 
 /**
  * @brief clone with a single genotype and a vector of phenotypic traits.
@@ -152,6 +157,9 @@ private:
 	// to ensure their memory is released upon destruction of the class.
 	vector <clone_t> current_pop_vector;
 	vector <clone_t> new_pop_vector;
+	
+	// Zero-size vector for default arguments
+	static vector<unsigned int *> hc_empty_vector;
 
 protected:
 	// random number generator
@@ -170,10 +178,16 @@ protected:
 	int number_of_loci;			//total number of loci
 
 	// evolution
+	int mutate();
+	int select_gametes();
+	double chemical_potential();
 	int flip_single_locus(int locus);
 	void shuffle_genotypes();
 	int swap_populations();
 	int new_generation();
+
+	// clone structure
+	vector <unsigned int> partition_cumulative();
 
 	// allele_frequencies
 	double *allele_frequencies;
@@ -196,6 +210,8 @@ protected:
 	stat_t fitness_stat;
 	stat_t *trait_stat;
 	double **trait_covariance;
+	void update_traits();
+	void update_fitness();
 	void calc_fitness_stat();
 	void calc_trait_stat();
 	void calc_individual_traits(clone_t *tempgt);
@@ -242,13 +258,8 @@ public:
 	// evolve
 	int evolve(int gen=1);
 	int bottleneck(int size_of_bottleneck);
-	int mutate();
-	int select_gametes();
-	double chemical_potential();
 
 	// update traits and fitness and calculate statistics
-	void update_traits();
-	void update_fitness();
 	void calc_stat();
 
 	// readout
@@ -256,10 +267,16 @@ public:
 	// extremely fast. If speed is a major concern, consider subclassing and working
 	// with protected methods.
 
-	// genotype readout
+	// random clones
 	int random_clone();
 	int random_clones(unsigned int n_o_individuals, vector <int> *sample);
+
+	// genotype readout
 	string get_genotype_string(unsigned int i){string gts; boost::to_string((*current_pop)[i].genotype, gts); return gts;}
+	int distance_Hamming(unsigned int clone1, unsigned int clone2, vector <unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1){return distance_Hamming((*current_pop)[clone1].genotype, (*current_pop)[clone2].genotype, chunks, every);}
+	int distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector<unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1);
+	stat_t get_diversity_statistics(unsigned int n_sample=1000);
+	stat_t get_divergence_statistics(unsigned int n_sample=1000);
 
 	// fitness/phenotype readout
 	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}
@@ -276,11 +293,17 @@ public:
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
 
+	// histograms
+	int get_divergence_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1, unsigned int n_sample=1000);
+	int get_diversity_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1, unsigned int n_sample=1000);
+	int get_fitness_histogram(gsl_histogram **hist, unsigned int bins=10, unsigned int n_sample=1000);
+
 	// stream I/O
 	int print_allele_frequencies(ostream &out);
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 };
+
 
 
 #endif /* POPGEN_HIGHD_H_ */

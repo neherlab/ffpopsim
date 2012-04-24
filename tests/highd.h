@@ -36,6 +36,9 @@ int hc_setting();
 int pop_initialize();
 int pop_evolve();
 int pop_sampling();
+int pop_Hamming();
+int pop_divdiv();
+int pop_histograms();
 
 /* HIV subclass testing */
 int hiv_initialize();
