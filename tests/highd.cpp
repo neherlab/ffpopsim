@@ -201,7 +201,6 @@ int hiv_initialize() {
 }
 
 /* Test end-user subclass evolution and output */
-//FIXME: we must include mechanisms to handle the situation is the population goes extinct!
 int hiv_evolve() {
 	int N = 1000;
 	ifstream model("tests/hiv_model.dat", ifstream::in);
@@ -213,22 +212,20 @@ int hiv_evolve() {
 	pop.read_selection_coefficients(model);
 	if(HIGHD_VERBOSE) cerr<<"read!"<<endl;
 
-	if(HIGHD_VERBOSE) cerr<<"Pop size: "<<pop.get_pop_size()<<endl;
-	if(HIGHD_VERBOSE) cerr<<"Target pop size: "<<pop.target_pop_size<<endl;
-			
-
-	pop.evolve(10);
+	// err checks for extinction
+	int err = pop.evolve(10);
+	if(err==0) {	
+		vector <int> sample;
+		pop.random_clones(10, &sample);
 	
-	vector <int> sample;
-	pop.random_clones(10, &sample);
-
-	if(HIGHD_VERBOSE) {
-		cerr<<"Number of clones: "<<pop.get_number_of_clones()<<endl;
-		cerr<<"Random individuals:";
-		for(unsigned int i=0; i < sample.size(); i++)
-			cout<<" "<<sample[i];
-		cout<<endl;
+		if(HIGHD_VERBOSE) {
+			cerr<<"Number of clones: "<<pop.get_number_of_clones()<<endl;
+			cerr<<"Random individuals:";
+			for(unsigned int i=0; i < sample.size(); i++)
+				cout<<" "<<sample[i];
+			cout<<endl;
+		}
 	}
-	return 0;
+	return bool(err);
 }
 

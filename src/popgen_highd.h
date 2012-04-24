@@ -106,6 +106,7 @@ public:
 #define NO_GENOTYPE -1
 #define HP_BADARG -879564
 #define HP_MEMERR -986465
+#define HP_EXTINCTERR 5
 #define HP_MINAF 0.02
 #define HP_NOTHING 1e-12
 #define HP_RANDOM_SAMPLE_FRAC 0.01
@@ -241,7 +242,7 @@ public:
 	// evolve
 	int evolve(int gen=1);
 	int bottleneck(int size_of_bottleneck);
-	void mutate();
+	int mutate();
 	int select_gametes();
 	double chemical_potential();
 

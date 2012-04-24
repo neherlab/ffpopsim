@@ -278,18 +278,22 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  * @returns sum of error codes of the single evolution steps. It is therefore a multiple of gen.
  */
 int haploid_clone::evolve(int gen){
-	int err=0;
+	int err=0, gtemp=0;
 	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
-	for(int i=0; i<gen; i++) {
-		if (HP_VERBOSE) cerr<<"generation "<<(generation+i)<<endl;
-		random_sample.clear(); 		//discard the old random sample
-		err+=select_gametes();		//select a new set of gametes (partitioned into sex and asex)
-		err+=add_recombinants();	//do the recombination between pairs of sex gametes
-		err+=swap_populations();	//make the new population the current population
-		mutate();			//mutation step
+	while((err == 0) && (gtemp < gen)) {
+		if (HP_VERBOSE) cerr<<"generation "<<(generation+gtemp)<<endl;
+		random_sample.clear();			//discard the old random sample
+		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
+		if(err==0) err=add_recombinants();	//do the recombination between pairs of sex gametes
+		if(err==0) err=swap_populations();	//make the new population the current population
+		if(err==0) err=mutate();		//mutation step
+		gtemp++;
 	}
-	generation+=gen;
-	if (HP_VERBOSE) cerr<<"done."<<endl;
+	generation+=gtemp;
+	if (HP_VERBOSE) {
+		if(err==0) cerr<<"done."<<endl;
+		else cerr<<"error "<<err<<"."<<endl;
+	}
 	return err;
 }
 
@@ -305,19 +309,20 @@ int haploid_clone::select_gametes()
 	double cpot=chemical_potential();
 	//draw gametes according to parental fitness
 	int os,o, nrec;
+	int err=0;
 	pop_size=0;
 	
-	double temptemp;
-
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
 	sex_gametes.reserve(pop_size*outcrossing_probability*1.1);
 	sex_gametes.clear();
 	new_pop->reserve(current_pop->size()*1.1);
 	new_pop->clear();
 	for (unsigned int i=0; i<current_pop->size(); i++) {
+		//if (HP_VERBOSE) cerr<<i<<" ";
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)}) (since death rate is one, the growth rate is (f-bar{f})
 		if ((*current_pop)[i].clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^{F-mF}(1-r)
+			//if (HP_VERBOSE) cerr<<i<<": relative fitness = "<<((*current_pop)[i].fitness-cpot)<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability))<<endl;
 			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability));
 
 			if (os>0){
@@ -328,13 +333,21 @@ int haploid_clone::select_gametes()
 			}
 			//draw the number of sexual offspring, add them to the list of sex_gametes one by one
 			if (outcrossing_probability>0){
-			  nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*outcrossing_probability);
-			  for (o=0; o<nrec; o++) sex_gametes.push_back(i);
+				nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*outcrossing_probability);
+				for (o=0; o<nrec; o++) sex_gametes.push_back(i);
 			}
 		}
 	}
-	if (HP_VERBOSE) cerr<<"done."<<endl;
-	return 0;
+	if(pop_size<1) err = HP_EXTINCTERR;
+	if (HP_VERBOSE) {
+		if(err==0) cerr<<"done."<<endl;
+		else {
+			cerr<<"error "<<err<<".";
+			if(err == HP_EXTINCTERR) cerr<<" The population went extinct!";
+			cerr<<endl;
+		}
+	}
+	return err;
 }
 
 /**
@@ -344,10 +357,8 @@ int haploid_clone::select_gametes()
  * The user can therefore call this function safely even if in non-mutating populations, without
  * loss of performance.
  */
-void haploid_clone::mutate()
-{
-	if (HP_VERBOSE)
-		cerr <<"haploid_clone::mutate() ...\n";
+int haploid_clone::mutate() {
+	if (HP_VERBOSE)	cerr <<"haploid_clone::mutate() ..."<<endl;
 	int i, actual_n_o_mutations,locus=0;
 	if(mutation_rate) {
 		produce_random_sample(number_of_loci*mutation_rate*pop_size*2);
@@ -360,8 +371,8 @@ void haploid_clone::mutate()
 			}
 		}
 	}
-	if (HP_VERBOSE)
-		cerr <<"done.\n";
+	if (HP_VERBOSE)	cerr <<"done."<<endl;;
+	return 0;
 }
 
 /**
@@ -394,7 +405,7 @@ void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
 	calc_individual_fitness(&tempgt);
 	//add clone to current population
 	current_pop->push_back(tempgt);
-	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
+//FIXME	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
 }
 
 /**
@@ -738,8 +749,9 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
  * @return the chemical potential, i.e. the current mean fitness plus term that causes the population size to relax to target_pop_size
  */
 double haploid_clone::chemical_potential() {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::chemical_potential()...\n";}
+	if (HP_VERBOSE) {cerr <<"haploid_clone::chemical_potential()..."<<endl;}
 	double chem_pot;
+	// Note: the update_X stuff is required, because the chemical potential is a global quantity
 	update_traits();
 	update_fitness();
 	calc_fitness_stat();
