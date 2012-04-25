@@ -1,22 +1,22 @@
 /**
- * @file hivpopulation.cpp
+ * @file hivpython.cpp
  * @brief Implementation of an HIV population with drug treatment.
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
  * @version 
  * @date 2012-04-23
  */
 
-//#include "popgen.h"
-//#include "popgen_highd.h"
-#include "hivpopulation_test.h"
+#include "popgen.h"
+#include "popgen_highd.h"
+#include "hivpython.h"
 
 /**
  * @brief Default constructor.
  *
  * Only calls the method of the base class.
  */
-hivpopulation::hivpopulation() {
-	treatment = 1;
+hivpython::hivpython() {
+	treatment = 0;
 }
 
 /**
@@ -24,7 +24,7 @@ hivpopulation::hivpopulation() {
  *
  * Only calls the method of the base class (which manages its own memory).
  */
-hivpopulation::~hivpopulation() {
+hivpython::~hivpython() {
 }
 
 
@@ -41,7 +41,7 @@ hivpopulation::~hivpopulation() {
 // *
 // * Note: the genome length is 10000 (see HIVGENOME).
 // */
-//int hivpopulation::set_up(int N_in, int rng_seed, double mutrate, double coinfection_rate, double crossover_rate){
+//int hivpython::set_up(int N_in, int rng_seed, double mutrate, double coinfection_rate, double crossover_rate){
 //	int err=set_up(N_in, HIVGENOME, rng_seed, 2); // we have exactly 2 traits
 //	outcrossing_probability = coinfection_rate;
 //	mutation_rate = mutrate;
@@ -52,12 +52,12 @@ hivpopulation::~hivpopulation() {
 //	return err;
 //}
 //
-//int hivpopulation::read_selection_coefficients(istream &model){
+//int hivpython::read_selection_coefficients(istream &model){
 //	if (HIVPOP_VERBOSE){
-//		cerr<<"hivpopulation::read_selection_coefficients(): read coefficients ";
+//		cerr<<"hivpython::read_selection_coefficients(): read coefficients ";
 //	}
 //	if (model.bad()){
-//		cerr<<"hivpopulation::read_selection_coefficients(): BAD MODEL STREAM!"<<endl;
+//		cerr<<"hivpython::read_selection_coefficients(): BAD MODEL STREAM!"<<endl;
 //		return HIVPOP_BADARG;
 //	}
 //	double val;
@@ -83,12 +83,12 @@ hivpopulation::~hivpopulation() {
 //}
 //
 //
-//int hivpopulation::read_resistance_coefficients(istream &model){
+//int hivpython::read_resistance_coefficients(istream &model){
 //	if (HIVPOP_VERBOSE){
-//		cerr<<"hivpopulation::read_resistance_coefficients(): read coefficients ";
+//		cerr<<"hivpython::read_resistance_coefficients(): read coefficients ";
 //	}
 //	if (model.bad()){
-//		cerr<<"hivpopulation::read_resistance_coefficients(): BAD MODEL STREAM!"<<endl;
+//		cerr<<"hivpython::read_resistance_coefficients(): BAD MODEL STREAM!"<<endl;
 //		return HIVPOP_BADARG;
 //	}
 //	double val, wt_resistance=0;
@@ -121,9 +121,9 @@ hivpopulation::~hivpopulation() {
 //}
 //
 //
-//int hivpopulation::write_genotypes(ostream &out, int sample_size, string gt_label, int start, int length){
+//int hivpython::write_genotypes(ostream &out, int sample_size, string gt_label, int start, int length){
 //	if (out.bad()){
-//		cerr<<"hivpopulation::write_genotypes(): BAD OUTPUT FILE!"<<endl;
+//		cerr<<"hivpython::write_genotypes(): BAD OUTPUT FILE!"<<endl;
 //		return HIVPOP_BADARG;
 //	}else{
 //		int gti;
@@ -136,7 +136,7 @@ hivpopulation::~hivpopulation() {
 //
 //		produce_random_sample(sample_size);
 //		if (sample_size>get_pop_size()){
-//			cerr<<"hivpopulation::write_genotypes(): requested sample size exceeds population size"<<endl;
+//			cerr<<"hivpython::write_genotypes(): requested sample size exceeds population size"<<endl;
 //			return HIVPOP_BADARG;
 //		}else{
 //			for (int s=0; s<sample_size; s++){

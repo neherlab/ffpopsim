@@ -17,20 +17,20 @@ if version_info >= (2,6,0):
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_hivpopulation', [dirname(__file__)])
+            fp, pathname, description = imp.find_module('_hivpython', [dirname(__file__)])
         except ImportError:
-            import _hivpopulation
-            return _hivpopulation
+            import _hivpython
+            return _hivpython
         if fp is not None:
             try:
-                _mod = imp.load_module('_hivpopulation', fp, pathname, description)
+                _mod = imp.load_module('_hivpython', fp, pathname, description)
             finally:
                 fp.close()
             return _mod
-    _hivpopulation = swig_import_helper()
+    _hivpython = swig_import_helper()
     del swig_import_helper
 else:
-    import _hivpopulation
+    import _hivpython
 del version_info
 try:
     _swig_property = property
@@ -71,19 +71,19 @@ except AttributeError:
     _newclass = 0
 
 
-HIVPOP_VERBOSE = _hivpopulation.HIVPOP_VERBOSE
-HIVPOP_BADARG = _hivpopulation.HIVPOP_BADARG
-NOTHING = _hivpopulation.NOTHING
-HIVGENOME = _hivpopulation.HIVGENOME
-class hivpopulation(_object):
+HIVPOP_VERBOSE = _hivpython.HIVPOP_VERBOSE
+HIVPOP_BADARG = _hivpython.HIVPOP_BADARG
+NOTHING = _hivpython.NOTHING
+HIVGENOME = _hivpython.HIVGENOME
+class hivpython(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, hivpopulation, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, hivpython, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, hivpopulation, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, hivpython, name)
     def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-hivpopulation_swigregister = _hivpopulation.hivpopulation_swigregister
-hivpopulation_swigregister(hivpopulation)
+hivpython_swigregister = _hivpython.hivpython_swigregister
+hivpython_swigregister(hivpython)
 
 # This file is compatible with both classic and new-style classes.
 

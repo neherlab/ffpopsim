@@ -12,20 +12,19 @@
 SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
+PYBDIR = python
 
-DIRS = $(SRCDIR) $(DOCDIR) $(TESTSDIR)
+DIRS = $(SRCDIR) $(DOCDIR) $(TESTSDIR) $(PYBDIR)
 
-.PHONY : all clean src doc tests clean-src clean-doc clean-tests
-all: src doc tests
-clean: clean-src clean-doc clean-tests
+.PHONY : all clean src doc tests python clean-src clean-doc clean-tests clean-python
+all: src doc tests python
+clean: clean-src clean-doc clean-tests clean-python
 
 ##==========================================================================
 # SOURCE
 ##==========================================================================
 CXX = g++
 CXXFLAGS= -O2 -g3 -fPIC
-SWIG = swig
-SWIGFLAGS = -c++ -python
 
 LIBRARY := libPopGenLib.a
 
@@ -45,17 +44,9 @@ HEADER_HIV = hivpopulation.h
 SOURCE_HIV = $(HEADER_HIV:%.h=%.cpp)
 OBJECT_HIV = $(SOURCE_HIV:%.cpp=%.o)
 
-SWIG_HIV = $(HEADER_HIV:%.h=%.i)
-SWIG_HEADER_HIV = $(HEADER_HIV:%.h=%_test.h)
-SWIG_SOURCE_HIV = $(HEADER_HIV:%.h=%_test.cpp)
-SWIG_WRAP_HIV = $(HEADER_HIV:%.h=%_test_wrap.cpp)
-SWIG_OBJECT_HIV = $(HEADER_HIV:%.h=_%.so)
-SWIG_PYMODULE_HIV = $(HEADER_HIV:%.h=%.py)
-SWIG_PYCMODULE_HIV = $(HEADER_HIV:%.h=%.pyc)
-
 OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD)
 
-src: $(SRCDIR)/$(LIBRARY) $(OBJECT_HIV:%=$(SRCDIR)/%) $(SWIG_OBJECT_HIV:%=$(SRCDIR)/%)
+src: $(SRCDIR)/$(LIBRARY) $(OBJECT_HIV:%=$(SRCDIR)/%)
 
 $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
 	ar rcs $@ $^
@@ -72,14 +63,36 @@ $(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(
 $(OBJECT_HIV:%=$(SRCDIR)/%): $(SOURCE_HIV:%=$(SRCDIR)/%) $(HEADER_HIV:%=$(SRCDIR)/%)
 	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
-$(SWIG_PYMODULE_HIV:%=$(SRCDIR)/%) $(SWIG_PYMCODULE_HIV:%=$(SRCDIR)/%) $(SWIG_OBJECT_HIV:%=$(SRCDIR)/%): $(SWIG_WRAP_HIV:%=$(SRCDIR)/%) $(SWIG_SOURCE_HIV:%=$(SRCDIR)/%)
-	cd $(SRCDIR); python2 setup.py build_ext --inplace
-
-$(SWIG_WRAP_HIV:%=$(SRCDIR)/%): $(SWIG_HEADER_HIV:%=$(SRCDIR)/%) $(SWIG_HIV:%=$(SRCDIR)/%)
-	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_HIV:%=$(SRCDIR)/%)
-
 clean-src:
-	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch *_wrap.cpp
+	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
+
+##==========================================================================
+# PYTHON BINDINGS
+##==========================================================================
+SWIG = swig
+SWIGFLAGS = -c++ -python
+
+SWIG_HEADER_HIV = hivpython.h
+
+SWIG_HIV = $(SWIG_HEADER_HIV:%.h=%.i)
+SWIG_SOURCE_HIV = $(SWIG_HEADER_HIV:%.h=%.cpp)
+SWIG_WRAP_HIV = $(SWIG_HEADER_HIV:%.h=%_wrap.cpp)
+SWIG_OBJECT_HIV = $(SWIG_HEADER_HIV:%.h=_%.so)
+SWIG_PYMODULE_HIV = $(SWIG_HEADER_HIV:%.h=%.py)
+SWIG_PYCMODULE_HIV = $(SWIG_HEADER_HIV:%.h=%.pyc)
+
+python: $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%)
+
+
+$(SWIG_PYMODULE_HIV:%=$(PYBDIR)/%) $(SWIG_PYMCODULE_HIV:%=$(PYBDIR)/%) $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%): $(SWIG_WRAP_HIV:%=$(PYBDIR)/%) $(SWIG_SOURCE_HIV:%=$(PYBDIR)/%)
+	# TODO: add command-line options for library paths etc.
+	cd $(PYBDIR); python2 setup.py build_ext --inplace
+
+$(SWIG_WRAP_HIV:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_HIV:%=$(PYBDIR)/%)
+	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_HIV:%=$(PYBDIR)/%)
+
+clean-python:
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP_HIV) $(SWIG_OBJECT_HIV) $(SWIG_PYMODULE_HIV) $(SWIG_PYCMODULE_HIV)
 
 ##==========================================================================
 # DOCUMENTATION

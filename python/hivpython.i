@@ -5,11 +5,11 @@
 * @version 
 * @date 2012-04-24
 */
-%module(docstring="Model for an HIV population.") hivpopulation
+%module(docstring="Model for an HIV population.") hivpython
 /* Include in the wrap code */
 %{
 #define SWIG_FILE_WITH_INIT
-#include "hivpopulation_test.h"
+#include "hivpython.h"
 %}
 
 %ignore check_input;
@@ -25,5 +25,5 @@ import_array();
 %apply (int DIM1, double* IN_ARRAY1) {(int loci, double* fitness_additive)};
 */
 
-%include "hivpopulation_test.h"
+%include "hivpython.h"
 

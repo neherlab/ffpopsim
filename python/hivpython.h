@@ -5,8 +5,8 @@
  * @version 
  * @date 2012-04-23
  */
-#ifndef HIVPOPULATION_H_
-#define HIVPOPULATION_H_
+#ifndef HIVPYTHON_H_
+#define HIVPYTHON_H_
 
 #include <string>
 #include <sstream>
@@ -34,8 +34,10 @@
  * f[trait] = trait[0] + treatment * trait[1]
  *
  * Moreover, this class fixes the length of the genome to exactly 10000 sites.
+ *
+ * This class is an interface class for the Python bindings (like a dressing screen).
  */
-class hivpopulation {
+class hivpython {
 private:
 	//random number generator
 	double treatment;
@@ -44,8 +46,8 @@ private:
 //	using haploid_clone::set_up;	// only the new set_up functino is allowed, lest people mess with the genome length
 //public:
 	// constructors/destructors
-	hivpopulation();
-	virtual ~hivpopulation();
+	hivpython();
+	virtual ~hivpython();
 //	int set_up(int N_in, int rng_seed=0, double mutrate=3e-5, double coinfection_rate=1e-2, double crossover_rate=1e-3);
 //
 //	// treatment (set/get)
@@ -60,4 +62,4 @@ private:
 
 };
 
-#endif /* HIVPOPULATION_H_ */
+#endif /* HIVPYTHON_H_ */

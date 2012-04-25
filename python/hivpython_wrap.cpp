@@ -2940,7 +2940,7 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_char swig_types[0]
-#define SWIGTYPE_p_hivpopulation swig_types[1]
+#define SWIGTYPE_p_hivpython swig_types[1]
 static swig_type_info *swig_types[3];
 static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
@@ -2955,16 +2955,16 @@ static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #endif
 
 /*-----------------------------------------------
-              @(target):= _hivpopulation.so
+              @(target):= _hivpython.so
   ------------------------------------------------*/
 #if PY_VERSION_HEX >= 0x03000000
-#  define SWIG_init    PyInit__hivpopulation
+#  define SWIG_init    PyInit__hivpython
 
 #else
-#  define SWIG_init    init_hivpopulation
+#  define SWIG_init    init_hivpython
 
 #endif
-#define SWIG_name    "_hivpopulation"
+#define SWIG_name    "_hivpython"
 
 #define SWIGVERSION 0x020004 
 #define SWIG_VERSION SWIGVERSION
@@ -3040,7 +3040,7 @@ namespace swig {
 
 
 #define SWIG_FILE_WITH_INIT
-#include "hivpopulation_test.h"
+#include "hivpython.h"
 
 
 #ifndef SWIG_FILE_WITH_INIT
@@ -3065,16 +3065,16 @@ SWIG_From_int  (int value)
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *hivpopulation_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *hivpython_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_hivpopulation, SWIG_NewClientData(obj));
+  SWIG_TypeNewClientData(SWIGTYPE_p_hivpython, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
-	 { (char *)"hivpopulation_swigregister", hivpopulation_swigregister, METH_VARARGS, NULL},
+	 { (char *)"hivpython_swigregister", hivpython_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -3082,19 +3082,19 @@ static PyMethodDef SwigMethods[] = {
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_hivpopulation = {"_p_hivpopulation", "hivpopulation *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_hivpython = {"_p_hivpython", "hivpython *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
-  &_swigt__p_hivpopulation,
+  &_swigt__p_hivpython,
 };
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_hivpopulation[] = {  {&_swigt__p_hivpopulation, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_hivpython[] = {  {&_swigt__p_hivpython, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
-  _swigc__p_hivpopulation,
+  _swigc__p_hivpython,
 };
 
 
