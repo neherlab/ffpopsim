@@ -8,6 +8,7 @@
 
 #include "popgen.h"
 #include "popgen_highd.h"
+#include "hivpopulation.h"
 #include "hivpython.h"
 
 /**
@@ -16,7 +17,6 @@
  * Only calls the method of the base class.
  */
 hivpython::hivpython() {
-	treatment = 0;
 }
 
 /**

@@ -20,31 +20,19 @@
 
 
 /**
- * @brief HIV population with facultative drug treatment
- *
- * This class exemplifies the haploid_clone base class. It mainly adds one trait,
- * "treatment", which is the same for all individuals and represents the presence
- * or absence of drug treatment (in a continuous manner, \f$0 \leq \f$ treatment
- * \f$\leq 1\f$).
- *
- * The replication capacity in absence of drug is encoded in the first trait. The
- * drug resistance phenotype is represented by the second trait. Fitness is
- * computed from traits as follows:
- *
- * f[trait] = trait[0] + treatment * trait[1]
- *
- * Moreover, this class fixes the length of the genome to exactly 10000 sites.
+ * @brief HIV population with facultative drug treatment (Python2 bindings)
  *
  * This class is an interface class for the Python bindings (like a dressing screen).
+ * It contains an hivpopulation instance as a private attribute, so that problematic
+ * bindings are avoided, and exposes only a few, Python-friendly methods.
+ *
  */
 class hivpython {
 private:
-	//random number generator
-	double treatment;
-//	gsl_rng* rng;
-//	int seed;
-//	using haploid_clone::set_up;	// only the new set_up functino is allowed, lest people mess with the genome length
-//public:
+	// hivpopulation class that does the job
+	hivpopulation p;
+
+public:
 	// constructors/destructors
 	hivpython();
 	virtual ~hivpython();

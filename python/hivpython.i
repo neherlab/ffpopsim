@@ -9,6 +9,9 @@
 /* Include in the wrap code */
 %{
 #define SWIG_FILE_WITH_INIT
+#include "popgen.h"
+#include "popgen_highd.h"
+#include "hivpopulation.h"
 #include "hivpython.h"
 %}
 

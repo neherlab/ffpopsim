@@ -71,20 +71,20 @@ except AttributeError:
     _newclass = 0
 
 
+def _swig_setattr_nondynamic_method(set):
+    def set_attr(self,name,value):
+        if (name == "thisown"): return self.this.own(value)
+        if hasattr(self,name) or (name == "this"):
+            set(self,name,value)
+        else:
+            raise AttributeError("You cannot add attributes to %s" % self)
+    return set_attr
+
+
 HIVPOP_VERBOSE = _hivpython.HIVPOP_VERBOSE
 HIVPOP_BADARG = _hivpython.HIVPOP_BADARG
 NOTHING = _hivpython.NOTHING
 HIVGENOME = _hivpython.HIVGENOME
-class hivpython(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, hivpython, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, hivpython, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
-    __repr__ = _swig_repr
-hivpython_swigregister = _hivpython.hivpython_swigregister
-hivpython_swigregister(hivpython)
 
-# This file is compatible with both classic and new-style classes.
-
+cvar = _hivpython.cvar
 

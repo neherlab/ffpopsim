@@ -11,30 +11,6 @@
 #define SWIGPYTHON
 #define SWIG_PYTHON_DIRECTOR_NO_VTABLE
 
-
-#ifdef __cplusplus
-/* SwigValueWrapper is described in swig.swg */
-template<typename T> class SwigValueWrapper {
-  struct SwigMovePointer {
-    T *ptr;
-    SwigMovePointer(T *p) : ptr(p) { }
-    ~SwigMovePointer() { delete ptr; }
-    SwigMovePointer& operator=(SwigMovePointer& rhs) { T* oldptr = ptr; ptr = 0; delete oldptr; ptr = rhs.ptr; rhs.ptr = 0; return *this; }
-  } pointer;
-  SwigValueWrapper& operator=(const SwigValueWrapper<T>& rhs);
-  SwigValueWrapper(const SwigValueWrapper<T>& rhs);
-public:
-  SwigValueWrapper() : pointer(0) { }
-  SwigValueWrapper& operator=(const T& t) { SwigMovePointer tmp(new T(t)); pointer = tmp; return *this; }
-  operator T&() const { return *pointer.ptr; }
-  T *operator&() { return pointer.ptr; }
-};
-
-template <typename T> T SwigValueInit() {
-  return T();
-}
-#endif
-
 /* -----------------------------------------------------------------------------
  *  This section contains generic SWIG labels for method/variable
  *  declarations/attributes, and other compiler dependent labels.
@@ -2940,7 +2916,7 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_char swig_types[0]
-#define SWIGTYPE_p_hivpython swig_types[1]
+#define SWIGTYPE_p_class swig_types[1]
 static swig_type_info *swig_types[3];
 static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
@@ -2952,6 +2928,12 @@ static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 # if !defined(SWIG_PYTHON_CLASSIC)
 #  error "This python version requires swig to be run with the '-classic' option"
 # endif
+#endif
+#if (PY_VERSION_HEX <= 0x02020000)
+# error "This python version requires swig to be run with the '-nomodern' option"
+#endif
+#if (PY_VERSION_HEX <= 0x02020000)
+# error "This python version requires swig to be run with the '-nomodernargs' option"
 #endif
 
 /*-----------------------------------------------
@@ -2970,73 +2952,8 @@ static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #define SWIG_VERSION SWIGVERSION
 
 
-#define SWIG_as_voidptr(a) const_cast< void * >(static_cast< const void * >(a)) 
-#define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),reinterpret_cast< void** >(a)) 
-
-
-#include <stdexcept>
-
-
-namespace swig {
-  class SwigPtr_PyObject {
-  protected:
-    PyObject *_obj;
-
-  public:
-    SwigPtr_PyObject() :_obj(0)
-    {
-    }
-
-    SwigPtr_PyObject(const SwigPtr_PyObject& item) : _obj(item._obj)
-    {
-      Py_XINCREF(_obj);      
-    }
-    
-    SwigPtr_PyObject(PyObject *obj, bool initial_ref = true) :_obj(obj)
-    {
-      if (initial_ref) {
-        Py_XINCREF(_obj);
-      }
-    }
-    
-    SwigPtr_PyObject & operator=(const SwigPtr_PyObject& item) 
-    {
-      Py_XINCREF(item._obj);
-      Py_XDECREF(_obj);
-      _obj = item._obj;
-      return *this;      
-    }
-    
-    ~SwigPtr_PyObject() 
-    {
-      Py_XDECREF(_obj);
-    }
-    
-    operator PyObject *() const
-    {
-      return _obj;
-    }
-
-    PyObject *operator->() const
-    {
-      return _obj;
-    }
-  };
-}
-
-
-namespace swig {
-  struct SwigVar_PyObject : SwigPtr_PyObject {
-    SwigVar_PyObject(PyObject* obj = 0) : SwigPtr_PyObject(obj, false) { }
-    
-    SwigVar_PyObject & operator = (PyObject* obj)
-    {
-      Py_XDECREF(_obj);
-      _obj = obj;
-      return *this;      
-    }
-  };
-}
+#define SWIG_as_voidptr(a) (void *)((const void *)(a)) 
+#define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
 
 
 #define SWIG_FILE_WITH_INIT
@@ -3068,52 +2985,35 @@ SWIG_From_int  (int value)
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *_wrap_new_hivpython(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  hivpython *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)":new_hivpython")) SWIG_fail;
-  result = (hivpython *)new hivpython();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_hivpython, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_hivpython(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  hivpython *arg1 = (hivpython *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_hivpython",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_hivpython, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_hivpython" "', argument " "1"" of type '" "hivpython *""'"); 
+SWIGINTERN int Swig_var_hivpython_set(PyObject *_val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_class,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""hivpython""' of type '""class""'");
+    }
+    if (!argp) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""hivpython""' of type '""class""'");
+    } else {
+      hivpython = *((class *)(argp));
+    }
   }
-  arg1 = reinterpret_cast< hivpython * >(argp1);
-  delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
+  return 0;
 fail:
-  return NULL;
+  return 1;
 }
 
 
-SWIGINTERN PyObject *hivpython_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_hivpython, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
+SWIGINTERN PyObject *Swig_var_hivpython_get(void) {
+  PyObject *pyobj = 0;
+  
+  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(&hivpython), SWIGTYPE_p_class,  0 );
+  return pyobj;
 }
+
 
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
-	 { (char *)"new_hivpython", _wrap_new_hivpython, METH_VARARGS, NULL},
-	 { (char *)"delete_hivpython", _wrap_delete_hivpython, METH_VARARGS, NULL},
-	 { (char *)"hivpython_swigregister", hivpython_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -3121,19 +3021,19 @@ static PyMethodDef SwigMethods[] = {
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_hivpython = {"_p_hivpython", "hivpython *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_class = {"_p_class", "class *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
-  &_swigt__p_hivpython,
+  &_swigt__p_class,
 };
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_hivpython[] = {  {&_swigt__p_hivpython, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_class[] = {  {&_swigt__p_class, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
-  _swigc__p_hivpython,
+  _swigc__p_class,
 };
 
 
@@ -3822,10 +3722,12 @@ SWIG_init(void) {
   
   import_array();
   
-  SWIG_Python_SetConstant(d, "HIVPOP_VERBOSE",SWIG_From_int(static_cast< int >(0)));
-  SWIG_Python_SetConstant(d, "HIVPOP_BADARG",SWIG_From_int(static_cast< int >(-1354341)));
-  SWIG_Python_SetConstant(d, "NOTHING",SWIG_From_double(static_cast< double >(1e-10)));
-  SWIG_Python_SetConstant(d, "HIVGENOME",SWIG_From_int(static_cast< int >(10000)));
+  SWIG_Python_SetConstant(d, "HIVPOP_VERBOSE",SWIG_From_int((int)(0)));
+  SWIG_Python_SetConstant(d, "HIVPOP_BADARG",SWIG_From_int((int)(-1354341)));
+  SWIG_Python_SetConstant(d, "NOTHING",SWIG_From_double((double)(1e-10)));
+  SWIG_Python_SetConstant(d, "HIVGENOME",SWIG_From_int((int)(10000)));
+  PyDict_SetItemString(md,(char*)"cvar", SWIG_globals());
+  SWIG_addvarlink(SWIG_globals(),(char*)"hivpython",Swig_var_hivpython_get, Swig_var_hivpython_set);
 #if PY_VERSION_HEX >= 0x03000000
   return m;
 #else
