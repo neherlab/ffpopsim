@@ -2953,6 +2953,12 @@ static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 #  error "This python version requires swig to be run with the '-classic' option"
 # endif
 #endif
+#if (PY_VERSION_HEX <= 0x02020000)
+# error "This python version requires swig to be run with the '-nomodern' option"
+#endif
+#if (PY_VERSION_HEX <= 0x02020000)
+# error "This python version requires swig to be run with the '-nomodernargs' option"
+#endif
 
 /*-----------------------------------------------
               @(target):= _hivpython.so
@@ -3072,7 +3078,6 @@ SWIGINTERN PyObject *_wrap_new_hivpython(PyObject *SWIGUNUSEDPARM(self), PyObjec
   PyObject *resultobj = 0;
   hivpython *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)":new_hivpython")) SWIG_fail;
   result = (hivpython *)new hivpython();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_hivpython, SWIG_POINTER_NEW |  0 );
   return resultobj;
@@ -3088,7 +3093,7 @@ SWIGINTERN PyObject *_wrap_delete_hivpython(PyObject *SWIGUNUSEDPARM(self), PyOb
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_hivpython",&obj0)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"delete_hivpython",1,1,&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_hivpython, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_hivpython" "', argument " "1"" of type '" "hivpython *""'"); 
@@ -3104,7 +3109,7 @@ fail:
 
 SWIGINTERN PyObject *hivpython_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  if (!PyArg_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_hivpython, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }

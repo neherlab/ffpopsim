@@ -23,22 +23,6 @@ hivpython_module = Extension('_hivpython',
                                      'gslcblas'],
                            )
 
-hivpython_module_swig = Extension('_hivpython',
-                                  sources=['hivpython.i', 'hivpython.cpp'],
-                                  swig_opts=['-modern -c++'],
-                                  #TODO: this flag should be generated dynamically
-                                  # (using a C++ interface file? use Makefile +
-                                  # command-line args?)
-                                  include_dirs=['/usr/lib/python2.7/site-packages/numpy/core/include',
-                                                '/home/fabio/university/phd/artificial_evolution/libraries/PopGenLib/src'],
-                                  library_dirs=['/home/fabio/university/phd/artificial_evolution/libraries/PopGenLib/src',
-                                                '/home/fabio/university/phd/artificial_evolution/libraries/HandyTools/src'],
-                                  libraries=['HandyTools',
-                                             'PopGenLib',
-                                            'gsl',
-                                            'gslcblas'],
-                                  )
-
 setup (name = 'popgenlib',
        author      = "Richard Neher, Boris Shraiman, Fabio Zanini",
        description = """PopGenLib library""",

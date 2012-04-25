@@ -12,7 +12,7 @@
 SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
-PYBDIR = python
+PYBDIR = src/python
 
 DIRS = $(SRCDIR) $(DOCDIR) $(TESTSDIR) $(PYBDIR)
 

@@ -85,6 +85,17 @@ HIVPOP_VERBOSE = _hivpython.HIVPOP_VERBOSE
 HIVPOP_BADARG = _hivpython.HIVPOP_BADARG
 NOTHING = _hivpython.NOTHING
 HIVGENOME = _hivpython.HIVGENOME
+class hivpython(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _hivpython.new_hivpython()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _hivpython.delete_hivpython
+    __del__ = lambda self : None;
+hivpython_swigregister = _hivpython.hivpython_swigregister
+hivpython_swigregister(hivpython)
 
-cvar = _hivpython.cvar
+
 
