@@ -94,6 +94,16 @@ class hivpython(object):
         except: self.this = this
     __swig_destroy__ = _hivpython.delete_hivpython
     __del__ = lambda self : None;
+    def set_up(self, *args): return _hivpython.hivpython_set_up(self, *args)
+    def evolve(self, gen = 1): return _hivpython.hivpython_evolve(self, gen)
+    def random_clone(self): return _hivpython.hivpython_random_clone(self)
+    def get_allele_frequency(self, *args): return _hivpython.hivpython_get_allele_frequency(self, *args)
+    def get_allele_frequencies(self): return _hivpython.hivpython_get_allele_frequencies(self)
+    def set_treatment(self, *args): return _hivpython.hivpython_set_treatment(self, *args)
+    def get_treatment(self): return _hivpython.hivpython_get_treatment(self)
+    def calc_fitness_from_traits(self, *args): return _hivpython.hivpython_calc_fitness_from_traits(self, *args)
+    def read_selection_coefficients(self, *args): return _hivpython.hivpython_read_selection_coefficients(self, *args)
+    def read_resistance_coefficients(self, *args): return _hivpython.hivpython_read_resistance_coefficients(self, *args)
 hivpython_swigregister = _hivpython.hivpython_swigregister
 hivpython_swigregister(hivpython)
 

@@ -41,7 +41,7 @@ private:
 	double treatment;
 	gsl_rng* rng;
 	int seed;
-	using haploid_clone::set_up;	// only the new set_up functino is allowed, lest people mess with the genome length
+	using haploid_clone::set_up;	// only the new set_up function is allowed, lest people mess with the genome length
 public:
 	// constructors/destructors
 	hivpopulation();

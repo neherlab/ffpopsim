@@ -23,7 +23,8 @@
 import_array();
 %}
 
-/*%apply (int DIM1, double* INPLACE_ARRAY1) {(int gts2, double* frequencies)};
+/*
+%apply (int DIM1, double* INPLACE_ARRAY1) {(int gts2, double* frequencies)};
 %apply (int DIM1, int DIM2, double* IN_ARRAY2) {(int gts, int loci, double* hoprates)};
 %apply (int DIM1, double* IN_ARRAY1) {(int loci, double* fitness_additive)};
 */

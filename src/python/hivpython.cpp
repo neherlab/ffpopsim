@@ -10,48 +10,45 @@
 #include "popgen_highd.h"
 #include "hivpopulation.h"
 #include "hivpython.h"
+#include <iostream>
+#include <fstream>
 
-/**
- * @brief Default constructor.
- *
- * Only calls the method of the base class.
- */
 hivpython::hivpython() {
 }
 
-/**
- * @brief Destructor.
- *
- * Only calls the method of the base class (which manages its own memory).
- */
+
 hivpython::~hivpython() {
 }
 
+int hivpython::evolve(int gen) {
+	int err=haploid_clone::evolve(gen);
+	if(err==0)
+		haploid_clone::calc_stat();
+	return err;
+}
 
-///**
-// * @brief Construct a HIV population with certain parameters
-// *
-// * @param N_in number of viral particles 
-// * @param rng_seed seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
-// * @param mutrate mutation rate in events / generation / site
-// * @param coinfection_rate probability of coinfection of the same cell by two viral particles in events / generation
-// * @param crossover_rate probability of template switching during coinfection in events / site
-// *
-// * @returns zero if successful, error codes otherwise
-// *
-// * Note: the genome length is 10000 (see HIVGENOME).
-// */
-//int hivpython::set_up(int N_in, int rng_seed, double mutrate, double coinfection_rate, double crossover_rate){
-//	int err=set_up(N_in, HIVGENOME, rng_seed, 2); // we have exactly 2 traits
-//	outcrossing_probability = coinfection_rate;
-//	mutation_rate = mutrate;
-//	crossover_rate = crossover_rate;
-//	recombination_model = CROSSOVERS;
-//	treatment = 0;
-//	init_genotypes();
-//	return err;
-//}
-//
+int hivpython::read_selection_coefficients(char *model){
+	ifstream modelstream(model);
+	return hivpopulation::read_selection_coefficients(modelstream);
+}
+
+int hivpython::read_resistance_coefficients(char *model){
+	ifstream modelstream(model);
+	return hivpopulation::read_resistance_coefficients(modelstream);
+}
+
+void hivpython::get_allele_frequencies(double *af) {
+	for(size_t i=0; i < number_of_loci; i++)
+		af[i] = haploid_clone::get_allele_frequency(i);
+}
+
+void hivpython::random_clone(unsigned short *seq) {
+	boost::dynamic_bitset<> newgt = (*current_pop)[haploid_clone::random_clone()].genotype;
+	for(size_t i=0; i < number_of_loci; i++)
+		seq[i] = newgt[i];
+}
+
+
 //int hivpython::read_selection_coefficients(istream &model){
 //	if (HIVPOP_VERBOSE){
 //		cerr<<"hivpython::read_selection_coefficients(): read coefficients ";
