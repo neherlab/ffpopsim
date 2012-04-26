@@ -6,8 +6,6 @@
  *  Copyright 2007 __MyCompanyName__. All rights reserved.
  *
  */
-
-#include "popgen.h"
 #include "popgen_highd.h"
 
 hypercube_function::hypercube_function()

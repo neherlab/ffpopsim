@@ -8,15 +8,7 @@
  *   Committer: Fabio Zanini
  */
 #include <math.h>
-#include "popgen.h"
 #include "popgen_highd.h"
-
-
-// This is the initialization of the zero-length vector used in default args.
-// Note that this must be in this file (in any case, outside the class and must
-// be sourced only once!).
-vector<unsigned int *> haploid_clone::hc_empty_vector = vector<unsigned int *>();
-
 
 /**
  * @brief Default constructor.
@@ -1057,7 +1049,7 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
  */
 int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector <unsigned int *> *chunks, unsigned int every) {
 	// check whether we have chunks at all
-	if(chunks->size() == 0) {
+	if((!chunks) || (chunks->size() == 0)) {
 		if(every!=1) return HP_BADARG;
 		else return (gt1 ^ gt2).count();
 	}
