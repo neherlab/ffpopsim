@@ -3,8 +3,6 @@
  *
  *  Created by Richard Neher on 01/27/09.
  */
-
-#include "popgen.h"
 #include "popgen_lowd.h"
 
 //default constructor

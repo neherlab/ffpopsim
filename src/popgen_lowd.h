@@ -7,6 +7,7 @@
  */
 #ifndef POPGEN_LOWD_H_
 #define POPGEN_LOWD_H_
+#include "popgen.h"
 
 #define HC_MEMERR -131545		//memory error code
 #define HC_BADARG -131546		//bad argument error code

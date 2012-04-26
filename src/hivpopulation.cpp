@@ -5,8 +5,6 @@
  * @version 
  * @date 2012-04-23
  */
-
-#include "popgen.h"
 #include "popgen_highd.h"
 #include "hivpopulation.h"
 

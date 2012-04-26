@@ -14,18 +14,18 @@ int main(int argc, char **argv){
 		cout<<"Usage: "<<argv[0]<<endl;
 		status = 1;
 	} else {
-		//status = library_access();
-		//status += sample_initialize();
-		//status += hc_initialize();
-		//status += hc_setting();
-		//status += pop_initialize();
-		//status += pop_evolve();
+		status = library_access();
+		status += sample_initialize();
+		status += hc_initialize();
+		status += hc_setting();
+		status += pop_initialize();
+		status += pop_evolve();
 		status += pop_Hamming();
 		status += pop_divdiv();
 		status += pop_histograms();
-		//status += pop_sampling();
-		//status += hiv_initialize();
-		//status += hiv_evolve();
+		status += pop_sampling();
+		status += hiv_initialize();
+		status += hiv_evolve();
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;

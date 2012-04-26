@@ -4,8 +4,6 @@
  *  Created on: Jan 27, 2010
  *  Author: Richard Neher & Boris Shraiman
  */
-
-#include "popgen.h"
 #include "popgen_lowd.h"
 
 haploid_gt_dis::haploid_gt_dis()

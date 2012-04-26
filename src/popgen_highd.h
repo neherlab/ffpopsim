@@ -7,6 +7,7 @@
  */
 #ifndef POPGEN_HIGHD_H_
 #define POPGEN_HIGHD_H_
+#include "popgen.h"
 
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
@@ -158,9 +159,6 @@ private:
 	vector <clone_t> current_pop_vector;
 	vector <clone_t> new_pop_vector;
 	
-	// Zero-size vector for default arguments
-	static vector<unsigned int *> hc_empty_vector;
-
 protected:
 	// random number generator
 	gsl_rng* evo_generator;
@@ -273,8 +271,8 @@ public:
 
 	// genotype readout
 	string get_genotype_string(unsigned int i){string gts; boost::to_string((*current_pop)[i].genotype, gts); return gts;}
-	int distance_Hamming(unsigned int clone1, unsigned int clone2, vector <unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1){return distance_Hamming((*current_pop)[clone1].genotype, (*current_pop)[clone2].genotype, chunks, every);}
-	int distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector<unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1);
+	int distance_Hamming(unsigned int clone1, unsigned int clone2, vector <unsigned int *> *chunks=NULL, unsigned int every=1){return distance_Hamming((*current_pop)[clone1].genotype, (*current_pop)[clone2].genotype, chunks, every);}
+	int distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector<unsigned int *> *chunks=NULL, unsigned int every=1);
 	stat_t get_diversity_statistics(unsigned int n_sample=1000);
 	stat_t get_divergence_statistics(unsigned int n_sample=1000);
 
@@ -294,8 +292,8 @@ public:
 	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
 
 	// histograms
-	int get_divergence_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1, unsigned int n_sample=1000);
-	int get_diversity_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=&(haploid_clone::hc_empty_vector), unsigned int every=1, unsigned int n_sample=1000);
+	int get_divergence_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=NULL, unsigned int every=1, unsigned int n_sample=1000);
+	int get_diversity_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=NULL, unsigned int every=1, unsigned int n_sample=1000);
 	int get_fitness_histogram(gsl_histogram **hist, unsigned int bins=10, unsigned int n_sample=1000);
 
 	// stream I/O
