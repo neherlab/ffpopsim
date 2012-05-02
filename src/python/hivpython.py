@@ -111,7 +111,6 @@ class hypercube_function(object):
     __swig_destroy__ = _hivpython.delete_hypercube_function
     __del__ = lambda self : None;
     def set_up(self, *args): return _hivpython.hypercube_function_set_up(self, *args)
-    def get_dim(self): return _hivpython.hypercube_function_get_dim(self)
     def get_seed(self): return _hivpython.hypercube_function_get_seed(self)
     def get_func(self, *args): return _hivpython.hypercube_function_get_func(self, *args)
     def get_additive_coefficient(self, *args): return _hivpython.hypercube_function_get_additive_coefficient(self, *args)
@@ -124,14 +123,31 @@ hypercube_function_swigregister(hypercube_function)
 class clone_t(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    genotype = _swig_property(_hivpython.clone_t_genotype_get, _hivpython.clone_t_genotype_set)
-    trait = _swig_property(_hivpython.clone_t_trait_get, _hivpython.clone_t_trait_set)
+    _genotype = _swig_property(_hivpython.clone_t__genotype_get, _hivpython.clone_t__genotype_set)
+    _trait = _swig_property(_hivpython.clone_t__trait_get, _hivpython.clone_t__trait_set)
     fitness = _swig_property(_hivpython.clone_t_fitness_get, _hivpython.clone_t_fitness_set)
     clone_size = _swig_property(_hivpython.clone_t_clone_size_get, _hivpython.clone_t_clone_size_set)
     def __init__(self, *args): 
         this = _hivpython.new_clone_t(*args)
         try: self.this.append(this)
         except: self.this = this
+    def get_number_of_traits(self): return _hivpython.clone_t_get_number_of_traits(self)
+    def _get_trait(self, *args): return _hivpython.clone_t__get_trait(self, *args)
+    def _get_genotype(self): return _hivpython.clone_t__get_genotype(self)
+    def _set_genotype(self, *args): return _hivpython.clone_t__set_genotype(self, *args)
+    @property
+    def trait(self):
+        return self._get_trait(self.get_number_of_traits())
+
+    @property
+    def genotype(self):
+            return self._get_genotype()
+    @genotype.setter
+    def genotype(self, seq):
+            if len(seq) != HIVGENOME:
+                    raise TypeError('The genotype must have the right length.')
+            self._set_genotype(seq)
+
     __swig_destroy__ = _hivpython.delete_clone_t
     __del__ = lambda self : None;
 clone_t_swigregister = _hivpython.clone_t_swigregister
@@ -198,7 +214,7 @@ class hivpython(object):
     def get_divergence_statistics(self, n_sample=1000): return _hivpython.hivpython_get_divergence_statistics(self, n_sample)
     def get_fitness(self, *args): return _hivpython.hivpython_get_fitness(self, *args)
     def get_trait(self, *args): return _hivpython.hivpython_get_trait(self, *args)
-    def get_fitnesses(self, *args): return _hivpython.hivpython_get_fitnesses(self, *args)
+    def _get_fitnesses(self, *args): return _hivpython.hivpython__get_fitnesses(self, *args)
     def get_allele_frequency(self, *args): return _hivpython.hivpython_get_allele_frequency(self, *args)
     def get_pair_frequency(self, *args): return _hivpython.hivpython_get_pair_frequency(self, *args)
     def get_allele_frequencies(self): return _hivpython.hivpython_get_allele_frequencies(self)
@@ -207,6 +223,9 @@ class hivpython(object):
     def calc_fitness_from_traits(self, *args): return _hivpython.hivpython_calc_fitness_from_traits(self, *args)
     def read_selection_coefficients(self, *args): return _hivpython.hivpython_read_selection_coefficients(self, *args)
     def read_resistance_coefficients(self, *args): return _hivpython.hivpython_read_resistance_coefficients(self, *args)
+    def get_fitnesses(self):
+        return self._get_fitnesses(self.get_number_of_clones())
+
 hivpython_swigregister = _hivpython.hivpython_swigregister
 hivpython_swigregister(hivpython)
 

@@ -4,6 +4,11 @@
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
  * @version 
  * @date 2012-04-19
+ *
+ * HP_VERBOSE: degree of verbosity of haploid_clone. Levels:
+ * - 0: no messages
+ * - 1: most messages (enter/exit function)
+ * - 2: all messages
  */
 #ifndef POPGEN_HIGHD_H_
 #define POPGEN_HIGHD_H_
@@ -103,7 +108,7 @@ public:
 
 
 // Control constants
-#define HP_VERBOSE 1
+#define HP_VERBOSE 0
 #define NO_GENOTYPE -1
 #define HP_MINAF 0.02
 #define MAX_DELTAFITNESS 8

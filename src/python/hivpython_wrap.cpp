@@ -3251,24 +3251,9 @@ SWIG_From_unsigned_SS_int  (unsigned int value)
   return SWIG_From_unsigned_SS_long  (value);
 }
 
-
-SWIGINTERN int
-SWIG_AsVal_bool (PyObject *obj, bool *val)
-{
-  int r = PyObject_IsTrue(obj);
-  if (r == -1)
-    return SWIG_ERROR;
-  if (val) *val = r ? true : false;
-  return SWIG_OK;
-}
-
-
-SWIGINTERNINLINE PyObject*
-  SWIG_From_bool  (bool value)
-{
-  return PyBool_FromLong(value ? 1 : 0);
-}
-
+SWIGINTERN int clone_t_get_number_of_traits(clone_t *self){
+                return (self->trait).size();
+        }
 
 /* Support older NumPy data type names
 */
@@ -3696,6 +3681,34 @@ SWIGINTERNINLINE PyObject*
   }
 
  
+SWIGINTERN void clone_t__get_trait(clone_t *self,int DIM1,double *ARGOUT_ARRAY1){
+                for(size_t i=0; i<(self->trait).size(); i++)
+                        ARGOUT_ARRAY1[i] = (self->trait)[i];
+        }
+SWIGINTERN void clone_t__get_genotype(clone_t *self,unsigned short ARGOUT_ARRAY1[HIVGENOME]){
+            for(size_t i=0; i < (self->genotype).size(); i++) ARGOUT_ARRAY1[i] = (self->genotype)[i];
+        }
+SWIGINTERN void clone_t__set_genotype(clone_t *self,unsigned short IN_ARRAY1[HIVGENOME]){
+            for(size_t i=0; i < HIVGENOME; i++) (self->genotype)[i] = bool(IN_ARRAY1[i]);
+        }
+
+SWIGINTERN int
+SWIG_AsVal_bool (PyObject *obj, bool *val)
+{
+  int r = PyObject_IsTrue(obj);
+  if (r == -1)
+    return SWIG_ERROR;
+  if (val) *val = r ? true : false;
+  return SWIG_OK;
+}
+
+
+SWIGINTERNINLINE PyObject*
+  SWIG_From_bool  (bool value)
+{
+  return PyBool_FromLong(value ? 1 : 0);
+}
+
 
 SWIGINTERN int
 SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val) 
@@ -4586,28 +4599,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_hypercube_function_get_dim(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  hypercube_function *arg1 = (hypercube_function *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  unsigned int result;
-  
-  if(!PyArg_UnpackTuple(args,(char *)"hypercube_function_get_dim",1,1,&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_hypercube_function, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "hypercube_function_get_dim" "', argument " "1"" of type '" "hypercube_function *""'"); 
-  }
-  arg1 = reinterpret_cast< hypercube_function * >(argp1);
-  result = (unsigned int)(arg1)->get_dim();
-  resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_hypercube_function_get_seed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   hypercube_function *arg1 = (hypercube_function *) 0 ;
@@ -4935,7 +4926,7 @@ SWIGINTERN PyObject *hypercube_function_swigregister(PyObject *SWIGUNUSEDPARM(se
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_clone_t_genotype_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_clone_t__genotype_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   clone_t *arg1 = (clone_t *) 0 ;
   boost::dynamic_bitset< > arg2 ;
@@ -4946,19 +4937,19 @@ SWIGINTERN PyObject *_wrap_clone_t_genotype_set(PyObject *SWIGUNUSEDPARM(self), 
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if(!PyArg_UnpackTuple(args,(char *)"clone_t_genotype_set",2,2,&obj0,&obj1)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__genotype_set",2,2,&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t_genotype_set" "', argument " "1"" of type '" "clone_t *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__genotype_set" "', argument " "1"" of type '" "clone_t *""'"); 
   }
   arg1 = reinterpret_cast< clone_t * >(argp1);
   {
     res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_boost__dynamic_bitsetT_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "clone_t_genotype_set" "', argument " "2"" of type '" "boost::dynamic_bitset< >""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "clone_t__genotype_set" "', argument " "2"" of type '" "boost::dynamic_bitset< >""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clone_t_genotype_set" "', argument " "2"" of type '" "boost::dynamic_bitset< >""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clone_t__genotype_set" "', argument " "2"" of type '" "boost::dynamic_bitset< >""'");
     } else {
       boost::dynamic_bitset< > * temp = reinterpret_cast< boost::dynamic_bitset< > * >(argp2);
       arg2 = *temp;
@@ -4973,7 +4964,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_clone_t_genotype_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_clone_t__genotype_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   clone_t *arg1 = (clone_t *) 0 ;
   void *argp1 = 0 ;
@@ -4981,10 +4972,10 @@ SWIGINTERN PyObject *_wrap_clone_t_genotype_get(PyObject *SWIGUNUSEDPARM(self), 
   PyObject * obj0 = 0 ;
   boost::dynamic_bitset< > result;
   
-  if(!PyArg_UnpackTuple(args,(char *)"clone_t_genotype_get",1,1,&obj0)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__genotype_get",1,1,&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t_genotype_get" "', argument " "1"" of type '" "clone_t *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__genotype_get" "', argument " "1"" of type '" "clone_t *""'"); 
   }
   arg1 = reinterpret_cast< clone_t * >(argp1);
   result =  ((arg1)->genotype);
@@ -4995,7 +4986,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_clone_t_trait_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_clone_t__trait_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   clone_t *arg1 = (clone_t *) 0 ;
   vector< double > arg2 ;
@@ -5006,19 +4997,19 @@ SWIGINTERN PyObject *_wrap_clone_t_trait_set(PyObject *SWIGUNUSEDPARM(self), PyO
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if(!PyArg_UnpackTuple(args,(char *)"clone_t_trait_set",2,2,&obj0,&obj1)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__trait_set",2,2,&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t_trait_set" "', argument " "1"" of type '" "clone_t *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__trait_set" "', argument " "1"" of type '" "clone_t *""'"); 
   }
   arg1 = reinterpret_cast< clone_t * >(argp1);
   {
     res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_vectorT_double_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "clone_t_trait_set" "', argument " "2"" of type '" "vector< double >""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "clone_t__trait_set" "', argument " "2"" of type '" "vector< double >""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clone_t_trait_set" "', argument " "2"" of type '" "vector< double >""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clone_t__trait_set" "', argument " "2"" of type '" "vector< double >""'");
     } else {
       vector< double > * temp = reinterpret_cast< vector< double > * >(argp2);
       arg2 = *temp;
@@ -5033,7 +5024,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_clone_t_trait_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_clone_t__trait_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   clone_t *arg1 = (clone_t *) 0 ;
   void *argp1 = 0 ;
@@ -5041,10 +5032,10 @@ SWIGINTERN PyObject *_wrap_clone_t_trait_get(PyObject *SWIGUNUSEDPARM(self), PyO
   PyObject * obj0 = 0 ;
   vector< double > result;
   
-  if(!PyArg_UnpackTuple(args,(char *)"clone_t_trait_get",1,1,&obj0)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__trait_get",1,1,&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t_trait_get" "', argument " "1"" of type '" "clone_t *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__trait_get" "', argument " "1"" of type '" "clone_t *""'"); 
   }
   arg1 = reinterpret_cast< clone_t * >(argp1);
   result =  ((arg1)->trait);
@@ -5177,6 +5168,153 @@ SWIGINTERN PyObject *_wrap_new_clone_t(PyObject *SWIGUNUSEDPARM(self), PyObject 
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_clone_t, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_clone_t_get_number_of_traits(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  clone_t *arg1 = (clone_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  int result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t_get_number_of_traits",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t_get_number_of_traits" "', argument " "1"" of type '" "clone_t *""'"); 
+  }
+  arg1 = reinterpret_cast< clone_t * >(argp1);
+  result = (int)clone_t_get_number_of_traits(arg1);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_clone_t__get_trait(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  clone_t *arg1 = (clone_t *) 0 ;
+  int arg2 ;
+  double *arg3 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *array2 = NULL ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__get_trait",2,2,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__get_trait" "', argument " "1"" of type '" "clone_t *""'"); 
+  }
+  arg1 = reinterpret_cast< clone_t * >(argp1);
+  {
+    npy_intp dims[1];
+    if (!PyInt_Check(obj1))
+    {
+      const char* typestring = pytype_string(obj1);
+      PyErr_Format(PyExc_TypeError,
+        "Int dimension expected.  '%s' given.",
+        typestring);
+      SWIG_fail;
+    }
+    arg2 = (int) PyInt_AsLong(obj1);
+    dims[0] = (npy_intp) arg2;
+    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+    if (!array2) SWIG_fail;
+    arg3 = (double*) array_data(array2);
+  }
+  clone_t__get_trait(arg1,arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  {
+    resultobj = SWIG_Python_AppendOutput(resultobj,array2);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_clone_t__get_genotype(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  clone_t *arg1 = (clone_t *) 0 ;
+  unsigned short *arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *array2 = NULL ;
+  PyObject * obj0 = 0 ;
+  
+  {
+    npy_intp dims[1] = {
+      HIVGENOME 
+    };
+    array2 = PyArray_SimpleNew(1, dims, NPY_USHORT);
+    if (!array2) SWIG_fail;
+    arg2 = (unsigned short *) array_data(array2);
+  }
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__get_genotype",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__get_genotype" "', argument " "1"" of type '" "clone_t *""'"); 
+  }
+  arg1 = reinterpret_cast< clone_t * >(argp1);
+  clone_t__get_genotype(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  {
+    resultobj = SWIG_Python_AppendOutput(resultobj,array2);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_clone_t__set_genotype(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  clone_t *arg1 = (clone_t *) 0 ;
+  unsigned short *arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"clone_t__set_genotype",2,2,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_clone_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone_t__set_genotype" "', argument " "1"" of type '" "clone_t *""'"); 
+  }
+  arg1 = reinterpret_cast< clone_t * >(argp1);
+  {
+    npy_intp size[1] = {
+      HIVGENOME 
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, NPY_USHORT,
+      &is_new_object2);
+    if (!array2 || !require_dimensions(array2, 1) ||
+      !require_size(array2, size, 1)) SWIG_fail;
+    arg2 = (unsigned short *) array_data(array2);
+  }
+  clone_t__set_genotype(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2)
+    {
+      Py_DECREF(array2); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2)
+    {
+      Py_DECREF(array2); 
+    }
+  }
   return NULL;
 }
 
@@ -7835,7 +7973,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_hivpython_get_fitnesses(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_hivpython__get_fitnesses(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   hivpython *arg1 = (hivpython *) 0 ;
   int arg2 ;
@@ -7846,10 +7984,10 @@ SWIGINTERN PyObject *_wrap_hivpython_get_fitnesses(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if(!PyArg_UnpackTuple(args,(char *)"hivpython_get_fitnesses",2,2,&obj0,&obj1)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"hivpython__get_fitnesses",2,2,&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_hivpython, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "hivpython_get_fitnesses" "', argument " "1"" of type '" "hivpython *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "hivpython__get_fitnesses" "', argument " "1"" of type '" "hivpython *""'"); 
   }
   arg1 = reinterpret_cast< hivpython * >(argp1);
   {
@@ -8165,7 +8303,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_hypercube_function", _wrap_new_hypercube_function, METH_VARARGS, NULL},
 	 { (char *)"delete_hypercube_function", _wrap_delete_hypercube_function, METH_VARARGS, NULL},
 	 { (char *)"hypercube_function_set_up", _wrap_hypercube_function_set_up, METH_VARARGS, NULL},
-	 { (char *)"hypercube_function_get_dim", _wrap_hypercube_function_get_dim, METH_VARARGS, NULL},
 	 { (char *)"hypercube_function_get_seed", _wrap_hypercube_function_get_seed, METH_VARARGS, NULL},
 	 { (char *)"hypercube_function_get_func", _wrap_hypercube_function_get_func, METH_VARARGS, NULL},
 	 { (char *)"hypercube_function_get_additive_coefficient", _wrap_hypercube_function_get_additive_coefficient, METH_VARARGS, NULL},
@@ -8173,15 +8310,19 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"hypercube_function_add_coefficient", _wrap_hypercube_function_add_coefficient, METH_VARARGS, NULL},
 	 { (char *)"hypercube_function_set_random_epistasis_strength", _wrap_hypercube_function_set_random_epistasis_strength, METH_VARARGS, NULL},
 	 { (char *)"hypercube_function_swigregister", hypercube_function_swigregister, METH_VARARGS, NULL},
-	 { (char *)"clone_t_genotype_set", _wrap_clone_t_genotype_set, METH_VARARGS, NULL},
-	 { (char *)"clone_t_genotype_get", _wrap_clone_t_genotype_get, METH_VARARGS, NULL},
-	 { (char *)"clone_t_trait_set", _wrap_clone_t_trait_set, METH_VARARGS, NULL},
-	 { (char *)"clone_t_trait_get", _wrap_clone_t_trait_get, METH_VARARGS, NULL},
+	 { (char *)"clone_t__genotype_set", _wrap_clone_t__genotype_set, METH_VARARGS, NULL},
+	 { (char *)"clone_t__genotype_get", _wrap_clone_t__genotype_get, METH_VARARGS, NULL},
+	 { (char *)"clone_t__trait_set", _wrap_clone_t__trait_set, METH_VARARGS, NULL},
+	 { (char *)"clone_t__trait_get", _wrap_clone_t__trait_get, METH_VARARGS, NULL},
 	 { (char *)"clone_t_fitness_set", _wrap_clone_t_fitness_set, METH_VARARGS, NULL},
 	 { (char *)"clone_t_fitness_get", _wrap_clone_t_fitness_get, METH_VARARGS, NULL},
 	 { (char *)"clone_t_clone_size_set", _wrap_clone_t_clone_size_set, METH_VARARGS, NULL},
 	 { (char *)"clone_t_clone_size_get", _wrap_clone_t_clone_size_get, METH_VARARGS, NULL},
 	 { (char *)"new_clone_t", _wrap_new_clone_t, METH_VARARGS, NULL},
+	 { (char *)"clone_t_get_number_of_traits", _wrap_clone_t_get_number_of_traits, METH_VARARGS, NULL},
+	 { (char *)"clone_t__get_trait", _wrap_clone_t__get_trait, METH_VARARGS, NULL},
+	 { (char *)"clone_t__get_genotype", _wrap_clone_t__get_genotype, METH_VARARGS, NULL},
+	 { (char *)"clone_t__set_genotype", _wrap_clone_t__set_genotype, METH_VARARGS, NULL},
 	 { (char *)"delete_clone_t", _wrap_delete_clone_t, METH_VARARGS, NULL},
 	 { (char *)"clone_t_swigregister", clone_t_swigregister, METH_VARARGS, NULL},
 	 { (char *)"haploid_clone_get_generation", _wrap_haploid_clone_get_generation, METH_VARARGS, NULL},
@@ -8237,7 +8378,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"hivpython_get_divergence_statistics", _wrap_hivpython_get_divergence_statistics, METH_VARARGS, NULL},
 	 { (char *)"hivpython_get_fitness", _wrap_hivpython_get_fitness, METH_VARARGS, NULL},
 	 { (char *)"hivpython_get_trait", _wrap_hivpython_get_trait, METH_VARARGS, NULL},
-	 { (char *)"hivpython_get_fitnesses", _wrap_hivpython_get_fitnesses, METH_VARARGS, NULL},
+	 { (char *)"hivpython__get_fitnesses", _wrap_hivpython__get_fitnesses, METH_VARARGS, NULL},
 	 { (char *)"hivpython_get_allele_frequency", _wrap_hivpython_get_allele_frequency, METH_VARARGS, NULL},
 	 { (char *)"hivpython_get_pair_frequency", _wrap_hivpython_get_pair_frequency, METH_VARARGS, NULL},
 	 { (char *)"hivpython_get_allele_frequencies", _wrap_hivpython_get_allele_frequencies, METH_VARARGS, NULL},

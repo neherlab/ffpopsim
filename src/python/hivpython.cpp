@@ -58,9 +58,8 @@ void hivpython::get_genotype(unsigned int i, unsigned short *seq) {
 		seq[i] = newgt[i];
 }
 
+// Note: this function is renamed in the SWIG file for memory management issues
 void hivpython::get_fitnesses(int ncl, double *fits) {
-	// TODO: extend this function in Python to read the number of clones in advance and allocate the
-	// right amount of memory (so that Python can release it again)
 	if(ncl>(current_pop->size()))
 		ncl = current_pop->size();
 	for(size_t i=0; i < ncl; i++)

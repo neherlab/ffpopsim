@@ -26,77 +26,123 @@ import_array();
 %apply (int DIM1, double* IN_ARRAY1) {(int loci, double* fitness_additive)};
 */
 
-/* Specify external objects */
+
+/**************************************************************
+ * CODE TO BE WRAPPED
+ **************************************************************
+ * Note: only _declarations_ are needed, no implementation is required at all for
+ * wrapping.
+ */
+
+/**** STAT_T ****/
 struct stat_t {
-	double mean;
-	double variance;
+    double mean;
+    double variance;
 };
 
+/**** HYPERCUBE_FUNCTION ****/
 /*TODO: add C++ wrappers for the pointers (set/get methods) */
 class hypercube_function {
 public:
-	int dim;
-	double hypercube_mean;
-	vector <coeff_single_locus_t> coefficients_single_locus;
-	vector <coeff_t> coefficients_epistasis;
-	double epistatic_std;
-	int rng_offset;
-
-	// setting up
-	hypercube_function();
-	hypercube_function(int dim_in, int s=0);
-	virtual ~hypercube_function();
-	int set_up(int dim_in,  int s=0);
-
-	// methods
-	unsigned int get_seed() {return seed;};
-	double get_func(boost::dynamic_bitset<> *genotype);
-	double get_additive_coefficient(int locus);
-	int set_additive_coefficient(double value, int locus, int expected_locus=-1);
-	int add_coefficient(double value, vector <int> loci);
-	int set_random_epistasis_strength(double sigma);
+    int dim;
+    double hypercube_mean;
+    vector <coeff_single_locus_t> coefficients_single_locus;
+    vector <coeff_t> coefficients_epistasis;
+    double epistatic_std;
+    
+    // setting up
+    hypercube_function();
+    hypercube_function(int dim_in, int s=0);
+    virtual ~hypercube_function();
+    int set_up(int dim_in,  int s=0);
+    
+    // methods
+    unsigned int get_seed() {return seed;};
+    double get_func(boost::dynamic_bitset<> *genotype);
+    double get_additive_coefficient(int locus);
+    int set_additive_coefficient(double value, int locus, int expected_locus=-1);
+    int add_coefficient(double value, vector <int> loci);
+    int set_random_epistasis_strength(double sigma);
 };
 
 
-/*TODO: add C++ wrappers for the pointers (set/get methods) */
+/**** CLONE_T ****/
+%rename (_trait) clone_t::trait;
+%rename (_genotype) clone_t::genotype;
 struct clone_t {
-	boost::dynamic_bitset<> genotype;
-	vector <double> trait;
-	double fitness;
-	int clone_size;
-	clone_t(int n_traits){trait.resize(n_traits);}
+    boost::dynamic_bitset<> genotype;
+    vector <double> trait;
+    double fitness;
+    int clone_size;
+    clone_t(int n_traits);
 };
+/* C++ HELPER CODE */
+%extend clone_t {
+        int get_number_of_traits() {
+                return ($self->trait).size();
+        }
+        void _get_trait(int DIM1, double* ARGOUT_ARRAY1) {
+                for(size_t i=0; i<($self->trait).size(); i++)
+                        ARGOUT_ARRAY1[i] = ($self->trait)[i];
+        }
+        void _get_genotype(unsigned short ARGOUT_ARRAY1[HIVGENOME]) {
+            for(size_t i=0; i < ($self->genotype).size(); i++) ARGOUT_ARRAY1[i] = ($self->genotype)[i];
+        }
 
+/* PYTHON HELPER CODE */
+        %pythoncode {
+        @property
+        def trait(self):
+            return self._get_trait(self.get_number_of_traits())
+        
+        @property
+        def genotype(self):
+                return self._get_genotype()
+        }
+}
+
+
+/**** HAPLOID_CLONE ****/
 class haploid_clone {
 public:
-	// population parameters (read only)
-	int get_generation(){return generation;}
-	int get_number_of_loci(){return number_of_loci;}
-	int get_pop_size() {return pop_size;}
-	int get_number_of_clones(){return current_pop->size();}
-
-        //evolve
-	int bottleneck(int size_of_bottleneck);
-
-	// population parameters (read/write)
-	int target_pop_size;			// target (average) population size
-	double mutation_rate;			// rate of mutation per locus per generation
-	double outcrossing_probability;		// probability of having sex
-	double crossover_rate;			// rate of crossover during sex
-	int recombination_model;		//model of recombination to be used
-	bool circular;				//topology of the chromosome
-
-	// allele frequencies
-	double get_allele_frequency(int l) {return allele_frequencies[l];}
-	double get_pair_frequency(int locus1, int locus2);
-
-	// fitness/phenotype readout
-	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}
-	double get_trait(int n, int t=0) {calc_individual_traits(&((*current_pop)[n])); return (*current_pop)[n].trait[t];}
-
+    // population parameters (read only)
+    int get_generation();
+    int get_number_of_loci();
+    int get_pop_size();
+    int get_number_of_clones();
+    
+    //evolve
+    int bottleneck(int size_of_bottleneck);
+    
+    // population parameters (read/write)
+    int target_pop_size;
+    double mutation_rate;
+    double outcrossing_probability;
+    double crossover_rate;
+    int recombination_model;
+    bool circular;
+    
+    // allele frequencies
+    double get_allele_frequency(int l);
+    double get_pair_frequency(int locus1, int locus2);
+    
+    // fitness/phenotype readout
+    double get_fitness(int n);
+    double get_trait(int n, int t=0);
 };
 
 
+/**************************************************************
+ * INCLUDE HEADER OF THE SUBCLASS 'AS IS'
+ *************************************************************/
+/* PYTHON HELPER CODE */
+%rename (_get_fitnesses) hivpython::get_fitnesses(int DIM1, double* ARGOUT_ARRAY1);
+%extend hivpython {
+%pythoncode {
+def get_fitnesses(self):
+    return self._get_fitnesses(self.get_number_of_clones())
+}
+}
 
 %include "hivpython.h"
 

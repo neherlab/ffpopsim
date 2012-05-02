@@ -348,7 +348,7 @@ int haploid_clone::select_gametes()
 		if ((*current_pop)[i].clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^{F-mF}(1-r)
 			delta_fitness = (*current_pop)[i].fitness-cpot;
-			//if (HP_VERBOSE) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability))<<endl;
+			if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability))<<endl;
 			// put a cap to the number of offspring, lest we wait ages while generating random numbers
 			if(delta_fitness > MAX_DELTAFITNESS) {
 				err = HP_EXPLOSIONWARN;
@@ -477,7 +477,7 @@ void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
 	calc_individual_fitness(&tempgt);
 	//add clone to current population
 	current_pop->push_back(tempgt);
-//FIXME	if (HP_VERBOSE) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
+	if (HP_VERBOSE >= 2) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
 }
 
 /**
