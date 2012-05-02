@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <boost/algorithm/string.hpp>
 
+#include "popgen_highd.h"
+
 #define HIVPOP_VERBOSE 0
 #define HIVPOP_BADARG -1354341
 #define NOTHING 1e-10

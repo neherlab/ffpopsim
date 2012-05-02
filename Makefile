@@ -89,11 +89,11 @@ DISTUTILS_SETUP = setup.py
 python: $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%)
 
 
-$(SWIG_PYMODULE_HIV:%=$(PYBDIR)/%) $(SWIG_PYMCODULE_HIV:%=$(PYBDIR)/%) $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%): $(SWIG_WRAP_HIV:%=$(PYBDIR)/%) $(SWIG_SOURCE_HIV:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%)
+$(SWIG_PYMODULE_HIV:%=$(PYBDIR)/%) $(SWIG_PYMCODULE_HIV:%=$(PYBDIR)/%) $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%): $(SWIG_WRAP_HIV:%=$(PYBDIR)/%) $(SWIG_SOURCE_HIV:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
 	# TODO: add command-line options for library paths etc.
 	cd $(PYBDIR); python2 setup.py build_ext --inplace
 
-$(SWIG_WRAP_HIV:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_HIV:%=$(PYBDIR)/%)
+$(SWIG_WRAP_HIV:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_HIV:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
 	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_HIV:%=$(PYBDIR)/%)
 
 clean-python:

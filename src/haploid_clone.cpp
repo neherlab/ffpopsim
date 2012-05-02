@@ -126,7 +126,14 @@ int haploid_clone::free_mem()
 	return 0;
 }
 
-// create genotypes at random from allele frequencies saved in nu[k] k=0..number_of_loci-1
+/**
+ * @brief Initialize population with a certain number of individuals and fixed allele frequencies
+ *
+ * @param nu target allele frequencies
+ * @param n_o_genotypes number of individuals to be created
+ *
+ * @returns zero if successful, error codes otherwise
+ */
 int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 {
 	int i, locus;
@@ -153,8 +160,7 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 	random_sample.clear();	//and the random sample
 	boost::dynamic_bitset<> tempgt(number_of_loci);
 	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) add "<<ngt<<" genotypes of length "<<number_of_loci<<"\n";
-	for (i=0; i<ngt; i++)
-	{
+	for (i=0; i<ngt; i++) {
 		tempgt.reset();
 		for(locus=0; locus<number_of_loci; locus++){	//set all loci
 			if (gsl_rng_uniform(evo_generator)<nu[locus])	tempgt.set(locus);
@@ -163,11 +169,10 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 		if (HP_VERBOSE) cerr <<i<<endl;
 	}
 
-	//calculate its fitness and recombination rates
-	calc_stat();
-	if (HP_VERBOSE) cerr <<"done.\n";
-	//set generations counter to zero and calculate the statistics for the intial configuration
 	generation=0;
+	calc_stat();
+
+	if (HP_VERBOSE) cerr <<"done.\n";
 	return 0;
 }
 
@@ -196,7 +201,6 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 	}
 	pop_size=0;
 	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(int n_o_genotypes) with population size "<<n_o_genotypes<<"...";
-	generation=0;
 	current_pop->clear();
 	random_sample.clear();
 	boost::dynamic_bitset<> tempgt(number_of_loci);
@@ -207,7 +211,9 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 		add_genotypes(tempgt,target_pop_size);
 	}
 
-	calc_stat();					//make sure everything is calculated
+	generation=0;
+	calc_stat();
+
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
@@ -276,16 +282,26 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  * @returns sum of error codes of the single evolution steps. It is therefore a multiple of gen.
  */
 int haploid_clone::evolve(int gen){
-	int err=0, gtemp=0;
+	int err=0, gtemp = 0, btn = 0;
 	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
 	while((err == 0) && (gtemp < gen)) {
 		if (HP_VERBOSE) cerr<<"generation "<<(generation+gtemp)<<endl;
 		random_sample.clear();			//discard the old random sample
+		if(err==0) err=mutate();		//mutation step
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
+		if(err == HP_EXPLOSIONWARN) {
+			btn = 1;
+			err = 0;
+		}
+
 		if(err==0) err=add_recombinants();	//do the recombination between pairs of sex gametes
 		if(err==0) err=swap_populations();	//make the new population the current population
-		if(err==0) err=mutate();		//mutation step
-		gtemp++;
+
+		if(btn) {
+			err=bottleneck(MIN(5*target_pop_size, MAX_POPSIZE));
+			btn = 0;
+		}
+		gtemp ++;
 	}
 	generation+=gtemp;
 	if (HP_VERBOSE) {
@@ -298,13 +314,25 @@ int haploid_clone::evolve(int gen){
 /**
  * @brief selection step
  *
+ * @returns zero if successful, error codes otherwise
+ *
  * Random Poisson offspring numbers are drawn from all parents, proportionally to their fitness.
+ *
+ * Note: this function needs a few quirks to work properly. The problem has to do with very fit individuals,
+ * which would theoretically leave behind a huge number of offspring that immediately fill up the ecological
+ * niche. If we follow the rule blindly, we spend a lot of time generating random numbers for any kind of
+ * process (mutation, recombination, etc.). Real organisms are limited in their offspring number by physical
+ * constraints, which are abstracted away at the level of this library. Thus, we have to use a practical
+ * approach. We apply two corrections:
+ * 1. the max number of offspring of each clone is limited by MAX_DELTAFITNESS
+ * 2. the max population size is reduced below MAX_POPSIZE before exiting the function.
  */
 int haploid_clone::select_gametes()
 {
 	if (HP_VERBOSE) cerr<<"haploid_clone::select_gametes()...";
 	//determine the current mean fitness, which includes a term to keep the population size constant
 	double cpot=chemical_potential();
+	double delta_fitness;
 	//draw gametes according to parental fitness
 	int os,o, nrec;
 	int err=0;
@@ -316,12 +344,18 @@ int haploid_clone::select_gametes()
 	new_pop->reserve(current_pop->size()*1.1);
 	new_pop->clear();
 	for (unsigned int i=0; i<current_pop->size(); i++) {
-		//if (HP_VERBOSE) cerr<<i<<" ";
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)}) (since death rate is one, the growth rate is (f-bar{f})
 		if ((*current_pop)[i].clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^{F-mF}(1-r)
-			//if (HP_VERBOSE) cerr<<i<<": relative fitness = "<<((*current_pop)[i].fitness-cpot)<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability))<<endl;
-			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability));
+			delta_fitness = (*current_pop)[i].fitness-cpot;
+			//if (HP_VERBOSE) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability))<<endl;
+			// put a cap to the number of offspring, lest we wait ages while generating random numbers
+			if(delta_fitness > MAX_DELTAFITNESS) {
+				err = HP_EXPLOSIONWARN;
+				delta_fitness = MAX_DELTAFITNESS;
+			}
+
+			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_probability));
 
 			if (os>0){
 				// clone[i] to new_pop with os as clone size
@@ -331,20 +365,60 @@ int haploid_clone::select_gametes()
 			}
 			//draw the number of sexual offspring, add them to the list of sex_gametes one by one
 			if (outcrossing_probability>0){
-				nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*outcrossing_probability);
+				nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*outcrossing_probability);
 				for (o=0; o<nrec; o++) sex_gametes.push_back(i);
 			}
 		}
 	}
-	if(pop_size<1) err = HP_EXTINCTERR;
-	if (HP_VERBOSE) {
-		if(err==0) cerr<<"done."<<endl;
-		else {
-			cerr<<"error "<<err<<".";
-			if(err == HP_EXTINCTERR) cerr<<" The population went extinct!";
-			cerr<<endl;
+
+	if(pop_size > MAX_POPSIZE) err = HP_EXPLOSIONWARN;
+	if ((HP_VERBOSE) &&(err == HP_EXPLOSIONWARN)) cerr<<" The population is exploding and will be bottlenecked!"<<endl;
+	
+	if(pop_size < 1) {
+		err = HP_EXTINCTERR;
+		if (HP_VERBOSE) cerr<<"error "<<err<<". The population went extinct!"<<endl;
+	}
+	if ((HP_VERBOSE) && (err==0)) cerr<<"done."<<endl;
+	return err;
+}
+
+/**
+ * @brief Cause a bottleneck in the population size
+ *
+ * @param size_of_bottleneck number of individuals to leave alive (approximate)
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int haploid_clone::bottleneck(int size_of_bottleneck) {
+	double nutmp;
+	int os;
+	int err=0;
+	unsigned int old_size = pop_size;
+	if (HP_VERBOSE) cerr<<"haploid_clone::bottleneck()...";
+
+	pop_size = 0;
+	new_pop->reserve(size_of_bottleneck*1.1);
+	new_pop->clear();
+
+	for(size_t i=0; i < current_pop->size(); i++) {
+		os = (*current_pop)[i].clone_size * size_of_bottleneck / old_size;
+		if(os) {
+			// TODO: This should a distribution that depends on the ecology
+			// (i.e. how sharp the bottleneck is)
+			os=gsl_ran_poisson(evo_generator, os);
+			new_pop->push_back((*current_pop)[i]);
+			new_pop->back().clone_size=os;
+			pop_size+=os;
 		}
 	}
+
+	if(pop_size < 1) err = HP_EXTINCTERR;
+	else swap_populations();
+	if (HP_VERBOSE) {
+		if(err==0) cerr<<"done."<<endl;
+		else if(err == HP_EXTINCTERR) cerr<<" The population went extinct!"<<endl;
+	}
+
 	return err;
 }
 

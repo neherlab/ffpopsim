@@ -48,106 +48,47 @@ void hivpython::random_clone(unsigned short *seq) {
 		seq[i] = newgt[i];
 }
 
+int hivpython::init_genotypes(double *nu, int n_o_g) {
+	haploid_clone::init_genotypes(nu, n_o_g);
+}
 
-//int hivpython::read_selection_coefficients(istream &model){
-//	if (HIVPOP_VERBOSE){
-//		cerr<<"hivpython::read_selection_coefficients(): read coefficients ";
-//	}
-//	if (model.bad()){
-//		cerr<<"hivpython::read_selection_coefficients(): BAD MODEL STREAM!"<<endl;
-//		return HIVPOP_BADARG;
-//	}
-//	double val;
-//	vector <int> loci;
-//	vector<string> strs;
-//	string line;
-//	while(!model.eof()){
-//		strs.clear();
-//		getline(model, line);
-//		boost::split(strs, line, boost::is_any_of("\t "));
-//		if (strs.size()>1){
-//			for (unsigned int entry=0; entry<strs.size()-1; entry++){
-//				loci.push_back(atoi(strs[entry].c_str()));
-//			}
-//			val=atof(strs.back().c_str());
-//			add_fitness_coefficient(val, loci);
-//			if (HIVPOP_VERBOSE) cerr<<loci[0]<<" "<<val<<"  "<<loci.size()<<endl;
-//			loci.clear();
-//		}
-//	}
-//	if (HIVPOP_VERBOSE) cerr<<"...done"<<endl;
-//	return 0;
-//}
-//
-//
-//int hivpython::read_resistance_coefficients(istream &model){
-//	if (HIVPOP_VERBOSE){
-//		cerr<<"hivpython::read_resistance_coefficients(): read coefficients ";
-//	}
-//	if (model.bad()){
-//		cerr<<"hivpython::read_resistance_coefficients(): BAD MODEL STREAM!"<<endl;
-//		return HIVPOP_BADARG;
-//	}
-//	double val, wt_resistance=0;
-//	vector <int> loci;
-//	vector<string> strs;
-//	string line;
-//	while(!model.eof()){
-//		strs.clear();
-//		loci.clear();
-//		getline(model, line);
-//		boost::split(strs, line, boost::is_any_of("\t "));
-//		//cout <<"a "<<line<<"  "<<strs.size();
-//		if (strs.size()>1){
-//			for (unsigned int entry=0; entry<strs.size()-1; entry++){
-//				loci.push_back(atoi(strs[entry].c_str()));
-//				//cout<<loci.back()<<" "<<strs[entry].c_str()<<"  ";
-//			}
-//			val=atof(strs.back().c_str());
-//			add_fitness_coefficient(val, loci,1);
-//			wt_resistance+=val*pow(-1.0,(double)loci.size());
-//			//cout <<loci.size()<<"  "<<wt_resistance<<endl;
-//		}
-//		//cout<<loci[0]<<" "<<val<<"  "<<loci.size()<<endl;
-//	}
-//	trait[1].hypercube_mean=-wt_resistance;
-//	if (HIVPOP_VERBOSE){
-//		cerr<<"...done"<<endl;
-//	}
-//	return 0;
-//}
-//
-//
-//int hivpython::write_genotypes(ostream &out, int sample_size, string gt_label, int start, int length){
-//	if (out.bad()){
-//		cerr<<"hivpython::write_genotypes(): BAD OUTPUT FILE!"<<endl;
-//		return HIVPOP_BADARG;
-//	}else{
-//		int gti;
-//		int string_length;
-//		string temp;
-//		if (length>0)
-//			string_length = length;
-//		else
-//			string_length = number_of_loci - start;
-//
-//		produce_random_sample(sample_size);
-//		if (sample_size>get_pop_size()){
-//			cerr<<"hivpython::write_genotypes(): requested sample size exceeds population size"<<endl;
-//			return HIVPOP_BADARG;
-//		}else{
-//			for (int s=0; s<sample_size; s++){
-//				gti=random_clone();
-//				out <<">GT-"<<gt_label<<"_"<<gti<<'\n';
-//				for (int i =start; i<start+length; i++ ){
-//					if ((*current_pop)[gti].genotype[i]) out <<'1';
-//					else out <<'0';
-//				}
-//				out<<'\n';
-//				//out <<get_genotype_string(gti).substr(start,string_length)<<'\n';
-//			}
-//		}
-//		return 0;
-//	}
-//}
-//
+void hivpython::get_genotype(unsigned int i, unsigned short *seq) {
+	boost::dynamic_bitset<> newgt = (*current_pop)[i].genotype;
+	for(size_t i=0; i < number_of_loci; i++)
+		seq[i] = newgt[i];
+}
+
+void hivpython::get_fitnesses(int ncl, double *fits) {
+	// TODO: extend this function in Python to read the number of clones in advance and allocate the
+	// right amount of memory (so that Python can release it again)
+	if(ncl>(current_pop->size()))
+		ncl = current_pop->size();
+	for(size_t i=0; i < ncl; i++)
+		fits[i] = haploid_clone::get_fitness(i);
+}
+
+int hivpython::distance_Hamming(unsigned int clone1, unsigned int clone2, int l1, int l2, unsigned int *chunksflat, int every) {
+	// Check dimensions
+	if(l2 != 2) return HP_BADARG;
+
+	vector <unsigned int *> chunks;
+	unsigned int *tmp_chunk;
+	int d;
+
+	// Allocate memory
+	for(size_t i=0; i<l1; i++) {
+		tmp_chunk = new unsigned int[2];
+		tmp_chunk[0] = (unsigned int)chunksflat[i*2];
+		tmp_chunk[1] = (unsigned int)chunksflat[i*2+1];
+		chunks.push_back(tmp_chunk);
+	}
+
+	// Call baseclass method
+	d = haploid_clone::distance_Hamming(clone1, clone2, &chunks, every);
+
+	// Release memory
+	for(size_t i=0; i<l1; i++) delete chunks[i];
+
+	return d;
+}
+
