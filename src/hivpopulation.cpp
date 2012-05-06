@@ -119,17 +119,18 @@ int hivpopulation::read_resistance_coefficients(istream &model){
 
 
 int hivpopulation::write_genotypes(ostream &out, int sample_size, string gt_label, int start, int length){
+	if (HIVPOP_VERBOSE) cerr<<"hivpopulation::write_genotypes()...";
+	if (HIVPOP_VERBOSE) cerr<<"start = "<<start<"...";
+	if (HIVPOP_VERBOSE) cerr<<"length = "<<length<<"...";
+
 	if (out.bad()){
 		cerr<<"hivpopulation::write_genotypes(): BAD OUTPUT FILE!"<<endl;
 		return HIVPOP_BADARG;
 	}else{
 		int gti;
-		int string_length;
 		string temp;
-		if (length>0)
-			string_length = length;
-		else
-			string_length = number_of_loci - start;
+		if (length <= 0)
+			length = number_of_loci - start;
 
 		produce_random_sample(sample_size);
 		if (sample_size>get_pop_size()){
@@ -144,10 +145,9 @@ int hivpopulation::write_genotypes(ostream &out, int sample_size, string gt_labe
 					else out <<'0';
 				}
 				out<<'\n';
-				//out <<get_genotype_string(gti).substr(start,string_length)<<'\n';
 			}
 		}
+		if (HIVPOP_VERBOSE) cerr<<"...done."<<endl;
 		return 0;
 	}
 }
-

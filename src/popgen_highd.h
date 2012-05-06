@@ -256,7 +256,7 @@ public:
 	int init_genotypes(double *nu, int n_o_genotypes=0);
 
 	// modify population
-	void add_genotypes(boost::dynamic_bitset<> newgt,  int n);
+	void add_genotypes(boost::dynamic_bitset<> newgt, int n);
 	int add_fitness_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
 	void clear_fitness_function(){for(int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
 	void flip_single_locus(unsigned int clonenum, int locus);

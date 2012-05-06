@@ -10,11 +10,7 @@
 
 #include "hivpopulation.h"
 
-#define HIVPOP_VERBOSE 0
-#define HIVPOP_BADARG -1354341
-#define NOTHING 1e-10
-#define HIVGENOME 10000
-
+#define HIVPYTHON_VERBOSE 0
 
 /**
  * @brief HIV population with facultative drug treatment (Python2 bindings)
@@ -64,12 +60,14 @@ public:
 	// Note: one cannot draw several clones in one shot because of limitations in
 	// the SWIG Numpy interface (might be possible in the future). This is still exendible
 	// on the python side if wished (but might be expensive).
-	void random_clone(unsigned short ARGOUT_ARRAY1[HIVGENOME]);
+	using haploid_clone::random_clone;
+	void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1);
 	void get_genotype(unsigned int i, unsigned short ARGOUT_ARRAY1[HIVGENOME]);
 	int distance_Hamming(unsigned int clone1, unsigned int clone2){return haploid_clone::distance_Hamming(clone1, clone2);}
 	int distance_Hamming(unsigned int clone1, unsigned int clone2, int DIM1, int DIM2, unsigned int * IN_ARRAY2, int every=1);
 	stat_t get_diversity_statistics(unsigned int n_sample=1000){haploid_clone::calc_stat(); return haploid_clone::get_diversity_statistics(n_sample);}
 	stat_t get_divergence_statistics(unsigned int n_sample=1000){haploid_clone::calc_stat(); return haploid_clone::get_divergence_statistics(n_sample);}
+//FIXME	int get_divergence_histogram(int DIM1, unsigned int * INPLACE_ARRAY1, int DIM1, unsigned int * INPLACE_ARRAY1, int DIM1, int DIM2, unsigned int * IN_ARRAY2, unsigned int every=1, unsigned int n_sample=1000);
 
 	// fitness/phenotype readout
 	using haploid_clone::get_fitness;
@@ -89,8 +87,7 @@ public:
 	// stream I/O
 	int read_selection_coefficients(char *model);
 	int read_resistance_coefficients(char *model);
-//	int write_genotypes(ostream &out, int sample_size, string gt_label, int start=0, int length=0);
-
+	int write_genotypes(char * filename, int sample_size, char * gt_label=NULL, int start=0, int length=0);
 };
 
 #endif /* HIVPYTHON_H_ */

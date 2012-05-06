@@ -2,9 +2,15 @@
 doc/latex/*
 doc/html/*
 
-# Executables
+# Executables/ test files
 tests/lowd
 tests/highd
+tests/test.npz
+tests/test.txt
+
+# SWIG wrapper
+src/python/hivpython.py
+*_wrap.cpp
 
 # Compiled Object files
 *.slo

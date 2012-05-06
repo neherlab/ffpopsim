@@ -74,7 +74,7 @@ clean-src:
 # PYTHON BINDINGS
 ##==========================================================================
 SWIG = swig
-SWIGFLAGS = -c++ -python -modern
+SWIGFLAGS = -c++ -python -modern -modernargs -castmode
 
 SWIG_HEADER_HIV = hivpython.h
 SWIG_HIV = $(SWIG_HEADER_HIV:%.h=%.i)
