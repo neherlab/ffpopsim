@@ -193,7 +193,7 @@ protected:
 	int new_generation();
 
 	// clone structure
-	vector <unsigned int> partition_cumulative();
+	int partition_cumulative(vector <unsigned int> &partition_cum);
 
 	// allele_frequencies
 	double *allele_frequencies;
