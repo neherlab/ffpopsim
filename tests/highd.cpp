@@ -113,7 +113,7 @@ int pop_initialize() {
 	haploid_clone pop;
 	pop.set_up(N, L, 3, 1);
 	if(HIGHD_VERBOSE)
-		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.target_pop_size<<endl;	
+		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;	
 	return 0;	
 }
 

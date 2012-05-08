@@ -108,7 +108,7 @@ public:
     int bottleneck(int size_of_bottleneck);
     
     // population parameters (read/write)
-    int target_pop_size;
+    int carrying_capacity;
     double mutation_rate;
     double outcrossing_probability;
     double crossover_rate;
@@ -130,6 +130,7 @@ public:
 /**************************************************************
  * INCLUDE HEADER OF THE SUBCLASS 'AS IS'
  *************************************************************/
+#define HIVGENOME 10000
 /* PYTHON HELPER CODE */
 %rename (_get_fitnesses) hivpython::get_fitnesses(int DIM1, double* ARGOUT_ARRAY1);
 %rename (_get_genotype) hivpython::get_genotype(unsigned int i, unsigned short ARGOUT_ARRAY1[HIVGENOME]);

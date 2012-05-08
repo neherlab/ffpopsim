@@ -64,7 +64,7 @@ int haploid_clone::set_up(int N_in, int L_in,  int rng_seed, int n_o_traits)
 	number_of_traits=n_o_traits;
 	number_of_loci=L_in;
 	number_of_individuals_max=2*N_in;
-	target_pop_size=N_in;
+	carrying_capacity=N_in;
 
 	//In case no seed is provided use current second and add process ID
 	if (rng_seed==0){
@@ -165,8 +165,8 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) ....";
 	generation=0;
 	int ngt=0;
-	// if number of genotypes to be drawn is not specified, use default target population size
-	if (n_o_genotypes==0) ngt=target_pop_size;
+	// if number of genotypes to be drawn is not specified, use default carrying capacity
+	if (n_o_genotypes==0) ngt=carrying_capacity;
 	else ngt=n_o_genotypes;
 
 	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) reset current\n";
@@ -196,7 +196,7 @@ int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
 /**
  * @brief Initialize with a single genotypic clone (00...0).
  *
- * @param n_o_genotypes size of the clone. If not chosen, use target_pop_size.
+ * @param n_o_genotypes size of the clone. If not chosen, use carrying_capacity.
  *
  * @returns 0 if successful, nonzero otherwise.
  *
@@ -225,7 +225,7 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 	if (n_o_genotypes>=0){				//add n_o_genotypes copies of this genotype
 		add_genotypes(tempgt,n_o_genotypes);
 	}else{
-		add_genotypes(tempgt,target_pop_size);
+		add_genotypes(tempgt,carrying_capacity);
 	}
 
 	generation=0;
@@ -326,18 +326,8 @@ int haploid_clone::evolve(int gen){
 		random_sample.clear();			//discard the old random sample
 		if(err==0) err=mutate();		//mutation step
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
-		if(err == HP_EXPLOSIONWARN) {
-			btn = 1;
-			err = 0;
-		}
-
 		if(err==0) err=add_recombinants();	//do the recombination between pairs of sex gametes
 		if(err==0) err=swap_populations();	//make the new population the current population
-
-		if(btn) {
-			err=bottleneck(MIN(5*target_pop_size, MAX_POPSIZE));
-			btn = 0;
-		}
 		gtemp ++;
 	}
 	generation+=gtemp;
@@ -364,13 +354,13 @@ int haploid_clone::evolve(int gen){
  * 1. the max number of offspring of each clone is limited by MAX_DELTAFITNESS
  * 2. the max population size is reduced below MAX_POPSIZE before exiting the function.
  */
-int haploid_clone::select_gametes()
-{
+int haploid_clone::select_gametes() {
 	if (HP_VERBOSE) cerr<<"haploid_clone::select_gametes()...";
 	//determine the current mean fitness, which includes a term to keep the population size constant
-	double cpot=chemical_potential();
-	double delta_fitness;
+	double relaxation = relaxation_value();
+
 	//draw gametes according to parental fitness
+	double delta_fitness;
 	int os,o, nrec;
 	int err=0;
 	pop_size=0;
@@ -383,15 +373,9 @@ int haploid_clone::select_gametes()
 	for (unsigned int i=0; i<current_pop->size(); i++) {
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)}) (since death rate is one, the growth rate is (f-bar{f})
 		if ((*current_pop)[i].clone_size>0){
-			//the number of asex offspring of clone[i] is poisson distributed around e^{F-mF}(1-r)
-			delta_fitness = (*current_pop)[i].fitness-cpot;
-			if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp((*current_pop)[i].fitness-cpot)*(1-outcrossing_probability))<<endl;
-			// put a cap to the number of offspring, lest we wait ages while generating random numbers
-			if(delta_fitness > MAX_DELTAFITNESS) {
-				err = HP_EXPLOSIONWARN;
-				delta_fitness = MAX_DELTAFITNESS;
-			}
-
+			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
+			delta_fitness = (*current_pop)[i].fitness - relaxation;
+//			if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_probability))<<endl;
 			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_probability));
 
 			if (os>0){
@@ -407,9 +391,6 @@ int haploid_clone::select_gametes()
 			}
 		}
 	}
-
-	if(pop_size > MAX_POPSIZE) err = HP_EXPLOSIONWARN;
-	if ((HP_VERBOSE) &&(err == HP_EXPLOSIONWARN)) cerr<<" The population is exploding and will be bottlenecked!"<<endl;
 	
 	if(pop_size < 1) {
 		err = HP_EXTINCTERR;
@@ -431,7 +412,8 @@ int haploid_clone::select_gametes()
  * therefore almost conserve genotype frequencies, except for rare genotypes that are lost.
  *
  * TODO: this function should accept a gsl random distribution as optional argument for choosing how sharp
- * the bottleneck should be (i.e., how large fluctuations around the expected frequency may be).
+ * the bottleneck should be (i.e., how large fluctuations around the expected frequency may be). However,
+ * this requires function pointers or templates or lambda functions, and might be a nightmare to code.
  */
 int haploid_clone::bottleneck(int size_of_bottleneck) {
 	double ostmp;
@@ -599,9 +581,8 @@ int haploid_clone::swap_populations(){
  * The new genotypes are stored in new_pop at positions ng and ng+1.
  *
  */
-int haploid_clone::recombine(int parent1, int parent2)
-{
-	if(HP_VERBOSE) cerr<<"haploid_clone::recombine(int parent1, int parent2)..."<<endl;
+int haploid_clone::recombine(int parent1, int parent2) {
+	if(HP_VERBOSE >= 2) cerr<<"haploid_clone::recombine(int parent1, int parent2)..."<<endl;
 
 	boost::dynamic_bitset<> rec_pattern;
 	//depending on the recombination model, produce a map that determines which offspring
@@ -629,7 +610,7 @@ int haploid_clone::recombine(int parent1, int parent2)
 	offspring2.clone_size=1;
 
 	//Check what's going on
-	if(HP_VERBOSE >= 2) {
+	if(HP_VERBOSE >= 3) {
 		cerr<<rec_pattern<<endl;
 		cerr<<(*current_pop)[parent1].genotype<<endl;
 		cerr<<(*current_pop)[parent2].genotype<<endl;
@@ -645,8 +626,17 @@ int haploid_clone::recombine(int parent1, int parent2)
 	new_pop->push_back(offspring2);
 	pop_size+=2;
 
-	if(HP_VERBOSE) cerr<<"done."<<endl;
+	if(HP_VERBOSE >= 2) cerr<<"done."<<endl;
 	return 1;
+}
+
+/**
+ * @brief For each clone, recalculate its traits.
+ */
+void haploid_clone::update_traits() {
+	for (unsigned int i=0; i<current_pop->size(); i++) {
+		calc_individual_traits(&(*current_pop)[i]);
+	}
 }
 
 /**
@@ -655,15 +645,6 @@ int haploid_clone::recombine(int parent1, int parent2)
 void haploid_clone::update_fitness() {
 	for (unsigned int i=0; i<current_pop->size(); i++) {
 		calc_individual_fitness_from_traits(&(*current_pop)[i]);
-	}
-}
-
-/**
- * @brief For each clone, recalculate its traits.
- */
-void haploid_clone::update_traits(){
-	for (unsigned int i=0; i<current_pop->size(); i++) {
-		calc_individual_traits(&(*current_pop)[i]);
 	}
 }
 
@@ -704,24 +685,26 @@ void haploid_clone::calc_individual_traits(clone_t *tempgt){
  *
  * @param tempgt clone whose fitness is being calculated
  *
- * Note: this function also updates the traits information for the same clone,
- * because the phenotype is needed to calculate fitness.
+ * Note: this function also updates the traits information for the same clone, because the
+ * phenotype is needed to calculate fitness. If you have already calculated the traits,
+ * you can rely calc_individual_fitness_from_traits.
  */
-void haploid_clone::calc_individual_fitness(clone_t *tempgt){
-	//calculate the new fitness value of the mutant TODO: do we really need this?
+void haploid_clone::calc_individual_fitness(clone_t *tempgt) {
+	//calculate the new fitness value of the mutant
 	calc_individual_traits(tempgt);
 	calc_individual_fitness_from_traits(tempgt);
 }
 
 /**
- * @brief Choose a certain number of crossover points and produce a 0000111100011111101101 crossover pattern
+ * @brief Choose a certain number of crossover points and produce a 0000111100011111101101
+ * crossover pattern
  *
  * @returns crossover pattern
  */
-boost::dynamic_bitset<> haploid_clone::crossover_pattern(){
+boost::dynamic_bitset<> haploid_clone::crossover_pattern() {
 	int n_o_c=0;
 
-	double total_rec = number_of_loci*crossover_rate;
+	double total_rec = number_of_loci * crossover_rate;
 	//TODO this should be poisson conditional on having at least one
 	if (total_rec<0.1) n_o_c=1;
 	else while (n_o_c==0) n_o_c= gsl_ran_poisson(evo_generator,number_of_loci*crossover_rate);
@@ -758,7 +741,7 @@ boost::dynamic_bitset<> haploid_clone::crossover_pattern(){
  *
  * @returns reassortement pattern
  */
-boost::dynamic_bitset<> haploid_clone::reassortment_pattern(){
+boost::dynamic_bitset<> haploid_clone::reassortment_pattern() {
 	boost::dynamic_bitset<> rec_pattern;
 	//the blocks of the bitset are to long for the rng, hence divide them by 4
 	int bpblock = rec_pattern.bits_per_block/4;
@@ -818,7 +801,7 @@ boost::dynamic_bitset<> haploid_clone::reassortment_pattern(){
  *
  * Note: if you want to get random clones, please use random_clone().
  */
-void haploid_clone::produce_random_sample(int size){
+void haploid_clone::produce_random_sample(int size) {
 	if (HP_VERBOSE) cerr<<"haploid_clone::produce_random_sample(int): size "<<size<<"...";
 
 	random_sample.reserve((size+50)*1.1);
@@ -904,36 +887,43 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 }
 
 /**
- * @brief Get the mean fitness plus relaxation term.
+ * @brief Get the log of the exp-average fitness plus relaxation term.
  *
- * @returns the chemical potential, i.e. the current mean fitness plus term that causes the population size to relax to target_pop_size
+ * @returns the carrying capacity, i.e. the current mean fitness plus term that causes the population size to relax to carrying_capacity
  */
-double haploid_clone::chemical_potential() {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::chemical_potential()..."<<endl;}
-	double chem_pot;
-	// Note: the update_X stuff is required, because the chemical potential is a global quantity
-	update_traits();
-	update_fitness();
-	calc_fitness_stat();
-	chem_pot = fitness_stat.mean + (MIN(0.6931*(double(pop_size)/target_pop_size-1),2.0));
-	if (HP_VERBOSE) {cerr<<"mean fitness = "<<fitness_stat.mean<<"..."<<endl;}
-	if (HP_VERBOSE) {cerr<<"cpot = "<<chem_pot<<"...done."<<endl;}
-	return chem_pot;
-}
+double haploid_clone::relaxation_value() {
+	if (HP_VERBOSE) {cerr <<"haploid_clone::relaxation_value()..."<<endl;}
 
+//	// FIXME: OLD
+//	update_traits();
+//	update_fitness();
+//	calc_fitness_stat();
+//	double relax = fitness_stat.mean + (MIN(0.6931*(double(pop_size)/carrying_capacity-1),2.0));
+//	if (HP_VERBOSE) {cerr<<"mean fitness = "<<fitness_stat.mean<<"..."<<endl;}
+
+	double fitness_max = get_max_fitness();
+	double logmean_expfitness = get_logmean_expfitness(fitness_max);
+	// the second term is the growth rate when we start from N << carrying capacity
+	double relax = logmean_expfitness + (fmin(0.6931*(double(pop_size)/carrying_capacity-1),2.0)) + fitness_max;
+	if (HP_VERBOSE) {cerr<<"log(<exp(F-Fmax)>) = "<<logmean_expfitness<<"..."<<endl;}
+
+	if (HP_VERBOSE) {cerr<<"relaxation value = "<<relax<<"...done."<<endl;}
+	return relax;
+}
 
 /**
  * @brief Get the fitness of the fittest individual.
  *
  * @returns the fitness of the fittest clone
+ *
+ * Note: this function recalculates the max fitness.
  */
 double haploid_clone::get_max_fitness() {
-	double mf=(*current_pop)[0].fitness;
+	double fitness_max = (*current_pop)[0].fitness;
 	for (unsigned int i=0; i<current_pop->size(); i++)
-		mf = MAX(mf, (*current_pop)[i].fitness);
-	return mf;
+		fitness_max = fmax(fitness_max, (*current_pop)[i].fitness);
+	return fitness_max;
 }
-
 
 /**
  * @brief Calculate and store fitness population statistics.
@@ -967,6 +957,32 @@ void haploid_clone::calc_fitness_stat() {
 	fitness_stat.variance-=fitness_stat.mean*fitness_stat.mean;
 	if (HP_VERBOSE) {cerr <<"done."<<endl;}
 }
+
+
+/**
+ * @brief Get the population exp-average of fitness, which is used for keeping the population size fixed.
+ *
+ * @param fitness_max Maximal fitness in the population, used to avoid explosion of exponentials.
+ * 
+ * @returns the population exp-average of fitness
+ *
+ * Mathematically, this is \f$ \log\left( \left< e^(F-F_{max}) \right> \tight) \f$. The baseline is \f$ F_{max} \f$
+ * in order to avoid exponentiating large numbers.
+ *
+ */
+double haploid_clone::get_logmean_expfitness(double fitness_max) {
+	if (HP_VERBOSE) {cerr <<"haploid_clone::get_logmean_expfitness()...";}
+	double logmean_expfitness = 0;
+	//loop over clones and add stuff up
+	for (unsigned int c=0; c<current_pop->size(); c++){
+		logmean_expfitness += (*current_pop)[c].clone_size * exp((*current_pop)[c].fitness - fitness_max);
+	}
+	logmean_expfitness /= pop_size;
+	logmean_expfitness = log(logmean_expfitness);
+	if (HP_VERBOSE) {cerr <<"done."<<endl;}
+	return logmean_expfitness;
+}
+
 
 /**
  * @brief Calculate and store trait population statistics and covariances
@@ -1382,7 +1398,7 @@ int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins
 	if(fmin >= fmax)
 		return HP_NOBINSERR;
 
-	bins = MIN(n_sample / 30, bins);	//TODO: choose a decent criterion
+	bins = min(n_sample / 30, bins);	//TODO: choose a decent criterion
 	double width = (fmax - fmin) / (bins - 1);
 	*hist = gsl_histogram_alloc(bins); 
 	gsl_histogram_set_ranges_uniform(*hist, fmin - 0.5 * width, fmax + 0.5 * width);

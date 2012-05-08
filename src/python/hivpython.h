@@ -45,7 +45,7 @@ public:
 	using haploid_clone::get_number_of_clones;
 
 	// population parameters (read/write)
-	using haploid_clone::target_pop_size;
+	using haploid_clone::carrying_capacity;
 	using haploid_clone::mutation_rate;
 	using haploid_clone::outcrossing_probability;
 	using haploid_clone::crossover_rate;

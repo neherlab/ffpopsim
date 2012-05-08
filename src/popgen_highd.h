@@ -166,7 +166,7 @@ private:
 	// to ensure their memory is released upon destruction of the class.
 	vector <clone_t> current_pop_vector;
 	vector <clone_t> new_pop_vector;
-	
+
 protected:
 	// random number generator
 	gsl_rng* evo_generator;
@@ -186,7 +186,9 @@ protected:
 	// evolution
 	int mutate();
 	int select_gametes();
-	double chemical_potential();
+	double relaxation_value();
+	double get_logmean_expfitness(double fitness_max);	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
+	
 	int flip_single_locus(int locus);
 	void shuffle_genotypes();
 	int swap_populations();
@@ -244,7 +246,7 @@ public:
 	int get_number_of_clones(){return current_pop->size();}
 
 	// population parameters (read/write)
-	int target_pop_size;			// target (average) population size
+	int carrying_capacity;			// carrying capacity of the environment (pop size)
 	double mutation_rate;			// rate of mutation per locus per generation
 	double outcrossing_probability;		// probability of having sex
 	double crossover_rate;			// rate of crossover during sex
