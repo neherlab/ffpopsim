@@ -216,7 +216,7 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 		cerr <<"haploid_clone::init_genotypes(): number of genotypes has to be smaller than max! got: "<<n_o_genotypes<<"!\n";
 		return HP_BADARG;
 	}
-	pop_size=0;
+	population_size=0;
 	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(int n_o_genotypes) with population size "<<n_o_genotypes<<"...";
 	current_pop->clear();
 	random_sample.clear();
@@ -245,7 +245,7 @@ void haploid_clone::calc_allele_freqs()
 {
 	if (HP_VERBOSE) cerr<<"haploid_clone::calc_allele_freqs()...";
 	int locus,cs;
-	pop_size=0;
+	population_size=0;
 	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] = 0);
 	//loop over all clones
 	for (unsigned int i=0; i<current_pop->size(); i++)
@@ -254,10 +254,10 @@ void haploid_clone::calc_allele_freqs()
 		for (locus=0; locus<number_of_loci; locus++)	//add clone size to allele frequency of clone carries allele
 			if ((*current_pop)[i].genotype[locus])
 				allele_frequencies[locus] += cs;
-		pop_size += cs;
+		population_size += cs;
 	}
 	//convert counts into frequencies
-	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] /= pop_size);
+	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] /= population_size);
 	if (HP_VERBOSE) cerr<<"done.\n";
 }
 
@@ -276,7 +276,7 @@ double haploid_clone::get_pair_frequency(int locus1, int locus2)
 	for (unsigned i=0; i<current_pop->size(); i++)
 		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2])
 		        frequency += (*current_pop)[i].clone_size;
-	frequency /= pop_size;
+	frequency /= population_size;
 	if (HP_VERBOSE) cerr<<"done.\n";
 	return frequency;
 }
@@ -319,8 +319,18 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  * Typical errors include extinction or the opposite, offspring explosion.
  */
 int haploid_clone::evolve(int gen){
-	int err=0, gtemp = 0, btn = 0;
 	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
+	int err=0, gtemp = 0, btn = 0;
+
+	// calculate an effective outcrossing rate to include the case of very rare crossover rates.
+	// Since a recombination without crossovers is a waste of time, we scale down outcrossing probability
+	// and scale up crossover rate so that at least one crossover is guaranteed to happen.
+	if (recombination_model==CROSSOVERS)
+		outcrossing_rate_effective = outcrossing_rate * (1 - exp(- number_of_loci * crossover_rate));
+	else
+		outcrossing_rate_effective = outcrossing_rate;
+
+	// evolve cycle
 	while((err == 0) && (gtemp < gen)) {
 		if (HP_VERBOSE) cerr<<"generation "<<(generation+gtemp)<<endl;
 		random_sample.clear();			//discard the old random sample
@@ -363,10 +373,10 @@ int haploid_clone::select_gametes() {
 	double delta_fitness;
 	int os,o, nrec;
 	int err=0;
-	pop_size=0;
+	population_size=0;
 	
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
-	sex_gametes.reserve(pop_size*outcrossing_probability*1.1);
+	sex_gametes.reserve(population_size*outcrossing_rate_effective*1.1);
 	sex_gametes.clear();
 	new_pop->reserve(current_pop->size()*1.1);
 	new_pop->clear();
@@ -375,24 +385,24 @@ int haploid_clone::select_gametes() {
 		if ((*current_pop)[i].clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
 			delta_fitness = (*current_pop)[i].fitness - relaxation;
-//			if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_probability))<<endl;
-			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_probability));
+//			if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective))<<endl;
+			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective));
 
 			if (os>0){
 				// clone[i] to new_pop with os as clone size
 				new_pop->push_back((*current_pop)[i]);
 				new_pop->back().clone_size=os;
-				pop_size+=os;
+				population_size+=os;
 			}
 			//draw the number of sexual offspring, add them to the list of sex_gametes one by one
-			if (outcrossing_probability>0){
-				nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*outcrossing_probability);
+			if (outcrossing_rate_effective>0){
+				nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*outcrossing_rate_effective);
 				for (o=0; o<nrec; o++) sex_gametes.push_back(i);
 			}
 		}
 	}
 	
-	if(pop_size < 1) {
+	if(population_size < 1) {
 		err = HP_EXTINCTERR;
 		if (HP_VERBOSE) cerr<<"error "<<err<<". The population went extinct!"<<endl;
 	}
@@ -419,10 +429,10 @@ int haploid_clone::bottleneck(int size_of_bottleneck) {
 	double ostmp;
 	unsigned int os;
 	int err=0;
-	unsigned int old_size = pop_size;
+	unsigned int old_size = population_size;
 	if (HP_VERBOSE) cerr<<"haploid_clone::bottleneck()...";
 
-	pop_size = 0;
+	population_size = 0;
 	new_pop->reserve(size_of_bottleneck*1.1);
 	new_pop->clear();
 
@@ -432,11 +442,11 @@ int haploid_clone::bottleneck(int size_of_bottleneck) {
 		if(os > 0) {
 			new_pop->push_back((*current_pop)[i]);
 			new_pop->back().clone_size=os;
-			pop_size+=os;
+			population_size+=os;
 		}
 	}
 
-	if(pop_size < 1) err = HP_EXTINCTERR;
+	if(population_size < 1) err = HP_EXTINCTERR;
 	else swap_populations();
 	if (HP_VERBOSE) {
 		if(err==0) cerr<<"done."<<endl;
@@ -457,10 +467,10 @@ int haploid_clone::mutate() {
 	if (HP_VERBOSE)	cerr <<"haploid_clone::mutate() ..."<<endl;
 	int i, actual_n_o_mutations,locus=0;
 	if(mutation_rate) {
-		produce_random_sample(number_of_loci*mutation_rate*pop_size*2);
+		produce_random_sample(number_of_loci*mutation_rate*population_size*2);
 		for (locus = 0; locus<number_of_loci; locus++) {
 			//draw the number of mutation that are to happen at this locus
-			actual_n_o_mutations = gsl_ran_poisson(evo_generator, mutation_rate*pop_size);
+			actual_n_o_mutations = gsl_ran_poisson(evo_generator, mutation_rate*population_size);
 			//introduce these mutations one by one
 			for (i = 0; i < actual_n_o_mutations; ++i) {
 				flip_single_locus(random_clone(), locus);
@@ -542,7 +552,7 @@ int haploid_clone::add_recombinants()
 			parent1=sex_gametes[i];
 			parent2=sex_gametes[i+1];
 			//The recombination function stores two new genotypes
-			//in new_genotypes[new_pop_size] and [new_pop_size+1]
+			//in new_genotypes[new_population_size] and [new_population_size+1]
 			n_o_c=recombine(parent1, parent2);
 		}
 	}
@@ -624,7 +634,7 @@ int haploid_clone::recombine(int parent1, int parent2) {
 	//add genotypes to new population
 	new_pop->push_back(offspring1);
 	new_pop->push_back(offspring2);
-	pop_size+=2;
+	population_size+=2;
 
 	if(HP_VERBOSE >= 2) cerr<<"done."<<endl;
 	return 1;
@@ -807,7 +817,7 @@ void haploid_clone::produce_random_sample(int size) {
 	random_sample.reserve((size+50)*1.1);
 	random_sample.clear();
 	int thechosen,o;
-	double frac = 1.1*(size+50)/pop_size;
+	double frac = 1.1*(size+50)/population_size;
 	//loop over all clones and choose a poisson distributed number of genoytpes
 	for (unsigned int c=0; c<current_pop->size(); c++){
 		thechosen=gsl_ran_poisson(evo_generator, frac*(*current_pop)[c].clone_size);
@@ -841,7 +851,7 @@ int haploid_clone::random_clone() {
 		random_sample.pop_back();
 		return rclone;
 	}else{	//if no genotypes left in sample, produce new sample
-		produce_random_sample(min(pop_size, size));
+		produce_random_sample(min(population_size, size));
 		rclone=random_sample.back();
 		random_sample.pop_back();
 		return rclone;
@@ -883,7 +893,7 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 	tempgt.clone_size = n;
 	calc_individual_fitness(&tempgt);
 	current_pop->push_back(tempgt);
-	pop_size+=n;
+	population_size+=n;
 }
 
 /**
@@ -898,13 +908,13 @@ double haploid_clone::relaxation_value() {
 //	update_traits();
 //	update_fitness();
 //	calc_fitness_stat();
-//	double relax = fitness_stat.mean + (MIN(0.6931*(double(pop_size)/carrying_capacity-1),2.0));
+//	double relax = fitness_stat.mean + (MIN(0.6931*(double(population_size)/carrying_capacity-1),2.0));
 //	if (HP_VERBOSE) {cerr<<"mean fitness = "<<fitness_stat.mean<<"..."<<endl;}
 
 	double fitness_max = get_max_fitness();
 	double logmean_expfitness = get_logmean_expfitness(fitness_max);
 	// the second term is the growth rate when we start from N << carrying capacity
-	double relax = logmean_expfitness + (fmin(0.6931*(double(pop_size)/carrying_capacity-1),2.0)) + fitness_max;
+	double relax = logmean_expfitness + (fmin(0.6931*(double(population_size)/carrying_capacity-1),2.0)) + fitness_max;
 	if (HP_VERBOSE) {cerr<<"log(<exp(F-Fmax)>) = "<<logmean_expfitness<<"..."<<endl;}
 
 	if (HP_VERBOSE) {cerr<<"relaxation value = "<<relax<<"...done."<<endl;}
@@ -938,7 +948,7 @@ void haploid_clone::calc_fitness_stat() {
 	int t,t1, csize;
 	fitness_stat.mean=0;
 	fitness_stat.variance=0;
-	pop_size=0;
+	population_size=0;
 	//loop over clones and add stuff up
 	for (unsigned int c=0; c<current_pop->size(); c++){
 		csize = (*current_pop)[c].clone_size;
@@ -946,14 +956,14 @@ void haploid_clone::calc_fitness_stat() {
 		//if (HP_VERBOSE) {cerr <<"fitness["<<c<<"] = "<<temp<<"...";}
 		fitness_stat.mean+=temp*csize;
 		fitness_stat.variance+=temp*temp*csize;
-		pop_size+=csize;
+		population_size+=csize;
 	}
-	if (pop_size==0){
+	if (population_size==0){
 		cerr <<"haploid_clone::calc_fitness_stat(): population extinct! clones: "<<current_pop->size()<<endl;
 	}
-	//if (HP_VERBOSE) {cerr <<"pop size: "<<pop_size<<", sum of fitnesses: "<<fitness_stat.mean<<"...";}
-	fitness_stat.mean/=pop_size;
-	fitness_stat.variance/=pop_size;
+	//if (HP_VERBOSE) {cerr <<"pop size: "<<population_size<<", sum of fitnesses: "<<fitness_stat.mean<<"...";}
+	fitness_stat.mean/=population_size;
+	fitness_stat.variance/=population_size;
 	fitness_stat.variance-=fitness_stat.mean*fitness_stat.mean;
 	if (HP_VERBOSE) {cerr <<"done."<<endl;}
 }
@@ -977,7 +987,7 @@ double haploid_clone::get_logmean_expfitness(double fitness_max) {
 	for (unsigned int c=0; c<current_pop->size(); c++){
 		logmean_expfitness += (*current_pop)[c].clone_size * exp((*current_pop)[c].fitness - fitness_max);
 	}
-	logmean_expfitness /= pop_size;
+	logmean_expfitness /= population_size;
 	logmean_expfitness = log(logmean_expfitness);
 	if (HP_VERBOSE) {cerr <<"done."<<endl;}
 	return logmean_expfitness;
@@ -995,7 +1005,7 @@ void haploid_clone::calc_trait_stat() {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_trait_stat()...";}
 	double temp,temp1;
 	int t,t1, csize;
-	pop_size=0;
+	population_size=0;
 
 	// reset class attributes
 	for(t=0; t<number_of_traits; t++){
@@ -1019,23 +1029,23 @@ void haploid_clone::calc_trait_stat() {
 			}
 		}
 		temp=(*current_pop)[c].fitness;
-		pop_size+=csize;
+		population_size+=csize;
 	}
 	//complain if population went extinct
-	if (pop_size==0){
+	if (population_size==0){
 		cerr <<"haploid_clone::calc_trait_stat(): population extinct! clones: "
 				<<current_pop->size()<<endl;
 	}
 	//normalize the means and variances
 	for(t=0; t<number_of_traits; t++){
-		trait_stat[t].mean/=pop_size;
-		trait_stat[t].variance/=pop_size;
+		trait_stat[t].mean/=population_size;
+		trait_stat[t].variance/=population_size;
 		trait_stat[t].variance -= trait_stat[t].mean*trait_stat[t].mean;
 	}
 	//calculate the covariances
 	for(t=0; t<number_of_traits; t++){
 		for(t1=0; t1<number_of_traits; t1++){
-			trait_covariance[t][t1]/=pop_size;
+			trait_covariance[t][t1]/=population_size;
 			trait_covariance[t][t1] -= trait_stat[t].mean*trait_stat[t1].mean;
 		}
 	}
@@ -1092,10 +1102,10 @@ int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity
 	//reset population
 	current_pop->clear();
 	random_sample.clear();
-	pop_size=0;
+	population_size=0;
 	if (mem){
 		init_genotypes(0);
-		pop_size=0;
+		population_size=0;
 		//loop over each line of the ms out-put file
 		while(gts.eof()==false){
 			gts.get(line, 2*number_of_loci+5000);
@@ -1176,10 +1186,10 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 	//reset population
 	current_pop->clear();
 	random_sample.clear();
-	pop_size=0;
+	population_size=0;
 	if (mem){
 		init_genotypes(0);
-		pop_size=0;
+		population_size=0;
 		//loop over each line of the ms out-put file
 		while(gts.eof()==false){
 			gts.get(line, 2*number_of_loci+5000);
@@ -1284,7 +1294,7 @@ int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
  *
  * *Example*: if there are three clones of sizes (100, 22, 3) this function will
  * fill the vector (100, 122, 125). The last element is of course the population
- * size See also get_pop_size.
+ * size See also get_population_size.
  *
  * Note: the vector is taken in input by reference for performance reasons, since it can get huge.
  */
@@ -1372,10 +1382,13 @@ stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample)
  * the fitness average and variance, and then set the bin width so that the deleterious
  * tail is within 2 sigma or so.
  *
- * *Note*: this function allocates memory for the histogram. The user is expected to release it
+ * *Note*: this function allocates memory for the histogram *only* if there is no binning error.
+ * If you get HP_NOBINSERR, no memory is allocated. The user is expected to release the memory
  * manually.
  */
 int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins, unsigned int n_sample) {
+	if (HP_VERBOSE) cerr <<"haploid_clone::get_fitness_histogram()...";
+
 	// Calculate fitness of the sample
 	double fitnesses[n_sample];
 	vector <int> clones;
@@ -1391,22 +1404,27 @@ int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins
 	double histtail = 2 * fitstd;
 
 	// Prepare histogram
-	double fmax = *max_element(fitnesses, fitnesses+n_sample);
-	double fmin = fitmean - histtail;
+	double fitmax = *max_element(fitnesses, fitnesses+n_sample);
+	double fitmin = *min_element(fitnesses, fitnesses+n_sample);
+	double fitmin_hist = fitmean - histtail;
 
 	// Sometimes the population is homogeneous (neutral models)
-	if(fmin >= fmax)
+	if(fitmin >= fitmax)
 		return HP_NOBINSERR;
 
-	bins = min(n_sample / 30, bins);	//TODO: choose a decent criterion
-	double width = (fmax - fmin) / (bins - 1);
+	//TODO: choose a decent criterion
+	bins = min(n_sample / 30, bins);
+
+	double width = (fitmax - fitmin_hist) / (bins - 1);
 	*hist = gsl_histogram_alloc(bins); 
-	gsl_histogram_set_ranges_uniform(*hist, fmin - 0.5 * width, fmax + 0.5 * width);
+	gsl_histogram_set_ranges_uniform(*hist, fitmin_hist - 0.5 * width, fitmax + 0.5 * width);
 
 	// Fill and scale histogram
 	for (size_t i = 0; i < n_sample; i++)
 		gsl_histogram_increment(*hist, fitnesses[i]);
 	gsl_histogram_scale(*hist, 1/(double)n_sample);
+
+	if (HP_VERBOSE) cerr <<"done"<<endl;
 
 	// Of course, the user must take care of the memory allocated
 	return 0;

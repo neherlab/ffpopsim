@@ -126,7 +126,7 @@ int pop_evolve() {
 	pop.set_up(N, L);
 
 	pop.mutation_rate = 1e-3;
-	pop.outcrossing_probability = 1e-2;
+	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
@@ -168,7 +168,7 @@ int pop_sampling() {
 	pop.set_up(N, L);
 
 	pop.mutation_rate = 1e-3;
-	pop.outcrossing_probability = 1e-2;
+	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
@@ -199,7 +199,7 @@ int pop_Hamming() {
 	pop.set_up(N, L);
 
 	pop.mutation_rate = 1e-3;
-	pop.outcrossing_probability = 1e-2;
+	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
@@ -260,17 +260,19 @@ int pop_divdiv() {
 	pop.set_up(N, L);
 
 	pop.mutation_rate = 1e-3;
-	pop.outcrossing_probability = 1e-2;
+	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
 
 	pop.evolve(10);
 
+	stat_t fitness = pop.get_fitness_statistics();
 	stat_t divergence = pop.get_divergence_statistics();
 	stat_t diversity = pop.get_diversity_statistics();
 
 	if(HIGHD_VERBOSE) {
+		cerr<<"Fitness: mean = "<<fitness.mean<<", variance = "<<fitness.variance<<endl;
 		cerr<<"Divergence: mean = "<<divergence.mean<<", variance = "<<divergence.variance<<endl;
 		cerr<<"Diversity: mean = "<<diversity.mean<<", variance = "<<diversity.variance<<endl;
 	}
@@ -283,28 +285,33 @@ int pop_divdiv() {
 int pop_histograms() {
 	int L = 100;
 	int N = 100;
-	int err;
+	int err = 0;
 
 	haploid_clone pop;
 	pop.set_up(N, L);
 
 	pop.mutation_rate = 1e-3;
-	pop.outcrossing_probability = 1e-2;
+	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.init_genotypes();		// start with a population of the right size
 
 	vector <int> loci;
 	for(int i=0; i< L/2; i++) {
-		loci.assign(1, i);
-		pop.add_fitness_coefficient(0.1, loci);
-		loci.clear();
+		loci.push_back(i);
+		pop.add_fitness_coefficient(0.003, loci);
+		loci.pop_back();
 	}
 
-	pop.evolve(10);
+//	pop.evolve(10);
 	pop.calc_stat();
 
-	cout<<"Number of clones: "<<pop.get_number_of_clones()<<endl;
+	if(HIGHD_VERBOSE) {
+		cerr<<"Number of clones: "<<pop.get_number_of_clones()<<endl;
+		for(size_t i = 0; i < (unsigned int)(pop.get_number_of_clones()); i++)
+			cerr<<pop.get_fitness(i)<<" ";
+		cerr<<endl;
+	}
 
 	unsigned int bins = 10;
 	double leftbin, rightbin;
@@ -319,8 +326,8 @@ int pop_histograms() {
 			for(size_t i=0; i<bins; i++) {gsl_histogram_get_range(fhist,i,&leftbin,&rightbin); cerr<<leftbin<<" ";}	cerr<<endl;
 			for(size_t i=0; i<bins; i++) cerr<<gsl_histogram_get(fhist,i)<<" "; cerr<<endl;
 		}
+		gsl_histogram_free(fhist);
 	}
-	gsl_histogram_free(fhist);
 
 	err = pop.get_divergence_histogram(&dvhist);
 	if(err == 0) {
@@ -330,8 +337,8 @@ int pop_histograms() {
 			for(size_t i=0; i<bins; i++) {gsl_histogram_get_range(dvhist,i,&leftbin,&rightbin); cerr<<leftbin<<" ";}	cerr<<endl;
 			for(size_t i=0; i<bins; i++) cerr<<gsl_histogram_get(dvhist,i)<<" "; cerr<<endl;
 		}
+		gsl_histogram_free(dvhist);
 	}
-	gsl_histogram_free(dvhist);
 	
 	err = pop.get_diversity_histogram(&dshist);
 	if(err == 0) {
@@ -341,8 +348,8 @@ int pop_histograms() {
 			for(size_t i=0; i<bins; i++) {gsl_histogram_get_range(dshist,i,&leftbin,&rightbin); cerr<<leftbin<<" ";}	cerr<<endl;
 			for(size_t i=0; i<bins; i++) cerr<<gsl_histogram_get(dshist,i)<<" "; cerr<<endl;
 		}
+		gsl_histogram_free(dshist);
 	}
-	gsl_histogram_free(dshist);
 
 	return err;
 }
@@ -356,7 +363,7 @@ int hiv_initialize() {
 
 	if(HIGHD_VERBOSE) {
 		cerr<<"Mutation rate: "<<pop.mutation_rate<<", ";
-		cerr<<"coinfection rate: "<<pop.outcrossing_probability<<endl;
+		cerr<<"coinfection rate: "<<pop.outcrossing_rate<<endl;
 	}
 	return 0;
 }
@@ -364,7 +371,7 @@ int hiv_initialize() {
 /* Test end-user subclass evolution and output */
 int hiv_evolve() {
 	int N = 1000;
-	ifstream model("tests/hiv_model.dat", ifstream::in);
+	ifstream model("hiv_model.dat", ifstream::in);
 
 	hivpopulation pop;
 	pop.set_up(N, 0, 2e-5, 1e-3, 1e-3);

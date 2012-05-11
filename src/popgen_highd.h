@@ -178,7 +178,7 @@ protected:
 	// population parameters
 	int number_of_traits;
 	int number_of_individuals_max;		//maximal population size in terms of memory allocated to hold genotypes
-	int pop_size;				//actual population size
+	int population_size;				//actual population size
 	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
 	int generation;
 	int number_of_loci;			//total number of loci
@@ -205,6 +205,7 @@ protected:
 	void calc_allele_freqs();
 
 	// recombination details
+	double outcrossing_rate_effective;
 	int *genome;				//Auxiliary array holding the positions along the genome
 	int *crossovers;
 	boost::dynamic_bitset<> reassortment_pattern();
@@ -240,15 +241,17 @@ public:
 	virtual int set_up(int N_in, int L,  int rng_seed=0, int number_of_traits=1);
 
 	// population parameters (read only)
-	int get_generation(){return generation;}
+	int L(){return number_of_loci;}
 	int get_number_of_loci(){return number_of_loci;}
-	int get_pop_size() {return pop_size;}
+	int N(){return population_size;}
+	int get_population_size() {return population_size;}
 	int get_number_of_clones(){return current_pop->size();}
+	int get_generation(){return generation;}
 
 	// population parameters (read/write)
 	int carrying_capacity;			// carrying capacity of the environment (pop size)
 	double mutation_rate;			// rate of mutation per locus per generation
-	double outcrossing_probability;		// probability of having sex
+	double outcrossing_rate;		// probability of having sex
 	double crossover_rate;			// rate of crossover during sex
 	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
@@ -299,7 +302,7 @@ public:
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
-	double get_multi_point_frequency(vector <int> loci);
+//	double get_multi_point_frequency(vector <int> loci);
 
 	// histograms
 	int get_divergence_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=NULL, unsigned int every=1, unsigned int n_sample=1000);

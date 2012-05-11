@@ -9,6 +9,7 @@
 #define HIVPOPULATION_H_
 
 #include <string>
+#include <fstream>
 #include <sstream>
 #include <iomanip>
 #include <boost/algorithm/string.hpp>
@@ -48,7 +49,7 @@ public:
 	// constructors/destructors
 	hivpopulation();
 	virtual ~hivpopulation();
-	int set_up(int N_in, int rng_seed=0, double mutrate=3e-5, double coinfection_rate=1e-2, double crossover_rate=1e-3);
+	int set_up(int N_in, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);
 
 	// treatment (set/get)
 	void set_treatment(double t){treatment=t; update_traits(); update_fitness();}

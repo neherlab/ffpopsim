@@ -421,7 +421,7 @@ int haploid_gt_dis::set_mutation_rate(double* m){
 /*
  * locus specific mutation rate, backward forward differebt, 2d double array
  */
-int haploid_gt_dis::set_mutation_rate(double** m){
+int haploid_gt_dis::set_mutation_rate(double** m) {
 	if (mem){
 		for (int fb=0; fb<2; fb++){
 			for (int locus=0; locus<number_of_loci; locus++){
@@ -436,15 +436,22 @@ int haploid_gt_dis::set_mutation_rate(double** m){
 }
 
 
-/*
+/**
+ * @brief calculate recombination patterns
+ *
+ * @param rec_rates a vector of recombination rates. The first entry should be large for linear chromosomes.
+ *
+ * @returns zero if successful, error codes otherwise (e.g. out of memory)
+ *
  * A routine the calculates the probability of all possible recombination patters and
  * subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument.
- * It allocated the memory (3^L) and calculates the entire distribution
+ * It allocated the memory (3^L) and calculates the entire distribution.
+ *
  * The first entry is the recombination rate before the first locus, i.e. it should be large >50
  * for linear chromosomes. all other entries are recombination rates between successive loci.
+ *
  */
-int haploid_gt_dis::set_recombination_rates(double *rec_rates)
-{
+int haploid_gt_dis::set_recombination_rates(double *rec_rates) {
 	double err=0;
 	int i, spin;
 	//check whether the memory is already allocated, do so if not

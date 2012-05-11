@@ -9,11 +9,6 @@
 #define HIGHD_H_
 
 /* Include directives */
-#include <fstream>
-#include <string>
-#include "handytools.h"
-#include "popgen.h"
-#include "popgen_highd.h"
 #include "hivpopulation.h"
 #define HIGHD_BADARG -1354341
 #define NOTHING 1e-10

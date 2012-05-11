@@ -1,20 +1,24 @@
 #############################################################################
 #
 # Licence:	
-# Author:	Richard Neher, Boris Shraiman, Fabio Zanini
+# Author:	Richard Neher, Fabio Zanini
 # Date:		2012/04/19
 #
 # Description:
 # ------------
 # Makefile for the PopGenLib library.
 #
+# There are four sections:
+# - src: library compilation and (static) linking
+# - doc: documentation
+# - tests: test cases compilation and linking against the library
+# - python: python bindings
+#
 ##==========================================================================
 SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
-PYBDIR = src/python
-
-DIRS = $(SRCDIR) $(DOCDIR) $(TESTSDIR) $(PYBDIR)
+PYBDIR = $(SRCDIR)/python
 
 .PHONY : all clean src doc tests python clean-src clean-doc clean-tests clean-python
 all: src doc tests python
@@ -44,12 +48,9 @@ HEADER_HIV = hivpopulation.h
 SOURCE_HIV = $(HEADER_HIV:%.h=%.cpp)
 OBJECT_HIV = $(SOURCE_HIV:%.cpp=%.o)
 
-# TODO: decide whether hivpopulation deserves a separated library
-# on the one hand, it is not big, thus we could ship it by default
-# on the other, specific implementations should be kept separate
-# from low-level libs
 OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD) $(OBJECT_HIV)
 
+# Recipes
 src: $(SRCDIR)/$(LIBRARY)
 
 $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
@@ -71,54 +72,25 @@ clean-src:
 	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
 
 ##==========================================================================
-# PYTHON BINDINGS
-##==========================================================================
-SWIG = swig
-SWIGFLAGS = -c++ -python -modern -modernargs -castmode
-
-SWIG_HEADER_HIV = hivpython.h
-SWIG_HIV = $(SWIG_HEADER_HIV:%.h=%.i)
-SWIG_SOURCE_HIV = $(SWIG_HEADER_HIV:%.h=%.cpp)
-SWIG_WRAP_HIV = $(SWIG_HEADER_HIV:%.h=%_wrap.cpp)
-SWIG_OBJECT_HIV = $(SWIG_HEADER_HIV:%.h=_%.so)
-SWIG_PYMODULE_HIV = $(SWIG_HEADER_HIV:%.h=%.py)
-SWIG_PYCMODULE_HIV = $(SWIG_HEADER_HIV:%.h=%.pyc)
-
-DISTUTILS_SETUP = setup.py
-
-python: $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%)
-
-
-$(SWIG_PYMODULE_HIV:%=$(PYBDIR)/%) $(SWIG_PYMCODULE_HIV:%=$(PYBDIR)/%) $(SWIG_OBJECT_HIV:%=$(PYBDIR)/%): $(SWIG_WRAP_HIV:%=$(PYBDIR)/%) $(SWIG_SOURCE_HIV:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
-	# TODO: add command-line options for library paths etc.
-	cd $(PYBDIR); python2 setup.py build_ext --inplace
-
-$(SWIG_WRAP_HIV:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_HIV:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
-	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_HIV:%=$(PYBDIR)/%)
-
-clean-python:
-	cd $(PYBDIR); rm -rf $(SWIG_WRAP_HIV) $(SWIG_OBJECT_HIV) $(SWIG_PYMODULE_HIV) $(SWIG_PYCMODULE_HIV)
-
-##==========================================================================
 # DOCUMENTATION
 ##==========================================================================
 DOXYFILE   = $(DOCDIR)/Doxyfile
 DOXY       = doxygen
 
+# Recipes
 doc:
 	$(DOXY) $(DOXYFILE)
 
 clean-doc:
 	rm -rf $(DOCDIR)/latex $(DOCDIR)/html
 
-
 ##==========================================================================
 # TESTS
 ##==========================================================================
-testlibraries =  -lgsl -lgslcblas -lHandyTools -lPopGenLib 
+TESTS_LIBRARIES = -lPopGenLib -lgsl -lgslcblas
 
-TESTS_LDFLAGS = -L$(SRCDIR)/ -L../HandyTools/src/ -L/usr/ -O2
-TESTS_CXXFLAGS = -I$(SRCDIR)/ -I../HandyTools/src/ -Wall -O2 -c -fPIC -g3
+TESTS_LDFLAGS = -L$(SRCDIR)/ -L/usr/ -O2
+TESTS_CXXFLAGS = -I$(SRCDIR)/ -Wall -O2 -c -fPIC -g3
 
 TESTS_LOWD = lowd
 TESTS_HIGHD = highd
@@ -132,21 +104,56 @@ TESTS_HEADER_HIGHD = $(TESTS_HIGHD:%=%.h)
 TESTS_OBJECT_LOWD = $(TESTS_LOWD:%=%.o)
 TESTS_OBJECT_HIGHD = $(TESTS_HIGHD:%=%.o)
 
-tests: $(TESTS_LOWD:%=$(TESTSDIR)/%) $(TESTS_HIGHD:%=$(TESTSDIR)/%)
+# Recipes
+tests: $(SRCDIR)/$(LIBRARY) $(TESTS_LOWD:%=$(TESTSDIR)/%) $(TESTS_HIGHD:%=$(TESTSDIR)/%)
 
 $(TESTS_LOWD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%) $(SRCDIR)/$(LIBRARY)
-	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(testlibraries)
+	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(TESTS_LIBRARIES)
 
 $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_LOWD:%=$(TESTSDIR)/%) $(TESTS_HEADER_LOWD:%=$(TESTSDIR)/%)
 	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(TESTS_HIGHD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%) $(OBJECT_HIV:%=$(SRCDIR)/%) $(SRCDIR)/$(LIBRARY)
-	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(testlibraries)
+	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(TESTS_LIBRARIES)
 
 $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_HIGHD:%=$(TESTSDIR)/%) $(TESTS_HEADER_HIGHD:%=$(TESTSDIR)/%)
 	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD)
+
+##==========================================================================
+# PYTHON BINDINGS
+##==========================================================================
+SWIG = swig
+SWIGFLAGS = -c++ -python -modern -modernargs -castmode
+
+SWIG_INTERFACE = PopGenLib.i
+SWIG_WRAP = $(SWIG_INTERFACE:%.i=%_wrap.cpp)
+SWIG_OBJECT = $(SWIG_INTERFACE:%.i=_%.so)
+SWIG_PYMODULE = $(SWIG_INTERFACE:%.i=%.py)
+SWIG_PYCMODULE = $(SWIG_INTERFACE:%.i=%.pyc)
+SWIG_SUPPORT_1 = popgen_highd.i
+SWIG_SUPPORT_2 = hivpopulation.i
+SWIG_SUPPORT_3 = popgen_lowd.i
+
+## The following syntax is really black magic... look into the distutils source code and cry
+PYTHON_SETUP = setup.py
+PYTHON_LIBRARIES = -l'PopGenLib gsl gslcblas'
+PYTHON_INCLUDES = -I$(SRCDIR):/usr/lib/python2.7/site-packages/numpy/core/include
+PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
+PYTHON_FLAGS = --inplace $(PYTHON_INCLUDES) $(PYTHON_LIBRARIES) $(PYTHON_LIBDIRS)
+
+# Recipes
+python: $(SWIG_OBJECT:%=$(PYBDIR)/%)
+
+$(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_SOURCE:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
+	cd $(PYBDIR); python2 $(PYTHON_SETUP) build_ext $(PYTHON_FLAGS)
+
+$(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%)
+	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_INTERFACE:%=$(PYBDIR)/%)
+
+clean-python:
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 
 #############################################################################

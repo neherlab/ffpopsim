@@ -9,8 +9,6 @@
 
 /* Include directives */
 #include <string>
-#include "handytools.h"
-#include "popgen.h"
 #include "popgen_lowd.h"
 #define LOWD_BADARG -1354341
 #define NOTHING 1e-10

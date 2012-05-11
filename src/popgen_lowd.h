@@ -115,8 +115,7 @@ public:
  * - statistics on fitness and phenotypic traits;
  * - linkage disequilibrium.
  */
-class haploid_gt_dis
-{
+class haploid_gt_dis {
 protected:
 	//hypercubes that store the distribution of recombinations and the change in the
 	//population distribution due to mutations
@@ -173,9 +172,11 @@ public:
 	int calculate_recombinants_free();
 	int calculate_recombinants_general();
 
-	//analyze and access population
+	// population parameters (read only)
 	int L(){return number_of_loci;}
+	int get_number_of_loci(){return number_of_loci;}
 	double N(){return population_size;}
+	double get_population_size(){return population_size;}
 	double get_genotype_frequency(int gt){return population.get_func(gt);}
 	double get_allele_frequency(int locus){return 0.5*(1+(1<<number_of_loci)*population.get_coeff(1<<locus));}
 	double get_chi(int locus){return (1<<number_of_loci)*population.get_coeff(1<<locus);}
@@ -186,7 +187,6 @@ public:
 	double allele_entropy();
 	double fitness_mean();
 	double fitness_variance();
-	double get_population_size(){return population_size;}
 	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
 	double get_outcrossing_rate() {return outcrossing_rate;}
 

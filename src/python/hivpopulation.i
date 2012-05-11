@@ -1,140 +1,42 @@
-/**
-* @file hivpopulation.i
-* @brief Python 2 bindings of the hivpopulation class.
-* @author Richard Neher, Boris Shraiman, Fabio Zanini
-* @version 
-* @date 2012-04-24
-*/
-%module(docstring="Model for an HIV population.") hivpython
-/* Include in the wrap code */
-%{
-#define SWIG_FILE_WITH_INIT
-#include "hivpython.h"
-%}
-
-/* Numpy magic to output arrays */
-/*%include "pyfragments.swg"*/
-%include "numpy.i"
-%init %{
-import_array();
-%}
+/* renames and ignores */
+%ignore set_up(int N_in, int L,  int rng_seed=0, int number_of_traits=1); /* This seems to work for mysterious reasons */
 
 
-/**************************************************************
- * CODE TO BE WRAPPED
- **************************************************************
- * Note: only _declarations_ are needed, no implementation is required at all for
- * wrapping.
- */
-
-/**** STAT_T ****/
-struct stat_t {
-    double mean;
-    double variance;
-};
-
-/**** HYPERCUBE_FUNCTION ****/
-/*TODO: add C++ wrappers for the pointers (set/get methods) */
-class hypercube_function {
-public:
-    int dim;
-    double hypercube_mean;
-    vector <coeff_single_locus_t> coefficients_single_locus;
-    vector <coeff_t> coefficients_epistasis;
-    double epistatic_std;
-    
-    // setting up
-    hypercube_function();
-    hypercube_function(int dim_in, int s=0);
-    virtual ~hypercube_function();
-    int set_up(int dim_in,  int s=0);
-    
-    // methods
-    unsigned int get_seed() {return seed;};
-    double get_func(boost::dynamic_bitset<> *genotype);
-    double get_additive_coefficient(int locus);
-    int set_additive_coefficient(double value, int locus, int expected_locus=-1);
-    int add_coefficient(double value, vector <int> loci);
-    int set_random_epistasis_strength(double sigma);
-};
-
-
-/**** CLONE_T ****/
-%rename (_trait) clone_t::trait;
-%rename (_genotype) clone_t::genotype;
-struct clone_t {
-    boost::dynamic_bitset<> genotype;
-    vector <double> trait;
-    double fitness;
-    int clone_size;
-    clone_t(int n_traits);
-};
-/* C++ HELPER CODE */
-%extend clone_t {
-        int get_number_of_traits() {
-                return ($self->trait).size();
-        }
-        void _get_trait(int DIM1, double* ARGOUT_ARRAY1) {
-                for(size_t i=0; i<($self->trait).size(); i++)
-                        ARGOUT_ARRAY1[i] = ($self->trait)[i];
-        }
-        void _get_genotype(unsigned short ARGOUT_ARRAY1[HIVGENOME]) {
-            for(size_t i=0; i < ($self->genotype).size(); i++) ARGOUT_ARRAY1[i] = ($self->genotype)[i];
-        }
-
-/* PYTHON HELPER CODE */
-        %pythoncode {
-        @property
-        def trait(self):
-            return self._get_trait(self.get_number_of_traits())
-        
-        @property
-        def genotype(self):
-                return self._get_genotype()
-        }
+/**** HIVPOPULATION ****/
+%extend hivpopulation {
+/* evolve */
+%ignore evolve;
+%ignore _evolve;
+%rename (evolve) _evolve;
+int _evolve(int gen) {
+        int err=$self->evolve(gen);
+        if(err==0)
+                $self->calc_stat();
+        return err;
 }
 
+/* get allele frequencies */
+void get_allele_frequencies(double ARGOUT_ARRAY1[HIVGENOME]) {
+        for(size_t i=0; i < HIVGENOME; i++)
+                ARGOUT_ARRAY1[i] = $self->get_allele_frequency(i);
+}
 
-/**** HAPLOID_CLONE ****/
-class haploid_clone {
-public:
-    // population parameters (read only)
-    int get_generation();
-    int get_number_of_loci();
-    int get_pop_size();
-    int get_number_of_clones();
-    
-    //evolve
-    int bottleneck(int size_of_bottleneck);
-    
-    // population parameters (read/write)
-    int carrying_capacity;
-    double mutation_rate;
-    double outcrossing_probability;
-    double crossover_rate;
-    int recombination_model;
-    bool circular;
+/* get fitnesses of all clones */
+void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
+        for(size_t i=0; i < DIM1; i++)
+                ARGOUT_ARRAY1[i] = $self->get_fitness(i);
+}
+%pythoncode {
+    def get_fitnesses(self):
+        return self._get_fitnesses(self.get_number_of_clones())
+}
 
-    // random clone (combine this with get_genotype to get the genotype)
-    int random_clone();
-    
-    // allele frequencies
-    double get_allele_frequency(int l);
-    double get_pair_frequency(int locus1, int locus2);
-    
-    // fitness/phenotype readout
-    double get_fitness(int n);
-    double get_trait(int n, int t=0);
-};
-
-/**************************************************************
- * INCLUDE HEADER OF THE SUBCLASS 'AS IS'
- *************************************************************/
-#define HIVGENOME 10000
-/* PYTHON HELPER CODE */
-%rename (_get_fitnesses) hivpython::get_fitnesses(int DIM1, double* ARGOUT_ARRAY1);
-%rename (_get_genotype) hivpython::get_genotype(unsigned int i, unsigned short ARGOUT_ARRAY1[HIVGENOME]);
-%extend hivpython {
+/* get genotypes */
+void _get_genotype(unsigned int i, short ARGOUT_ARRAY1[HIVGENOME]) {
+        boost::dynamic_bitset<> newgt = (*($self->current_pop))[i].genotype;
+        for(size_t i=0; i < HIVGENOME; i++)
+                ARGOUT_ARRAY1[i] = newgt[i];
+}
 %pythoncode {
     def get_genotypes(self, ind=None):
         import numpy as np
@@ -150,20 +52,27 @@ public:
             return genotypes[0]
         else:
             return genotypes
+}
 
-
+/* get random clones/genotypes */
+%pythoncode {
     def random_genomes(self, n):
         import numpy as np
         genotypes = np.zeros((n, self.get_number_of_loci()), bool)
         for i in xrange(genotypes.shape[0]):
             genotypes[i] = self._get_genotype(self.random_clone())
         return genotypes
-    
-    
-    def get_fitnesses(self):
-        return self._get_fitnesses(self.get_number_of_clones())
-    
-    
+}
+void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {
+        vector <int> sample = vector <int>(0);
+        int err = $self->random_clones(DIM1, &sample);
+        if(!err)
+                for(size_t i=0; i < DIM1; i++)
+                        ARGOUT_ARRAY1[i] = sample[i];
+}
+
+/* divergence/diversity/fitness distributions and plot */
+%pythoncode {
     def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
         '''Calculate the fitness histogram.'''
         import numpy as np
@@ -265,8 +174,8 @@ public:
         # Calculate histogram
         h = np.histogram(div, bins=bins, **kwargs)
         return h 
-    
-    
+
+
     def plot_diversity_histogram(self, axis=None, **kwargs):
         import matplotlib.pyplot as plt
         import numpy as np
@@ -285,8 +194,42 @@ public:
             kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     
         axis.hist(div, **kwargs)
-    
-    
+}
+
+/* read selection/resistance coefficients */
+%ignore read_selection_coefficients;
+%rename (read_selection_coefficients) _read_selection_coefficients;
+int _read_selection_coefficients(char *model){
+        ifstream modelstream(model);
+        return $self->read_selection_coefficients(modelstream);
+}
+
+%ignore read_resistance_coefficients;
+%rename (read_resistance_coefficients) _read_resistance_coefficients;
+int _read_resistance_coefficients(char *model){
+        ifstream modelstream(model);
+        return $self->read_resistance_coefficients(modelstream);
+}
+
+
+/* write genotypes */
+%ignore write_genotypes;
+%rename (write_genotypes) _write_genotypes;
+int _write_genotypes(char * filename, int sample_size, char * gt_label=NULL, int start=0, int length=0) {
+        if(HIVPOP_VERBOSE >= 1) cerr<<"hivpython::write_genotypes(char * filename, int sample_size, char * gt_label, int start, int length)...";
+
+        ofstream genotype_file(filename);        
+        string gt_labelstring;
+        if(gt_label == NULL)
+                gt_labelstring = "";
+        else
+                gt_labelstring = string(gt_label);
+
+        return $self->write_genotypes(genotype_file, sample_size, gt_labelstring, start, length);
+}
+
+
+%pythoncode {
     def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
         '''Write genotypes into a compressed archive.'''
         import numpy as np 
@@ -297,8 +240,13 @@ public:
             rcl = self.random_clone()
             d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl)[start:start+length]
         np.savez_compressed(filename, **d)    
-        }
 }
 
-%include "hivpython.h"
+/* fitness landscape */
+void calc_fitness_from_traits(int l) {
+        $self->calc_fitness_from_traits(&((*($self->current_pop))[l]));
+}
+
+} /* extend hivpopulation */
+
 

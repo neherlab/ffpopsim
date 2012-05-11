@@ -38,11 +38,11 @@ hivpopulation::~hivpopulation() {
  *
  * Note: the genome length is 10000 (see HIVGENOME).
  */
-int hivpopulation::set_up(int N_in, int rng_seed, double mutrate, double coinfection_rate, double crossover_rate){
+int hivpopulation::set_up(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in){
 	int err=set_up(N_in, HIVGENOME, rng_seed, 2); // we have exactly 2 traits
-	outcrossing_probability = coinfection_rate;
-	mutation_rate = mutrate;
-	crossover_rate = crossover_rate;
+	outcrossing_rate = coinfection_rate_in;
+	mutation_rate = mutation_rate_in;
+	crossover_rate = crossover_rate_in;
 	recombination_model = CROSSOVERS;
 	treatment = 0;
 	init_genotypes();
@@ -120,7 +120,7 @@ int hivpopulation::read_resistance_coefficients(istream &model){
 
 int hivpopulation::write_genotypes(ostream &out, int sample_size, string gt_label, int start, int length){
 	if (HIVPOP_VERBOSE) cerr<<"hivpopulation::write_genotypes()...";
-	if (HIVPOP_VERBOSE) cerr<<"start = "<<start<"...";
+	if (HIVPOP_VERBOSE) cerr<<"start = "<<start<<"...";
 	if (HIVPOP_VERBOSE) cerr<<"length = "<<length<<"...";
 
 	if (out.bad()){
@@ -133,7 +133,7 @@ int hivpopulation::write_genotypes(ostream &out, int sample_size, string gt_labe
 			length = number_of_loci - start;
 
 		produce_random_sample(sample_size);
-		if (sample_size>get_pop_size()){
+		if (sample_size>get_population_size()){
 			cerr<<"hivpopulation::write_genotypes(): requested sample size exceeds population size"<<endl;
 			return HIVPOP_BADARG;
 		}else{
