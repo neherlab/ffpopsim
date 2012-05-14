@@ -75,8 +75,10 @@ int hc_setting() {
 		additive[i] = 3;
 	}
 
-	hypercube hc(L,3);
+	hypercube hc(3, L);
+	hc.reset();
 	hc.additive(additive);
+	hc.fft_coeff_to_func();
 	
 	if(LOWD_VERBOSE){
 		cerr<<"Func values: ";
@@ -97,7 +99,7 @@ int pop_initialize() {
 	int L = 4;
 	int N = 100;
 
-	haploid_gt_dis pop(L, N, 3);
+	haploid_gt_dis pop(N, L, 3);
 	if(LOWD_VERBOSE)
 		cerr<<"L = "<<pop.L()<<", N = "<<pop.N()<<endl;	
 	return 0;	
@@ -108,7 +110,7 @@ int pop_evolve() {
 	int L = 4;
 	int N = 100;
 
-	haploid_gt_dis pop(L, N, 3);
+	haploid_gt_dis pop(N, L, 3);
 
 
 	double freq[1<<L];
@@ -116,7 +118,6 @@ int pop_evolve() {
 		freq[i] = 1.0 / (1<<L);
 	pop.init_frequencies(freq);
 	pop.set_mutation_rate(1e-2);
-	pop.set_population_size(N);
 	pop.evolve(5);
 	return 0;	
 }
@@ -126,18 +127,17 @@ int pop_observables() {
 	int L = 4;
 	int N = 100;
 
-	haploid_gt_dis pop(L, N, 3);
+	haploid_gt_dis pop(N, L, 3);
 	double freq[1<<L];
 	for(int i=0; i<(1<<L);i++)
 		freq[i] = 1.0 / (1<<L);
 	pop.init_frequencies(freq);
 	pop.set_mutation_rate(1e-2);
-	pop.set_population_size(N);
 	pop.evolve(5);
 
 	if(LOWD_VERBOSE) {
 		cerr<<"Allele freq[0]: "<<pop.get_allele_frequency(0)<<endl;
-		cerr<<"Fitness mean and variance: "<<pop.fitness_mean()<<", "<<pop.fitness_variance()<<endl;
+		cerr<<"Fitness mean and variance: "<<pop.get_fitness_statistics().mean<<", "<<pop.get_fitness_statistics().variance<<endl;
 
 	}
 

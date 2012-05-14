@@ -41,16 +41,9 @@ public:
 	double *coeff;				//array holding 2^N coefficients: a entry 0101001101 corresponds to a term with spins at each 1
 	double *func;				//array holding the values of the function on the hypercube
 
-	//random number generator
-	gsl_rng *rng;
-	unsigned int seed;
-
-	//checks and memory
-	bool mem;
-	int allocate_mem();
-	int free_mem();
 	int *order;				//Auxiliary array holding the number of spins, i.e. the number of ones of coeff[k]
 
+	// construction / destruction
 	hypercube();
 	hypercube(int dim_in, int s=0);
 	~hypercube();
@@ -96,6 +89,17 @@ public:
 	int scale(double scale);
 	int shift(double shift);
 	int test();
+
+protected:
+	//random number generator
+	gsl_rng *rng;
+	unsigned int seed;
+
+private:
+	// memory management
+	bool mem;
+	int allocate_mem();
+	int free_mem();
 };
 
 
@@ -116,45 +120,37 @@ public:
  * - linkage disequilibrium.
  */
 class haploid_gt_dis {
-protected:
-	//hypercubes that store the distribution of recombinations and the change in the
-	//population distribution due to mutations
-	hypercube recombinants;
-	hypercube mutants;
-	double** recombination_patters;				//array that holds the probabilities of all possible recombination outcomes for every subset of loci
-
-	double population_size;
-	int number_of_loci;
-	int generation;
-	double long_time_generation;
-	double** mutation_rates;				//mutation rate can be made locus specific and genotype dependent.
-	double outcrossing_rate;
-	bool free_recombination;
-
-	//random number generator used for resampling and seeding the hypercubes
-	gsl_rng* rng;	//uses the same RNG as defined in hypercube.h from the  GSL library.
-	int seed;	//seed of the rng
-
-	int allocate_mem();
-	int free_mem();
-	bool mem;
 public:
 	// public hypercubes
 	hypercube fitness;
 	hypercube population;
 
-	//setting up
+	// construction / destruction
 	haploid_gt_dis();
 	~haploid_gt_dis();
-	haploid_gt_dis(int nloci, double popsize, int rngseed=0);
-	int setup(int nloci, double popsize, int rngseed=0);
+	haploid_gt_dis(double N_in, int L_in, int rngseed=0);
+	int set_up(double N_in, int L_in, int rngseed=0);
+
+	// population parameters (read/write)
+	double population_size;
+	double outcrossing_rate;
+	bool free_recombination;
+	bool circular;				//topology of the chromosome
+
+	// population parameters (read only)
+	int L(){return number_of_loci;}
+	int get_number_of_loci(){return number_of_loci;}
+	double N(){return population_size;}
+	double get_population_size(){return population_size;}
+	double get_generation(){return long_time_generation+generation;}
+	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
 
 	//initialization
 	int init_frequencies(double *freq);
 	int init_genotypes(vector <index_value_pair_t> gt);
+
+	// modify population
 	int set_recombination_rates(double *rec_rates);
-	void set_population_size(double popsize){population_size=popsize;}
-	void set_outcrossing_rate(double orate){outcrossing_rate=orate;}
 	int set_mutation_rate(double m);
 	int set_mutation_rate(double m1, double m2);
 	int set_mutation_rate(double* m);
@@ -164,6 +160,50 @@ public:
 	int evolve(int gen=1);
 	int evolve_norec(int gen=1);
 	int evolve_deterministic(int gen=1);
+
+	// readout
+	// Note: these functions are for the general public and are not expected to be
+	// extremely fast. If speed is a major concern, consider subclassing and working
+	// with protected methods.
+
+	// genotype readout
+	double get_genotype_frequency(int gt){return population.get_func(gt);}
+	
+	// allele frequencies
+	double get_allele_frequency(int locus){return 0.5*(1+(1<<number_of_loci)*population.get_coeff(1<<locus));}
+	double get_chi(int locus){return (1<<number_of_loci)*population.get_coeff(1<<locus);}
+	double get_moment(int locus1, int locus2){return (1<<number_of_loci)*population.get_coeff((1<<locus1)+(1<<locus2));}
+	double get_LD(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
+	double genotype_entropy();
+	double allele_entropy();
+
+	// fitness/phenotype readout
+	double get_fitness(int n) {return fitness.get_func(n);}
+	stat_t get_fitness_statistics();
+
+	//testing
+	int test_recombinant_distribution();
+	int test_recombination(double *rec_rates);
+	int mutation_drift_equilibrium(double** mutrates);
+
+protected:
+	//random number generator used for resampling and seeding the hypercubes
+	gsl_rng* rng;	//uses the same RNG as defined in hypercube.h from the  GSL library.
+	int seed;	//seed of the rng
+
+	//hypercubes that store the distribution of recombinations and the change in the
+	//population distribution due to mutations
+	hypercube recombinants;
+	hypercube mutants;
+	double** recombination_patters;				// array that holds the probabilities of all possible recombination outcomes for every subset of loci
+
+	// population parameters
+	int number_of_loci;
+	int generation;
+	double long_time_generation;
+	double** mutation_rates;				// the mutation rate can be made locus specific and genotype dependent.
+
+	//evolution
 	int select();
 	int mutate();
 	int recombine();
@@ -172,28 +212,11 @@ public:
 	int calculate_recombinants_free();
 	int calculate_recombinants_general();
 
-	// population parameters (read only)
-	int L(){return number_of_loci;}
-	int get_number_of_loci(){return number_of_loci;}
-	double N(){return population_size;}
-	double get_population_size(){return population_size;}
-	double get_genotype_frequency(int gt){return population.get_func(gt);}
-	double get_allele_frequency(int locus){return 0.5*(1+(1<<number_of_loci)*population.get_coeff(1<<locus));}
-	double get_chi(int locus){return (1<<number_of_loci)*population.get_coeff(1<<locus);}
-	double get_moment(int locus1, int locus2){return (1<<number_of_loci)*population.get_coeff((1<<locus1)+(1<<locus2));}
-	double get_LD(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
-	double get_generation(){return long_time_generation+generation;}
-	double genotype_entropy();
-	double allele_entropy();
-	double fitness_mean();
-	double fitness_variance();
-	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
-	double get_outcrossing_rate() {return outcrossing_rate;}
-
-	//testing
-	int test_recombinant_distribution();
-	int test_recombination(double *rec_rates);
-	int mutation_drift_equilibrium(double** mutrates);
+private:
+	// Memory management is private, subclasses must take care only of their own memory
+	bool mem;
+	int allocate_mem();
+	int free_mem();
 };
 
 

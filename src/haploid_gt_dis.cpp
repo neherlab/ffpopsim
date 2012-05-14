@@ -13,6 +13,7 @@ haploid_gt_dis::haploid_gt_dis()
 	outcrossing_rate=0.0;
 	generation=0;
 	long_time_generation=0.0;
+	circular=false;
 	mem=false;
 }
 
@@ -21,19 +22,21 @@ haploid_gt_dis::~haploid_gt_dis()
 	free_mem();
 }
 
-haploid_gt_dis::haploid_gt_dis(int nloci, double popsize, int rngseed)
+haploid_gt_dis::haploid_gt_dis(double N_in, int L_in, int rngseed)
 {
 	mem=false;
 	free_recombination=true;
 	outcrossing_rate=0.0;
 	generation=0;
-	setup(nloci, popsize, rngseed);
+	long_time_generation=0.0;
+	circular=false;
+	set_up(N_in, L_in, rngseed);
 }
 
-int haploid_gt_dis::setup(int nloci, double popsize, int rngseed)
+int haploid_gt_dis::set_up(double N_in, int L_in, int rngseed)
 {
-	number_of_loci=nloci;
-	population_size=popsize;
+	population_size=N_in;
+	number_of_loci=L_in;
 	if (rngseed==0) seed=time(NULL);
 	else seed=rngseed;
 	return allocate_mem();
@@ -569,24 +572,12 @@ double haploid_gt_dis::allele_entropy(){
 	}
 	return SA;
 }
-/*
- * calculate the mean fitness and return
- * it has be made sure that the population.fft_coeff_to_func() was called
- */
-double haploid_gt_dis::fitness_mean(){
-	double mf=0;
-	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
-	for (int locus=0; locus<(1<<number_of_loci); locus++){
-		mf+=population.get_func(locus)*fitness.get_func(locus);
-	}
-	return mf;
-}
 
 /*
- * calculate the fitness variance and return
+ * calculate the fitness mean and variance and return
  * it has be made sure that the population.fft_func_to_coeff() was called
  */
-double haploid_gt_dis::fitness_variance(){
+stat_t haploid_gt_dis::get_fitness_statistics(){
 	double mf=0, sq=0, temp;
 	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
 	for (int locus=0; locus<1<<number_of_loci; locus++){
@@ -594,7 +585,7 @@ double haploid_gt_dis::fitness_variance(){
 		mf+=temp;
 		sq+=temp*temp;
 	}
-	return sq-mf;
+	return stat_t(mf, sq-mf);
 }
 
 

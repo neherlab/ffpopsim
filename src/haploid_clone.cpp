@@ -138,7 +138,7 @@ int haploid_clone::free_mem()
 }
 
 /**
- * @brief Initialize population with a certain number of individuals and fixed allele frequencies.
+ * @brief Initialize population with a certain number of individuals and fixed allele frequencies (in principle, in linkage equilibrium).
  *
  * @param nu target allele frequencies
  * @param n_o_genotypes number of individuals to be created
@@ -149,7 +149,7 @@ int haploid_clone::free_mem()
  * has a very large width. In turn, this can result in an immediate and dramatic drop in diversity within the
  * first few generations. Please check fitness statistics before starting the evolution if this worries you.
  */
-int haploid_clone::init_genotypes(double* nu, int n_o_genotypes)
+int haploid_clone::init_frequencies(double* nu, int n_o_genotypes)
 {
 	int i, locus;
 	if (!mem)
