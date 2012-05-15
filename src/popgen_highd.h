@@ -165,7 +165,7 @@ public:
 	// construction / destruction
 	haploid_clone();
 	virtual ~haploid_clone();
-	virtual int set_up(int N_in, int L_in,  int rng_seed=0, int number_of_traits=1);
+	virtual int set_up(int L_in, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
 
 	// initialization
 	int init_genotypes(int n_o_genotypes=-1);

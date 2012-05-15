@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # vim: fdm=indent
 '''
 author:     Fabio Zanini
@@ -31,16 +30,16 @@ c.evolve(100)
 t1 = ti()
 print 'Time for evolving HIV for 100 generations: {:1.1f} s'.format(t1-t0)
 
-#### Write genotypes
-##c.write_genotypes('test.txt', 100)
-##c.write_genotypes_compressed('test.npz', 100)
-##
-## Plot histograms
-#plt.ion()
-#c.plot_fitness_histogram()
-##c.plot_divergence_histogram(color='r')
-##c.plot_diversity_histogram(color='g')
-##
-### Test treatment changes
-##c.set_treatment(0.4)
-##c.get_treatment()
+# Write genotypes
+c.write_genotypes('test.txt', 100)
+c.write_genotypes_compressed('test.npz', 100)
+
+# Plot histograms
+plt.ion()
+c.plot_fitness_histogram()
+c.plot_divergence_histogram(color='r')
+c.plot_diversity_histogram(color='g')
+
+# Test treatment changes
+c.set_treatment(0.4)
+c.get_treatment()

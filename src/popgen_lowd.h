@@ -103,10 +103,12 @@ private:
 };
 
 
+#define HG_VERBOSE 0
 #define HG_LONGTIMEGEN 1000000
 #define HG_CONTINUOUS 10000
 #define HG_NOTHING 1e-15
 #define HG_EXTINCT -9287465
+#define HG_BADARG -879564
 #define HG_MEMERR -32656845
 
 /**
@@ -128,8 +130,8 @@ public:
 	// construction / destruction
 	haploid_gt_dis();
 	~haploid_gt_dis();
-	haploid_gt_dis(double N_in, int L_in, int rngseed=0);
-	int set_up(double N_in, int L_in, int rngseed=0);
+	haploid_gt_dis(int L_in, double N_in=1000, int rngseed=0);
+	int set_up(int L_in, double N_in=1000, int rngseed=0);
 
 	// population parameters (read/write)
 	double population_size;
@@ -181,11 +183,6 @@ public:
 	double get_fitness(int n) {return fitness.get_func(n);}
 	stat_t get_fitness_statistics();
 
-	//testing
-	int test_recombinant_distribution();
-	int test_recombination(double *rec_rates);
-	int mutation_drift_equilibrium(double** mutrates);
-
 protected:
 	//random number generator used for resampling and seeding the hypercubes
 	gsl_rng* rng;	//uses the same RNG as defined in hypercube.h from the  GSL library.
@@ -219,5 +216,18 @@ private:
 	int free_mem();
 };
 
+
+class haploid_gt_dis_test : public haploid_gt_dis {
+public:
+	// construction / destruction
+	haploid_gt_dis_test(){haploid_gt_dis();}
+	haploid_gt_dis_test(double L_in, int N_in, int rngseed=0){haploid_gt_dis(L_in, N_in, rngseed);}
+	~haploid_gt_dis_test();
+
+	//testing
+	int test_recombinant_distribution();
+	int test_recombination(double *rec_rates);
+	int mutation_drift_equilibrium(double** mutrates);
+};
 
 #endif /* POPGEN_LOWD_H_ */

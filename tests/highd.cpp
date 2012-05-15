@@ -20,10 +20,10 @@ int main(int argc, char **argv){
 		status += hc_setting();
 		status += pop_initialize();
 		status += pop_evolve();
+		status += pop_sampling();
 		status += pop_Hamming();
 		status += pop_divdiv();
 		status += pop_histograms();
-		status += pop_sampling();
 		status += hiv_initialize();
 		status += hiv_evolve();
 	}
@@ -111,7 +111,7 @@ int pop_initialize() {
 	int N = 100;
 
 	haploid_clone pop;
-	pop.set_up(N, L, 3, 1);
+	pop.set_up(L, N, 3, 1);
 	if(HIGHD_VERBOSE)
 		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;	
 	return 0;	
@@ -123,7 +123,7 @@ int pop_evolve() {
 	int N = 100;
 
 	haploid_clone pop;
-	pop.set_up(N, L);
+	pop.set_up(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -165,7 +165,7 @@ int pop_sampling() {
 	int N = 100;
 
 	haploid_clone pop;
-	pop.set_up(N, L);
+	pop.set_up(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -196,7 +196,7 @@ int pop_Hamming() {
 	int N = 100;
 
 	haploid_clone pop;
-	pop.set_up(N, L);
+	pop.set_up(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -257,7 +257,7 @@ int pop_divdiv() {
 	int N = 100;
 
 	haploid_clone pop;
-	pop.set_up(N, L);
+	pop.set_up(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -288,7 +288,7 @@ int pop_histograms() {
 	int err = 0;
 
 	haploid_clone pop;
-	pop.set_up(N, L);
+	pop.set_up(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -360,6 +360,10 @@ int hiv_initialize() {
 	int N = 1000;
 	hivpopulation pop;
 	pop.set_up(N);
+
+	if(HIGHD_VERBOSE)
+		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;	
+	return 0;	
 
 	if(HIGHD_VERBOSE) {
 		cerr<<"Mutation rate: "<<pop.mutation_rate<<", ";

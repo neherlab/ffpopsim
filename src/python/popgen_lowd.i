@@ -1,5 +1,6 @@
 /* renames and ignores */
 %ignore hypercube;
+%ignore haploid_gt_dis_test;
 
 /* additional helper functions */
 %pythoncode {
@@ -25,7 +26,7 @@ def integerify(b):
 %extend haploid_gt_dis {
 
 /* constructor */
-%ignore haploid_gt_dis(double N_in, int L_in, int rngseed=0);
+%ignore haploid_gt_dis(int L_in, double N_in=1000, int rngseed=0);
 /* TODO: reimplement the constructor */
 
 /* TODO: ignore hypercubes for now */

@@ -6,24 +6,20 @@
 #include "popgen_lowd.h"
 
 //default constructor
-hypercube::hypercube()
-{
+hypercube::hypercube() {
 	mem=false;
 	if (HC_VERBOSE) cerr<<"hypercube::hypercube(): constructing...!\n";
 }
 
 //constructor
-hypercube::hypercube(int dim_in, int s)
-{
+hypercube::hypercube(int dim_in, int s) {
 	if (HC_VERBOSE) cerr<<"hypercube::hypercube(): constructing...!\n";
 	set_up(dim_in, s);
 }
 
 //check consistency of input dimension and call allocation routine, seed for the rng is provided (s)
-int hypercube::set_up(int dim_in, int s)
-{
-	if (dim_in<=8*sizeof(int) && dim_in>0)
-	{
+int hypercube::set_up(int dim_in, int s) {
+	if (dim_in<=8*sizeof(int) && dim_in>0) {
 		if (HC_VERBOSE) cerr<<"hypercube::set_up(): setting up...!";
 		dim=dim_in;
 		mem=false;
@@ -31,24 +27,20 @@ int hypercube::set_up(int dim_in, int s)
 		else seed=s;
 		if (HC_VERBOSE) cerr<<"done.\n";
 		return allocate_mem();
-	}
-	else
-	{
+	} else {
 		cerr <<"hypercube: got: "<<dim_in<<", need positive and <32 dimension!\n";
 		return HC_BADARG;
 	}
 }
 
 //destructor
-hypercube::~hypercube()
-{
+hypercube::~hypercube() {
 	if (HC_VERBOSE) cerr<<"hypercube::~hypercube(): destructing...!\n";
 	if (mem) free_mem();
 }
 
 //allocate memory
-int hypercube::allocate_mem()
-{
+int hypercube::allocate_mem() {
 	if (HC_VERBOSE) cerr<<"hypercube::allocate_mem(): allocating memory...";
 	if (mem)
 	{
@@ -96,8 +88,7 @@ int hypercube::free_mem()
 /********** HC_FUNCTIONS THAT SET OR INCREMENT THE HC_COEFFICIENTS *******/
 //initialize the coefficients such that terms of order k contribute a variance var[k]
 //coefficients are gaussian random numbers.
-int hypercube::gaussian_coefficients(double* var, bool add)
-{
+int hypercube::gaussian_coefficients(double* var, bool add) {
 	int temp;
 	double sigma;
 

@@ -11,7 +11,7 @@
 #include "popgen_highd.h"
 
 /**
- * @brief Default constructor.
+ * @brief Default constructor
  *
  * The population objects are initialized, but neither the random generator is initialized nor the memory
  * for traits, gametes etc. is allocated. Please call set_up() before using the class.
@@ -27,19 +27,19 @@ haploid_clone::haploid_clone() {
 }
 
 /**
- * @brief Destructor.
+ * @brief Destructor
  *
  * Memory is released here.
  */
 haploid_clone::~haploid_clone() {
-	if (mem) free_mem();
+	free_mem();
 }
 
 /**
- * @brief Construct a population with certain parameters.
+ * @brief Construct a population with certain parameters
  *
- * @param N_in number of individuals
  * @param L_in length of the genome
+ * @param N_in number of individuals
  * @param rng_seed seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
  * @param n_o_traits number of phenotypic traits (including fitness). Must be \f$\geq1\f$.
  *
@@ -47,8 +47,7 @@ haploid_clone::~haploid_clone() {
  *
  * Note: memory allocation is also performed here, via the allocate_mem function.
  */
-int haploid_clone::set_up(int N_in, int L_in,  int rng_seed, int n_o_traits)
-{
+int haploid_clone::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
 	boost::dynamic_bitset<> temp;
 	if (N_in<1 or L_in <1 or n_o_traits<1)
 	{
@@ -67,22 +66,20 @@ int haploid_clone::set_up(int N_in, int L_in,  int rng_seed, int n_o_traits)
 	carrying_capacity=N_in;
 
 	//In case no seed is provided use current second and add process ID
-	if (rng_seed==0){
+	if (rng_seed==0)
 		seed=time(NULL)+getpid();
-	}else{seed=rng_seed;}
+	else
+		seed=rng_seed;
 
-	mem=false;
-	int err=allocate_mem();
-	return err;
+	return allocate_mem();
 }
 
 /**
- * @brief Allocate all the necessary memory, initialze the RNG.
+ * @brief Allocate all the necessary memory, initialze the RNG
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::allocate_mem()
-{
+int haploid_clone::allocate_mem() {
 	if (mem)
 	{
 		cerr <<"haploid_clone::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
@@ -119,26 +116,25 @@ int haploid_clone::allocate_mem()
 }
 
 /**
- * @brief Releases memory during ckass destruction.
+ * @brief Releases memory during class destruction
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::free_mem()
-{
-	if (!mem)
-	{
+int haploid_clone::free_mem() {
+	if (!mem) {
 		cerr <<"haploid_clone::free_mem(): No memory allocated!\n";
 		return HP_BADARG;
+	} else {
+		delete [] allele_frequencies;
+		delete [] gamete_allele_frequencies;
+		delete [] trait;
+		mem=false;
+		return 0;
 	}
-	delete [] allele_frequencies;
-	delete [] gamete_allele_frequencies;
-	delete [] trait;
-	mem=false;
-	return 0;
 }
 
 /**
- * @brief Initialize population with a certain number of individuals and fixed allele frequencies (in principle, in linkage equilibrium).
+ * @brief Initialize population with a certain number of individuals and fixed allele frequencies (in principle, in linkage equilibrium)
  *
  * @param nu target allele frequencies
  * @param n_o_genotypes number of individuals to be created
@@ -194,7 +190,7 @@ int haploid_clone::init_frequencies(double* nu, int n_o_genotypes)
 
 
 /**
- * @brief Initialize with a single genotypic clone (00...0).
+ * @brief Initialize with a single genotypic clone (00...0)
  *
  * @param n_o_genotypes size of the clone. If not chosen, use carrying_capacity.
  *
@@ -237,7 +233,7 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
 
 
 /**
- * @brief calculate and store allele frequencies.
+ * @brief calculate and store allele frequencies
  *
  * Note: the allele frequencies are available in the allele_frequencies attribute.
  */
@@ -262,7 +258,7 @@ void haploid_clone::calc_allele_freqs()
 }
 
 /**
- * @brief Get the joint frequency of two alleles.
+ * @brief Get the joint frequency of two alleles
  *
  * @param locus1 position of the first allele.
  * @param locus2 position of the second allele.
@@ -282,7 +278,7 @@ double haploid_clone::get_pair_frequency(int locus1, int locus2)
 }
 
 /**
- * @brief Get the joint frequency of two alleles, for a vector of allele pairs.
+ * @brief Get the joint frequency of two alleles, for a vector of allele pairs
  *
  * @param loci pointer to a vector of allele pairs. Each element of loci must be a vector of length 2.
  *
@@ -302,7 +298,7 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
 
 
 /**
- * @brief Evolve for some generations under the specified conditions.
+ * @brief Evolve for some generations under the specified conditions
  *
  * The order of steps performed is
  * 1. mutation
@@ -313,14 +309,14 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  *
  * @param gen number of generations.
  *
- * @returns sum of error codes of the single evolution steps. It is therefore a multiple of gen.
+ * @returns zero if successful, error code in the faulty step otherwise
  *
  * Note: if an error in encountered, evolution is stopped after the function that created the problem.
  * Typical errors include extinction or the opposite, offspring explosion.
  */
 int haploid_clone::evolve(int gen){
 	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
-	int err=0, gtemp = 0, btn = 0;
+	int err=0, g=0;
 
 	// calculate an effective outcrossing rate to include the case of very rare crossover rates.
 	// Since a recombination without crossovers is a waste of time, we scale down outcrossing probability
@@ -331,16 +327,16 @@ int haploid_clone::evolve(int gen){
 		outcrossing_rate_effective = outcrossing_rate;
 
 	// evolve cycle
-	while((err == 0) && (gtemp < gen)) {
-		if (HP_VERBOSE) cerr<<"generation "<<(generation+gtemp)<<endl;
+	while((err == 0) && (g < gen)) {
+		if (HP_VERBOSE) cerr<<"generation "<<generation<<endl;
 		random_sample.clear();			//discard the old random sample
 		if(err==0) err=mutate();		//mutation step
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
 		if(err==0) err=add_recombinants();	//do the recombination between pairs of sex gametes
 		if(err==0) err=swap_populations();	//make the new population the current population
-		gtemp ++;
+		g++;
+		generation++;
 	}
-	generation+=gtemp;
 	if (HP_VERBOSE) {
 		if(err==0) cerr<<"done."<<endl;
 		else cerr<<"error "<<err<<"."<<endl;
@@ -349,7 +345,7 @@ int haploid_clone::evolve(int gen){
 }
 
 /**
- * @brief Generate offpring according to fitness (selection) and segregate some for sexual mating. 
+ * @brief Generate offpring according to fitness (selection) and segregate some for sexual mating 
  *
  * @returns zero if successful, error codes otherwise
  *
@@ -411,7 +407,7 @@ int haploid_clone::select_gametes() {
 }
 
 /**
- * @brief Cause a bottleneck in the population size.
+ * @brief Cause a bottleneck in the population size
  *
  * @param size_of_bottleneck number of individuals to leave alive (approximate)
  *
@@ -457,7 +453,7 @@ int haploid_clone::bottleneck(int size_of_bottleneck) {
 }
 
 /**
- * @brief Mutate random clones at random loci (all loci).
+ * @brief Mutate random clones at random loci (all loci)
  *
  * Note: for efficiency reasons, if the mutation rate is zero, an if cycle skips the body altogether.
  * The user can therefore call this function safely even if in non-mutating populations, without
@@ -484,7 +480,7 @@ int haploid_clone::mutate() {
 }
 
 /**
- * @brief Flip a spin at a specific locus in random individual.
+ * @brief Flip a spin at a specific locus in random individual
  *
  * @param locus position of the locus to flip
  *
@@ -501,7 +497,7 @@ int haploid_clone::flip_single_locus(int locus)
 
 
 /**
- * @brief Flip a spin (locus) in individual.,
+ * @brief Flip a spin (locus) in individual
  *
  * @param clonenum the individual whose locus is being flipped
  * @param locus position of the locus to flip
@@ -532,7 +528,7 @@ void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
 }
 
 /**
- * @brief Pair and mate sexual gametes.
+ * @brief Pair and mate sexual gametes
  *
  * @returns zero if successful, nonzero otherwise
  *
@@ -560,7 +556,7 @@ int haploid_clone::add_recombinants()
 }
 
 /**
- * @brief Make the the temporary population the current one.
+ * @brief Make the the temporary population the current one
  *
  * After the new population is completely assembled, we have to make it the current
  * population. This is implemented simply by swaping pointers.
@@ -574,14 +570,8 @@ int haploid_clone::swap_populations(){
 	return 0;
 }
 
-
-/*
- * recombine two genotypes parent1 and parent2 to produce two new genotypes
- * stored in new_pop at positions ng and ng+1
- *
- */
 /**
- * @brief Recombine two genotypes parent1 and parent2 to produce two new genotypes.
+ * @brief Recombine two genotypes parent1 and parent2 to produce two new genotypes
  *
  * @param parent1 first parent
  * @param parent2 second parent
@@ -641,7 +631,7 @@ int haploid_clone::recombine(int parent1, int parent2) {
 }
 
 /**
- * @brief For each clone, recalculate its traits.
+ * @brief For each clone, recalculate its traits
  */
 void haploid_clone::update_traits() {
 	for (unsigned int i=0; i<current_pop->size(); i++) {
@@ -650,7 +640,7 @@ void haploid_clone::update_traits() {
 }
 
 /**
- * @brief For each clone, update fitness assuming traits are already up to date.
+ * @brief For each clone, update fitness assuming traits are already up to date
  */
 void haploid_clone::update_fitness() {
 	for (unsigned int i=0; i<current_pop->size(); i++) {
@@ -659,7 +649,7 @@ void haploid_clone::update_fitness() {
 }
 
 /**
- * @brief Calculate trait and fitness statistics and allele frequences.
+ * @brief Calculate trait and fitness statistics and allele frequences
  *
  * Four things are done in a row:
  * 1. traits are updated
@@ -680,7 +670,7 @@ void haploid_clone::calc_stat() {
 }
 
 /**
- * @brief Calculate traits of the chosen clone.
+ * @brief Calculate traits of the chosen clone
  *
  * @param tempgt clone whose traits are to be calculated
  */
@@ -691,7 +681,7 @@ void haploid_clone::calc_individual_traits(clone_t *tempgt){
 }
 
 /**
- * @brief Calculate fitness of a particular clone.
+ * @brief Calculate fitness of a particular clone
  *
  * @param tempgt clone whose fitness is being calculated
  *
@@ -706,10 +696,11 @@ void haploid_clone::calc_individual_fitness(clone_t *tempgt) {
 }
 
 /**
- * @brief Choose a certain number of crossover points and produce a 0000111100011111101101
- * crossover pattern
+ * @brief Choose a number of crossover points and produce a crossover pattern
  *
  * @returns crossover pattern
+ *
+ * A typical crossover pattern would be 0000111100011111101101.
  */
 boost::dynamic_bitset<> haploid_clone::crossover_pattern() {
 	int n_o_c=0;
@@ -747,7 +738,7 @@ boost::dynamic_bitset<> haploid_clone::crossover_pattern() {
 }
 
 /**
- * @brief Produce a random reassortement pattern.
+ * @brief Produce a random reassortement pattern
  *
  * @returns reassortement pattern
  */
@@ -800,7 +791,7 @@ boost::dynamic_bitset<> haploid_clone::reassortment_pattern() {
 }
 
 /**
- * @brief Produce and store a random sample of the population for stochastic processes.
+ * @brief Produce and store a random sample of the population for stochastic processes
  *
  * @param size size of the sample
  *
@@ -832,9 +823,9 @@ void haploid_clone::produce_random_sample(int size) {
 }
 
 /**
- * @brief Get a random clone from the population.
+ * @brief Get a random clone from the population
  *
- * @returns the index of the random clone.
+ * @returns the index of the random clone
  *
  * The probability density function from which the individual is chosen is flat over the
  * population (larger clones are proportionally more likely to be returned here).
@@ -859,10 +850,10 @@ int haploid_clone::random_clone() {
 }
 
 /**
- * @brief Sample random indivduals from the population.
+ * @brief Sample random indivduals from the population
  *
  * @param n_o_individuals number of individuals to sample
- * @param sample pointer to vector where to put the result.
+ * @param sample pointer to vector where to put the result
  *
  * @returns zero if successful, nonzero otherwise
  *
@@ -897,7 +888,7 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 }
 
 /**
- * @brief Get the log of the exp-average fitness plus relaxation term.
+ * @brief Get the log of the exp-average fitness plus relaxation term
  *
  * @returns the carrying capacity, i.e. the current mean fitness plus term that causes the population size to relax to carrying_capacity
  */
@@ -922,11 +913,11 @@ double haploid_clone::relaxation_value() {
 }
 
 /**
- * @brief Get the fitness of the fittest individual.
+ * @brief Get the fitness of the fittest individual
  *
  * @returns the fitness of the fittest clone
  *
- * Note: this function recalculates the max fitness.
+ * *Note*: this function recalculates the max fitness.
  */
 double haploid_clone::get_max_fitness() {
 	double fitness_max = (*current_pop)[0].fitness;
@@ -936,11 +927,11 @@ double haploid_clone::get_max_fitness() {
 }
 
 /**
- * @brief Calculate and store fitness population statistics.
+ * @brief Calculate and store fitness population statistics
  *
  * The fitness statistics are stored in fitness_stat.
  *
- * Note: this function assumes that fitness is up to date. If you are not sure, call update_traits() and update_fitness() first.
+ * *Note*: this function assumes that fitness is up to date. If you are not sure, call update_traits() and update_fitness() first.
  */
 void haploid_clone::calc_fitness_stat() {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_fitness_stat()...";}
@@ -970,9 +961,9 @@ void haploid_clone::calc_fitness_stat() {
 
 
 /**
- * @brief Get the population exp-average of fitness, which is used for keeping the population size fixed.
+ * @brief Get the population exp-average of fitness, used for keeping the population size fixed
  *
- * @param fitness_max Maximal fitness in the population, used to avoid explosion of exponentials.
+ * @param fitness_max Maximal fitness in the population, used to avoid explosion of exponentials
  * 
  * @returns the population exp-average of fitness
  *
@@ -999,7 +990,7 @@ double haploid_clone::get_logmean_expfitness(double fitness_max) {
  *
  * The traits statistics are stored in traits_stat.
  *
- * Note: this function assumes that traits are up to date. If you are not sure, call update_traits() first.
+ * *Note*: this function assumes that traits are up to date. If you are not sure, call update_traits() first.
  */
 void haploid_clone::calc_trait_stat() {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_trait_stat()...";}
@@ -1053,9 +1044,9 @@ void haploid_clone::calc_trait_stat() {
 }
 
 /**
- * @brief Print all allele frequency into a stream provided.
+ * @brief Print all allele frequency into a stream provided
  *
- * @param out stream to put the allele frequencies (usually a file or stdout).
+ * @param out stream to put the allele frequencies (usually a file or stdout)
  *
  * @returns zero if successful, nonzero otherwise
  */
@@ -1073,7 +1064,7 @@ int haploid_clone::print_allele_frequencies(ostream &out) {
 }
 
 /**
- * @brief Read the output of Hudson's ms and use it to initialize the genotype distribution.
+ * @brief Read the output of Hudson's ms and use it to initialize the genotype distribution
  *
  * @param gts genotypes output of _ms_
  * @param skip_locus positionof the locus to be skipped
@@ -1156,7 +1147,7 @@ int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity
 
 /**
  *
- * @brief Read the output of Hudson's ms and use it to initialize the genotype distribution.
+ * @brief Read the output of Hudson's ms and use it to initialize the genotype distribution
  *
  * @param gts genotypes output of _ms_
  * @param skip_locus positionof the locus to be skipped
@@ -1236,7 +1227,7 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 
 
 /**
- * @brief Calculate Hamming distance between two sequences.
+ * @brief Calculate Hamming distance between two sequences
  *
  * @param gt1 first sequence
  * @param gt2 second sequence
@@ -1286,7 +1277,7 @@ int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
 
 
 /**
- * @brief Calculate the cumulative partition of sequences into clones.
+ * @brief Calculate the cumulative partition of sequences into clones
  *
  * @param partition_cum the vector to be filled
  *
@@ -1296,7 +1287,7 @@ int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
  * fill the vector (100, 122, 125). The last element is of course the population
  * size See also get_population_size.
  *
- * Note: the vector is taken in input by reference for performance reasons, since it can get huge.
+ * *Note*: the vector is taken in input by reference for performance reasons, since it can get huge.
  */
 int haploid_clone::partition_cumulative(vector <unsigned int> &partition_cum) {	
 	partition_cum.push_back((*current_pop)[0].clone_size);		
@@ -1307,14 +1298,13 @@ int haploid_clone::partition_cumulative(vector <unsigned int> &partition_cum) {
 }
 
 /**
- * @brief Calculate mean and variance of the divergence from the [00...0] bitset.
+ * @brief Calculate mean and variance of the divergence from the [00...0] bitset
  *
  * @param n_sample size of the statistical sample to use (the whole pop is often too large)
  *
  * @returns mean and variance of the divergence in a stat_t 
  */
-stat_t haploid_clone::get_divergence_statistics(unsigned int n_sample)
-{
+stat_t haploid_clone::get_divergence_statistics(unsigned int n_sample) {
 	stat_t div;
 	unsigned int tmp;
 	vector <int> clones;
@@ -1333,14 +1323,13 @@ stat_t haploid_clone::get_divergence_statistics(unsigned int n_sample)
 }
 
 /**
- * @brief Calculate diversity in the current population (Hamming distance between pairs of sequences).
+ * @brief Calculate diversity in the current population (Hamming distance between pairs of sequences)
  *
  * @param n_sample size of the statistical sample to use (the whole pop is often too large)
  *
  * @returns mean and variance of the diversity in a stat_t
  */
-stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample)
-{
+stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample) {
 	stat_t div;
 	unsigned int tmp;
 	vector <int> clones1;
@@ -1364,13 +1353,12 @@ stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample)
 
 
 /**
- * @brief Calculate histogram of fitness from traits.
+ * @brief Calculate histogram of fitness from traits
  *
  * @param hist pointer to the gsl_histogram to fill
  * @param bins number of bins in the histogram 
  *
- * *Note*: the output histogram might have less bins than requested if the
- * sample size is too small.
+ * *Note*: the output histogram might have less bins than requested if the sample size is too small.
  *
  * @param n_sample size of the random sample to use (the whole population is often too large)
  *
@@ -1432,7 +1420,7 @@ int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins
 
 
 /**
- * @brief Get histogram of divergence from the [00...0] bitset.
+ * @brief Get histogram of divergence from the [00...0] bitset
  *
  * @param hist pointer to the gsl_histogram to fill
  * @param bins number of bins in the histogram
@@ -1460,8 +1448,7 @@ int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)
-{
+int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample) {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
 
 	boost::dynamic_bitset<> gt_wt(number_of_loci);	// the [00...0] bitset
@@ -1507,7 +1494,7 @@ int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int b
 }
 
 /**
- * @brief Get histogram of diversity in the population (mutual Hamming distance).
+ * @brief Get histogram of diversity in the population (mutual Hamming distance)
  *
  * @param hist pointer to the gsl_histogram to fill
  * @param bins number of bins in the histogram
@@ -1535,8 +1522,7 @@ int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int b
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)
-{
+int haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample) {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
 	int temp;
 	unsigned int divs[n_sample];

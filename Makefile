@@ -2,37 +2,70 @@
 #
 # Licence:	
 # Author:	Richard Neher, Fabio Zanini
-# Date:		2012/04/19
+# Date:		2012/05/15
 #
 # Description:
 # ------------
 # Makefile for the PopGenLib library.
 #
-# There are four sections:
+# The first section deals with platform-specific options and paths
+#
+# There are four main recipes:
 # - src: library compilation and (static) linking
 # - doc: documentation
 # - tests: test cases compilation and linking against the library
 # - python: python bindings
 #
 ##==========================================================================
+# PLATFORM-DEPENDENT OPTIONS
+#
+# Please edit the following lines to your needs. If you do not have doxygen
+# or python, just leave that line untouched or delete it.
+##==========================================================================
+CC := gcc
+CXX := g++
+SWIG := swig
+DOXY := doxygen
+PYTHON := python2.7
+
+# Apple computer users would usually edit the first line, Linux ones the second
+#PYTHON_PREFIX := /Library/Frameworks/EPD64.framework/Versions/Current
+PYTHON_PREFIX := /usr
+
+# The following variables are the ones actually used later on in the Makefile.
+# You can also directly edit these if you know what you are doing.
+PYTHON_INCLUDES = $(PYTHON_PREFIX)/include/$(PYTHON)
+NUMPY_INCLUDES = $(PYTHON_PREFIX)/lib/$(PYTHON)/site-packages/numpy/core/include
+
+############################################################################
+# !! DO NOT EDIT BELOW THIS LINE !!
+############################################################################
+##==========================================================================
+# OVERVIEW
+##==========================================================================
 SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
 PYBDIR = $(SRCDIR)/python
 
-# System folders
-LINKER_FOLDER = /usr
-NUMPY_INCLUDES = /usr/lib/python2.7/site-packages/numpy/core/include
+# Can we compile the documentation?
+ifdef DOXY
+    doc := $(shell which $(DOXY) && echo doc)
+endif
 
-.PHONY : all clean src doc tests python clean-src clean-doc clean-tests clean-python
-all: src doc tests python
+# Can we compile Python bindings?
+ifdef PYTHON
+    python := $(shell which $(PYTHON) && echo python)
+endif
+
+.PHONY : all clean src tests doc python clean-src clean-doc clean-tests clean-python
+all: src tests $(doc) $(python)
 clean: clean-src clean-doc clean-tests clean-python
 
 ##==========================================================================
 # SOURCE
 ##==========================================================================
-CXX = g++
-CXXFLAGS= -O2 -g3 -fPIC
+SRC_CXXFLAGS= -O2 -g3 -fPIC
 
 LIBRARY := libPopGenLib.a
 
@@ -61,16 +94,16 @@ $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
 	ar rcs $@ $^
 
 $(OBJECT_GENERIC:%=$(SRCDIR)/%): $(SOURCE_GENERIC:%=$(SRCDIR)/%)
-	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(OBJECT_LOWD:%=$(SRCDIR)/%): $(SOURCE_LOWD:%=$(SRCDIR)/%) $(HEADER_LOWD:%=$(SRCDIR)/%)
-	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(SRCDIR)/%)
-	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(OBJECT_HIV:%=$(SRCDIR)/%): $(SOURCE_HIV:%=$(SRCDIR)/%) $(HEADER_HIV:%=$(SRCDIR)/%)
-	$(CXX) $(CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 clean-src:
 	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
@@ -79,7 +112,6 @@ clean-src:
 # DOCUMENTATION
 ##==========================================================================
 DOXYFILE   = $(DOCDIR)/Doxyfile
-DOXY       = doxygen
 
 # Recipes
 doc:
@@ -91,10 +123,10 @@ clean-doc:
 ##==========================================================================
 # TESTS
 ##==========================================================================
-TESTS_LIBRARIES = -lPopGenLib -lgsl -lgslcblas
-
-TESTS_LDFLAGS = -L$(SRCDIR) -L$(LINKER_FOLDER) -O2
 TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC -g3
+TESTS_LDFLAGS = -O2
+TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
+TESTS_LIBS = -lPopGenLib -lgsl -lgslcblas
 
 TESTS_LOWD = lowd
 TESTS_HIGHD = highd
@@ -112,16 +144,16 @@ TESTS_OBJECT_HIGHD = $(TESTS_HIGHD:%=%.o)
 tests: $(SRCDIR)/$(LIBRARY) $(TESTS_LOWD:%=$(TESTSDIR)/%) $(TESTS_HIGHD:%=$(TESTSDIR)/%)
 
 $(TESTS_LOWD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%) $(SRCDIR)/$(LIBRARY)
-	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(TESTS_LIBRARIES)
+	$(CXX) $(TESTS_LDFLAGS) $^ $(TEST_LIBDIRS) $(TESTS_LIBS) -o $@
 
 $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_LOWD:%=$(TESTSDIR)/%) $(TESTS_HEADER_LOWD:%=$(TESTSDIR)/%)
-	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 $(TESTS_HIGHD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%) $(OBJECT_HIV:%=$(SRCDIR)/%) $(SRCDIR)/$(LIBRARY)
-	$(CXX) $(TESTS_LDFLAGS) -o $@ $^ $(TESTS_LIBRARIES)
+	$(CXX) $(TESTS_LDFLAGS) $^ $(TEST_LIBDIRS) $(TESTS_LIBS) -o $@
 
 $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_HIGHD:%=$(TESTSDIR)/%) $(TESTS_HEADER_HIGHD:%=$(TESTSDIR)/%)
-	$(CXX) $(TESTS_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD)
@@ -129,11 +161,11 @@ clean-tests:
 ##==========================================================================
 # PYTHON BINDINGS
 ##==========================================================================
-SWIG = swig
 SWIGFLAGS = -c++ -python -O -castmode -keyword
 
 SWIG_INTERFACE = PopGenLib.i
 SWIG_WRAP = $(SWIG_INTERFACE:%.i=%_wrap.cpp)
+SWIG_WRAP_OBJECT = $(SWIG_WRAP:%.cpp=%.o)
 SWIG_OBJECT = $(SWIG_INTERFACE:%.i=_%.so)
 SWIG_PYMODULE = $(SWIG_INTERFACE:%.i=%.py)
 SWIG_PYCMODULE = $(SWIG_INTERFACE:%.i=%.pyc)
@@ -142,23 +174,25 @@ SWIG_SUPPORT_2 = hivpopulation.i
 SWIG_SUPPORT_3 = popgen_lowd.i
 SWIG_SUPPORT_4 = popgen.i
 
-## The following syntax is really black magic... look into the distutils source code and cry
-PYTHON_SETUP = setup.py
-PYTHON_LIBRARIES = -l'PopGenLib gsl gslcblas'
-PYTHON_INCLUDES = -I$(SRCDIR):$(NUMPY_INCLUDES)
+PYTHON_CFLAGS = -O2 -g3 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
+PYTHON_LDFLAGS= -O2 -g3 -fPIC -shared
 PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
-PYTHON_FLAGS = --inplace $(PYTHON_INCLUDES) $(PYTHON_LIBRARIES) $(PYTHON_LIBDIRS)
+PYTHON_LIBS = -lPopGenLib -lgsl -lgslcblas
 
 # Recipes
 python: $(SWIG_OBJECT:%=$(PYBDIR)/%)
 
 $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_SOURCE:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
-	cd $(PYBDIR); python2 $(PYTHON_SETUP) build_ext $(PYTHON_FLAGS)
+	$(CC) $(PYTHON_CFLAGS) -c $(SWIG_WRAP:%=$(PYBDIR)/%) -o $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%)
+	$(CXX) $(PYTHON_LDFLAGS) $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%) $(PYTHON_LIBDIRS) $(PYTHON_LIBS) -o $(SWIG_OBJECT:%=$(PYBDIR)/%)
+	cp $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(TESTSDIR)/%)
+	cp $(SWIG_OBJECT:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(TESTSDIR)/%)
 
 $(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%) $(SWIG_SUPPORT_4:%=$(PYBDIR)/%)
 	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_INTERFACE:%=$(PYBDIR)/%)
 
 clean-python:
 	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
+	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 
 #############################################################################

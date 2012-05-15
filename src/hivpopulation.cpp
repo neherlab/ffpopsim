@@ -39,7 +39,7 @@ hivpopulation::~hivpopulation() {
  * Note: the genome length is 10000 (see HIVGENOME).
  */
 int hivpopulation::set_up(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in){
-	int err=set_up(N_in, HIVGENOME, rng_seed, 2); // we have exactly 2 traits
+	int err=haploid_clone::set_up(HIVGENOME, N_in, rng_seed, 2); // we have exactly 2 traits
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
 	crossover_rate = crossover_rate_in;
