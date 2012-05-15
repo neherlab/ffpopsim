@@ -8,7 +8,24 @@
 # ------------
 # Makefile for the PopGenLib library.
 #
-# The first section deals with platform-specific options and paths
+# The first section deals with platform-specific options and paths.
+# In particular, there are two variables that can differ across the audience:
+#
+# 1. PYTHON_PREFIX: the root of your Python installation. Two common choices
+#                   are listed, but you should check your own path. One way
+#                   of doing this is to run:
+#
+#                   which python
+#
+#                   in a shell, and copy the first chunk of the path.
+#
+# 2. PYTHON_LD_FLAGS_PLATFORM: the stategy used to build shared libraries.
+#                   There are only two options here, depending on whether you
+#                   are on an Apple computer or not.
+#
+# This file tries to guess reasonable values for both variables, by including
+# Makefile_guesses. However, if you know their value on your system, please
+# set it explicitely below.
 #
 # There are four main recipes:
 # - src: library compilation and (static) linking
@@ -28,11 +45,20 @@ SWIG := swig
 DOXY := doxygen
 PYTHON := python2.7
 
-# Apple computer users would usually edit the first line, Linux ones the second
-#PYTHON_PREFIX := /Library/Frameworks/EPD64.framework/Versions/Current
-PYTHON_PREFIX := /usr
+# Try to guess the platform
+include Makefile_guesses
 
-# The following variables are the ones actually used later on in the Makefile.
+# Apple users would usually use (and possibly edit) the first line
+# Linux users the second line
+#PYTHON_PREFIX := /Library/Frameworks/EPD64.framework/Versions/Current
+#PYTHON_PREFIX := /usr
+
+# Apple users would usually use (and possibly edit) the first line
+# Linux users the second line
+#PYTHON_LD_FLAGS_PLATFORM := -dynamiclib -flat_namespace -undefined suppress
+#PYTHON_LD_FLAGS_PLATFORM := -shared
+
+# PYTHON_PREFIX is actually only used in the following two variables.
 # You can also directly edit these if you know what you are doing.
 PYTHON_INCLUDES = $(PYTHON_PREFIX)/include/$(PYTHON)
 NUMPY_INCLUDES = $(PYTHON_PREFIX)/lib/$(PYTHON)/site-packages/numpy/core/include
@@ -47,16 +73,6 @@ SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
 PYBDIR = $(SRCDIR)/python
-
-# Can we compile the documentation?
-ifdef DOXY
-    doc := $(shell which $(DOXY) && echo doc)
-endif
-
-# Can we compile Python bindings?
-ifdef PYTHON
-    python := $(shell which $(PYTHON) && echo python)
-endif
 
 .PHONY : all clean src tests doc python clean-src clean-doc clean-tests clean-python
 all: src tests $(doc) $(python)
@@ -175,7 +191,7 @@ SWIG_SUPPORT_3 = popgen_lowd.i
 SWIG_SUPPORT_4 = popgen.i
 
 PYTHON_CFLAGS = -O2 -g3 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
-PYTHON_LDFLAGS= -O2 -g3 -fPIC -shared
+PYTHON_LDFLAGS= -O2 -g3 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
 PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PYTHON_LIBS = -lPopGenLib -lgsl -lgslcblas
 

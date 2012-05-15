@@ -1,0 +1,28 @@
+#############################################################################
+#
+# Licence:	
+# Author:	Richard Neher, Fabio Zanini
+# Date:		2012/05/15
+#
+# Description:
+# ------------
+# The next lines try to guess whether you are on an Apple computer (Darwin)
+# or on another *nix computer, and to set some platform-dependent variables.
+##==========================================================================
+ifeq ($(shell uname), Darwin)
+    PYTHON_PREFIX := /Library/Frameworks/EPD64.framework/Versions/Current
+    PYTHON_LD_FLAGS_PLATFORM := -dynamiclib -flat_namespace -undefined suppress
+else
+    PYTHON_PREFIX := /usr
+    PYTHON_LD_FLAGS_PLATFORM := -shared
+endif
+
+# Can we compile the documentation?
+ifdef DOXY
+    doc := $(shell which $(DOXY) > /dev/null && echo doc)
+endif
+
+# Can we compile Python bindings?
+ifdef PYTHON
+    python := $(shell which $(PYTHON) > /dev/null && echo python)
+endif
