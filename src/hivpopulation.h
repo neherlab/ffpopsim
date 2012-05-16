@@ -38,27 +38,31 @@
  *
  * Moreover, this class fixes the length of the genome to exactly 10000 sites.
  */
-class hivpopulation: public haploid_clone {
-private:
-	//random number generator
-	double treatment;
-	gsl_rng* rng;
-	int seed;
+class hivpopulation : public haploid_clone {
 public:
 	// constructors/destructors
-	hivpopulation();
+	hivpopulation(int N_in=0, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);
 	virtual ~hivpopulation();
 	int set_up(int N_in, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);
 
 	// treatment (set/get)
 	void set_treatment(double t){treatment=t; update_traits(); update_fitness();}
 	double get_treatment() {return treatment;}
-	void calc_fitness_from_traits(clone_t *tempgt) {tempgt->fitness = tempgt->trait[0] + treatment * tempgt->trait[1];}
 
 	// stream I/O
 	int read_selection_coefficients(istream &model);
 	int read_resistance_coefficients(istream &model);
 	int write_genotypes(ostream &out, int sample_size, string gt_label, int start=0, int length=0);
+
+protected:
+	// fitness landscape
+	void calc_individual_fitness_from_traits(clone_t *tempgt) {tempgt->fitness = tempgt->trait[0] + treatment * tempgt->trait[1];}
+
+private:
+	//random number generator
+	double treatment;
+	gsl_rng* rng;
+	int seed;
 
 };
 

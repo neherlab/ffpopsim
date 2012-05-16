@@ -11,14 +11,13 @@ import matplotlib.pyplot as plt
 import PopGenLib as h
 
 # Construct class
-c = h.hivpopulation()
-c.set_up(1000)
+c = h.hivpopulation(1000)
 
 # Test I/O fitness landscapes
 c.read_selection_coefficients('hiv_model.dat')
 
-## Test population initialization
-#print c.init_frequencies(np.zeros(h.HIVGENOME) + 0.3, 1000)
+# Test population initialization
+c.init_frequencies(np.zeros(h.HIVGENOME) + 0.3, 1000)
 
 # Test allele frequency readout
 print np.max(c.get_allele_frequency(4))

@@ -137,7 +137,10 @@ struct clone_t {
 	vector <double> trait;
 	double fitness;
 	int clone_size;
-	clone_t(int n_traits){trait.resize(n_traits);}
+	clone_t(int n_traits=0){trait.resize(n_traits); fitness=0; clone_size=0;}
+	bool operator<(const clone_t &other) const {return fitness < other.fitness;}
+	bool operator>(const clone_t &other) const {return fitness > other.fitness;}
+	bool operator==(const clone_t &other) const {return genotype == other.genotype;}
 };
 
 /**
@@ -163,7 +166,7 @@ public:
 	vector <clone_t> *new_pop;
 
 	// construction / destruction
-	haploid_clone();
+	haploid_clone(int L_in=0, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_clone();
 	virtual int set_up(int L_in, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
 
@@ -199,6 +202,8 @@ public:
 
 	// update traits and fitness and calculate statistics
 	void calc_stat();
+	void unique_clones();
+	
 
 	// readout
 	// Note: these functions are for the general public and are not expected to be

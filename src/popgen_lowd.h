@@ -128,10 +128,9 @@ public:
 	hypercube population;
 
 	// construction / destruction
-	haploid_gt_dis();
-	~haploid_gt_dis();
-	haploid_gt_dis(int L_in, double N_in=1000, int rngseed=0);
-	int set_up(int L_in, double N_in=1000, int rngseed=0);
+	haploid_gt_dis(int L_in=0, double N_in=1000, int rng_seed=0);
+	virtual ~haploid_gt_dis();
+	virtual int set_up(int L_in, double N_in=1000, int rng_seed=0);
 
 	// population parameters (read/write)
 	double population_size;

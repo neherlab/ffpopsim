@@ -18,12 +18,23 @@
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_clone::haploid_clone() {
+haploid_clone::haploid_clone(int L_in, int N_in,  int rng_seed, int n_o_traits) {
 	current_pop = &current_pop_vector;
 	new_pop = &new_pop_vector;
 	mem=false;
 	cumulants_mem=false;
 	circular=false;
+
+	// empty constructor
+        if(L_in <= 0)
+		number_of_loci=0;
+	else {
+		// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
+		// control than we currently have.
+		int err = set_up(L_in, N_in, rng_seed, n_o_traits);
+		if(err)
+			throw err;
+	}
 }
 
 /**
@@ -198,8 +209,7 @@ int haploid_clone::init_frequencies(double* nu, int n_o_genotypes)
  *
  * This is the typical initialization function if evolution from a single ancestor is modeled.
  */
-int haploid_clone::init_genotypes(int n_o_genotypes)
-{
+int haploid_clone::init_genotypes(int n_o_genotypes) {
 	trait[0].coefficients_epistasis.clear();
 
 	if (!mem)
@@ -237,8 +247,7 @@ int haploid_clone::init_genotypes(int n_o_genotypes)
  *
  * Note: the allele frequencies are available in the allele_frequencies attribute.
  */
-void haploid_clone::calc_allele_freqs()
-{
+void haploid_clone::calc_allele_freqs() {
 	if (HP_VERBOSE) cerr<<"haploid_clone::calc_allele_freqs()...";
 	int locus,cs;
 	population_size=0;
@@ -265,8 +274,7 @@ void haploid_clone::calc_allele_freqs()
  *
  * @returns the joint frequency of the two alleles.
  */
-double haploid_clone::get_pair_frequency(int locus1, int locus2)
-{
+double haploid_clone::get_pair_frequency(int locus1, int locus2) {
 	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequency()...";
 	double frequency = 0;
 	for (unsigned i=0; i<current_pop->size(); i++)
@@ -284,8 +292,7 @@ double haploid_clone::get_pair_frequency(int locus1, int locus2)
  *
  * @returns vector of joint frequencies.
  */
-vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *loci)
-{
+vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *loci) {
 	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequencies()...";
 	unsigned int pair;
 
@@ -314,7 +321,7 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  * Note: if an error in encountered, evolution is stopped after the function that created the problem.
  * Typical errors include extinction or the opposite, offspring explosion.
  */
-int haploid_clone::evolve(int gen){
+int haploid_clone::evolve(int gen) {
 	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
 	int err=0, g=0;
 
@@ -488,8 +495,7 @@ int haploid_clone::mutate() {
  *
  * Note: this function calls flip_single_locus(unsigned int clonenum, int locus).
  */
-int haploid_clone::flip_single_locus(int locus)
-{
+int haploid_clone::flip_single_locus(int locus) {
 	int clonenum = random_clone();
 	flip_single_locus(clonenum, locus);
 	return clonenum;
@@ -510,8 +516,7 @@ int haploid_clone::flip_single_locus(int locus)
  * However, this would take forever, and is thus implemented in a separate function
  * (TODO: which one?).
  */
-void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
-{
+void haploid_clone::flip_single_locus(unsigned int clonenum, int locus) {
 	//produce new genotype
 	clone_t tempgt(number_of_traits);
 	tempgt.genotype.resize(number_of_loci);
@@ -534,8 +539,7 @@ void haploid_clone::flip_single_locus(unsigned int clonenum, int locus)
  *
  * Using the previously produced list of sex_gametes, pair them at random and mate
  */
-int haploid_clone::add_recombinants()
-{
+int haploid_clone::add_recombinants() {
 	//construct new generation
 	int parent1, parent2, n_o_c=1;
 
@@ -561,7 +565,7 @@ int haploid_clone::add_recombinants()
  * After the new population is completely assembled, we have to make it the current
  * population. This is implemented simply by swaping pointers.
  */
-int haploid_clone::swap_populations(){
+int haploid_clone::swap_populations() {
 	vector <clone_t> *temp_gt;
 	temp_gt=current_pop;
 	current_pop=new_pop;
@@ -674,7 +678,7 @@ void haploid_clone::calc_stat() {
  *
  * @param tempgt clone whose traits are to be calculated
  */
-void haploid_clone::calc_individual_traits(clone_t *tempgt){
+void haploid_clone::calc_individual_traits(clone_t *tempgt) {
 	for (int t=0; t<number_of_traits; t++){
 		tempgt->trait[t] = trait[t].get_func(&(tempgt->genotype));
 	}
@@ -894,13 +898,6 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
  */
 double haploid_clone::relaxation_value() {
 	if (HP_VERBOSE) {cerr <<"haploid_clone::relaxation_value()..."<<endl;}
-
-//	// FIXME: OLD
-//	update_traits();
-//	update_fitness();
-//	calc_fitness_stat();
-//	double relax = fitness_stat.mean + (MIN(0.6931*(double(population_size)/carrying_capacity-1),2.0));
-//	if (HP_VERBOSE) {cerr<<"mean fitness = "<<fitness_stat.mean<<"..."<<endl;}
 
 	double fitness_max = get_max_fitness();
 	double logmean_expfitness = get_logmean_expfitness(fitness_max);
@@ -1565,4 +1562,32 @@ int haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bi
 	
 	if (HP_VERBOSE) cerr<<"done.";
 	return 0;
+}
+
+/**
+ * @brief Remove duplicate clones.
+ *
+ * The library does not usually check whether two clones with the same genotype are present, but
+ * this can happen in case of recurrent mutation. This function merges duplicates.
+ *
+ * *Note*: this is only needed for studying the clone structure. Evolution itself does not need to
+ * make sure that clones are unique.
+ */
+void haploid_clone::unique_clones() {
+	if(current_pop->size() > 1) {
+		// sort them O(nlog(n))
+		sort(current_pop->begin(), current_pop->end());
+
+		// merge clones with the same fitness and genotype
+		new_pop->reserve(current_pop->size());
+		new_pop->clear();
+		new_pop->push_back((*current_pop)[0]);
+		for(size_t i = 1; i < current_pop->size(); i++) {
+			if((*current_pop)[i] == new_pop->back())
+				new_pop->back().clone_size += (*current_pop)[i].clone_size;
+			else
+				new_pop->push_back((*current_pop)[i]);
+		}
+		swap_populations();
+	}
 }

@@ -8,14 +8,14 @@
 #ifndef POPGEN_H_
 #define POPGEN_H_
 
-#include <iostream>
-#include <iomanip>
 #include <time.h>
 #include <cmath>
 #include <vector>
 #include <bitset>
 #include <string>
 #include <sstream>
+#include <iostream>
+#include <iomanip>
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
@@ -38,8 +38,7 @@ using namespace std;
 struct index_value_pair_t {
 	int index;
 	double val;
-	index_value_pair_t(){index = val = 0;}
-	index_value_pair_t(int index_in, double val_in){index = index_in; val = val_in;}
+	index_value_pair_t(int index_in=0, double val_in=0){index = index_in; val = val_in;}
 };
 
 /**
@@ -48,8 +47,7 @@ struct index_value_pair_t {
 struct stat_t {
 	double mean;
 	double variance;
-	stat_t(){mean = variance = 0;}
-	stat_t(double mean_in, double variance_in){mean = mean_in; variance = variance_in;}
+	stat_t(double mean_in=0, double variance_in=0){mean = mean_in; variance = variance_in;}
 };
 
 #define SAMPLE_ERROR -12312154

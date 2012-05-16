@@ -8,21 +8,6 @@
 #include "popgen_lowd.h"
 
 /**
- * @brief Default constructor
- *
- * It prepares a few parameters, does not allocate memory (see set_up for that).
- */
-haploid_gt_dis::haploid_gt_dis() {
-	mem=false;
-	free_recombination=true;
-	outcrossing_rate=0.0;
-	generation=0;
-	long_time_generation=0.0;
-	circular=false;
-	number_of_loci=0;
-}
-
-/**
  * @brief Default destructor
  *
  * Release memory.
@@ -38,14 +23,25 @@ haploid_gt_dis::~haploid_gt_dis() {
  * @param N_in population size
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_gt_dis::haploid_gt_dis(int L_in, double N_in, int rngseed) {
+haploid_gt_dis::haploid_gt_dis(int L_in, double N_in, int rng_seed) {
 	mem=false;
 	free_recombination=true;
 	outcrossing_rate=0.0;
 	generation=0;
 	long_time_generation=0.0;
 	circular=false;
-	set_up(L_in, N_in, rngseed);
+	int err=0;
+       
+	// empty constructor
+        if(L_in <= 0)
+		number_of_loci=0;
+	else {
+		err = set_up(L_in, N_in, rng_seed);
+		// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
+		// control than we currently have.
+		if(err)
+			throw err;
+	}
 }
 
 /**
@@ -59,15 +55,15 @@ haploid_gt_dis::haploid_gt_dis(int L_in, double N_in, int rngseed) {
  *
  * Note: memory allocation is also performed here, via the allocate_mem function.
  */
-int haploid_gt_dis::set_up(int L_in, double N_in, int rngseed) {
+int haploid_gt_dis::set_up(int L_in, double N_in, int rng_seed) {
 	population_size=N_in;
 	number_of_loci=L_in;
 
 	//In case no seed is provided use current second and add process ID
-	if (rngseed==0)
+	if (rng_seed==0)
 		seed=time(NULL)+getpid();
 	else
-		seed=rngseed;
+		seed=rng_seed;
 
 	return allocate_mem();
 }
@@ -80,6 +76,11 @@ int haploid_gt_dis::set_up(int L_in, double N_in, int rngseed) {
  * Set up the different hypercubes needed to store the fitness, population recombinants, and mutants.
  */
 int haploid_gt_dis::allocate_mem() {
+	if (mem) {
+		if(HG_VERBOSE) cerr <<"haploid_gt_dis::allocate_mem(): Memory allocated already!"<<endl;
+		return HG_BADARG;
+	}
+
 	int err=0;
 	rng=gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
@@ -110,26 +111,26 @@ int haploid_gt_dis::allocate_mem() {
  */
 int haploid_gt_dis::free_mem() {
 	if (!mem) {
-		cerr <<"haploid_gt_dis::free_mem(): No memory allocated!\n";
+		if(HG_VERBOSE) cerr <<"haploid_gt_dis::free_mem(): No memory allocated!"<<endl;
 		return HG_BADARG;
-	} else {
-		fitness.~hypercube();
-		population.~hypercube();
-		recombinants.~hypercube();
-		mutants.~hypercube();
-		gsl_rng_free(rng);
-		if (!free_recombination){
-			for (int i=0; i<(1<<number_of_loci); i++){
-				delete [] recombination_patters[i];
-			}
-			delete [] recombination_patters;
-		}
-		delete [] mutation_rates[1];
-		delete [] mutation_rates[0];
-		delete [] mutation_rates;
-		mem=false;
-		return 0;
 	}
+
+	fitness.~hypercube();
+	population.~hypercube();
+	recombinants.~hypercube();
+	mutants.~hypercube();
+	gsl_rng_free(rng);
+	if (!free_recombination){
+		for (int i=0; i<(1<<number_of_loci); i++){
+			delete [] recombination_patters[i];
+		}
+		delete [] recombination_patters;
+	}
+	delete [] mutation_rates[1];
+	delete [] mutation_rates[0];
+	delete [] mutation_rates;
+	mem=false;
+	return 0;
 }
 
 /**

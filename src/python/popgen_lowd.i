@@ -23,7 +23,49 @@ def integerify(b):
 }
 
 /**** HAPLOID_GT_DIS ****/
+%define DOCSTRING_HAPLOID_GT_DIS
+"Class for low-dimensional population genetics (short genomes ~20 loci).
+
+This class is the main object for simulating the evolution of populations with
+a few loci (less than ~20). The class offers a number of functions, but an
+example will explain the basic idea:
+
+#####################################
+#   EXAMPLE SCRIPT                  #
+#####################################
+import numpy as np
+import matplotlib.pyplot as plt
+import PopGenLib as h
+
+c = h.haploid_gt_dis(5, 2000)
+c.init_genotypes([0, 2], [0.3, 0.7]) 
+c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
+c.evolve(10)
+c.plot_diversity_histogram()
+plt.show()
+#####################################
+
+An effective way to discover all available methods is to import PopGenLib from
+an interactive shell (e.g. iPython), create a population as above, and use TAB
+autocompletion:
+
+In [1]: import PopGenLib as h
+In [2]: c = h.haploid_gt_dis(5, 2000)
+In [3]: c.      <--- TAB
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS) haploid_gt_dis;
 %extend haploid_gt_dis {
+
+/* constructor */
+%exception haploid_gt_dis {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Construction impossible. Please check input args.");
+                SWIG_fail;
+        }
+}
 
 /* string representations */
 const char* __str__() {
@@ -37,10 +79,6 @@ const char* __repr__() {
         sprintf(buffer,"haploid_gt_dis(%d, %5.2e)", $self->L(), $self->N());
         return &buffer[0];
 }
-
-/* constructor */
-%ignore haploid_gt_dis(int L_in, double N_in=1000, int rngseed=0);
-/* TODO: reimplement the constructor */
 
 /* TODO: ignore hypercubes for now */
 %ignore fitness;
