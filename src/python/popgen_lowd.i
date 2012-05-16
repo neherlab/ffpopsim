@@ -25,6 +25,19 @@ def integerify(b):
 /**** HAPLOID_GT_DIS ****/
 %extend haploid_gt_dis {
 
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"haploid_gt_dis: L = %d, N = %d", $self->L(), $self->N());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"haploid_gt_dis(%d, %5.2e)", $self->L(), $self->N());
+        return &buffer[0];
+}
+
 /* constructor */
 %ignore haploid_gt_dis(int L_in, double N_in=1000, int rngseed=0);
 /* TODO: reimplement the constructor */

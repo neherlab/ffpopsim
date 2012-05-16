@@ -45,7 +45,7 @@ SWIG := swig
 DOXY := doxygen
 PYTHON := python2.7
 
-# Try to guess the platform
+# Try to guess the platform and whether Doxygen and/or Python are installed
 include Makefile_guesses
 
 # Apple users would usually use (and possibly edit) the first line

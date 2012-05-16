@@ -194,9 +194,9 @@ int haploid_gt_dis::evolve(int gen) {
 	while((err == 0) && (g < gen)) {
 		if (HG_VERBOSE) cerr<<"generation "<<generation<<endl;
 		if(err==0) err=select();
-		if(err=0) err=mutate();
-		if(err=0) err=recombine();
-		if(err=0) err=resample();
+		if(err==0) err=mutate();
+		if(err==0) err=recombine();
+		if(err==0) err=resample();
 		g++;
 		generation++;
 		if (generation>HG_LONGTIMEGEN) {generation-=HG_LONGTIMEGEN; long_time_generation+=HG_LONGTIMEGEN;}
@@ -226,8 +226,8 @@ int haploid_gt_dis::evolve_norec(int gen) {
 	while((err == 0) && (g < gen)) {
 		if (HG_VERBOSE) cerr<<"generation "<<generation<<endl;
 		if(err==0) err=select();
-		if(err=0) err=mutate();
-		if(err=0) err=resample();
+		if(err==0) err=mutate();
+		if(err==0) err=resample();
 		g++;
 		generation++;
 		if (generation>HG_LONGTIMEGEN) {generation-=HG_LONGTIMEGEN; long_time_generation+=HG_LONGTIMEGEN;}
@@ -259,8 +259,8 @@ int haploid_gt_dis::evolve_deterministic(int gen) {
 	while((err == 0) && (g < gen)) {
 		if (HG_VERBOSE) cerr<<"generation "<<generation<<endl;
 		if(err==0) err=select();
-		if(err=0) err=mutate();
-		if(err=0) err=recombine();
+		if(err==0) err=mutate();
+		if(err==0) err=recombine();
 		g++;
 		generation++;
 		if (generation>HG_LONGTIMEGEN) {generation-=HG_LONGTIMEGEN; long_time_generation+=HG_LONGTIMEGEN;}
