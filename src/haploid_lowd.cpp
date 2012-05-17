@@ -1,5 +1,5 @@
 /*
- * haploid_gt_dis.cpp
+ * haploid_lowd.cpp
  *
  *  Created on: Jan 27, 2010
  *  Author: Richard Neher & Boris Shraiman
@@ -12,7 +12,7 @@
  *
  * Release memory.
  */
-haploid_gt_dis::~haploid_gt_dis() {
+haploid_lowd::~haploid_lowd() {
 	free_mem();
 }
 
@@ -23,7 +23,7 @@ haploid_gt_dis::~haploid_gt_dis() {
  * @param N_in population size
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_gt_dis::haploid_gt_dis(int L_in, double N_in, int rng_seed) {
+haploid_lowd::haploid_lowd(int L_in, double N_in, int rng_seed) {
 	mem=false;
 	free_recombination=true;
 	outcrossing_rate=0.0;
@@ -55,8 +55,8 @@ haploid_gt_dis::haploid_gt_dis(int L_in, double N_in, int rng_seed) {
  *
  * Note: memory allocation is also performed here, via the allocate_mem function.
  */
-int haploid_gt_dis::set_up(int L_in, double N_in, int rng_seed) {
-	population_size=N_in;
+int haploid_lowd::set_up(int L_in, double N_in, int rng_seed) {
+	carrying_capacity=population_size=N_in;
 	number_of_loci=L_in;
 
 	//In case no seed is provided use current second and add process ID
@@ -75,9 +75,9 @@ int haploid_gt_dis::set_up(int L_in, double N_in, int rng_seed) {
  *
  * Set up the different hypercubes needed to store the fitness, population recombinants, and mutants.
  */
-int haploid_gt_dis::allocate_mem() {
+int haploid_lowd::allocate_mem() {
 	if (mem) {
-		if(HG_VERBOSE) cerr <<"haploid_gt_dis::allocate_mem(): Memory allocated already!"<<endl;
+		if(HG_VERBOSE) cerr <<"haploid_lowd::allocate_mem(): Memory allocated already!"<<endl;
 		return HG_BADARG;
 	}
 
@@ -109,9 +109,9 @@ int haploid_gt_dis::allocate_mem() {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_gt_dis::free_mem() {
+int haploid_lowd::free_mem() {
 	if (!mem) {
-		if(HG_VERBOSE) cerr <<"haploid_gt_dis::free_mem(): No memory allocated!"<<endl;
+		if(HG_VERBOSE) cerr <<"haploid_lowd::free_mem(): No memory allocated!"<<endl;
 		return HG_BADARG;
 	}
 
@@ -144,7 +144,7 @@ int haploid_gt_dis::free_mem() {
  * has a very large width. In turn, this can result in an immediate and dramatic drop in diversity within the
  * first few generations. Please check fitness statistics before starting the evolution if this worries you.
  */
-int haploid_gt_dis::init_frequencies(double *freq) {
+int haploid_lowd::init_frequencies(double *freq) {
 	double prob;
 	int locus, i;
 	population.set_state(HC_FUNC);
@@ -162,16 +162,24 @@ int haploid_gt_dis::init_frequencies(double *freq) {
 }
 
 /**
- * @brief Initialize the population with specific genotype frequencies
+ * @brief Initialize the population with genotype counts
  *
- * @param gt vector of index_value_pair_t type with indices and frequencies
+ * @param gt vector of index_value_pair_t type with indices and counts
  *
  * @returns zero if successful, error codes otherwise
+ *
+ * *Note*: the population size will be set as the total sum of counts of all genotypes.
  */
-int haploid_gt_dis::init_genotypes(vector <index_value_pair_t> gt) {
+int haploid_lowd::init_genotypes(vector <index_value_pair_t> gt) {
 	population.init_list(gt, false);
 	generation=0;
 	long_time_generation=0.0;
+
+	// Set the population size as the sum of the clones in input
+	population_size=0;
+	for(size_t i = 0; i < gt.size(); i++)
+		population_size += gt[i].val;
+
 	return population.normalize();
 }
 
@@ -187,8 +195,8 @@ int haploid_gt_dis::init_genotypes(vector <index_value_pair_t> gt) {
  * fourier transform of the population. It does so BEFORE the recombination step.
  * To evaluate all allele frequencies and linkage disequilibria, call population.fft_func_to_coeff()
  */
-int haploid_gt_dis::evolve(int gen) {
-	if (HG_VERBOSE) cerr<<"haploid_gt_dis::evolve(int gen)...";
+int haploid_lowd::evolve(int gen) {
+	if (HG_VERBOSE) cerr<<"haploid_lowd::evolve(int gen)...";
 	int err=0, g=0;
 
 	// evolve cycle
@@ -219,8 +227,8 @@ int haploid_gt_dis::evolve(int gen) {
  * *Note*: the order of selection, mutation, and resampling could be changed
  * according to needs and beliefs.
  */
-int haploid_gt_dis::evolve_norec(int gen) {
-	if (HG_VERBOSE) cerr<<"haploid_gt_dis::evolve_norec(int gen)...";
+int haploid_lowd::evolve_norec(int gen) {
+	if (HG_VERBOSE) cerr<<"haploid_lowd::evolve_norec(int gen)...";
 	int err=0, g=0;
 
 	// evolve cycle
@@ -252,8 +260,8 @@ int haploid_gt_dis::evolve_norec(int gen) {
  * fourier transform of the population. It does so BEFORE the recombination step.
  * To evaluate all allele frequencies and linkage disequilibria, call population.fft_func_to_coeff()
  */
-int haploid_gt_dis::evolve_deterministic(int gen) {
-	if (HG_VERBOSE) cerr<<"haploid_gt_dis::evolve(int gen)...";
+int haploid_lowd::evolve_deterministic(int gen) {
+	if (HG_VERBOSE) cerr<<"haploid_lowd::evolve(int gen)...";
 	int err=0, g=0;
 
 	// evolve cycle
@@ -280,7 +288,7 @@ int haploid_gt_dis::evolve_deterministic(int gen) {
  *
  * *Note*: Population distribution is reweighted with exp(fitness) and renormalized.
  */
-int haploid_gt_dis::select() {
+int haploid_lowd::select() {
 	// FIXME: nobody should set the state from the outside like this...check whether we can save the elegance without losing speed!
 	population.set_state(HC_FUNC);
 	double norm=0;
@@ -302,14 +310,14 @@ int haploid_gt_dis::select() {
  * *Note*: genotypes with few individuals are sampled using the Poisson distribution, allowing for strict zero;
  * genotypes with many individuals are resampled using a Gaussian distribution, for performance reasons.
  */
-int haploid_gt_dis::resample(double n) {
+int haploid_lowd::resample(double n) {
 	double pop_size;
-	if (n<1.0) pop_size=population_size;
+	if (n<1.0) pop_size=carrying_capacity;
 	else pop_size=n;
 
 	population.set_state(HC_FUNC);
-	double threshold_HG_CONTINUOUS=double(HG_CONTINUOUS)/pop_size, norm;
-	norm=0;
+	double threshold_HG_CONTINUOUS=double(HG_CONTINUOUS)/pop_size;
+	population_size=0;
 	for (int i=0; i<(1<<number_of_loci); i++){
 		if (population.func[i]<threshold_HG_CONTINUOUS)
 		{
@@ -319,12 +327,12 @@ int haploid_gt_dis::resample(double n) {
 		{
 			population.func[i]+=double(gsl_ran_gaussian(rng, sqrt(population.func[i]/pop_size)));
 		}
-		norm+=population.func[i];
+		population_size+=population.func[i];
 	}
-	if (norm<HG_NOTHING){
+	if (population_size<HG_NOTHING){
 		return HG_EXTINCT;
 	}
-	else population.scale(1.0/norm);
+	else population.scale(1.0/population_size);
 	return 0;
 }
 
@@ -335,7 +343,7 @@ int haploid_gt_dis::resample(double n) {
  *
  * Calculate the distribution of mutants and update the population distribution
  */
-int haploid_gt_dis::mutate() {
+int haploid_lowd::mutate() {
 	int locus;
 	mutants.set_state(HC_FUNC);
 	population.set_state(HC_FUNC);
@@ -367,7 +375,7 @@ int haploid_gt_dis::mutate() {
  * recombinations, a fraction is replaced (outcrossing_rate), in case of general recombination
  * the entire population is replaced, i.e. obligate mating.
  */
-int haploid_gt_dis::recombine() {
+int haploid_lowd::recombine() {
 	int err;
 	err=calculate_recombinants();
 	population.set_state(HC_FUNC);
@@ -394,7 +402,7 @@ int haploid_gt_dis::recombine() {
  *
  * FIXME: do we really need this, since recombine() also does some strange stuff afterwards?
  */
-int haploid_gt_dis::calculate_recombinants() {
+int haploid_lowd::calculate_recombinants() {
 	if (free_recombination) return calculate_recombinants_free();
 	else return calculate_recombinants_general();
 }
@@ -407,7 +415,7 @@ int haploid_gt_dis::calculate_recombinants() {
  * Almost the same as for the more general case below, but kept separate for
  * performance reasons - this is the most expensive part (3^L).
  */
-int haploid_gt_dis::calculate_recombinants_free() {
+int haploid_lowd::calculate_recombinants_free() {
 	int i,j,k, maternal_alleles, paternal_alleles, count;
 
 	// prepare hypercubes
@@ -456,7 +464,7 @@ int haploid_gt_dis::calculate_recombinants_free() {
  * Calculate the distribution after recombination assumed in random mating with
  * pairs sampled with replacement.
  */
-int haploid_gt_dis::calculate_recombinants_general() {
+int haploid_lowd::calculate_recombinants_general() {
 	int i,j,k, maternal_alleles, paternal_alleles, count;
 
 	// prepare hypercubes
@@ -510,7 +518,7 @@ int haploid_gt_dis::calculate_recombinants_general() {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_gt_dis::set_mutation_rate(double m) {
+int haploid_lowd::set_mutation_rate(double m) {
 	if (mem){
 		for (int fb=0; fb<2; fb++){
 			for (int locus=0; locus<number_of_loci; locus++){
@@ -519,7 +527,7 @@ int haploid_gt_dis::set_mutation_rate(double m) {
 		}
 		return 0;
 	} else {
-		cerr<<"haploid_gt_dis::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -532,7 +540,7 @@ int haploid_gt_dis::set_mutation_rate(double m) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_gt_dis::set_mutation_rate(double mforward, double mbackward) {
+int haploid_lowd::set_mutation_rate(double mforward, double mbackward) {
 	if (mem){
 		for (int locus=0; locus<number_of_loci; locus++){
 			mutation_rates[0][locus]=mforward;
@@ -540,7 +548,7 @@ int haploid_gt_dis::set_mutation_rate(double mforward, double mbackward) {
 		}
 		return 0;
 	} else {
-		cerr<<"haploid_gt_dis::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -552,7 +560,7 @@ int haploid_gt_dis::set_mutation_rate(double mforward, double mbackward) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_gt_dis::set_mutation_rate(double* m) {
+int haploid_lowd::set_mutation_rate(double* m) {
 	if (mem){
 		for (int locus=0; locus<number_of_loci; locus++){
 			mutation_rates[0][locus]=m[locus];
@@ -560,7 +568,7 @@ int haploid_gt_dis::set_mutation_rate(double* m) {
 		}
 		return 0;
 	}else{
-		cerr<<"haploid_gt_dis::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -572,7 +580,7 @@ int haploid_gt_dis::set_mutation_rate(double* m) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_gt_dis::set_mutation_rate(double** m) {
+int haploid_lowd::set_mutation_rate(double** m) {
 	if (mem){
 		for (int fb=0; fb<2; fb++){
 			for (int locus=0; locus<number_of_loci; locus++){
@@ -581,7 +589,7 @@ int haploid_gt_dis::set_mutation_rate(double** m) {
 		}
 		return 0;
 	}else{
-		cerr<<"haploid_gt_dis::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -602,7 +610,7 @@ int haploid_gt_dis::set_mutation_rate(double** m) {
  * for linear chromosomes. all other entries are recombination rates between successive loci.
  *
  */
-int haploid_gt_dis::set_recombination_rates(double *rec_rates) {
+int haploid_lowd::set_recombination_rates(double *rec_rates) {
 	double err=0;
 	int i, spin;
 	//check whether the memory is already allocated, do so if not
@@ -612,7 +620,7 @@ int haploid_gt_dis::set_recombination_rates(double *rec_rates) {
 		int *nspins;	//temporary variables the track the number of ones in the binary representation of i
 		nspins=new int [1<<number_of_loci];
 		if (nspins==NULL) {
-			cerr<<"haploid_gt_dis::set_recombination_rates(): Can not allocate memory!"<<endl;
+			cerr<<"haploid_lowd::set_recombination_rates(): Can not allocate memory!"<<endl;
 			return HG_MEMERR;
 		}
 		spin=-1;
@@ -690,7 +698,7 @@ int haploid_gt_dis::set_recombination_rates(double *rec_rates) {
 		free_recombination=false;
 		return 0;
 	}else{
-		cerr <<"haploid_gt_dis::set_recombination_rates(): cannot allocate memory for recombination patterns!"<<endl;
+		cerr <<"haploid_lowd::set_recombination_rates(): cannot allocate memory for recombination patterns!"<<endl;
 		return HG_MEMERR;
 	}
 }
@@ -705,7 +713,7 @@ int haploid_gt_dis::set_recombination_rates(double *rec_rates) {
  * where \f$g\f$ runs over all possible genomes, and \f$\nu_g\f$ is the frequency of that genome
  * in the population.
  */
-double haploid_gt_dis::genotype_entropy(){
+double haploid_lowd::genotype_entropy(){
 	double S=0;
 	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
 	for (int i=0; i<(1<<number_of_loci); i++){
@@ -727,7 +735,7 @@ double haploid_gt_dis::genotype_entropy(){
  * \f[ S := - \sum_{i=1}^L \frac{1 + \nu_i}{2} \log \frac{1 + \nu_i}{2} + \frac{1 - \nu_i}{2} \log \frac{1 - \nu_i}{2}, \f]
  * where \f$\nu_i\f$ is the frequency of the i-th allele.
  */
-double haploid_gt_dis::allele_entropy(){
+double haploid_lowd::allele_entropy(){
 	double SA=0;
 	if (population.get_state()==HC_FUNC) population.fft_func_to_coeff();
 	for (int locus=0; locus<number_of_loci; locus++){
@@ -742,7 +750,7 @@ double haploid_gt_dis::allele_entropy(){
  *
  * @returns stat_t with the requested statistics
  */
-stat_t haploid_gt_dis::get_fitness_statistics(){
+stat_t haploid_lowd::get_fitness_statistics(){
 	double mf=0, sq=0, temp;
 	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
 	for (int locus=0; locus<1<<number_of_loci; locus++){
@@ -762,7 +770,7 @@ stat_t haploid_gt_dis::get_fitness_statistics(){
  * Debugging routine: calculates the distribution of recombinants explicitly and
  * compares the result to the recombinant distribution obtained via fourier transform
  */
-int haploid_gt_dis_test::test_recombinant_distribution(){
+int haploid_lowd_test::test_recombinant_distribution(){
 	double *test_rec;
 	double dev=0;
 	//allocate memory for the recombinant distribution calculated step-by-step
@@ -828,7 +836,7 @@ int haploid_gt_dis_test::test_recombinant_distribution(){
  *
  * Debugging routine: produces random genotypes configurations and test whether they recombine correctly.
  */
-int haploid_gt_dis_test::test_recombination(double *rec_rates){
+int haploid_lowd_test::test_recombination(double *rec_rates){
 
 	//calculate the genetic map, i.e. cumulative recombination rates
 	double* cumulative_rates=new double [number_of_loci+1];
@@ -891,7 +899,7 @@ int haploid_gt_dis_test::test_recombination(double *rec_rates){
  *
  * @returns zero (but look at the stdout)
  */
-int haploid_gt_dis_test::mutation_drift_equilibrium(double **mu){
+int haploid_lowd_test::mutation_drift_equilibrium(double **mu){
 	set_mutation_rate(mu);
 
 	//init population and recombination rates
@@ -910,7 +918,7 @@ int haploid_gt_dis_test::mutation_drift_equilibrium(double **mu){
 	}
 
 	//equilibrate for 2N generations
-	for (int gen=0; gen<2*population_size; gen++){
+	for (int gen=0; gen<2*carrying_capacity; gen++){
 		mutate();
 		resample();
 	}
@@ -937,7 +945,7 @@ int haploid_gt_dis_test::mutation_drift_equilibrium(double **mu){
 		for (int i=0; i<100; i++){
 			gsl_histogram_get_range(mutfreq[locus], i, &lower, &upper);
 			histogramnorm[locus]+=gsl_histogram_get(mutfreq[locus], i);
-			theorynorm[locus]+=pow(0.5*(1+0.5*(upper+lower)), 2*population_size*mu[0][locus]-1)*pow(0.5*(1-0.5*(upper+lower)), 2*population_size*mu[1][locus]-1);
+			theorynorm[locus]+=pow(0.5*(1+0.5*(upper+lower)), 2*carrying_capacity*mu[0][locus]-1)*pow(0.5*(1-0.5*(upper+lower)), 2*carrying_capacity*mu[1][locus]-1);
 		}
 	}
 	for (int i=0; i<100; i++){
@@ -945,7 +953,7 @@ int haploid_gt_dis_test::mutation_drift_equilibrium(double **mu){
 		cout <<setw(15)<<0.5*(upper+lower);
 		for (int locus=0; locus<number_of_loci; locus++){
 			cout <<setw(15)<<gsl_histogram_get(mutfreq[locus], i)/histogramnorm[locus]
-					<<setw(15)<<pow(0.5*(1+0.5*(upper+lower)), 2*population_size*mu[0][locus]-1)*pow(0.5*(1-0.5*(upper+lower)), 2*population_size*mu[1][locus]-1)/theorynorm[locus];
+					<<setw(15)<<pow(0.5*(1+0.5*(upper+lower)), 2*carrying_capacity*mu[0][locus]-1)*pow(0.5*(1-0.5*(upper+lower)), 2*carrying_capacity*mu[1][locus]-1)/theorynorm[locus];
 		}
 		cout <<endl;
 	}

@@ -25,10 +25,10 @@ an interactive shell (e.g. iPython), create a population as above, and use TAB
 autocompletion:
 
 In [1]: import PopGenLib as h
-In [2]: c = h.haploid_clone(5000, 2000)
+In [2]: c = h.haploid_highd(5000, 2000)
 In [3]: c.      <--- TAB
 
-In addition to the haploid_clone class, this class offers functions for reading
+In addition to the haploid_highd class, this class offers functions for reading
 fitness and drug resistance landscapes from a text file, and to save genomes as
 plain text or in compressed numerical Python format.
 "
@@ -88,12 +88,13 @@ int _write_genotypes(char * filename, int sample_size, char * gt_label=NULL, int
 def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
         '''Write genotypes into a compressed archive.'''
         import numpy as np 
+        L = self.get_number_of_loci()
         if length <= 0:
-                length = self.get_number_of_loci() - start
+                length = L - start
         d = {}
         for i in xrange(sample_size):
                 rcl = self.random_clone()
-                d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl)[start:start+length]
+                d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl,L)[start:start+length]
         np.savez_compressed(filename, **d)    
 }
 

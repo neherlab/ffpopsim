@@ -67,7 +67,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PopGenLib as h
 
-c = h.haploid_clone(5000, 2000)
+c = h.haploid_highd(5000, 2000)
 c.init_genotypes() 
 c.mutation_rate = 0.01
 c.evolve(10)
@@ -80,16 +80,16 @@ an interactive shell (e.g. iPython), create a population as above, and use TAB
 autocompletion:
 
 In [1]: import PopGenLib as h
-In [2]: c = h.haploid_clone(5000, 2000)
+In [2]: c = h.haploid_highd(5000, 2000)
 In [3]: c.      <--- TAB
 "
 %enddef
-%feature("autodoc", DOCSTRING_HAPLOID_CLONE) haploid_clone;
+%feature("autodoc", DOCSTRING_HAPLOID_CLONE) haploid_highd;
 
-%extend haploid_clone {
+%extend haploid_highd {
 
 /* constructor */
-%exception haploid_clone {
+%exception haploid_highd {
         try {
                 $action
         } catch (int err) {
@@ -101,13 +101,13 @@ In [3]: c.      <--- TAB
 /* string representations */
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_clone: L = %d, N = %d", $self->L(), $self->N());
+        sprintf(buffer,"haploid_highd: L = %d, N = %d", $self->L(), $self->N());
         return &buffer[0];
 }
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_clone(%d, %5.2e)", $self->L(), $self->N());
+        sprintf(buffer,"haploid_highd(%d, %5.2e)", $self->L(), $self->N());
         return &buffer[0];
 }
 
@@ -350,4 +350,4 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
         axis.hist(div, **kwargs)
 }
 
-} /* extend haploid_clone */
+} /* extend haploid_highd */

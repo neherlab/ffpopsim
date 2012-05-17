@@ -10,7 +10,7 @@
 
 This library offers two simulation packages for population genetics. Each is controlled by a basic class:
 
-- haploid_gt_dis: low-dimensional populations (genomes shorter than ~20 loci)
+- haploid_lowd: low-dimensional populations (genomes shorter than ~20 loci)
 - haploid_clone:  high-dimensional simulations (genomes longer than ~20 loci)
 
 The library is written in C++ and offers a Python interface. A simple evolution routine could be the following:
@@ -22,7 +22,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PopGenLib as h
 
-c = h.haploid_gt_dis(4, 1000)
+c = h.haploid_lowd(4, 1000)
 c.init_frequencies([0,0.3,0.6,0.9]) 
 c.evolve(10)
 c.plot_fitness_histogram()

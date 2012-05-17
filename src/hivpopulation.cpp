@@ -18,9 +18,9 @@
  * @param crossover_rate probability of template switching during coinfection in events / site
  *
  * *Note*: the genome length is 10000 (see HIVGENOME).
- * *Note*: exceptions are propagated from the base class constructor (haploid_clone).
+ * *Note*: exceptions are propagated from the base class constructor (haploid_highd).
  */
-hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_clone(HIVGENOME, N_in, rng_seed, 2) {
+hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, N_in, rng_seed, 2) {
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
 	crossover_rate = crossover_rate_in;
@@ -54,7 +54,7 @@ hivpopulation::~hivpopulation() {
  * Note: the genome length is 10000 (see HIVGENOME).
  */
 int hivpopulation::set_up(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in){
-	int err=haploid_clone::set_up(HIVGENOME, N_in, rng_seed, 2); // we have exactly 2 traits
+	int err=haploid_highd::set_up(HIVGENOME, N_in, rng_seed, 2); // we have exactly 2 traits
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
 	crossover_rate = crossover_rate_in;

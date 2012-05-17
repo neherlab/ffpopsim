@@ -1,6 +1,6 @@
 /**
  * @file hivpopulation.h
- * @brief Header file for a typical HIV population (subclass of haploid_clone)
+ * @brief Header file for a typical HIV population (subclass of haploid_highd)
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
  * @version 
  * @date 2012-04-23
@@ -25,7 +25,7 @@
 /**
  * @brief HIV population with facultative drug treatment
  *
- * This class exemplifies the haploid_clone base class. It mainly adds one trait,
+ * This class exemplifies the haploid_highd base class. It mainly adds one trait,
  * "treatment", which is the same for all individuals and represents the presence
  * or absence of drug treatment (in a continuous manner, \f$0 \leq \f$ treatment
  * \f$\leq 1\f$).
@@ -38,7 +38,7 @@
  *
  * Moreover, this class fixes the length of the genome to exactly 10000 sites.
  */
-class hivpopulation : public haploid_clone {
+class hivpopulation : public haploid_highd {
 public:
 	// constructors/destructors
 	hivpopulation(int N_in=0, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);

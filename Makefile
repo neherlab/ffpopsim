@@ -90,11 +90,11 @@ SOURCE_GENERIC = sample.cpp
 OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
 
 HEADER_LOWD = $(HEADER_GENERIC) popgen_lowd.h
-SOURCE_LOWD = hypercube.cpp haploid_gt_dis.cpp
+SOURCE_LOWD = hypercube.cpp haploid_lowd.cpp
 OBJECT_LOWD = $(SOURCE_LOWD:%.cpp=%.o)
 
 HEADER_HIGHD = $(HEADER_GENERIC) popgen_highd.h
-SOURCE_HIGHD = hypercube_function.cpp haploid_clone.cpp
+SOURCE_HIGHD = hypercube_function.cpp haploid_highd.cpp
 OBJECT_HIGHD = $(SOURCE_HIGHD:%.cpp=%.o)
 
 HEADER_HIV = hivpopulation.h

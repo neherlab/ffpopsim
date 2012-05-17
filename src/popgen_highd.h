@@ -5,7 +5,7 @@
  * @version 
  * @date 2012-04-19
  *
- * HP_VERBOSE: degree of verbosity of haploid_clone. Levels:
+ * HP_VERBOSE: degree of verbosity of haploid_highd. Levels:
  * - 0: no messages
  * - 1: most messages (enter/exit function)
  * - 2: all messages
@@ -156,7 +156,7 @@ struct clone_t {
  * - summary statistics of fitness and other phenotypic trits;
  * - genetic structure (linkage disequilibrium, allele frequencies, number of clones).
  */
-class haploid_clone {
+class haploid_highd {
 public:
 	// genotype to traits maps, which in turn are used in the trait-to-fitness map
 	hypercube_function *trait;
@@ -166,8 +166,8 @@ public:
 	vector <clone_t> *new_pop;
 
 	// construction / destruction
-	haploid_clone(int L_in=0, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
-	virtual ~haploid_clone();
+	haploid_highd(int L_in=0, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
+	virtual ~haploid_highd();
 	virtual int set_up(int L_in, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
 
 	// initialization

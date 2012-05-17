@@ -1,6 +1,6 @@
 // vim: tabstop=8:softtabstop=8:shiftwidth=8:noexpandtab
 /*
- * haploid_clone.cpp
+ * haploid_highd.cpp
  *
  *  Created on: Aug 28, 2008
  *      Author: neher
@@ -18,7 +18,7 @@
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_clone::haploid_clone(int L_in, int N_in,  int rng_seed, int n_o_traits) {
+haploid_highd::haploid_highd(int L_in, int N_in,  int rng_seed, int n_o_traits) {
 	current_pop = &current_pop_vector;
 	new_pop = &new_pop_vector;
 	mem=false;
@@ -42,7 +42,7 @@ haploid_clone::haploid_clone(int L_in, int N_in,  int rng_seed, int n_o_traits) 
  *
  * Memory is released here.
  */
-haploid_clone::~haploid_clone() {
+haploid_highd::~haploid_highd() {
 	free_mem();
 }
 
@@ -58,16 +58,16 @@ haploid_clone::~haploid_clone() {
  *
  * Note: memory allocation is also performed here, via the allocate_mem function.
  */
-int haploid_clone::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
+int haploid_highd::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
 	boost::dynamic_bitset<> temp;
 	if (N_in<1 or L_in <1 or n_o_traits<1)
 	{
-		cerr <<"haploid_clone::set_up(): Bad Arguments! All of N, L and the number of traits must be larger or equal one.\n";
+		cerr <<"haploid_highd::set_up(): Bad Arguments! All of N, L and the number of traits must be larger or equal one.\n";
 		return HP_BADARG;
 	}
 
 	if (8*sizeof(long int)!=temp.bits_per_block) {
-		cerr <<"haploid_clone requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
+		cerr <<"haploid_highd requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
 		return HP_BADARG;
 	}
 
@@ -90,14 +90,14 @@ int haploid_clone::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::allocate_mem() {
+int haploid_highd::allocate_mem() {
 	if (mem)
 	{
-		cerr <<"haploid_clone::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
+		cerr <<"haploid_highd::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
 		free_mem();
 	}
 
-	if (HP_VERBOSE) cerr <<"haploid_clone::allocate_mem(): genotypes: "<<number_of_individuals_max<<"  loci: "<<number_of_loci<<endl;
+	if (HP_VERBOSE) cerr <<"haploid_highd::allocate_mem(): genotypes: "<<number_of_individuals_max<<"  loci: "<<number_of_loci<<endl;
 
 	//Random number generator
 	evo_generator=gsl_rng_alloc(RNG);
@@ -131,9 +131,9 @@ int haploid_clone::allocate_mem() {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::free_mem() {
+int haploid_highd::free_mem() {
 	if (!mem) {
-		cerr <<"haploid_clone::free_mem(): No memory allocated!\n";
+		cerr <<"haploid_highd::free_mem(): No memory allocated!\n";
 		return HP_BADARG;
 	} else {
 		delete [] allele_frequencies;
@@ -156,32 +156,32 @@ int haploid_clone::free_mem() {
  * has a very large width. In turn, this can result in an immediate and dramatic drop in diversity within the
  * first few generations. Please check fitness statistics before starting the evolution if this worries you.
  */
-int haploid_clone::init_frequencies(double* nu, int n_o_genotypes)
+int haploid_highd::init_frequencies(double* nu, int n_o_genotypes)
 {
 	int i, locus;
 	if (!mem)
 	{
-		cerr <<"haploid_clone::init_genotypes(): Allocate and set up first!\n";
+		cerr <<"haploid_highd::init_genotypes(): Allocate and set up first!\n";
 		return HP_MEMERR;
 	}
 	if (n_o_genotypes<0 or n_o_genotypes>=number_of_individuals_max)
 	{
-		cerr <<"haploid_clone::init_genotypes(): number of genotypes has to be positive and smaller than max! got: "<<n_o_genotypes<<"!\n";
+		cerr <<"haploid_highd::init_genotypes(): number of genotypes has to be positive and smaller than max! got: "<<n_o_genotypes<<"!\n";
 		return HP_BADARG;
 	}
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) ....";
+	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) ....";
 	generation=0;
 	int ngt=0;
 	// if number of genotypes to be drawn is not specified, use default carrying capacity
 	if (n_o_genotypes==0) ngt=carrying_capacity;
 	else ngt=n_o_genotypes;
 
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) reset current\n";
+	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) reset current\n";
 	current_pop->clear();	//reset the current population
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) reset random sample\n";
+	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) reset random sample\n";
 	random_sample.clear();	//and the random sample
 	boost::dynamic_bitset<> tempgt(number_of_loci);
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(double* nu, int n_o_genotypes) add "<<ngt<<" genotypes of length "<<number_of_loci<<"\n";
+	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) add "<<ngt<<" genotypes of length "<<number_of_loci<<"\n";
 	for (i=0; i<ngt; i++) {
 		tempgt.reset();
 		for(locus=0; locus<number_of_loci; locus++){	//set all loci
@@ -209,21 +209,21 @@ int haploid_clone::init_frequencies(double* nu, int n_o_genotypes)
  *
  * This is the typical initialization function if evolution from a single ancestor is modeled.
  */
-int haploid_clone::init_genotypes(int n_o_genotypes) {
+int haploid_highd::init_genotypes(int n_o_genotypes) {
 	trait[0].coefficients_epistasis.clear();
 
 	if (!mem)
 	{
-		cerr <<"haploid_clone::init_genotypes(): Allocate and set up first!\n";
+		cerr <<"haploid_highd::init_genotypes(): Allocate and set up first!\n";
 		return HP_MEMERR;
 	}
 	if (n_o_genotypes>number_of_individuals_max)
 	{
-		cerr <<"haploid_clone::init_genotypes(): number of genotypes has to be smaller than max! got: "<<n_o_genotypes<<"!\n";
+		cerr <<"haploid_highd::init_genotypes(): number of genotypes has to be smaller than max! got: "<<n_o_genotypes<<"!\n";
 		return HP_BADARG;
 	}
 	population_size=0;
-	if (HP_VERBOSE) cerr <<"haploid_clone::init_genotypes(int n_o_genotypes) with population size "<<n_o_genotypes<<"...";
+	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(int n_o_genotypes) with population size "<<n_o_genotypes<<"...";
 	current_pop->clear();
 	random_sample.clear();
 	boost::dynamic_bitset<> tempgt(number_of_loci);
@@ -247,8 +247,8 @@ int haploid_clone::init_genotypes(int n_o_genotypes) {
  *
  * Note: the allele frequencies are available in the allele_frequencies attribute.
  */
-void haploid_clone::calc_allele_freqs() {
-	if (HP_VERBOSE) cerr<<"haploid_clone::calc_allele_freqs()...";
+void haploid_highd::calc_allele_freqs() {
+	if (HP_VERBOSE) cerr<<"haploid_highd::calc_allele_freqs()...";
 	int locus,cs;
 	population_size=0;
 	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] = 0);
@@ -274,8 +274,8 @@ void haploid_clone::calc_allele_freqs() {
  *
  * @returns the joint frequency of the two alleles.
  */
-double haploid_clone::get_pair_frequency(int locus1, int locus2) {
-	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequency()...";
+double haploid_highd::get_pair_frequency(int locus1, int locus2) {
+	if (HP_VERBOSE) cerr<<"haploid_highd::get_pair_frequency()...";
 	double frequency = 0;
 	for (unsigned i=0; i<current_pop->size(); i++)
 		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2])
@@ -292,8 +292,8 @@ double haploid_clone::get_pair_frequency(int locus1, int locus2) {
  *
  * @returns vector of joint frequencies.
  */
-vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *loci) {
-	if (HP_VERBOSE) cerr<<"haploid_clone::get_pair_frequencies()...";
+vector <double>  haploid_highd::get_pair_frequencies(vector < vector <int> > *loci) {
+	if (HP_VERBOSE) cerr<<"haploid_highd::get_pair_frequencies()...";
 	unsigned int pair;
 
 	vector <double> freq (loci->size(), 0.0);
@@ -321,8 +321,8 @@ vector <double>  haploid_clone::get_pair_frequencies(vector < vector <int> > *lo
  * Note: if an error in encountered, evolution is stopped after the function that created the problem.
  * Typical errors include extinction or the opposite, offspring explosion.
  */
-int haploid_clone::evolve(int gen) {
-	if (HP_VERBOSE) cerr<<"haploid_clone::evolve(int gen)...";
+int haploid_highd::evolve(int gen) {
+	if (HP_VERBOSE) cerr<<"haploid_highd::evolve(int gen)...";
 	int err=0, g=0;
 
 	// calculate an effective outcrossing rate to include the case of very rare crossover rates.
@@ -367,8 +367,8 @@ int haploid_clone::evolve(int gen) {
  * 1. the max number of offspring of each clone is limited by MAX_DELTAFITNESS
  * 2. the max population size is reduced below MAX_POPSIZE before exiting the function.
  */
-int haploid_clone::select_gametes() {
-	if (HP_VERBOSE) cerr<<"haploid_clone::select_gametes()...";
+int haploid_highd::select_gametes() {
+	if (HP_VERBOSE) cerr<<"haploid_highd::select_gametes()...";
 	//determine the current mean fitness, which includes a term to keep the population size constant
 	double relaxation = relaxation_value();
 
@@ -428,12 +428,12 @@ int haploid_clone::select_gametes() {
  * the bottleneck should be (i.e., how large fluctuations around the expected frequency may be). However,
  * this requires function pointers or templates or lambda functions, and might be a nightmare to code.
  */
-int haploid_clone::bottleneck(int size_of_bottleneck) {
+int haploid_highd::bottleneck(int size_of_bottleneck) {
 	double ostmp;
 	unsigned int os;
 	int err=0;
 	unsigned int old_size = population_size;
-	if (HP_VERBOSE) cerr<<"haploid_clone::bottleneck()...";
+	if (HP_VERBOSE) cerr<<"haploid_highd::bottleneck()...";
 
 	population_size = 0;
 	new_pop->reserve(size_of_bottleneck*1.1);
@@ -466,8 +466,8 @@ int haploid_clone::bottleneck(int size_of_bottleneck) {
  * The user can therefore call this function safely even if in non-mutating populations, without
  * loss of performance.
  */
-int haploid_clone::mutate() {
-	if (HP_VERBOSE)	cerr <<"haploid_clone::mutate() ..."<<endl;
+int haploid_highd::mutate() {
+	if (HP_VERBOSE)	cerr <<"haploid_highd::mutate() ..."<<endl;
 	int i, actual_n_o_mutations,locus=0;
 	if(mutation_rate) {
 		produce_random_sample(number_of_loci*mutation_rate*population_size*2);
@@ -495,7 +495,7 @@ int haploid_clone::mutate() {
  *
  * Note: this function calls flip_single_locus(unsigned int clonenum, int locus).
  */
-int haploid_clone::flip_single_locus(int locus) {
+int haploid_highd::flip_single_locus(int locus) {
 	int clonenum = random_clone();
 	flip_single_locus(clonenum, locus);
 	return clonenum;
@@ -516,7 +516,7 @@ int haploid_clone::flip_single_locus(int locus) {
  * However, this would take forever, and is thus implemented in a separate function
  * (TODO: which one?).
  */
-void haploid_clone::flip_single_locus(unsigned int clonenum, int locus) {
+void haploid_highd::flip_single_locus(unsigned int clonenum, int locus) {
 	//produce new genotype
 	clone_t tempgt(number_of_traits);
 	tempgt.genotype.resize(number_of_loci);
@@ -539,7 +539,7 @@ void haploid_clone::flip_single_locus(unsigned int clonenum, int locus) {
  *
  * Using the previously produced list of sex_gametes, pair them at random and mate
  */
-int haploid_clone::add_recombinants() {
+int haploid_highd::add_recombinants() {
 	//construct new generation
 	int parent1, parent2, n_o_c=1;
 
@@ -565,7 +565,7 @@ int haploid_clone::add_recombinants() {
  * After the new population is completely assembled, we have to make it the current
  * population. This is implemented simply by swaping pointers.
  */
-int haploid_clone::swap_populations() {
+int haploid_highd::swap_populations() {
 	vector <clone_t> *temp_gt;
 	temp_gt=current_pop;
 	current_pop=new_pop;
@@ -585,8 +585,8 @@ int haploid_clone::swap_populations() {
  * The new genotypes are stored in new_pop at positions ng and ng+1.
  *
  */
-int haploid_clone::recombine(int parent1, int parent2) {
-	if(HP_VERBOSE >= 2) cerr<<"haploid_clone::recombine(int parent1, int parent2)..."<<endl;
+int haploid_highd::recombine(int parent1, int parent2) {
+	if(HP_VERBOSE >= 2) cerr<<"haploid_highd::recombine(int parent1, int parent2)..."<<endl;
 
 	boost::dynamic_bitset<> rec_pattern;
 	//depending on the recombination model, produce a map that determines which offspring
@@ -637,7 +637,7 @@ int haploid_clone::recombine(int parent1, int parent2) {
 /**
  * @brief For each clone, recalculate its traits
  */
-void haploid_clone::update_traits() {
+void haploid_highd::update_traits() {
 	for (unsigned int i=0; i<current_pop->size(); i++) {
 		calc_individual_traits(&(*current_pop)[i]);
 	}
@@ -646,7 +646,7 @@ void haploid_clone::update_traits() {
 /**
  * @brief For each clone, update fitness assuming traits are already up to date
  */
-void haploid_clone::update_fitness() {
+void haploid_highd::update_fitness() {
 	for (unsigned int i=0; i<current_pop->size(); i++) {
 		calc_individual_fitness_from_traits(&(*current_pop)[i]);
 	}
@@ -665,7 +665,7 @@ void haploid_clone::update_fitness() {
  * whenever possible, and rely on this only when you want to make sure,
  * at the expense of performance, that everything is up to date.
  */
-void haploid_clone::calc_stat() {
+void haploid_highd::calc_stat() {
 	update_traits();
 	update_fitness();
 	calc_trait_stat();
@@ -678,7 +678,7 @@ void haploid_clone::calc_stat() {
  *
  * @param tempgt clone whose traits are to be calculated
  */
-void haploid_clone::calc_individual_traits(clone_t *tempgt) {
+void haploid_highd::calc_individual_traits(clone_t *tempgt) {
 	for (int t=0; t<number_of_traits; t++){
 		tempgt->trait[t] = trait[t].get_func(&(tempgt->genotype));
 	}
@@ -693,7 +693,7 @@ void haploid_clone::calc_individual_traits(clone_t *tempgt) {
  * phenotype is needed to calculate fitness. If you have already calculated the traits,
  * you can rely calc_individual_fitness_from_traits.
  */
-void haploid_clone::calc_individual_fitness(clone_t *tempgt) {
+void haploid_highd::calc_individual_fitness(clone_t *tempgt) {
 	//calculate the new fitness value of the mutant
 	calc_individual_traits(tempgt);
 	calc_individual_fitness_from_traits(tempgt);
@@ -706,7 +706,7 @@ void haploid_clone::calc_individual_fitness(clone_t *tempgt) {
  *
  * A typical crossover pattern would be 0000111100011111101101.
  */
-boost::dynamic_bitset<> haploid_clone::crossover_pattern() {
+boost::dynamic_bitset<> haploid_highd::crossover_pattern() {
 	int n_o_c=0;
 
 	double total_rec = number_of_loci * crossover_rate;
@@ -746,7 +746,7 @@ boost::dynamic_bitset<> haploid_clone::crossover_pattern() {
  *
  * @returns reassortement pattern
  */
-boost::dynamic_bitset<> haploid_clone::reassortment_pattern() {
+boost::dynamic_bitset<> haploid_highd::reassortment_pattern() {
 	boost::dynamic_bitset<> rec_pattern;
 	//the blocks of the bitset are to long for the rng, hence divide them by 4
 	int bpblock = rec_pattern.bits_per_block/4;
@@ -806,8 +806,8 @@ boost::dynamic_bitset<> haploid_clone::reassortment_pattern() {
  *
  * Note: if you want to get random clones, please use random_clone().
  */
-void haploid_clone::produce_random_sample(int size) {
-	if (HP_VERBOSE) cerr<<"haploid_clone::produce_random_sample(int): size "<<size<<"...";
+void haploid_highd::produce_random_sample(int size) {
+	if (HP_VERBOSE) cerr<<"haploid_highd::produce_random_sample(int): size "<<size<<"...";
 
 	random_sample.reserve((size+50)*1.1);
 	random_sample.clear();
@@ -838,7 +838,7 @@ void haploid_clone::produce_random_sample(int size) {
  * If you need much more than, say, 1000 random clones at a time, please call
  * produce_random_sample with the required size in advance.
  */
-int haploid_clone::random_clone() {
+int haploid_highd::random_clone() {
 	int rclone;
 	int size = 1000;
 	if (random_sample.size()>1){
@@ -867,7 +867,7 @@ int haploid_clone::random_clone() {
  * you can use this function iteratively (although there might not be a good reason to
  * do so).
  */
-int haploid_clone::random_clones(unsigned int n_o_individuals, vector <int> *sample) {
+int haploid_highd::random_clones(unsigned int n_o_individuals, vector <int> *sample) {
 	sample->reserve(n_o_individuals);
 	for(unsigned int i=0; i< n_o_individuals; i++)
 		sample->push_back(random_clone());
@@ -882,7 +882,7 @@ int haploid_clone::random_clones(unsigned int n_o_individuals, vector <int> *sam
  *
  * Note: this function also calculates the traits and fitness of the new individual.
  */
-void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
+void haploid_highd::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 	clone_t tempgt(number_of_traits);
 	tempgt.genotype=genotype;
 	tempgt.clone_size = n;
@@ -896,8 +896,8 @@ void haploid_clone::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
  *
  * @returns the carrying capacity, i.e. the current mean fitness plus term that causes the population size to relax to carrying_capacity
  */
-double haploid_clone::relaxation_value() {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::relaxation_value()..."<<endl;}
+double haploid_highd::relaxation_value() {
+	if (HP_VERBOSE) {cerr <<"haploid_highd::relaxation_value()..."<<endl;}
 
 	double fitness_max = get_max_fitness();
 	double logmean_expfitness = get_logmean_expfitness(fitness_max);
@@ -916,7 +916,7 @@ double haploid_clone::relaxation_value() {
  *
  * *Note*: this function recalculates the max fitness.
  */
-double haploid_clone::get_max_fitness() {
+double haploid_highd::get_max_fitness() {
 	double fitness_max = (*current_pop)[0].fitness;
 	for (unsigned int i=0; i<current_pop->size(); i++)
 		fitness_max = fmax(fitness_max, (*current_pop)[i].fitness);
@@ -930,8 +930,8 @@ double haploid_clone::get_max_fitness() {
  *
  * *Note*: this function assumes that fitness is up to date. If you are not sure, call update_traits() and update_fitness() first.
  */
-void haploid_clone::calc_fitness_stat() {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_fitness_stat()...";}
+void haploid_highd::calc_fitness_stat() {
+	if (HP_VERBOSE) {cerr <<"haploid_highd::calc_fitness_stat()...";}
 	double temp,temp1;
 	int t,t1, csize;
 	fitness_stat.mean=0;
@@ -947,7 +947,7 @@ void haploid_clone::calc_fitness_stat() {
 		population_size+=csize;
 	}
 	if (population_size==0){
-		cerr <<"haploid_clone::calc_fitness_stat(): population extinct! clones: "<<current_pop->size()<<endl;
+		cerr <<"haploid_highd::calc_fitness_stat(): population extinct! clones: "<<current_pop->size()<<endl;
 	}
 	//if (HP_VERBOSE) {cerr <<"pop size: "<<population_size<<", sum of fitnesses: "<<fitness_stat.mean<<"...";}
 	fitness_stat.mean/=population_size;
@@ -968,8 +968,8 @@ void haploid_clone::calc_fitness_stat() {
  * in order to avoid exponentiating large numbers.
  *
  */
-double haploid_clone::get_logmean_expfitness(double fitness_max) {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::get_logmean_expfitness()...";}
+double haploid_highd::get_logmean_expfitness(double fitness_max) {
+	if (HP_VERBOSE) {cerr <<"haploid_highd::get_logmean_expfitness()...";}
 	double logmean_expfitness = 0;
 	//loop over clones and add stuff up
 	for (unsigned int c=0; c<current_pop->size(); c++){
@@ -989,8 +989,8 @@ double haploid_clone::get_logmean_expfitness(double fitness_max) {
  *
  * *Note*: this function assumes that traits are up to date. If you are not sure, call update_traits() first.
  */
-void haploid_clone::calc_trait_stat() {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::calc_trait_stat()...";}
+void haploid_highd::calc_trait_stat() {
+	if (HP_VERBOSE) {cerr <<"haploid_highd::calc_trait_stat()...";}
 	double temp,temp1;
 	int t,t1, csize;
 	population_size=0;
@@ -1021,7 +1021,7 @@ void haploid_clone::calc_trait_stat() {
 	}
 	//complain if population went extinct
 	if (population_size==0){
-		cerr <<"haploid_clone::calc_trait_stat(): population extinct! clones: "
+		cerr <<"haploid_highd::calc_trait_stat(): population extinct! clones: "
 				<<current_pop->size()<<endl;
 	}
 	//normalize the means and variances
@@ -1047,10 +1047,10 @@ void haploid_clone::calc_trait_stat() {
  *
  * @returns zero if successful, nonzero otherwise
  */
-int haploid_clone::print_allele_frequencies(ostream &out) {
+int haploid_highd::print_allele_frequencies(ostream &out) {
 	if (out.bad())
 	{
-		cerr <<"haploid_clone::print_allele_frequencies: bad stream\n";
+		cerr <<"haploid_highd::print_allele_frequencies: bad stream\n";
 		return HP_BADARG;
 	}
 	calc_stat();
@@ -1072,9 +1072,9 @@ int haploid_clone::print_allele_frequencies(ostream &out) {
  * ms loci are fed into the genotype with a locus that is skipped. Each ms genotype is added multiple times.
  *
  */
-int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity) {
+int haploid_highd::read_ms_sample(istream &gts, int skip_locus, int multiplicity) {
 	if (gts.bad()){
-		cerr<<"haploid_clone::read_ms_sample(): bad stream!\n";
+		cerr<<"haploid_highd::read_ms_sample(): bad stream!\n";
 		return HP_BADARG;
 	}
 	//line buffer to read in the ms input
@@ -1156,9 +1156,9 @@ int haploid_clone::read_ms_sample(istream &gts, int skip_locus, int multiplicity
  * ms loci are fed into the genotype at distance "distance", i.e. there are distance-1 monomorphic loci.
  * One locus is skipped. Each ms genotype is added multiple times.
  */
-int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance) {
+int haploid_highd::read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance) {
 	if (gts.bad()){
-		cerr<<"haploid_clone::read_ms_sample(): bad stream!\n";
+		cerr<<"haploid_highd::read_ms_sample(): bad stream!\n";
 		return HP_BADARG;
 	}
 	//line buffer to read in the ms input
@@ -1248,7 +1248,7 @@ int haploid_clone::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
  *
  * *Note*: this function is overloaded with simpler arguments (e.g. if you want to use clone indices).
  */
-int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector <unsigned int *> *chunks, unsigned int every) {
+int haploid_highd::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector <unsigned int *> *chunks, unsigned int every) {
 	// check whether we have chunks at all
 	if((!chunks) || (chunks->size() == 0)) {
 		if(every!=1) return HP_BADARG;
@@ -1286,7 +1286,7 @@ int haploid_clone::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
  *
  * *Note*: the vector is taken in input by reference for performance reasons, since it can get huge.
  */
-int haploid_clone::partition_cumulative(vector <unsigned int> &partition_cum) {	
+int haploid_highd::partition_cumulative(vector <unsigned int> &partition_cum) {	
 	partition_cum.push_back((*current_pop)[0].clone_size);		
 	for (size_t i = 1; i < get_number_of_clones(); i++) {
 		partition_cum.push_back((*current_pop)[i].clone_size + partition_cum[i-1]);		
@@ -1301,7 +1301,7 @@ int haploid_clone::partition_cumulative(vector <unsigned int> &partition_cum) {
  *
  * @returns mean and variance of the divergence in a stat_t 
  */
-stat_t haploid_clone::get_divergence_statistics(unsigned int n_sample) {
+stat_t haploid_highd::get_divergence_statistics(unsigned int n_sample) {
 	stat_t div;
 	unsigned int tmp;
 	vector <int> clones;
@@ -1326,7 +1326,7 @@ stat_t haploid_clone::get_divergence_statistics(unsigned int n_sample) {
  *
  * @returns mean and variance of the diversity in a stat_t
  */
-stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample) {
+stat_t haploid_highd::get_diversity_statistics(unsigned int n_sample) {
 	stat_t div;
 	unsigned int tmp;
 	vector <int> clones1;
@@ -1371,8 +1371,8 @@ stat_t haploid_clone::get_diversity_statistics(unsigned int n_sample) {
  * If you get HP_NOBINSERR, no memory is allocated. The user is expected to release the memory
  * manually.
  */
-int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins, unsigned int n_sample) {
-	if (HP_VERBOSE) cerr <<"haploid_clone::get_fitness_histogram()...";
+int haploid_highd::get_fitness_histogram(gsl_histogram **hist, unsigned int bins, unsigned int n_sample) {
+	if (HP_VERBOSE) cerr <<"haploid_highd::get_fitness_histogram()...";
 
 	// Calculate fitness of the sample
 	double fitnesses[n_sample];
@@ -1445,8 +1445,8 @@ int haploid_clone::get_fitness_histogram(gsl_histogram **hist, unsigned int bins
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample) {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
+int haploid_highd::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample) {
+	if (HP_VERBOSE) {cerr <<"haploid_highd::get_divergence_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
 
 	boost::dynamic_bitset<> gt_wt(number_of_loci);	// the [00...0] bitset
 	int temp;
@@ -1519,8 +1519,8 @@ int haploid_clone::get_divergence_histogram(gsl_histogram **hist, unsigned int b
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample) {
-	if (HP_VERBOSE) {cerr <<"haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
+int haploid_highd::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample) {
+	if (HP_VERBOSE) {cerr <<"haploid_highd::get_diversity_histogram(gsl_histogram **hist, unsigned int bins, vector <unsigned int *> *chunks, unsigned int every, unsigned int n_sample)...";}
 	int temp;
 	unsigned int divs[n_sample];
 	vector <int> clones1;
@@ -1573,7 +1573,7 @@ int haploid_clone::get_diversity_histogram(gsl_histogram **hist, unsigned int bi
  * *Note*: this is only needed for studying the clone structure. Evolution itself does not need to
  * make sure that clones are unique.
  */
-void haploid_clone::unique_clones() {
+void haploid_highd::unique_clones() {
 	if(current_pop->size() > 1) {
 		// sort them O(nlog(n))
 		sort(current_pop->begin(), current_pop->end());

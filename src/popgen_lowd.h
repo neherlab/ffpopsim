@@ -25,7 +25,7 @@ using namespace std;
  * - the fitness landscape or any other phenotypic landscape;
  * - the genotype frequencies of a population with a genome of size L.
  *
- * If you are planning to model a whole population evolving on the hypercube, see the class haploid_gt_dis.
+ * If you are planning to model a whole population evolving on the hypercube, see the class haploid_lowd.
  *
  * Notes on scalability:
  * - The number of genotypes to store increases as \f$2^L\f$, where L is the number of sites. This class can thus only be used for \f$L \lesssim 20\f$.
@@ -121,19 +121,19 @@ private:
  * - statistics on fitness and phenotypic traits;
  * - linkage disequilibrium.
  */
-class haploid_gt_dis {
+class haploid_lowd {
 public:
 	// public hypercubes
 	hypercube fitness;
 	hypercube population;
 
 	// construction / destruction
-	haploid_gt_dis(int L_in=0, double N_in=1000, int rng_seed=0);
-	virtual ~haploid_gt_dis();
+	haploid_lowd(int L_in=0, double N_in=1000, int rng_seed=0);
+	virtual ~haploid_lowd();
 	virtual int set_up(int L_in, double N_in=1000, int rng_seed=0);
 
 	// population parameters (read/write)
-	double population_size;
+	double carrying_capacity;
 	double outcrossing_rate;
 	bool free_recombination;
 	bool circular;				//topology of the chromosome
@@ -195,6 +195,7 @@ protected:
 
 	// population parameters
 	int number_of_loci;
+	double population_size;
 	int generation;
 	double long_time_generation;
 	double** mutation_rates;				// the mutation rate can be made locus specific and genotype dependent.
@@ -216,12 +217,12 @@ private:
 };
 
 
-class haploid_gt_dis_test : public haploid_gt_dis {
+class haploid_lowd_test : public haploid_lowd {
 public:
 	// construction / destruction
-	haploid_gt_dis_test(){haploid_gt_dis();}
-	haploid_gt_dis_test(double L_in, int N_in, int rngseed=0){haploid_gt_dis(L_in, N_in, rngseed);}
-	~haploid_gt_dis_test();
+	haploid_lowd_test(){haploid_lowd();}
+	haploid_lowd_test(double L_in, int N_in, int rngseed=0){haploid_lowd(L_in, N_in, rngseed);}
+	~haploid_lowd_test();
 
 	//testing
 	int test_recombinant_distribution();

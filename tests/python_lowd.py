@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import PopGenLib as h
 
 # Construct class
-c = h.haploid_gt_dis(4, 1000)
+c = h.haploid_lowd(4, 1000)
 
 # Test initialization
 c.init_frequencies([0,0.3,0.6,0.9])

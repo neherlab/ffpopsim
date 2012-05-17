@@ -1,6 +1,6 @@
 /* renames and ignores */
 %ignore hypercube;
-%ignore haploid_gt_dis_test;
+%ignore haploid_lowd_test;
 
 /* additional helper functions */
 %pythoncode {
@@ -37,7 +37,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PopGenLib as h
 
-c = h.haploid_gt_dis(5, 2000)
+c = h.haploid_lowd(5, 2000)
 c.init_genotypes([0, 2], [0.3, 0.7]) 
 c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
 c.evolve(10)
@@ -50,15 +50,15 @@ an interactive shell (e.g. iPython), create a population as above, and use TAB
 autocompletion:
 
 In [1]: import PopGenLib as h
-In [2]: c = h.haploid_gt_dis(5, 2000)
+In [2]: c = h.haploid_lowd(5, 2000)
 In [3]: c.      <--- TAB
 "
 %enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS) haploid_gt_dis;
-%extend haploid_gt_dis {
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS) haploid_lowd;
+%extend haploid_lowd {
 
 /* constructor */
-%exception haploid_gt_dis {
+%exception haploid_lowd {
         try {
                 $action
         } catch (int err) {
@@ -70,13 +70,13 @@ In [3]: c.      <--- TAB
 /* string representations */
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_gt_dis: L = %d, N = %d", $self->L(), $self->N());
+        sprintf(buffer,"haploid_lowd: L = %d, N = %d", $self->L(), $self->N());
         return &buffer[0];
 }
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_gt_dis(%d, %5.2e)", $self->L(), $self->N());
+        sprintf(buffer,"haploid_lowd(%d, %5.2e)", $self->L(), $self->N());
         return &buffer[0];
 }
 
@@ -476,4 +476,4 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
         if (($self->fitness).additive(IN_ARRAY1))
                 PyErr_Format(PyExc_RuntimeError, "Error in the C++ function.");
 }
-} /* extend haploid_gt_dis */
+} /* extend haploid_lowd */
