@@ -147,7 +147,7 @@ public:
 	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
 
 	//initialization
-	int init_frequencies(double *freq);
+	int init_frequencies(double *freq_init);
 	int init_genotypes(vector <index_value_pair_t> gt);
 
 	// modify population

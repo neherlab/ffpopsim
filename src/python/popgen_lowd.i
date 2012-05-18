@@ -133,14 +133,21 @@ int _init_genotypes(int len1, double* indices, int len2, double* vals) {
 %clear (int len1, double* indices);
 %clear (int len2, double* vals);
 %pythoncode {
-def init_genotypes(self, indices, frequencies):
-        '''Initialize population with genotypes (indices) at certain frequencies'''
+def init_genotypes(self, indices, counts):
+        '''Initialize population with fixed counts for specific genotypes.
+
+        Parameters:
+        - indices: list of genotypes to set
+        - counts: list of counts for those genotypes
+
+        *Note*: the population size is set as the sum of the counts.
+        '''
         import numpy as np
         indices = np.asarray(indices, float)
-        frequencies = np.asarray(frequencies, float)
-        if len(indices) != len(frequencies):
-            raise ValueError('Indices and frequencies must have the same length')
-        if self._init_genotypes(indices, frequencies):
+        counts = np.asarray(counts, float)
+        if len(indices) != len(counts):
+            raise ValueError('Indices and counts must have the same length')
+        if self._init_genotypes(indices, counts):
             raise RuntimeError('Error in the C++ function.')
 }
 
@@ -177,18 +184,6 @@ def set_recombination_rates(self, rates):
 
 /* mutation rate(s) */
 %rename (_get_mutation_rate) get_mutation_rate;
-%rename (_set_mutation_rate) set_mutation_rate(double m);
-%rename (_set_mutation_rate) set_mutation_rate(double m1, double m2);
-%ignore set_mutation_rate(double* m);
-%ignore set_mutation_rate(double** m);
-int _set_mutation_rate(double *IN_ARRAY2, int DIM1, int DIM2) {
-        double ** mrs = new double*[DIM1];
-        for(size_t i = 0; i < DIM1; i++)
-                mrs[i] = &(IN_ARRAY2[DIM2 * i]);
-        int result = $self->set_mutation_rate(mrs);
-        delete[] mrs;
-        return result;
-}
 %pythoncode {
 def get_mutation_rate(self, locus=None, direction=None):
         '''Get one or several mutation rates.
@@ -231,34 +226,47 @@ def get_mutation_rate(self, locus=None, direction=None):
                                 return mrs[0,0]
                         else:
                                 return mrs
+}
 
-        
-def set_mutation_rate(self, rates, rateb=None):
+%ignore set_mutation_rate;
+int _set_mutation_rate(double *IN_ARRAY2, int DIM1, int DIM2) {
+        double ** mrs = new double*[2];
+        for(size_t i = 0; i < 2; i++)
+                mrs[i] = &(IN_ARRAY2[DIM2 * i]);
+        int result = $self->set_mutation_rate(mrs);
+        delete[] mrs;
+        return result;
+}
+%pythoncode{        
+def set_mutation_rate(self, rates, rates_back=None):
         '''Set the mutation rate.
 
         Parameters:
-        - rates: if a double, the mutation rate at any locus in both directions;
-                 if a double and rateb is not None, the mutation rate at any locus,
-                 in the forward direction (rateb is the backward direction)
+        - rates: if a double, the mutation rate at any locus in both directions
+                 or, if rates_back is not None, only in the forward direction
                  if a vector, the mutation rate is specified for each locus, the same
-                 in both directions
-                 if a matrix, the mutation rate is locus and direction specific.
-        - rateb: if rates is a double, the mutation rate at any locus, in backward direction
+                 in both directions or, if rates_back is not None, only in the
+                 forward direction
+        - rates_back: mutation rate in the backward direction (global or
+                 locus-specific)
         '''
 
         import numpy as np
+        L = self.L
         if np.isscalar(rates):
-                if rateb is None:
-                        err = self._set_mutation_rate(float(rates))
+                if rates_back is None:
+                        ratesm = np.repeat(rates, L * 2).reshape(2,L)
                 else:
-                        err = self._set_mutation_rate(float(rates), float(rateb))
+                        ratesm = np.vstack([np.repeat(rates, L), np.repeat(rates_back, L)])
+        elif (np.rank(rates) != 1) or ((rates_back is not None) and (np.rank(rates_back) != 1)):
+                raise ValueError('Please input one/two numbers or arrays.')
         else:
-                rates = np.asarray(rates, float)
-                if np.rank(rates) == 1:
-                        rates = np.vstack([rates, rates])
-                err = self._set_mutation_rate(rates)
+                if rates_back is None:
+                        ratesm = np.vstack([rates, rates])
+                else:
+                        ratesm = np.vstack([rates, rates_back])
 
-        if err:
+        if self._set_mutation_rate(ratesm):
             raise RuntimeError('Error in the C++ function.')
 }
 

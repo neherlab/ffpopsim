@@ -203,7 +203,7 @@ public:
 
 	// modify fitness (shortcuts: they only make sense if number_of_traits=1)
 	int add_fitness_coefficient(double value, vector <int> loci){if(number_of_traits>1) return HP_BADARG; return add_trait_coefficient(value, loci, 0);}
-	void clear_fitness(){if(number_of_traits>1) throw (int)HP_BADARG; clear_traits();}
+	void clear_fitness(){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"What do you mean by fitness?"<<endl; throw (int)HP_BADARG;} clear_traits();}
 
 	// evolution
 	int evolve(int gen=1);	

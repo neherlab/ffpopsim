@@ -28,23 +28,23 @@ int _get_number_of_traits() {
 }
 
 void _get_trait(int DIM1, double* ARGOUT_ARRAY1) {
-        for(size_t i=0; i<($self->trait).size(); i++)
+        for(size_t i=0; i < DIM1; i++)
                 ARGOUT_ARRAY1[i] = ($self->trait)[i];
 }
 %pythoncode {
 number_of_traits = property(_get_number_of_traits)
 @property
 def trait(self):
-        return self._get_trait(self._get_number_of_traits())
+        return self._get_trait(self.number_of_traits)
 }
 
 /* genotype */
-%rename (_genotype) genotype;
+%ignore genotype;
+int _get_genotype_length() {return ($self->genotype).size();}
 void _get_genotype(int DIM1, short* ARGOUT_ARRAY1) {
         for(size_t i=0; i < ($self->genotype).size(); i++) ARGOUT_ARRAY1[i] = ($self->genotype)[i];
 }
 
-int _get_genotype_length() {return ($self->genotype).size();}
 %pythoncode {
 @property
 def genotype(self):
@@ -132,37 +132,36 @@ number_of_traits = property(_get_number_of_traits)
 }
 
 /* initalize frequencies */
-%rename (_init_frequencies) init_frequencies;
-int _init_frequencies(double *IN_ARRAY1, int DIM1, int n_o_genotypes) {
-        return $self->init_frequencies(IN_ARRAY1, n_o_genotypes);
-}
+%ignore init_frequencies;
+int _init_frequencies(double *IN_ARRAY1, int DIM1, int n_o_genotypes) {return $self->init_frequencies(IN_ARRAY1, n_o_genotypes);}
 %pythoncode {
-def init_frequencies(self, nu, number_of_genotypes=None):
+def init_frequencies(self, nu, number_of_genotypes=0):
         '''Initialize the population according to the given allele frequencies.
 
         Parameters:
         - nu: allele frequencies.
         - number_of_genotypes: number of individuals to start with (default: carrying capacity).
         '''
-        import numpy as np
-        nu = np.asarray(nu)
         if len(nu) != self.L:
                 raise ValueError('Please input an L dimensional list of allele frequencies.')
-        if number_of_genotypes is None:
-                number_of_genotypes = 0
         if self._init_frequencies(nu, number_of_genotypes):
             raise RuntimeError('Error in the C++ function.')
 }
 
 /* evolve */
-%ignore evolve;
-%ignore _evolve;
-%rename (evolve) _evolve;
-int _evolve(int gen) {
-        int err=$self->evolve(gen);
-        if(err==0)
-                $self->calc_stat();
-        return err;
+%rename (_evolve) evolve;
+%pythoncode{
+def evolve(self, gen=1):
+        '''Evolve for some generations.
+
+        Parameters:
+        - gen: number of generations
+        '''
+
+        if self._evolve(gen):
+                raise RuntimeError('Error in the C++ function.')
+        else:
+                self.calc_stat()
 }
 
 
@@ -172,48 +171,64 @@ void _get_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
                 ARGOUT_ARRAY1[i] = $self->get_allele_frequency(i);
 }
 %pythoncode {
-def get_allele_frequencies(self):
-        return self._get_allele_frequencies(self.L)
+def get_allele_frequencies(self): return self._get_allele_frequencies(self.L)
 }
 
 /* get genotypes */
-void _get_genotype(unsigned int i, short* ARGOUT_ARRAY1, int DIM1) {
+void get_genotype(unsigned int i, short* ARGOUT_ARRAY1, int DIM1) {
         boost::dynamic_bitset<> newgt = (*($self->current_pop))[i].genotype;
         for(size_t i=0; i < DIM1; i++)
                 ARGOUT_ARRAY1[i] = newgt[i];
 }
 %pythoncode {
 def get_genotypes(self, ind=None):
+        '''Get genotypes of the population.
+
+        Parameters:
+        - ind: if a scalar, a single genotype corresponding to clone ind is returned.
+               otherwise, several genotypes are returned (default: all)
+        '''
         import numpy as np
-        if ind is None:
-                ind = np.arange(self.number_of_clones)
-        else:
-                ind = np.array(ind, ndmin=1)
-        n = len(ind)
         L = self.number_of_loci
-        genotypes = np.zeros((n, L), bool)
+        if np.isscalar(ind):
+                return np.array(self.get_genotype(ind, L), bool)
+
+        if ind is None:
+                ind = xrange(self.number_of_clones)
+        genotypes = np.zeros((len(ind), L), bool)
         for i, indi in enumerate(ind):
-                genotypes[i] = self._get_genotype(indi, L)
-        if n == 1:
-                return genotypes[0]
-        else:
-                return genotypes
+                genotypes[i] = self.get_genotype(indi, L)
+        return genotypes
 }
 
 /* set trait/fitness coefficients */
-%ignore add_trait_coefficient;
-%ignore add_fitness_coefficient;
-%apply (int DIM1, long* IN_ARRAY1) {(int n_loci, long* loci_in)};
-void _add_trait_coefficient(double value, int n_loci, long* loci_in, int traitnumber=0) {
-        vector <int> loci(loci_in, loci_in + n_loci);
-        $self->add_trait_coefficient(value, loci, traitnumber);
+%exception clear_fitness {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Fitness depends only on traits, not on the genome directly.");
+                SWIG_fail;
+        }
 }
-%clear (int n_loci, long* loci_in);
-%pythoncode{
-def add_trait_coefficient(self, value, loci, traitnumber=0):
-        import numpy as np
-        loci = np.asarray(loci, int)
-        self._add_trait_coefficient(value, loci, traitnumber)
+
+/* conversion from a Python vector of loci to std::vector */
+%typemap(in) vector<int> loci (std::vector<int> temp) {
+        /* Ensure input is a Python sequence */
+        PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
+        unsigned long L = PySequence_Length(tmplist);
+
+        /* Create std::vector from Python list */
+        temp.reserve(L);
+        long tmplong;
+        for(size_t i=0; i < L; i++) {
+                tmplong = PyInt_AsLong(PySequence_Fast_GET_ITEM(tmplist, i));
+                if(tmplong < 0) {
+                        PyErr_SetString(PyExc_ValueError, "Expecting an array of positive integers (the loci).");
+                        SWIG_fail;
+                }
+                temp.push_back((int)tmplong); 
+        }      
+        $1 = temp;
 }
 
 /* get fitnesses of all clones */
@@ -249,13 +264,14 @@ def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
 }
 
 /* get random clones/genotypes */
+%ignore random_clones(unsigned int n_o_individuals, vector <int> *sample);
 %pythoncode {
 def random_genomes(self, n):
         import numpy as np
         L = self.number_of_loci
         genotypes = np.zeros((n, L), bool)
         for i in xrange(genotypes.shape[0]):
-                genotypes[i] = self._get_genotype(self.random_clone(), L)
+                genotypes[i] = self.get_genotype(self.random_clone(), L)
         return genotypes
 }
 void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {

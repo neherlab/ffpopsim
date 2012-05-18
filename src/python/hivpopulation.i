@@ -58,6 +58,22 @@ plain text or in compressed numerical Python format.
 
 %extend hivpopulation {
 
+%define DOCSTRING_HIVPOPULATION_INIT
+"Construct a HIV population with certain parameters.
+
+Parameters:
+- N_in	number of viral particles
+- rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
+- mutation_rate	mutation rate in events / generation / site
+- coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
+- crossover_rate	probability of template switching during coinfection in events / site
+
+Note: the genome length is 10000 (see HIVGENOME).
+"
+%enddef
+%feature("autodoc", DOCSTRING_HIVPOPULATION_INIT) hivpopulation;
+
+
 /* we do not need this and it conflicts with base class constructor calling */
 %ignore set_up;
 
@@ -83,37 +99,24 @@ treatment = property(_get_treatment, _set_treatment)
 }
 
 /* read selection/resistance coefficients */
-%ignore read_replication_coefficients;
-%rename (read_replication_coefficients) _read_replication_coefficients;
-int _read_replication_coefficients(char *model){
-        ifstream modelstream(model);
-        return $self->read_replication_coefficients(modelstream);
+%typemap(in) istream &model (std::ifstream temp) {
+        if (!PyString_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expecting a string");
+                return NULL;
+        }
+        temp.open(PyString_AsString($input));
+        $1 = &temp;
 }
-
-%ignore read_resistance_coefficients;
-%rename (read_resistance_coefficients) _read_resistance_coefficients;
-int _read_resistance_coefficients(char *model){
-        ifstream modelstream(model);
-        return $self->read_resistance_coefficients(modelstream);
-}
-
 
 /* write genotypes */
-%ignore write_genotypes;
-%rename (write_genotypes) _write_genotypes;
-int _write_genotypes(char * filename, int sample_size, char * gt_label=NULL, int start=0, int length=0) {
-        if(HIVPOP_VERBOSE >= 1) cerr<<"hivpython::write_genotypes(char * filename, int sample_size, char * gt_label, int start, int length)...";
-
-        ofstream genotype_file(filename);        
-        string gt_labelstring;
-        if(gt_label == NULL)
-                gt_labelstring = "";
-        else
-                gt_labelstring = string(gt_label);
-
-        return $self->write_genotypes(genotype_file, sample_size, gt_labelstring, start, length);
+%typemap(in) ostream &out_genotypes (std::ofstream temp) {
+        if (!PyString_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expecting a string");
+                return NULL;
+        }
+        temp.open(PyString_AsString($input));
+        $1 = &temp;
 }
-
 
 %pythoncode {
 def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
@@ -125,7 +128,7 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
         d = {}
         for i in xrange(sample_size):
                 rcl = self.random_clone()
-                d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl,L)[start:start+length]
+                d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl,L)[start:start+length]
         np.savez_compressed(filename, **d)    
 }
 
@@ -157,9 +160,9 @@ def _set_trait_landscape(self,
                         lethal_fraction=0.05,
                         deleterious_fraction=0.8,
                         adaptive_fraction=0.01,
-                        effect_size_lethal=0.01,
+                        effect_size_lethal=0.8,
                         effect_size_deleterious=0.1,
-                        effect_size_adaptive=0.8,
+                        effect_size_adaptive=0.01,
                         env_fraction=0.1,
                         effect_size_env=0.01,
                         number_epitopes=0,
@@ -264,19 +267,19 @@ def set_replication_landscape(self, **kwargs):
         '''Set the phenotypic landscape for the replication capacity of HIV.
         
         Parameters:
-        ---  traitnumber=0
-        ---  lethal_fraction=0.05
-        ---  deleterious_fraction=0.8
-        ---  adaptive_fraction=0.01
-        ---  effect_size_lethal=0.01
-        ---  effect_size_deleterious=0.1
-        ---  effect_size_adaptive=0.8
-        ---  env_fraction=0.1
-        ---  effect_size_env=0.01
-        ---  number_epitopes=0
-        ---  epitope_strength=0.05
-        ---  number_valleys=0
-        ---  valley_strength=0.1
+        -  traitnumber=0
+        -  lethal_fraction=0.05
+        -  deleterious_fraction=0.8
+        -  adaptive_fraction=0.01
+        -  effect_size_lethal=0.8
+        -  effect_size_deleterious=0.1
+        -  effect_size_adaptive=0.01
+        -  env_fraction=0.1
+        -  effect_size_env=0.01
+        -  number_epitopes=0
+        -  epitope_strength=0.05
+        -  number_valleys=0
+        -  valley_strength=0.1
         '''
         kwargs['traitnumber']=0
         self._set_trait_landscape(**kwargs)
@@ -286,19 +289,19 @@ def set_resistance_landscape(self, **kwargs):
         '''Set the phenotypic landscape for the drug resistance of HIV.
         
         Parameters:
-        ---  traitnumber=0
-        ---  lethal_fraction=0.05
-        ---  deleterious_fraction=0.8
-        ---  adaptive_fraction=0.01
-        ---  effect_size_lethal=0.01
-        ---  effect_size_deleterious=0.1
-        ---  effect_size_adaptive=0.8
-        ---  env_fraction=0.1
-        ---  effect_size_env=0.01
-        ---  number_epitopes=0
-        ---  epitope_strength=0.05
-        ---  number_valleys=0
-        ---  valley_strength=0.1 
+        -  traitnumber=0
+        -  lethal_fraction=0.05
+        -  deleterious_fraction=0.8
+        -  adaptive_fraction=0.01
+        -  effect_size_lethal=0.8
+        -  effect_size_deleterious=0.1
+        -  effect_size_adaptive=0.01
+        -  env_fraction=0.1
+        -  effect_size_env=0.01
+        -  number_epitopes=0
+        -  epitope_strength=0.05
+        -  number_valleys=0
+        -  valley_strength=0.1 
         '''
 
         kwargs['traitnumber']=0

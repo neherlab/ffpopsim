@@ -14,12 +14,12 @@ import PopGenLib as h
 c = h.hivpopulation(1000)
 
 # Test I/O fitness landscapes
-c.set_replication_landscape(lethal_fraction=0.05,
-                            number_valleys=3)
+#c.set_replication_landscape(lethal_fraction=0.05,
+#                            number_valleys=3)
 c.read_replication_coefficients('hiv_model.dat')
 
 # Test population initialization
-c.init_frequencies(np.zeros(h.HIVGENOME) + 0.3, 1000)
+c.init_frequencies([0.3] * h.HIVGENOME, 1000)
 
 # Test allele frequency readout
 print np.max(c.get_allele_frequency(4))
@@ -27,9 +27,9 @@ print np.max(c.get_allele_frequency(4))
 # Test evolution
 from time import time as ti
 t0 = ti()
-c.evolve(100)
+c.evolve(30)
 t1 = ti()
-print 'Time for evolving HIV for 100 generations: {:1.1f} s'.format(t1-t0)
+print 'Time for evolving HIV for 30 generations: {:1.1f} s'.format(t1-t0)
 
 # Write genotypes
 c.write_genotypes('test.txt', 100)

@@ -58,9 +58,9 @@ struct hivgene {
 class hivpopulation : public haploid_highd {
 public:
 	// constructors/destructors
-	hivpopulation(int N_in=0, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);
+	hivpopulation(int N=0, int rng_seed=0, double mutation_rate=3e-5, double coinfection_rate=1e-2, double crossover_rate=1e-3);
 	virtual ~hivpopulation();
-	int set_up(int N_in, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);
+	int set_up(int N, int rng_seed=0, double mutation_rate=3e-5, double coinfection_rate=1e-2, double crossover_rate=1e-3);
 
 	// genes
 	hivgene env;
@@ -72,7 +72,7 @@ public:
 	// stream I/O
 	int read_replication_coefficients(istream &model);
 	int read_resistance_coefficients(istream &model);
-	int write_genotypes(ostream &out, int sample_size, string gt_label, int start=0, int length=0);
+	int write_genotypes(ostream &out_genotypes, int sample_size, string gt_label="", int start=0, int length=0);
 
 protected:
 	// fitness landscape
