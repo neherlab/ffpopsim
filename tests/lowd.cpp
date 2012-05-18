@@ -55,9 +55,9 @@ int sample_initialize() {
 	return 0;
 }
 
-/* Test hypercube initialization */
+/* Test hypercube_lowd initialization */
 int hc_initialize() {
-	hypercube hc;
+	hypercube_lowd hc;
 	int status = hc.set_up(4,3);
 	if(LOWD_VERBOSE){
 		cerr<<"Memory allocation = "<<status<<endl;
@@ -66,7 +66,7 @@ int hc_initialize() {
 	return 0;
 }
 
-/* Test setting coefficients on hypercube */
+/* Test setting coefficients on hypercube_lowd */
 int hc_setting() {
 	int L = 2;
 	double additive[L];
@@ -75,7 +75,7 @@ int hc_setting() {
 		additive[i] = 3;
 	}
 
-	hypercube hc(3, L);
+	hypercube_lowd hc(3, L);
 	hc.reset();
 	hc.additive(additive);
 	hc.fft_coeff_to_func();

@@ -81,7 +81,7 @@ clean: clean-src clean-doc clean-tests clean-python
 ##==========================================================================
 # SOURCE
 ##==========================================================================
-SRC_CXXFLAGS= -O2 -g3 -fPIC
+SRC_CXXFLAGS= -O2 -fPIC
 
 LIBRARY := libPopGenLib.a
 
@@ -90,18 +90,20 @@ SOURCE_GENERIC = sample.cpp
 OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
 
 HEADER_LOWD = $(HEADER_GENERIC) popgen_lowd.h
-SOURCE_LOWD = hypercube.cpp haploid_lowd.cpp
+SOURCE_LOWD = hypercube_lowd.cpp haploid_lowd.cpp
 OBJECT_LOWD = $(SOURCE_LOWD:%.cpp=%.o)
 
 HEADER_HIGHD = $(HEADER_GENERIC) popgen_highd.h
-SOURCE_HIGHD = hypercube_function.cpp haploid_highd.cpp
+SOURCE_HIGHD = hypercube_highd.cpp haploid_highd.cpp
 OBJECT_HIGHD = $(SOURCE_HIGHD:%.cpp=%.o)
 
 HEADER_HIV = hivpopulation.h
 SOURCE_HIV = $(HEADER_HIV:%.h=%.cpp)
 OBJECT_HIV = $(SOURCE_HIV:%.cpp=%.o)
+SOURCE_HIVGENE = hivgene.cpp
+OBJECT_HIVGENE = $(SOURCE_HIVGENE:%.cpp=%.o)
 
-OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD) $(OBJECT_HIV)
+OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD) $(OBJECT_HIV) $(OBJECT_HIVGENE)
 
 # Recipes
 src: $(SRCDIR)/$(LIBRARY)
@@ -119,6 +121,9 @@ $(OBJECT_HIGHD:%=$(SRCDIR)/%): $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(HEADER_HIGHD:%=$(
 	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(OBJECT_HIV:%=$(SRCDIR)/%): $(SOURCE_HIV:%=$(SRCDIR)/%) $(HEADER_HIV:%=$(SRCDIR)/%)
+	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
+
+$(OBJECT_HIVGENE:%=$(SRCDIR)/%): $(SOURCE_HIVGENE:%=$(SRCDIR)/%) $(HEADER_HIV:%=$(SRCDIR)/%)
 	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
 
 clean-src:
@@ -139,7 +144,7 @@ clean-doc:
 ##==========================================================================
 # TESTS
 ##==========================================================================
-TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC -g3
+TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC
 TESTS_LDFLAGS = -O2
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 TESTS_LIBS = -lPopGenLib -lgsl -lgslcblas
@@ -190,8 +195,8 @@ SWIG_SUPPORT_2 = hivpopulation.i
 SWIG_SUPPORT_3 = popgen_lowd.i
 SWIG_SUPPORT_4 = popgen.i
 
-PYTHON_CFLAGS = -O2 -g3 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
-PYTHON_LDFLAGS= -O2 -g3 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
+PYTHON_CFLAGS = -O2 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
+PYTHON_LDFLAGS= -O2 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
 PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PYTHON_LIBS = -lPopGenLib -lgsl -lgslcblas
 

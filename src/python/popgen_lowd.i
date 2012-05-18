@@ -1,5 +1,5 @@
 /* renames and ignores */
-%ignore hypercube;
+%ignore hypercube_lowd;
 %ignore haploid_lowd_test;
 
 /* additional helper functions */

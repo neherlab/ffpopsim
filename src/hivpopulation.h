@@ -21,6 +21,23 @@
 #define NOTHING 1e-10
 #define HIVGENOME 10000
 
+// HIV genes
+#define ENV_START 7000
+#define ENV_END 8001
+
+
+/**
+ * @brief HIV gene.
+ *
+ * Attributes:
+ * - start: the starting position of the gene
+ * - stop: the (last position + 1) of the gene
+ */
+struct hivgene {
+	unsigned int start;
+	unsigned int end;
+	hivgene(unsigned int start_in=0, unsigned int end_in=HIVGENOME);
+};
 
 /**
  * @brief HIV population with facultative drug treatment
@@ -45,18 +62,21 @@ public:
 	virtual ~hivpopulation();
 	int set_up(int N_in, int rng_seed=0, double mutation_rate_in=3e-5, double coinfection_rate_in=1e-2, double crossover_rate_in=1e-3);
 
+	// genes
+	hivgene env;
+
 	// treatment (set/get)
 	void set_treatment(double t){treatment=t; update_traits(); update_fitness();}
 	double get_treatment() {return treatment;}
 
 	// stream I/O
-	int read_selection_coefficients(istream &model);
+	int read_replication_coefficients(istream &model);
 	int read_resistance_coefficients(istream &model);
 	int write_genotypes(ostream &out, int sample_size, string gt_label, int start=0, int length=0);
 
 protected:
 	// fitness landscape
-	void calc_individual_fitness_from_traits(clone_t *tempgt) {tempgt->fitness = tempgt->trait[0] + treatment * tempgt->trait[1];}
+	virtual void calc_individual_fitness_from_traits(clone_t *tempgt) {tempgt->fitness = tempgt->trait[0] + treatment * tempgt->trait[1];}
 
 private:
 	//random number generator

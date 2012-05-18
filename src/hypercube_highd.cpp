@@ -1,5 +1,5 @@
 /*
- *  hypercube_function.cpp
+ *  hypercube_highd.cpp
  *  Haploids
  *
  *  Created by Richard Neher on 9/19/07.
@@ -8,32 +8,29 @@
  */
 #include "popgen_highd.h"
 
-hypercube_function::hypercube_function()
+hypercube_highd::hypercube_highd()
 {
 mem=false;
-if (HCF_VERBOSE) cerr<<"hypercube_function::hypercube_function(): constructing...!\n";
+if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 }
 
 //constructor
-hypercube_function::hypercube_function(int dim_in, int s)
+hypercube_highd::hypercube_highd(int dim_in, int s)
 {
-	if (HCF_VERBOSE) cerr<<"hypercube_function::hypercube_function(): constructing...!\n";
+	if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 	set_up(dim_in, s);
 }
 
 //set up and allocate memory, perform basic consistency checks on input.
-int hypercube_function::set_up(int dim_in, int s)
+int hypercube_highd::set_up(int dim_in, int s)
 {
 	if (dim_in>0)
 	{
-		if (HCF_VERBOSE) cerr<<"hypercube_function::set_up(): setting up...!";
+		if (HCF_VERBOSE) cerr<<"hypercube_highd::set_up(): setting up...!";
 		dim=dim_in;
 		mem=false;
 		hcube_allocated=false;
-		epistatic_std=0;
-		hypercube_mean=0.0;
-		coefficients_epistasis.clear();
-		coefficients_single_locus.clear();
+		reset();
 		if (HCF_VERBOSE) cerr<<"done.\n";
 		if (s==0) s=time(NULL);
 		seed=s;
@@ -41,25 +38,25 @@ int hypercube_function::set_up(int dim_in, int s)
 	}
 	else
 	{
-		cerr <<"hypercube_function: need positive dimension!\n";
+		cerr <<"hypercube_highd: need positive dimension!\n";
 		return HCF_BADARG;
 	}
 }
 
 //destructor
-hypercube_function::~hypercube_function()
+hypercube_highd::~hypercube_highd()
 {
-	if (HCF_VERBOSE) cerr<<"hypercube_function::~hypercube_function(): destructing...!\n";
+	if (HCF_VERBOSE) cerr<<"hypercube_highd::~hypercube_highd(): destructing...!\n";
 	if (mem) free_mem();
 }
 
 //allocate the necessary memory
-int hypercube_function::allocate_mem()
+int hypercube_highd::allocate_mem()
 {
-	if (HCF_VERBOSE) cerr<<"hypercube_function::allocate_mem(): allocating memory...";
+	if (HCF_VERBOSE) cerr<<"hypercube_highd::allocate_mem(): allocating memory...";
 	if (mem)
 	{
-		cerr <<"hypercube_function::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
+		cerr <<"hypercube_highd::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
 		free_mem();
 	}
 
@@ -72,11 +69,11 @@ int hypercube_function::allocate_mem()
 }
 
 //free the memory
-int hypercube_function::free_mem()
+int hypercube_highd::free_mem()
 {
 	if (!mem)
 	{
-		cerr <<"hypercube_function::free_mem(): no memory allocated...!\n";
+		cerr <<"hypercube_highd::free_mem(): no memory allocated...!\n";
 		return 0;
 	}
  	mem=false;
@@ -85,7 +82,7 @@ int hypercube_function::free_mem()
 }
 
 
-double hypercube_function::get_func(boost::dynamic_bitset<> *genotype)
+double hypercube_highd::get_func(boost::dynamic_bitset<> *genotype)
 {
 	if (HCF_VERBOSE) cerr<<"fluct_hypercube::get_func()\n";
 	double result=hypercube_mean;
@@ -126,7 +123,7 @@ double hypercube_function::get_func(boost::dynamic_bitset<> *genotype)
  *
  * Loop over the additive coefficients and return the value once the locus is found.
  */
-double hypercube_function::get_additive_coefficient(int locus){
+double hypercube_highd::get_additive_coefficient(int locus){
 	int l=0;
 	while(l<coefficients_single_locus.size()){
 		if (coefficients_single_locus[l].locus==locus)
@@ -136,13 +133,23 @@ double hypercube_function::get_additive_coefficient(int locus){
 	return 0.0;
 }
 
+
+/**
+ * @brief Reset the hypercube
+ */
+void hypercube_highd::reset() {
+	hypercube_mean = epistatic_std = 0;
+	coefficients_single_locus.clear();
+	coefficients_epistasis.clear();
+}
+
 /**
  * @brief assign single- or multi-locus trait coefficients.
  *
  * It takes a double and assigns it to a trait coefficients with index set
  * specified in vector loci.
  */
-int hypercube_function::add_coefficient(double value, vector <int> loci)
+int hypercube_highd::add_coefficient(double value, vector <int> loci)
 {
 	if (loci.size()>1) {
 		coeff_t temp_coeff(value, loci);
@@ -150,7 +157,8 @@ int hypercube_function::add_coefficient(double value, vector <int> loci)
 	} else if (loci.size()==1) {
 		coeff_single_locus_t temp_coeff(value, loci[0]);
 		coefficients_single_locus.push_back(temp_coeff);
-	} else { hypercube_mean=value;
+	} else {
+		hypercube_mean=value;
 	}
 	return 0;
 }
@@ -160,14 +168,14 @@ int hypercube_function::add_coefficient(double value, vector <int> loci)
  *
  * Note: it requires the index of the coefficient and the locus it is supposed to refer to.
  */
-int hypercube_function::set_additive_coefficient(double value, int lindex, int expected_locus)
+int hypercube_highd::set_additive_coefficient(double value, int lindex, int expected_locus)
 {
 	//check whether the locus is what was expected
 	if (coefficients_single_locus[lindex].locus==expected_locus){
 		coefficients_single_locus[lindex].value=value;
 		return 0;
 	}else if (expected_locus>-1){
-		cerr <<"hypercube_function::set_additive_coefficient: coefficient[locus] does not match locus: "<<coefficients_single_locus[lindex].locus<<"  "<<expected_locus<<endl;
+		cerr <<"hypercube_highd::set_additive_coefficient: coefficient[locus] does not match locus: "<<coefficients_single_locus[lindex].locus<<"  "<<expected_locus<<endl;
 		return HCF_BADARG;
 	}
 }
@@ -175,11 +183,11 @@ int hypercube_function::set_additive_coefficient(double value, int lindex, int e
 /**
  * @brief set the standard deviation of random epistatic fitness
  */
-int hypercube_function::set_random_epistasis_strength(double sigma)
+int hypercube_highd::set_random_epistasis_strength(double sigma)
 {
 	if (sigma>0){epistatic_std=sigma; return 0;}
 	else{
-		cerr<<"hypercube_function::set_random_epistasis_strength(): Epistasis strength has to be positive!"<<endl;
+		cerr<<"hypercube_highd::set_random_epistasis_strength(): Epistasis strength has to be positive!"<<endl;
 		return HCF_BADARG;
 	}
 }

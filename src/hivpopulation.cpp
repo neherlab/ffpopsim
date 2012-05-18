@@ -1,11 +1,10 @@
 /**
  * @file hivpopulation.cpp
  * @brief Implementation of an HIV population with drug treatment.
- * @author Richard Neher, Boris Shraiman, Fabio Zanini
+ * @author Richard Neher, Fabio Zanini
  * @version 
  * @date 2012-04-23
  */
-#include "popgen_highd.h"
 #include "hivpopulation.h"
 
 /**
@@ -20,7 +19,7 @@
  * *Note*: the genome length is 10000 (see HIVGENOME).
  * *Note*: exceptions are propagated from the base class constructor (haploid_highd).
  */
-hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, N_in, rng_seed, 2) {
+hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, N_in, rng_seed, 2), env(ENV_START, ENV_END) {
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
 	crossover_rate = crossover_rate_in;
@@ -64,7 +63,7 @@ int hivpopulation::set_up(int N_in, int rng_seed, double mutation_rate_in, doubl
 	return err;
 }
 
-int hivpopulation::read_selection_coefficients(istream &model){
+int hivpopulation::read_replication_coefficients(istream &model){
 	if (HIVPOP_VERBOSE){
 		cerr<<"hivpopulation::read_selection_coefficients(): read coefficients ";
 	}
@@ -85,7 +84,7 @@ int hivpopulation::read_selection_coefficients(istream &model){
 				loci.push_back(atoi(strs[entry].c_str()));
 			}
 			val=atof(strs.back().c_str());
-			add_fitness_coefficient(val, loci);
+			add_trait_coefficient(val, loci, 0);
 			if (HIVPOP_VERBOSE) cerr<<loci[0]<<" "<<val<<"  "<<loci.size()<<endl;
 			loci.clear();
 		}
@@ -119,7 +118,7 @@ int hivpopulation::read_resistance_coefficients(istream &model){
 				//cout<<loci.back()<<" "<<strs[entry].c_str()<<"  ";
 			}
 			val=atof(strs.back().c_str());
-			add_fitness_coefficient(val, loci,1);
+			add_trait_coefficient(val, loci,1);
 			wt_resistance+=val*pow(-1.0,(double)loci.size());
 			//cout <<loci.size()<<"  "<<wt_resistance<<endl;
 		}

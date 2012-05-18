@@ -24,7 +24,7 @@ using namespace std;
 /**
  * @brief Trait coefficient for a set of loci.
  *
- * This struct is used in the hypercube_function class for saving trait coefficients. See also hypercube_function::add_coefficient.
+ * This struct is used in the hypercube_highd class for saving trait coefficients. See also hypercube_highd::add_coefficient.
  *
  * Note: words and bits are deprecated.
  */
@@ -69,8 +69,7 @@ struct coeff_single_locus_t {
  * which scale like L and \f$L^2\f$, respectively.
  *
  */
-class hypercube_function
-{
+class hypercube_highd {
 private:
 	//random number generator
 	gsl_rng *rng;
@@ -91,16 +90,19 @@ public:
 	int rng_offset;
 
 	// setting up
-	hypercube_function();
-	hypercube_function(int dim_in, int s=0);
-	virtual ~hypercube_function();
+	hypercube_highd();
+	hypercube_highd(int dim_in, int s=0);
+	virtual ~hypercube_highd();
 	int set_up(int dim_in,  int s=0);
 
-	// methods
+	// get methods
 	unsigned int get_dim(){return dim;}
 	unsigned int get_seed() {return seed;};
 	double get_func(boost::dynamic_bitset<> *genotype);
 	double get_additive_coefficient(int locus);
+
+	// change the hypercube
+	void reset();
 	int set_additive_coefficient(double value, int locus, int expected_locus=-1);
 	int add_coefficient(double value, vector <int> loci);
 	int set_random_epistasis_strength(double sigma);
@@ -159,7 +161,7 @@ struct clone_t {
 class haploid_highd {
 public:
 	// genotype to traits maps, which in turn are used in the trait-to-fitness map
-	hypercube_function *trait;
+	hypercube_highd *trait;
 
 	// pointers to the current population and the temporary one
 	vector <clone_t> *current_pop;
@@ -189,12 +191,19 @@ public:
 	int get_population_size() {return population_size;}
 	int get_generation(){return generation;}
 	int get_number_of_clones(){return current_pop->size();}
+	int get_number_of_traits(){return number_of_traits;}
 
 	// modify population
 	void add_genotypes(boost::dynamic_bitset<> newgt, int n);
-	int add_fitness_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
-	void clear_fitness_function(){for(int t=0; t<number_of_traits; t++){trait[t].coefficients_single_locus.clear(); trait[t].coefficients_epistasis.clear();}}
 	void flip_single_locus(unsigned int clonenum, int locus);
+
+	// modify traits
+	int add_trait_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
+	void clear_traits(){for(int t=0; t<number_of_traits; t++){trait[t].reset();}}
+
+	// modify fitness (shortcuts: they only make sense if number_of_traits=1)
+	int add_fitness_coefficient(double value, vector <int> loci){if(number_of_traits>1) return HP_BADARG; return add_trait_coefficient(value, loci, 0);}
+	void clear_fitness(){if(number_of_traits>1) throw (int)HP_BADARG; clear_traits();}
 
 	// evolution
 	int evolve(int gen=1);	

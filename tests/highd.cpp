@@ -67,13 +67,13 @@ int sample_initialize() {
 
 /* Test hypercube initialization */
 int hc_initialize() {
-	hypercube_function hc;
+	hypercube_highd hc;
 	int status = hc.set_up(4,3);
 	if(HIGHD_VERBOSE){
 		cerr<<"First constructor: Memory allocation = "<<status<<endl;
 		cerr<<"First constructor: Dimension: "<<hc.get_dim()<<endl;
 	}
-	hypercube_function hc2(4,3);
+	hypercube_highd hc2(4,3);
 	if(HIGHD_VERBOSE){
 		cerr<<"Second constructor: Dimension: "<<hc2.get_dim()<<endl;
 	}
@@ -84,7 +84,7 @@ int hc_initialize() {
 int hc_setting() {
 	int L = 1000;
 
-	hypercube_function hc(L,3);
+	hypercube_highd hc(L,3);
 
 	double values[] = {0.1, 0.043, 1.3, -4.3};
 	int myints[] = {16,2,77,29};
@@ -110,8 +110,7 @@ int pop_initialize() {
 	int L = 1000;
 	int N = 100;
 
-	haploid_clone pop;
-	pop.set_up(L, N, 3, 1);
+	haploid_highd pop(L, N, 3, 1);
 	if(HIGHD_VERBOSE)
 		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;	
 	return 0;	
@@ -122,8 +121,7 @@ int pop_evolve() {
 	int L = 1000;
 	int N = 100;
 
-	haploid_clone pop;
-	pop.set_up(L, N);
+	haploid_highd pop(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -164,8 +162,7 @@ int pop_sampling() {
 	int L = 100;
 	int N = 100;
 
-	haploid_clone pop;
-	pop.set_up(L, N);
+	haploid_highd pop(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -195,8 +192,7 @@ int pop_Hamming() {
 	int L = 100;
 	int N = 100;
 
-	haploid_clone pop;
-	pop.set_up(L, N);
+	haploid_highd pop(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -256,8 +252,7 @@ int pop_divdiv() {
 	int L = 100;
 	int N = 100;
 
-	haploid_clone pop;
-	pop.set_up(L, N);
+	haploid_highd pop(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -287,8 +282,7 @@ int pop_histograms() {
 	int N = 100;
 	int err = 0;
 
-	haploid_clone pop;
-	pop.set_up(L, N);
+	haploid_highd pop(L, N);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
@@ -357,9 +351,12 @@ int pop_histograms() {
 
 /* Test end-user subclass initialization */
 int hiv_initialize() {
+
 	int N = 1000;
-	hivpopulation pop;
-	pop.set_up(N);
+	hivpopulation pop(N);
+
+	cout<<"Env start: "<<pop.env.start<<", env end: "<<pop.env.end<<endl;
+
 
 	if(HIGHD_VERBOSE)
 		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;	
@@ -377,8 +374,7 @@ int hiv_evolve() {
 	int N = 1000;
 	ifstream model("hiv_model.dat", ifstream::in);
 
-	hivpopulation pop;
-	pop.set_up(N, 0, 2e-5, 1e-3, 1e-3);
+	hivpopulation pop(N, 0, 2e-5, 1e-3, 1e-3);
 
 	if(HIGHD_VERBOSE) cerr<<"Reading model coefficients...";
 	pop.read_selection_coefficients(model);

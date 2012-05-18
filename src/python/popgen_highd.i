@@ -1,7 +1,7 @@
 /* renames and ignores */
 %ignore coeff_t;
 %ignore coeff_single_locus_t;
-%ignore hypercube_function;
+%ignore hypercube_highd;
 
 /**** CLONE_T ****/
 %rename (clone) clone_t;
@@ -178,6 +178,22 @@ def get_genotypes(self, ind=None):
                 return genotypes[0]
         else:
                 return genotypes
+}
+
+/* set trait/fitness coefficients */
+%ignore add_trait_coefficient;
+%ignore add_fitness_coefficient;
+%apply (int DIM1, long* IN_ARRAY1) {(int n_loci, long* loci_in)};
+void _add_trait_coefficient(double value, int n_loci, long* loci_in, int traitnumber=0) {
+        vector <int> loci(loci_in, loci_in + n_loci);
+        $self->add_trait_coefficient(value, loci, traitnumber);
+}
+%clear (int n_loci, long* loci_in);
+%pythoncode{
+def add_trait_coefficient(self, value, loci, traitnumber=0):
+        import numpy as np
+        loci = np.asarray(loci, int)
+        self._add_trait_coefficient(value, loci, traitnumber)
 }
 
 /* get fitnesses of all clones */

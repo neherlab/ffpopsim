@@ -14,7 +14,9 @@ import PopGenLib as h
 c = h.hivpopulation(1000)
 
 # Test I/O fitness landscapes
-c.read_selection_coefficients('hiv_model.dat')
+c.set_replication_landscape(lethal_fraction=0.05,
+                            number_valleys=3)
+#c.read_replication_coefficients('hiv_model.dat')
 
 # Test population initialization
 c.init_frequencies(np.zeros(h.HIVGENOME) + 0.3, 1000)
@@ -40,5 +42,5 @@ c.plot_divergence_histogram(color='r')
 c.plot_diversity_histogram(color='g')
 
 # Test treatment changes
-c.set_treatment(0.4)
-c.get_treatment()
+c.treatment = 0.4
+print c.treatment

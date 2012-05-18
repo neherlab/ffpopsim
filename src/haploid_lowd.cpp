@@ -115,10 +115,6 @@ int haploid_lowd::free_mem() {
 		return HG_BADARG;
 	}
 
-	fitness.~hypercube();
-	population.~hypercube();
-	recombinants.~hypercube();
-	mutants.~hypercube();
 	gsl_rng_free(rng);
 	if (!free_recombination){
 		for (int i=0; i<(1<<number_of_loci); i++){

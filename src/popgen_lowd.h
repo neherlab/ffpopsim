@@ -12,41 +12,41 @@
 #define HC_MEMERR -131545		//memory error code
 #define HC_BADARG -131546		//bad argument error code
 #define HC_VERBOSE 0			//debugging: if set to one, each function prints out a message into the error stream
-#define HC_FUNC 1			//hypercube.func is up-to-date
-#define HC_COEFF -1			//hypercube.coeff is up-to-date
-#define HC_FUNC_EQ_COEFF 0		//hypercube.func equal hypercube.coeff
+#define HC_FUNC 1			//hypercube_lowd.func is up-to-date
+#define HC_COEFF -1			//hypercube_lowd.coeff is up-to-date
+#define HC_FUNC_EQ_COEFF 0		//hypercube_lowd.func equal hypercube_lowd.coeff
 
 using namespace std;
 
 /**
- * @brief Binary hypercube used in low-dimensional simulations.
+ * @brief Binary hypercube_lowd used in low-dimensional simulations.
  *
  * This class is a generic object that can be used to represent various things, e.g.
  * - the fitness landscape or any other phenotypic landscape;
  * - the genotype frequencies of a population with a genome of size L.
  *
- * If you are planning to model a whole population evolving on the hypercube, see the class haploid_lowd.
+ * If you are planning to model a whole population evolving on the hypercube_lowd, see the class haploid_lowd.
  *
  * Notes on scalability:
  * - The number of genotypes to store increases as \f$2^L\f$, where L is the number of sites. This class can thus only be used for \f$L \lesssim 20\f$.
  * - The population size N is actually unimportant, as far as it can be stored as a long integer. In other words, this class scales with N like O(1).
  */
-class hypercube
+class hypercube_lowd
 {
 public:
-	//dimension of the hypercube
+	//dimension of the hypercube_lowd
 	int dim;
 
-	int state;				//takes values HC_FUNC, HC_COEFF, HC_HC_FUNC_EQ_COEFF, depending on the current state of hypercube
+	int state;				//takes values HC_FUNC, HC_COEFF, HC_HC_FUNC_EQ_COEFF, depending on the current state of hypercube_lowd
 	double *coeff;				//array holding 2^N coefficients: a entry 0101001101 corresponds to a term with spins at each 1
-	double *func;				//array holding the values of the function on the hypercube
+	double *func;				//array holding the values of the function on the hypercube_lowd
 
 	int *order;				//Auxiliary array holding the number of spins, i.e. the number of ones of coeff[k]
 
 	// construction / destruction
-	hypercube();
-	hypercube(int dim_in, int s=0);
-	~hypercube();
+	hypercube_lowd();
+	hypercube_lowd(int dim_in, int s=0);
+	~hypercube_lowd();
 	int set_up(int dim_in, int s=0);
 
 	// set coefficients
@@ -112,7 +112,7 @@ private:
 #define HG_MEMERR -32656845
 
 /**
- * @brief Low-dimensional population evolving on the hypercube.
+ * @brief Low-dimensional population evolving on the hypercube_lowd.
  *
  * This class enables simulation of short genomes (\f$L \lesssim 20\f$) but potentially large populations.
  * Random mutation, recombination and selection are supported.
@@ -123,9 +123,9 @@ private:
  */
 class haploid_lowd {
 public:
-	// public hypercubes
-	hypercube fitness;
-	hypercube population;
+	// public hypercube_lowds
+	hypercube_lowd fitness;
+	hypercube_lowd population;
 
 	// construction / destruction
 	haploid_lowd(int L_in=0, double N_in=1000, int rng_seed=0);
@@ -183,14 +183,14 @@ public:
 	stat_t get_fitness_statistics();
 
 protected:
-	//random number generator used for resampling and seeding the hypercubes
-	gsl_rng* rng;	//uses the same RNG as defined in hypercube.h from the  GSL library.
+	//random number generator used for resampling and seeding the hypercube_lowds
+	gsl_rng* rng;	//uses the same RNG as defined in hypercube_lowd.h from the  GSL library.
 	int seed;	//seed of the rng
 
-	//hypercubes that store the distribution of recombinations and the change in the
+	//hypercube_lowds that store the distribution of recombinations and the change in the
 	//population distribution due to mutations
-	hypercube recombinants;
-	hypercube mutants;
+	hypercube_lowd recombinants;
+	hypercube_lowd mutants;
 	double** recombination_patters;				// array that holds the probabilities of all possible recombination outcomes for every subset of loci
 
 	// population parameters

@@ -111,7 +111,7 @@ int haploid_highd::allocate_mem() {
 	allele_frequencies =new double [number_of_loci];
 	gamete_allele_frequencies =new double [number_of_loci];			//allele frequencies after selection
 
-	trait = new hypercube_function [number_of_traits];			//genotype trait function
+	trait = new hypercube_highd [number_of_traits];			//genotype trait function
 	trait_stat = new stat_t [number_of_traits];				//structure holding trait statistics
 	trait_covariance = new double* [number_of_traits];
 	//initialize trait functions

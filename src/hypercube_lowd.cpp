@@ -1,26 +1,26 @@
 /*
- *  hypercube.cpp
+ *  hypercube_lowd.cpp
  *
  *  Created by Richard Neher on 01/27/09.
  */
 #include "popgen_lowd.h"
 
 //default constructor
-hypercube::hypercube() {
+hypercube_lowd::hypercube_lowd() {
 	mem=false;
-	if (HC_VERBOSE) cerr<<"hypercube::hypercube(): constructing...!\n";
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::hypercube_lowd(): constructing...!\n";
 }
 
 //constructor
-hypercube::hypercube(int dim_in, int s) {
-	if (HC_VERBOSE) cerr<<"hypercube::hypercube(): constructing...!\n";
+hypercube_lowd::hypercube_lowd(int dim_in, int s) {
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::hypercube_lowd(): constructing...!\n";
 	set_up(dim_in, s);
 }
 
 //check consistency of input dimension and call allocation routine, seed for the rng is provided (s)
-int hypercube::set_up(int dim_in, int s) {
+int hypercube_lowd::set_up(int dim_in, int s) {
 	if (dim_in<=8*sizeof(int) && dim_in>0) {
-		if (HC_VERBOSE) cerr<<"hypercube::set_up(): setting up...!";
+		if (HC_VERBOSE) cerr<<"hypercube_lowd::set_up(): setting up...!";
 		dim=dim_in;
 		mem=false;
 		if (s==0) seed=time(NULL);
@@ -28,23 +28,23 @@ int hypercube::set_up(int dim_in, int s) {
 		if (HC_VERBOSE) cerr<<"done.\n";
 		return allocate_mem();
 	} else {
-		cerr <<"hypercube: got: "<<dim_in<<", need positive and <32 dimension!\n";
+		cerr <<"hypercube_lowd: got: "<<dim_in<<", need positive and <32 dimension!\n";
 		return HC_BADARG;
 	}
 }
 
 //destructor
-hypercube::~hypercube() {
-	if (HC_VERBOSE) cerr<<"hypercube::~hypercube(): destructing...!\n";
+hypercube_lowd::~hypercube_lowd() {
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::~hypercube_lowd(): destructing...!\n";
 	if (mem) free_mem();
 }
 
 //allocate memory
-int hypercube::allocate_mem() {
-	if (HC_VERBOSE) cerr<<"hypercube::allocate_mem(): allocating memory...";
+int hypercube_lowd::allocate_mem() {
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::allocate_mem(): allocating memory...";
 	if (mem)
 	{
-		cerr <<"hypercube::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
+		cerr <<"hypercube_lowd::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
 		free_mem();
 	}
 
@@ -54,7 +54,7 @@ int hypercube::allocate_mem() {
 
 	if (func==NULL or coeff==NULL or order==NULL) //if allocation goes wrong, return error
 	{
-		cerr <<"hypercube::allocate_mem(): cannot allocate memory...!\n";
+		cerr <<"hypercube_lowd::allocate_mem(): cannot allocate memory...!\n";
 		free_mem();
 	}
 
@@ -69,11 +69,11 @@ int hypercube::allocate_mem() {
 }
 
 //free memory
-int hypercube::free_mem()
+int hypercube_lowd::free_mem()
 {
 	if (!mem)
 	{
-		cerr <<"hypercube::free_mem(): no memory allocated...!\n";
+		cerr <<"hypercube_lowd::free_mem(): no memory allocated...!\n";
 		return 0;
 	}
 	delete [] coeff;
@@ -88,14 +88,14 @@ int hypercube::free_mem()
 /********** HC_FUNCTIONS THAT SET OR INCREMENT THE HC_COEFFICIENTS *******/
 //initialize the coefficients such that terms of order k contribute a variance var[k]
 //coefficients are gaussian random numbers.
-int hypercube::gaussian_coefficients(double* var, bool add) {
+int hypercube_lowd::gaussian_coefficients(double* var, bool add) {
 	int temp;
 	double sigma;
 
 	if (add and state==HC_FUNC) fft_func_to_coeff();
 
 	coeff[0]=0;		//constant coefficient is set to zero
-	if (HC_VERBOSE) cerr<<"hypercube::init_gauss_var(): initialize with specified variance...";
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::init_gauss_var(): initialize with specified variance...";
 
 	//loop over all coefficients
 	for (int k=1; k<(1<<dim); k++)
@@ -117,11 +117,11 @@ int hypercube::gaussian_coefficients(double* var, bool add) {
 	return 0;
 }
 
-int hypercube::additive(double* additive_effects, bool add)
+int hypercube_lowd::additive(double* additive_effects, bool add)
 {
 	if (add and state==HC_FUNC) fft_func_to_coeff();
 
-	if (HC_VERBOSE) cerr<<"hypercube::additive(): initialize with specified variance...";
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::additive(): initialize with specified variance...";
 	if (!add) reset();
 	//loop over all coefficients
 	for (int locus=0; locus<dim; locus++)
@@ -138,7 +138,7 @@ int hypercube::additive(double* additive_effects, bool add)
 /*
  * Functions that return the maximum of the function or the corresponding genotype
  */
-int hypercube::argmax()
+int hypercube_lowd::argmax()
 {
 	if (state==HC_COEFF) fft_coeff_to_func();
 
@@ -150,7 +150,7 @@ int hypercube::argmax()
 	return max_index;
 }
 
-double hypercube::valuemax()
+double hypercube_lowd::valuemax()
 {
 	if (state==HC_COEFF) fft_coeff_to_func();
 	int max_index=0;
@@ -165,7 +165,7 @@ double hypercube::valuemax()
 /******* HC_FUNCTIONS THAT INITIALIZE OR INCREMENT THE HC_FUNCTION ON 2^L*******/
 
 //init with constant spectrum, gaussian random numbers
-int hypercube::init_rand_gauss(double sigma, bool add)
+int hypercube_lowd::init_rand_gauss(double sigma, bool add)
 {
 	if (add and state==HC_COEFF) fft_coeff_to_func();
 	if (add)  {for (int i=0; i<(1<<dim); i++){ func[i]+=gsl_ran_gaussian(rng,sigma);}}
@@ -174,7 +174,7 @@ int hypercube::init_rand_gauss(double sigma, bool add)
 	return fft_func_to_coeff();
 }
 
-int hypercube::init_list(vector <index_value_pair_t> iv, bool add){
+int hypercube_lowd::init_list(vector <index_value_pair_t> iv, bool add){
 	if (add==false){
 		reset();
 	}else if (state==HC_COEFF)	fft_coeff_to_func();
@@ -186,7 +186,7 @@ int hypercube::init_list(vector <index_value_pair_t> iv, bool add){
 }
 
 
-int hypercube::init_coeff_list(vector <index_value_pair_t> iv, bool add){
+int hypercube_lowd::init_coeff_list(vector <index_value_pair_t> iv, bool add){
 	if (add==false){
 		reset();
 	}else if (state==HC_FUNC)	fft_func_to_coeff();
@@ -198,12 +198,12 @@ int hypercube::init_coeff_list(vector <index_value_pair_t> iv, bool add){
 }
 
 
-void hypercube::calc_order()
+void hypercube_lowd::calc_order()
 {
 	int spin;
 
 	order[0]=0;
-	if (HC_VERBOSE) cerr<<"hypercube::calc_order(): make a list of the order of different coefficients...";
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::calc_order(): make a list of the order of different coefficients...";
 
 	//loop over all coefficients
 	spin=-1;	//auxilliary variable
@@ -216,7 +216,7 @@ void hypercube::calc_order()
 /*
  * UTILITY HC_FUNCTIONS
  */
-int hypercube::normalize(double targetnorm){
+int hypercube_lowd::normalize(double targetnorm){
 	double norm=0;
 	for (int i=0; i<(1<<dim); i++){
 		norm+=func[i];
@@ -225,11 +225,11 @@ int hypercube::normalize(double targetnorm){
 }
 
 //rescale the coefficients
-int hypercube::scale(double scale)
+int hypercube_lowd::scale(double scale)
 {
 	if (!mem)
 	{
-		cerr <<"hypercube::scale: allocate memory first!\n";
+		cerr <<"hypercube_lowd::scale: allocate memory first!\n";
 	}
 	if (state==HC_FUNC) fft_func_to_coeff();
 	else if (state==HC_COEFF) fft_coeff_to_func();
@@ -242,11 +242,11 @@ int hypercube::scale(double scale)
 	return 0;
 }
 //rescale the function
-int hypercube::shift(double shift)
+int hypercube_lowd::shift(double shift)
 {
 	if (!mem)
 	{
-		cerr <<"hypercube::shift: allocate memory first!\n";
+		cerr <<"hypercube_lowd::shift: allocate memory first!\n";
 	}
 	if (state==HC_FUNC) fft_func_to_coeff();
 	else if (state==HC_COEFF) fft_coeff_to_func();
@@ -260,11 +260,11 @@ int hypercube::shift(double shift)
 }
 
 //reset function values and coefficients
-int hypercube::reset()
+int hypercube_lowd::reset()
 {
 	if (!mem)
 	{
-		cerr <<"hypercube::reset: allocate memory first!\n";
+		cerr <<"hypercube_lowd::reset: allocate memory first!\n";
 	}
 	for(int i=0; i<(1<<dim); i++)
 	{
@@ -279,16 +279,16 @@ int hypercube::reset()
 /******** FFT and its INVERSE **********/
 
 //perform the fourier transform to calculate the function from the coefficients
-int hypercube::fft_coeff_to_func()
+int hypercube_lowd::fft_coeff_to_func()
 {
-	if (HC_VERBOSE) cerr<<"hypercube::fft_coeff_to_func(): calculate function from coefficients....";
+	if (HC_VERBOSE) cerr<<"hypercube_lowd::fft_coeff_to_func(): calculate function from coefficients....";
 	int i,k, spinmask;
 	double *temp=new double [(1<<dim)];
 	double *swap_pointer;
 
 	if (!mem)
 	{
-		cerr <<"hypercube::fft_coeff_to_func(): allocate memory first!\n";
+		cerr <<"hypercube_lowd::fft_coeff_to_func(): allocate memory first!\n";
 		return HC_MEMERR;
 	}
 
@@ -328,14 +328,14 @@ int hypercube::fft_coeff_to_func()
 }
 
 //perform the inverse fourier transform to calcuate the coefficients from the function
-int hypercube::fft_func_to_coeff()
+int hypercube_lowd::fft_func_to_coeff()
 {
 	int i,k, spinmask;
 	double *temp=new double [(1<<dim)];
 	double *swap_pointer;
 	if (!mem)
 	{
-		cerr <<"hypercube::fft_func_to_coeff(): allocate memory first!\n";
+		cerr <<"hypercube_lowd::fft_func_to_coeff(): allocate memory first!\n";
 		return HC_MEMERR;
 	}
 
@@ -377,12 +377,12 @@ int hypercube::fft_func_to_coeff()
 
 /********* INPUT OUTPUT OF HC_FUNCTION AND HC_COEFFICIENTS **********/
 //read coefficients from a stream
-int hypercube::read_coeff(istream &in)
+int hypercube_lowd::read_coeff(istream &in)
 {
 	int i;
 	if (in.bad())
 	{
-		cerr <<"hypercube::read_coeff: bad stream\n";
+		cerr <<"hypercube_lowd::read_coeff: bad stream\n";
 		return HC_BADARG;
 	}
 	i=0;
@@ -393,7 +393,7 @@ int hypercube::read_coeff(istream &in)
 	}
 	if (i<(1<<dim))
 	{
-		cerr <<"hypercube::read_coeff: file end reached after "<<i<<" values!\n";
+		cerr <<"hypercube_lowd::read_coeff: file end reached after "<<i<<" values!\n";
 		return HC_BADARG;
 	}
 	return 0;
@@ -401,12 +401,12 @@ int hypercube::read_coeff(istream &in)
 }
 
 //write func to a stream
-int hypercube::write_func(ostream &out)
+int hypercube_lowd::write_func(ostream &out)
 {
 	int i;
 	if (out.bad())
 	{
-		cerr <<"hypercube::write_func: bad stream\n";
+		cerr <<"hypercube_lowd::write_func: bad stream\n";
 		return HC_BADARG;
 	}
 	i=0;
@@ -417,7 +417,7 @@ int hypercube::write_func(ostream &out)
 	}
 	if (i<(1<<dim))
 	{
-		cerr <<"hypercube::write_func: error while writing!\n";
+		cerr <<"hypercube_lowd::write_func: error while writing!\n";
 		return HC_BADARG;
 	}
 	return 0;
@@ -425,12 +425,12 @@ int hypercube::write_func(ostream &out)
 }
 
 //read coefficients from a stream
-int hypercube::read_func(istream &in)
+int hypercube_lowd::read_func(istream &in)
 {
 	int i;
 	if (in.bad())
 	{
-		cerr <<"hypercube::read_func: bad stream\n";
+		cerr <<"hypercube_lowd::read_func: bad stream\n";
 		return HC_BADARG;
 	}
 	i=0;
@@ -441,20 +441,20 @@ int hypercube::read_func(istream &in)
 	}
 	if (i<(1<<dim))
 	{
-		cerr <<"hypercube::read_func: file end reached after "<<i<<" values!\n";
+		cerr <<"hypercube_lowd::read_func: file end reached after "<<i<<" values!\n";
 		return HC_BADARG;
 	}
 	return 0;
 }
 
 //read coefficients from a stream
-int hypercube::read_func_labeled(istream &in)
+int hypercube_lowd::read_func_labeled(istream &in)
 {
 	int i, count;
 	char gt[dim+2];
 	if (in.bad())
 	{
-		cerr <<"hypercube::read_func_labeled: bad stream\n";
+		cerr <<"hypercube_lowd::read_func_labeled: bad stream\n";
 		return HC_BADARG;
 	}
 	count=0;
@@ -470,7 +470,7 @@ int hypercube::read_func_labeled(istream &in)
 	}
 	if (count<(1<<dim))
 	{
-		cerr <<"hypercube::read_func: file end reached after "<<i<<" values!\n";
+		cerr <<"hypercube_lowd::read_func: file end reached after "<<i<<" values!\n";
 		return HC_BADARG;
 	}
 	return 0;
@@ -478,12 +478,12 @@ int hypercube::read_func_labeled(istream &in)
 
 
 //write coeff to a stream
-int hypercube::write_coeff(ostream &out, bool label)
+int hypercube_lowd::write_coeff(ostream &out, bool label)
 {
 	int i,k;
 	if (out.bad())
 	{
-		cerr <<"hypercube::write_coeff: bad stream\n";
+		cerr <<"hypercube_lowd::write_coeff: bad stream\n";
 		return HC_BADARG;
 	}
 	i=0;
@@ -503,7 +503,7 @@ int hypercube::write_coeff(ostream &out, bool label)
 	}
 	if (i<(1<<dim))
 	{
-		cerr <<"hypercube::write_coeff: error while writing!\n";
+		cerr <<"hypercube_lowd::write_coeff: error while writing!\n";
 		return HC_BADARG;
 	}
 	return 0;
@@ -514,11 +514,11 @@ int hypercube::write_coeff(ostream &out, bool label)
 
 
 //function to test the fourer transform, output is written to the error stream
-int hypercube::test()
+int hypercube_lowd::test()
 {
 	int tp, sign;
 	double res;
-	cerr <<"hypercube::test()...\n";
+	cerr <<"hypercube_lowd::test()...\n";
 	for (int i=0; i<100; i++)
 	{
 		res=0;
