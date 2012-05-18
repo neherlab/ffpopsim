@@ -75,6 +75,11 @@ int hivpopulation::read_replication_coefficients(istream &model){
 	vector <int> loci;
 	vector<string> strs;
 	string line;
+
+	// reset the hypercube
+	trait[0].reset();
+	
+	// read the stream
 	while(!model.eof()){
 		strs.clear();
 		getline(model, line);
@@ -106,6 +111,11 @@ int hivpopulation::read_resistance_coefficients(istream &model){
 	vector <int> loci;
 	vector<string> strs;
 	string line;
+
+	// reset the hypercube
+	trait[1].reset();
+	
+	// read the stream
 	while(!model.eof()){
 		strs.clear();
 		loci.clear();

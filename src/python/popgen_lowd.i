@@ -84,6 +84,22 @@ const char* __repr__() {
 %ignore fitness;
 %ignore population;
 
+
+/* read only parameters */
+%ignore L;
+%ignore N;
+%rename (_get_number_of_loci) get_number_of_loci;
+%rename (_get_population_size) get_population_size;
+%rename (_get_generation) get_generation;
+%pythoncode {
+L = property(_get_number_of_loci)
+N = property(_get_population_size)
+number_of_loci = property(_get_number_of_loci)
+population_size = property(_get_population_size)
+generation = property(_get_generation)
+}
+
+
 /* initialize frequencies */
 %ignore init_frequencies(double *freq);
 int _init_frequencies(int DIM1, double *IN_ARRAY1) {
@@ -94,7 +110,7 @@ def init_frequencies(self, freq):
     '''Initialize the population in linkage equilibrium with allele frequencies.'''
     import numpy as np
     freq = np.asarray(freq, float)
-    if len(freq) != self.L():
+    if len(freq) != self.L:
         raise ValueError('The input array of allele frequencies has the wrong length.')
     else:
         if self._init_frequencies(freq):
@@ -143,7 +159,7 @@ def set_recombination_rates(self, rates):
         '''
 
         import numpy as np
-        L = self.L()
+        L = self.L
         if (not self.circular):
                 if len(rates) != (L - 1):
                         raise ValueError('Please input an (L-1) dimensional list of recombination rates.')
@@ -204,13 +220,13 @@ def get_mutation_rate(self, locus=None, direction=None):
                                 return mrs
         else:
                 if direction is not None:
-                        mrs = np.array([self._get_mutation_rate(l, direction) for l in xrange(self.L())])
+                        mrs = np.array([self._get_mutation_rate(l, direction) for l in xrange(self.L)])
                         if len(np.unique(mrs)) == 1:
                                 return mrs[0]
                         else:
                                 return mrs
                 else:
-                        mrs = np.array([[self._get_mutation_rate(l, d) for l in xrange(self.L())] for d in [0,1]])
+                        mrs = np.array([[self._get_mutation_rate(l, d) for l in xrange(self.L)] for d in [0,1]])
                         if len(np.unique(mrs)) == 1:
                                 return mrs[0,0]
                         else:
@@ -251,7 +267,7 @@ def set_mutation_rate(self, rates, rateb=None):
 def get_genotype_frequencies(self):
         '''Get the frequency of each genotype.'''
         import numpy as np
-        return np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L())])
+        return np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
 }
 
 /* allele frequencies */
@@ -259,7 +275,7 @@ def get_genotype_frequencies(self):
 def get_allele_frequencies(self):
         '''Get all allele frequencies'''
         import numpy as np
-        return np.array([self.get_allele_frequency(l) for l in xrange(self.L())])
+        return np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
 }
 
 /* ignore tests (they work by now) */
@@ -288,7 +304,7 @@ void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
 %pythoncode {
 def get_fitnesses(self):
         '''Get the fitness of all possible genotypes.'''
-        return self._get_fitnesses(1<<self.L())
+        return self._get_fitnesses(1<<self.L)
 }
 
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
@@ -329,7 +345,7 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
 def get_divergence_statistics(self, n_sample=1000):
         '''Get the mean and variance of the divergence in the population.'''
         import numpy as np
-        L = self.L()
+        L = self.L
 
         # Random sample
         gt = self.random_clones(n_sample)
@@ -343,7 +359,7 @@ def get_divergence_statistics(self, n_sample=1000):
 def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
         '''Get the histogram of the divergence in the population.'''
         import numpy as np
-        L = self.L()
+        L = self.L
 
         # Random sample
         gt = self.random_clones(n_sample)
@@ -358,7 +374,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
         '''Plot the histogram of the divergence in the population.'''
         import numpy as np
         import matplotlib.pyplot as plt
-        L = self.L()
+        L = self.L
 
         # Random sample
         gt = self.random_clones(n_sample)
@@ -381,7 +397,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
 def get_diversity_statistics(self, n_sample=1000):
         '''Get the mean and variance of the diversity in the population.'''
         import numpy as np
-        L = self.L()
+        L = self.L
 
         # Random sample
         gt1 = self.random_clones(n_sample)
@@ -396,7 +412,7 @@ def get_diversity_statistics(self, n_sample=1000):
 def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
         '''Get the histogram of the diversity in the population.'''
         import numpy as np
-        L = self.L()
+        L = self.L
 
         # Random sample
         gt1 = self.random_clones(n_sample)
@@ -413,7 +429,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
         '''Plot the histogram of the diversity in the population.'''
         import numpy as np
         import matplotlib.pyplot as plt
-        L = self.L()
+        L = self.L
 
         # Random sample
         gt1 = self.random_clones(n_sample)

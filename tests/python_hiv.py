@@ -16,7 +16,7 @@ c = h.hivpopulation(1000)
 # Test I/O fitness landscapes
 c.set_replication_landscape(lethal_fraction=0.05,
                             number_valleys=3)
-#c.read_replication_coefficients('hiv_model.dat')
+c.read_replication_coefficients('hiv_model.dat')
 
 # Test population initialization
 c.init_frequencies(np.zeros(h.HIVGENOME) + 0.3, 1000)

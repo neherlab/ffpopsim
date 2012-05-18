@@ -1,3 +1,24 @@
+/**** HIVGENE ****/
+%define DOCSTRING_HIVGENE
+"Structure for an HIV gene."
+%enddef
+%feature("autodoc", DOCSTRING_HIVGENE) hivgene;
+
+%extend hivgene {
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"start: %d, end: %d", $self->start, $self->end);
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"hivgene(%d, %d)", $self->start, $self->end);
+        return &buffer[0];
+}
+}
+
+
 /**** HIVPOPULATION ****/
 %define DOCSTRING_HIVPOPULATION
 "Class for HIV population genetics (genome size = 10000).
@@ -58,14 +79,7 @@ plain text or in compressed numerical Python format.
 %rename (_set_treatment) set_treatment;
 %rename (_get_treatment) get_treatment;
 %pythoncode {
-@property
-def treatment(self):
-        return self._get_treatment()
-
-
-@treatment.setter
-def treatment(self, value):
-        self._set_treatment(value)
+treatment = property(_get_treatment, _set_treatment)
 }
 
 /* read selection/resistance coefficients */
@@ -105,7 +119,7 @@ int _write_genotypes(char * filename, int sample_size, char * gt_label=NULL, int
 def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
         '''Write genotypes into a compressed archive.'''
         import numpy as np 
-        L = self.get_number_of_loci()
+        L = self.number_of_loci
         if length <= 0:
                 length = L - start
         d = {}
@@ -177,7 +191,7 @@ def _set_trait_landscape(self,
         return (f1,f2,f12)
 
     
-    L = self.L()
+    L = self.L
     aL = np.arange(L)
 
     # Initialize fitness coefficients as zero (neutral model)
@@ -243,6 +257,7 @@ def _set_trait_landscape(self,
     self._set_additive_trait(single_locus_effects, traitnumber)
     for mlc in multi_locus_coefficients:
         self._add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
+    self.calc_stat()
 
 
 def set_replication_landscape(self, **kwargs):

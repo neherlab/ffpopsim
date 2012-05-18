@@ -23,7 +23,7 @@ const char* __repr__() {
 
 /* traits */
 %rename (_trait) trait;
-int get_number_of_traits() {
+int _get_number_of_traits() {
         return ($self->trait).size();
 }
 
@@ -32,9 +32,10 @@ void _get_trait(int DIM1, double* ARGOUT_ARRAY1) {
                 ARGOUT_ARRAY1[i] = ($self->trait)[i];
 }
 %pythoncode {
+number_of_traits = property(_get_number_of_traits)
 @property
 def trait(self):
-        return self._get_trait(self.get_number_of_traits())
+        return self._get_trait(self._get_number_of_traits())
 }
 
 /* genotype */
@@ -111,6 +112,25 @@ const char* __repr__() {
         return &buffer[0];
 }
 
+/* read only parameters */
+%ignore L;
+%ignore N;
+%rename (_get_number_of_loci) get_number_of_loci;
+%rename (_get_population_size) get_population_size;
+%rename (_get_generation) get_generation;
+%rename (_get_number_of_clones) get_number_of_clones;
+%rename (_get_number_of_traits) get_number_of_traits;
+%rename (max_fitness) get_max_fitness;
+%pythoncode {
+L = property(_get_number_of_loci)
+N = property(_get_population_size)
+number_of_loci = property(_get_number_of_loci)
+population_size = property(_get_population_size)
+generation = property(_get_generation)
+number_of_clones = property(_get_number_of_clones)
+number_of_traits = property(_get_number_of_traits)
+}
+
 /* initalize frequencies */
 %rename (_init_frequencies) init_frequencies;
 int _init_frequencies(double *IN_ARRAY1, int DIM1, int n_o_genotypes) {
@@ -126,7 +146,7 @@ def init_frequencies(self, nu, number_of_genotypes=None):
         '''
         import numpy as np
         nu = np.asarray(nu)
-        if len(nu) != self.L():
+        if len(nu) != self.L:
                 raise ValueError('Please input an L dimensional list of allele frequencies.')
         if number_of_genotypes is None:
                 number_of_genotypes = 0
@@ -153,7 +173,7 @@ void _get_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
 }
 %pythoncode {
 def get_allele_frequencies(self):
-        return self._get_allele_frequencies(self.L())
+        return self._get_allele_frequencies(self.L)
 }
 
 /* get genotypes */
@@ -166,11 +186,11 @@ void _get_genotype(unsigned int i, short* ARGOUT_ARRAY1, int DIM1) {
 def get_genotypes(self, ind=None):
         import numpy as np
         if ind is None:
-                ind = np.arange(self.get_number_of_clones())
+                ind = np.arange(self.number_of_clones)
         else:
                 ind = np.array(ind, ndmin=1)
         n = len(ind)
-        L = self.get_number_of_loci()
+        L = self.number_of_loci
         genotypes = np.zeros((n, L), bool)
         for i, indi in enumerate(ind):
                 genotypes[i] = self._get_genotype(indi, L)
@@ -204,7 +224,7 @@ void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
 %pythoncode {
 def get_fitnesses(self):
         '''Get the fitness of all clones.'''
-        return self._get_fitnesses(self.get_number_of_clones())
+        return self._get_fitnesses(self.number_of_clones)
 }
 
 /* Hamming distance (full Python reimplementation) */
@@ -232,7 +252,7 @@ def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
 %pythoncode {
 def random_genomes(self, n):
         import numpy as np
-        L = self.get_number_of_loci()
+        L = self.number_of_loci
         genotypes = np.zeros((n, L), bool)
         for i in xrange(genotypes.shape[0]):
                 genotypes[i] = self._get_genotype(self.random_clone(), L)

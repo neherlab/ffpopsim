@@ -377,7 +377,7 @@ int hiv_evolve() {
 	hivpopulation pop(N, 0, 2e-5, 1e-3, 1e-3);
 
 	if(HIGHD_VERBOSE) cerr<<"Reading model coefficients...";
-	pop.read_selection_coefficients(model);
+	pop.read_replication_coefficients(model);
 	if(HIGHD_VERBOSE) cerr<<"read!"<<endl;
 
 	// err checks for extinction
