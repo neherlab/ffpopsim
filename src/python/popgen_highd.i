@@ -211,7 +211,57 @@ def get_genotypes(self, ind=None):
         }
 }
 
-/* conversion from a Python vector of loci to std::vector */
+/* create trait (fitness) landscapes */
+void clear_trait(unsigned int traitnumber) {
+        /* check trait number */
+        if(traitnumber >= $self->get_number_of_traits())
+                throw HIVPOP_BADARG;
+        ($self->trait)[traitnumber].reset();
+}
+
+/* get single locus effects */
+void _get_additive_trait(double* ARGOUT_ARRAY1, int DIM1, int traitnumber=0) {
+        /* check trait number */
+        if(traitnumber >= $self->get_number_of_traits())
+                throw HIVPOP_BADARG;
+
+        /* Initialize to zero */
+        for(size_t i=0; i < DIM1; i++)
+                ARGOUT_ARRAY1[i] = 0;
+
+        /* Add any coefficient you found */
+        hypercube_highd *trait = &(($self->trait)[traitnumber]);
+        coeff_single_locus_t * coeff;
+        for(size_t i=0; i < trait->coefficients_single_locus.size(); i++) {
+                coeff = &(trait->coefficients_single_locus[i]);
+                ARGOUT_ARRAY1[coeff->locus] += coeff->value;
+        }
+}
+%pythoncode{
+def get_additive_trait(self, traitnumber=0):
+        '''Get an array with the additive part of a trait for all loci.'''
+        return self._get_additive_trait(self.L, traitnumber)
+}
+
+/* set single locus effects */
+void set_additive_trait(int DIM1, double* IN_ARRAY1, int traitnumber=0) {
+        /* check trait number */
+        if(traitnumber >= $self->get_number_of_traits())
+                throw HIVPOP_BADARG;
+        /* check length of vector */
+        if(DIM1 != $self->L())
+                throw HIVPOP_BADARG;
+
+        vector <int> loci;
+        for(size_t i = 0; i < DIM1; i++) {
+                loci.push_back(i);
+                $self->add_trait_coefficient(IN_ARRAY1[i], loci, traitnumber);
+                loci.clear();
+        }
+}
+
+
+/* add_trait_coefficient: this is implemented as a conversion from a Python vector of loci to std::vector */
 %typemap(in) vector<int> loci (std::vector<int> temp) {
         /* Ensure input is a Python sequence */
         PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
@@ -230,6 +280,7 @@ def get_genotypes(self, ind=None):
         }      
         $1 = temp;
 }
+
 
 /* get fitnesses of all clones */
 void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {

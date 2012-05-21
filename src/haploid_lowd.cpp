@@ -7,17 +7,11 @@
  */
 #include "popgen_lowd.h"
 
-/**
- * @brief Default destructor
- *
- * Release memory.
- */
-haploid_lowd::~haploid_lowd() {
-	free_mem();
-}
+/* Initialize the number of instances to zero */
+size_t haploid_lowd::number_of_instances=0;
 
 /**
- * @brief Constructor + set_up
+ * @brief Default constructor
  *
  * @param L_in number of loci
  * @param N_in population size
@@ -42,7 +36,18 @@ haploid_lowd::haploid_lowd(int L_in, double N_in, int rng_seed) {
 		if(err)
 			throw err;
 	}
+	number_of_instances++;
 }
+
+/**
+ * @brief Default destructor
+ *
+ * Release memory.
+ */
+haploid_lowd::~haploid_lowd() {
+	free_mem();
+}
+
 
 /**
  * @brief Construct a population with certain parameters.
@@ -61,7 +66,7 @@ int haploid_lowd::set_up(int L_in, double N_in, int rng_seed) {
 
 	//In case no seed is provided use current second and add process ID
 	if (rng_seed==0)
-		seed=time(NULL)+getpid();
+		seed=time(NULL)+getpid()+number_of_instances;
 	else
 		seed=rng_seed;
 
@@ -323,12 +328,13 @@ int haploid_lowd::resample(double n) {
 		{
 			population.func[i]+=double(gsl_ran_gaussian(rng, sqrt(population.func[i]/pop_size)));
 		}
-		population_size+=population.func[i];
+		population_size += population.func[i];
 	}
 	if (population_size<HG_NOTHING){
 		return HG_EXTINCT;
 	}
 	else population.scale(1.0/population_size);
+	population_size *= pop_size;
 	return 0;
 }
 

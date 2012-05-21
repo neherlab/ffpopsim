@@ -14,9 +14,12 @@ import PopGenLib as h
 c = h.hivpopulation(1000)
 
 # Test I/O fitness landscapes
-#c.set_replication_landscape(lethal_fraction=0.05,
-#                            number_valleys=3)
-c.read_replication_coefficients('hiv_model.dat')
+c.set_replication_landscape(lethal_fraction=0.05,
+                            number_valleys=3)
+#c.read_replication_coefficients('hiv_model.dat')
+
+# Show the additive part of the fitness landscape
+print c.get_additive_trait()
 
 # Test population initialization
 c.init_frequencies([0.3] * h.HIVGENOME, 1000)

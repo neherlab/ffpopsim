@@ -7,6 +7,9 @@ tests/lowd
 tests/highd
 tests/test.npz
 tests/test.txt
+tests/PopGenLib.py
+tests/PopGenLib.pyc
+tests/_PopGenLib.so
 
 # SWIG wrapper
 src/python/PopGenLib.py

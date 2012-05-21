@@ -10,6 +10,9 @@
 #include <math.h>
 #include "popgen_highd.h"
 
+/* Initialize the number of instances to zero */
+size_t haploid_highd::number_of_instances=0;
+
 /**
  * @brief Default constructor
  *
@@ -35,6 +38,7 @@ haploid_highd::haploid_highd(int L_in, int N_in,  int rng_seed, int n_o_traits) 
 		if(err)
 			throw err;
 	}
+	number_of_instances++;
 }
 
 /**
@@ -78,7 +82,7 @@ int haploid_highd::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
 
 	//In case no seed is provided use current second and add process ID
 	if (rng_seed==0)
-		seed=time(NULL)+getpid();
+		seed=time(NULL)+getpid()+number_of_instances;
 	else
 		seed=rng_seed;
 

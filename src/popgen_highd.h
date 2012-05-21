@@ -327,8 +327,10 @@ private:
 	// to ensure their memory is released upon destruction of the class.
 	vector <clone_t> current_pop_vector;
 	vector <clone_t> new_pop_vector;
-};
 
+	// counting reference
+	static size_t number_of_instances;
+};
 
 
 #endif /* POPGEN_HIGHD_H_ */

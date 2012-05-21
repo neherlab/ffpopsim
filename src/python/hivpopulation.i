@@ -133,29 +133,9 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
 }
 
 
-/* create trait (fitness) landscapes */
-void clear_trait(unsigned int traitnumber) {
-        if(traitnumber >= $self->get_number_of_traits())
-                throw HIVPOP_BADARG;
-        else
-                ($self->trait)[traitnumber].reset();
-}
-
-/* single locus effects */
-%apply (int DIM1, double* IN_ARRAY1) {(int L, double* single_locus_effects)};
-void _set_additive_trait(int L, double* single_locus_effects, int traitnumber=0) {
-        vector <int> loci;
-        for(size_t i = 0; i < L; i++) {
-                loci.push_back(i);
-                $self->add_trait_coefficient(single_locus_effects[i], loci, traitnumber);
-                loci.clear();
-        }
-}
-%clear (int L, double* single_locus_effects);
-
-/* glue code */
+/* set trait landscape */
 %pythoncode {
-def _set_trait_landscape(self,
+def set_trait_landscape(self,
                         traitnumber=0,
                         lethal_fraction=0.05,
                         deleterious_fraction=0.8,
@@ -257,10 +237,32 @@ def _set_trait_landscape(self,
 
     # Call the C++ routines
     self.clear_trait(traitnumber)
-    self._set_additive_trait(single_locus_effects, traitnumber)
+    self.set_additive_trait(single_locus_effects, traitnumber)
     for mlc in multi_locus_coefficients:
-        self._add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
+        self.add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
     self.calc_stat()
+}
+
+/* helper functions for replication and resistance */
+%pythoncode{
+def get_additive_replication(self):
+        '''Get the additive part of the replication lansdscape.'''
+        return self.get_additive_trait(0)
+
+
+def get_additive_resistance(self):
+        '''Get the additive part of the resistance lansdscape.'''
+        return self.get_additive_trait(1)
+
+
+def set_additive_replication(self, single_locus_effects):
+        '''Set the additive part of the replication lansdscape.'''
+        self.set_additive_trait(single_locus_effects, 0)
+
+
+def set_additive_resistance(self, single_locus_effects):
+        '''Set the additive part of the resistance lansdscape.'''
+        self.set_additive_trait(single_locus_effects, 1)
 
 
 def set_replication_landscape(self, **kwargs):
@@ -282,7 +284,7 @@ def set_replication_landscape(self, **kwargs):
         -  valley_strength=0.1
         '''
         kwargs['traitnumber']=0
-        self._set_trait_landscape(**kwargs)
+        self.set_trait_landscape(**kwargs)
 
 
 def set_resistance_landscape(self, **kwargs):
@@ -305,7 +307,7 @@ def set_resistance_landscape(self, **kwargs):
         '''
 
         kwargs['traitnumber']=0
-        self._set_trait_landscape(**kwargs)
+        self.set_trait_landscape(**kwargs)
 }
 
 } /* extend hivpopulation */

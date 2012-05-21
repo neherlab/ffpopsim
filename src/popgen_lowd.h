@@ -182,6 +182,12 @@ public:
 	double get_fitness(int n) {return fitness.get_func(n);}
 	stat_t get_fitness_statistics();
 
+	//evolution
+	int select();
+	int mutate();
+	int recombine();
+	int resample(double n=0.0);
+
 protected:
 	//random number generator used for resampling and seeding the hypercube_lowds
 	gsl_rng* rng;	//uses the same RNG as defined in hypercube_lowd.h from the  GSL library.
@@ -200,11 +206,6 @@ protected:
 	double long_time_generation;
 	double** mutation_rates;				// the mutation rate can be made locus specific and genotype dependent.
 
-	//evolution
-	int select();
-	int mutate();
-	int recombine();
-	int resample(double n=0.0);
 	int calculate_recombinants();
 	int calculate_recombinants_free();
 	int calculate_recombinants_general();
@@ -214,6 +215,9 @@ private:
 	bool mem;
 	int allocate_mem();
 	int free_mem();
+
+	// counting reference
+	static size_t number_of_instances;
 };
 
 
