@@ -10,7 +10,7 @@
 /* string representations */
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"clone: %d traits, genome size = ", ($self->trait).size(), ($self->genotype).size());
+        sprintf(buffer,"clone: %d traits, genome size = %d", ($self->trait).size(), ($self->genotype).size());
         return &buffer[0];
 }
 
@@ -39,17 +39,43 @@ def trait(self):
 }
 
 /* genotype */
+%typemap(in) boost::dynamic_bitset<> genotype_in (boost::dynamic_bitset<> temp) {
+        /* Ensure input is a Python sequence */
+        PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
+        unsigned long L = PySequence_Length(tmplist);
+
+        /* Create boost::dynamic_bitset from Python list */
+        temp.resize(L);
+        long tmplong;
+        for(size_t i=0; i < L; i++) {
+                tmplong = PyInt_AsLong(PySequence_Fast_GET_ITEM(tmplist, i));
+                if(tmplong < 0) {
+                        PyErr_SetString(PyExc_ValueError, "Expecting an array of bool.");
+                        SWIG_fail;
+                }
+                temp[i] = (bool)tmplong; 
+        }      
+        $1 = temp;
+}
+
 %ignore genotype;
 int _get_genotype_length() {return ($self->genotype).size();}
 void _get_genotype(int DIM1, short* ARGOUT_ARRAY1) {
         for(size_t i=0; i < ($self->genotype).size(); i++) ARGOUT_ARRAY1[i] = ($self->genotype)[i];
 }
 
+void _set_genotype(boost::dynamic_bitset<> genotype_in) {$self->genotype = genotype_in;}
+
 %pythoncode {
 @property
 def genotype(self):
         import numpy as np
         return np.array(self._get_genotype(self._get_genotype_length()), bool)
+
+
+@genotype.setter
+def genotype(self, genotype):
+        self._set_genotype(genotype)
 }
 } /* extend clone_t */
 
@@ -69,7 +95,7 @@ import matplotlib.pyplot as plt
 import PopGenLib as h
 
 c = h.haploid_highd(5000, 2000)
-c.init_genotypes() 
+c.set_genotypes() 
 c.mutation_rate = 0.01
 c.evolve(10)
 c.plot_divergence_histogram()
@@ -83,11 +109,36 @@ autocompletion:
 In [1]: import PopGenLib as h
 In [2]: c = h.haploid_highd(5000, 2000)
 In [3]: c.      <--- TAB
+
+
+Populations can have a number of phenotypic traits that concur to the fitness
+of each individual. The function that calculates fitness from the phenotype is
+(TODO: should be) described by the user, as well as all the full genotype-
+phenotype map.
+
+*Note*: fitness is not a phenotypic trait directly, but rather a function of _all_
+phenotypic traits together. However, in case 
 "
 %enddef
 %feature("autodoc", DOCSTRING_HAPLOID_CLONE) haploid_highd;
 
 %extend haploid_highd {
+
+/* constructor */
+%define DOCSTRING_HAPLOID_CLONE_INIT
+"Construct a high-dimensional population with certain parameters.
+
+Parameters:
+- L     length of the genome(number of loci)
+- rng_seed      seed for the random generator. If zero (default) pick a random number
+- number_of_traits      number of phenotypic traits
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_CLONE_INIT) haploid_highd;
+
+/* ignore problematic stuff */
+%ignore traits;
+/* TODO: implement a Python list as a surrogate for a pointer, and expose hypercube_highd */
 
 /* constructor */
 %exception haploid_highd {
@@ -132,21 +183,62 @@ number_of_traits = property(_get_number_of_traits)
 }
 
 /* initalize frequencies */
-%ignore init_frequencies;
-int _init_frequencies(double *IN_ARRAY1, int DIM1, int n_o_genotypes) {return $self->init_frequencies(IN_ARRAY1, n_o_genotypes);}
+%ignore set_allele_frequencies;
+int _set_allele_frequencies(double *IN_ARRAY1, int DIM1, int n_o_genotypes) {return $self->set_allele_frequencies(IN_ARRAY1, n_o_genotypes);}
 %pythoncode {
-def init_frequencies(self, nu, number_of_genotypes=0):
-        '''Initialize the population according to the given allele frequencies.
+def set_allele_frequencies(self, frequencies, N=1000):
+    '''Initialize the population according to the given allele frequencies.
 
-        Parameters:
-        - nu: allele frequencies.
-        - number_of_genotypes: number of individuals to start with (default: carrying capacity).
-        '''
-        if len(nu) != self.L:
-                raise ValueError('Please input an L dimensional list of allele frequencies.')
-        if self._init_frequencies(nu, number_of_genotypes):
-            raise RuntimeError('Error in the C++ function.')
+    Parameters:
+    - frequencies: an array of length L with all allele frequencies
+    - N: the carrying capacity (target population size)
+    '''
+    if len(frequencies) != self.L:
+            raise ValueError('Please input an L dimensional list of allele frequencies.')
+    if self._set_allele_frequencies(frequencies, N):
+        raise RuntimeError('Error in the C++ function.')
 }
+
+/* initialize genotypes */
+%ignore set_genotypes;
+%apply (int DIM1, double* IN_ARRAY1) {(int len1, double* genotypes), (int len2, double* vals)};
+int _set_genotypes(int len1, double* genotypes, int len2, double* vals) {
+        /* We use a flattened array */
+        len1 /= len2;
+        vector<genotype_value_pair_t> gt;
+        genotype_value_pair_t temp;
+        for(size_t i = 0; i != len1; i++) {
+                temp.genotype = boost::dynamic_bitset<>(len1);
+                for(size_t j=0; j < len1; j++)
+                        temp.genotype[j] = (bool)genotypes[i * len1 + j];
+                temp.val = vals[i];
+                gt.push_back(temp);
+        }
+        return $self->set_genotypes(gt);
+}
+%clear (int len1, double* genotypes);
+%clear (int len2, double* vals);
+%pythoncode {
+def set_genotypes(self, genotypes, counts):
+    '''Initialize population with fixed counts for specific genotypes.
+
+    Parameters:
+    - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+    - counts: list of counts for those genotypes
+
+    *Note*: the population size and the carrying capacity are set as the sum of the counts.
+    *Note*: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+    '''
+    import numpy as np
+    genotypes = np.array(genotypes, float, copy=False, ndmin=2)
+    counts = np.asarray(counts, float)
+    if len(genotypes) != len(counts):
+        raise ValueError('Indices and counts must have the same length')
+    if self._set_genotypes(genotypes.flatten(), counts):
+        raise RuntimeError('Error in the C++ function.')
+}
+
+
 
 /* evolve */
 %rename (_evolve) evolve;

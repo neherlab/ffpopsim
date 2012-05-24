@@ -22,7 +22,7 @@ c.set_replication_landscape(lethal_fraction=0.05,
 print c.get_additive_trait()
 
 # Test population initialization
-c.init_frequencies([0.3] * h.HIVGENOME, 1000)
+c.set_allele_frequencies([0.3] * h.HIVGENOME, 1000)
 
 # Test allele frequency readout
 print np.max(c.get_allele_frequency(4))

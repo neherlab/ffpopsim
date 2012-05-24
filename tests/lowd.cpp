@@ -97,11 +97,10 @@ int hc_setting() {
 /* Test population initialization */
 int pop_initialize() {
 	int L = 4;
-	int N = 100;
 
-	haploid_lowd pop(L, N, 3);
+	haploid_lowd pop(L, 3);
 	if(LOWD_VERBOSE)
-		cerr<<"L = "<<pop.L()<<", N = "<<pop.N()<<endl;	
+		cerr<<"L = "<<pop.L()<<endl;	
 	return 0;	
 }
 
@@ -110,12 +109,12 @@ int pop_evolve() {
 	int L = 4;
 	int N = 100;
 
-	haploid_lowd pop(L, N, 3);
+	haploid_lowd pop(L, 3);
 
 	double freq[1<<L];
 	for(int i=0; i<(1<<L);i++)
 		freq[i] = 1.0 / (1<<L);
-	pop.init_frequencies(freq);
+	pop.set_allele_frequencies(freq, N);
 	pop.set_mutation_rate(1e-2);
 	pop.evolve(5);
 	return 0;	
@@ -126,11 +125,11 @@ int pop_observables() {
 	int L = 4;
 	int N = 100;
 
-	haploid_lowd pop(L, N, 3);
+	haploid_lowd pop(L,3);
 	double freq[1<<L];
 	for(int i=0; i<(1<<L);i++)
 		freq[i] = 1.0 / (1<<L);
-	pop.init_frequencies(freq);
+	pop.set_allele_frequencies(freq, N);
 	pop.set_mutation_rate(1e-2);
 	pop.evolve(5);
 

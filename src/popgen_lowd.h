@@ -128,9 +128,9 @@ public:
 	hypercube_lowd population;
 
 	// construction / destruction
-	haploid_lowd(int L_in=0, double N_in=1000, int rng_seed=0);
+	haploid_lowd(int L=1, int rng_seed=0);
 	virtual ~haploid_lowd();
-	virtual int set_up(int L_in, double N_in=1000, int rng_seed=0);
+	virtual int set_up(int L, int rng_seed=0);
 
 	// population parameters (read/write)
 	double carrying_capacity;
@@ -147,8 +147,9 @@ public:
 	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
 
 	//initialization
-	int init_frequencies(double *freq_init);
-	int init_genotypes(vector <index_value_pair_t> gt);
+	int set_allele_frequencies(double *freq, unsigned long N);
+	int set_genotypes(vector <index_value_pair_t> gt);
+	int set_wildtype(unsigned long N);
 
 	// modify population
 	int set_recombination_rates(double *rec_rates);
@@ -224,8 +225,7 @@ private:
 class haploid_lowd_test : public haploid_lowd {
 public:
 	// construction / destruction
-	haploid_lowd_test(){haploid_lowd();}
-	haploid_lowd_test(double L_in, int N_in, int rngseed=0){haploid_lowd(L_in, N_in, rngseed);}
+	haploid_lowd_test(int L=1, int rngseed=0) : haploid_lowd(L, rngseed){};
 	~haploid_lowd_test();
 
 	//testing

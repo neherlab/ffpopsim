@@ -139,7 +139,7 @@ struct clone_t {
 	vector <double> trait;
 	double fitness;
 	int clone_size;
-	clone_t(int n_traits=0){trait.resize(n_traits); fitness=0; clone_size=0;}
+	clone_t(int n_traits=0) : trait(n_traits, 0), fitness(0), clone_size(0), genotype(boost::dynamic_bitset<>(0)) {};
 	bool operator<(const clone_t &other) const {return fitness < other.fitness;}
 	bool operator>(const clone_t &other) const {return fitness > other.fitness;}
 	bool operator==(const clone_t &other) const {return genotype == other.genotype;}
@@ -168,13 +168,9 @@ public:
 	vector <clone_t> *new_pop;
 
 	// construction / destruction
-	haploid_highd(int L_in=0, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
+	haploid_highd(int L=0, int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_highd();
-	virtual int set_up(int L_in, int N_in=1000,  int rng_seed=0, int number_of_traits=1);
-
-	// initialization
-	int init_genotypes(int n_o_genotypes=-1);
-	int init_frequencies(double *nu, int n_o_genotypes=0);
+	virtual int set_up(int L_in, int rng_seed=0, int number_of_traits=1);
 
 	// population parameters (read/write)
 	int carrying_capacity;			// carrying capacity of the environment (pop size)
@@ -192,6 +188,11 @@ public:
 	int get_generation(){return generation;}
 	int get_number_of_clones(){return current_pop->size();}
 	int get_number_of_traits(){return number_of_traits;}
+
+	// initialization
+	int set_allele_frequencies(double *freq, unsigned long N);
+	int set_genotypes(vector <genotype_value_pair_t> gt);
+	int set_wildtype(unsigned long N);
 
 	// modify population
 	void add_genotypes(boost::dynamic_bitset<> newgt, int n);
@@ -264,12 +265,11 @@ protected:
 	void produce_random_sample(int size=1000);
 
 	// population parameters
+	int number_of_loci;
+	int population_size;
 	int number_of_traits;
-	int number_of_individuals_max;		//maximal population size in terms of memory allocated to hold genotypes
-	int population_size;				//actual population size
-	int scratch;				//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
+	int scratch;			//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
 	int generation;
-	int number_of_loci;			//total number of loci
 
 	// evolution
 	int mutate();

@@ -13,29 +13,14 @@ size_t haploid_lowd::number_of_instances=0;
 /**
  * @brief Default constructor
  *
- * @param L_in number of loci
- * @param N_in population size
+ * @param L_in number of loci (at least 1)
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_lowd::haploid_lowd(int L_in, double N_in, int rng_seed) {
-	mem=false;
-	free_recombination=true;
-	outcrossing_rate=0.0;
-	generation=0;
-	long_time_generation=0.0;
-	circular=false;
-	int err=0;
-       
-	// empty constructor
-        if(L_in <= 0)
-		number_of_loci=0;
-	else {
-		err = set_up(L_in, N_in, rng_seed);
-		// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
-		// control than we currently have.
-		if(err)
-			throw err;
-	}
+haploid_lowd::haploid_lowd(int L_in, int rng_seed) {
+	int err = set_up(L_in, rng_seed);
+	// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
+	// control than we currently have.
+	if(err)	throw err;
 	number_of_instances++;
 }
 
@@ -53,16 +38,27 @@ haploid_lowd::~haploid_lowd() {
  * @brief Construct a population with certain parameters.
  *
  * @param L_in number of loci
- * @param N_in number of individuals
- * @param rng_seed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
+ * @param rng_seed seed for the random number generator. If this is zero, a random seed is used.
  *
  * @returns zero if successful, error codes otherwise
  *
  * Note: memory allocation is also performed here, via the allocate_mem function.
  */
-int haploid_lowd::set_up(int L_in, double N_in, int rng_seed) {
-	carrying_capacity=population_size=N_in;
+int haploid_lowd::set_up(int L_in, int rng_seed) {
+	if (L_in <1) {
+		cerr <<"haploid_lowd::set_up(): Bad Arguments! L must be larger or equal one."<<endl;
+		return HG_BADARG;
+        }
+
 	number_of_loci=L_in;
+	mem=false;
+	free_recombination=true;
+	outcrossing_rate=0.0;
+	generation=0;
+	long_time_generation=0.0;
+	circular=false;
+	generation=0;
+	long_time_generation=0.0;
 
 	//In case no seed is provided use current second and add process ID
 	if (rng_seed==0)
@@ -137,7 +133,8 @@ int haploid_lowd::free_mem() {
 /**
  * @brief Initialize population in linkage equilibrium.
  *
- * @param nu target allele frequencies
+ * @param freq target allele frequencies
+ * @param N_in carrying capacity (target population size)
  *
  * @returns zero if successful, error codes otherwise
  *
@@ -145,9 +142,13 @@ int haploid_lowd::free_mem() {
  * has a very large width. In turn, this can result in an immediate and dramatic drop in diversity within the
  * first few generations. Please check fitness statistics before starting the evolution if this worries you.
  */
-int haploid_lowd::init_frequencies(double *freq) {
-	double prob;
+int haploid_lowd::set_allele_frequencies(double *freq, unsigned long N_in) {
+        // Set the population size
+	carrying_capacity=population_size=N_in;
+
+        // Set the allele frequencies
 	int locus, i;
+	double prob;
 	population.set_state(HC_FUNC);
 	for (i=0; i<(1<<number_of_loci); i++){
 		prob=1.0;
@@ -157,8 +158,6 @@ int haploid_lowd::init_frequencies(double *freq) {
 		}
 		population.func[i]=prob;
 	}
-	generation=0;
-	long_time_generation=0.0;
 	return population.fft_func_to_coeff();
 }
 
@@ -169,18 +168,40 @@ int haploid_lowd::init_frequencies(double *freq) {
  *
  * @returns zero if successful, error codes otherwise
  *
- * *Note*: the population size will be set as the total sum of counts of all genotypes.
+ * *Note*: the population size and carrying capacity will be set as the total sum of
+ * counts of all genotypes. If you wish to modify the latter, you can do so directly
+ * afterwards.
  */
-int haploid_lowd::init_genotypes(vector <index_value_pair_t> gt) {
-	population.init_list(gt, false);
-	generation=0;
-	long_time_generation=0.0;
+int haploid_lowd::set_genotypes(vector <index_value_pair_t> gt) {
+        // Initialize the genotypes
+	int err = population.init_list(gt, false);
+        if(err) return err;
 
 	// Set the population size as the sum of the clones in input
 	population_size=0;
 	for(size_t i = 0; i < gt.size(); i++)
 		population_size += gt[i].val;
+        carrying_capacity = population_size;
+	return population.normalize();
+}
 
+/**
+ * @brief Initialize a wildtype population (00...0)
+ *
+ * @param N_in number of individuals
+ *
+ * @returns 0 if successful, nonzero otherwise.
+ */
+int haploid_lowd::set_wildtype(unsigned long N_in) {
+
+        // Initialize the genotypes
+        index_value_pair_t wildtype(0,N_in);
+        vector <index_value_pair_t> temp(1, wildtype);
+	int err = population.init_list(temp, false);
+        if(err) return err;
+
+	// Set the population size as the sum of the clones in input
+        carrying_capacity = population_size = N_in;
 	return population.normalize();
 }
 
@@ -911,7 +932,7 @@ int haploid_lowd_test::mutation_drift_equilibrium(double **mu){
 		af[i]=0;
 		recrates[i]=10;
 	}
-	init_frequencies(af);
+	set_allele_frequencies(af, 1000);
 	//allocate histograms to store allele frequency distributions
 	gsl_histogram **mutfreq=new gsl_histogram* [number_of_loci];
 	for (int locus=0; locus<number_of_loci; locus++){

@@ -19,7 +19,7 @@
  * *Note*: the genome length is 10000 (see HIVGENOME).
  * *Note*: exceptions are propagated from the base class constructor (haploid_highd).
  */
-hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, N_in, rng_seed, 2), env(ENV_START, ENV_END) {
+hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, rng_seed, 2), env(ENV_START, ENV_END) {
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
 	crossover_rate = crossover_rate_in;
@@ -27,7 +27,7 @@ hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, do
 	treatment = 0;
 
 	//by default, create a population of size carrying capacity at 00...0 (this is cheap, a single clone)
-	init_genotypes();
+	set_wildtype(N_in);
 }
 
 /**
@@ -36,31 +36,6 @@ hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, do
  * Only calls the method of the base class (which manages its own memory).
  */
 hivpopulation::~hivpopulation() {
-}
-
-
-/**
- * @brief Construct a HIV population with certain parameters
- *
- * @param N_in number of viral particles 
- * @param rng_seed seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
- * @param mutrate mutation rate in events / generation / site
- * @param coinfection_rate probability of coinfection of the same cell by two viral particles in events / generation
- * @param crossover_rate probability of template switching during coinfection in events / site
- *
- * @returns zero if successful, error codes otherwise
- *
- * Note: the genome length is 10000 (see HIVGENOME).
- */
-int hivpopulation::set_up(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in){
-	int err=haploid_highd::set_up(HIVGENOME, N_in, rng_seed, 2); // we have exactly 2 traits
-	outcrossing_rate = coinfection_rate_in;
-	mutation_rate = mutation_rate_in;
-	crossover_rate = crossover_rate_in;
-	recombination_model = CROSSOVERS;
-	treatment = 0;
-	init_genotypes();
-	return err;
 }
 
 int hivpopulation::read_replication_coefficients(istream &model){

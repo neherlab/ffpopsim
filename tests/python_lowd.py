@@ -15,8 +15,8 @@ import PopGenLib as h
 c = h.haploid_lowd(4, 1000)
 
 # Test initialization
-c.init_frequencies([0,0.3,0.6,0.9])
-c.init_genotypes([1,2],[0.4,0.8])
+c.set_allele_frequencies([0,0.3,0.6,0.9])
+c.set_genotypes([1,2],[0.4,0.8])
 
 # Test setting the recombination/mutation rates
 c.set_recombination_rates([0.01, 0.03, 0.02])

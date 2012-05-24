@@ -22,8 +22,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PopGenLib as h
 
-c = h.haploid_lowd(4, 1000)
-c.init_frequencies([0,0.3,0.6,0.9]) 
+c = h.haploid_lowd(4)
+c.set_allele_frequencies([0,0.3,0.6,0.9], N=1000) 
 c.evolve(10)
 c.plot_fitness_histogram()
 plt.show()

@@ -21,23 +21,11 @@ size_t haploid_highd::number_of_instances=0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int N_in,  int rng_seed, int n_o_traits) {
-	current_pop = &current_pop_vector;
-	new_pop = &new_pop_vector;
-	mem=false;
-	cumulants_mem=false;
-	circular=false;
-
-	// empty constructor
-        if(L_in <= 0)
-		number_of_loci=0;
-	else {
-		// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
-		// control than we currently have.
-		int err = set_up(L_in, N_in, rng_seed, n_o_traits);
-		if(err)
-			throw err;
-	}
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
+	// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
+	// control than we currently have.
+	int err = set_up(L_in, rng_seed, n_o_traits);
+	if(err)	throw err;
 	number_of_instances++;
 }
 
@@ -54,7 +42,6 @@ haploid_highd::~haploid_highd() {
  * @brief Construct a population with certain parameters
  *
  * @param L_in length of the genome
- * @param N_in number of individuals
  * @param rng_seed seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
  * @param n_o_traits number of phenotypic traits (including fitness). Must be \f$\geq1\f$.
  *
@@ -62,14 +49,13 @@ haploid_highd::~haploid_highd() {
  *
  * Note: memory allocation is also performed here, via the allocate_mem function.
  */
-int haploid_highd::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
-	boost::dynamic_bitset<> temp;
-	if (N_in<1 or L_in <1 or n_o_traits<1)
-	{
-		cerr <<"haploid_highd::set_up(): Bad Arguments! All of N, L and the number of traits must be larger or equal one.\n";
+int haploid_highd::set_up(int L_in, int rng_seed, int n_o_traits) {
+	if (L_in <1 or n_o_traits<1) {
+		cerr <<"haploid_highd::set_up(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
 		return HP_BADARG;
 	}
 
+	boost::dynamic_bitset<> temp;
 	if (8*sizeof(long int)!=temp.bits_per_block) {
 		cerr <<"haploid_highd requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
 		return HP_BADARG;
@@ -77,8 +63,12 @@ int haploid_highd::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
 
 	number_of_traits=n_o_traits;
 	number_of_loci=L_in;
-	number_of_individuals_max=2*N_in;
-	carrying_capacity=N_in;
+	current_pop = &current_pop_vector;
+	new_pop = &new_pop_vector;
+	mem=false;
+	cumulants_mem=false;
+	circular=false;
+	generation = 0;
 
 	//In case no seed is provided use current second and add process ID
 	if (rng_seed==0)
@@ -95,13 +85,12 @@ int haploid_highd::set_up(int L_in, int N_in,  int rng_seed, int n_o_traits) {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_highd::allocate_mem() {
-	if (mem)
-	{
+	if (mem) {
 		cerr <<"haploid_highd::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
 		free_mem();
 	}
 
-	if (HP_VERBOSE) cerr <<"haploid_highd::allocate_mem(): genotypes: "<<number_of_individuals_max<<"  loci: "<<number_of_loci<<endl;
+	if (HP_VERBOSE) cerr <<"haploid_highd::allocate_mem(): loci: "<<number_of_loci<<endl;
 
 	//Random number generator
 	evo_generator=gsl_rng_alloc(RNG);
@@ -126,7 +115,6 @@ int haploid_highd::allocate_mem() {
 
 	mem=true;								//set memory flag to true
 	if (HP_VERBOSE) cerr <<"done.\n";
-	generation=0;
 	return 0;
 }
 
@@ -149,102 +137,108 @@ int haploid_highd::free_mem() {
 }
 
 /**
- * @brief Initialize population with a certain number of individuals and fixed allele frequencies (in principle, in linkage equilibrium)
+ * @brief Initialize population in linkage equilibrium
  *
- * @param nu target allele frequencies
- * @param n_o_genotypes number of individuals to be created
+ * @param freq target allele frequencies
+ * @param N_in number of individuals to be created
  *
  * @returns zero if successful, error codes otherwise
  *
- * Note: when this function is used to initialize the population, it is likely that the fitness distribution
- * has a very large width. In turn, this can result in an immediate and dramatic drop in diversity within the
- * first few generations. Please check fitness statistics before starting the evolution if this worries you.
+ * *Note*: the carrying capacity is set equal to N_in. If you wish to change this parameter,
+ * do so explicitely afterwards.
  */
-int haploid_highd::init_frequencies(double* nu, int n_o_genotypes)
-{
-	int i, locus;
-	if (!mem)
-	{
-		cerr <<"haploid_highd::init_genotypes(): Allocate and set up first!\n";
-		return HP_MEMERR;
-	}
-	if (n_o_genotypes<0 or n_o_genotypes>=number_of_individuals_max)
-	{
-		cerr <<"haploid_highd::init_genotypes(): number of genotypes has to be positive and smaller than max! got: "<<n_o_genotypes<<"!\n";
+int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
+	if (HP_VERBOSE) cerr <<"haploid_highd::set_allele_frequencies(double* freq, int N_in)...";
+	if (N_in <= 0)	{
+		cerr <<"The number of genotypes has to be positive!"<<endl;
 		return HP_BADARG;
 	}
-	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) ....";
-	generation=0;
-	int ngt=0;
-	// if number of genotypes to be drawn is not specified, use default carrying capacity
-	if (n_o_genotypes==0) ngt=carrying_capacity;
-	else ngt=n_o_genotypes;
 
-	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) reset current\n";
-	current_pop->clear();	//reset the current population
-	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) reset random sample\n";
-	random_sample.clear();	//and the random sample
+        // Set the population size
+	carrying_capacity = population_size = N_in;
+
+        // Set the allele frequencies
+	int i, locus;
 	boost::dynamic_bitset<> tempgt(number_of_loci);
-	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(double* nu, int n_o_genotypes) add "<<ngt<<" genotypes of length "<<number_of_loci<<"\n";
-	for (i=0; i<ngt; i++) {
+
+	current_pop->clear();	//reset the current population
+	random_sample.clear();	//and the random sample
+	if (HP_VERBOSE) cerr <<"add "<<N_in<<" genotypes of length "<<number_of_loci<<"..."<<endl;
+	for (i=0; i < N_in; i++) {
 		tempgt.reset();
-		for(locus=0; locus<number_of_loci; locus++){	//set all loci
-			if (gsl_rng_uniform(evo_generator)<nu[locus])	tempgt.set(locus);
+		// set all loci for this genotype
+		for(locus=0; locus<number_of_loci; locus++){
+			if (gsl_rng_uniform(evo_generator)<freq[locus])	tempgt.set(locus);
 		}
 		add_genotypes(tempgt,1);	//add genotype with multiplicity 1
-		if (HP_VERBOSE) cerr <<i<<endl;
+		if (HP_VERBOSE >= 2) cerr <<i<<" ";
 	}
 
-	generation=0;
-	calc_stat();
-
-	if (HP_VERBOSE) cerr <<"done.\n";
-	return 0;
-}
-
-
-
-/**
- * @brief Initialize with a single genotypic clone (00...0)
- *
- * @param n_o_genotypes size of the clone. If not chosen, use carrying_capacity.
- *
- * @returns 0 if successful, nonzero otherwise.
- *
- * This is the typical initialization function if evolution from a single ancestor is modeled.
- */
-int haploid_highd::init_genotypes(int n_o_genotypes) {
-	trait[0].coefficients_epistasis.clear();
-
-	if (!mem)
-	{
-		cerr <<"haploid_highd::init_genotypes(): Allocate and set up first!\n";
-		return HP_MEMERR;
-	}
-	if (n_o_genotypes>number_of_individuals_max)
-	{
-		cerr <<"haploid_highd::init_genotypes(): number of genotypes has to be smaller than max! got: "<<n_o_genotypes<<"!\n";
-		return HP_BADARG;
-	}
-	population_size=0;
-	if (HP_VERBOSE) cerr <<"haploid_highd::init_genotypes(int n_o_genotypes) with population size "<<n_o_genotypes<<"...";
-	current_pop->clear();
-	random_sample.clear();
-	boost::dynamic_bitset<> tempgt(number_of_loci);
-	tempgt.reset();					//set all bits to zero
-	if (n_o_genotypes>=0){				//add n_o_genotypes copies of this genotype
-		add_genotypes(tempgt,n_o_genotypes);
-	}else{
-		add_genotypes(tempgt,carrying_capacity);
-	}
-
-	generation=0;
+	// Calculate all statistics to be sure
 	calc_stat();
 
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
 
+/**
+ * @brief Initialize the population with genotype counts
+ *
+ * @param gt vector of genotype_value_pair with genotypes and sizes
+ *
+ * @returns 0 if successful, nonzero otherwise.
+ *
+ * *Note*: the population size and carrying capacity will be set as the total sum of
+ * counts of all genotypes. If you wish to modify the latter, you can do so directly
+ * afterwards.
+ */
+int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
+	if (HP_VERBOSE) cerr <<"haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt)...";
+
+	// Clear population
+	current_pop->clear();
+	random_sample.clear();
+
+	// Initialize the clones and calculate the population size
+	population_size=0;
+	for(size_t i = 0; i < gt.size(); i++) {
+		add_genotypes(gt[i].genotype, gt[i].val);
+		population_size += gt[i].val;
+	}
+        carrying_capacity = population_size;
+
+	// Calculate all statistics to be sure
+	calc_stat();
+
+	if (HP_VERBOSE) cerr <<"done."<<endl;
+	return 0;
+}
+
+/**
+ * @brief Initialize a wildtype population (00...0)
+ *
+ * @param N_in number of individuals
+ *
+ * @returns 0 if successful, nonzero otherwise.
+ */
+int haploid_highd::set_wildtype(unsigned long N_in) {
+	if (HP_VERBOSE) cerr <<"haploid_highd::set_wildtype(unsigned long N_in)...";
+
+	// Clear population
+	current_pop->clear();
+	random_sample.clear();
+
+	// Initialize the clones and calculate the population size
+	boost::dynamic_bitset<> wildtype(number_of_loci);
+	add_genotypes(wildtype, N_in);
+        carrying_capacity = population_size = N_in;
+
+	// Calculate all statistics to be sure
+	calc_stat();
+
+	if (HP_VERBOSE) cerr <<"done."<<endl;
+	return 0;
+}
 
 /**
  * @brief calculate and store allele frequencies
@@ -1096,7 +1090,7 @@ int haploid_highd::read_ms_sample(istream &gts, int skip_locus, int multiplicity
 	random_sample.clear();
 	population_size=0;
 	if (mem){
-		init_genotypes(0);
+		set_wildtype(0);
 		population_size=0;
 		//loop over each line of the ms out-put file
 		while(gts.eof()==false){
@@ -1180,7 +1174,7 @@ int haploid_highd::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 	random_sample.clear();
 	population_size=0;
 	if (mem){
-		init_genotypes(0);
+		set_wildtype(0);
 		population_size=0;
 		//loop over each line of the ms out-put file
 		while(gts.eof()==false){

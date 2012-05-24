@@ -38,5 +38,6 @@ int pop_histograms();
 /* HIV subclass testing */
 int hiv_initialize();
 int hiv_evolve();
+int hiv_multiple_evolution();
 
 #endif /* HIGHD_H_ */

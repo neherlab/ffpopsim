@@ -26,6 +26,7 @@ int main(int argc, char **argv){
 		status += pop_histograms();
 		status += hiv_initialize();
 		status += hiv_evolve();
+//		status += hiv_multiple_evolution();
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;
@@ -108,11 +109,10 @@ int hc_setting() {
 /* Test population initialization */
 int pop_initialize() {
 	int L = 1000;
-	int N = 100;
 
-	haploid_highd pop(L, N, 3, 1);
+	haploid_highd pop(L, 3, 1);
 	if(HIGHD_VERBOSE)
-		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;	
+		cerr<<"L = "<<pop.get_number_of_loci()<<endl;	
 	return 0;	
 }
 
@@ -121,13 +121,13 @@ int pop_evolve() {
 	int L = 1000;
 	int N = 100;
 
-	haploid_highd pop(L, N);
+	haploid_highd pop(L);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
-	pop.init_genotypes();		// start with a population of the right size
+	pop.set_wildtype(N);		// start with a population of the right size
 
 	vector <int> loci;
 	for(int i=0; i< 100; i++) {
@@ -162,13 +162,13 @@ int pop_sampling() {
 	int L = 100;
 	int N = 100;
 
-	haploid_highd pop(L, N);
+	haploid_highd pop(L);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
-	pop.init_genotypes();		// start with a population of the right size
+	pop.set_wildtype(N);		// start with a population of the right size
 
 	pop.evolve(10);
 
@@ -192,13 +192,13 @@ int pop_Hamming() {
 	int L = 100;
 	int N = 100;
 
-	haploid_highd pop(L, N);
+	haploid_highd pop(L);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
-	pop.init_genotypes();		// start with a population of the right size
+	pop.set_wildtype(N);		// start with a population of the right size
 
 	pop.evolve(10);
 
@@ -252,13 +252,13 @@ int pop_divdiv() {
 	int L = 100;
 	int N = 100;
 
-	haploid_highd pop(L, N);
+	haploid_highd pop(L);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
-	pop.init_genotypes();		// start with a population of the right size
+	pop.set_wildtype(N);		// start with a population of the right size
 
 	pop.evolve(10);
 
@@ -282,13 +282,13 @@ int pop_histograms() {
 	int N = 100;
 	int err = 0;
 
-	haploid_highd pop(L, N);
+	haploid_highd pop(L);
 
 	pop.mutation_rate = 1e-3;
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
-	pop.init_genotypes();		// start with a population of the right size
+	pop.set_wildtype(N);		// start with a population of the right size
 
 	vector <int> loci;
 	for(int i=0; i< L/2; i++) {
@@ -395,4 +395,25 @@ int hiv_evolve() {
 		}
 	}
 	return bool(err);
+}
+
+
+int hiv_multiple_evolution() {
+	int N = 1000, err=0;
+	ifstream model("hiv_model.dat", ifstream::in);
+
+	for(size_t i=0; i < 50; i++) {
+		if(HIGHD_VERBOSE) cerr<<"Population n. "<<i<<"...";
+		hivpopulation pop(N, 0, 2e-5, 1e-3, 1e-3);
+	
+		if(HIGHD_VERBOSE) cerr<<"Reading model coefficients...";
+		pop.read_replication_coefficients(model);
+		if(HIGHD_VERBOSE) cerr<<"read!"<<endl;
+	
+		for(size_t j = 0; j < 50; j++)
+			err += pop.evolve(50);
+		if(HIGHD_VERBOSE) cerr<<"done"<<endl;
+	}
+
+	return err;
 }

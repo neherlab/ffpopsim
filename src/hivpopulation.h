@@ -60,7 +60,6 @@ public:
 	// constructors/destructors
 	hivpopulation(int N=0, int rng_seed=0, double mutation_rate=3e-5, double coinfection_rate=1e-2, double crossover_rate=1e-3);
 	virtual ~hivpopulation();
-	int set_up(int N, int rng_seed=0, double mutation_rate=3e-5, double coinfection_rate=1e-2, double crossover_rate=1e-3);
 
 	// genes
 	hivgene env;

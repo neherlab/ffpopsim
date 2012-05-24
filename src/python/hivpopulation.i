@@ -35,7 +35,6 @@ import matplotlib.pyplot as plt
 import PopGenLib as h
 
 c = h.hivpopulation(2000)
-c.init_genotypes() 
 c.evolve(10)
 c.plot_divergence_histogram()
 plt.show()
@@ -62,7 +61,7 @@ plain text or in compressed numerical Python format.
 "Construct a HIV population with certain parameters.
 
 Parameters:
-- N_in	number of viral particles
+- N     number of viral particles
 - rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
 - mutation_rate	mutation rate in events / generation / site
 - coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation

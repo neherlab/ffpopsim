@@ -33,12 +33,21 @@
 using namespace std;
 
 /**
- * @brief Pairs of an index and a value (like hash tables).
+ * @brief Pairs of an index and a value
  */
 struct index_value_pair_t {
 	int index;
 	double val;
-	index_value_pair_t(int index_in=0, double val_in=0){index = index_in; val = val_in;}
+	index_value_pair_t(int index_in=0, double val_in=0) : index(index_in), val(val_in) {};
+};
+
+/**
+ * @brief Pairs of a genotype and a value
+ */
+struct genotype_value_pair_t {
+	boost::dynamic_bitset<> genotype;
+	double val;
+	genotype_value_pair_t(boost::dynamic_bitset<> genotype_in=boost::dynamic_bitset<>(0), double val_in=0) : genotype(genotype_in), val(val_in) {};
 };
 
 /**
@@ -47,7 +56,7 @@ struct index_value_pair_t {
 struct stat_t {
 	double mean;
 	double variance;
-	stat_t(double mean_in=0, double variance_in=0){mean = mean_in; variance = variance_in;}
+	stat_t(double mean_in=0, double variance_in=0) : mean(mean_in), variance(variance_in) {};
 };
 
 #define SAMPLE_ERROR -12312154
