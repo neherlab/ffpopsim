@@ -621,17 +621,15 @@ int haploid_lowd::set_mutation_rate(double** m) {
 /**
  * @brief calculate recombination patterns
  *
- * @param rec_rates a vector of recombination rates. The first entry should be large for linear chromosomes.
+ * @param rec_rates a vector of recombination rates.
+ *
+ * *Note*: it must have length L-1 for linear chromosomes, length L for circular ones.
  *
  * @returns zero if successful, error codes otherwise (e.g. out of memory)
  *
  * A routine the calculates the probability of all possible recombination patters and
  * subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument.
- * It allocated the memory (3^L) and calculates the entire distribution.
- *
- * The first entry is the recombination rate before the first locus, i.e. it should be large >50
- * for linear chromosomes. all other entries are recombination rates between successive loci.
- *
+ * It allocated the memory (\f$3^L\f$) and calculates the entire distribution.
  */
 int haploid_lowd::set_recombination_rates(double *rec_rates) {
 	double err=0;
@@ -663,67 +661,83 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 		}
 		delete [] nspins;
 	}
-	if (err==0){	//if memory allocation has been successful, calculate the probabilities of recombination
-		int strand=0,newstrand, locus, set_size, i, subset, rec_pattern, marg_locus, higher_order_subset, higher_order_rec_pattern;
-		double *rptemp;
-		double sum=0;
-		int strandswitches;
-		//calculate the probabilities of different cross over realizations
-		//the constrained of even number of crossovers is fulfilled automatically
-		for (i=0; i<(1<<number_of_loci); i++){
-			recombination_patters[(1<<number_of_loci)-1][i]=1.0;
-			strand=(i&(1<<(number_of_loci-1)))>0?1:0;
-			strandswitches=0;
-			for (locus=0; locus<number_of_loci; locus++)
-			{
-				newstrand=((i&(1<<locus))>0)?1:0;
-				if (strand==newstrand) recombination_patters[(1<<number_of_loci)-1][i]*=(0.5*(1.0+exp(-2.0*rec_rates[locus])));
-				else {
-					recombination_patters[(1<<number_of_loci)-1][i]*=(0.5*(1.0-exp(-2.0*rec_rates[locus])));
-					strandswitches++;
-				}
-				strand=newstrand;
-			}
-			if (strandswitches%2) recombination_patters[(1<<number_of_loci)-1][i]=0;
-			sum+=recombination_patters[(1<<number_of_loci)-1][i];
-		}
-		for (i=0; i<(1<<number_of_loci); i++){
-			recombination_patters[(1<<number_of_loci)-1][i]/=sum;
-		}
-		//loop over set of spins of different size, starting with 11111101111 type patters
-		//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
-		for (set_size=number_of_loci-1; set_size>=0; set_size--)
-		{
-			//loop over all 2^L binary patterns
-			for (subset=0; subset<(1<<number_of_loci); subset++)
-			{
-				//if correct number of ones... (its the same in every hypercube...)
-				if (fitness.order[subset]==set_size)
-				{
-					marg_locus=-1; //determine the first zero, i.e. a locus that can be used to marginalize
-					for (locus=0; locus<number_of_loci; locus++)
-					{
-						if ((subset&(1<<locus))==0)
-							{marg_locus=locus; break;}
-					}
-					//a short hand for the higher order recombination pattern, from which we will marginalize
-					higher_order_subset=subset+(1<<marg_locus);
-					rptemp=recombination_patters[higher_order_subset];
-					//loop over all pattern of the length set_size and marginalize
-					//i.e. 111x01011=111001011+111101011
-					for (rec_pattern=0; rec_pattern<(1<<set_size); rec_pattern++){
-						higher_order_rec_pattern=(rec_pattern&((1<<marg_locus)-1))+((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
-						recombination_patters[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
-					}
-				}
-			}
-		}
-		free_recombination=false;
-		return 0;
-	}else{
+
+	// I memory had problems, exit
+	if(err) {
 		cerr <<"haploid_lowd::set_recombination_rates(): cannot allocate memory for recombination patterns!"<<endl;
 		return HG_MEMERR;
 	}
+
+	//if memory allocation has been successful, calculate the probabilities of recombination
+	int strand=0,newstrand, locus, set_size, subset, rec_pattern, marg_locus, higher_order_subset, higher_order_rec_pattern;
+	double *rptemp;
+	double sum=0;
+	int strandswitches;
+
+	// if the chromosome is linear, we expect a L-1 long C array, thus we artificially add the first one
+	vector<double> rec_rates_vec(number_of_loci, 0);
+	if(circular)
+		for(locus=0; locus < number_of_loci; locus++)
+			rec_rates_vec[locus] = rec_rates[locus];
+	else {
+ 		/* The first entry is the recombination rate before the first locus, i.e. it should be large >50
+ 		 * for linear chromosomes. all other entries are recombination rates between successive loci. */
+		rec_rates_vec[0] = 50;
+		for(locus=1; locus < number_of_loci; locus++)
+			rec_rates_vec[locus] = rec_rates[locus-1];
+	}
+
+	//calculate the probabilities of different cross over realizations
+	//the constrained of even number of crossovers is fulfilled automatically
+	for (i=0; i<(1<<number_of_loci); i++){
+		recombination_patters[(1<<number_of_loci)-1][i]=1.0;
+		strand=(i&(1<<(number_of_loci-1)))>0?1:0;
+		strandswitches=0;
+		for (locus=0; locus<number_of_loci; locus++) {
+			newstrand=((i&(1<<locus))>0)?1:0;
+			if (strand==newstrand) recombination_patters[(1<<number_of_loci)-1][i]*=(0.5*(1.0+exp(-2.0*rec_rates_vec[locus])));
+			else {
+				recombination_patters[(1<<number_of_loci)-1][i]*=(0.5*(1.0-exp(-2.0*rec_rates_vec[locus])));
+				strandswitches++;
+			}
+			strand=newstrand;
+		}
+		if (strandswitches%2) recombination_patters[(1<<number_of_loci)-1][i]=0;
+		sum+=recombination_patters[(1<<number_of_loci)-1][i];
+	}
+	for (i=0; i<(1<<number_of_loci); i++){
+		recombination_patters[(1<<number_of_loci)-1][i]/=sum;
+	}
+	//loop over set of spins of different size, starting with 11111101111 type patters
+	//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
+	for (set_size=number_of_loci-1; set_size>=0; set_size--)
+	{
+		//loop over all 2^L binary patterns
+		for (subset=0; subset<(1<<number_of_loci); subset++)
+		{
+			//if correct number of ones... (its the same in every hypercube...)
+			if (fitness.order[subset]==set_size)
+			{
+				marg_locus=-1; //determine the first zero, i.e. a locus that can be used to marginalize
+				for (locus=0; locus<number_of_loci; locus++)
+				{
+					if ((subset&(1<<locus))==0)
+						{marg_locus=locus; break;}
+				}
+				//a short hand for the higher order recombination pattern, from which we will marginalize
+				higher_order_subset=subset+(1<<marg_locus);
+				rptemp=recombination_patters[higher_order_subset];
+				//loop over all pattern of the length set_size and marginalize
+				//i.e. 111x01011=111001011+111101011
+				for (rec_pattern=0; rec_pattern<(1<<set_size); rec_pattern++){
+					higher_order_rec_pattern=(rec_pattern&((1<<marg_locus)-1))+((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
+					recombination_patters[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
+				}
+			}
+		}
+	}
+	free_recombination=false;
+	return 0;
 }
 
 /**

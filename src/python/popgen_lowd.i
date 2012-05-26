@@ -165,34 +165,39 @@ def set_genotypes(self, indices, counts):
 }
 
 /* set recombination rates */
-%ignore set_recombination_rates(double *rec_rates);
-int _set_recombination_rates(int DIM1, double *IN_ARRAY1) {
-        return $self->set_recombination_rates(IN_ARRAY1);
+%typemap(in) double *rec_rates {
+        /* Ensure input is a Python sequence */
+        PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
+        unsigned long L = PySequence_Length(tmplist);
+
+        /* Get circular and L properties from the class (we are in the Python world here) */
+        bool circular = (bool)PyInt_AsLong(PyObject_GetAttrString($self, "circular"));
+        long Lint = PyInt_AsLong(PyObject_GetAttrString($self, "L"));
+
+        /* Check lengths */
+        if((!(circular)) && (L != Lint - 1)) {
+                PyErr_SetString(PyExc_ValueError, "Expecting an array of length L-1.");
+                SWIG_fail;
+        }        
+        if((circular) && (L != Lint)) {
+                PyErr_SetString(PyExc_ValueError, "Expecting an array of length L.");
+                SWIG_fail;
+        } 
+
+        /* Create C array from Python list */
+        $1 = new double[L];
+        double tmpdouble;
+        for(size_t i=0; i < L; i++) {
+                tmpdouble = (double)PyFloat_AsDouble(PySequence_Fast_GET_ITEM(tmplist, i));
+                if (tmpdouble < 0) {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of positive floats");
+                        SWIG_fail;
+                }
+                $1[i] = tmpdouble;
+        }
 }
-%pythoncode {
-def set_recombination_rates(self, rates):
-    '''Set recombination rates between neighbouring loci.
-
-    Parameters:
-    - rates: vector of crossover probabilities between neighbours.
-             (L-1) long if the sequence is linear, L if circular.
-    '''
-
-    import numpy as np
-    L = self.L
-    if (not self.circular):
-        if len(rates) != (L - 1):
-            raise ValueError('Please input an (L-1) dimensional list of recombination rates.')
-        rrates = np.zeros(L, float)
-        rrates[0] = 50
-        for i in xrange(1, L):
-            rrates[i] = rates[i-1]
-    else:
-        if len(rates) != L:
-            raise ValueError('Please input an L dimensional list of recombination rates.')
-        rrates = np.asarray(rates)
-    if self._set_recombination_rates(rrates):
-        raise RuntimeError('Error in the C++ function.')
+%typemap(freearg) double *rec_rates {
+  if($1) delete[] $1;
 }
 
 /* mutation rate(s) */

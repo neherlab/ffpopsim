@@ -49,10 +49,7 @@ struct coeff_t {
 struct coeff_single_locus_t {
 	double value;
 	int locus;
-	coeff_single_locus_t(double value_in, int locus_in){
-		value=value_in;
-		locus=locus_in;
-	}
+	coeff_single_locus_t(double value_in, int locus_in) : value(value_in), locus(locus_in) {};
 };
 
 /**

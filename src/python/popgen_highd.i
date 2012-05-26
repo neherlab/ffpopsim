@@ -445,7 +445,7 @@ def plot_fitness_histogram(self, axis=None, **kwargs):
                 axis = fig.add_subplot(111)
                 axis.set_title('Fitness histogram')
                 axis.set_xlabel('Fitness')
-        axis.hist(fit, **kwargs)
+        return axis.hist(fit, **kwargs)
     
     
 def get_divergence_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, **kwargs):
@@ -492,7 +492,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     
         if 'bins' not in kwargs:
                 kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
-        axis.hist(div, **kwargs)
+        return axis.hist(div, **kwargs)
     
     
 def get_diversity_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, **kwargs):
@@ -542,7 +542,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     
         if 'bins' not in kwargs:
                 kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
-        axis.hist(div, **kwargs)
+        return axis.hist(div, **kwargs)
 }
 
 } /* extend haploid_highd */
