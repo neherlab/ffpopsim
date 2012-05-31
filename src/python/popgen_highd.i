@@ -92,7 +92,7 @@ example will explain the basic idea:
 #####################################
 import numpy as np
 import matplotlib.pyplot as plt
-import PopGenLib as h
+import FFPopSim as h
 
 c = h.haploid_highd(5000, 2000)
 c.set_genotypes() 
@@ -102,11 +102,11 @@ c.plot_divergence_histogram()
 plt.show()
 #####################################
 
-An effective way to discover all available methods is to import PopGenLib from
+An effective way to discover all available methods is to import FFPopSim from
 an interactive shell (e.g. iPython), create a population as above, and use TAB
 autocompletion:
 
-In [1]: import PopGenLib as h
+In [1]: import FFPopSim as h
 In [2]: c = h.haploid_highd(5000, 2000)
 In [3]: c.      <--- TAB
 

@@ -6,7 +6,7 @@
 #
 # Description:
 # ------------
-# Makefile for the PopGenLib library.
+# Makefile for the FFPopSim library.
 #
 # The first section deals with platform-specific options and paths.
 # In particular, there are two variables that can differ across the audience:
@@ -83,7 +83,7 @@ clean: clean-src clean-doc clean-tests clean-python
 ##==========================================================================
 SRC_CXXFLAGS= -O2 -fPIC
 
-LIBRARY := libPopGenLib.a
+LIBRARY := libFFPopSim.a
 
 HEADER_GENERIC = popgen.h
 SOURCE_GENERIC = sample.cpp
@@ -147,7 +147,7 @@ clean-doc:
 TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC
 TESTS_LDFLAGS = -O2
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
-TESTS_LIBS = -lPopGenLib -lgsl -lgslcblas
+TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
 
 TESTS_LOWD = lowd
 TESTS_HIGHD = highd
@@ -184,7 +184,7 @@ clean-tests:
 ##==========================================================================
 SWIGFLAGS = -c++ -python -O -castmode -keyword
 
-SWIG_INTERFACE = PopGenLib.i
+SWIG_INTERFACE = FFPopSim.i
 SWIG_WRAP = $(SWIG_INTERFACE:%.i=%_wrap.cpp)
 SWIG_WRAP_OBJECT = $(SWIG_WRAP:%.cpp=%.o)
 SWIG_OBJECT = $(SWIG_INTERFACE:%.i=_%.so)
@@ -198,7 +198,7 @@ SWIG_SUPPORT_4 = popgen.i
 PYTHON_CFLAGS = -O2 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
 PYTHON_LDFLAGS= -O2 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
 PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
-PYTHON_LIBS = -lPopGenLib -lgsl -lgslcblas
+PYTHON_LIBS = -lFFPopSim -lgsl -lgslcblas
 
 # Recipes
 python: $(SWIG_OBJECT:%=$(PYBDIR)/%)
@@ -213,7 +213,7 @@ $(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=
 	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_INTERFACE:%=$(PYBDIR)/%)
 
 clean-python:
-	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 
 #############################################################################

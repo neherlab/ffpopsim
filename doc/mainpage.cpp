@@ -5,9 +5,9 @@
  * @version 
  * @date 2012-04-19
  *
- * @mainpage PopGenLib Documentation
+ * @mainpage FFPopSim Documentation
  *
- * PopGenLib is a C++ library used to simulate evolution of genome populations.
+ * FFPopSim is a C++ library used to simulate evolution of genome populations.
  *
  * Currently, two kinds of populations are supported, depending on their genome size.
  * 1. For very short genomes, the full space of possible genomes is generated and simulations can be performed with any population size.

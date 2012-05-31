@@ -9,7 +9,7 @@ content:    Test script for the python bindings to the low-dimensional
 # Import module
 import numpy as np
 import matplotlib.pyplot as plt
-import PopGenLib as h
+import FFPopSim as h
 
 # Construct class
 c = h.haploid_lowd(4)

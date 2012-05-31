@@ -1,12 +1,12 @@
 /**
-* @file hivpopulation.i
-* @brief Python 2 bindings of the hivpopulation class.
-* @author Richard Neher, Boris Shraiman, Fabio Zanini
+* @file FFPopSim.i
+* @brief Python 2 bindings of the FFPopSim library.
+* @author Richard Neher, Fabio Zanini
 * @version 
 * @date 2012-04-24
 */
 %define DOCSTRING
-"PopGenLib library for population genetics.
+"FFPopSim library for population genetics.
 
 This library offers two simulation packages for population genetics. Each is controlled by a basic class:
 
@@ -20,7 +20,7 @@ The library is written in C++ and offers a Python interface. A simple evolution 
 #####################################
 import numpy as np
 import matplotlib.pyplot as plt
-import PopGenLib as h
+import FFPopSim as h
 
 c = h.haploid_lowd(4)
 c.set_allele_frequencies([0,0.3,0.6,0.9], N=1000) 
@@ -41,7 +41,7 @@ flexibility. If you need to perform a peculiar type of simulations that is not a
 interface, consider C++ (or Python) subclassing.
 "
 %enddef
-%module(docstring=DOCSTRING) PopGenLib;
+%module(docstring=DOCSTRING) FFPopSim;
 
 /* Include in the wrap code (note that the multiple header are redundant) */
 %{

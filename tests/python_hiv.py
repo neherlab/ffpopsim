@@ -8,7 +8,7 @@ content:    Test script for the python bindings
 # Import module
 import numpy as np
 import matplotlib.pyplot as plt
-import PopGenLib as h
+import FFPopSim as h
 
 # Construct class
 c = h.hivpopulation(1000)
