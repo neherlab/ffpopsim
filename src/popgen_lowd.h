@@ -130,7 +130,6 @@ public:
 	// construction / destruction
 	haploid_lowd(int L=1, int rng_seed=0);
 	virtual ~haploid_lowd();
-	virtual int set_up(int L, int rng_seed=0);
 
 	// population parameters (read/write)
 	double carrying_capacity;
@@ -187,12 +186,13 @@ public:
 	int select();
 	int mutate();
 	int recombine();
-	int resample(double n=0.0);
+	int resample();
 
 protected:
 	//random number generator used for resampling and seeding the hypercube_lowds
 	gsl_rng* rng;	//uses the same RNG as defined in hypercube_lowd.h from the  GSL library.
 	int seed;	//seed of the rng
+	int get_random_seed(); //get random seed from the OS
 
 	//hypercube_lowds that store the distribution of recombinations and the change in the
 	//population distribution due to mutations

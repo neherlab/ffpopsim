@@ -21,11 +21,31 @@ size_t haploid_highd::number_of_instances=0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false) {
+	if (L_in <1 or n_o_traits<1) {
+		cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
+		throw HP_BADARG;
+	}
+
+	// Check the bits per block (used in random reassortment)
+	boost::dynamic_bitset<> temp;
+	if (8*sizeof(long int)!=temp.bits_per_block) {
+		cerr <<"haploid_highd::haploid_highd(): haploid_highd requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
+		throw HP_MEMERR;
+	}
+
+	// Set populations
+	current_pop = &current_pop_vector;
+	new_pop = &new_pop_vector;	
+
+	//In case no seed is provided, get one from the OS
+	seed = rng_seed ? rng_seed : get_random_seed();
+
 	// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
 	// control than we currently have.
-	int err = set_up(L_in, rng_seed, n_o_traits);
+	int err = allocate_mem();
 	if(err)	throw err;
+
 	number_of_instances++;
 }
 
@@ -36,47 +56,25 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
  */
 haploid_highd::~haploid_highd() {
 	free_mem();
+	number_of_instances--;
 }
 
 /**
- * @brief Construct a population with certain parameters
+ * @brief Get a random seed from /dev/urandom
  *
- * @param L_in length of the genome
- * @param rng_seed seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
- * @param n_o_traits number of phenotypic traits (including fitness). Must be \f$\geq1\f$.
- *
- * @returns zero if successful, error codes otherwise
- *
- * Note: memory allocation is also performed here, via the allocate_mem function.
+ * @returns non-deterministic, random seed
  */
-int haploid_highd::set_up(int L_in, int rng_seed, int n_o_traits) {
-	if (L_in <1 or n_o_traits<1) {
-		cerr <<"haploid_highd::set_up(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
-		return HP_BADARG;
+int haploid_highd::get_random_seed() {
+	int seedtmp;
+	ifstream urandom("/dev/urandom", ios::binary);
+	if(urandom.bad()) {
+		cerr<<"/dev/urandom gives bad stream, falling back to time + getpid + number_of_instances"<<endl;
+		seedtmp = time(NULL) + getpid() + number_of_instances;
+	} else {
+		urandom.read(reinterpret_cast<char*>(&seedtmp),sizeof(seedtmp));
+		urandom.close();
 	}
-
-	boost::dynamic_bitset<> temp;
-	if (8*sizeof(long int)!=temp.bits_per_block) {
-		cerr <<"haploid_highd requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
-		return HP_BADARG;
-	}
-
-	number_of_traits=n_o_traits;
-	number_of_loci=L_in;
-	current_pop = &current_pop_vector;
-	new_pop = &new_pop_vector;
-	mem=false;
-	cumulants_mem=false;
-	circular=false;
-	generation = 0;
-
-	//In case no seed is provided use current second and add process ID
-	if (rng_seed==0)
-		seed=time(NULL)+getpid()+number_of_instances;
-	else
-		seed=rng_seed;
-
-	return allocate_mem();
+	return seedtmp;
 }
 
 /**

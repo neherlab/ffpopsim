@@ -136,7 +136,7 @@ struct clone_t {
 	vector <double> trait;
 	double fitness;
 	int clone_size;
-	clone_t(int n_traits=0) : trait(n_traits, 0), fitness(0), clone_size(0), genotype(boost::dynamic_bitset<>(0)) {};
+	clone_t(int n_traits=0) : genotype(boost::dynamic_bitset<>(0)), trait(n_traits, 0), fitness(0), clone_size(0) {};
 	bool operator<(const clone_t &other) const {return fitness < other.fitness;}
 	bool operator>(const clone_t &other) const {return fitness > other.fitness;}
 	bool operator==(const clone_t &other) const {return genotype == other.genotype;}
@@ -167,7 +167,6 @@ public:
 	// construction / destruction
 	haploid_highd(int L=0, int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_highd();
-	virtual int set_up(int L_in, int rng_seed=0, int number_of_traits=1);
 
 	// population parameters (read/write)
 	int carrying_capacity;			// carrying capacity of the environment (pop size)
@@ -258,6 +257,7 @@ protected:
 	gsl_rng* evo_generator;
 	gsl_rng* label_generator;
 	int seed;
+	int get_random_seed();
 	vector <int> random_sample;
 	void produce_random_sample(int size=1000);
 

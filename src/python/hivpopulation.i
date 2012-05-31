@@ -72,10 +72,6 @@ Note: the genome length is 10000 (see HIVGENOME).
 %enddef
 %feature("autodoc", DOCSTRING_HIVPOPULATION_INIT) hivpopulation;
 
-
-/* we do not need this and it conflicts with base class constructor calling */
-%ignore set_up;
-
 /* we have two traits anyway */
 %ignore add_fitness_coefficient;
 %ignore clear_fitness;

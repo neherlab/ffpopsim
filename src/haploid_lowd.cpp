@@ -16,11 +16,20 @@ size_t haploid_lowd::number_of_instances=0;
  * @param L_in number of loci (at least 1)
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_lowd::haploid_lowd(int L_in, int rng_seed) {
-	int err = set_up(L_in, rng_seed);
+haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), free_recombination(true), outcrossing_rate(0), circular(false), generation(0), long_time_generation(0) {
+	if (L_in <1) {
+		cerr <<"haploid_lowd::haploid_lowd(): Bad Arguments! L must be larger or equal one."<<endl;
+		throw HG_BADARG;
+        }
+
+	//In case no seed is provided, get one from the OS
+	seed = rng_seed ? rng_seed : get_random_seed();
+
 	// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
 	// control than we currently have.
+	int err = allocate_mem();
 	if(err)	throw err;
+
 	number_of_instances++;
 }
 
@@ -31,42 +40,25 @@ haploid_lowd::haploid_lowd(int L_in, int rng_seed) {
  */
 haploid_lowd::~haploid_lowd() {
 	free_mem();
+	number_of_instances--;
 }
 
-
 /**
- * @brief Construct a population with certain parameters.
+ * @brief Get a random seed from /dev/urandom
  *
- * @param L_in number of loci
- * @param rng_seed seed for the random number generator. If this is zero, a random seed is used.
- *
- * @returns zero if successful, error codes otherwise
- *
- * Note: memory allocation is also performed here, via the allocate_mem function.
+ * @returns non-deterministic, random seed
  */
-int haploid_lowd::set_up(int L_in, int rng_seed) {
-	if (L_in <1) {
-		cerr <<"haploid_lowd::set_up(): Bad Arguments! L must be larger or equal one."<<endl;
-		return HG_BADARG;
-        }
-
-	number_of_loci=L_in;
-	mem=false;
-	free_recombination=true;
-	outcrossing_rate=0.0;
-	generation=0;
-	long_time_generation=0.0;
-	circular=false;
-	generation=0;
-	long_time_generation=0.0;
-
-	//In case no seed is provided use current second and add process ID
-	if (rng_seed==0)
-		seed=time(NULL)+getpid()+number_of_instances;
-	else
-		seed=rng_seed;
-
-	return allocate_mem();
+int haploid_lowd::get_random_seed() {
+	int seedtmp;
+	ifstream urandom("/dev/urandom", ios::binary);
+	if(urandom.bad()) {
+		cerr<<"/dev/urandom gives bad stream, falling back to time + getpid + number_of_instances"<<endl;
+		seedtmp = time(NULL) + getpid() + number_of_instances;
+	} else {
+		urandom.read(reinterpret_cast<char*>(&seedtmp),sizeof(seedtmp));
+		urandom.close();
+	}
+	return seedtmp;
 }
 
 /**
@@ -323,31 +315,26 @@ int haploid_lowd::select() {
 }
 
 /**
- * @brief Resample the population to reduce the size to approximately n discrete individuals
- *
- * @param n desired population size
+ * @brief Resample the population according to the carrying capacity
  *
  * @returns zero if successful, error codes otherwise
  *
  * *Note*: genotypes with few individuals are sampled using the Poisson distribution, allowing for strict zero;
  * genotypes with many individuals are resampled using a Gaussian distribution, for performance reasons.
  */
-int haploid_lowd::resample(double n) {
-	double pop_size;
-	if (n<1.0) pop_size=carrying_capacity;
-	else pop_size=n;
+int haploid_lowd::resample() {
 
 	population.set_state(HC_FUNC);
-	double threshold_HG_CONTINUOUS=double(HG_CONTINUOUS)/pop_size;
+	double threshold_HG_CONTINUOUS=double(HG_CONTINUOUS)/carrying_capacity;
 	population_size=0;
 	for (int i=0; i<(1<<number_of_loci); i++){
 		if (population.func[i]<threshold_HG_CONTINUOUS)
 		{
-			population.func[i]=double(gsl_ran_poisson(rng, pop_size*population.func[i]))/pop_size;
+			population.func[i]=double(gsl_ran_poisson(rng, carrying_capacity*population.func[i]))/carrying_capacity;
 		}
 		else
 		{
-			population.func[i]+=double(gsl_ran_gaussian(rng, sqrt(population.func[i]/pop_size)));
+			population.func[i]+=double(gsl_ran_gaussian(rng, sqrt(population.func[i]/carrying_capacity)));
 		}
 		population_size += population.func[i];
 	}
@@ -355,7 +342,7 @@ int haploid_lowd::resample(double n) {
 		return HG_EXTINCT;
 	}
 	else population.scale(1.0/population_size);
-	population_size *= pop_size;
+	population_size *= carrying_capacity;
 	return 0;
 }
 
@@ -370,20 +357,17 @@ int haploid_lowd::mutate() {
 	int locus;
 	mutants.set_state(HC_FUNC);
 	population.set_state(HC_FUNC);
-	for (int i=0; i<(1<<number_of_loci); i++){
+	for (int i=0; i<(1<<number_of_loci); i++) {
 		mutants.func[i]=0;
-		for (locus=0; locus<number_of_loci; locus++)
-		{
-			if (i&(1<<locus)){
+		for (locus=0; locus<number_of_loci; locus++) {
+			if (i&(1<<locus))
 				mutants.func[i]+=mutation_rates[0][locus]*population.func[i-(1<<locus)]-mutation_rates[1][locus]*population.func[i];
-			}else{
+			else
 				mutants.func[i]+=mutation_rates[1][locus]*population.func[i+(1<<locus)]-mutation_rates[0][locus]*population.func[i];
-			}
 		}
 	}
 	for (int i=0; i<(1<<number_of_loci); i++){
 		population.func[i]+=mutants.func[i];
-		//cout <<mutation_rate<<"  "<<mutants.func[i]<<"  "<<population.func[i]<<endl;
 	}
 	return 0;
 }

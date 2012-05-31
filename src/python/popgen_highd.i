@@ -426,6 +426,9 @@ void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {
 }
 
 /* divergence/diversity/fitness distributions and plot */
+%ignore get_divergence_histogram;
+%ignore get_diversity_histogram;
+%ignore get_fitness_histogram;
 %pythoncode {
 def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
         '''Calculate the fitness histogram.'''

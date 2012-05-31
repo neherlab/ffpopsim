@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_randist.h>
