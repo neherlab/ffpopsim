@@ -46,7 +46,7 @@ interface, consider C++ (or Python) subclassing.
 /* Include in the wrap code (note that the multiple header are redundant) */
 %{
 #define SWIG_FILE_WITH_INIT
-#include "../ffpopsim.h"
+#include "../ffpopsim_generic.h"
 #include "../ffpopsim_lowd.h"
 #include "../ffpopsim_highd.h"
 #include "../hivpopulation.h"
@@ -66,8 +66,8 @@ import_array();
  * CODE TO BE WRAPPED
  *************************************************************/
 /* ffpopsim.h (GENERAL OBJECTS) */
-%include "ffpopsim.i";
-%include "../ffpopsim.h";
+%include "ffpopsim_generic.i";
+%include "../ffpopsim_generic.h";
 
 /* ffpopsim_lowd.h (LOW DIMENSIONAL OBJECTS) */
 %include "ffpopsim_lowd.i";

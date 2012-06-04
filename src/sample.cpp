@@ -5,7 +5,7 @@
  *      Author: neher
  */
 
-#include "ffpopsim.h"
+#include "ffpopsim_generic.h"
 
 sample::sample() {
 	mem_dis=false;

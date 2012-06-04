@@ -86,7 +86,7 @@ SRC_CXXFLAGS= -O2 -fPIC
 
 LIBRARY := libFFPopSim.a
 
-HEADER_GENERIC = ffpopsim.h
+HEADER_GENERIC = ffpopsim_generic.h
 SOURCE_GENERIC = sample.cpp
 OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
 
@@ -196,7 +196,7 @@ SWIG_PYCMODULE = $(SWIG_INTERFACE:%.i=%.pyc)
 SWIG_SUPPORT_1 = ffpopsim_highd.i
 SWIG_SUPPORT_2 = hivpopulation.i
 SWIG_SUPPORT_3 = ffpopsim_lowd.i
-SWIG_SUPPORT_4 = ffpopsim.i
+SWIG_SUPPORT_4 = ffpopsim_generic.i
 
 PYTHON_CFLAGS = -O2 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
 PYTHON_LDFLAGS= -O2 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)

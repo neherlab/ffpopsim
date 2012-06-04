@@ -5,8 +5,8 @@
  * @version 
  * @date 2010-10-27
  */
-#ifndef POPGEN_H_
-#define POPGEN_H_
+#ifndef FFPOPGEN_GENERIC_H_
+#define FFPOPGEN_GENERIC_H_
 
 #include <time.h>
 #include <cmath>
@@ -95,5 +95,5 @@ public:
 	int print_distribution(ostream &out);
 };
 
-#endif /* POPGEN_H_ */
+#endif /* FFPOPGEN_GENERIC_H_ */
 

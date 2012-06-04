@@ -12,7 +12,7 @@
  */
 #ifndef FFPOPSIM_HIGHD_H_
 #define FFPOPSIM_HIGHD_H_
-#include "ffpopsim.h"
+#include "ffpopsim_generic.h"
 
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
