@@ -9,7 +9,7 @@
 
 /* Include directives */
 #include <string>
-#include "popgen_lowd.h"
+#include "ffpopsim_lowd.h"
 #define LOWD_BADARG -1354341
 #define NOTHING 1e-10
 

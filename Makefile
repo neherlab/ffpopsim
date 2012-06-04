@@ -73,6 +73,7 @@ SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
 PYBDIR = $(SRCDIR)/python
+PKGDIR = pkg
 
 .PHONY : all clean src tests doc python clean-src clean-doc clean-tests clean-python
 all: src tests $(doc) $(python)
@@ -85,15 +86,15 @@ SRC_CXXFLAGS= -O2 -fPIC
 
 LIBRARY := libFFPopSim.a
 
-HEADER_GENERIC = popgen.h
+HEADER_GENERIC = ffpopsim.h
 SOURCE_GENERIC = sample.cpp
 OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
 
-HEADER_LOWD = $(HEADER_GENERIC) popgen_lowd.h
+HEADER_LOWD = $(HEADER_GENERIC) ffpopsim_lowd.h
 SOURCE_LOWD = hypercube_lowd.cpp haploid_lowd.cpp
 OBJECT_LOWD = $(SOURCE_LOWD:%.cpp=%.o)
 
-HEADER_HIGHD = $(HEADER_GENERIC) popgen_highd.h
+HEADER_HIGHD = $(HEADER_GENERIC) ffpopsim_highd.h
 SOURCE_HIGHD = hypercube_highd.cpp haploid_highd.cpp
 OBJECT_HIGHD = $(SOURCE_HIGHD:%.cpp=%.o)
 
@@ -110,6 +111,7 @@ src: $(SRCDIR)/$(LIBRARY)
 
 $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
 	ar rcs $@ $^
+	cp $@ $(PKGDIR)/
 
 $(OBJECT_GENERIC:%=$(SRCDIR)/%): $(SOURCE_GENERIC:%=$(SRCDIR)/%)
 	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
@@ -190,10 +192,10 @@ SWIG_WRAP_OBJECT = $(SWIG_WRAP:%.cpp=%.o)
 SWIG_OBJECT = $(SWIG_INTERFACE:%.i=_%.so)
 SWIG_PYMODULE = $(SWIG_INTERFACE:%.i=%.py)
 SWIG_PYCMODULE = $(SWIG_INTERFACE:%.i=%.pyc)
-SWIG_SUPPORT_1 = popgen_highd.i
+SWIG_SUPPORT_1 = ffpopsim_highd.i
 SWIG_SUPPORT_2 = hivpopulation.i
-SWIG_SUPPORT_3 = popgen_lowd.i
-SWIG_SUPPORT_4 = popgen.i
+SWIG_SUPPORT_3 = ffpopsim_lowd.i
+SWIG_SUPPORT_4 = ffpopsim.i
 
 PYTHON_CFLAGS = -O2 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
 PYTHON_LDFLAGS= -O2 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
@@ -201,13 +203,13 @@ PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PYTHON_LIBS = -lFFPopSim -lgsl -lgslcblas
 
 # Recipes
-python: $(SWIG_OBJECT:%=$(PYBDIR)/%)
+python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%) 
 
 $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_SOURCE:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
 	$(CC) $(PYTHON_CFLAGS) -c $(SWIG_WRAP:%=$(PYBDIR)/%) -o $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%)
 	$(CXX) $(PYTHON_LDFLAGS) $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%) $(PYTHON_LIBDIRS) $(PYTHON_LIBS) -o $(SWIG_OBJECT:%=$(PYBDIR)/%)
-	cp $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(TESTSDIR)/%)
-	cp $(SWIG_OBJECT:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(TESTSDIR)/%)
+	cp -f $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(PKGDIR)/
+	cp -f $(SWIG_OBJECT:%=$(PYBDIR)/%) $(PKGDIR)/
 
 $(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%) $(SWIG_SUPPORT_4:%=$(PYBDIR)/%)
 	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_INTERFACE:%=$(PYBDIR)/%)

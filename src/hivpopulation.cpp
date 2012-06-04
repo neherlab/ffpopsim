@@ -19,12 +19,12 @@
  * *Note*: the genome length is 10000 (see HIVGENOME).
  * *Note*: exceptions are propagated from the base class constructor (haploid_highd).
  */
-hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, rng_seed, 2), env(ENV_START, ENV_END) {
+hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, rng_seed, 2), env(ENV_START, ENV_END), treatment(0) {
+
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
 	crossover_rate = crossover_rate_in;
 	recombination_model = CROSSOVERS;
-	treatment = 0;
 
 	//by default, create a population of size carrying capacity at 00...0 (this is cheap, a single clone)
 	set_wildtype(N_in);

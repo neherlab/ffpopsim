@@ -5,9 +5,9 @@
  * @version 
  * @date 2012-04-19
  */
-#ifndef POPGEN_LOWD_H_
-#define POPGEN_LOWD_H_
-#include "popgen.h"
+#ifndef FFPOPSIM_LOWD_H_
+#define FFPOPSIM_LOWD_H_
+#include "ffpopsim.h"
 
 #define HC_MEMERR -131545		//memory error code
 #define HC_BADARG -131546		//bad argument error code
@@ -233,4 +233,4 @@ public:
 	int mutation_drift_equilibrium(double** mutrates);
 };
 
-#endif /* POPGEN_LOWD_H_ */
+#endif /* FFPOPSIM_LOWD_H_ */

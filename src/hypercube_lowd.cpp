@@ -3,7 +3,7 @@
  *
  *  Created by Richard Neher on 01/27/09.
  */
-#include "popgen_lowd.h"
+#include "ffpopsim_lowd.h"
 
 //default constructor
 hypercube_lowd::hypercube_lowd() {

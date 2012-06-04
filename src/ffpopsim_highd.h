@@ -10,9 +10,9 @@
  * - 1: most messages (enter/exit function)
  * - 2: all messages
  */
-#ifndef POPGEN_HIGHD_H_
-#define POPGEN_HIGHD_H_
-#include "popgen.h"
+#ifndef FFPOPSIM_HIGHD_H_
+#define FFPOPSIM_HIGHD_H_
+#include "ffpopsim.h"
 
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
@@ -330,4 +330,4 @@ private:
 };
 
 
-#endif /* POPGEN_HIGHD_H_ */
+#endif /* FFPOPSIM_HIGHD_H_ */

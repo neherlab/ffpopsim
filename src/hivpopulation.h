@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <boost/algorithm/string.hpp>
 
-#include "popgen_highd.h"
+#include "ffpopsim_highd.h"
 
 #define HIVPOP_VERBOSE 0
 #define HIVPOP_BADARG -1354341

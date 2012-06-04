@@ -6,6 +6,8 @@ content:    Test script for the python bindings
 '''
 
 # Import module
+import sys
+sys.path.append('../pkg')
 import numpy as np
 import matplotlib.pyplot as plt
 import FFPopSim as h
@@ -30,7 +32,7 @@ print np.max(c.get_allele_frequency(4))
 # Test evolution
 from time import time as ti
 t0 = ti()
-c.evolve(30)
+c.evolve(3)
 t1 = ti()
 print 'Time for evolving HIV for 30 generations: {:1.1f} s'.format(t1-t0)
 

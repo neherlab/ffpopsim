@@ -6,7 +6,7 @@
  *  Copyright 2007 __MyCompanyName__. All rights reserved.
  *
  */
-#include "popgen_highd.h"
+#include "ffpopsim_highd.h"
 
 hypercube_highd::hypercube_highd()
 {

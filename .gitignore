@@ -61,7 +61,7 @@ pip-log.txt
 *.un~
 Session.vim
 
-#Eclipse
+# Eclipse
 .pydevproject
 Debug
 Release

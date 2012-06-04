@@ -46,9 +46,9 @@ interface, consider C++ (or Python) subclassing.
 /* Include in the wrap code (note that the multiple header are redundant) */
 %{
 #define SWIG_FILE_WITH_INIT
-#include "../popgen.h"
-#include "../popgen_lowd.h"
-#include "../popgen_highd.h"
+#include "../ffpopsim.h"
+#include "../ffpopsim_lowd.h"
+#include "../ffpopsim_highd.h"
 #include "../hivpopulation.h"
 %}
 
@@ -65,17 +65,17 @@ import_array();
 /**************************************************************
  * CODE TO BE WRAPPED
  *************************************************************/
-/* popgen.h (GENERAL OBJECTS) */
-%include "popgen.i";
-%include "../popgen.h";
+/* ffpopsim.h (GENERAL OBJECTS) */
+%include "ffpopsim.i";
+%include "../ffpopsim.h";
 
-/* popgen_lowd.h (LOW DIMENSIONAL OBJECTS) */
-%include "popgen_lowd.i";
-%include "../popgen_lowd.h";
+/* ffpopsim_lowd.h (LOW DIMENSIONAL OBJECTS) */
+%include "ffpopsim_lowd.i";
+%include "../ffpopsim_lowd.h";
 
-/* popgen_highd.h (HIGH DIMENSIONAL OBJECTS) */
-%include "popgen_highd.i";
-%include "../popgen_highd.h";
+/* ffpopsim_highd.h (HIGH DIMENSIONAL OBJECTS) */
+%include "ffpopsim_highd.i";
+%include "../ffpopsim_highd.h";
 
 /* hivpopulation.h (HIV-SPECIFIC) */
 %include "hivpopulation.i";

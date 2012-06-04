@@ -8,7 +8,7 @@
  *   Committer: Fabio Zanini
  */
 #include <math.h>
-#include "popgen_highd.h"
+#include "ffpopsim_highd.h"
 
 /* Initialize the number of instances to zero */
 size_t haploid_highd::number_of_instances=0;
@@ -21,7 +21,7 @@ size_t haploid_highd::number_of_instances=0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false) {
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false), carrying_capacity(0), mutation_rate(0), outcrossing_rate(0), crossover_rate(0), recombination_model(CROSSOVERS) {
 	if (L_in <1 or n_o_traits<1) {
 		cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
 		throw HP_BADARG;
@@ -461,7 +461,7 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
 int haploid_highd::mutate() {
 	if (HP_VERBOSE)	cerr <<"haploid_highd::mutate() ..."<<endl;
 	int i, actual_n_o_mutations,locus=0;
-	if (mutation_rate<HP_NOTHING) {
+	if (mutation_rate > HP_NOTHING) {
 		produce_random_sample(number_of_loci*mutation_rate*population_size*2);
 		for (locus = 0; locus<number_of_loci; locus++) {
 			//draw the number of mutation that are to happen at this locus

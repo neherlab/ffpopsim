@@ -5,7 +5,7 @@
  *  Author: Richard Neher & Boris Shraiman
  *  Modified by: Fabio Zanini
  */
-#include "popgen_lowd.h"
+#include "ffpopsim_lowd.h"
 
 /* Initialize the number of instances to zero */
 size_t haploid_lowd::number_of_instances=0;
