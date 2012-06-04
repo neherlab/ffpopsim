@@ -348,20 +348,15 @@ int haploid_highd::evolve(int gen) {
 }
 
 /**
- * @brief Generate offpring according to fitness (selection) and segregate some for sexual mating 
+ * @brief Generate offspring according to fitness (selection) and segregate some for sexual mating
  *
  * @returns zero if successful, error codes otherwise
  *
  * Random Poisson offspring numbers are drawn from all parents, proportionally to their fitness.
- *
- * Note: this function needs a few quirks to work properly. The problem has to do with very fit individuals,
- * which would theoretically leave behind a huge number of offspring that immediately fill up the ecological
- * niche. If we follow the rule blindly, we spend a lot of time generating random numbers for any kind of
- * process (mutation, recombination, etc.). Real organisms are limited in their offspring number by physical
- * constraints, which are abstracted away at the level of this library. Thus, we have to use a practical
- * approach. We apply two corrections:
- * 1. the max number of offspring of each clone is limited by MAX_DELTAFITNESS
- * 2. the max population size is reduced below MAX_POPSIZE before exiting the function.
+ * A fraction r of all offspring are designated for sexual reproduction, while the remainder
+ * (1-r) reproduces by exact duplication (mutations are introduced later).
+ * The population size relaxes to a carrying capacity, i.e. selection is soft but the population
+ * size is not exactly fixed.
  */
 int haploid_highd::select_gametes() {
 	if (HP_VERBOSE) cerr<<"haploid_highd::select_gametes()...";
@@ -384,7 +379,7 @@ int haploid_highd::select_gametes() {
 		if ((*current_pop)[i].clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
 			delta_fitness = (*current_pop)[i].fitness - relaxation;
-//			if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective))<<endl;
+			//if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective))<<endl;
 			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective));
 
 			if (os>0){
@@ -435,6 +430,7 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
 	new_pop->reserve(size_of_bottleneck*1.1);
 	new_pop->clear();
 
+	//resample each clone according to Poisson with a expected size reduced by bottleneck/N_old
 	for(size_t i=0; i < current_pop->size(); i++) {
 		ostmp = (*current_pop)[i].clone_size * size_of_bottleneck / double(old_size);
 		os=gsl_ran_poisson(evo_generator, ostmp);
@@ -465,7 +461,7 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
 int haploid_highd::mutate() {
 	if (HP_VERBOSE)	cerr <<"haploid_highd::mutate() ..."<<endl;
 	int i, actual_n_o_mutations,locus=0;
-	if(mutation_rate) {
+	if (mutation_rate<HP_NOTHING) {
 		produce_random_sample(number_of_loci*mutation_rate*population_size*2);
 		for (locus = 0; locus<number_of_loci; locus++) {
 			//draw the number of mutation that are to happen at this locus
@@ -507,10 +503,8 @@ int haploid_highd::flip_single_locus(int locus) {
  * This function creates a new clone and adds it to the population,
  * and assigns it a fitness.
  *
- * Note: in principle, we should look whether an identical clone already exists and,
- * in positive case, add this individual to that clone instead of starting a new one.
- * However, this would take forever, and is thus implemented in a separate function
- * (TODO: which one?).
+ * Note: This might produce duplicate clones since the mutant clone produced might
+ * already exist. Duplicates can be merged by the member unique_clones()
  */
 void haploid_highd::flip_single_locus(unsigned int clonenum, int locus) {
 	//produce new genotype
@@ -758,8 +752,7 @@ boost::dynamic_bitset<> haploid_highd::reassortment_pattern() {
 		rec_pattern.append(temp_rec_pattern);
 		bits_left-=4*bpblock;
 	}
-	//set the remaining bits one by one.
-	//TODO: THIS NEEDS SOME EXCEPTION HANDLING SINCE bits_left can be too large
+	//set the remaining bits in blocks of bpblock and the remainder until nothing is left
 	still_to_append=bits_left;
 	if (bits_left>=3*bpblock){
 		temp_rec_pattern=gsl_rng_uniform_int(evo_generator, 1<<bpblock);
@@ -784,7 +777,6 @@ boost::dynamic_bitset<> haploid_highd::reassortment_pattern() {
 
 	while (still_to_append){
 		still_to_append--;
-		//cout <<temp_rec_pattern<<"  "<<(temp_rec_pattern&(1<<bits_left))<<endl;
 		rec_pattern.push_back(((temp_rec_pattern&(1<<still_to_append))>0));
 	}
 	return rec_pattern;
@@ -850,7 +842,7 @@ int haploid_highd::random_clone() {
 }
 
 /**
- * @brief Sample random indivduals from the population
+ * @brief Sample random individuals from the population
  *
  * @param n_o_individuals number of individuals to sample
  * @param sample pointer to vector where to put the result
@@ -890,7 +882,8 @@ void haploid_highd::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 /**
  * @brief Get the log of the exp-average fitness plus relaxation term
  *
- * @returns the carrying capacity, i.e. the current mean fitness plus term that causes the population size to relax to carrying_capacity
+ * @returns baseline relative to which growth rates are measured,
+ * i.e. the current mean fitness plus the term that causes the population size to relax to carrying_capacity
  */
 double haploid_highd::relaxation_value() {
 	if (HP_VERBOSE) {cerr <<"haploid_highd::relaxation_value()..."<<endl;}
@@ -1037,7 +1030,7 @@ void haploid_highd::calc_trait_stat() {
 }
 
 /**
- * @brief Print all allele frequency into a stream provided
+ * @brief Print all allele frequencies into a stream provided
  *
  * @param out stream to put the allele frequencies (usually a file or stdout)
  *
@@ -1060,8 +1053,8 @@ int haploid_highd::print_allele_frequencies(ostream &out) {
  * @brief Read the output of Hudson's ms and use it to initialize the genotype distribution
  *
  * @param gts genotypes output of _ms_
- * @param skip_locus positionof the locus to be skipped
- * @param multiplicity number of times each genotype must be added
+ * @param skip_locus position of the locus to be skipped
+ * @param multiplicity number of times each genotype is added
  *
  * @returns zero if successful, error codes otherwise
  *

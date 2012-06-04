@@ -207,7 +207,6 @@ protected:
 	double long_time_generation;
 	double** mutation_rates;				// the mutation rate can be made locus specific and genotype dependent.
 
-	int calculate_recombinants();
 	int calculate_recombinants_free();
 	int calculate_recombinants_general();
 

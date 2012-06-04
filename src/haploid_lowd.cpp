@@ -377,41 +377,25 @@ int haploid_lowd::mutate() {
  *
  * @returns zero if successful, error codes otherwise
  *
- * FIXME: is the following paragraph correct?
  * Calculate the distribution of recombinants and update the population, in case of free
  * recombinations, a fraction is replaced (outcrossing_rate), in case of general recombination
  * the entire population is replaced, i.e. obligate mating.
  */
 int haploid_lowd::recombine() {
 	int err;
-	err=calculate_recombinants();
 	population.set_state(HC_FUNC);
 	if (free_recombination){
+		err=calculate_recombinants_free();
 		for (int i=0; i<(1<<number_of_loci); i++){
 			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
 		}
 	}else{
+		err=calculate_recombinants_general();
 		for (int i=0; i<(1<<number_of_loci); i++){
 			population.func[i]=recombinants.func[i];
 		}
 	}
 	return err;
-}
-
-/**
- * @brief (Proxy function) Call the appropriate recombination routine
- *
- * @returns the return value of the underlying routine
- *
- * Possible choices are:
- * - calculate_recombinants_free();
- * - calculate_recombinants_general();
- *
- * FIXME: do we really need this, since recombine() also does some strange stuff afterwards?
- */
-int haploid_lowd::calculate_recombinants() {
-	if (free_recombination) return calculate_recombinants_free();
-	else return calculate_recombinants_general();
 }
 
 /**
@@ -753,7 +737,7 @@ double haploid_lowd::genotype_entropy(){
  * @returns the allele entropy of the population
  *
  * The allele entropy is defined as follows:
- * \f[ S := - \sum_{i=1}^L \frac{1 + \nu_i}{2} \log \frac{1 + \nu_i}{2} + \frac{1 - \nu_i}{2} \log \frac{1 - \nu_i}{2}, \f]
+ * \f[ S := - \sum_{i=1}^L \nu_i\log \nu_i + (1 - \nu_i)\log (1 - \nu_i), \f]
  * where \f$\nu_i\f$ is the frequency of the i-th allele.
  */
 double haploid_lowd::allele_entropy(){
@@ -797,11 +781,11 @@ int haploid_lowd_test::test_recombinant_distribution(){
 	//allocate memory for the recombinant distribution calculated step-by-step
 	test_rec=new double [(1<<number_of_loci)];
 	int mother, father;
-	//calculate recombinants the efficient way
-	calculate_recombinants();
 	//now calculate the recombinant distribution from pairs of parents.
 	int gt1, gt2, rec_pattern;
 	if (free_recombination){
+		//calculate recombinants the efficient way
+		calculate_recombinants_free();
 		for (gt1=0; gt1<(1<<number_of_loci); gt1++){	//target genotype
 			test_rec[gt1]=0.0;							//initialize
 			//loop over all recombination patters (equal probability)
@@ -822,6 +806,8 @@ int haploid_lowd_test::test_recombinant_distribution(){
 			dev+=(test_rec[gt1]-recombinants.func[gt1])*(test_rec[gt1]-recombinants.func[gt1]);
 		}
 	}else{ 	//same as above, only the individual contribution
+		//calculate recombinants the efficient way
+		calculate_recombinants_general();
 		for (gt1=0; gt1<(1<<number_of_loci); gt1++){
 			test_rec[gt1]=0.0;
 			for (rec_pattern=0; rec_pattern<(1<<number_of_loci); rec_pattern++){
