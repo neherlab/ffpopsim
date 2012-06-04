@@ -130,6 +130,7 @@ $(OBJECT_HIVGENE:%=$(SRCDIR)/%): $(SOURCE_HIVGENE:%=$(SRCDIR)/%) $(HEADER_HIV:%=
 
 clean-src:
 	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
+	cd $(PKGDIR); rm -rf $(LIBRARY)
 
 ##==========================================================================
 # DOCUMENTATION
@@ -217,5 +218,6 @@ $(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=
 clean-python:
 	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
+	cd $(PKGDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 
 #############################################################################
