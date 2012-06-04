@@ -1,3 +1,6 @@
+# Package files
+pkg/*
+
 # Documentation
 doc/latex/*
 doc/html/*

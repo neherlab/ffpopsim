@@ -111,7 +111,13 @@ src: $(SRCDIR)/$(LIBRARY)
 
 $(SRCDIR)/$(LIBRARY): $(OBJECTS:%=$(SRCDIR)/%)
 	ar rcs $@ $^
-	cp $@ $(PKGDIR)/
+	mkdir -p $(PKGDIR)/lib
+	cp $@ $(PKGDIR)/lib/
+	mkdir -p $(PKGDIR)/include
+	cp $(HEADER_GENERIC:%=$(SRCDIR)/%) $(PKGDIR)/include/
+	cp $(HEADER_LOWD:%=$(SRCDIR)/%) $(PKGDIR)/include/
+	cp $(HEADER_HIGHD:%=$(SRCDIR)/%) $(PKGDIR)/include/
+	cp $(HEADER_HIV:%=$(SRCDIR)/%) $(PKGDIR)/include/
 
 $(OBJECT_GENERIC:%=$(SRCDIR)/%): $(SOURCE_GENERIC:%=$(SRCDIR)/%)
 	$(CXX) $(SRC_CXXFLAGS) -c -o $@ $(@:.o=.cpp)
@@ -130,7 +136,7 @@ $(OBJECT_HIVGENE:%=$(SRCDIR)/%): $(SOURCE_HIVGENE:%=$(SRCDIR)/%) $(HEADER_HIV:%=
 
 clean-src:
 	cd $(SRCDIR); rm -rf $(LIBRARY) *.o *.h.gch
-	cd $(PKGDIR); rm -rf $(LIBRARY)
+	cd $(PKGDIR); rm -rf lib include
 
 ##==========================================================================
 # DOCUMENTATION
@@ -209,8 +215,9 @@ python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OB
 $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_SOURCE:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
 	$(CC) $(PYTHON_CFLAGS) -c $(SWIG_WRAP:%=$(PYBDIR)/%) -o $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%)
 	$(CXX) $(PYTHON_LDFLAGS) $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%) $(PYTHON_LIBDIRS) $(PYTHON_LIBS) -o $(SWIG_OBJECT:%=$(PYBDIR)/%)
-	cp -f $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(PKGDIR)/
-	cp -f $(SWIG_OBJECT:%=$(PYBDIR)/%) $(PKGDIR)/
+	mkdir -p $(PKGDIR)/python
+	cp -f $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(PKGDIR)/python/
+	cp -f $(SWIG_OBJECT:%=$(PYBDIR)/%) $(PKGDIR)/python/
 
 $(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%) $(SWIG_SUPPORT_4:%=$(PYBDIR)/%)
 	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_INTERFACE:%=$(PYBDIR)/%)
@@ -218,6 +225,6 @@ $(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=
 clean-python:
 	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
-	cd $(PKGDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
+	cd $(PKGDIR)/python; rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 
 #############################################################################
