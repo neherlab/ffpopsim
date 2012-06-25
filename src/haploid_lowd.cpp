@@ -16,7 +16,7 @@ size_t haploid_lowd::number_of_instances=0;
  * @param L_in number of loci (at least 1)
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), free_recombination(true), outcrossing_rate(0), circular(false), generation(0), long_time_generation(0) {
+haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), free_recombination(true), outcrossing_rate(1.0), circular(false), generation(0), long_time_generation(0) {
 	if (L_in <1) {
 		cerr <<"haploid_lowd::haploid_lowd(): Bad Arguments! L must be larger or equal one."<<endl;
 		throw HG_BADARG;
@@ -29,7 +29,7 @@ haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), popul
 	// control than we currently have.
 	int err = allocate_mem();
 	if(err)	throw err;
-
+	
 	number_of_instances++;
 }
 
@@ -377,9 +377,9 @@ int haploid_lowd::mutate() {
  *
  * @returns zero if successful, error codes otherwise
  *
- * Calculate the distribution of recombinants and update the population, in case of free
- * recombinations, a fraction is replaced (outcrossing_rate), in case of general recombination
- * the entire population is replaced, i.e. obligate mating.
+ * Calculate the distribution of recombinants and update the population, a fraction (outcrossing_rate) of the
+ * population is replaced by the recombinant distribution, calculated differently depending on whether free
+ * recombination or general recombination is used
  */
 int haploid_lowd::recombine() {
 	int err;
@@ -392,7 +392,7 @@ int haploid_lowd::recombine() {
 	}else{
 		err=calculate_recombinants_general();
 		for (int i=0; i<(1<<number_of_loci); i++){
-			population.func[i]=recombinants.func[i];
+			population.func[i]=outcrossing_rate*(recombinants.func[i]-population.func[i]);
 		}
 	}
 	return err;
@@ -630,7 +630,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 		delete [] nspins;
 	}
 
-	// I memory had problems, exit
+	// If memory had problems, exit
 	if(err) {
 		cerr <<"haploid_lowd::set_recombination_rates(): cannot allocate memory for recombination patterns!"<<endl;
 		return HG_MEMERR;
