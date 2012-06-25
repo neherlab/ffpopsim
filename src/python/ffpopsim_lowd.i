@@ -165,6 +165,20 @@ def set_genotypes(self, indices, counts):
 }
 
 /* set recombination rates */
+%define DOCSTRING_HAPLOID_GT_DIS_SET_RECOMBINATION_RATES
+"Set the locus-specific recombination rates.
+
+Parameters:
+- rec_rates: sequence of locus-specific recombination rates.
+             For circular genomes, it must have length L, for linear ones L-1.
+
+Note: if a single, constant rate is wished, use the following trick (e.g. for
+      a linear genome):
+
+      set_recombination_rates([r] * (L-1))
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_INIT) haploid_lowd;
 %typemap(in) double *rec_rates {
         /* Ensure input is a Python sequence */
         PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
