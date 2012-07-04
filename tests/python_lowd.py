@@ -44,11 +44,14 @@ c.evolve(gens)
 t1 = ti()
 print 'Time for evolving the population for '+str(gens)+' generations: {:1.1f} s'.format(t1-t0)
 
+# Print population size
+print c.N
+
 # Test divergence / diversity statistics
 print c.get_divergence_statistics()
 print c.get_diversity_statistics()
 
-## Plot histograms
+# Plot histograms
 plt.ion()
 c.plot_fitness_histogram()
 c.plot_divergence_histogram(color='r')

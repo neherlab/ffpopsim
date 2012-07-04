@@ -29,7 +29,8 @@ int hc_setting();
 
 /* population testing */
 int pop_initialize();
-int pop_evolve();
+int pop_evolve_af();
+int pop_evolve_gf();
 int pop_observables();
 
 

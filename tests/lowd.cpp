@@ -19,7 +19,8 @@ int main(int argc, char **argv){
 		status += hc_initialize();
 		status += hc_setting();
 		status += pop_initialize();
-		status += pop_evolve();
+		status += pop_evolve_af();
+		status += pop_evolve_gf();
 		status += pop_observables();
 	}
 	cout<<"Number of errors: "<<status<<endl;
@@ -104,21 +105,68 @@ int pop_initialize() {
 	return 0;	
 }
 
-/* Test evolution */
-int pop_evolve() {
+/* Test evolution from allele frequencies */
+int pop_evolve_af() {
 	int L = 4;
-	int N = 100;
+	int N = 10000;
 
-	haploid_lowd pop(L, 3);
+	haploid_lowd pop(L);
 
 	double freq[1<<L];
 	for(int i=0; i<(1<<L);i++)
 		freq[i] = 1.0 / (1<<L);
+
+	// Set allele frequencies
 	pop.set_allele_frequencies(freq, N);
+
+	double* rr = new double[L-1];
+	for(size_t i=0; i<L-1;i++)
+		rr[i] = 0.01;
+	pop.set_recombination_rates(rr);	
 	pop.set_mutation_rate(1e-2);
 	pop.evolve(5);
+
+	if(LOWD_VERBOSE) {
+		cerr<<"Population size: "<<pop.N()<<endl;
+	}
 	return 0;	
 }
+
+/* Test evolution from genotype frequencies */
+int pop_evolve_gf() {
+	int L = 4;
+	int N = 10000;
+
+	haploid_lowd pop(L);
+
+	double freq[1<<L];
+	for(int i=0; i<(1<<L);i++)
+		freq[i] = 1.0 / (1<<L);
+
+	// Set allele frequencies
+	index_value_pair_t ivp(0, N/2);
+	vector<index_value_pair_t> gts;
+
+	// Start with wildtype and a single mutant
+	gts.push_back(ivp);
+	ivp.index = 1;
+	gts.push_back(ivp);
+	pop.set_genotypes(gts);
+
+
+	double* rr = new double[L-1];
+	for(size_t i=0; i<L-1;i++)
+		rr[i] = 0.01;
+	pop.set_recombination_rates(rr);	
+	pop.set_mutation_rate(1e-2);
+	pop.evolve(5);
+
+	if(LOWD_VERBOSE) {
+		cerr<<"Population size: "<<pop.N()<<endl;
+	}
+	return 0;	
+}
+
 
 /* Test genotype and allele frequency */
 int pop_observables() {

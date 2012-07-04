@@ -418,7 +418,7 @@ int haploid_lowd::recombine() {
 	}else{
 		err=calculate_recombinants_general();
 		for (int i=0; i<(1<<number_of_loci); i++){
-			population.func[i]=outcrossing_rate*(recombinants.func[i]-population.func[i]);
+			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
 		}
 	}
 	return err;
