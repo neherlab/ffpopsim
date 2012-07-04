@@ -504,8 +504,7 @@ int haploid_lowd::calculate_recombinants_general() {
 
 			//build the integers to pull out the maternal and paternal moments
 			for (k=0; k<number_of_loci; k++)
-				if (i&(1<<k))
-				{
+				if (i&(1<<k)) {
 					if (j&(1<<count)) maternal_alleles+=(1<<k);
 					else paternal_alleles+=(1<<k);
 					count++;
@@ -516,7 +515,7 @@ int haploid_lowd::calculate_recombinants_general() {
 			if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
 		}
 
-		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the the fft algorithm
+		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=(1<<(number_of_loci));
 		if(HG_VERBOSE) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
 	}
@@ -629,8 +628,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 	double err=0;
 	int i, spin;
 	//check whether the memory is already allocated, do so if not
-	if (free_recombination==true)
-	{
+	if (free_recombination==true) {
 		int temp;
 		int *nspins;	//temporary variables the track the number of ones in the binary representation of i
 		nspins=new int [1<<number_of_loci];
@@ -683,7 +681,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 
 	//calculate the probabilities of different cross over realizations
 	//the constrained of even number of crossovers is fulfilled automatically
-	for (i=0; i<(1<<number_of_loci); i++){
+	for (i=0; i<(1<<number_of_loci); i++) {
 		recombination_patters[(1<<number_of_loci)-1][i]=1.0;
 		strand=(i&(1<<(number_of_loci-1)))>0?1:0;
 		strandswitches=0;
@@ -699,7 +697,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 		if (strandswitches%2) recombination_patters[(1<<number_of_loci)-1][i]=0;
 		sum+=recombination_patters[(1<<number_of_loci)-1][i];
 	}
-	for (i=0; i<(1<<number_of_loci); i++){
+	for (i=0; i<(1<<number_of_loci); i++) {
 		recombination_patters[(1<<number_of_loci)-1][i]/=sum;
 	}
 	//loop over set of spins of different size, starting with 11111101111 type patters
