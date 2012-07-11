@@ -180,9 +180,9 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	}
 
         // Set the population size
-	carrying_capacity = population_size = N_in;
-
-        // Set the allele frequencies
+	carrying_capacity = N_in;
+	population_size = 0;
+    // Set the allele frequencies
 	int i, locus;
 	boost::dynamic_bitset<> tempgt(number_of_loci);
 
@@ -272,8 +272,10 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
  */
 void haploid_highd::calc_allele_freqs() {
 	if (HP_VERBOSE) cerr<<"haploid_highd::calc_allele_freqs()...";
-	int locus,cs;
+	int locus;
+	double cs;
 	population_size=0;
+	participation_ratio = 0;
 	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] = 0);
 	//loop over all clones
 	for (unsigned int i=0; i<current_pop->size(); i++)
@@ -283,8 +285,11 @@ void haploid_highd::calc_allele_freqs() {
 			if ((*current_pop)[i].genotype[locus])
 				allele_frequencies[locus] += cs;
 		population_size += cs;
+		participation_ratio += (cs*cs);
 	}
 	//convert counts into frequencies
+	participation_ratio/=population_size;
+	participation_ratio/=population_size;
 	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] /= population_size);
 	if (HP_VERBOSE) cerr<<"done.\n";
 }
@@ -384,6 +389,8 @@ int haploid_highd::evolve(int gen) {
  * (1-r) reproduces by exact duplication (mutations are introduced later).
  * The population size relaxes to a carrying capacity, i.e. selection is soft but the population
  * size is not exactly fixed.
+ *
+ * TODO: extend sex_gametes to list of indices and old AND new population to spot redundant recombination events
  */
 int haploid_highd::select_gametes() {
 	if (HP_VERBOSE) cerr<<"haploid_highd::select_gametes()...";
@@ -396,6 +403,12 @@ int haploid_highd::select_gametes() {
 	int err=0;
 	population_size=0;
 	
+	//sanity check
+	if (outcrossing_rate_effective>1 or outcrossing_rate_effective<-HP_NOTHING){
+		cerr <<"haploid_highd::select_gametes(): outcrossing_rate needs to be <=1 and >=0, got: "<<outcrossing_rate_effective<<'\n';
+		return HP_BADARG;
+	}
+
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
 	sex_gametes.reserve(population_size*outcrossing_rate_effective*1.1);
 	sex_gametes.clear();
@@ -980,7 +993,7 @@ void haploid_highd::calc_fitness_stat() {
  * 
  * @returns the population exp-average of fitness
  *
- * Mathematically, this is \f$ \log\left( \left< e^(F-F_{max}) \right> \tight) \f$. The baseline is \f$ F_{max} \f$
+ * Mathematically, this is \f$ \log\left( \left< e^(F-F_{max}) \right> \right) \f$. The baseline is \f$ F_{max} \f$
  * in order to avoid exponentiating large numbers.
  *
  */

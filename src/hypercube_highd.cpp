@@ -86,6 +86,7 @@ int hypercube_highd::allocate_mem()
 	//a random number generator used for the coefficients and the like
 	rng=gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
+	rng_offset = gsl_rng_uniform_int(rng, 1000000);
 	mem=true;
 	if (HCF_VERBOSE) cerr<<"done.\n";
 	return 0;
@@ -126,18 +127,22 @@ double hypercube_highd::get_func(boost::dynamic_bitset<> *genotype)
 	}
 
 	//calculate the random fitness part
-	//TODO random epistasis is disabled for now since the old partition in to integers no
-	//longer exists. This should be easy to remedy in a similar way the random reassortment
-	//patterns are done in haploid_clone
 	int gt_seed=0;
-	/*if (epistatic_std>0)
+	if (epistatic_std>HP_NOTHING)
 	{
+		int word=0, locus, ii;
 		//calculate the seed for the random number generator
-		for (int i=0; i<n_o_w; i++) gt_seed+=(*genotype)[i];
+		for (locus=0;locus<dim;){
+			word=0;
+			for (ii=0; ii<20, locus<dim; ii++,locus++){
+				if ((*genotype)[locus]) word+=1<<ii;
+			}
+			gt_seed+=word;
+		}
 		//add a gaussion random number to the fitness from the rng seeded with the genoytpe
 		gsl_rng_set(rng,gt_seed+rng_offset);
 		result+=gsl_ran_gaussian(rng,epistatic_std);
-	}*/
+	}
 	return result;
 }
 

@@ -222,10 +222,12 @@ public:
 	// modify traits
 	int add_trait_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
 	void clear_traits(){for(int t=0; t<number_of_traits; t++){trait[t].reset();}}
+	void set_random_trait_epistasis(double epistasis_std,int traitnumber=0){trait[traitnumber].epistatic_std=epistasis_std;}
 
 	// modify fitness (shortcuts: they only make sense if number_of_traits=1)
 	int add_fitness_coefficient(double value, vector <int> loci){if(number_of_traits>1) return HP_BADARG; return add_trait_coefficient(value, loci, 0);}
 	void clear_fitness(){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"What do you mean by fitness?"<<endl; throw (int)HP_BADARG;} clear_traits();}
+	void set_random_epistasis(double epistasis_std){trait[0].epistatic_std=epistasis_std;}
 
 	// evolution
 	int evolve(int gen=1);	
@@ -257,6 +259,7 @@ public:
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
+	double get_participation_ratio(){return participation_ratio;};
 //	double get_multi_point_frequency(vector <int> loci);
 
 	// fitness/phenotype readout
@@ -326,6 +329,7 @@ protected:
 	int recombine_crossover(int parent1, int parent2, int ng);
 
 	// fitness and traits
+	double participation_ratio;
 	stat_t fitness_stat;
 	stat_t *trait_stat;
 	double **trait_covariance;
