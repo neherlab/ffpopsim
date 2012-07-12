@@ -431,121 +431,168 @@ void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {
 %ignore get_fitness_histogram;
 %pythoncode {
 def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
-        '''Calculate the fitness histogram.'''
-        import numpy as np
-        fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
-        h = np.histogram(fit, bins=bins, **kwargs)
-        return h
+    '''Calculate the fitness histogram.
+
+    Parameters:
+    - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
+    - n_sample: number of individuals to sample
+    '''
+    import numpy as np
+    fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
+    h = np.histogram(fit, bins=bins, **kwargs)
+    return h
     
     
-def plot_fitness_histogram(self, axis=None, **kwargs):
-        '''Plot a distribution of fitness in the population.'''
-        import matplotlib.pyplot as plt
-        fit = self.get_fitnesses();
+def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
+    '''Plot a distribution of fitness in the population.
+
+    Parameters:
+    - axis: an axis to use. A new figure is created by default
+    - n_sample: number of individuals to sample
     
-        if axis is None:
-                fig = plt.figure()
-                axis = fig.add_subplot(111)
-                axis.set_title('Fitness histogram')
-                axis.set_xlabel('Fitness')
-        return axis.hist(fit, **kwargs)
+    Note: any other keyword arguments (bins, color, etc.) are passed verbatim to the
+          matplotlib.pyplot.hist function
+    '''
+    import matplotlib.pyplot as plt
+    fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
+    
+    if axis is None:
+        fig = plt.figure()
+        axis = fig.add_subplot(111)
+        axis.set_title('Fitness histogram')
+        axis.set_xlabel('Fitness')
+    return axis.hist(fit, **kwargs)
     
     
 def get_divergence_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, **kwargs):
-        '''Get the divergence histogram restricted to those chunks of the genome.'''
-        import numpy as np
+    '''Get the divergence histogram restricted to those chunks of the genome.
+
+    Parameters:
+    - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
+    - chunks: restrict analysis to some chunk in the genome. It must be an n x 2 matrix with
+              the initial and (final+1) positions of the chunks
+    - every: restrict analysis to every X positions. For instance, if every third site is neutral,
+             this argument can be used to only look at those neutral sites
+    - n_sample: number of individuals to sample
+    '''
+    import numpy as np
     
-        # Check chunks
-        if chunks is not None:
-                chunks = np.asarray(chunks)
-                if (np.rank(chunks) != 2) or (chunks.shape[1] != 2):
-                        raise ValueError('Please input an N x 2 matrix with the chunks initial and (final+1) positions')
+    # Check chunks
+    if chunks is not None:
+        chunks = np.asarray(chunks)
+        if (np.rank(chunks) != 2) or (chunks.shape[1] != 2):
+            raise ValueError('Please input an N x 2 matrix with the chunks initial and (final+1) positions')
     
-        # Get the random genotypes
-        genotypes = self.random_genomes(n_sample)
+    # Get the random genotypes
+    genotypes = self.random_genomes(n_sample)
     
-        # Restrict to the chunks
-        if chunks is not None:
-                ind = np.zeros(genotypes.shape[1], bool)
-                for chunk in chunks:
-                        inde = np.arange(chunk[1] - chunk[0])
-                        inde = inde[(inde % every) == 0] + chunk[0]
-                        ind[inde] = True
-                genotypes = genotypes[:,ind]
+    # Restrict to the chunks
+    if chunks is not None:
+        ind = np.zeros(genotypes.shape[1], bool)
+        for chunk in chunks:
+            inde = np.arange(chunk[1] - chunk[0])
+            inde = inde[(inde % every) == 0] + chunk[0]
+            ind[inde] = True
+        genotypes = genotypes[:,ind]
     
-        # Calculate divergence
-        div = genotypes.sum(axis=1)
+    # Calculate divergence
+    div = genotypes.sum(axis=1)
     
-        # Calculate histogram
-        return np.histogram(div, bins=bins, **kwargs)
+    # Calculate histogram
+    return np.histogram(div, bins=bins, **kwargs)
     
     
 def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the divergence histogram.'''
-        import matplotlib.pyplot as plt
-        import numpy as np
-        genotypes = self.random_genomes(n_sample)
-        div = genotypes.sum(axis=1)
-     
-        if axis is None:
-                fig = plt.figure()
-                axis = fig.add_subplot(111)
-                axis.set_title('Divergence histogram')
-                axis.set_xlabel('Divergence')
+    '''Plot the divergence histogram.
+
+    Parameters:
+    - axis: an axis to use. A new figure is created by default
+    - n_sample: number of individuals to sample
     
-        if 'bins' not in kwargs:
-                kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
-        return axis.hist(div, **kwargs)
+    Note: any other keyword arguments (bins, color, etc.) are passed verbatim to the
+          matplotlib.pyplot.hist function
+    '''
+    import matplotlib.pyplot as plt
+    import numpy as np
+    genotypes = self.random_genomes(n_sample)
+    div = genotypes.sum(axis=1)
+     
+    if axis is None:
+        fig = plt.figure()
+        axis = fig.add_subplot(111)
+        axis.set_title('Divergence histogram')
+        axis.set_xlabel('Divergence')
+    
+    if 'bins' not in kwargs:
+        kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
+    return axis.hist(div, **kwargs)
     
     
 def get_diversity_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, **kwargs):
-        '''Get the diversity histogram restricted to those chunks of the genome.'''
-        import numpy as np
+    '''Get the diversity histogram restricted to those chunks of the genome.
+
+    Parameters:
+    - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
+    - chunks: restrict analysis to some chunk in the genome. It must be an n x 2 matrix with
+              the initial and (final+1) positions of the chunks
+    - every: restrict analysis to every X positions. For instance, if every third site is neutral,
+             this argument can be used to only look at those neutral sites
+    - n_sample: number of individuals to sample
+    '''
+    import numpy as np
     
-        # Check chunks
-        if chunks is not None:
-                chunks = np.asarray(chunks)
-                if (np.rank(chunks) != 2) or (chunks.shape[1] != 2):
-                        raise ValueError('Please input an N x 2 matrix with the chunks initial and (final+1) positions')
+    # Check chunks
+    if chunks is not None:
+        chunks = np.asarray(chunks)
+        if (np.rank(chunks) != 2) or (chunks.shape[1] != 2):
+            raise ValueError('Please input an N x 2 matrix with the chunks initial and (final+1) positions')
     
-        # Get the random genotypes
-        genotypes = self.random_genomes(2 * n_sample)
+    # Get the random genotypes
+    genotypes = self.random_genomes(2 * n_sample)
     
-        # Restrict to the chunks
-        if chunks is not None:
-                ind = np.zeros(genotypes.shape[1], bool)
-                for chunk in chunks:
-                        inde = np.arange(chunk[1] - chunk[0])
-                        inde = inde[(inde % every) == 0] + chunk[0]
-                        ind[inde] = True
-                genotypes = genotypes[:,ind]
+    # Restrict to the chunks
+    if chunks is not None:
+        ind = np.zeros(genotypes.shape[1], bool)
+        for chunk in chunks:
+            inde = np.arange(chunk[1] - chunk[0])
+            inde = inde[(inde % every) == 0] + chunk[0]
+            ind[inde] = True
+        genotypes = genotypes[:,ind]
     
-        # Calculate diversity
-        genotypes1 = genotypes[:genotypes.shape[0] / 2]
-        genotypes2 = genotypes[-genotypes1.shape[0]:]
-        div = (genotypes1 != genotypes2).sum(axis=1)
+    # Calculate diversity
+    genotypes1 = genotypes[:genotypes.shape[0] / 2]
+    genotypes2 = genotypes[-genotypes1.shape[0]:]
+    div = (genotypes1 != genotypes2).sum(axis=1)
     
-        # Calculate histogram
-        return np.histogram(div, bins=bins, **kwargs)
+    # Calculate histogram
+    return np.histogram(div, bins=bins, **kwargs)
 
 
 def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the diversity histogram.'''
-        import matplotlib.pyplot as plt
-        import numpy as np
-        genotypes1 = self.random_genomes(n_sample)
-        genotypes2 = self.random_genomes(n_sample)
-        div = (genotypes1 != genotypes2).sum(axis=1)
+    '''Plot the diversity histogram.
+
+    Parameters:
+    - axis: an axis to use. A new figure is created by default
+    - n_sample: number of individuals to sample
     
-        if axis is None:
-                fig = plt.figure()
-                axis = fig.add_subplot(111)
-                axis.set_title('Diversity histogram')
-                axis.set_xlabel('Diversity')
+    Note: any other keyword arguments (bins, color, etc.) are passed verbatim to the
+          matplotlib.pyplot.hist function
+    '''
+    import matplotlib.pyplot as plt
+    import numpy as np
+    genotypes1 = self.random_genomes(n_sample)
+    genotypes2 = self.random_genomes(n_sample)
+    div = (genotypes1 != genotypes2).sum(axis=1)
     
-        if 'bins' not in kwargs:
-                kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
-        return axis.hist(div, **kwargs)
+    if axis is None:
+        fig = plt.figure()
+        axis = fig.add_subplot(111)
+        axis.set_title('Diversity histogram')
+        axis.set_xlabel('Diversity')
+    
+    if 'bins' not in kwargs:
+        kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
+    return axis.hist(div, **kwargs)
 }
 
 } /* extend haploid_highd */
