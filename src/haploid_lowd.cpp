@@ -103,6 +103,7 @@ int haploid_lowd::allocate_mem() {
 	int err=0;
 	rng=gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
+	cerr <<"haploid_lowd() random number seed: "<<seed<<endl;
 	err+=fitness.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
 	err+=population.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
 	err+=mutants.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));

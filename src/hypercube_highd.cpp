@@ -87,6 +87,8 @@ int hypercube_highd::allocate_mem()
 	rng=gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
 	rng_offset = gsl_rng_uniform_int(rng, 1000000);
+	cerr <<"hypercube_highd() random number seed: "<<seed<<endl;
+	cerr <<"hypercube_highd() random number offset: "<<rng_offset<<endl;
 	mem=true;
 	if (HCF_VERBOSE) cerr<<"done.\n";
 	return 0;
@@ -127,15 +129,17 @@ double hypercube_highd::get_func(boost::dynamic_bitset<> *genotype)
 	}
 
 	//calculate the random fitness part
-	int gt_seed=0;
 	if (epistatic_std>HP_NOTHING)
 	{
+		int gt_seed=0;
 		int word=0, locus, ii;
 		//calculate the seed for the random number generator
 		for (locus=0;locus<dim;){
 			word=0;
-			for (ii=0; ii<20, locus<dim; ii++,locus++){
-				if ((*genotype)[locus]) word+=1<<ii;
+			ii=0;
+			while (ii<WORDLENGTH and locus<dim){
+				if ((*genotype)[locus]) word+=(1<<ii);
+				ii++; locus++;
 			}
 			gt_seed+=word;
 		}

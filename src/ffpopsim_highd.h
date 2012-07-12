@@ -42,6 +42,7 @@
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
 #define HCF_VERBOSE 0
+#define WORDLENGTH 28 	//length used to chop bitsets into words
 
 using namespace std;
 
