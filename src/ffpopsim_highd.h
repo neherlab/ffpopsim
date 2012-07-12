@@ -162,9 +162,32 @@ struct clone_t {
 	double fitness;
 	int clone_size;
 	clone_t(int n_traits=0) : genotype(boost::dynamic_bitset<>(0)), trait(n_traits, 0), fitness(0), clone_size(0) {};
-	bool operator<(const clone_t &other) const {return fitness < other.fitness;}
-	bool operator>(const clone_t &other) const {return fitness > other.fitness;}
-	bool operator==(const clone_t &other) const {return genotype == other.genotype;}
+
+        // Comparison operators check fitness first, genome (big endian) last
+	bool operator==(const clone_t &other) const {return (fitness == other.fitness) && (genotype == other.genotype);}
+        bool operator!=(const clone_t &other) const {return (fitness != other.fitness) || (genotype != other.genotype);}
+	bool operator<(const clone_t &other) const {
+                if(fitness < other.fitness) return true;
+                else if (fitness > other.fitness) return false;
+                else {
+                        for(size_t i=0; i < genotype.size(); i++) {
+                                if((!genotype[i]) && (other.genotype[i])) return true;
+                                else if((genotype[i]) && (!other.genotype[i])) return false;
+                        }
+                        return false;
+                }
+        }
+	bool operator>(const clone_t &other) const {
+                if(fitness > other.fitness) return true;
+                else if (fitness < other.fitness) return false;
+                else {
+                        for(size_t i=0; i < genotype.size(); i++) {
+                                if((genotype[i]) && (!other.genotype[i])) return true;
+                                else if((!genotype[i]) && (other.genotype[i])) return false;
+                        }
+                        return false;
+                }
+        }
 };
 
 /**
