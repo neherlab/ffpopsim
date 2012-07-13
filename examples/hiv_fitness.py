@@ -46,7 +46,7 @@ if __name__ == '__main__':
         y = h[0]
         w = (x[1:] - x[:-1]).mean()
         ax.bar(x, y,width=w,
-               color=colors[i], alpha=0.8,
+               color=colors[i%len(colors)], alpha=0.8,
                label=str(pop.generation))
     ax.set_xlabel('Fitness (relative to founder)')
     ax.set_title('Fitness distribution of the population')

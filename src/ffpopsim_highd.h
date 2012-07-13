@@ -194,7 +194,7 @@ struct clone_t {
 /**
  * @brief Population class for high-dimensional simulations.
  *
- * This class is the main object storing the state of and enabling the manipulation of populations with long genomes (\f$L \gtrsim 20\f$).
+ * This class is the main object storing the state of and enabling the manipulation of populations with long genomes (\f$L\f$) larger than 20.
  *
  * Both asexual and sexual populations can be simulated. Since asexual populations under selection are often structured as a small list of
  * large clones, the class stores the clones and their sizes instead of the individuals.

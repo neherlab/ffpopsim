@@ -432,12 +432,12 @@ void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {
 %pythoncode {
 def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
     '''Calculate the fitness histogram.
-
     Parameters:
     - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
     - n_sample: number of individuals to sample
     '''
     import numpy as np
+	#self.produce_random_sample(n_sample)
     fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
     h = np.histogram(fit, bins=bins, **kwargs)
     return h
@@ -445,7 +445,6 @@ def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
     
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
     '''Plot a distribution of fitness in the population.
-
     Parameters:
     - axis: an axis to use. A new figure is created by default
     - n_sample: number of individuals to sample
@@ -454,6 +453,7 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
           matplotlib.pyplot.hist function
     '''
     import matplotlib.pyplot as plt
+	#self.produce_random_sample(n_sample)
     fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
     
     if axis is None:

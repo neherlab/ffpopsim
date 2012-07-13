@@ -5,7 +5,7 @@
  * @version 
  * @date 2012-04-23
  *
- * Copyright (c) 2012, Richard Neher, Boris Shraiman, Fabio Zanini
+ * Copyright (c) 2012, Richard Neher,  Fabio Zanini
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without

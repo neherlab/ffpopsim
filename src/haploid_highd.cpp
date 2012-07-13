@@ -370,6 +370,7 @@ int haploid_highd::evolve(int gen) {
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
 		if(err==0) err=add_recombinants();	//do the recombination between pairs of sex gametes
 		if(err==0) err=swap_populations();	//make the new population the current population
+		random_sample.clear();			//discard the old random sample
 		g++;
 		generation++;
 	}
@@ -1604,6 +1605,7 @@ int haploid_highd::get_diversity_histogram(gsl_histogram **hist, unsigned int bi
  * make sure that clones are unique.
  */
 void haploid_highd::unique_clones() {
+	random_sample.clear();
 	if(current_pop->size() > 1) {
 		// sort them O(nlog(n))
 		sort(current_pop->begin(), current_pop->end());

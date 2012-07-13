@@ -147,7 +147,7 @@ DOXYFILE   = $(DOCDIR)/Doxyfile
 doc:
 	$(DOXY) $(DOXYFILE)
 
-clean-doc:
+clean_doc:
 	rm -rf $(DOCDIR)/latex $(DOCDIR)/html
 
 ##==========================================================================

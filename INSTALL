@@ -1,5 +1,14 @@
-Make is used to build the FFPopSim library.
+DEPENDENCIES
+-------------------------------------------------------------------
+Make is used to build the FFPopSim library. FFPopSim depends on the 
+GNU Scientific Library (http://www.gnu.org/software/gsl/)
+and BOOST (http://www.boost.org/). The python wrapper requires
+NumPy, SciPy, and MatPlotLib (http://www.scipy.org). 
 
+
+-------------------------------------------------------------------
+INSTALL
+-------------------------------------------------------------------
 For the impatient ones
 -------------------------------------------------------------------
 make

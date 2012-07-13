@@ -53,7 +53,8 @@ using namespace std;
  * If you are planning to model a whole population evolving on the hypercube_lowd, see the class haploid_lowd.
  *
  * Notes on scalability:
- * - The number of genotypes to store increases as \f$2^L\f$, where L is the number of sites. This class can thus only be used for \f$L \lesssim 20\f$.
+ * - The number of genotypes to store increases as \f$2^L\f$, where L is the number of sites
+ * - The number of recombination intermediates to be stored increases as \f$3^L\f$, this class can thus only be used for \f$L\f$ up to 20 or so.
  * - The population size N is actually unimportant, as far as it can be stored as a long integer. In other words, this class scales with N like O(1).
  */
 class hypercube_lowd
