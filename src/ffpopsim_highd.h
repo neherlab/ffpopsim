@@ -288,6 +288,7 @@ public:
 
 	// fitness/phenotype readout
 	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}
+	int get_clone_size(int n) {return (*current_pop)[n].clone_size;}
 	double get_trait(int n, int t=0) {calc_individual_traits(&((*current_pop)[n])); return (*current_pop)[n].trait[t];}
 	stat_t get_fitness_statistics(){update_fitness(); calc_fitness_stat(); return fitness_stat;}
 	stat_t get_trait_statistics(int t=0){calc_trait_stat(); return trait_stat[t];}

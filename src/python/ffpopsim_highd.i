@@ -385,6 +385,19 @@ def get_fitnesses(self):
         return self._get_fitnesses(self.number_of_clones)
 }
 
+/* get sizes of all clones */
+void _get_clone_sizes(int DIM1, int* ARGOUT_ARRAY1) {
+        for(size_t i=0; i < DIM1; i++)
+                ARGOUT_ARRAY1[i] = $self->get_clone_size(i);
+}
+%pythoncode {
+def get_clone_sizes(self):
+        '''Get the fitness of all clones.'''
+        return self._get_clone_sizes(self.number_of_clones)
+}
+
+
+
 /* Hamming distance (full Python reimplementation) */
 %ignore distance_Hamming;
 %pythoncode {
