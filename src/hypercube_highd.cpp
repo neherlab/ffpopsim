@@ -38,47 +38,36 @@ if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 }
 
 //constructor
-hypercube_highd::hypercube_highd(int dim_in, int s)
-{
+hypercube_highd::hypercube_highd(int dim_in, int s) : dim(dim_in), mem(false), hcube_allocated(false), hypercube_mean(0), epistatic_std(0) {
 	if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 	set_up(dim_in, s);
 }
 
 //set up and allocate memory, perform basic consistency checks on input.
-int hypercube_highd::set_up(int dim_in, int s)
-{
-	if (dim_in>0)
-	{
+int hypercube_highd::set_up(int dim_in, int s) {
+	if (dim_in>0) {
 		if (HCF_VERBOSE) cerr<<"hypercube_highd::set_up(): setting up...!";
-		dim=dim_in;
-		mem=false;
-		hcube_allocated=false;
-		reset();
+                // FIXME: we should really go for a global rng seeder for the whole library
+		if (s==0) s = time(NULL);
+		seed = s;
 		if (HCF_VERBOSE) cerr<<"done.\n";
-		if (s==0) s=time(NULL);
-		seed=s;
 		return allocate_mem();
-	}
-	else
-	{
+	} else {
 		cerr <<"hypercube_highd: need positive dimension!\n";
 		return HCF_BADARG;
 	}
 }
 
 //destructor
-hypercube_highd::~hypercube_highd()
-{
+hypercube_highd::~hypercube_highd() {
 	if (HCF_VERBOSE) cerr<<"hypercube_highd::~hypercube_highd(): destructing...!\n";
 	if (mem) free_mem();
 }
 
 //allocate the necessary memory
-int hypercube_highd::allocate_mem()
-{
+int hypercube_highd::allocate_mem() {
 	if (HCF_VERBOSE) cerr<<"hypercube_highd::allocate_mem(): allocating memory...";
-	if (mem)
-	{
+	if (mem) {
 		cerr <<"hypercube_highd::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
 		free_mem();
 	}
@@ -87,8 +76,10 @@ int hypercube_highd::allocate_mem()
 	rng=gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
 	rng_offset = gsl_rng_uniform_int(rng, 1000000);
-	cerr <<"hypercube_highd() random number seed: "<<seed<<endl;
-	cerr <<"hypercube_highd() random number offset: "<<rng_offset<<endl;
+        if (HCF_VERBOSE) {
+        	cerr <<"hypercube_highd() random number seed: "<<seed<<endl;
+	        cerr <<"hypercube_highd() random number offset: "<<rng_offset<<endl;
+        }
 	mem=true;
 	if (HCF_VERBOSE) cerr<<"done.\n";
 	return 0;
@@ -97,8 +88,7 @@ int hypercube_highd::allocate_mem()
 //free the memory
 int hypercube_highd::free_mem()
 {
-	if (!mem)
-	{
+	if (!mem) {
 		cerr <<"hypercube_highd::free_mem(): no memory allocated...!\n";
 		return 0;
 	}
@@ -114,15 +104,15 @@ double hypercube_highd::get_func(boost::dynamic_bitset<> *genotype)
 	double result=hypercube_mean;
 	int sign=1, locus;
 	//first order contributions
-	for (unsigned int c=0; c<coefficients_single_locus.size();c++){
+	for (unsigned int c=0; c<coefficients_single_locus.size();c++) {
 		if ((*genotype)[coefficients_single_locus[c].locus]) result+=coefficients_single_locus[c].value;
 		else result-=coefficients_single_locus[c].value;
 	}
 	//interaction contributions
 	//if (HCF_VERBOSE)
-	for (unsigned int c=0; c<coefficients_epistasis.size();c++){
+	for (unsigned int c=0; c<coefficients_epistasis.size();c++) {
 		sign=1;
-		for (locus=0; locus<coefficients_epistasis[c].order; locus++){
+		for (locus=0; locus<coefficients_epistasis[c].order; locus++) {
 			if (!(*genotype)[coefficients_epistasis[c].loci[locus]]) sign*=-1;
 		}
 		result+=sign*coefficients_epistasis[c].value;
@@ -134,10 +124,10 @@ double hypercube_highd::get_func(boost::dynamic_bitset<> *genotype)
 		int gt_seed=0;
 		int word=0, locus, ii;
 		//calculate the seed for the random number generator
-		for (locus=0;locus<dim;){
+		for (locus=0;locus<dim;) {
 			word=0;
 			ii=0;
-			while (ii<WORDLENGTH and locus<dim){
+			while (ii<WORDLENGTH and locus<dim) {
 				if ((*genotype)[locus]) word+=(1<<ii);
 				ii++; locus++;
 			}
@@ -157,7 +147,7 @@ double hypercube_highd::get_func(boost::dynamic_bitset<> *genotype)
  */
 double hypercube_highd::get_additive_coefficient(int locus){
 	int l=0;
-	while(l<coefficients_single_locus.size()){
+	while(l<coefficients_single_locus.size()) {
 		if (coefficients_single_locus[l].locus==locus)
 			return coefficients_single_locus[l].value;
 		l++;
@@ -174,6 +164,16 @@ void hypercube_highd::reset() {
 	coefficients_single_locus.clear();
 	coefficients_epistasis.clear();
 }
+
+
+/**
+ * @brief Reset the additive part of the hypercube
+ */
+void hypercube_highd::reset_additive() {
+	hypercube_mean = 0;
+	coefficients_single_locus.clear();
+}
+
 
 /**
  * @brief assign single- or multi-locus trait coefficients.

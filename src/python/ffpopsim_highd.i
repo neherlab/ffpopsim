@@ -344,6 +344,10 @@ void set_additive_trait(int DIM1, double* IN_ARRAY1, int traitnumber=0) {
         if(DIM1 != $self->L())
                 throw HIVPOP_BADARG;
 
+        /* reset trait landscape */
+        $self->trait[traitnumber].reset_additive();
+        
+        /* set the new coefficients */
         vector <int> loci;
         for(size_t i = 0; i < DIM1; i++) {
                 loci.push_back(i);

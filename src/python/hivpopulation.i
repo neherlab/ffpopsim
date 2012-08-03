@@ -239,27 +239,39 @@ def set_trait_landscape(self,
 }
 
 /* helper functions for replication and resistance */
+/* Additive replication property */
 %pythoncode{
-def get_additive_replication(self):
-        '''Get the additive part of the replication lansdscape.'''
+@property
+def additive_replication(self):
+        '''The additive part of the replication lansdscape.'''
         return self.get_additive_trait(0)
 
 
-def get_additive_resistance(self):
-        '''Get the additive part of the resistance lansdscape.'''
-        return self.get_additive_trait(1)
-
-
-def set_additive_replication(self, single_locus_effects):
-        '''Set the additive part of the replication lansdscape.'''
+@additive_replication.setter
+def additive_replication(self, single_locus_effects):
         self.set_additive_trait(single_locus_effects, 0)
 
 
-def set_additive_resistance(self, single_locus_effects):
-        '''Set the additive part of the resistance lansdscape.'''
+}
+
+
+/* Additive resistance property */
+%pythoncode{
+@property
+def additive_resistance(self):
+        '''The additive part of the resistance lansdscape.'''
+        return self.get_additive_trait(1)
+
+
+@additive_resistance.setter
+def additive_resistance(self, single_locus_effects):
         self.set_additive_trait(single_locus_effects, 1)
 
 
+}
+
+/* Generate random landscapes */
+%pythoncode{
 def set_replication_landscape(self, **kwargs):
         '''Set the phenotypic landscape for the replication capacity of HIV.
         

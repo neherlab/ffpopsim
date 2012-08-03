@@ -120,7 +120,7 @@ int haploid_highd::allocate_mem() {
 	//Random number generator
 	evo_generator=gsl_rng_alloc(RNG);
 	gsl_rng_set(evo_generator, seed);
-	cerr <<"haploid_highd() random number seed: "<<seed<<endl;
+	if (HP_VERBOSE) cerr <<"haploid_highd() random number seed: "<<seed<<endl;
 	//allocate all the memory
 	genome = new int [number_of_loci+1];					// aux array holding range(0,number_of_loci) used to draw crossover points
 	for (int i=0; i<number_of_loci; i++) genome[i]=i;

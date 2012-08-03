@@ -47,7 +47,7 @@
 
 // HIV genes
 #define ENV_START 7000
-#define ENV_END 8001
+#define ENV_END 8000
 
 
 /**

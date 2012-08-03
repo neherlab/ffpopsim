@@ -94,7 +94,7 @@ struct coeff_single_locus_t {
  */
 class hypercube_highd {
 private:
-	//random number generator
+	// random number generator
 	gsl_rng *rng;
 	unsigned int seed;
 
@@ -105,12 +105,15 @@ private:
 	int free_mem();
 
 public:
+        // random number generator
+	int rng_offset;
+
+        // attributes
 	int dim;
 	double hypercube_mean;
+	double epistatic_std;
 	vector <coeff_single_locus_t> coefficients_single_locus;
 	vector <coeff_t> coefficients_epistasis;
-	double epistatic_std;
-	int rng_offset;
 
 	// setting up
 	hypercube_highd();
@@ -126,6 +129,7 @@ public:
 
 	// change the hypercube
 	void reset();
+	void reset_additive();
 	int set_additive_coefficient(double value, int locus, int expected_locus=-1);
 	int add_coefficient(double value, vector <int> loci);
 	int set_random_epistasis_strength(double sigma);
