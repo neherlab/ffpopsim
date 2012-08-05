@@ -101,8 +101,15 @@ private:
 	// memory management
 	bool hcube_allocated;
 	bool mem;
-	int allocate_mem();
+	int allocate_mem(int dim_in);
 	int free_mem();
+
+	// iterators
+	vector<coeff_single_locus_t>::iterator coefficients_single_locus_iter;
+	vector<coeff_t>::iterator coefficients_epistasis_iter;
+
+	// static array of single locus coefficients (for performance reasons)
+	double *coefficients_single_locus_static;
 
 public:
         // random number generator
@@ -124,8 +131,9 @@ public:
 	// get methods
 	unsigned int get_dim(){return dim;}
 	unsigned int get_seed() {return seed;};
-	double get_func(boost::dynamic_bitset<> *genotype);
+	double get_func(boost::dynamic_bitset<>& genotype);
 	double get_additive_coefficient(int locus);
+	double get_func_diff(boost::dynamic_bitset<>& genotype1, boost::dynamic_bitset<>& genotype2, vector<int> &diffpos);
 
 	// change the hypercube
 	void reset();
@@ -298,6 +306,8 @@ public:
 	stat_t get_trait_statistics(int t=0){calc_trait_stat(); return trait_stat[t];}
 	double get_trait_covariance(int t1, int t2) {calc_trait_stat(); return trait_covariance[t1][t2];}
 	double get_max_fitness();
+	void update_traits();
+	void update_fitness();
 
 	// histograms
 	int get_divergence_histogram(gsl_histogram **hist, unsigned int bins=10, vector <unsigned int *> *chunks=NULL, unsigned int every=1, unsigned int n_sample=1000);
@@ -362,13 +372,12 @@ protected:
 	stat_t fitness_stat;
 	stat_t *trait_stat;
 	double **trait_covariance;
-	void update_traits();
-	void update_fitness();
 	void calc_fitness_stat();
 	void calc_trait_stat();
 	void calc_individual_traits(clone_t *tempgt);
 	void calc_individual_fitness(clone_t *tempgt);
 	virtual void calc_individual_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
+	double get_trait_difference(clone_t *tempgt1, clone_t *tempgt2, vector<int>& diffpos, int traitnum);
 
 private:
 	// Memory management is private, subclasses must take care only of their own memory

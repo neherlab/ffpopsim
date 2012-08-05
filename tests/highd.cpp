@@ -9,24 +9,25 @@
 
 /* MAIN */
 int main(int argc, char **argv){
+
 	int status= 0;
 	if (argc > 1) {
 		cout<<"Usage: "<<argv[0]<<endl;
 		status = 1;
 	} else {
-		status = library_access();
-		status += sample_initialize();
-		status += hc_initialize();
-		status += hc_setting();
-		status += pop_initialize();
-		status += pop_evolve();
-		status += pop_sampling();
-		status += pop_Hamming();
-		status += pop_divdiv();
-		status += pop_histograms();
-		status += hiv_initialize();
-		status += hiv_evolve();
-//		status += hiv_multiple_evolution();
+//		status = library_access();
+//		status += sample_initialize();
+//		status += hc_initialize();
+//		status += hc_setting();
+//		status += pop_initialize();
+//		status += pop_evolve();
+//		status += pop_sampling();
+//		status += pop_Hamming();
+//		status += pop_divdiv();
+//		status += pop_histograms();
+//		status += hiv_initialize();
+//		status += hiv_evolve();
+		status += hiv_multiple_evolution();
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;
@@ -402,7 +403,7 @@ int hiv_multiple_evolution() {
 	int N = 1000, err=0;
 	ifstream model("hiv_model.dat", ifstream::in);
 
-	for(size_t i=0; i < 50; i++) {
+	for(size_t i=0; i < 5; i++) {
 		if(HIGHD_VERBOSE) cerr<<"Population n. "<<i<<"...";
 		hivpopulation pop(N, 0, 2e-5, 1e-3, 1e-3);
 	
@@ -410,7 +411,7 @@ int hiv_multiple_evolution() {
 		pop.read_replication_coefficients(model);
 		if(HIGHD_VERBOSE) cerr<<"read!"<<endl;
 	
-		for(size_t j = 0; j < 50; j++)
+		for(size_t j = 0; j < 5; j++)
 			err += pop.evolve(50);
 		if(HIGHD_VERBOSE) cerr<<"done"<<endl;
 	}

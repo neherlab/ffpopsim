@@ -279,14 +279,13 @@ void haploid_highd::calc_allele_freqs() {
 	participation_ratio = 0;
 	for (locus=0; locus<number_of_loci; allele_frequencies[locus++] = 0);
 	//loop over all clones
-	for (unsigned int i=0; i<current_pop->size(); i++)
-	{
-		cs=(*current_pop)[i].clone_size;
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++) {
+		cs = pop_iter->clone_size;
 		for (locus=0; locus<number_of_loci; locus++)	//add clone size to allele frequency of clone carries allele
-			if ((*current_pop)[i].genotype[locus])
+			if (pop_iter->genotype[locus])
 				allele_frequencies[locus] += cs;
 		population_size += cs;
-		participation_ratio += (cs*cs);
+		participation_ratio += (cs * cs);
 	}
 	//convert counts into frequencies
 	participation_ratio/=population_size;
@@ -306,9 +305,9 @@ void haploid_highd::calc_allele_freqs() {
 double haploid_highd::get_pair_frequency(int locus1, int locus2) {
 	if (HP_VERBOSE) cerr<<"haploid_highd::get_pair_frequency()...";
 	double frequency = 0;
-	for (unsigned i=0; i<current_pop->size(); i++)
-		if ((*current_pop)[i].genotype[locus1] and (*current_pop)[i].genotype[locus2])
-		        frequency += (*current_pop)[i].clone_size;
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++)
+		if (pop_iter->genotype[locus1] and pop_iter->genotype[locus2])
+		        frequency += pop_iter->clone_size;
 	frequency /= population_size;
 	if (HP_VERBOSE) cerr<<"done.\n";
 	return frequency;
@@ -416,23 +415,24 @@ int haploid_highd::select_gametes() {
 	sex_gametes.clear();
 	new_pop->reserve(current_pop->size()*1.1);
 	new_pop->clear();
-	for (unsigned int i=0; i<current_pop->size(); i++) {
+	unsigned int i=0;
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++, i++) {
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)}) (since death rate is one, the growth rate is (f-bar{f})
-		if ((*current_pop)[i].clone_size>0){
+		if (pop_iter->clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
-			delta_fitness = (*current_pop)[i].fitness - relaxation;
-			//if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<((*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective))<<endl;
-			os=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective));
+			delta_fitness = pop_iter->fitness - relaxation;
+			//if (HP_VERBOSE >= 2) cerr<<i<<": relative fitness = "<<delta_fitness<<", Poisson intensity = "<<(pop_iter->clone_size*exp(delta_fitness)*(1-outcrossing_rate_effective))<<endl;
+			os = gsl_ran_poisson(evo_generator, pop_iter->clone_size * exp(delta_fitness) * (1 - outcrossing_rate_effective));
 
 			if (os>0){
 				// clone[i] to new_pop with os as clone size
-				new_pop->push_back((*current_pop)[i]);
-				new_pop->back().clone_size=os;
-				population_size+=os;
+				new_pop->push_back((*pop_iter));
+				new_pop->back().clone_size = os;
+				population_size += os;
 			}
 			//draw the number of sexual offspring, add them to the list of sex_gametes one by one
 			if (outcrossing_rate_effective>0){
-				nrec=gsl_ran_poisson(evo_generator, (*current_pop)[i].clone_size*exp(delta_fitness)*outcrossing_rate_effective);
+				nrec=gsl_ran_poisson(evo_generator, pop_iter->clone_size * exp(delta_fitness) * outcrossing_rate_effective);
 				for (o=0; o<nrec; o++) sex_gametes.push_back(i);
 			}
 		}
@@ -473,13 +473,13 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
 	new_pop->clear();
 
 	//resample each clone according to Poisson with a expected size reduced by bottleneck/N_old
-	for(size_t i=0; i < current_pop->size(); i++) {
-		ostmp = (*current_pop)[i].clone_size * size_of_bottleneck / double(old_size);
-		os=gsl_ran_poisson(evo_generator, ostmp);
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++) {
+		ostmp = pop_iter->clone_size * size_of_bottleneck / double(old_size);
+		os = gsl_ran_poisson(evo_generator, ostmp);
 		if(os > 0) {
-			new_pop->push_back((*current_pop)[i]);
-			new_pop->back().clone_size=os;
-			population_size+=os;
+			new_pop->push_back((*pop_iter));
+			new_pop->back().clone_size = os;
+			population_size += os;
 		}
 	}
 
@@ -502,14 +502,14 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
  */
 int haploid_highd::mutate() {
 	if (HP_VERBOSE)	cerr <<"haploid_highd::mutate() ..."<<endl;
-	int i, actual_n_o_mutations,locus=0;
+	size_t i, actual_n_o_mutations, locus;
 	if (mutation_rate > HP_NOTHING) {
 		produce_random_sample(number_of_loci*mutation_rate*population_size*2);
-		for (locus = 0; locus<number_of_loci; locus++) {
+		for (locus = 0; locus != number_of_loci; locus++) {
 			//draw the number of mutation that are to happen at this locus
-			actual_n_o_mutations = gsl_ran_poisson(evo_generator, mutation_rate*population_size);
+			actual_n_o_mutations = gsl_ran_poisson(evo_generator, mutation_rate * population_size);
 			//introduce these mutations one by one
-			for (i = 0; i < actual_n_o_mutations; ++i) {
+			for (i = 0; i != actual_n_o_mutations; i++) {
 				flip_single_locus(random_clone(), locus);
 			}
 		}
@@ -549,17 +549,22 @@ int haploid_highd::flip_single_locus(int locus) {
  * already exist. Duplicates can be merged by the member unique_clones()
  */
 void haploid_highd::flip_single_locus(unsigned int clonenum, int locus) {
-	//produce new genotype
+	// produce new genotype
 	clone_t tempgt(number_of_traits);
 	tempgt.genotype.resize(number_of_loci);
-	tempgt.genotype= (*current_pop)[clonenum].genotype;
-	//new clone size == 1, old clone reduced by 1
-	tempgt.clone_size=1;
+	tempgt.genotype = (*current_pop)[clonenum].genotype;
+	// new clone size == 1, old clone reduced by 1
+	tempgt.clone_size = 1;
 	(*current_pop)[clonenum].clone_size--;
-	//flip the locus in new clone and calculate fitness
+	// flip the locus in new clone
 	tempgt.genotype.flip(locus);
-	calc_individual_fitness(&tempgt);
-	//add clone to current population
+	// calculate traits and fitness
+	vector<int> diff(1, locus);
+	for (int t=0; t<number_of_traits; t++){
+		tempgt.trait[t] = ((*current_pop)[clonenum]).trait[t] + get_trait_difference(&tempgt, &((*current_pop)[clonenum]), diff, t);
+	}
+	calc_individual_fitness_from_traits(&tempgt);
+	// add clone to current population
 	current_pop->push_back(tempgt);
 	if (HP_VERBOSE >= 2) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
 }
@@ -632,18 +637,24 @@ int haploid_highd::recombine(int parent1, int parent2) {
 	}
 	else {rec_pattern.resize(number_of_loci);}
 
-	//produce two new genoytes
+	// produce two new genoytes
 	clone_t offspring1(number_of_traits);
 	clone_t offspring2(number_of_traits);
 	offspring1.genotype.resize(number_of_loci);
 	offspring2.genotype.resize(number_of_loci);
 
-	//assign the genotypes by combining the relevant bits from both parents
+	// assign the genotypes by combining the relevant bits from both parents
 	offspring1.genotype=((*current_pop)[parent1].genotype&rec_pattern)|((*current_pop)[parent2].genotype&(~rec_pattern));
 	offspring2.genotype=((*current_pop)[parent2].genotype&rec_pattern)|((*current_pop)[parent1].genotype&(~rec_pattern));
-	//clone size of new genoytpes is 1 each
+	// clone size of new genoytpes is 1 each
 	offspring1.clone_size=1;
 	offspring2.clone_size=1;
+	// calculate traits and fitness
+	calc_individual_traits(&offspring1);
+	calc_individual_traits(&offspring2);
+	calc_individual_fitness_from_traits(&offspring1);
+	calc_individual_fitness_from_traits(&offspring2);
+
 
 	//Check what's going on
 	if(HP_VERBOSE >= 3) {
@@ -653,9 +664,6 @@ int haploid_highd::recombine(int parent1, int parent2) {
 		cerr<<offspring1.genotype<<endl;
 		cerr<<offspring2.genotype<<endl<<endl;
 	}
-
-	calc_individual_fitness(&offspring1);
-	calc_individual_fitness(&offspring2);
 
 	//add genotypes to new population
 	new_pop->push_back(offspring1);
@@ -670,18 +678,16 @@ int haploid_highd::recombine(int parent1, int parent2) {
  * @brief For each clone, recalculate its traits
  */
 void haploid_highd::update_traits() {
-	for (unsigned int i=0; i<current_pop->size(); i++) {
-		calc_individual_traits(&(*current_pop)[i]);
-	}
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++)
+		calc_individual_traits(&(*pop_iter));
 }
 
 /**
  * @brief For each clone, update fitness assuming traits are already up to date
  */
 void haploid_highd::update_fitness() {
-	for (unsigned int i=0; i<current_pop->size(); i++) {
-		calc_individual_fitness_from_traits(&(*current_pop)[i]);
-	}
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++)
+		calc_individual_fitness_from_traits(&(*pop_iter));
 }
 
 /**
@@ -712,8 +718,24 @@ void haploid_highd::calc_stat() {
  */
 void haploid_highd::calc_individual_traits(clone_t *tempgt) {
 	for (int t=0; t<number_of_traits; t++){
-		tempgt->trait[t] = trait[t].get_func(&(tempgt->genotype));
+		tempgt->trait[t] = trait[t].get_func(tempgt->genotype);
 	}
+}
+
+/**
+ * @brief Calculate trait difference between two clones
+ *
+ * @param tempgt1 first clone
+ * @param tempgt2 second clone
+ * @param diffpos positions at which the genotypes differ
+ * @param traitnum number of the trait to calculate
+ *
+ * @returns vector of differences
+ *
+ * The operation is, for each trait, tempgt1 - tempgt2.
+ */
+double haploid_highd::get_trait_difference(clone_t *tempgt1, clone_t *tempgt2, vector<int>& diffpos, int traitnum) {
+	return trait[traitnum].get_func_diff(tempgt1->genotype, tempgt2->genotype, diffpos);
 }
 
 /**
@@ -844,12 +866,13 @@ void haploid_highd::produce_random_sample(int size) {
 	int thechosen,o;
 	double frac = 1.1*(size+50)/population_size;
 	//loop over all clones and choose a poisson distributed number of genoytpes
-	for (unsigned int c=0; c<current_pop->size(); c++){
-		thechosen=gsl_ran_poisson(evo_generator, frac*(*current_pop)[c].clone_size);
+	unsigned int i=0;
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++, i++) {
+		thechosen=gsl_ran_poisson(evo_generator, frac*(*current_pop)[i].clone_size);
 		//make sure it is not larger than the clone itself.
-		thechosen=((*current_pop)[c].clone_size<thechosen)?((*current_pop)[c].clone_size):thechosen;
+		thechosen=(pop_iter->clone_size < thechosen)?(pop_iter->clone_size):thechosen;
 		//add each of the chosen individually to the random_sample vector
-		if (thechosen)	for (o=0; o<thechosen; o++) random_sample.push_back(c);
+		if (thechosen)	for (o=0; o<thechosen; o++) random_sample.push_back(i);
 	}
 	gsl_ran_shuffle(evo_generator, &random_sample[0], random_sample.size(), sizeof(int));
 	//random_shuffle(random_sample.begin(), random_sample.end());
@@ -949,8 +972,8 @@ double haploid_highd::relaxation_value() {
  */
 double haploid_highd::get_max_fitness() {
 	double fitness_max = (*current_pop)[0].fitness;
-	for (unsigned int i=0; i<current_pop->size(); i++)
-		fitness_max = fmax(fitness_max, (*current_pop)[i].fitness);
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++)
+		fitness_max = fmax(fitness_max, pop_iter->fitness);
 	return fitness_max;
 }
 
@@ -969,13 +992,12 @@ void haploid_highd::calc_fitness_stat() {
 	fitness_stat.variance=0;
 	population_size=0;
 	//loop over clones and add stuff up
-	for (unsigned int c=0; c<current_pop->size(); c++){
-		csize = (*current_pop)[c].clone_size;
-		temp=(*current_pop)[c].fitness;
-		//if (HP_VERBOSE) {cerr <<"fitness["<<c<<"] = "<<temp<<"...";}
-		fitness_stat.mean+=temp*csize;
-		fitness_stat.variance+=temp*temp*csize;
-		population_size+=csize;
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++) {
+		csize = pop_iter->clone_size;
+		temp = pop_iter->fitness;
+		fitness_stat.mean += temp * csize;
+		fitness_stat.variance += temp * temp * csize;
+		population_size += csize;
 	}
 	if (population_size==0){
 		cerr <<"haploid_highd::calc_fitness_stat(): population extinct! clones: "<<current_pop->size()<<endl;
@@ -1003,8 +1025,8 @@ double haploid_highd::get_logmean_expfitness(double fitness_max) {
 	if (HP_VERBOSE) {cerr <<"haploid_highd::get_logmean_expfitness()...";}
 	double logmean_expfitness = 0;
 	//loop over clones and add stuff up
-	for (unsigned int c=0; c<current_pop->size(); c++){
-		logmean_expfitness += (*current_pop)[c].clone_size * exp((*current_pop)[c].fitness - fitness_max);
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++) {
+		logmean_expfitness += pop_iter->clone_size * exp(pop_iter->fitness - fitness_max);
 	}
 	logmean_expfitness /= population_size;
 	logmean_expfitness = log(logmean_expfitness);
@@ -1036,19 +1058,19 @@ void haploid_highd::calc_trait_stat() {
 	}
 
 	//loop over clones and add stuff up
-	for (unsigned int c=0; c<current_pop->size(); c++){
-		csize = (*current_pop)[c].clone_size;
+	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++) {
+		csize = pop_iter->clone_size;
 		for(t=0; t<number_of_traits; t++){
-			temp=(*current_pop)[c].trait[t];
-			trait_stat[t].mean+=temp*csize;
-			trait_stat[t].variance+=temp*temp*csize;
+			temp = pop_iter->trait[t];
+			trait_stat[t].mean += temp * csize;
+			trait_stat[t].variance += temp * temp * csize;
 			for(t1=0; t1<number_of_traits; t1++){
-				temp1=(*current_pop)[c].trait[t1];
-				trait_covariance[t][t1]+=temp*temp1*csize;
+				temp1 = pop_iter->trait[t1];
+				trait_covariance[t][t1] += temp * temp1 * csize;
 			}
 		}
-		temp=(*current_pop)[c].fitness;
-		population_size+=csize;
+		temp = pop_iter->fitness;
+		population_size += csize;
 	}
 	//complain if population went extinct
 	if (population_size==0){
@@ -1614,11 +1636,11 @@ void haploid_highd::unique_clones() {
 		new_pop->reserve(current_pop->size());
 		new_pop->clear();
 		new_pop->push_back((*current_pop)[0]);
-		for(size_t i = 1; i < current_pop->size(); i++) {
-			if((*current_pop)[i] == new_pop->back())
-				new_pop->back().clone_size += (*current_pop)[i].clone_size;
+		for(vector<clone_t>::iterator pop_iter = current_pop->begin() + 1; pop_iter != current_pop->end(); pop_iter++) {
+			if((*pop_iter) == new_pop->back())
+				new_pop->back().clone_size += pop_iter->clone_size;
 			else
-				new_pop->push_back((*current_pop)[i]);
+				new_pop->push_back((*pop_iter));
 		}
 		swap_populations();
 	}

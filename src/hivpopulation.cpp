@@ -96,6 +96,11 @@ int hivpopulation::read_replication_coefficients(istream &model){
 			loci.clear();
 		}
 	}
+
+	// update the replication and fitness of all clones
+	update_traits();
+	update_fitness();
+
 	if (HIVPOP_VERBOSE) cerr<<"...done"<<endl;
 	return 0;
 }
@@ -137,6 +142,11 @@ int hivpopulation::read_resistance_coefficients(istream &model){
 		//cout<<loci[0]<<" "<<val<<"  "<<loci.size()<<endl;
 	}
 	trait[1].hypercube_mean=-wt_resistance;
+
+	// update the replication and fitness of all clones
+	update_traits();
+	update_fitness();
+
 	if (HIVPOP_VERBOSE){
 		cerr<<"...done"<<endl;
 	}

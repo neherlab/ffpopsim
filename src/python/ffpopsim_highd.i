@@ -348,12 +348,15 @@ void set_additive_trait(int DIM1, double* IN_ARRAY1, int traitnumber=0) {
         $self->trait[traitnumber].reset_additive();
         
         /* set the new coefficients */
-        vector <int> loci;
+        vector <int> loci(1,0);
         for(size_t i = 0; i < DIM1; i++) {
-                loci.push_back(i);
+                loci[0] = i;
                 $self->add_trait_coefficient(IN_ARRAY1[i], loci, traitnumber);
-                loci.clear();
         }
+
+        /* update the population */
+        $self->update_traits();
+        $self->update_fitness();
 }
 
 

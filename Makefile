@@ -74,15 +74,20 @@ DOCDIR = doc
 TESTSDIR = tests
 PYBDIR = $(SRCDIR)/python
 PKGDIR = pkg
+PFLDIR = profile
 
-.PHONY : all clean src tests doc python clean-src clean-doc clean-tests clean-python
+.PHONY : all clean src tests doc python profile clean-src clean-doc clean-tests clean-python clean-profile
 all: src tests $(doc) $(python)
-clean: clean-src clean-doc clean-tests clean-python
+clean: clean-src clean-doc clean-tests clean-python clean-profile
+
+# Profile flag to enable profiling with gprof.
+# (Un)Comment the next line to switch off (on) profiling.
+#PROFILEFLAGS := -pg
 
 ##==========================================================================
 # SOURCE
 ##==========================================================================
-SRC_CXXFLAGS= -O2 -fPIC
+SRC_CXXFLAGS= -O2 -fPIC $(PROFILEFLAGS)
 
 LIBRARY := libFFPopSim.a
 
@@ -154,7 +159,7 @@ clean_doc:
 # TESTS
 ##==========================================================================
 TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC
-TESTS_LDFLAGS = -O2
+TESTS_LDFLAGS = -O2 $(PROFILEFLAGS)
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
 
@@ -187,6 +192,27 @@ $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_HIGHD:%=$(TESTSDIR)/%) $(T
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD)
+
+##==========================================================================
+# PROFILE
+##==========================================================================
+PROFILE_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC $(PROFILEFLAGS)
+PROFILE_LDFLAGS = -O2 $(PROFILEFLAGS)
+PROFILE_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
+PROFILE_LIBS = -lFFPopSim -lgsl -lgslcblas
+
+PROFILE = profile
+PROFILE_SOURCE = $(PROFILE:%=%.cpp)
+PROFILE_OBJECT = $(PROFILE:%=%.o)
+
+# Recipes
+profile: $(SRCDIR)/$(LIBRARY) $(PROFILE:%=$(PFLDIR)/%)
+
+$(PROFILE:%=$(PFLDIR)/%): $(PROFILE_OBJECT:%=$(PFLDIR)/%) $(SRCDIR)/$(LIBRARY)
+	$(CXX) $(PROFILE_LDFLAGS) $^ $(PROFILE_LIBDIRS) $(PROFILE_LIBS) -o $@
+
+$(PROFILE_OBJECT:%=$(PFLDIR)/%): $(PROFILE_SOURCE:%=$(PFLDIR)/%)
+	$(CXX) $(PROFILE_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 ##==========================================================================
 # PYTHON BINDINGS
