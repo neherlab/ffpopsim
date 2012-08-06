@@ -38,8 +38,6 @@ if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 }
 
 //constructor
-//FIXME: the parametrized constructor and set_up should not do the same things!
-//FIXME: for now, this is done by set_up because of dynamic allocation with new and the default constructor...
 hypercube_highd::hypercube_highd(int dim_in, int s) {
 	if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 	set_up(dim_in, s);
@@ -54,14 +52,11 @@ int hypercube_highd::set_up(int dim_in, int s) {
 		seed = s;
 		if (HCF_VERBOSE) cerr<<"done.\n";
 
-                // FIXME: we should do this in the constructor, but then it's a mess
-                // if we generate more than one hypercube with new.
                 dim = dim_in;
                 mem = false;
                 hcube_allocated = false;
                 hypercube_mean = 0;
                 epistatic_std = 0;
-                coefficients_single_locus_static = vector<double>(dim_in, 0);
 
 		return allocate_mem();
 	} else {
@@ -92,6 +87,9 @@ int hypercube_highd::allocate_mem() {
         	cerr <<"hypercube_highd() random number seed: "<<seed<<endl;
 	        cerr <<"hypercube_highd() random number offset: "<<rng_offset<<endl;
         }
+
+	// static single locus coefficients
+	coefficients_single_locus_static = vector<double>(dim, 0);
 
 	mem=true;
 	if (HCF_VERBOSE) cerr<<"done.\n";
