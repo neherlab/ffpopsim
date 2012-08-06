@@ -99,7 +99,7 @@ public:
 
 protected:
 	// fitness landscape
-	virtual void calc_individual_fitness_from_traits(clone_t *tempgt) {tempgt->fitness = tempgt->trait[0] + treatment * tempgt->trait[1];}
+	virtual void calc_individual_fitness_from_traits(clone_t *tempgt);
 
 private:
 	//random number generator

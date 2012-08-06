@@ -49,8 +49,10 @@ int hiv_profile() {
 		pop.read_replication_coefficients(model);
 		if(PROFILE_VERBOSE) cerr<<"read!"<<endl;
 	
-		for(size_t j = 0; j < 10; j++)
+		for(size_t j = 0; j < 10; j++) {
+			pop.get_max_fitness();
 			err += pop.evolve(100);
+		}
 		if(PROFILE_VERBOSE) cerr<<"done"<<endl;
 
 		cout<<"Fitnesses: ";

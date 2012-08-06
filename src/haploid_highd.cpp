@@ -48,7 +48,7 @@ size_t haploid_highd::number_of_instances=0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false), carrying_capacity(0), mutation_rate(0), outcrossing_rate(0), crossover_rate(0), recombination_model(CROSSOVERS) {
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false), carrying_capacity(0), mutation_rate(0), outcrossing_rate(0), crossover_rate(0), recombination_model(CROSSOVERS), fitness_max(0) {
 	if (L_in <1 or n_o_traits<1) {
 		cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
 		throw HP_BADARG;
@@ -415,13 +415,14 @@ int haploid_highd::select_gametes() {
 	}
 
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
-	sex_gametes.reserve(population_size*outcrossing_rate_effective*1.1);
 	sex_gametes.clear();
-	new_pop->reserve(current_pop->size()*1.1);
+	sex_gametes.reserve(population_size*outcrossing_rate_effective*1.1);
 	new_pop->clear();
+	new_pop->reserve(current_pop->size()*1.1);
 	unsigned int i=0;
+	fitness_max = 0;
 	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++, i++) {
-		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)}) (since death rate is one, the growth rate is (f-bar{f})
+		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)})
 		if (pop_iter->clone_size>0){
 			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
 			delta_fitness = pop_iter->fitness - relaxation;
@@ -433,6 +434,7 @@ int haploid_highd::select_gametes() {
 				new_pop->push_back((*pop_iter));
 				new_pop->back().clone_size = os;
 				population_size += os;
+				fitness_max = fmax(fitness_max, pop_iter->fitness);
 			}
 			//draw the number of sexual offspring, add them to the list of sex_gametes one by one
 			if (outcrossing_rate_effective>0){
@@ -568,6 +570,7 @@ void haploid_highd::flip_single_locus(unsigned int clonenum, int locus) {
 		tempgt.trait[t] = ((*current_pop)[clonenum]).trait[t] + get_trait_difference(&tempgt, &((*current_pop)[clonenum]), diff, t);
 	}
 	calc_individual_fitness_from_traits(&tempgt);
+	check_individual_maximal_fitness(&tempgt);
 	// add clone to current population
 	current_pop->push_back(tempgt);
 	if (HP_VERBOSE >= 2) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
@@ -661,7 +664,8 @@ int haploid_highd::recombine(int parent1, int parent2) {
 	calc_individual_traits(&offspring2);
 	calc_individual_fitness_from_traits(&offspring1);
 	calc_individual_fitness_from_traits(&offspring2);
-
+	check_individual_maximal_fitness(&offspring1);
+	check_individual_maximal_fitness(&offspring2);
 
 	//Check what's going on
 	if(HP_VERBOSE >= 3) {
@@ -693,8 +697,13 @@ void haploid_highd::update_traits() {
  * @brief For each clone, update fitness assuming traits are already up to date
  */
 void haploid_highd::update_fitness() {
-	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++)
-		calc_individual_fitness_from_traits(&(*pop_iter));
+	calc_individual_fitness_from_traits(&(*(current_pop->begin())));
+	fitness_max = (*current_pop)[0].fitness;
+	if((current_pop->size()) > 1)
+		for(vector<clone_t>::iterator pop_iter = current_pop->begin()+1; pop_iter != current_pop->end(); pop_iter++) {
+			calc_individual_fitness_from_traits(&(*pop_iter));
+			check_individual_maximal_fitness(&(*pop_iter));
+		}
 }
 
 /**
@@ -746,6 +755,15 @@ double haploid_highd::get_trait_difference(clone_t *tempgt1, clone_t *tempgt2, v
 }
 
 /**
+ * @brief Calculate fitness from traits of the chosen clone
+ *
+ * @param tempgt clone whose fitness is to be calculated
+ */
+void haploid_highd::calc_individual_fitness_from_traits(clone_t *tempgt) {
+	tempgt->fitness = tempgt->trait[0];
+}
+
+/**
  * @brief Calculate fitness of a particular clone
  *
  * @param tempgt clone whose fitness is being calculated
@@ -758,6 +776,7 @@ void haploid_highd::calc_individual_fitness(clone_t *tempgt) {
 	//calculate the new fitness value of the mutant
 	calc_individual_traits(tempgt);
 	calc_individual_fitness_from_traits(tempgt);
+	check_individual_maximal_fitness(tempgt);
 }
 
 /**
@@ -960,28 +979,13 @@ void haploid_highd::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 double haploid_highd::relaxation_value() {
 	if (HP_VERBOSE) {cerr <<"haploid_highd::relaxation_value()..."<<endl;}
 
-	double fitness_max = get_max_fitness();
-	double logmean_expfitness = get_logmean_expfitness(fitness_max);
+	double logmean_expfitness = get_logmean_expfitness();
 	// the second term is the growth rate when we start from N << carrying capacity
 	double relax = logmean_expfitness + (fmin(0.6931*(double(population_size)/carrying_capacity-1),2.0)) + fitness_max;
 	if (HP_VERBOSE) {cerr<<"log(<exp(F-Fmax)>) = "<<logmean_expfitness<<"..."<<endl;}
 
 	if (HP_VERBOSE) {cerr<<"relaxation value = "<<relax<<"...done."<<endl;}
 	return relax;
-}
-
-/**
- * @brief Get the fitness of the fittest individual
- *
- * @returns the fitness of the fittest clone
- *
- * *Note*: this function recalculates the max fitness.
- */
-double haploid_highd::get_max_fitness() {
-	double fitness_max = (*current_pop)[0].fitness;
-	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++)
-		fitness_max = fmax(fitness_max, pop_iter->fitness);
-	return fitness_max;
 }
 
 /**
@@ -1020,15 +1024,13 @@ void haploid_highd::calc_fitness_stat() {
 /**
  * @brief Get the population exp-average of fitness, used for keeping the population size fixed
  *
- * @param fitness_max Maximal fitness in the population, used to avoid explosion of exponentials
- * 
  * @returns the population exp-average of fitness
  *
  * Mathematically, this is \f$ \log\left( \left< e^(F-F_{max}) \right> \right) \f$. The baseline is \f$ F_{max} \f$
  * in order to avoid exponentiating large numbers.
  *
  */
-double haploid_highd::get_logmean_expfitness(double fitness_max) {
+double haploid_highd::get_logmean_expfitness() {
 	if (HP_VERBOSE) {cerr <<"haploid_highd::get_logmean_expfitness()...";}
 	double logmean_expfitness = 0;
 	//loop over clones and add stuff up

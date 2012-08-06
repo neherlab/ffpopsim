@@ -303,10 +303,10 @@ public:
 	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}
 	int get_clone_size(int n) {return (*current_pop)[n].clone_size;}
 	double get_trait(int n, int t=0) {calc_individual_traits(&((*current_pop)[n])); return (*current_pop)[n].trait[t];}
-	stat_t get_fitness_statistics(){update_fitness(); calc_fitness_stat(); return fitness_stat;}
-	stat_t get_trait_statistics(int t=0){calc_trait_stat(); return trait_stat[t];}
+	stat_t get_fitness_statistics() {update_fitness(); calc_fitness_stat(); return fitness_stat;}
+	stat_t get_trait_statistics(int t=0) {calc_trait_stat(); return trait_stat[t];}
 	double get_trait_covariance(int t1, int t2) {calc_trait_stat(); return trait_covariance[t1][t2];}
-	double get_max_fitness();
+	double get_max_fitness() {return fitness_max;}
 	void update_traits();
 	void update_fitness();
 
@@ -340,7 +340,7 @@ protected:
 	int mutate();
 	int select_gametes();
 	double relaxation_value();
-	double get_logmean_expfitness(double fitness_max);	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
+	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
 	
 	int flip_single_locus(int locus);
 	void shuffle_genotypes();
@@ -369,6 +369,7 @@ protected:
 	int recombine_crossover(int parent1, int parent2, int ng);
 
 	// fitness and traits
+	double fitness_max;
 	double participation_ratio;
 	stat_t fitness_stat;
 	stat_t *trait_stat;
@@ -377,7 +378,8 @@ protected:
 	void calc_trait_stat();
 	void calc_individual_traits(clone_t *tempgt);
 	void calc_individual_fitness(clone_t *tempgt);
-	virtual void calc_individual_fitness_from_traits(clone_t *tempgt){tempgt->fitness = tempgt->trait[0];}	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
+	virtual void calc_individual_fitness_from_traits(clone_t *tempgt);	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
+	void check_individual_maximal_fitness(clone_t *tempgt){fitness_max = fmax(fitness_max, tempgt->fitness);}
 	double get_trait_difference(clone_t *tempgt1, clone_t *tempgt2, vector<int>& diffpos, int traitnum);
 
 private:

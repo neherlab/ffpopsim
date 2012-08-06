@@ -65,6 +65,17 @@ hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, do
 hivpopulation::~hivpopulation() {
 }
 
+
+/**
+ * @brief Set the fitness from replication and resistance for a single clone
+ *
+ * @param tempgt clone whose fitness is calculated
+ */
+void hivpopulation::calc_individual_fitness_from_traits(clone_t *tempgt) {
+	tempgt->fitness = tempgt->trait[0] + treatment * tempgt->trait[1];
+}
+
+
 int hivpopulation::read_replication_coefficients(istream &model){
 	if (HIVPOP_VERBOSE){
 		cerr<<"hivpopulation::read_selection_coefficients(): read coefficients ";
