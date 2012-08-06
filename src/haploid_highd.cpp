@@ -582,19 +582,22 @@ void haploid_highd::flip_single_locus(unsigned int clonenum, int locus) {
  */
 int haploid_highd::add_recombinants() {
 	//construct new generation
-	int parent1, parent2, n_o_c=1;
+	int n_sex_gam = sex_gametes.size();
+	int parent1, parent2, err;
 
-	if (sex_gametes.size()>0)
-	{
+	if (n_sex_gam > 1) {
+		//make sure they are in even number
+		if(n_sex_gam % 2) {sex_gametes.pop_back(); n_sex_gam--;}
 		//sexual offspring -- shuffle the set of gametes to ensure random mating
-		gsl_ran_shuffle(evo_generator, &sex_gametes[0], sex_gametes.size(), sizeof(int));
+		gsl_ran_shuffle(evo_generator, &sex_gametes[0], n_sex_gam, sizeof(int));
 		//if the number of sex_gametes is odd, the last one is unlucky
-		for (unsigned int i = 0; i < sex_gametes.size()-1; i+=2) {
-			parent1=sex_gametes[i];
-			parent2=sex_gametes[i+1];
+		for(vector<int>::iterator iter = sex_gametes.begin(); iter != sex_gametes.end(); iter++) {
+			parent1 = *(iter++);
+			parent2 = *(iter);
 			//The recombination function stores two new genotypes
 			//in new_genotypes[new_population_size] and [new_population_size+1]
-			n_o_c=recombine(parent1, parent2);
+			err = recombine(parent1, parent2);
+			if(err) throw HP_RUNTIMEERR;
 		}
 	}
 	return 0;
@@ -621,7 +624,7 @@ int haploid_highd::swap_populations() {
  * @param parent1 first parent
  * @param parent2 second parent
  *
- * @returns one (FIXME?)
+ * @returns zero if successful
  *
  * The new genotypes are stored in new_pop at positions ng and ng+1.
  *
@@ -675,7 +678,7 @@ int haploid_highd::recombine(int parent1, int parent2) {
 	population_size+=2;
 
 	if(HP_VERBOSE >= 2) cerr<<"done."<<endl;
-	return 1;
+	return 0;
 }
 
 /**

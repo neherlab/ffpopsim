@@ -162,7 +162,7 @@ public:
 #define HP_EXTINCTERR 5
 #define HP_NOBINSERR 6
 #define HP_WRONGBINSERR 7
-
+#define HP_RUNTIMEERR 8
 
 /**
  * @brief clone with a single genotype and a vector of phenotypic traits.
