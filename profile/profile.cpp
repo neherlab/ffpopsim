@@ -50,7 +50,7 @@ int hiv_profile() {
 		if(PROFILE_VERBOSE) cerr<<"read!"<<endl;
 	
 		for(size_t j = 0; j < 10; j++)
-			err += pop.evolve(50);
+			err += pop.evolve(100);
 		if(PROFILE_VERBOSE) cerr<<"done"<<endl;
 
 		cout<<"Fitnesses: ";

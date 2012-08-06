@@ -38,7 +38,9 @@ if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 }
 
 //constructor
-hypercube_highd::hypercube_highd(int dim_in, int s) : dim(dim_in), mem(false), hcube_allocated(false), hypercube_mean(0), epistatic_std(0) {
+//FIXME: the parametrized constructor and set_up should not do the same things!
+//FIXME: for now, this is done by set_up because of dynamic allocation with new and the default constructor...
+hypercube_highd::hypercube_highd(int dim_in, int s) {
 	if (HCF_VERBOSE) cerr<<"hypercube_highd::hypercube_highd(): constructing...!\n";
 	set_up(dim_in, s);
 }
@@ -51,7 +53,17 @@ int hypercube_highd::set_up(int dim_in, int s) {
 		if (s==0) s = time(NULL);
 		seed = s;
 		if (HCF_VERBOSE) cerr<<"done.\n";
-		return allocate_mem(dim_in);
+
+                // FIXME: we should do this in the constructor, but then it's a mess
+                // if we generate more than one hypercube with new.
+                dim = dim_in;
+                mem = false;
+                hcube_allocated = false;
+                hypercube_mean = 0;
+                epistatic_std = 0;
+                coefficients_single_locus_static = vector<double>(dim_in, 0);
+
+		return allocate_mem();
 	} else {
 		cerr <<"hypercube_highd: need positive dimension!\n";
 		return HCF_BADARG;
@@ -65,7 +77,7 @@ hypercube_highd::~hypercube_highd() {
 }
 
 //allocate the necessary memory
-int hypercube_highd::allocate_mem(int dim_in) {
+int hypercube_highd::allocate_mem() {
 	if (HCF_VERBOSE) cerr<<"hypercube_highd::allocate_mem(): allocating memory...";
 	if (mem) {
 		cerr <<"hypercube_highd::allocate_mem(): memory already allocated, freeing and reallocating ...!\n";
@@ -81,9 +93,6 @@ int hypercube_highd::allocate_mem(int dim_in) {
 	        cerr <<"hypercube_highd() random number offset: "<<rng_offset<<endl;
         }
 
-	// set the static array of single locus coefficients
-	coefficients_single_locus_static = new double[dim_in];
-
 	mem=true;
 	if (HCF_VERBOSE) cerr<<"done.\n";
 	return 0;
@@ -96,7 +105,6 @@ int hypercube_highd::free_mem() {
 		return 0;
 	}
  	mem=false;
-	delete [] coefficients_single_locus_static;
  	gsl_rng_free(rng);
  	return 0;
 }
@@ -226,13 +234,9 @@ double hypercube_highd::get_additive_coefficient(int locus){
  * @brief Reset the hypercube
  */
 void hypercube_highd::reset() {
-	hypercube_mean = epistatic_std = 0;
-	coefficients_single_locus.clear();
+        reset_additive();
+        epistatic_std = 0;
 	coefficients_epistasis.clear();
-	double *tmp = coefficients_single_locus_static;
-	for(size_t i=0; i != dim; i++, tmp++) {
-		*tmp = 0;
-	}
 }
 
 
@@ -242,10 +246,7 @@ void hypercube_highd::reset() {
 void hypercube_highd::reset_additive() {
 	hypercube_mean = 0;
 	coefficients_single_locus.clear();
-	double *tmp = coefficients_single_locus_static;
-	for(size_t i=0; i != dim; i++, tmp++) {
-		*tmp = 0;
-	}
+        fill(coefficients_single_locus_static.begin(), coefficients_single_locus_static.end(), 0);
 }
 
 
@@ -263,7 +264,7 @@ int hypercube_highd::add_coefficient(double value, vector <int> loci)
 	} else if (loci.size()==1) {
 		coeff_single_locus_t temp_coeff(value, loci[0]);
 		coefficients_single_locus.push_back(temp_coeff);
-		coefficients_single_locus_static[loci[0]] = value;
+                coefficients_single_locus_static[loci[0]] = value;
 	} else {
 		hypercube_mean=value;
 	}

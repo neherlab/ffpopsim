@@ -82,7 +82,7 @@ clean: clean-src clean-doc clean-tests clean-python clean-profile
 
 # Profile flag to enable profiling with gprof.
 # (Un)Comment the next line to switch off (on) profiling.
-#PROFILEFLAGS := -pg
+PROFILEFLAGS := -pg
 
 ##==========================================================================
 # SOURCE

@@ -101,7 +101,7 @@ private:
 	// memory management
 	bool hcube_allocated;
 	bool mem;
-	int allocate_mem(int dim_in);
+	int allocate_mem();
 	int free_mem();
 
 	// iterators
@@ -109,7 +109,7 @@ private:
 	vector<coeff_t>::iterator coefficients_epistasis_iter;
 
 	// static array of single locus coefficients (for performance reasons)
-	double *coefficients_single_locus_static;
+	vector<double> coefficients_single_locus_static;
 
 public:
         // random number generator
@@ -257,6 +257,7 @@ public:
 
 	// modify traits
 	int add_trait_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
+	void clear_trait(int t){if(t >= number_of_traits) throw (int)HP_BADARG; else trait[t].reset();}
 	void clear_traits(){for(int t=0; t<number_of_traits; t++){trait[t].reset();}}
 	void set_random_trait_epistasis(double epistasis_std,int traitnumber=0){trait[traitnumber].epistatic_std=epistasis_std;}
 

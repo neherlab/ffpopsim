@@ -17,8 +17,11 @@ c = h.hivpopulation(1000)
 
 # Test I/O fitness landscapes
 c.set_replication_landscape(lethal_fraction=0.05,
-                            number_valleys=3)
-#c.read_replication_coefficients('hiv_model.dat')
+                            number_valleys=0)
+c.read_replication_coefficients('hiv_model.dat')
+rep = c.additive_replication
+rep[np.random.random(10000) > 0.5] = -0.1
+c.additive_replication = rep
 
 # Show the additive part of the fitness landscape
 print c.get_additive_trait()

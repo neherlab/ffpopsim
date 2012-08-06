@@ -145,12 +145,51 @@ def set_trait_landscape(self,
                         number_valleys=0,
                         valley_strength=0.1,
                         ):
-    '''Set HIV trait landscape according to some general parameters.'''
+    '''Set HIV trait landscape according to some general parameters.
+
+    Note: the third positions are always neutral (synonymous).
+    '''
 
     import numpy as np
-    from scipy import stats
+    
+    # Clear trait
+    self.clear_trait(traitnumber)
 
-    # Nested functions
+    # Handy
+    L = self.L
+    aL = np.arange(L)
+
+    # Decide what mutation is of what kind
+    # Note: the rest, between
+    #
+    # lethal_fraction + deleterious_fraction and (1 - adaptive_fraction),
+    #
+    # is neutral, i.e. EXACTLY 0. Fair assumption.
+    onetwo_vector = (aL % 3) < 2
+    random_numbers = np.random.random(L)
+    adaptive_mutations = (random_numbers > (1 - adaptive_fraction)) & onetwo_vector
+    lethal_mutations = (random_numbers < lethal_fraction) & onetwo_vector
+    deleterious_mutations = ((random_numbers > lethal_fraction) & \
+                             (random_numbers < (lethal_fraction + deleterious_fraction)) & \
+                             (random_numbers < (1 - adaptive_fraction)) & \
+                             onetwo_vector)
+    
+    # Decide how strong mutations are
+    single_locus_effects=np.zeros(L)
+    single_locus_effects[np.where(deleterious_mutations)] = -np.random.exponential(effect_size_deleterious, deleterious_mutations.sum())
+    single_locus_effects[np.where(adaptive_mutations)] = np.random.exponential(effect_size_adaptive, adaptive_mutations.sum())
+    single_locus_effects[np.where(lethal_mutations)] = -effect_size_lethal
+    
+    # Mutations in env are treated separately
+    env_position = (aL >= self.env.start) & (aL < self.env.end)
+    env_mutations = (random_numbers > (1 - env_fraction)) & onetwo_vector & env_position
+    single_locus_effects[np.where(env_mutations)] = np.random.exponential(effect_size_env, env_mutations.sum())
+        
+    # Call the C++ routines
+    self.set_additive_trait(single_locus_effects, traitnumber)
+
+    # Epistasis
+    multi_locus_coefficients=[]
     def add_epitope(strength=0.2):
         '''Note: we are in the +-1 basis.'''
         loci = random.sample(range(9),2)
@@ -168,48 +207,11 @@ def set_trait_landscape(self,
         f12 = height*0.25 + depth*0.5
         return (f1,f2,f12)
 
-    
-    L = self.L
-    aL = np.arange(L)
-
-    # Initialize fitness coefficients as zero (neutral model)
-    single_locus_effects=np.zeros(L)
-    multi_locus_coefficients=[]
-            
-    # Set single locus fitness coefficients
-    first_codon_position = np.arange(0,L,3)
-    second_codon_position = np.arange(1,L,3)
-    # Note: the third positions are always neutral (synonymous)
-    
-    # Decide what mutation is of what kind
-    onetwo_vector = (aL % 3) < 2
-    random_numbers = np.random.random(L)
-    adaptive_mutations = (random_numbers > (1 - adaptive_fraction)) & onetwo_vector
-    lethal_mutations = (random_numbers < lethal_fraction) & onetwo_vector
-    deleterious_mutations = (random_numbers > lethal_fraction) & (random_numbers < (lethal_fraction + deleterious_fraction)) & onetwo_vector
-    
-    # Decide how strong mutations are
-    adaptive_dis = stats.expon(scale=effect_size_adaptive)
-    deleterious_dis = stats.expon(scale=effect_size_deleterious)
-    single_locus_effects[np.where(adaptive_mutations)] += adaptive_dis.rvs(adaptive_mutations.sum())
-    single_locus_effects[np.where(deleterious_mutations)] -= deleterious_dis.rvs(deleterious_mutations.sum())
-    single_locus_effects[np.where(lethal_mutations)] -= effect_size_lethal
-    
-    # Mutations in env are treated separately
-    env_position = (aL >= self.env.start) * (aL < self.env.end)
-    env_mutations = (random_numbers>(1 - env_fraction)) & onetwo_vector & env_position
-    env_dis = stats.expon(scale=effect_size_env)
-    single_locus_effects[np.where(env_mutations)] += env_dis.rvs(env_mutations.sum())
-        
-    # Note: the rest, between lethal_fraction + deleterious_fraction and (1 -
-    # adaptive_fraction), is neutral, i.e. EXACTLY 0. Fair assumption.
-    
     # Set fitness valleys
     for vi in xrange(number_valleys):
         pos = np.random.random_integers(L/3-100)
-        d = int(stats.expon(scale=10).rvs() +1)
-        valley_dis=stats.expon(scale=valley_strength)
-        valley_str = valley_dis.rvs()
+        d = int(np.random.exponential(10) + 1)
+        valley_str = np.random.exponential(valley_strength)
         if number_valleys:
             print 'valley:', pos*3, valley_str
         (f1,f2,f12)=add_valley(valley_str)
@@ -220,22 +222,18 @@ def set_trait_landscape(self,
     # Set epitopes (bumps, i.e. f_DM < d_WT << f_SM)
     for ei in xrange(number_epitopes):
         pos = np.random.random_integers(L/3-10)
-        epi_dis=stats.expon(scale=epitope_strength)
-        epi_strength = epi_dis.rvs()
+        epi_strength = np.random.exponential(epitope_strength)
         if number_epitopes:
                 print 'epitope', pos*3, epi_strength
         epi, f1,f2,f12=add_epitope(epi_strength)
         single_locus_effects[(pos+epi[0])*3+1]+=f1
         single_locus_effects[(pos+epi[1])*3+1]+=f2
         multi_locus_coefficients.append([[(pos+epi[0])*3+1, (pos+epi[1])*3+1], f12])
-                
 
-    # Call the C++ routines
-    self.clear_trait(traitnumber)
-    self.set_additive_trait(single_locus_effects, traitnumber)
     for mlc in multi_locus_coefficients:
         self.add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
-    self.calc_stat()
+    self.update_traits()
+    self.update_fitness()
 }
 
 /* helper functions for replication and resistance */
@@ -289,6 +287,9 @@ def set_replication_landscape(self, **kwargs):
         -  epitope_strength=0.05
         -  number_valleys=0
         -  valley_strength=0.1
+
+        Note: fractions refer to first and second positions only. For instance,
+        by default, 80% of first and second positions outside env are deleterious.
         '''
         kwargs['traitnumber']=0
         self.set_trait_landscape(**kwargs)
@@ -311,6 +312,9 @@ def set_resistance_landscape(self, **kwargs):
         -  epitope_strength=0.05
         -  number_valleys=0
         -  valley_strength=0.1 
+
+        Note: fractions refer to first and second positions only. For instance,
+        by default, 80% of first and second positions outside env are deleterious.
         '''
 
         kwargs['traitnumber']=0

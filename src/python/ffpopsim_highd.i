@@ -303,19 +303,11 @@ def get_genotypes(self, ind=None):
         }
 }
 
-/* create trait (fitness) landscapes */
-void clear_trait(unsigned int traitnumber) {
-        /* check trait number */
-        if(traitnumber >= $self->get_number_of_traits())
-                throw HIVPOP_BADARG;
-        ($self->trait)[traitnumber].reset();
-}
-
 /* get single locus effects */
 void _get_additive_trait(double* ARGOUT_ARRAY1, int DIM1, int traitnumber=0) {
         /* check trait number */
         if(traitnumber >= $self->get_number_of_traits())
-                throw HIVPOP_BADARG;
+                throw HP_BADARG;
 
         /* Initialize to zero */
         for(size_t i=0; i < DIM1; i++)
@@ -339,10 +331,10 @@ def get_additive_trait(self, traitnumber=0):
 void set_additive_trait(int DIM1, double* IN_ARRAY1, int traitnumber=0) {
         /* check trait number */
         if(traitnumber >= $self->get_number_of_traits())
-                throw HIVPOP_BADARG;
+                throw HP_BADARG;
         /* check length of vector */
         if(DIM1 != $self->L())
-                throw HIVPOP_BADARG;
+                throw HP_BADARG;
 
         /* reset trait landscape */
         $self->trait[traitnumber].reset_additive();
@@ -350,8 +342,10 @@ void set_additive_trait(int DIM1, double* IN_ARRAY1, int traitnumber=0) {
         /* set the new coefficients */
         vector <int> loci(1,0);
         for(size_t i = 0; i < DIM1; i++) {
-                loci[0] = i;
-                $self->add_trait_coefficient(IN_ARRAY1[i], loci, traitnumber);
+                if(abs(IN_ARRAY1[i]) > HP_NOTHING) {
+                        loci[0] = i;
+                        $self->add_trait_coefficient(IN_ARRAY1[i], loci, traitnumber);
+                }
         }
 
         /* update the population */

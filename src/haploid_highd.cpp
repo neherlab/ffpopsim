@@ -366,9 +366,13 @@ int haploid_highd::evolve(int gen) {
 		if (HP_VERBOSE) cerr<<"generation "<<generation<<endl;
 		random_sample.clear();			//discard the old random sample
 		if(err==0) err=mutate();		//mutation step
+		else if(HP_VERBOSE) cerr<<"Error in swap_populations()"<<endl;
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
+		else if(HP_VERBOSE) cerr<<"Error in mutate()"<<endl;
 		if(err==0) err=add_recombinants();	//do the recombination between pairs of sex gametes
+		else if(HP_VERBOSE) cerr<<"Error in select_gametes()"<<endl;
 		if(err==0) err=swap_populations();	//make the new population the current population
+		else if(HP_VERBOSE) cerr<<"Error in add_recombinants()"<<endl;
 		random_sample.clear();			//discard the old random sample
 		g++;
 		generation++;
@@ -861,8 +865,8 @@ boost::dynamic_bitset<> haploid_highd::reassortment_pattern() {
 void haploid_highd::produce_random_sample(int size) {
 	if (HP_VERBOSE) cerr<<"haploid_highd::produce_random_sample(int): size "<<size<<"...";
 
-	random_sample.reserve((size+50)*1.1);
 	random_sample.clear();
+	random_sample.reserve((size+50)*1.1);
 	int thechosen,o;
 	double frac = 1.1*(size+50)/population_size;
 	//loop over all clones and choose a poisson distributed number of genoytpes
@@ -894,7 +898,7 @@ void haploid_highd::produce_random_sample(int size) {
 int haploid_highd::random_clone() {
 	int rclone;
 	int size = 1000;
-	if (random_sample.size()>1){
+	if (random_sample.size() > 1){
 		rclone=random_sample.back();
 		random_sample.pop_back();
 		return rclone;

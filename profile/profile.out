@@ -3,75 +3,77 @@ Flat profile:
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
  time   seconds   seconds    calls  ms/call  ms/call  name    
- 36.37      0.04     0.04      500     0.08     0.13  haploid_highd::select_gametes()
- 18.18      0.06     0.02      500     0.04     0.04  haploid_highd::get_logmean_expfitness(double)
- 18.18      0.08     0.02      500     0.04     0.08  haploid_highd::mutate()
-  9.09      0.09     0.01   404000     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const
-  9.09      0.10     0.01    99575     0.00     0.00  haploid_highd::flip_single_locus(unsigned int, int)
-  9.09      0.11     0.01       12     0.83     0.84  std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&)
-  0.00      0.11     0.00   199150     0.00     0.00  haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int)
-  0.00      0.11     0.00   199150     0.00     0.00  hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&)
-  0.00      0.11     0.00   199150     0.00     0.00  hypercube_highd::get_additive_coefficient(int)
-  0.00      0.11     0.00   114812     0.00     0.00  bool std::binary_search<char const*, char>(char const*, char const*, char const&)
-  0.00      0.11     0.00   101589     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool)
-  0.00      0.11     0.00   101544     0.00     0.00  std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&)
-  0.00      0.11     0.00   100038     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
-  0.00      0.11     0.00   100038     0.00     0.00  std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&)
-  0.00      0.11     0.00    99891     0.00     0.00  hivpopulation::calc_individual_fitness_from_traits(clone_t*)
-  0.00      0.11     0.00    99885     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&)
-  0.00      0.11     0.00    99575     0.00     0.00  haploid_highd::random_clone()
-  0.00      0.11     0.00    52155     0.00     0.00  boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type)
-  0.00      0.11     0.00    28971     0.00     0.00  _init
-  0.00      0.11     0.00    17383     0.00     0.00  boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>)
-  0.00      0.11     0.00    17383     0.00     0.00  __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag)
-  0.00      0.11     0.00    11589     0.00     0.00  char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag)
-  0.00      0.11     0.00    11589     0.00     0.00  std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&)
-  0.00      0.11     0.00     5795     0.00     0.00  boost::detail::function::has_empty_target(...)
-  0.00      0.11     0.00     5795     0.00     0.00  void std::__insertion_sort<char*>(char*, char*)
-  0.00      0.11     0.00     5795     0.00     0.00  void std::__introsort_loop<char*, long>(char*, char*, long)
-  0.00      0.11     0.00     5795     0.00     0.00  void std::__final_insertion_sort<char*>(char*, char*)
-  0.00      0.11     0.00     5794     0.00     0.00  hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >)
-  0.00      0.11     0.00     1000     0.00     0.00  std::vector<int, std::allocator<int> >::reserve(unsigned long)
-  0.00      0.11     0.00      632     0.00     0.00  hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&)
-  0.00      0.11     0.00      616     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
-  0.00      0.11     0.00      500     0.00     0.00  haploid_highd::get_max_fitness()
-  0.00      0.11     0.00      500     0.00     0.00  haploid_highd::add_recombinants()
-  0.00      0.11     0.00      500     0.00     0.04  haploid_highd::relaxation_value()
-  0.00      0.11     0.00      500     0.00     0.00  haploid_highd::swap_populations()
-  0.00      0.11     0.00      500     0.00     0.00  haploid_highd::produce_random_sample(int)
-  0.00      0.11     0.00      500     0.00     0.00  std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long)
-  0.00      0.11     0.00      316     0.00     0.00  haploid_highd::calc_individual_traits(clone_t*)
-  0.00      0.11     0.00      308     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip()
-  0.00      0.11     0.00      308     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
-  0.00      0.11     0.00      154     0.00     0.00  haploid_highd::crossover_pattern()
-  0.00      0.11     0.00      154     0.00     0.00  haploid_highd::recombine(int, int)
-  0.00      0.11     0.00       14     0.00     0.00  std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&)
-  0.00      0.11     0.00       10     0.00    10.91  haploid_highd::evolve(int)
-  0.00      0.11     0.00        6     0.00     0.00  haploid_highd::calc_individual_fitness(clone_t*)
-  0.00      0.11     0.00        5     0.00     0.00  std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
-  0.00      0.11     0.00        5     0.00     0.00  main
-  0.00      0.11     0.00        2     0.00     0.00  haploid_highd::update_traits()
-  0.00      0.11     0.00        2     0.00     0.00  haploid_highd::update_fitness()
-  0.00      0.11     0.00        2     0.00     0.00  hypercube_highd::allocate_mem(int)
-  0.00      0.11     0.00        2     0.00     0.00  hypercube_highd::set_up(int, int)
-  0.00      0.11     0.00        2     0.00     0.00  hypercube_highd::free_mem()
-  0.00      0.11     0.00        2     0.00     0.00  hypercube_highd::hypercube_highd()
-  0.00      0.11     0.00        2     0.00     0.00  hypercube_highd::~hypercube_highd()
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::allocate_mem()
-  0.00      0.11     0.00        1     0.00     0.84  haploid_highd::set_wildtype(unsigned long)
-  0.00      0.11     0.00        1     0.00     0.84  haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int)
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::calc_trait_stat()
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::calc_allele_freqs()
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::calc_fitness_stat()
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::free_mem()
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::calc_stat()
-  0.00      0.11     0.00        1     0.00     0.00  haploid_highd::haploid_highd(int, int, int)
-  0.00      0.11     0.00        1     0.00     0.03  haploid_highd::~haploid_highd()
-  0.00      0.11     0.00        1     0.00     0.00  hivpopulation::read_replication_coefficients(std::istream&)
-  0.00      0.11     0.00        1     0.00     0.84  hivpopulation::hivpopulation(int, int, double, double, double)
-  0.00      0.11     0.00        1     0.00     0.00  hivpopulation::~hivpopulation()
-  0.00      0.11     0.00        1     0.00     0.00  hypercube_highd::reset()
-  0.00      0.11     0.00        1     0.00     0.00  hivgene::hivgene(unsigned int, unsigned int)
+ 30.77      0.04     0.04   805793     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const
+ 15.39      0.06     0.02   398856     0.00     0.00  haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int)
+ 15.39      0.08     0.02     1000     0.02     0.08  haploid_highd::mutate()
+  7.69      0.09     0.01   203084     0.00     0.00  std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&)
+  7.69      0.10     0.01   199428     0.00     0.00  haploid_highd::flip_single_locus(unsigned int, int)
+  7.69      0.11     0.01     1172     0.01     0.01  hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&)
+  7.69      0.12     0.01     1000     0.01     0.04  haploid_highd::select_gametes()
+  7.69      0.13     0.01     1000     0.01     0.01  haploid_highd::produce_random_sample(int)
+  0.00      0.13     0.00   398856     0.00     0.00  hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&)
+  0.00      0.13     0.00   398856     0.00     0.00  hypercube_highd::get_additive_coefficient(int)
+  0.00      0.13     0.00   203175     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool)
+  0.00      0.13     0.00   200296     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
+  0.00      0.13     0.00   200296     0.00     0.00  std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&)
+  0.00      0.13     0.00   200014     0.00     0.00  hivpopulation::calc_individual_fitness_from_traits(clone_t*)
+  0.00      0.13     0.00   200008     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&)
+  0.00      0.13     0.00   199428     0.00     0.00  haploid_highd::random_clone()
+  0.00      0.13     0.00   114812     0.00     0.00  bool std::binary_search<char const*, char>(char const*, char const*, char const&)
+  0.00      0.13     0.00    52155     0.00     0.00  boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type)
+  0.00      0.13     0.00    28971     0.00     0.00  _init
+  0.00      0.13     0.00    17383     0.00     0.00  boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>)
+  0.00      0.13     0.00    17383     0.00     0.00  __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag)
+  0.00      0.13     0.00    11589     0.00     0.00  char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag)
+  0.00      0.13     0.00    11589     0.00     0.00  std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&)
+  0.00      0.13     0.00     5795     0.00     0.00  boost::detail::function::has_empty_target(...)
+  0.00      0.13     0.00     5795     0.00     0.00  void std::__insertion_sort<char*>(char*, char*)
+  0.00      0.13     0.00     5795     0.00     0.00  void std::__introsort_loop<char*, long>(char*, char*, long)
+  0.00      0.13     0.00     5795     0.00     0.00  void std::__final_insertion_sort<char*>(char*, char*)
+  0.00      0.13     0.00     5794     0.00     0.00  hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >)
+  0.00      0.13     0.00     2000     0.00     0.00  std::vector<int, std::allocator<int> >::reserve(unsigned long)
+  0.00      0.13     0.00     1156     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
+  0.00      0.13     0.00     1000     0.00     0.00  haploid_highd::get_max_fitness()
+  0.00      0.13     0.00     1000     0.00     0.01  haploid_highd::add_recombinants()
+  0.00      0.13     0.00     1000     0.00     0.00  haploid_highd::relaxation_value()
+  0.00      0.13     0.00     1000     0.00     0.00  haploid_highd::swap_populations()
+  0.00      0.13     0.00     1000     0.00     0.00  haploid_highd::get_logmean_expfitness(double)
+  0.00      0.13     0.00     1000     0.00     0.00  std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long)
+  0.00      0.13     0.00      586     0.00     0.02  haploid_highd::calc_individual_traits(clone_t*)
+  0.00      0.13     0.00      578     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip()
+  0.00      0.13     0.00      578     0.00     0.00  boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
+  0.00      0.13     0.00      289     0.00     0.00  haploid_highd::crossover_pattern()
+  0.00      0.13     0.00      289     0.00     0.04  haploid_highd::recombine(int, int)
+  0.00      0.13     0.00       14     0.00     0.00  std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&)
+  0.00      0.13     0.00       12     0.00     0.01  std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&)
+  0.00      0.13     0.00       10     0.00    12.98  haploid_highd::evolve(int)
+  0.00      0.13     0.00        6     0.00     0.02  haploid_highd::calc_individual_fitness(clone_t*)
+  0.00      0.13     0.00        6     0.00     0.00  std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+  0.00      0.13     0.00        5     0.00     0.00  main
+  0.00      0.13     0.00        2     0.00     0.02  haploid_highd::update_traits()
+  0.00      0.13     0.00        2     0.00     0.00  haploid_highd::update_fitness()
+  0.00      0.13     0.00        2     0.00     0.00  hypercube_highd::allocate_mem()
+  0.00      0.13     0.00        2     0.00     0.00  hypercube_highd::set_up(int, int)
+  0.00      0.13     0.00        2     0.00     0.00  hypercube_highd::free_mem()
+  0.00      0.13     0.00        2     0.00     0.00  hypercube_highd::hypercube_highd()
+  0.00      0.13     0.00        2     0.00     0.00  hypercube_highd::~hypercube_highd()
+  0.00      0.13     0.00        2     0.00     0.00  std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&)
+  0.00      0.13     0.00        1     0.00     0.00  haploid_highd::allocate_mem()
+  0.00      0.13     0.00        1     0.00     0.04  haploid_highd::set_wildtype(unsigned long)
+  0.00      0.13     0.00        1     0.00     0.02  haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int)
+  0.00      0.13     0.00        1     0.00     0.00  haploid_highd::calc_trait_stat()
+  0.00      0.13     0.00        1     0.00     0.00  haploid_highd::calc_allele_freqs()
+  0.00      0.13     0.00        1     0.00     0.00  haploid_highd::calc_fitness_stat()
+  0.00      0.13     0.00        1     0.00     0.00  haploid_highd::free_mem()
+  0.00      0.13     0.00        1     0.00     0.02  haploid_highd::calc_stat()
+  0.00      0.13     0.00        1     0.00     0.00  haploid_highd::haploid_highd(int, int, int)
+  0.00      0.13     0.00        1     0.00     0.05  haploid_highd::~haploid_highd()
+  0.00      0.13     0.00        1     0.00     0.02  hivpopulation::read_replication_coefficients(std::istream&)
+  0.00      0.13     0.00        1     0.00     0.04  hivpopulation::hivpopulation(int, int, double, double, double)
+  0.00      0.13     0.00        1     0.00     0.00  hivpopulation::~hivpopulation()
+  0.00      0.13     0.00        1     0.00     0.00  hypercube_highd::reset_additive()
+  0.00      0.13     0.00        1     0.00     0.00  hypercube_highd::reset()
+  0.00      0.13     0.00        1     0.00     0.00  hivgene::hivgene(unsigned int, unsigned int)
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -103,350 +105,358 @@ name       the name of the function.  This is the minor sort
 		     Call graph (explanation follows)
 
 
-granularity: each sample hit covers 2 byte(s) for 9.09% of 0.11 seconds
+granularity: each sample hit covers 2 byte(s) for 7.69% of 0.13 seconds
 
 index % time    self  children    called     name
                                                  <spontaneous>
-[1]    100.0    0.00    0.11                 hiv_profile() [1]
-                0.00    0.11      10/10          haploid_highd::evolve(int) [2]
-                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [10]
-                0.00    0.00       1/1           haploid_highd::~haploid_highd() [16]
-                0.00    0.00       5/99891       hivpopulation::calc_individual_fitness_from_traits(clone_t*) [34]
-                0.00    0.00       5/6           haploid_highd::calc_individual_fitness(clone_t*) [57]
-                0.00    0.00       1/1           hivpopulation::read_replication_coefficients(std::istream&) [72]
-                0.00    0.00       1/1           hivpopulation::~hivpopulation() [73]
+[1]    100.0    0.00    0.13                 hiv_profile() [1]
+                0.00    0.13      10/10          haploid_highd::evolve(int) [2]
+                0.00    0.00       5/6           haploid_highd::calc_individual_fitness(clone_t*) [17]
+                0.00    0.00       1/1           haploid_highd::~haploid_highd() [20]
+                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [21]
+                0.00    0.00       1/1           hivpopulation::read_replication_coefficients(std::istream&) [27]
+                0.00    0.00       5/200014      hivpopulation::calc_individual_fitness_from_traits(clone_t*) [40]
+                0.00    0.00       1/1           hivpopulation::~hivpopulation() [74]
 -----------------------------------------------
-                0.00    0.11      10/10          hiv_profile() [1]
-[2]     99.2    0.00    0.11      10         haploid_highd::evolve(int) [2]
-                0.04    0.03     500/500         haploid_highd::select_gametes() [3]
-                0.02    0.02     500/500         haploid_highd::mutate() [4]
-                0.00    0.00     500/500         haploid_highd::add_recombinants() [14]
-                0.00    0.00     500/500         haploid_highd::swap_populations() [51]
+                0.00    0.13      10/10          hiv_profile() [1]
+[2]     99.9    0.00    0.13      10         haploid_highd::evolve(int) [2]
+                0.02    0.06    1000/1000        haploid_highd::mutate() [3]
+                0.01    0.03    1000/1000        haploid_highd::select_gametes() [6]
+                0.00    0.01    1000/1000        haploid_highd::add_recombinants() [8]
+                0.00    0.00    1000/1000        haploid_highd::swap_populations() [57]
 -----------------------------------------------
-                0.04    0.03     500/500         haploid_highd::evolve(int) [2]
-[3]     61.3    0.04    0.03     500         haploid_highd::select_gametes() [3]
-                0.00    0.02     500/500         haploid_highd::relaxation_value() [6]
-                0.01    0.00  295997/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00     500/500         std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long) [13]
-                0.00    0.00     500/1000        std::vector<int, std::allocator<int> >::reserve(unsigned long) [48]
-                0.00    0.00       3/5           std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [58]
+                0.02    0.06    1000/1000        haploid_highd::evolve(int) [2]
+[3]     61.4    0.02    0.06    1000         haploid_highd::mutate() [3]
+                0.01    0.04  199428/199428      haploid_highd::flip_single_locus(unsigned int, int) [4]
+                0.01    0.00    1000/1000        haploid_highd::produce_random_sample(int) [12]
+                0.00    0.00  199428/199428      haploid_highd::random_clone() [41]
 -----------------------------------------------
-                0.02    0.02     500/500         haploid_highd::evolve(int) [2]
-[4]     37.9    0.02    0.02     500         haploid_highd::mutate() [4]
-                0.01    0.01   99575/99575       haploid_highd::flip_single_locus(unsigned int, int) [5]
-                0.00    0.00   99575/99575       haploid_highd::random_clone() [36]
-                0.00    0.00     500/500         haploid_highd::produce_random_sample(int) [52]
+                0.01    0.04  199428/199428      haploid_highd::mutate() [3]
+[4]     38.3    0.01    0.04  199428         haploid_highd::flip_single_locus(unsigned int, int) [4]
+                0.02    0.00  398856/398856      haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int) [7]
+                0.01    0.00  199428/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.01  199428/203175      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [14]
+                0.00    0.00      11/12          std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [18]
+                0.00    0.00  199428/200008      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [29]
+                0.00    0.00  398856/398856      hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [36]
+                0.00    0.00  199428/200296      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [38]
+                0.00    0.00  199428/200014      hivpopulation::calc_individual_fitness_from_traits(clone_t*) [40]
 -----------------------------------------------
-                0.01    0.01   99575/99575       haploid_highd::mutate() [4]
-[5]     19.7    0.01    0.01   99575         haploid_highd::flip_single_locus(unsigned int, int) [5]
-                0.01    0.00      11/12          std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [8]
-                0.00    0.00   99575/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00  199150/199150      hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [27]
-                0.00    0.00  199150/199150      haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int) [26]
-                0.00    0.00   99575/99885       boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [35]
-                0.00    0.00   99575/101589      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [30]
-                0.00    0.00   99575/100038      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [32]
-                0.00    0.00   99575/99891       hivpopulation::calc_individual_fitness_from_traits(clone_t*) [34]
+                0.00    0.00       1/805793      haploid_highd::haploid_highd(int, int, int) [28]
+                0.00    0.00       1/805793      haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00       2/805793      haploid_highd::set_wildtype(unsigned long) [22]
+                0.00    0.00     578/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [24]
+                0.00    0.00    1021/805793      haploid_highd::~haploid_highd() [20]
+                0.00    0.00    1156/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [19]
+                0.00    0.00    1327/805793      std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [18]
+                0.00    0.00    3468/805793      haploid_highd::recombine(int, int) [9]
+                0.00    0.00    3971/805793      std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long) [15]
+                0.01    0.00  199428/805793      haploid_highd::flip_single_locus(unsigned int, int) [4]
+                0.03    0.00  594840/805793      haploid_highd::select_gametes() [6]
+[5]     30.8    0.04    0.00  805793         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
 -----------------------------------------------
-                0.00    0.02     500/500         haploid_highd::select_gametes() [3]
-[6]     18.2    0.00    0.02     500         haploid_highd::relaxation_value() [6]
-                0.02    0.00     500/500         haploid_highd::get_logmean_expfitness(double) [7]
-                0.00    0.00     500/500         haploid_highd::get_max_fitness() [50]
+                0.01    0.03    1000/1000        haploid_highd::evolve(int) [2]
+[6]     30.6    0.01    0.03    1000         haploid_highd::select_gametes() [6]
+                0.03    0.00  594840/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.00    1000/1000        std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long) [15]
+                0.00    0.00    1000/1000        haploid_highd::relaxation_value() [56]
+                0.00    0.00    1000/2000        std::vector<int, std::allocator<int> >::reserve(unsigned long) [54]
+                0.00    0.00       4/6           std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [61]
 -----------------------------------------------
-                0.02    0.00     500/500         haploid_highd::relaxation_value() [6]
-[7]     18.2    0.02    0.00     500         haploid_highd::get_logmean_expfitness(double) [7]
+                0.02    0.00  398856/398856      haploid_highd::flip_single_locus(unsigned int, int) [4]
+[7]     15.4    0.02    0.00  398856         haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int) [7]
 -----------------------------------------------
-                0.00    0.00       1/12          haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.01    0.00      11/12          haploid_highd::flip_single_locus(unsigned int, int) [5]
-[8]      9.1    0.01    0.00      12         std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [8]
-                0.00    0.00    1327/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
+                0.00    0.01    1000/1000        haploid_highd::evolve(int) [2]
+[8]      7.9    0.00    0.01    1000         haploid_highd::add_recombinants() [8]
+                0.00    0.01     289/289         haploid_highd::recombine(int, int) [9]
 -----------------------------------------------
-                0.00    0.00       1/404000      haploid_highd::haploid_highd(int, int, int) [19]
-                0.00    0.00       1/404000      haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.00    0.00       2/404000      haploid_highd::set_wildtype(unsigned long) [11]
-                0.00    0.00     308/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [18]
-                0.00    0.00     616/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [17]
-                0.00    0.00    1011/404000      haploid_highd::~haploid_highd() [16]
-                0.00    0.00    1327/404000      std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [8]
-                0.00    0.00    1848/404000      haploid_highd::recombine(int, int) [15]
-                0.00    0.00    3314/404000      std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long) [13]
-                0.00    0.00   99575/404000      haploid_highd::flip_single_locus(unsigned int, int) [5]
-                0.01    0.00  295997/404000      haploid_highd::select_gametes() [3]
-[9]      9.1    0.01    0.00  404000         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
+                0.00    0.01     289/289         haploid_highd::add_recombinants() [8]
+[9]      7.9    0.00    0.01     289         haploid_highd::recombine(int, int) [9]
+                0.00    0.01     578/586         haploid_highd::calc_individual_traits(clone_t*) [13]
+                0.00    0.00    3468/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.00     289/289         haploid_highd::crossover_pattern() [16]
+                0.00    0.00    1156/1156        boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [19]
+                0.00    0.00     578/578         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [24]
+                0.00    0.00     578/203175      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [14]
+                0.00    0.00     578/200008      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [29]
+                0.00    0.00     867/200296      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [38]
+                0.00    0.00     578/578         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip() [59]
+                0.00    0.00     578/200014      hivpopulation::calc_individual_fitness_from_traits(clone_t*) [40]
 -----------------------------------------------
-                0.00    0.00       1/1           hiv_profile() [1]
-[10]     0.8    0.00    0.00       1         hivpopulation::hivpopulation(int, int, double, double, double) [10]
-                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [11]
-                0.00    0.00       1/1           haploid_highd::haploid_highd(int, int, int) [19]
-                0.00    0.00       1/1           hivgene::hivgene(unsigned int, unsigned int) [75]
+                0.00    0.00       1/203084      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [29]
+                0.01    0.00  203083/203084      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [14]
+[10]     7.7    0.01    0.00  203084         std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [10]
 -----------------------------------------------
-                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [10]
-[11]     0.8    0.00    0.00       1         haploid_highd::set_wildtype(unsigned long) [11]
-                0.00    0.00       1/1           haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.00    0.00       2/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00       1/99885       boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [35]
-                0.00    0.00       1/1           haploid_highd::calc_allele_freqs() [68]
-                0.00    0.00       1/1           haploid_highd::calc_stat() [71]
+                0.01    0.00    1172/1172        haploid_highd::calc_individual_traits(clone_t*) [13]
+[11]     7.7    0.01    0.00    1172         hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&) [11]
 -----------------------------------------------
-                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [11]
-[12]     0.8    0.00    0.00       1         haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.00    0.00       1/12          std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [8]
-                0.00    0.00       1/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00       1/99885       boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [35]
-                0.00    0.00       1/100038      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [32]
-                0.00    0.00       1/99891       hivpopulation::calc_individual_fitness_from_traits(clone_t*) [34]
-                0.00    0.00       1/6           haploid_highd::calc_individual_fitness(clone_t*) [57]
+                0.01    0.00    1000/1000        haploid_highd::mutate() [3]
+[12]     7.7    0.01    0.00    1000         haploid_highd::produce_random_sample(int) [12]
+                0.00    0.00    1000/2000        std::vector<int, std::allocator<int> >::reserve(unsigned long) [54]
+                0.00    0.00       1/6           std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [61]
 -----------------------------------------------
-                0.00    0.00     500/500         haploid_highd::select_gametes() [3]
-[13]     0.1    0.00    0.00     500         std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long) [13]
-                0.00    0.00    3314/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
+                0.00    0.00       2/586         haploid_highd::update_traits() [23]
+                0.00    0.00       6/586         haploid_highd::calc_individual_fitness(clone_t*) [17]
+                0.00    0.01     578/586         haploid_highd::recombine(int, int) [9]
+[13]     7.7    0.00    0.01     586         haploid_highd::calc_individual_traits(clone_t*) [13]
+                0.01    0.00    1172/1172        hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&) [11]
 -----------------------------------------------
-                0.00    0.00     500/500         haploid_highd::evolve(int) [2]
-[14]     0.1    0.00    0.00     500         haploid_highd::add_recombinants() [14]
-                0.00    0.00     154/154         haploid_highd::recombine(int, int) [15]
+                0.00    0.00     578/203175      haploid_highd::recombine(int, int) [9]
+                0.00    0.00    3169/203175      haploid_highd::crossover_pattern() [16]
+                0.00    0.01  199428/203175      haploid_highd::flip_single_locus(unsigned int, int) [4]
+[14]     7.7    0.00    0.01  203175         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [14]
+                0.01    0.00  203083/203084      std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [10]
 -----------------------------------------------
-                0.00    0.00     154/154         haploid_highd::add_recombinants() [14]
-[15]     0.1    0.00    0.00     154         haploid_highd::recombine(int, int) [15]
-                0.00    0.00    1848/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00     616/616         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [17]
-                0.00    0.00     308/308         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [18]
-                0.00    0.00     462/100038      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [32]
-                0.00    0.00     308/99885       boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [35]
-                0.00    0.00     308/101589      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [30]
-                0.00    0.00     308/308         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip() [54]
-                0.00    0.00     308/316         haploid_highd::calc_individual_traits(clone_t*) [53]
-                0.00    0.00     308/99891       hivpopulation::calc_individual_fitness_from_traits(clone_t*) [34]
-                0.00    0.00     154/154         haploid_highd::crossover_pattern() [55]
+                0.00    0.00    1000/1000        haploid_highd::select_gametes() [6]
+[15]     0.2    0.00    0.00    1000         std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long) [15]
+                0.00    0.00    3971/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
 -----------------------------------------------
-                0.00    0.00       1/1           hiv_profile() [1]
-[16]     0.0    0.00    0.00       1         haploid_highd::~haploid_highd() [16]
-                0.00    0.00    1011/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00       1/1           haploid_highd::free_mem() [70]
+                0.00    0.00     289/289         haploid_highd::recombine(int, int) [9]
+[16]     0.1    0.00    0.00     289         haploid_highd::crossover_pattern() [16]
+                0.00    0.00    3169/203175      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [14]
 -----------------------------------------------
-                0.00    0.00     616/616         haploid_highd::recombine(int, int) [15]
-[17]     0.0    0.00    0.00     616         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [17]
-                0.00    0.00     616/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
------------------------------------------------
-                0.00    0.00     308/308         haploid_highd::recombine(int, int) [15]
-[18]     0.0    0.00    0.00     308         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [18]
-                0.00    0.00     308/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
------------------------------------------------
-                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [10]
-[19]     0.0    0.00    0.00       1         haploid_highd::haploid_highd(int, int, int) [19]
-                0.00    0.00       1/404000      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [9]
-                0.00    0.00       1/1           haploid_highd::allocate_mem() [66]
------------------------------------------------
-                0.00    0.00       5/5           __libc_csu_init [166]
-[20]     0.0    0.00    0.00       5         main [20]
------------------------------------------------
-                0.00    0.00  199150/199150      haploid_highd::flip_single_locus(unsigned int, int) [5]
-[26]     0.0    0.00    0.00  199150         haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int) [26]
------------------------------------------------
-                0.00    0.00  199150/199150      haploid_highd::flip_single_locus(unsigned int, int) [5]
-[27]     0.0    0.00    0.00  199150         hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [27]
-                0.00    0.00  199150/199150      hypercube_highd::get_additive_coefficient(int) [28]
------------------------------------------------
-                0.00    0.00  199150/199150      hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [27]
-[28]     0.0    0.00    0.00  199150         hypercube_highd::get_additive_coefficient(int) [28]
------------------------------------------------
-                0.00    0.00  114812/114812      __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag) [40]
-[29]     0.0    0.00    0.00  114812         bool std::binary_search<char const*, char>(char const*, char const*, char const&) [29]
------------------------------------------------
-                0.00    0.00     308/101589      haploid_highd::recombine(int, int) [15]
-                0.00    0.00    1706/101589      haploid_highd::crossover_pattern() [55]
-                0.00    0.00   99575/101589      haploid_highd::flip_single_locus(unsigned int, int) [5]
-[30]     0.0    0.00    0.00  101589         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [30]
-                0.00    0.00  101543/101544      std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [31]
------------------------------------------------
-                0.00    0.00       1/101544      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [35]
-                0.00    0.00  101543/101544      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [30]
-[31]     0.0    0.00    0.00  101544         std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [31]
------------------------------------------------
-                0.00    0.00       1/100038      haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.00    0.00     462/100038      haploid_highd::recombine(int, int) [15]
-                0.00    0.00   99575/100038      haploid_highd::flip_single_locus(unsigned int, int) [5]
-[32]     0.0    0.00    0.00  100038         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [32]
-                0.00    0.00  100038/100038      std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&) [33]
------------------------------------------------
-                0.00    0.00  100038/100038      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [32]
-[33]     0.0    0.00    0.00  100038         std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&) [33]
------------------------------------------------
-                0.00    0.00       1/99891       haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.00    0.00       2/99891       haploid_highd::update_fitness() [60]
-                0.00    0.00       5/99891       hiv_profile() [1]
-                0.00    0.00     308/99891       haploid_highd::recombine(int, int) [15]
-                0.00    0.00   99575/99891       haploid_highd::flip_single_locus(unsigned int, int) [5]
-[34]     0.0    0.00    0.00   99891         hivpopulation::calc_individual_fitness_from_traits(clone_t*) [34]
------------------------------------------------
-                0.00    0.00       1/99885       haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
-                0.00    0.00       1/99885       haploid_highd::set_wildtype(unsigned long) [11]
-                0.00    0.00     308/99885       haploid_highd::recombine(int, int) [15]
-                0.00    0.00   99575/99885       haploid_highd::flip_single_locus(unsigned int, int) [5]
-[35]     0.0    0.00    0.00   99885         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [35]
-                0.00    0.00       1/101544      std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [31]
------------------------------------------------
-                0.00    0.00   99575/99575       haploid_highd::mutate() [4]
-[36]     0.0    0.00    0.00   99575         haploid_highd::random_clone() [36]
------------------------------------------------
-                0.00    0.00   52155/52155       hivpopulation::read_replication_coefficients(std::istream&) [72]
-[37]     0.0    0.00    0.00   52155         boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type) [37]
------------------------------------------------
-                0.00    0.00    5794/28971       std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [42]
-                0.00    0.00   23177/28971       hivpopulation::read_replication_coefficients(std::istream&) [72]
-[38]     0.0    0.00    0.00   28971         _init [38]
------------------------------------------------
-                0.00    0.00   17383/17383       hivpopulation::read_replication_coefficients(std::istream&) [72]
-[39]     0.0    0.00    0.00   17383         boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>) [39]
-                0.00    0.00   17383/17383       __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag) [40]
------------------------------------------------
-                0.00    0.00   17383/17383       boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>) [39]
-[40]     0.0    0.00    0.00   17383         __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag) [40]
-                0.00    0.00  114812/114812      bool std::binary_search<char const*, char>(char const*, char const*, char const&) [29]
------------------------------------------------
-                0.00    0.00   11589/11589       hivpopulation::read_replication_coefficients(std::istream&) [72]
-[41]     0.0    0.00    0.00   11589         char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag) [41]
------------------------------------------------
-                0.00    0.00   11589/11589       hivpopulation::read_replication_coefficients(std::istream&) [72]
-[42]     0.0    0.00    0.00   11589         std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [42]
-                0.00    0.00    5794/28971       _init [38]
------------------------------------------------
-                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [72]
-[43]     0.0    0.00    0.00    5795         boost::detail::function::has_empty_target(...) [43]
------------------------------------------------
-                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [72]
-[44]     0.0    0.00    0.00    5795         void std::__insertion_sort<char*>(char*, char*) [44]
------------------------------------------------
-                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [72]
-[45]     0.0    0.00    0.00    5795         void std::__introsort_loop<char*, long>(char*, char*, long) [45]
------------------------------------------------
-                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [72]
-[46]     0.0    0.00    0.00    5795         void std::__final_insertion_sort<char*>(char*, char*) [46]
------------------------------------------------
-                0.00    0.00    5794/5794        hivpopulation::read_replication_coefficients(std::istream&) [72]
-[47]     0.0    0.00    0.00    5794         hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [47]
-                0.00    0.00      14/14          std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&) [56]
------------------------------------------------
-                0.00    0.00     500/1000        haploid_highd::produce_random_sample(int) [52]
-                0.00    0.00     500/1000        haploid_highd::select_gametes() [3]
-[48]     0.0    0.00    0.00    1000         std::vector<int, std::allocator<int> >::reserve(unsigned long) [48]
------------------------------------------------
-                0.00    0.00     632/632         haploid_highd::calc_individual_traits(clone_t*) [53]
-[49]     0.0    0.00    0.00     632         hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&) [49]
------------------------------------------------
-                0.00    0.00     500/500         haploid_highd::relaxation_value() [6]
-[50]     0.0    0.00    0.00     500         haploid_highd::get_max_fitness() [50]
------------------------------------------------
-                0.00    0.00     500/500         haploid_highd::evolve(int) [2]
-[51]     0.0    0.00    0.00     500         haploid_highd::swap_populations() [51]
------------------------------------------------
-                0.00    0.00     500/500         haploid_highd::mutate() [4]
-[52]     0.0    0.00    0.00     500         haploid_highd::produce_random_sample(int) [52]
-                0.00    0.00     500/1000        std::vector<int, std::allocator<int> >::reserve(unsigned long) [48]
-                0.00    0.00       1/5           std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [58]
------------------------------------------------
-                0.00    0.00       2/316         haploid_highd::update_traits() [59]
-                0.00    0.00       6/316         haploid_highd::calc_individual_fitness(clone_t*) [57]
-                0.00    0.00     308/316         haploid_highd::recombine(int, int) [15]
-[53]     0.0    0.00    0.00     316         haploid_highd::calc_individual_traits(clone_t*) [53]
-                0.00    0.00     632/632         hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&) [49]
------------------------------------------------
-                0.00    0.00     308/308         haploid_highd::recombine(int, int) [15]
-[54]     0.0    0.00    0.00     308         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip() [54]
------------------------------------------------
-                0.00    0.00     154/154         haploid_highd::recombine(int, int) [15]
-[55]     0.0    0.00    0.00     154         haploid_highd::crossover_pattern() [55]
-                0.00    0.00    1706/101589      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [30]
------------------------------------------------
-                0.00    0.00      14/14          hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [47]
-[56]     0.0    0.00    0.00      14         std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&) [56]
------------------------------------------------
-                0.00    0.00       1/6           haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [12]
+                0.00    0.00       1/6           haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
                 0.00    0.00       5/6           hiv_profile() [1]
-[57]     0.0    0.00    0.00       6         haploid_highd::calc_individual_fitness(clone_t*) [57]
-                0.00    0.00       6/316         haploid_highd::calc_individual_traits(clone_t*) [53]
+[17]     0.1    0.00    0.00       6         haploid_highd::calc_individual_fitness(clone_t*) [17]
+                0.00    0.00       6/586         haploid_highd::calc_individual_traits(clone_t*) [13]
 -----------------------------------------------
-                0.00    0.00       1/5           haploid_highd::produce_random_sample(int) [52]
-                0.00    0.00       1/5           hivpopulation::read_replication_coefficients(std::istream&) [72]
-                0.00    0.00       3/5           haploid_highd::select_gametes() [3]
-[58]     0.0    0.00    0.00       5         std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [58]
+                0.00    0.00       1/12          haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00      11/12          haploid_highd::flip_single_locus(unsigned int, int) [4]
+[18]     0.1    0.00    0.00      12         std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [18]
+                0.00    0.00    1327/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
 -----------------------------------------------
-                0.00    0.00       1/2           haploid_highd::calc_stat() [71]
-                0.00    0.00       1/2           hivpopulation::read_replication_coefficients(std::istream&) [72]
-[59]     0.0    0.00    0.00       2         haploid_highd::update_traits() [59]
-                0.00    0.00       2/316         haploid_highd::calc_individual_traits(clone_t*) [53]
------------------------------------------------
-                0.00    0.00       1/2           haploid_highd::calc_stat() [71]
-                0.00    0.00       1/2           hivpopulation::read_replication_coefficients(std::istream&) [72]
-[60]     0.0    0.00    0.00       2         haploid_highd::update_fitness() [60]
-                0.00    0.00       2/99891       hivpopulation::calc_individual_fitness_from_traits(clone_t*) [34]
------------------------------------------------
-                0.00    0.00       2/2           haploid_highd::allocate_mem() [66]
-[61]     0.0    0.00    0.00       2         hypercube_highd::allocate_mem(int) [61]
------------------------------------------------
-                0.00    0.00       2/2           haploid_highd::allocate_mem() [66]
-[62]     0.0    0.00    0.00       2         hypercube_highd::set_up(int, int) [62]
------------------------------------------------
-                0.00    0.00       2/2           hypercube_highd::~hypercube_highd() [65]
-[63]     0.0    0.00    0.00       2         hypercube_highd::free_mem() [63]
------------------------------------------------
-                0.00    0.00       2/2           haploid_highd::allocate_mem() [66]
-[64]     0.0    0.00    0.00       2         hypercube_highd::hypercube_highd() [64]
------------------------------------------------
-                0.00    0.00       2/2           haploid_highd::free_mem() [70]
-[65]     0.0    0.00    0.00       2         hypercube_highd::~hypercube_highd() [65]
-                0.00    0.00       2/2           hypercube_highd::free_mem() [63]
------------------------------------------------
-                0.00    0.00       1/1           haploid_highd::haploid_highd(int, int, int) [19]
-[66]     0.0    0.00    0.00       1         haploid_highd::allocate_mem() [66]
-                0.00    0.00       2/2           hypercube_highd::hypercube_highd() [64]
-                0.00    0.00       2/2           hypercube_highd::allocate_mem(int) [61]
-                0.00    0.00       2/2           hypercube_highd::set_up(int, int) [62]
------------------------------------------------
-                0.00    0.00       1/1           haploid_highd::calc_stat() [71]
-[67]     0.0    0.00    0.00       1         haploid_highd::calc_trait_stat() [67]
------------------------------------------------
-                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [11]
-[68]     0.0    0.00    0.00       1         haploid_highd::calc_allele_freqs() [68]
------------------------------------------------
-                0.00    0.00       1/1           haploid_highd::calc_stat() [71]
-[69]     0.0    0.00    0.00       1         haploid_highd::calc_fitness_stat() [69]
------------------------------------------------
-                0.00    0.00       1/1           haploid_highd::~haploid_highd() [16]
-[70]     0.0    0.00    0.00       1         haploid_highd::free_mem() [70]
-                0.00    0.00       2/2           hypercube_highd::~hypercube_highd() [65]
------------------------------------------------
-                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [11]
-[71]     0.0    0.00    0.00       1         haploid_highd::calc_stat() [71]
-                0.00    0.00       1/2           haploid_highd::update_fitness() [60]
-                0.00    0.00       1/2           haploid_highd::update_traits() [59]
-                0.00    0.00       1/1           haploid_highd::calc_fitness_stat() [69]
-                0.00    0.00       1/1           haploid_highd::calc_trait_stat() [67]
+                0.00    0.00    1156/1156        haploid_highd::recombine(int, int) [9]
+[19]     0.0    0.00    0.00    1156         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [19]
+                0.00    0.00    1156/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
 -----------------------------------------------
                 0.00    0.00       1/1           hiv_profile() [1]
-[72]     0.0    0.00    0.00       1         hivpopulation::read_replication_coefficients(std::istream&) [72]
-                0.00    0.00   52155/52155       boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type) [37]
-                0.00    0.00   23177/28971       _init [38]
-                0.00    0.00   17383/17383       boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>) [39]
-                0.00    0.00   11589/11589       char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag) [41]
-                0.00    0.00   11589/11589       std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [42]
-                0.00    0.00    5795/5795        void std::__introsort_loop<char*, long>(char*, char*, long) [45]
-                0.00    0.00    5795/5795        void std::__insertion_sort<char*>(char*, char*) [44]
-                0.00    0.00    5795/5795        void std::__final_insertion_sort<char*>(char*, char*) [46]
-                0.00    0.00    5795/5795        boost::detail::function::has_empty_target(...) [43]
-                0.00    0.00    5794/5794        hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [47]
-                0.00    0.00       1/1           hypercube_highd::reset() [74]
-                0.00    0.00       1/5           std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [58]
-                0.00    0.00       1/2           haploid_highd::update_traits() [59]
-                0.00    0.00       1/2           haploid_highd::update_fitness() [60]
+[20]     0.0    0.00    0.00       1         haploid_highd::~haploid_highd() [20]
+                0.00    0.00    1021/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.00       1/1           haploid_highd::free_mem() [73]
 -----------------------------------------------
                 0.00    0.00       1/1           hiv_profile() [1]
-[73]     0.0    0.00    0.00       1         hivpopulation::~hivpopulation() [73]
+[21]     0.0    0.00    0.00       1         hivpopulation::hivpopulation(int, int, double, double, double) [21]
+                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [22]
+                0.00    0.00       1/1           haploid_highd::haploid_highd(int, int, int) [28]
+                0.00    0.00       1/1           hivgene::hivgene(unsigned int, unsigned int) [77]
 -----------------------------------------------
-                0.00    0.00       1/1           hivpopulation::read_replication_coefficients(std::istream&) [72]
-[74]     0.0    0.00    0.00       1         hypercube_highd::reset() [74]
+                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [21]
+[22]     0.0    0.00    0.00       1         haploid_highd::set_wildtype(unsigned long) [22]
+                0.00    0.00       1/1           haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00       1/1           haploid_highd::calc_stat() [26]
+                0.00    0.00       2/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.00       1/200008      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [29]
+                0.00    0.00       1/1           haploid_highd::calc_allele_freqs() [71]
 -----------------------------------------------
-                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [10]
-[75]     0.0    0.00    0.00       1         hivgene::hivgene(unsigned int, unsigned int) [75]
+                0.00    0.00       1/2           haploid_highd::calc_stat() [26]
+                0.00    0.00       1/2           hivpopulation::read_replication_coefficients(std::istream&) [27]
+[23]     0.0    0.00    0.00       2         haploid_highd::update_traits() [23]
+                0.00    0.00       2/586         haploid_highd::calc_individual_traits(clone_t*) [13]
+-----------------------------------------------
+                0.00    0.00     578/578         haploid_highd::recombine(int, int) [9]
+[24]     0.0    0.00    0.00     578         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [24]
+                0.00    0.00     578/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [22]
+[25]     0.0    0.00    0.00       1         haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00       1/6           haploid_highd::calc_individual_fitness(clone_t*) [17]
+                0.00    0.00       1/12          std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&) [18]
+                0.00    0.00       1/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.00       1/200008      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [29]
+                0.00    0.00       1/200296      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [38]
+                0.00    0.00       1/200014      hivpopulation::calc_individual_fitness_from_traits(clone_t*) [40]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [22]
+[26]     0.0    0.00    0.00       1         haploid_highd::calc_stat() [26]
+                0.00    0.00       1/2           haploid_highd::update_traits() [23]
+                0.00    0.00       1/2           haploid_highd::update_fitness() [62]
+                0.00    0.00       1/1           haploid_highd::calc_fitness_stat() [72]
+                0.00    0.00       1/1           haploid_highd::calc_trait_stat() [70]
+-----------------------------------------------
+                0.00    0.00       1/1           hiv_profile() [1]
+[27]     0.0    0.00    0.00       1         hivpopulation::read_replication_coefficients(std::istream&) [27]
+                0.00    0.00       1/2           haploid_highd::update_traits() [23]
+                0.00    0.00   52155/52155       boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type) [43]
+                0.00    0.00   23177/28971       _init [44]
+                0.00    0.00   17383/17383       boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>) [45]
+                0.00    0.00   11589/11589       char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag) [47]
+                0.00    0.00   11589/11589       std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [48]
+                0.00    0.00    5795/5795        void std::__introsort_loop<char*, long>(char*, char*, long) [51]
+                0.00    0.00    5795/5795        void std::__insertion_sort<char*>(char*, char*) [50]
+                0.00    0.00    5795/5795        void std::__final_insertion_sort<char*>(char*, char*) [52]
+                0.00    0.00    5795/5795        boost::detail::function::has_empty_target(...) [49]
+                0.00    0.00    5794/5794        hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [53]
+                0.00    0.00       1/1           hypercube_highd::reset() [76]
+                0.00    0.00       1/6           std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [61]
+                0.00    0.00       1/2           haploid_highd::update_fitness() [62]
+-----------------------------------------------
+                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [21]
+[28]     0.0    0.00    0.00       1         haploid_highd::haploid_highd(int, int, int) [28]
+                0.00    0.00       1/805793      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const [5]
+                0.00    0.00       1/1           haploid_highd::allocate_mem() [69]
+-----------------------------------------------
+                0.00    0.00       1/200008      haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00       1/200008      haploid_highd::set_wildtype(unsigned long) [22]
+                0.00    0.00     578/200008      haploid_highd::recombine(int, int) [9]
+                0.00    0.00  199428/200008      haploid_highd::flip_single_locus(unsigned int, int) [4]
+[29]     0.0    0.00    0.00  200008         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [29]
+                0.00    0.00       1/203084      std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&) [10]
+-----------------------------------------------
+                0.00    0.00       5/5           __libc_csu_init [167]
+[30]     0.0    0.00    0.00       5         main [30]
+-----------------------------------------------
+                0.00    0.00  398856/398856      haploid_highd::flip_single_locus(unsigned int, int) [4]
+[36]     0.0    0.00    0.00  398856         hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [36]
+                0.00    0.00  398856/398856      hypercube_highd::get_additive_coefficient(int) [37]
+-----------------------------------------------
+                0.00    0.00  398856/398856      hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [36]
+[37]     0.0    0.00    0.00  398856         hypercube_highd::get_additive_coefficient(int) [37]
+-----------------------------------------------
+                0.00    0.00       1/200296      haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00     867/200296      haploid_highd::recombine(int, int) [9]
+                0.00    0.00  199428/200296      haploid_highd::flip_single_locus(unsigned int, int) [4]
+[38]     0.0    0.00    0.00  200296         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [38]
+                0.00    0.00  200296/200296      std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&) [39]
+-----------------------------------------------
+                0.00    0.00  200296/200296      boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [38]
+[39]     0.0    0.00    0.00  200296         std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&) [39]
+-----------------------------------------------
+                0.00    0.00       1/200014      haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [25]
+                0.00    0.00       2/200014      haploid_highd::update_fitness() [62]
+                0.00    0.00       5/200014      hiv_profile() [1]
+                0.00    0.00     578/200014      haploid_highd::recombine(int, int) [9]
+                0.00    0.00  199428/200014      haploid_highd::flip_single_locus(unsigned int, int) [4]
+[40]     0.0    0.00    0.00  200014         hivpopulation::calc_individual_fitness_from_traits(clone_t*) [40]
+-----------------------------------------------
+                0.00    0.00  199428/199428      haploid_highd::mutate() [3]
+[41]     0.0    0.00    0.00  199428         haploid_highd::random_clone() [41]
+-----------------------------------------------
+                0.00    0.00  114812/114812      __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag) [46]
+[42]     0.0    0.00    0.00  114812         bool std::binary_search<char const*, char>(char const*, char const*, char const&) [42]
+-----------------------------------------------
+                0.00    0.00   52155/52155       hivpopulation::read_replication_coefficients(std::istream&) [27]
+[43]     0.0    0.00    0.00   52155         boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type) [43]
+-----------------------------------------------
+                0.00    0.00    5794/28971       std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [48]
+                0.00    0.00   23177/28971       hivpopulation::read_replication_coefficients(std::istream&) [27]
+[44]     0.0    0.00    0.00   28971         _init [44]
+-----------------------------------------------
+                0.00    0.00   17383/17383       hivpopulation::read_replication_coefficients(std::istream&) [27]
+[45]     0.0    0.00    0.00   17383         boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>) [45]
+                0.00    0.00   17383/17383       __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag) [46]
+-----------------------------------------------
+                0.00    0.00   17383/17383       boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>) [45]
+[46]     0.0    0.00    0.00   17383         __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag) [46]
+                0.00    0.00  114812/114812      bool std::binary_search<char const*, char>(char const*, char const*, char const&) [42]
+-----------------------------------------------
+                0.00    0.00   11589/11589       hivpopulation::read_replication_coefficients(std::istream&) [27]
+[47]     0.0    0.00    0.00   11589         char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag) [47]
+-----------------------------------------------
+                0.00    0.00   11589/11589       hivpopulation::read_replication_coefficients(std::istream&) [27]
+[48]     0.0    0.00    0.00   11589         std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&) [48]
+                0.00    0.00    5794/28971       _init [44]
+-----------------------------------------------
+                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [27]
+[49]     0.0    0.00    0.00    5795         boost::detail::function::has_empty_target(...) [49]
+-----------------------------------------------
+                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [27]
+[50]     0.0    0.00    0.00    5795         void std::__insertion_sort<char*>(char*, char*) [50]
+-----------------------------------------------
+                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [27]
+[51]     0.0    0.00    0.00    5795         void std::__introsort_loop<char*, long>(char*, char*, long) [51]
+-----------------------------------------------
+                0.00    0.00    5795/5795        hivpopulation::read_replication_coefficients(std::istream&) [27]
+[52]     0.0    0.00    0.00    5795         void std::__final_insertion_sort<char*>(char*, char*) [52]
+-----------------------------------------------
+                0.00    0.00    5794/5794        hivpopulation::read_replication_coefficients(std::istream&) [27]
+[53]     0.0    0.00    0.00    5794         hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [53]
+                0.00    0.00      14/14          std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&) [60]
+-----------------------------------------------
+                0.00    0.00    1000/2000        haploid_highd::produce_random_sample(int) [12]
+                0.00    0.00    1000/2000        haploid_highd::select_gametes() [6]
+[54]     0.0    0.00    0.00    2000         std::vector<int, std::allocator<int> >::reserve(unsigned long) [54]
+-----------------------------------------------
+                0.00    0.00    1000/1000        haploid_highd::relaxation_value() [56]
+[55]     0.0    0.00    0.00    1000         haploid_highd::get_max_fitness() [55]
+-----------------------------------------------
+                0.00    0.00    1000/1000        haploid_highd::select_gametes() [6]
+[56]     0.0    0.00    0.00    1000         haploid_highd::relaxation_value() [56]
+                0.00    0.00    1000/1000        haploid_highd::get_max_fitness() [55]
+                0.00    0.00    1000/1000        haploid_highd::get_logmean_expfitness(double) [58]
+-----------------------------------------------
+                0.00    0.00    1000/1000        haploid_highd::evolve(int) [2]
+[57]     0.0    0.00    0.00    1000         haploid_highd::swap_populations() [57]
+-----------------------------------------------
+                0.00    0.00    1000/1000        haploid_highd::relaxation_value() [56]
+[58]     0.0    0.00    0.00    1000         haploid_highd::get_logmean_expfitness(double) [58]
+-----------------------------------------------
+                0.00    0.00     578/578         haploid_highd::recombine(int, int) [9]
+[59]     0.0    0.00    0.00     578         boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip() [59]
+-----------------------------------------------
+                0.00    0.00      14/14          hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [53]
+[60]     0.0    0.00    0.00      14         std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&) [60]
+-----------------------------------------------
+                0.00    0.00       1/6           haploid_highd::produce_random_sample(int) [12]
+                0.00    0.00       1/6           hivpopulation::read_replication_coefficients(std::istream&) [27]
+                0.00    0.00       4/6           haploid_highd::select_gametes() [6]
+[61]     0.0    0.00    0.00       6         std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [61]
+-----------------------------------------------
+                0.00    0.00       1/2           haploid_highd::calc_stat() [26]
+                0.00    0.00       1/2           hivpopulation::read_replication_coefficients(std::istream&) [27]
+[62]     0.0    0.00    0.00       2         haploid_highd::update_fitness() [62]
+                0.00    0.00       2/200014      hivpopulation::calc_individual_fitness_from_traits(clone_t*) [40]
+-----------------------------------------------
+                0.00    0.00       2/2           hypercube_highd::set_up(int, int) [64]
+[63]     0.0    0.00    0.00       2         hypercube_highd::allocate_mem() [63]
+-----------------------------------------------
+                0.00    0.00       2/2           haploid_highd::allocate_mem() [69]
+[64]     0.0    0.00    0.00       2         hypercube_highd::set_up(int, int) [64]
+                0.00    0.00       2/2           std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [68]
+                0.00    0.00       2/2           hypercube_highd::allocate_mem() [63]
+-----------------------------------------------
+                0.00    0.00       2/2           hypercube_highd::~hypercube_highd() [67]
+[65]     0.0    0.00    0.00       2         hypercube_highd::free_mem() [65]
+-----------------------------------------------
+                0.00    0.00       2/2           haploid_highd::allocate_mem() [69]
+[66]     0.0    0.00    0.00       2         hypercube_highd::hypercube_highd() [66]
+-----------------------------------------------
+                0.00    0.00       2/2           haploid_highd::free_mem() [73]
+[67]     0.0    0.00    0.00       2         hypercube_highd::~hypercube_highd() [67]
+                0.00    0.00       2/2           hypercube_highd::free_mem() [65]
+-----------------------------------------------
+                0.00    0.00       2/2           hypercube_highd::set_up(int, int) [64]
+[68]     0.0    0.00    0.00       2         std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [68]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::haploid_highd(int, int, int) [28]
+[69]     0.0    0.00    0.00       1         haploid_highd::allocate_mem() [69]
+                0.00    0.00       2/2           hypercube_highd::hypercube_highd() [66]
+                0.00    0.00       2/2           hypercube_highd::set_up(int, int) [64]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::calc_stat() [26]
+[70]     0.0    0.00    0.00       1         haploid_highd::calc_trait_stat() [70]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::set_wildtype(unsigned long) [22]
+[71]     0.0    0.00    0.00       1         haploid_highd::calc_allele_freqs() [71]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::calc_stat() [26]
+[72]     0.0    0.00    0.00       1         haploid_highd::calc_fitness_stat() [72]
+-----------------------------------------------
+                0.00    0.00       1/1           haploid_highd::~haploid_highd() [20]
+[73]     0.0    0.00    0.00       1         haploid_highd::free_mem() [73]
+                0.00    0.00       2/2           hypercube_highd::~hypercube_highd() [67]
+-----------------------------------------------
+                0.00    0.00       1/1           hiv_profile() [1]
+[74]     0.0    0.00    0.00       1         hivpopulation::~hivpopulation() [74]
+-----------------------------------------------
+                0.00    0.00       1/1           hypercube_highd::reset() [76]
+[75]     0.0    0.00    0.00       1         hypercube_highd::reset_additive() [75]
+-----------------------------------------------
+                0.00    0.00       1/1           hivpopulation::read_replication_coefficients(std::istream&) [27]
+[76]     0.0    0.00    0.00       1         hypercube_highd::reset() [76]
+                0.00    0.00       1/1           hypercube_highd::reset_additive() [75]
+-----------------------------------------------
+                0.00    0.00       1/1           hivpopulation::hivpopulation(int, int, double, double, double) [21]
+[77]     0.0    0.00    0.00       1         hivgene::hivgene(unsigned int, unsigned int) [77]
 -----------------------------------------------
 
  This table describes the call tree of the program, and was sorted by
@@ -534,26 +544,27 @@ index % time    self  children    called     name
 
 Index by function name
 
-  [66] haploid_highd::allocate_mem() [70] haploid_highd::free_mem() [37] boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type)
-  [36] haploid_highd::random_clone() [71] haploid_highd::calc_stat() [43] boost::detail::function::has_empty_target(...)
-  [11] haploid_highd::set_wildtype(unsigned long) [15] haploid_highd::recombine(int, int) [39] boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>)
-  [12] haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [19] haploid_highd::haploid_highd(int, int, int) [17] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
-  [59] haploid_highd::update_traits() [16] haploid_highd::~haploid_highd() [18] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
-   [3] haploid_highd::select_gametes() [72] hivpopulation::read_replication_coefficients(std::istream&) [75] hivgene::hivgene(unsigned int, unsigned int)
-  [60] haploid_highd::update_fitness() [34] hivpopulation::calc_individual_fitness_from_traits(clone_t*) [9] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const
-  [67] haploid_highd::calc_trait_stat() [10] hivpopulation::hivpopulation(int, int, double, double, double) [41] char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag)
-  [50] haploid_highd::get_max_fitness() [73] hivpopulation::~hivpopulation() [56] std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&)
-  [14] haploid_highd::add_recombinants() [61] hypercube_highd::allocate_mem(int) [8] std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&)
-   [6] haploid_highd::relaxation_value() [27] hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [13] std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long)
-  [51] haploid_highd::swap_populations() [47] hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [42] std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&)
-  [68] haploid_highd::calc_allele_freqs() [28] hypercube_highd::get_additive_coefficient(int) [58] std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
-  [69] haploid_highd::calc_fitness_stat() [74] hypercube_highd::reset() [48] std::vector<int, std::allocator<int> >::reserve(unsigned long)
-  [55] haploid_highd::crossover_pattern() [62] hypercube_highd::set_up(int, int) [31] std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&)
-   [5] haploid_highd::flip_single_locus(unsigned int, int) [63] hypercube_highd::free_mem() [33] std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&)
-  [26] haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int) [49] hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&) [29] bool std::binary_search<char const*, char>(char const*, char const*, char const&)
-  [52] haploid_highd::produce_random_sample(int) [64] hypercube_highd::hypercube_highd() [44] void std::__insertion_sort<char*>(char*, char*)
-  [53] haploid_highd::calc_individual_traits(clone_t*) [65] hypercube_highd::~hypercube_highd() [45] void std::__introsort_loop<char*, long>(char*, char*, long)
-   [7] haploid_highd::get_logmean_expfitness(double) [54] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip() [46] void std::__final_insertion_sort<char*>(char*, char*)
-  [57] haploid_highd::calc_individual_fitness(clone_t*) [30] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [40] __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag)
-   [2] haploid_highd::evolve(int) [35] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [38] _init
-   [4] haploid_highd::mutate() [32] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [20] main
+  [69] haploid_highd::allocate_mem() [26] haploid_highd::calc_stat() [49] boost::detail::function::has_empty_target(...)
+  [41] haploid_highd::random_clone() [9] haploid_highd::recombine(int, int) [45] boost::detail::function::function_obj_invoker2<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> >, boost::iterator_range<__gnu_cxx::__normal_iterator<char*, std::string> >, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string> >::invoke(boost::detail::function::function_buffer&, __gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>)
+  [22] haploid_highd::set_wildtype(unsigned long) [28] haploid_highd::haploid_highd(int, int, int) [19] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator&<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
+  [25] haploid_highd::add_genotypes(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >, int) [20] haploid_highd::~haploid_highd() [24] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > boost::operator|<unsigned long, std::allocator<unsigned long> >(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&)
+  [23] haploid_highd::update_traits() [27] hivpopulation::read_replication_coefficients(std::istream&) [77] hivgene::hivgene(unsigned int, unsigned int)
+   [6] haploid_highd::select_gametes() [40] hivpopulation::calc_individual_fitness_from_traits(clone_t*) [5] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::m_check_invariants() const
+  [62] haploid_highd::update_fitness() [21] hivpopulation::hivpopulation(int, int, double, double, double) [47] char* std::string::_S_construct<__gnu_cxx::__normal_iterator<char*, std::string> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, std::allocator<char> const&, std::forward_iterator_tag)
+  [70] haploid_highd::calc_trait_stat() [74] hivpopulation::~hivpopulation() [60] std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<coeff_single_locus_t*, std::vector<coeff_single_locus_t, std::allocator<coeff_single_locus_t> > >, coeff_single_locus_t const&)
+  [55] haploid_highd::get_max_fitness() [63] hypercube_highd::allocate_mem() [18] std::vector<clone_t, std::allocator<clone_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<clone_t*, std::vector<clone_t, std::allocator<clone_t> > >, clone_t const&)
+   [8] haploid_highd::add_recombinants() [36] hypercube_highd::get_func_diff(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&, std::vector<int, std::allocator<int> >&) [15] std::vector<clone_t, std::allocator<clone_t> >::reserve(unsigned long)
+  [56] haploid_highd::relaxation_value() [75] hypercube_highd::reset_additive() [48] std::vector<std::string, std::allocator<std::string> >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::string*, std::vector<std::string, std::allocator<std::string> > >, std::string const&)
+  [57] haploid_highd::swap_populations() [53] hypercube_highd::add_coefficient(double, std::vector<int, std::allocator<int> >) [68] std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&)
+  [71] haploid_highd::calc_allele_freqs() [37] hypercube_highd::get_additive_coefficient(int) [61] std::vector<int, std::allocator<int> >::_M_insert_aux(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+  [72] haploid_highd::calc_fitness_stat() [76] hypercube_highd::reset() [54] std::vector<int, std::allocator<int> >::reserve(unsigned long)
+  [16] haploid_highd::crossover_pattern() [64] hypercube_highd::set_up(int, int) [10] std::vector<unsigned long, std::allocator<unsigned long> >::_M_fill_insert(__gnu_cxx::__normal_iterator<unsigned long*, std::vector<unsigned long, std::allocator<unsigned long> > >, unsigned long, unsigned long const&)
+   [4] haploid_highd::flip_single_locus(unsigned int, int) [65] hypercube_highd::free_mem() [39] std::vector<unsigned long, std::allocator<unsigned long> >::operator=(std::vector<unsigned long, std::allocator<unsigned long> > const&)
+   [7] haploid_highd::get_trait_difference(clone_t*, clone_t*, std::vector<int, std::allocator<int> >&, int) [11] hypercube_highd::get_func(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >&) [42] bool std::binary_search<char const*, char>(char const*, char const*, char const&)
+  [12] haploid_highd::produce_random_sample(int) [66] hypercube_highd::hypercube_highd() [50] void std::__insertion_sort<char*>(char*, char*)
+  [13] haploid_highd::calc_individual_traits(clone_t*) [67] hypercube_highd::~hypercube_highd() [51] void std::__introsort_loop<char*, long>(char*, char*, long)
+  [58] haploid_highd::get_logmean_expfitness(double) [59] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::flip() [52] void std::__final_insertion_sort<char*>(char*, char*)
+  [17] haploid_highd::calc_individual_fitness(clone_t*) [14] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::resize(unsigned long, bool) [46] __gnu_cxx::__normal_iterator<char*, std::string> std::__find_if<__gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char> >(__gnu_cxx::__normal_iterator<char*, std::string>, __gnu_cxx::__normal_iterator<char*, std::string>, boost::algorithm::detail::is_any_ofF<char>, std::random_access_iterator_tag)
+   [2] haploid_highd::evolve(int) [29] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::dynamic_bitset(unsigned long, unsigned long, std::allocator<unsigned long> const&) [44] _init
+   [3] haploid_highd::mutate() [38] boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> >::operator=(boost::dynamic_bitset<unsigned long, std::allocator<unsigned long> > const&) [30] main
+  [73] haploid_highd::free_mem() [43] boost::detail::function::functor_manager<boost::algorithm::detail::token_finderF<boost::algorithm::detail::is_any_ofF<char> > >::manage(boost::detail::function::function_buffer const&, boost::detail::function::function_buffer&, boost::detail::function::functor_manager_operation_type)
