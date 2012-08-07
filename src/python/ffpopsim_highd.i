@@ -107,14 +107,29 @@ an interactive shell (e.g. iPython), create a population as above, and use TAB
 autocompletion:
 
 In [1]: import FFPopSim as h
-In [2]: c = h.haploid_highd(5000, 2000)
+In [2]: c = h.haploid_highd(1000)       # 1000 loci
 In [3]: c.      <--- TAB
 
 
 Populations can have a number of phenotypic traits that concur to the fitness
-of each individual. The function that calculates fitness from the phenotype is
-(TODO: should be) described by the user, as well as all the full genotype-
-phenotype map.
+of each individual. The function that calculates fitness from the phenotype
+identifies fitness with the first trait only by default. The user is, however,
+free to subclass haploid_highd in C++ (as it is done in hivpopulation) and
+implement their own phenotype |-> fitness function.
+
+In addition, the trait landscapes describe the genotype |-> phenotype maps.
+These can be set directly from Python (since the genotypic space has a finite
+number of elements).
+
+A full example of this class is the following:
+
+In [1]: import FFPopSim as h
+In [2]: c = h.haploid_highd(300)       # 300 loci
+In [3]: pop.set_wildtype(1000)         # start with 1000 wildtype individuals
+In [4]: pop.mutation_rate = 1e-7       # mutation rate per site per generation
+In [5]: pop.outcrossing_rate = 1e-1    # probability of sexual reproduction per gen
+In [6]: pop.crossover_rate = 1e-2      # probability of crossover per site per gen
+In [7]: pop.evolve(100)                # evolve for 100 generations
 
 *Note*: fitness is not a phenotypic trait directly, but rather a function of _all_
 phenotypic traits together. However, in case 

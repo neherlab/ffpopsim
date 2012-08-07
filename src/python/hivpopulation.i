@@ -237,32 +237,26 @@ def set_trait_landscape(self,
 }
 
 /* helper functions for replication and resistance */
-/* Additive replication property */
+/* There is a reason why they are not properties, namely because you will never be able
+to set them by slicing, e.g. pop.additive_replication[4:6] = 3. In order to implement
+this functionality we would need a whole subclass of ndarray with its own set/get
+methods, and nobody is really keen on doing this. */
 %pythoncode{
-@property
-def additive_replication(self):
+def get_additive_replication(self):
         '''The additive part of the replication lansdscape.'''
         return self.get_additive_trait(0)
 
 
-@additive_replication.setter
-def additive_replication(self, single_locus_effects):
+def set_additive_replication(self, single_locus_effects):
         self.set_additive_trait(single_locus_effects, 0)
 
 
-}
-
-
-/* Additive resistance property */
-%pythoncode{
-@property
-def additive_resistance(self):
+def get_additive_resistance(self):
         '''The additive part of the resistance lansdscape.'''
         return self.get_additive_trait(1)
 
 
-@additive_resistance.setter
-def additive_resistance(self, single_locus_effects):
+def set_additive_resistance(self, single_locus_effects):
         self.set_additive_trait(single_locus_effects, 1)
 
 

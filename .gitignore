@@ -1,3 +1,7 @@
+# Profile files
+profile/*.out
+profile/profile
+
 # Package files
 pkg/*
 

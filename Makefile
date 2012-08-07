@@ -82,12 +82,12 @@ clean: clean-src clean-doc clean-tests clean-python clean-profile
 
 # Profile flag to enable profiling with gprof.
 # (Un)Comment the next line to switch off (on) profiling.
-PROFILEFLAGS := -pg
+#PROFILEFLAGS := -pg
 
 ##==========================================================================
 # SOURCE
 ##==========================================================================
-SRC_CXXFLAGS= -O2 -fPIC $(PROFILEFLAGS)
+SRC_CXXFLAGS= -O3 -fPIC $(PROFILEFLAGS)
 
 LIBRARY := libFFPopSim.a
 
@@ -158,8 +158,8 @@ clean_doc:
 ##==========================================================================
 # TESTS
 ##==========================================================================
-TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC
-TESTS_LDFLAGS = -O2 $(PROFILEFLAGS)
+TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O3 -c -fPIC
+TESTS_LDFLAGS = -O3 $(PROFILEFLAGS)
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
 
@@ -196,8 +196,8 @@ clean-tests:
 ##==========================================================================
 # PROFILE
 ##==========================================================================
-PROFILE_CXXFLAGS = -I$(SRCDIR) -Wall -O2 -c -fPIC $(PROFILEFLAGS)
-PROFILE_LDFLAGS = -O2 $(PROFILEFLAGS)
+PROFILE_CXXFLAGS = -I$(SRCDIR) -Wall -O3 -c -fPIC $(PROFILEFLAGS)
+PROFILE_LDFLAGS = -O3 $(PROFILEFLAGS)
 PROFILE_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PROFILE_LIBS = -lFFPopSim -lgsl -lgslcblas
 
@@ -230,8 +230,8 @@ SWIG_SUPPORT_2 = hivpopulation.i
 SWIG_SUPPORT_3 = ffpopsim_lowd.i
 SWIG_SUPPORT_4 = ffpopsim_generic.i
 
-PYTHON_CFLAGS = -O2 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
-PYTHON_LDFLAGS= -O2 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
+PYTHON_CFLAGS = -O3 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
+PYTHON_LDFLAGS= -O3 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
 PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PYTHON_LIBS = -lFFPopSim -lgsl -lgslcblas
 
