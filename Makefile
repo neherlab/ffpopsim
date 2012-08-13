@@ -8,8 +8,11 @@
 # ------------
 # Makefile for the FFPopSim library.
 #
-# The first section deals with platform-specific options and paths.
-# In particular, there are two variables that can differ across the audience:
+# The first section deals with platform-specific programs, options, and paths.
+# If you are only compiling the C++ library and do not need the Python
+# bindings, please comment the lines that define the PYTHON and the SWIG
+# variables. If you are also compiling the Python 2.7 bindings, please pay
+# attention to the following variables:
 #
 # 1. PYTHON_PREFIX: the root of your Python installation. Two common choices
 #                   are listed, but you should check your own path. One way
@@ -33,6 +36,14 @@
 # - tests: test cases compilation and linking against the library
 # - python: python bindings
 #
+# The second section of this Makefile, below the clause within !!, is where
+# the make recipes are listed and specified. Modify that part of the file
+# only if you know what you are doing and want to change some technical detail
+# of the dependecy chain.
+#
+# The compiled library, the C++ include files, and the Python bindings are
+# put into the pkg folder after building.
+#
 ##==========================================================================
 # PLATFORM-DEPENDENT OPTIONS
 #
@@ -41,11 +52,16 @@
 ##==========================================================================
 CC := gcc
 CXX := g++
-SWIG := swig
 DOXY := doxygen
+# Comment the following lines to avoid building the Python 2.7 bindings
 PYTHON := python2.7
+SWIG := swig
 
-# Try to guess the platform and whether Doxygen and/or Python are installed
+# Lower this number if you prefer to use mildly optimized code only.
+OPTIMIZATION_LEVEL := 3
+
+# Try to guess PYTHON_PREFIX and PYTHON_LD_FLAGS_PLATFORM
+# Please use the lines below if the guesses do not seem to work.
 include Makefile_guesses
 
 # Apple users would usually use (and possibly edit) the first line
@@ -76,8 +92,14 @@ PYBDIR = $(SRCDIR)/python
 PKGDIR = pkg
 PFLDIR = profile
 
+# Can we compile Python bindings?
+ifdef PYTHON
+    python := python
+endif
+
+# List all explicit recipes
 .PHONY : all clean src tests doc python profile clean-src clean-doc clean-tests clean-python clean-profile
-all: src tests $(doc) $(python)
+all: src tests $(python)
 clean: clean-src clean-doc clean-tests clean-python clean-profile
 
 # Profile flag to enable profiling with gprof.
@@ -87,7 +109,7 @@ clean: clean-src clean-doc clean-tests clean-python clean-profile
 ##==========================================================================
 # SOURCE
 ##==========================================================================
-SRC_CXXFLAGS= -O3 -fPIC $(PROFILEFLAGS)
+SRC_CXXFLAGS= -O$(OPTIMIZATION_LEVEL) -fPIC $(PROFILEFLAGS)
 
 LIBRARY := libFFPopSim.a
 
@@ -158,8 +180,8 @@ clean_doc:
 ##==========================================================================
 # TESTS
 ##==========================================================================
-TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O3 -c -fPIC
-TESTS_LDFLAGS = -O3 $(PROFILEFLAGS)
+TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC
+TESTS_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
 
@@ -196,8 +218,8 @@ clean-tests:
 ##==========================================================================
 # PROFILE
 ##==========================================================================
-PROFILE_CXXFLAGS = -I$(SRCDIR) -Wall -O3 -c -fPIC $(PROFILEFLAGS)
-PROFILE_LDFLAGS = -O3 $(PROFILEFLAGS)
+PROFILE_CXXFLAGS = -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC $(PROFILEFLAGS)
+PROFILE_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
 PROFILE_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PROFILE_LIBS = -lFFPopSim -lgsl -lgslcblas
 
@@ -230,8 +252,8 @@ SWIG_SUPPORT_2 = hivpopulation.i
 SWIG_SUPPORT_3 = ffpopsim_lowd.i
 SWIG_SUPPORT_4 = ffpopsim_generic.i
 
-PYTHON_CFLAGS = -O3 -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
-PYTHON_LDFLAGS= -O3 -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
+PYTHON_CFLAGS = -O$(OPTIMIZATION_LEVEL) -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
+PYTHON_LDFLAGS= -O$(OPTIMIZATION_LEVEL) -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
 PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PYTHON_LIBS = -lFFPopSim -lgsl -lgslcblas
 
