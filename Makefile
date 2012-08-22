@@ -34,7 +34,7 @@
 # - src: library compilation and (static) linking
 # - doc: documentation
 # - tests: test cases compilation and linking against the library
-# - python: python bindings
+# - python: python bindings and documentation
 #
 # The second section of this Makefile, below the clause within !!, is where
 # the make recipes are listed and specified. Modify that part of the file
@@ -56,9 +56,10 @@ DOXY := doxygen
 # Comment the following lines to avoid building the Python 2.7 bindings
 PYTHON := python2.7
 SWIG := swig
+SPHINXBUILD = sphinx-build2
 
 # Lower this number if you prefer to use mildly optimized code only.
-OPTIMIZATION_LEVEL := 3
+OPTIMIZATION_LEVEL := 0
 
 # Try to guess PYTHON_PREFIX and PYTHON_LD_FLAGS_PLATFORM
 # Please use the lines below if the guesses do not seem to work.
@@ -88,7 +89,8 @@ NUMPY_INCLUDES = $(PYTHON_PREFIX)/lib/$(PYTHON)/site-packages/numpy/core/include
 SRCDIR = src
 DOCDIR = doc
 TESTSDIR = tests
-PYBDIR = $(SRCDIR)/python
+PYBDIR := $(SRCDIR)/python
+PYDOCDIR := $(DOCDIR)/python
 PKGDIR = pkg
 PFLDIR = profile
 
@@ -98,9 +100,10 @@ ifdef PYTHON
 endif
 
 # List all explicit recipes
-.PHONY : all clean src tests doc python profile clean-src clean-doc clean-tests clean-python clean-profile
+.PHONY : all src tests doc python python-doc profile clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile
 all: src tests $(python)
-clean: clean-src clean-doc clean-tests clean-python clean-profile
+clean: clean-src clean-tests clean-python clean-profile
+clean-all: clean clean-doc clean-python-doc
 
 # Profile flag to enable profiling with gprof.
 # (Un)Comment the next line to switch off (on) profiling.
@@ -168,14 +171,17 @@ clean-src:
 ##==========================================================================
 # DOCUMENTATION
 ##==========================================================================
-DOXYFILE   = $(DOCDIR)/Doxyfile
+DOXYFILE   = $(DOCDIR)/cpp/Doxyfile
 
 # Recipes
 doc:
 	$(DOXY) $(DOXYFILE)
+	mkdir -p $(PKGDIR)/doc/cpp
+	cp -rf $(DOCDIR)/cpp/html $(PKGDIR)/doc/cpp/
 
-clean_doc:
-	rm -rf $(DOCDIR)/latex $(DOCDIR)/html
+clean-doc:
+	cd $(DOCDIR)/cpp; rm -rf latex html
+	cd $(PKGDIR)/doc; rm -rf cpp
 
 ##==========================================================================
 # TESTS
@@ -237,7 +243,7 @@ $(PROFILE_OBJECT:%=$(PFLDIR)/%): $(PROFILE_SOURCE:%=$(PFLDIR)/%)
 	$(CXX) $(PROFILE_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 ##==========================================================================
-# PYTHON BINDINGS
+# PYTHON BINDINGS AND DOCUMENTATION
 ##==========================================================================
 SWIGFLAGS = -c++ -python -O -castmode -keyword
 
@@ -258,7 +264,7 @@ PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PYTHON_LIBS = -lFFPopSim -lgsl -lgslcblas
 
 # Recipes
-python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%) 
+python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%)
 
 $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_SOURCE:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
 	$(CC) $(PYTHON_CFLAGS) -c $(SWIG_WRAP:%=$(PYBDIR)/%) -o $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%)
@@ -274,5 +280,14 @@ clean-python:
 	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 	cd $(PKGDIR)/python; rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
+
+python-doc:
+	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINXBUILD) html
+	mkdir -p $(PKGDIR)/doc/python
+	cp -rf $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/
+
+clean-python-doc:
+	cd $(PYDOCDIR); rm -rf build
+	cd $(PKGDIR)/doc; rm -rf python
 
 #############################################################################

@@ -1,0 +1,5 @@
+<map id="haploid_highd::swap_populations" name="haploid_highd::swap_populations">
+<area shape="rect" id="node3" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="206,5,349,32"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#aae3666ef1b744f0a1918d5694ec5199b" title="Cause a bottleneck in the population size." alt="" coords="193,56,362,83"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a981292b7434288cbee87093576b61371" title="Remove duplicate clones." alt="" coords="204,107,351,149"/>
+</map>

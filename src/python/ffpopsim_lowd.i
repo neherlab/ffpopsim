@@ -26,32 +26,22 @@ def integerify(b):
 %define DOCSTRING_HAPLOID_GT_DIS
 "Class for low-dimensional population genetics (short genomes ~20 loci).
 
-This class is the main object for simulating the evolution of populations with
-a few loci (less than ~20). The class offers a number of functions, but an
-example will explain the basic idea:
+The class offers a number of functions, but an example will explain the basic idea::
 
-#####################################
-#   EXAMPLE SCRIPT                  #
-#####################################
-import numpy as np
-import matplotlib.pyplot as plt
-import FFPopSim as h
-
-c = h.haploid_lowd(5)
-c.set_genotypes([0, 2], [300, 700]) 
-c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
-c.evolve(10)
-c.plot_diversity_histogram()
-plt.show()
-#####################################
-
-An effective way to discover all available methods is to import FFPopSim from
-an interactive shell (e.g. iPython), create a population as above, and use TAB
-autocompletion:
-
-In [1]: import FFPopSim as h
-In [2]: c = h.haploid_lowd(5, 2000)
-In [3]: c.      <--- TAB
+    #####################################
+    #   EXAMPLE SCRIPT                  #
+    #####################################
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import FFPopSim as h
+    
+    c = h.haploid_lowd(5)
+    c.set_genotypes([0, 2], [300, 700]) 
+    c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
+    c.evolve(10)
+    c.plot_diversity_histogram()
+    plt.show()
+    #####################################
 "
 %enddef
 %feature("autodoc", DOCSTRING_HAPLOID_GT_DIS) haploid_lowd;
@@ -62,8 +52,8 @@ In [3]: c.      <--- TAB
 "Construct a low-dimensional population with certain parameters.
 
 Parameters:
-- L : number of loci (at least 1)
-- rng_seed : seed for the random number generator    
+    - L : number of loci (at least 1)
+    - rng_seed : seed for the random number generator    
 "
 %enddef
 %feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_INIT) haploid_lowd;
@@ -93,8 +83,13 @@ const char* __repr__() {
 %ignore fitness;
 %ignore population;
 
+/* read/write attributes */
+%feature("autodoc", "is the genome circular?") circular;
+%feature("autodoc", "current carrying capacity of the environment") carrying_capacity;
+%feature("autodoc", "using free recombination?") free_recombination;
+%feature("autodoc", "outcrossing rate (probability of sexual reproduction per generation)") outcrossing_rate;
 
-/* read only parameters */
+/* read only attributes */
 %ignore L;
 %ignore N;
 %rename (_get_number_of_loci) get_number_of_loci;
@@ -107,7 +102,9 @@ number_of_loci = property(_get_number_of_loci)
 population_size = property(_get_population_size)
 generation = property(_get_generation)
 }
-
+%feature("autodoc", "number of loci") get_number_of_loci;
+%feature("autodoc", "population size") get_population_size;
+%feature("autodoc", "current generation") get_generation;
 
 /* initialize frequencies */
 %ignore set_allele_frequencies;
@@ -120,7 +117,7 @@ def set_allele_frequencies(self, frequencies, N=1000):
     - frequencies: an array of length L with all allele frequencies
     - N: the carrying capacity (target population size)
 
-    *Note*: the latter parameter is only used for resampling and has therefore
+    **Note**: the latter parameter is only used for resampling and has therefore
     no crucial effect on the speed of the simulation.
     '''
     if len(frequencies) != self.L:
@@ -220,17 +217,17 @@ Note: if a single, constant rate is wished, use the following trick (e.g. for
 def get_mutation_rate(self, locus=None, direction=None):
     '''Get one or several mutation rates.
 
-    Parameters:
+Parameters:
     - locus: get only the mutation rate(s) of this locus
     - direction: get only the forward or backward mutation rate(s)
 
-    Returns:
+Returns:
     - the mutation rate(s) requensted
 
-    *Note*: if the mutation rates for all loci and/or directions are the same,
-    this function will try to be smart and give you the answer you are looking for.
-    In case of doubt, you will get a matrix (L x 2) with the full mutation rate
-    landscape.
+**Note**: if the mutation rates for all loci and/or directions are the same,
+this function will try to be smart and give you the answer you are looking for.
+In case of doubt, you will get a matrix (L x 2) with the full mutation rate
+landscape.
     '''
 
     import numpy as np
@@ -273,14 +270,14 @@ int _set_mutation_rate(double *IN_ARRAY2, int DIM1, int DIM2) {
 def set_mutation_rate(self, rates, rates_back=None):
     '''Set the mutation rate.
 
-    Parameters:
+Parameters:
     - rates: if a double, the mutation rate at any locus in both directions
-         or, if rates_back is not None, only in the forward direction
-         if a vector, the mutation rate is specified for each locus, the same
-         in both directions or, if rates_back is not None, only in the
-         forward direction
+      or, if rates_back is not None, only in the forward direction
+      if a vector, the mutation rate is specified for each locus, the same
+      in both directions or, if rates_back is not None, only in the
+      forward direction
     - rates_back: mutation rate in the backward direction (global or
-         locus-specific)
+      locus-specific)
     '''
 
     import numpy as np
@@ -302,6 +299,33 @@ def set_mutation_rate(self, rates, rates_back=None):
         raise RuntimeError('Error in the C++ function.')
 }
 
+/* evolve */
+%define DOCSTRING_HAPLOID_GT_DIS_EVOLVE
+"Evolve for some generations
+
+Parameters:
+    - gen: number of generations to evolve the population
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_EVOLVE) evolve;
+%define DOCSTRING_HAPLOID_GT_DIS_EVOLVE_DETERMINISTIC
+"Evolve for some generations deterministically
+
+Parameters:
+    - gen: number of generations to evolve the population
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_EVOLVE_DETERMINISTIC) evolve_deterministic;
+%define DOCSTRING_HAPLOID_GT_DIS_EVOLVE_NOREC
+"Evolve for some generations without recombination
+
+Parameters:
+    - gen: number of generations to evolve the population
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_EVOLVE_NOREC) evolve_norec;
+
+
 /* genotype frequencies */
 %pythoncode {
 def get_genotype_frequencies(self):
@@ -309,24 +333,85 @@ def get_genotype_frequencies(self):
     import numpy as np
     return np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
 }
+%define DOCSTRING_HAPLOID_GT_DIS_GET_GENOTYPE_FREQUENCY
+"Get the frequency of a genotype
+
+Parameters:
+    - gt: genotype, whose the frequency is to be computed
+
+Returns:
+    - the frequency of the genotype
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_GENOTYPE_FREQUENCY) get_genotype_frequency;
 
 /* allele frequencies */
 %pythoncode {
 def get_allele_frequencies(self):
-    '''Get all allele frequencies'''
+    '''Get the frequencies of all + alleles'''
     import numpy as np
     return np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
 }
+%define DOCSTRING_HAPLOID_GT_DIS_GET_ALLELE_FREQUENCY
+"Get the allele frequency at a locus
 
-/* ignore tests (they work by now) */
-%ignore test_recombinant_distribution();
-%ignore test_recombination(double *rec_rates);
-%ignore mutation_drift_equilibrium(double** mutrates);
+Parameters:
+    - locus: locus, at which the frequency of the + allele is to be computed
+
+Returns:
+    - the frequency of the + allele, :math:`\\nu_i := \\frac{1 + \\left<s_i\\right>}{2}`, where :math:`s_i \in \{-1, 1\}`.
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_ALLELE_FREQUENCY) get_allele_frequency;
+%define DOCSTRING_HAPLOID_GT_DIS_GET_CHI
+"Get chi of an allele in the -/+ basis
+
+Parameters:
+    - locus: locus whose chi is to be computed
+
+Returns:
+    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \in \{-1, 1\}`.
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_CHI) get_chi;
+%define DOCSTRING_HAPLOID_GT_DIS_GET_MOMENT
+"Get moment of two alleles in the -/+ basis
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_MOMENT) get_moment;
+%define DOCSTRING_HAPLOID_GT_DIS_GET_LD
+"Get linkage disequilibrium
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_LD) get_LD;
 
 /* random sampling */
 %pythoncode {
 def random_clones(self, n_sample):
-    '''Get random clones according to their frequencies.'''
+    '''Get random clones according to their frequencies.
+
+Parameters:
+    - n_sample: number of random clones to sample
+
+Returns:
+    - integers corresponding to random clones in the population.
+
+**Note**: clones are drawn randomly from an flat distribution over individuals. A clone will be represented according to its size in variates drawn from this function.
+'''
     import numpy as np
     counts = np.random.multinomial(n_sample, self.get_genotype_frequencies())
     ind = counts.nonzero()[0]
@@ -346,11 +431,26 @@ def get_fitnesses(self):
     '''Get the fitness of all possible genotypes.'''
     return self._get_fitnesses(1<<self.L)
 }
+%define DOCSTRING_HAPLOID_GT_DIS_GET_FITNESS
+"Get linkage disequilibrium
+
+Parameters:
+    - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
+
+Returns:
+    - the fitness of that genotype.
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_FITNESS) get_fitness;
 
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
 %pythoncode {
 def get_fitness_histogram(self, n_sample=1000, **kwargs):
-    '''Get the histogram of the fitness in the population.'''
+    '''Get the histogram of the fitness in the population.
+
+    Parameters:
+        - n_sample: number of individual to sample at random from the population
+    '''
     import numpy as np
 
     # Random sample
@@ -363,7 +463,14 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
 
 
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the histogram of the fitness in the population.'''
+    '''Plot the histogram of the fitness in the population.
+
+    Parameters:
+        - axis: use an already existing axis for the plot
+        - n_sample: number of individual to sample at random from the population
+        - kwargs: further optional keyword arguments to numpy.histograms
+    '''
+
     import numpy as np
     import matplotlib.pyplot as plt
 
@@ -383,7 +490,12 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
 
 
 def get_divergence_statistics(self, n_sample=1000):
-    '''Get the mean and variance of the divergence in the population.'''
+    '''Get the mean and variance of the divergence in the population.
+
+    Parameters:
+        - n_sample: number of individual to sample at random from the population
+    '''
+
     import numpy as np
     L = self.L
 
@@ -397,7 +509,16 @@ def get_divergence_statistics(self, n_sample=1000):
 
 
 def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
-    '''Get the histogram of the divergence in the population.'''
+    '''Get the histogram of the divergence in the population.
+
+    Parameters:
+        - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
+        - n_sample: number of individual to sample at random from the population
+        - kwargs: further optional keyword arguments to numpy.histograms
+
+    *Note*: to get a normalized histogram, use the *density* keyword.
+    '''
+
     import numpy as np
     L = self.L
 
@@ -411,7 +532,13 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
 
 
 def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the histogram of the divergence in the population.'''
+    '''Plot the histogram of the divergence in the population.
+
+    Parameters:
+        - axis: use an already existing axis for the plot
+        - n_sample: number of individual to sample at random from the population
+        - kwargs: further optional keyword arguments to numpy.histograms
+    '''
     import numpy as np
     import matplotlib.pyplot as plt
     L = self.L
@@ -435,7 +562,12 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
 
 
 def get_diversity_statistics(self, n_sample=1000):
-    '''Get the mean and variance of the diversity in the population.'''
+    '''Get the mean and variance of the diversity in the population.
+
+    Parameters:
+        - n_sample: number of individual to sample at random from the population
+    '''
+
     import numpy as np
     L = self.L
 
@@ -450,7 +582,16 @@ def get_diversity_statistics(self, n_sample=1000):
 
 
 def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
-    '''Get the histogram of the diversity in the population.'''
+    '''Get the histogram of the diversity in the population.
+
+    Parameters:
+        - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
+        - n_sample: number of individual to sample at random from the population
+        - kwargs: further optional keyword arguments to numpy.histograms
+
+    *Note*: to get a normalized histogram, use the *density* keyword.
+    '''
+
     import numpy as np
     L = self.L
 
@@ -466,7 +607,13 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
 
 
 def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the histogram of the diversity in the population.'''
+    '''Plot the histogram of the diversity in the population.
+
+    Parameters:
+        - axis: use an already existing axis for the plot
+        - n_sample: number of individual to sample at random from the population
+        - kwargs: further optional keyword arguments to numpy.histograms
+    '''
     import numpy as np
     import matplotlib.pyplot as plt
     L = self.L
@@ -532,4 +679,22 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
         if (($self->fitness).additive(IN_ARRAY1))
                 PyErr_Format(PyExc_RuntimeError, "Error in the C++ function.");
 }
+/*TODO: autodoc of this function is not working*/
+%define DOCSTRING_HAPLOID_GT_DIS_SET_FITNESS_ADDITIVE
+"Set an additive fitness landscape
+
+Parameters:
+    - coefficients: array/list of additive fitness coefficients. It must have length L.
+"
+%enddef
+%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_SET_FITNESS_ADDITIVE) set_fitness_additive;
+
+/* entropy */
+%feature("autodoc", "get the genotype entropy of the population") genotype_entropy;
+%feature("autodoc", "get the allele entropy of the population") allele_entropy;
+
+/* ignore tests (they work by now) */
+%ignore test_recombinant_distribution();
+%ignore test_recombination(double *rec_rates);
+%ignore mutation_drift_equilibrium(double** mutrates);
 } /* extend haploid_lowd */

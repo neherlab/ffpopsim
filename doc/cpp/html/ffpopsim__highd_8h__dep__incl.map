@@ -1,0 +1,7 @@
+<map id="src/ffpopsim_highd.h" name="src/ffpopsim_highd.h">
+<area shape="rect" id="node3" href="$haploid__highd_8cpp.html" title="src/haploid_highd.cpp" alt="" coords="5,80,152,107"/>
+<area shape="rect" id="node5" href="$hivpopulation_8h.html" title="Header file for a typical HIV population (subclass of haploid_highd)" alt="" coords="177,80,305,107"/>
+<area shape="rect" id="node11" href="$hypercube__highd_8cpp.html" title="src/hypercube_highd.cpp" alt="" coords="330,80,496,107"/>
+<area shape="rect" id="node7" href="$hivgene_8cpp.html" title="Implementation of an HIV gene." alt="" coords="109,155,220,181"/>
+<area shape="rect" id="node9" href="$hivpopulation_8cpp.html" title="Implementation of an HIV population with drug treatment." alt="" coords="245,155,387,181"/>
+</map>

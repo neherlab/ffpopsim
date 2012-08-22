@@ -1,0 +1,24 @@
+<map id="G" name="G">
+<area shape="rect" href="$classhaploid__highd.html#a1ee15d862374062377099130afc62c20" title="Calculate fitness of a particular clone." alt="" coords="359,132,593,159"/>
+<area shape="rect" href="$classhaploid__highd.html#a943354008a9931e4223f952f4790efd6" title="Flip a spin (locus) in individual." alt="" coords="375,436,577,463"/>
+<area shape="rect" href="$classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e" title="Recombine two genotypes parent1 and parent2 to produce two new genotypes." alt="" coords="392,512,560,539"/>
+<area shape="rect" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="380,309,572,336"/>
+<area shape="rect" href="$classhaploid__highd.html#aea031d85a4d91e7369506a2670a90dad" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="680,81,875,108"/>
+<area shape="rect" href="$classhaploid__highd.html#ac6029079cbb7ff559ed75b581ff8deef" title="haploid_highd::get_fitness" alt="" coords="692,132,863,159"/>
+<area shape="rect" href="$classhaploid__highd.html#a60617675023cab02a599a1ea7f9605c6" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution..." alt="" coords="1276,107,1484,133"/>
+<area shape="rect" href="$classhaploid__highd.html#a0e08d1847e521402cf0e2676d6ed38b9" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution..." alt="" coords="1253,5,1507,32"/>
+<area shape="rect" href="$classhaploid__highd.html#a3351949a49ad6702beb996b58755ce4e" title="Initialize population in linkage equilibrium." alt="" coords="965,132,1200,159"/>
+<area shape="rect" href="$classhaploid__highd.html#aa0c34e02ed924603417fdb8109918f7e" title="Initialize the population with genotype counts." alt="" coords="987,81,1179,108"/>
+<area shape="rect" href="$classhaploid__highd.html#a9418c16f238aacab3be2dbffb62246c4" title="Initialize a wildtype population (00...0)." alt="" coords="993,183,1172,209"/>
+<area shape="rect" href="$classhivpopulation.html#a299863ae882da177d548edc26d9a2cb8" title="Construct a HIV population with certain parameters." alt="" coords="1292,183,1468,209"/>
+<area shape="rect" href="$classhaploid__highd.html#a710a61fe8975aaaf4d148b2da20985ae" title="Flip a spin at a specific locus in random individual." alt="" coords="676,436,879,463"/>
+<area shape="rect" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)." alt="" coords="704,487,851,513"/>
+<area shape="rect" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="1012,512,1153,539"/>
+<area shape="rect" href="$classhaploid__highd.html#ab08783cb783ca66ff2c87227dbd74314" title="Pair and mate sexual gametes." alt="" coords="671,537,884,564"/>
+<area shape="rect" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="697,183,857,209"/>
+<area shape="rect" href="$classhaploid__highd.html#a4271fb90101fdea28032029efffbd395" title="haploid_highd::get_fitness_statistics" alt="" coords="661,233,893,260"/>
+<area shape="rect" href="$classhivpopulation.html#ad1caa476f2d93020d52d0ce46f81a529" title="hivpopulation::read_replication_coefficients" alt="" coords="644,284,911,311"/>
+<area shape="rect" href="$classhivpopulation.html#a6afaadd90cf25378476a13a2bef80875" title="hivpopulation::read_resistance_coefficients" alt="" coords="644,335,911,361"/>
+<area shape="rect" href="$classhivpopulation.html#a0f5bd29413e44f8a075afe164c05853e" title="hivpopulation::set_treatment" alt="" coords="685,385,869,412"/>
+<area shape="rect" href="$classhaploid__highd.html#ae25ec86176f438db2dc0194f04ecfc42" title="Print all allele frequencies into a stream provided." alt="" coords="961,233,1204,260"/>
+</map>

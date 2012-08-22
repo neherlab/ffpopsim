@@ -1,0 +1,5 @@
+<map id="haploid_highd::get_logmean_expfitness" name="haploid_highd::get_logmean_expfitness">
+<area shape="rect" id="node3" href="$classhaploid__highd.html#ae64df329db764e98e77398a775a43600" title="Get the log of the exp&#45;average fitness plus relaxation term." alt="" coords="197,5,363,46"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#aec2c31155f262a9c1cf21262eea2d03a" title="Generate offspring according to fitness (selection) and segregate some for sexual mating..." alt="" coords="411,5,555,46"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="603,12,746,39"/>
+</map>

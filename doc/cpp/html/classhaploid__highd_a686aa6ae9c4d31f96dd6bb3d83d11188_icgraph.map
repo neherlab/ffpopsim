@@ -1,0 +1,5 @@
+<map id="haploid_highd::distance_Hamming" name="haploid_highd::distance_Hamming">
+<area shape="rect" id="node4" href="$classhaploid__highd.html#abf5d073bfa998684b94c0b3248d7bdad" title="Calculate diversity in the current population (Hamming distance between pairs of sequences)" alt="" coords="223,5,359,46"/>
+<area shape="rect" id="node6" href="$classhaploid__highd.html#a234a418eff9319a2dfb6371b73220b56" title="Get histogram of divergence from the [00...0] bitset." alt="" coords="213,70,368,111"/>
+<area shape="rect" id="node8" href="$classhaploid__highd.html#a25a490ade017cff4cccb88ced04261ce" title="Get histogram of diversity in the population (mutual Hamming distance)" alt="" coords="221,135,361,177"/>
+</map>

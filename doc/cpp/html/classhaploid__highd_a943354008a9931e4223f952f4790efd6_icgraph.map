@@ -1,0 +1,5 @@
+<map id="haploid_highd::flip_single_locus" name="haploid_highd::flip_single_locus">
+<area shape="rect" id="node3" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="179,5,328,32"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a710a61fe8975aaaf4d148b2da20985ae" title="Flip a spin at a specific locus in random individual." alt="" coords="191,57,316,98"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="377,5,519,32"/>
+</map>

@@ -752,10 +752,6 @@ double haploid_lowd::genotype_entropy(){
 	return S;
 }
 
-/*
- * calculate the allele entropy and return
- * it has be made sure that the population.fft_func_to_coeff() was called
- */
 /**
  * @brief Get the allele entropy
  *

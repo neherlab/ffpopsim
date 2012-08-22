@@ -1,0 +1,11 @@
+<map id="hivpopulation::read_resistance_coefficients" name="hivpopulation::read_resistance_coefficients">
+<area shape="rect" id="node3" href="$classhypercube__highd.html#a1be5db431a981ab74f000cf381cd138f" title="Reset the hypercube." alt="" coords="216,12,373,39"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a2cd64aee1f057564834ef996489ddf5a" title="haploid_highd::add\l_trait_coefficient" alt="" coords="229,63,360,105"/>
+<area shape="rect" id="node9" href="$classhaploid__highd.html#ad5eee5bc7f757e20fb3119bb01c59b1e" title="For each clone, recalculate its traits." alt="" coords="221,129,369,170"/>
+<area shape="rect" id="node15" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="221,197,369,238"/>
+<area shape="rect" id="node5" href="$classhypercube__highd.html#adfbad1c0aaf72c41beb50b8084b0a980" title="Reset the additive part of the hypercube." alt="" coords="435,5,592,46"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#acf40ae60f1441f5a8bb67a5a84444c01" title="Calculate traits of the chosen clone." alt="" coords="447,125,580,166"/>
+<area shape="rect" id="node13" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="654,132,831,159"/>
+<area shape="rect" id="node17" href="$classhaploid__highd.html#a7f51d6a4f5791961d1b262e15735f820" title="Calculate fitness from traits of the chosen clone." alt="" coords="447,189,580,245"/>
+<area shape="rect" id="node19" href="$classhaploid__highd.html#a0d929c061bbf1c2fd4d82f6bb2f2f998" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="422,269,605,310"/>
+</map>

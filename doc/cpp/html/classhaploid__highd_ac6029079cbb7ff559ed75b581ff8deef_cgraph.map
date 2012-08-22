@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" href="$classhaploid__highd.html#a1ee15d862374062377099130afc62c20" title="Calculate fitness of a particular clone." alt="" coords="228,31,463,57"/>
+<area shape="rect" href="$classhaploid__highd.html#a609cef57350789435fb72080348c3faf" title="haploid_highd::calc_individual_fitness_from_traits" alt="" coords="512,5,816,32"/>
+<area shape="rect" href="$classhaploid__highd.html#acf40ae60f1441f5a8bb67a5a84444c01" title="Calculate traits of the chosen clone." alt="" coords="551,56,777,83"/>
+<area shape="rect" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="864,56,1040,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="haploid_lowd::calculate_recombinants_general" name="haploid_lowd::calculate_recombinants_general">
+<area shape="rect" id="node3" href="$classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="225,67,389,93"/>
+<area shape="rect" id="node11" href="$classhaploid__lowd__test.html#af698da1abf2ed79003c522fe5d40482d" title="Test the recombination routine using Fourier transforms." alt="" coords="211,119,403,161"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="451,5,589,32"/>
+<area shape="rect" id="node7" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="451,57,589,98"/>
+<area shape="rect" id="node9" href="$classhaploid__lowd__test.html#a7c852d1c12103d3b6811170b6eaef788" title="Test the recombination routine extensively." alt="" coords="453,122,587,163"/>
+</map>

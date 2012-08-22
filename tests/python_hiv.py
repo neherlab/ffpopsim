@@ -13,42 +13,42 @@ import matplotlib.pyplot as plt
 import FFPopSim as h
 
 # Construct class
-c = h.hivpopulation(1000)
+pop = h.hivpopulation(1000)
 
 # Test I/O fitness landscapes
-c.set_replication_landscape(lethal_fraction=0.05,
+pop.set_replication_landscape(lethal_fraction=0.05,
                             number_valleys=0)
-c.read_replication_coefficients('hiv_model.dat')
-rep = c.additive_replication
+pop.read_replication_coefficients('hiv_model.dat')
+rep = pop.get_additive_replication()
 rep[np.random.random(10000) > 0.5] = -0.1
-c.additive_replication = rep
+pop.set_additive_replication(rep)
 
 # Show the additive part of the fitness landscape
-print c.get_additive_trait()
+print pop.get_additive_trait()
 
 # Test population initialization
-c.set_allele_frequencies([0.3] * h.HIVGENOME, 1000)
+pop.set_allele_frequencies([0.3] * h.HIVGENOME, 1000)
 
 # Test allele frequency readout
-print np.max(c.get_allele_frequency(4))
+print np.max(pop.get_allele_frequency(4))
 
 # Test evolution
 from time import time as ti
 t0 = ti()
-c.evolve(3)
+pop.evolve(30)
 t1 = ti()
 print 'Time for evolving HIV for 30 generations: {:1.1f} s'.format(t1-t0)
 
 # Write genotypes
-c.write_genotypes('test.txt', 100)
-c.write_genotypes_compressed('test.npz', 100)
+pop.write_genotypes('test.txt', 100)
+pop.write_genotypes_compressed('test.npz', 100)
 
 # Plot histograms
 plt.ion()
-c.plot_fitness_histogram()
-c.plot_divergence_histogram(color='r')
-c.plot_diversity_histogram(color='g')
+pop.plot_fitness_histogram()
+pop.plot_divergence_histogram(color='r')
+pop.plot_diversity_histogram(color='g')
 
 # Test treatment changes
-c.treatment = 0.4
-print c.treatment
+pop.treatment = 0.4
+print pop.treatment

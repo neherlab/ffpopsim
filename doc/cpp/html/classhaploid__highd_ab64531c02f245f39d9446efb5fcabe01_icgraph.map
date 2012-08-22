@@ -1,0 +1,12 @@
+<map id="haploid_highd::random_clone" name="haploid_highd::random_clone">
+<area shape="rect" id="node3" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="207,23,356,49"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a710a61fe8975aaaf4d148b2da20985ae" title="Flip a spin at a specific locus in random individual." alt="" coords="219,106,344,147"/>
+<area shape="rect" id="node9" href="$classhaploid__highd.html#aefe07878a3133687465c41804043779d" title="Sample random individuals from the population." alt="" coords="205,171,357,213"/>
+<area shape="rect" id="node21" href="$classhivpopulation.html#a53823e479fe82c35986fb9a932a1e576" title="hivpopulation::write\l_genotypes" alt="" coords="216,237,347,278"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="411,5,554,32"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#af77958954fe6001b2640b70bcc3681a4" title="Calculate mean and variance of the divergence from the [00...0] bitset." alt="" coords="407,57,558,98"/>
+<area shape="rect" id="node13" href="$classhaploid__highd.html#abf5d073bfa998684b94c0b3248d7bdad" title="Calculate diversity in the current population (Hamming distance between pairs of sequences)" alt="" coords="415,122,551,163"/>
+<area shape="rect" id="node15" href="$classhaploid__highd.html#a2dae66421820a2248db9be1771ce9e62" title="Calculate histogram of fitness from traits." alt="" coords="417,187,548,229"/>
+<area shape="rect" id="node17" href="$classhaploid__highd.html#a234a418eff9319a2dfb6371b73220b56" title="Get histogram of divergence from the [00...0] bitset." alt="" coords="405,253,560,294"/>
+<area shape="rect" id="node19" href="$classhaploid__highd.html#a25a490ade017cff4cccb88ced04261ce" title="Get histogram of diversity in the population (mutual Hamming distance)" alt="" coords="413,318,553,359"/>
+</map>

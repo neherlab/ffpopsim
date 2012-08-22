@@ -197,22 +197,18 @@ public:
 	double get_genotype_frequency(int gt){return population.get_func(gt);}
 	
 	// allele frequencies
-	double get_allele_frequency(int locus){return 0.5*(1+(1<<number_of_loci)*population.get_coeff(1<<locus));}
+	double get_allele_frequency(int locus){return 0.5 * (1 + get_chi(locus));}
 	double get_chi(int locus){return (1<<number_of_loci)*population.get_coeff(1<<locus);}
 	double get_moment(int locus1, int locus2){return (1<<number_of_loci)*population.get_coeff((1<<locus1)+(1<<locus2));}
 	double get_LD(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
+
+        // entropy
 	double genotype_entropy();
 	double allele_entropy();
 
 	// fitness/phenotype readout
-	double get_fitness(int n) {return fitness.get_func(n);}
+	double get_fitness(int gt) {return fitness.get_func(gt);}
 	stat_t get_fitness_statistics();
-
-	//evolution
-	int select();
-	int mutate();
-	int recombine();
-	int resample();
 
 protected:
 	//random number generator used for resampling and seeding the hypercube_lowds
@@ -232,6 +228,12 @@ protected:
 	int generation;
 	double long_time_generation;
 	double** mutation_rates;				// the mutation rate can be made locus specific and genotype dependent.
+
+	//evolution
+	int select();
+	int mutate();
+	int recombine();
+	int resample();
 
 	int calculate_recombinants_free();
 	int calculate_recombinants_general();
