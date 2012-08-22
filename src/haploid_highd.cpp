@@ -697,13 +697,15 @@ void haploid_highd::update_traits() {
  * @brief For each clone, update fitness assuming traits are already up to date
  */
 void haploid_highd::update_fitness() {
-	calc_individual_fitness_from_traits(&(*(current_pop->begin())));
-	fitness_max = (*current_pop)[0].fitness;
-	if((current_pop->size()) > 1)
-		for(vector<clone_t>::iterator pop_iter = current_pop->begin()+1; pop_iter != current_pop->end(); pop_iter++) {
-			calc_individual_fitness_from_traits(&(*pop_iter));
-			check_individual_maximal_fitness(&(*pop_iter));
-		}
+	if(current_pop->size() > 0) {
+		calc_individual_fitness_from_traits(&(*(current_pop->begin())));
+		fitness_max = (*current_pop)[0].fitness;
+		if(current_pop->size() > 1)
+			for(vector<clone_t>::iterator pop_iter = current_pop->begin()+1; pop_iter != current_pop->end(); pop_iter++) {
+				calc_individual_fitness_from_traits(&(*pop_iter));
+				check_individual_maximal_fitness(&(*pop_iter));
+			}
+	}
 }
 
 /**
