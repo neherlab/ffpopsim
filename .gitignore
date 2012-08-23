@@ -18,10 +18,6 @@ tests/FFPopSim.py
 tests/FFPopSim.pyc
 tests/_FFPopSim.so
 
-# SWIG wrapper
-src/python/FFPopSim.py
-*_wrap.cpp
-
 # Compiled Object files
 *.slo
 *.lo

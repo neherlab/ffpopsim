@@ -10,40 +10,26 @@
 #
 # The first section deals with platform-specific programs, options, and paths.
 # If you are only compiling the C++ library and do not need the Python
-# bindings, please comment the lines that define the PYTHON and the SWIG
-# variables. If you are also compiling the Python 2.7 bindings, please pay
-# attention to the following variables:
-#
-# 1. PYTHON_PREFIX: the root of your Python installation. Two common choices
-#                   are listed, but you should check your own path. One way
-#                   of doing this is to run:
-#
-#                   which python
-#
-#                   in a shell, and copy the first chunk of the path.
-#
-# 2. PYTHON_LD_FLAGS_PLATFORM: the stategy used to build shared libraries.
-#                   There are only two options here, depending on whether you
-#                   are on an Apple computer or not.
-#
-# This file tries to guess reasonable values for both variables, by including
-# Makefile_guesses. However, if you know their value on your system, please
-# set it explicitely below.
-#
-# There are four main recipes:
-# - src: library compilation and (static) linking
-# - doc: documentation
-# - tests: test cases compilation and linking against the library
-# - python: python bindings and documentation
+# bindings, please comment the lines that define the PYTHON, SWIG, and SPHINX
+# variables.
 #
 # The second section of this Makefile, below the clause within !!, is where
 # the make recipes are listed and specified. Modify that part of the file
 # only if you know what you are doing and want to change some technical detail
 # of the dependecy chain.
 #
-# The compiled library, the C++ include files, and the Python bindings are
-# put into the pkg folder after building.
+# There are five main recipes:
+# - src: library compilation and (static) linking
+# - doc: documentation
+# - tests: test cases compilation and linking against the library
+# - python: python bindings
+# - python-doc: python documentation
 #
+# The compiled library, the C++ include files, the Python bindings, and the
+# documentation are put into the pkg folder after building.
+#
+#############################################################################
+
 ##==========================================================================
 # PLATFORM-DEPENDENT OPTIONS
 #
@@ -56,29 +42,10 @@ DOXY := doxygen
 # Comment the following lines to avoid building the Python 2.7 bindings
 PYTHON := python2.7
 SWIG := swig
-SPHINXBUILD = sphinx-build2
+SPHINX := sphinx-build2
 
 # Lower this number if you prefer to use mildly optimized code only.
-OPTIMIZATION_LEVEL := 0
-
-# Try to guess PYTHON_PREFIX and PYTHON_LD_FLAGS_PLATFORM
-# Please use the lines below if the guesses do not seem to work.
-include Makefile_guesses
-
-# Apple users would usually use (and possibly edit) the first line
-# Linux users the second line
-#PYTHON_PREFIX := /Library/Frameworks/EPD64.framework/Versions/Current
-#PYTHON_PREFIX := /usr
-
-# Apple users would usually use (and possibly edit) the first line
-# Linux users the second line
-#PYTHON_LD_FLAGS_PLATFORM := -dynamiclib -flat_namespace -undefined suppress
-#PYTHON_LD_FLAGS_PLATFORM := -shared
-
-# PYTHON_PREFIX is actually only used in the following two variables.
-# You can also directly edit these if you know what you are doing.
-PYTHON_INCLUDES = $(PYTHON_PREFIX)/include/$(PYTHON)
-NUMPY_INCLUDES = $(PYTHON_PREFIX)/lib/$(PYTHON)/site-packages/numpy/core/include
+OPTIMIZATION_LEVEL := 1
 
 ############################################################################
 # !! DO NOT EDIT BELOW THIS LINE !!
@@ -93,6 +60,7 @@ PYBDIR := $(SRCDIR)/python
 PYDOCDIR := $(DOCDIR)/python
 PKGDIR = pkg
 PFLDIR = profile
+DISTUTILS_SETUP := setup.py
 
 # Can we compile Python bindings?
 ifdef PYTHON
@@ -100,10 +68,10 @@ ifdef PYTHON
 endif
 
 # List all explicit recipes
-.PHONY : all src tests doc python python-doc profile clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile
+.PHONY : all src tests doc python python-doc profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig
 all: src tests $(python)
 clean: clean-src clean-tests clean-python clean-profile
-clean-all: clean clean-doc clean-python-doc
+clean-all: clean clean-doc clean-python-doc clean-swig
 
 # Profile flag to enable profiling with gprof.
 # (Un)Comment the next line to switch off (on) profiling.
@@ -245,8 +213,6 @@ $(PROFILE_OBJECT:%=$(PFLDIR)/%): $(PROFILE_SOURCE:%=$(PFLDIR)/%)
 ##==========================================================================
 # PYTHON BINDINGS AND DOCUMENTATION
 ##==========================================================================
-SWIGFLAGS = -c++ -python -O -castmode -keyword
-
 SWIG_INTERFACE = FFPopSim.i
 SWIG_WRAP = $(SWIG_INTERFACE:%.i=%_wrap.cpp)
 SWIG_WRAP_OBJECT = $(SWIG_WRAP:%.cpp=%.o)
@@ -258,31 +224,22 @@ SWIG_SUPPORT_2 = hivpopulation.i
 SWIG_SUPPORT_3 = ffpopsim_lowd.i
 SWIG_SUPPORT_4 = ffpopsim_generic.i
 
-PYTHON_CFLAGS = -O$(OPTIMIZATION_LEVEL) -fPIC -I$(SRCDIR) -I$(PYTHON_INCLUDES) -I$(NUMPY_INCLUDES)
-PYTHON_LDFLAGS= -O$(OPTIMIZATION_LEVEL) -fPIC $(PYTHON_LD_FLAGS_PLATFORM)
-PYTHON_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
-PYTHON_LIBS = -lFFPopSim -lgsl -lgslcblas
-
 # Recipes
-python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%)
+python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%) $(DISTUTILS_SETUP)
 
-$(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_SOURCE:%=$(PYBDIR)/%) $(DISTUTILS_SETUP:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY)
-	$(CC) $(PYTHON_CFLAGS) -c $(SWIG_WRAP:%=$(PYBDIR)/%) -o $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%)
-	$(CXX) $(PYTHON_LDFLAGS) $(SWIG_WRAP_OBJECT:%=$(PYBDIR)/%) $(PYTHON_LIBDIRS) $(PYTHON_LIBS) -o $(SWIG_OBJECT:%=$(PYBDIR)/%)
-	mkdir -p $(PKGDIR)/python
+$(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SOURCE_LOWD:%=$(SRCDIR)/%) $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(SOURCE_HIV:%=$(SRCDIR)/%) $(SOURCE_HIVGENE:%=$(SRCDIR)/%) $(SOURCE_GENERIC:%=$(SRCDIR)/%)
+	CFLAGS='-O$(OPTIMIZATION_LEVEL)' $(PYTHON) setup.py build_ext --inplace
+	rm -rf build
 	cp -f $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(PKGDIR)/python/
 	cp -f $(SWIG_OBJECT:%=$(PYBDIR)/%) $(PKGDIR)/python/
 
-$(SWIG_WRAP:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SRCDIR)/$(LIBRARY) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%) $(SWIG_SUPPORT_4:%=$(PYBDIR)/%)
-	$(SWIG) $(SWIGFLAGS) -o $@ $(SWIG_INTERFACE:%=$(PYBDIR)/%)
-
 clean-python:
-	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
+	cd $(PYBDIR); rm -rf $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYCMODULE)
 	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 	cd $(PKGDIR)/python; rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
 
 python-doc:
-	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINXBUILD) html
+	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINX) html
 	mkdir -p $(PKGDIR)/doc/python
 	cp -rf $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/
 
@@ -290,4 +247,16 @@ clean-python-doc:
 	cd $(PYDOCDIR); rm -rf build
 	cd $(PKGDIR)/doc; rm -rf python
 
+##==========================================================================
+# SWIG (USED FOR PYTHON BINDINGS)
+##==========================================================================
+SWIGFLAGS = -c++ -python -O -castmode -keyword
+
+swig: $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(PYBDIR)/%)
+
+$(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%) $(SWIG_SUPPORT_4:%=$(PYBDIR)/%)
+	$(SWIG) $(SWIGFLAGS) -o $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%)
+
+clean-swig:
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_PYMODULE)
 #############################################################################
