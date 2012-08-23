@@ -206,7 +206,7 @@ def set_genotypes(self, indices, counts):
   if($1) delete[] $1;
 }
 %pythoncode {
-def set_recombination_rates(rates):
+def set_recombination_rates(self, rates):
     '''Set the recombination rate(s).
 
 Parameters:
@@ -229,7 +229,7 @@ Parameters:
 
     # Check whether the input argument is a list or a scalar
     if np.isscalar(rates):
-        self._set_recombination_rates([[rates] * len_rates])
+        self._set_recombination_rates([rates] * len_rates)
 
     elif len(rates) != len_rates:
         raise ValueError("Expecting an array of length "+str(len_rates)+".")

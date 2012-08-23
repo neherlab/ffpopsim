@@ -17,4 +17,10 @@ an interactive shell (e.g. iPython), create a population, and use TAB autocomple
 
 Examples
 --------
-**TODO**
+The source code for all examples can be found in the ``examples`` folder.
+
+.. toctree::
+   :maxdepth: 1
+
+   Examples lowd
+   Examples highd

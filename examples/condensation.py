@@ -10,11 +10,9 @@ sys.path.append('../pkg/python')
 import numpy as np
 import matplotlib.pyplot as plt
 import FFPopSim as ffpop
-import argparse
-
-plt.ion()
 
 #parse the command line arguments
+import argparse
 parser = argparse.ArgumentParser(description="Simulate a population on a mixed additive/epistatic fitness function")
 parser.add_argument('--pop', default=10000, type=float, help='Population size (N)')
 parser.add_argument('--rec',  default=0,type=float, help='out-crossing rate (r)')
@@ -41,14 +39,13 @@ popstat = []
 for gen in range(params.dt,params.Ttraj, params.dt):
     #append current statistics to the list
     pfit = pop.get_fitness_statistics()
-    popstat.append([gen,pfit.mean, pfit.variance, pop.get_participation_ratio(), pop.number_of_clones])
+    popstat.append([gen,pfit.mean, pfit.variance, pop.participation_ratio, pop.number_of_clones])
     
     #evolve for dt generations and clean up
     pop.evolve(params.dt)
     pop.unique_clones()
     pop.calc_stat()
 
-#cast population statistics to an array to allow slicing
 popstat=np.array(popstat)
 
 #plot quantities of interest
@@ -70,6 +67,8 @@ plt.plot(popstat[:,0],np.sqrt(popstat[:,2]), label='fitness standard deviation')
 plt.legend(loc=2)
 plt.xlabel('Time')
 
+plt.ion()
+plt.show()
 
 
 

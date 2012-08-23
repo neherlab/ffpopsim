@@ -152,18 +152,23 @@ int haploid_lowd::free_mem() {
 /**
  * @brief Initialize population in linkage equilibrium.
  *
- * @param freq target allele frequencies
- * @param N_in carrying capacity (target population size)
+ * @param freq allele frequencies
+ * @param N_in population size
  *
  * @returns zero if successful, error codes otherwise
  *
  * Note: when this function is used to initialize the population, it is likely that the fitness distribution
  * has a very large width. In turn, this can result in an immediate and dramatic drop in diversity within the
  * first few generations. Please check fitness statistics before starting the evolution if this worries you.
+ *
+ * *Note*: the population size will be set. If not set yet, the carrying
+ * capacity will be set to the same number.
  */
 int haploid_lowd::set_allele_frequencies(double *freq, unsigned long N_in) {
         // Set the population size
-	carrying_capacity=population_size=N_in;
+	population_size=N_in;
+        if(carrying_capacity < HG_NOTHING)
+                carrying_capacity = population_size;
 
         // Set the allele frequencies
 	int locus, i;
@@ -187,9 +192,9 @@ int haploid_lowd::set_allele_frequencies(double *freq, unsigned long N_in) {
  *
  * @returns zero if successful, error codes otherwise
  *
- * *Note*: the population size and carrying capacity will be set as the total sum of
- * counts of all genotypes. If you wish to modify the latter, you can do so directly
- * afterwards.
+ * *Note*: the population size will be set as the total sum of counts of all
+ * genotypes. If not set yet, the carrying capacity will be set to the same
+ * number.
  */
 int haploid_lowd::set_genotypes(vector <index_value_pair_t> gt) {
         // Initialize the genotypes
@@ -200,7 +205,8 @@ int haploid_lowd::set_genotypes(vector <index_value_pair_t> gt) {
 	population_size=0;
 	for(size_t i = 0; i < gt.size(); i++)
 		population_size += gt[i].val;
-        carrying_capacity = population_size;
+        if(carrying_capacity < HG_NOTHING)
+                carrying_capacity = population_size;
 	return population.normalize();
 }
 
@@ -210,6 +216,9 @@ int haploid_lowd::set_genotypes(vector <index_value_pair_t> gt) {
  * @param N_in number of individuals
  *
  * @returns 0 if successful, nonzero otherwise.
+ *
+ * *Note*: the population size will be set. If not set yet, the carrying
+ * capacity will be set to the same number.
  */
 int haploid_lowd::set_wildtype(unsigned long N_in) {
 
@@ -220,7 +229,9 @@ int haploid_lowd::set_wildtype(unsigned long N_in) {
         if(err) return err;
 
 	// Set the population size as the sum of the clones in input
-        carrying_capacity = population_size = N_in;
+        population_size = N_in;
+        if(carrying_capacity < HG_NOTHING)
+                carrying_capacity = population_size;
 	return population.normalize();
 }
 
