@@ -535,7 +535,7 @@ int haploid_lowd::calculate_recombinants_general() {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_lowd::set_mutation_rate(double m) {
+int haploid_lowd::set_mutation_rates(double m) {
 	if (mem){
 		for (int fb=0; fb<2; fb++){
 			for (int locus=0; locus<number_of_loci; locus++){
@@ -544,7 +544,7 @@ int haploid_lowd::set_mutation_rate(double m) {
 		}
 		return 0;
 	} else {
-		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -557,7 +557,7 @@ int haploid_lowd::set_mutation_rate(double m) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_lowd::set_mutation_rate(double mforward, double mbackward) {
+int haploid_lowd::set_mutation_rates(double mforward, double mbackward) {
 	if (mem){
 		for (int locus=0; locus<number_of_loci; locus++){
 			mutation_rates[0][locus]=mforward;
@@ -565,7 +565,7 @@ int haploid_lowd::set_mutation_rate(double mforward, double mbackward) {
 		}
 		return 0;
 	} else {
-		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -577,7 +577,7 @@ int haploid_lowd::set_mutation_rate(double mforward, double mbackward) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_lowd::set_mutation_rate(double* m) {
+int haploid_lowd::set_mutation_rates(double* m) {
 	if (mem){
 		for (int locus=0; locus<number_of_loci; locus++){
 			mutation_rates[0][locus]=m[locus];
@@ -585,7 +585,7 @@ int haploid_lowd::set_mutation_rate(double* m) {
 		}
 		return 0;
 	}else{
-		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -597,7 +597,7 @@ int haploid_lowd::set_mutation_rate(double* m) {
  *
  * @returns zero if successful, error codes otherwise
  */
-int haploid_lowd::set_mutation_rate(double** m) {
+int haploid_lowd::set_mutation_rates(double** m) {
 	if (mem){
 		for (int fb=0; fb<2; fb++){
 			for (int locus=0; locus<number_of_loci; locus++){
@@ -606,7 +606,7 @@ int haploid_lowd::set_mutation_rate(double** m) {
 		}
 		return 0;
 	}else{
-		cerr<<"haploid_lowd::set_mutation_rate(): allocate memory first!\n";
+		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
 }
@@ -928,7 +928,7 @@ int haploid_lowd_test::test_recombination(double *rec_rates){
  * @returns zero (but look at the stdout)
  */
 int haploid_lowd_test::mutation_drift_equilibrium(double **mu){
-	set_mutation_rate(mu);
+	set_mutation_rates(mu);
 
 	//init population and recombination rates
 	double *af=new double[number_of_loci];;

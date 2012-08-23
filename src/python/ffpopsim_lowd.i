@@ -170,16 +170,7 @@ def set_genotypes(self, indices, counts):
 }
 
 /* set recombination rates */
-%feature("autodoc",
-"Set the locus-specific recombination rates.
-
-Parameters:
-   - rec_rates: sequence of locus-specific recombination rates.
-             For circular genomes, it must have length L, for linear ones L-1.
-
-.. note:: if a single, constant rate is wished, use the following trick (e.g. for a linear genome): ``set_recombination_rates([r] * (L-1))``
-
-") set_recombination_rates;
+%rename (_set_recombination_rates) set_recombination_rates;
 %typemap(in) double *rec_rates {
         /* Ensure input is a Python sequence */
         PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
@@ -214,11 +205,43 @@ Parameters:
 %typemap(freearg) double *rec_rates {
   if($1) delete[] $1;
 }
+%pythoncode {
+def set_recombination_rates(rates):
+    '''Set the recombination rate(s).
+
+Parameters:
+    - rates: if a double, the recombination rate at any locus; if an array,
+      the locus-specific recombination rates
+
+.. note:: if locus-specific rates are specified, the array must have length
+          (L-1) for linear chromosomes and length L for circular ones. The
+          i-th element is the crossover rate between the i-th site and the
+          (i+1)-th site.
+    '''
+
+    import numpy as np
+
+    # Check whether the chromosome is circular
+    if self.circular:
+        len_rates = self.L
+    else:
+        len_rates = self.L - 1
+
+    # Check whether the input argument is a list or a scalar
+    if np.isscalar(rates):
+        self._set_recombination_rates([[rates] * len_rates])
+
+    elif len(rates) != len_rates:
+        raise ValueError("Expecting an array of length "+str(len_rates)+".")
+    else:
+        self._set_recombination_rates(rates)
+
+}
 
 /* mutation rate(s) */
 %rename (_get_mutation_rate) get_mutation_rate;
 %pythoncode {
-def get_mutation_rate(self, locus=None, direction=None):
+def get_mutation_rates(self, locus=None, direction=None):
     '''Get one or several mutation rates.
 
 Parameters:
@@ -261,25 +284,27 @@ landscape.
                 return mrs
 }
 
-%ignore set_mutation_rate;
-int _set_mutation_rate(double *IN_ARRAY2, int DIM1, int DIM2) {
+%ignore set_mutation_rates;
+int _set_mutation_rates(double *IN_ARRAY2, int DIM1, int DIM2) {
         double ** mrs = new double*[2];
         for(size_t i = 0; i < 2; i++)
                 mrs[i] = &(IN_ARRAY2[DIM2 * i]);
-        int result = $self->set_mutation_rate(mrs);
+        int result = $self->set_mutation_rates(mrs);
         delete[] mrs;
         return result;
 }
 %pythoncode{        
-def set_mutation_rate(self, rates, rates_back=None):
-    '''Set the mutation rate.
+def set_mutation_rates(self, rates, rates_back=None):
+    '''Set the mutation rate(s).
 
 Parameters:
-    - rates: if a double, the mutation rate at any locus in both directions
+    - rates:if a double, the mutation rate at any locus in both directions
       or, if rates_back is not None, only in the forward direction
+
       if a vector, the mutation rate is specified for each locus, the same
       in both directions or, if rates_back is not None, only in the
       forward direction
+
     - rates_back: mutation rate in the backward direction (global or
       locus-specific)
     '''
@@ -299,7 +324,7 @@ Parameters:
         else:
             ratesm = np.vstack([rates, rates_back])
 
-    if self._set_mutation_rate(ratesm):
+    if self._set_mutation_rates(ratesm):
         raise RuntimeError('Error in the C++ function.')
 }
 

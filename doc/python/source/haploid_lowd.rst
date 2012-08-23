@@ -18,7 +18,7 @@ haploid_lowd Class Reference
              get_diversity_statistics,
              get_fitnesses,
              get_genotype_frequencies,
-             get_mutation_rate,
+             get_mutation_rates,
              outcrossing_rate,
              plot_divergence_histogram,
              plot_diversity_histogram,
@@ -27,7 +27,7 @@ haploid_lowd Class Reference
              set_allele_frequencies,
              set_fitness_function,
              set_genotypes,
-             set_mutation_rate
+             set_mutation_rates
 
    .. automethod:: FFPopSim.haploid_lowd.allele_entropy()
    .. automethod:: FFPopSim.haploid_lowd.evolve(gen=1)

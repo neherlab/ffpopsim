@@ -178,10 +178,10 @@ public:
 
 	// modify population
 	int set_recombination_rates(double *rec_rates);
-	int set_mutation_rate(double m);
-	int set_mutation_rate(double m1, double m2);
-	int set_mutation_rate(double* m);
-	int set_mutation_rate(double** m);
+	int set_mutation_rates(double m);
+	int set_mutation_rates(double m1, double m2);
+	int set_mutation_rates(double* m);
+	int set_mutation_rates(double** m);
 
 	//evolution
 	int evolve(int gen=1);

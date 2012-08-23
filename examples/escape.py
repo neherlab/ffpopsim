@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # Set genotypes, recombination and mutation rates, fitness landscape
     pop.set_genotypes([0],[N])
     pop.set_recombination_rates(r)
-    pop.set_mutation_rate(mu)
+    pop.set_mutation_rates(mu)
     pop.set_fitness_additive(f)
 
     # Evolve the population

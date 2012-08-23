@@ -123,7 +123,7 @@ int pop_evolve_af() {
 	for(size_t i=0; i<L-1;i++)
 		rr[i] = 0.01;
 	pop.set_recombination_rates(rr);	
-	pop.set_mutation_rate(1e-2);
+	pop.set_mutation_rates(1e-2);
 	pop.evolve(5);
 
 	if(LOWD_VERBOSE) {
@@ -158,7 +158,7 @@ int pop_evolve_gf() {
 	for(size_t i=0; i<L-1;i++)
 		rr[i] = 0.01;
 	pop.set_recombination_rates(rr);	
-	pop.set_mutation_rate(1e-2);
+	pop.set_mutation_rates(1e-2);
 	pop.evolve(5);
 
 	if(LOWD_VERBOSE) {
@@ -178,7 +178,7 @@ int pop_observables() {
 	for(int i=0; i<(1<<L);i++)
 		freq[i] = 1.0 / (1<<L);
 	pop.set_allele_frequencies(freq, N);
-	pop.set_mutation_rate(1e-2);
+	pop.set_mutation_rates(1e-2);
 	pop.evolve(5);
 
 	if(LOWD_VERBOSE) {

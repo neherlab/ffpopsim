@@ -6,14 +6,17 @@
 * @date 2012-04-24
 */
 %define DOCSTRING
-"FFPopSim library for population genetics.
+"C++/Python library for population genetics.
 
-This library offers two simulation packages for population genetics. Each is controlled by a basic class:
+This library offers *two* simulation packages for population genetics: one for
+low-dimensional simulations (up to ~15 loci) and one for high-dimensional ones.
 
-- haploid_lowd: low-dimensional populations (genomes shorter than ~20 loci)
-- haploid_clone:  high-dimensional simulations (genomes longer than ~20 loci)
+Each package is based on a big class that represents a population:
 
-The library is written in C++ and offers a Python interface. A simple evolution routine could be the following::
+   - ``haploid_lowd`` for low-dimensional populations
+   - ``haploid_highd`` for high-dimensional simulations
+
+A simple example routine is the following::
 
     #####################################
     #   EXAMPLE SCRIPT                  #
@@ -24,13 +27,16 @@ The library is written in C++ and offers a Python interface. A simple evolution 
     
     c = h.haploid_lowd(4)
     c.set_allele_frequencies([0,0.3,0.6,0.9], N=1000) 
-    c.evolve(10)
-    c.plot_fitness_histogram()
+    c.evolve(100)
+    c.plot_diversity_histogram()
     plt.show()
     #####################################
 
-which evolves a 4-loci population for 10 generations starting from fixed allele frequencies, and plots the
-fitness histogram afterwards. Please look into the 'tests' folder for more usage examples. 
+which evolves a population with 4 loci for 100 generations starting from fixed
+allele frequencies, under neutral conditions, and plots the diversity
+histogram afterwards.
+
+For more usage examples, please consult the ``tests`` and ``examples`` folders. 
 "
 %enddef
 %module(docstring=DOCSTRING) FFPopSim;

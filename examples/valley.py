@@ -61,7 +61,7 @@ if __name__ == '__main__':
                     c = h.haploid_lowd(L)
                     c.set_genotypes([0],[N])
                     c.set_recombination_rates(r*np.ones(c.L-1))
-                    c.set_mutation_rate(mu)
+                    c.set_mutation_rates(mu)
                     c.set_fitness_function([0b0, 0b1111], [s1, s1+s2])
                     c.evolve()
                     # cross valley

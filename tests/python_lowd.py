@@ -22,12 +22,12 @@ c.set_genotypes([1,2],[400,800])
 
 # Test setting the recombination/mutation rates
 c.set_recombination_rates([0.01, 0.03, 0.02])
-c.set_mutation_rate([0.003,0.002,0.004,0.005],
-                    [0.006,0.004,0.008,0.010])
+c.set_mutation_rates([0.003,0.002,0.004,0.005],
+                     [0.006,0.004,0.008,0.010])
 
 # Test getting the mutation rate
-print c.get_mutation_rate(direction=0)
-print c.get_mutation_rate(direction=1)
+print c.get_mutation_rates(direction=0)
+print c.get_mutation_rates(direction=1)
 
 # Test setting / getting fitness
 c.set_fitness_additive([0.02,0.03,0.04,0.02])
