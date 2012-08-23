@@ -1,8 +1,5 @@
 /**** HIVGENE ****/
-%define DOCSTRING_HIVGENE
-"Structure for an HIV gene."
-%enddef
-%feature("autodoc", DOCSTRING_HIVGENE) hivgene;
+%feature("autodoc", "Structure for an HIV gene.") hivgene;
 
 %extend hivgene {
 const char* __str__() {
@@ -16,6 +13,9 @@ const char* __repr__() {
         sprintf(buffer,"hivgene(%d, %d)", $self->start, $self->end);
         return &buffer[0];
 }
+
+%feature("autodoc", "Initial position of the gene") start;
+%feature("autodoc", "Final position of the gene") end;
 }
 
 
@@ -25,39 +25,42 @@ const char* __repr__() {
 
 This class is the main object for simulating the evolution of HIV.
 The class offers a number of functions, but an example will explain the basic
-idea:
+idea::
 
-#####################################
-#   EXAMPLE SCRIPT                  #
-#####################################
-import numpy as np
-import matplotlib.pyplot as plt
-import FFPopSim as h
+   #####################################
+   #   EXAMPLE SCRIPT                  #
+   #####################################
+   import numpy as np
+   import matplotlib.pyplot as plt
+   import FFPopSim as h
+   
+   c = h.hivpopulation(2000)        # Create a population of 2000 individuals
+   c.evolve(100)                    # Evolve (neutrally) for 100 generations
+   c.plot_divergence_histogram()
+   plt.show()
+   #####################################
 
-c = h.hivpopulation(2000)
-c.evolve(10)
-c.plot_divergence_histogram()
-plt.show()
-#####################################
-
-An effective way to discover all available methods is to import FFPopSim from
-an interactive shell (e.g. iPython), create a population as above, and use TAB
-autocompletion:
-
-In [1]: import FFPopSim as h
-In [2]: c = h.haploid_highd(5000, 2000)
-In [3]: c.      <--- TAB
-
+**This class is a subclass of haploid_high and offers most of its methods.**
 In addition to the haploid_highd class, this class offers functions for reading
 fitness and drug resistance landscapes from a text file, and to save genomes as
-plain text or in compressed numerical Python format.
+plain text or in compressed NumPy format.
+
+Moreover, there are two phenotypic traits, replication and resistance. Their
+relative importance for viral fitness is set by the ``treatment`` attribute::
+
+   f[trait] = trait[0] + treatment * trait[1]
+
+By default, ``treatment`` is set to zero, to simulate non-treated patients.
+
+The gene structure of HIV is not modelled explicitely, except for a stub of
+1000 sites between position 7000 and 8000 to roughly model the _env_ gene.
 "
 %enddef
 %feature("autodoc", DOCSTRING_HIVPOPULATION) hivpopulation;
 
 %extend hivpopulation {
 
-%define DOCSTRING_HIVPOPULATION_INIT
+%feature("autodoc",
 "Construct a HIV population with certain parameters.
 
 Parameters:
@@ -68,9 +71,7 @@ Parameters:
 - crossover_rate	probability of template switching during coinfection in events / site
 
 Note: the genome length is 10000 (see HIVGENOME).
-"
-%enddef
-%feature("autodoc", DOCSTRING_HIVPOPULATION_INIT) hivpopulation;
+") hivpopulation;
 
 /* we have two traits anyway */
 %ignore add_fitness_coefficient;
@@ -87,6 +88,13 @@ Note: the genome length is 10000 (see HIVGENOME).
 }
 
 /* treatment */
+%feature("autodoc",
+"Treatment weight (between 0 and 1)
+
+.. note:: this variable controls how important is either of the two phenotypic
+          traits, replication and resistance. Their contribution to fitness is
+          always linear (in this implementation).
+") get_treatment;
 %rename (_set_treatment) set_treatment;
 %rename (_get_treatment) get_treatment;
 %pythoncode {
@@ -94,6 +102,16 @@ treatment = property(_get_treatment, _set_treatment)
 }
 
 /* read selection/resistance coefficients */
+%feature("autodoc",
+"Store random genotypes into a plain text file.
+
+Parameters:
+   - filename: string with the name of the file to store the genotype into
+   - sample_size: how many random genotypes to store
+   - gt_label: common fasta label for the genotypes (e.g. 'HIV-sim')
+   - start: if only a portion of the genome is to be stored, start from this position
+   - length: store a chunk from ``start`` to this length
+") write_genotypes;
 %typemap(in) istream &model (std::ifstream temp) {
         if (!PyString_Check($input)) {
                 PyErr_SetString(PyExc_ValueError, "Expecting a string");
@@ -115,16 +133,27 @@ treatment = property(_get_treatment, _set_treatment)
 
 %pythoncode {
 def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
-        '''Write genotypes into a compressed archive.'''
-        import numpy as np 
-        L = self.number_of_loci
-        if length <= 0:
-                length = L - start
-        d = {}
-        for i in xrange(sample_size):
-                rcl = self.random_clone()
-                d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl,L)[start:start+length]
-        np.savez_compressed(filename, **d)    
+    '''Store random genotypes into a compressed file.
+
+    Parameters:
+       - filename: string with the name of the file to store the genotype into
+       - sample_size: how many random genotypes to store
+       - gt_label: common fasta label for the genotypes (e.g. "HIV-sim")
+       - start: if only a portion of the genome is to be stored, start from this position
+       - length: store a chunk from ``start`` to this length
+
+    The genotypes can be read using numpy.load.
+    '''
+
+    import numpy as np 
+    L = self.number_of_loci
+    if length <= 0:
+        length = L - start
+    d = {}
+    for i in xrange(sample_size):
+        rcl = self.random_clone()
+        d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl,L)[start:start+length]
+    np.savez_compressed(filename, **d)    
 }
 
 
@@ -147,7 +176,29 @@ def set_trait_landscape(self,
                         ):
     '''Set HIV trait landscape according to some general parameters.
 
-    Note: the third positions are always neutral (synonymous).
+    Parameters:
+       - lethal_fraction: fraction of lethal sites
+       - deleterious_fraction: fraction of deleterious sites
+       - adaptive_fraction: fraction of beneficial sites
+       - effect_size_lethal: effect of lethal changes
+       - effect_size_deleterious: average effect of deleterious changes
+       - effect_size_adaptive: average effect of beneficial changes
+
+       - env_fraction: fraction of beneficial sites in env
+       - effect_size_env: average effect of beneficial changes in env
+       - number_epitopes: number of (epistatic) epitopes
+       - epitope_strength: average height of an epitope escape mutation
+       - number_valleys: number of (epistatic) valleys
+       - valley_strength: average depth of a valley
+
+    .. note:: the effects of deleterious and beneficial sites are exponentially
+              distributed, i.e. most of them will still be almost neutral.
+    
+    .. note:: fractions refer to first and second positions only. For instance,
+              by default, 80% of first and second positions outside env are
+              deleterious.
+
+    .. note:: the third positions are always neutral (synonymous).
     '''
 
     import numpy as np
@@ -243,76 +294,175 @@ this functionality we would need a whole subclass of ndarray with its own set/ge
 methods, and nobody is really keen on doing this. */
 %pythoncode{
 def get_additive_replication(self):
-        '''The additive part of the replication lansdscape.'''
-        return self.get_additive_trait(0)
+    '''The additive part of the replication lansdscape.
+
+    Returns:
+       - coefficients: array of additive replication coefficients
+
+    .. warning:: the -/+ basis is used throughout the library.
+                 If you are used to the 0/1 basis, keep in mind that
+                 the interaction series-expansion is different.
+    '''
+    return self.get_additive_trait(0)
 
 
-def set_additive_replication(self, single_locus_effects):
-        self.set_additive_trait(single_locus_effects, 0)
+def set_additive_replication(self, coefficients):
+    '''Set the additive replication coefficients
+
+    Parameters:
+       - coefficients: array of additive replication coefficients
+
+    .. warning:: the -/+ basis is used throughout the library.
+                 If you are used to the 0/1 basis, keep in mind that
+                 the interaction series-expansion is different.
+    '''
+
+    self.set_additive_trait(coefficients, 0)
 
 
 def get_additive_resistance(self):
-        '''The additive part of the resistance lansdscape.'''
-        return self.get_additive_trait(1)
+    '''The additive part of the resistance lansdscape.
+
+    Returns:
+       - coefficients: array of additive drug resistance coefficients
+
+    .. warning:: the -/+ basis is used throughout the library.
+                 If you are used to the 0/1 basis, keep in mind that
+                 the interaction series-expansion is different.
+    '''
+    return self.get_additive_trait(1)
 
 
-def set_additive_resistance(self, single_locus_effects):
-        self.set_additive_trait(single_locus_effects, 1)
+def set_additive_resistance(self, coefficients):
+    '''Set the additive drug resistance coefficients
+
+    Parameters:
+       - coefficients: array of additive drug resistance coefficients
+
+    .. warning:: the -/+ basis is used throughout the library.
+                 If you are used to the 0/1 basis, keep in mind that
+                 the interaction series-expansion is different.
+    '''
+
+    self.set_additive_trait(coefficients, 1)
 
 
 }
 
 /* Generate random landscapes */
 %pythoncode{
-def set_replication_landscape(self, **kwargs):
-        '''Set the phenotypic landscape for the replication capacity of HIV.
-        
-        Parameters:
-        -  traitnumber=0
-        -  lethal_fraction=0.05
-        -  deleterious_fraction=0.8
-        -  adaptive_fraction=0.01
-        -  effect_size_lethal=0.8
-        -  effect_size_deleterious=0.1
-        -  effect_size_adaptive=0.01
-        -  env_fraction=0.1
-        -  effect_size_env=0.01
-        -  number_epitopes=0
-        -  epitope_strength=0.05
-        -  number_valleys=0
-        -  valley_strength=0.1
+def set_replication_landscape(self,
+                        lethal_fraction=0.05,
+                        deleterious_fraction=0.8,
+                        adaptive_fraction=0.01,
+                        effect_size_lethal=0.8,
+                        effect_size_deleterious=0.1,
+                        effect_size_adaptive=0.01,
+                        env_fraction=0.1,
+                        effect_size_env=0.01,
+                        number_epitopes=0,
+                        epitope_strength=0.05,
+                        number_valleys=0,
+                        valley_strength=0.1,
+                        ):
+    '''Set the phenotypic landscape for the replication capacity of HIV.
+    
+    Parameters:
+       - lethal_fraction: fraction of lethal sites
+       - deleterious_fraction: fraction of deleterious sites
+       - adaptive_fraction: fraction of beneficial sites
+       - effect_size_lethal: effect of lethal changes
+       - effect_size_deleterious: average effect of deleterious changes
+       - effect_size_adaptive: average effect of beneficial changes
 
-        Note: fractions refer to first and second positions only. For instance,
-        by default, 80% of first and second positions outside env are deleterious.
-        '''
-        kwargs['traitnumber']=0
-        self.set_trait_landscape(**kwargs)
+       - env_fraction: fraction of beneficial sites in env
+       - effect_size_env: average effect of beneficial changes in env
+       - number_epitopes: number of (epistatic) epitopes
+       - epitope_strength: average height of an epitope escape mutation
+       - number_valleys: number of (epistatic) valleys
+       - valley_strength: average depth of a valley
+
+    .. note:: the effects of deleterious and beneficial sites are exponentially
+              distributed, i.e. most of them will still be almost neutral.
+    
+    .. note:: fractions refer to first and second positions only. For instance,
+              by default, 80% of first and second positions outside env are
+              deleterious.
+
+    .. note:: the third positions are always neutral (synonymous).
+    '''
+
+    self.set_trait_landscape(traitnumber=0,
+                        lethal_fraction=lethal_fraction,
+                        deleterious_fraction=deleterious_fraction,
+                        adaptive_fraction=adaptive_fraction,
+                        effect_size_lethal=effect_size_lethal,
+                        effect_size_deleterious=effect_size_deleterious,
+                        effect_size_adaptive=effect_size_adaptive,
+                        env_fraction=env_fraction,
+                        effect_size_env=effect_size_env,
+                        number_epitopes=number_epitopes,
+                        epitope_strength=epitope_strength,
+                        number_valleys=number_valleys,
+                        valley_strength=valley_strength)
 
 
-def set_resistance_landscape(self, **kwargs):
-        '''Set the phenotypic landscape for the drug resistance of HIV.
-        
-        Parameters:
-        -  traitnumber=0
-        -  lethal_fraction=0.05
-        -  deleterious_fraction=0.8
-        -  adaptive_fraction=0.01
-        -  effect_size_lethal=0.8
-        -  effect_size_deleterious=0.1
-        -  effect_size_adaptive=0.01
-        -  env_fraction=0.1
-        -  effect_size_env=0.01
-        -  number_epitopes=0
-        -  epitope_strength=0.05
-        -  number_valleys=0
-        -  valley_strength=0.1 
+def set_resistance_landscape(self,
+                        lethal_fraction=0.05,
+                        deleterious_fraction=0.8,
+                        adaptive_fraction=0.01,
+                        effect_size_lethal=0.8,
+                        effect_size_deleterious=0.1,
+                        effect_size_adaptive=0.01,
+                        env_fraction=0.1,
+                        effect_size_env=0.01,
+                        number_epitopes=0,
+                        epitope_strength=0.05,
+                        number_valleys=0,
+                        valley_strength=0.1,
+                        ):
+    '''Set the phenotypic landscape for the drug resistance of HIV.
+    
+    Parameters:
+       - lethal_fraction: fraction of lethal sites
+       - deleterious_fraction: fraction of deleterious sites
+       - adaptive_fraction: fraction of beneficial sites
+       - effect_size_lethal: effect of lethal changes
+       - effect_size_deleterious: average effect of deleterious changes
+       - effect_size_adaptive: average effect of beneficial changes
 
-        Note: fractions refer to first and second positions only. For instance,
-        by default, 80% of first and second positions outside env are deleterious.
-        '''
+       - env_fraction: fraction of beneficial sites in env
+       - effect_size_env: average effect of beneficial changes in env
+       - number_epitopes: number of (epistatic) epitopes
+       - epitope_strength: average height of an epitope escape mutation
+       - number_valleys: number of (epistatic) valleys
+       - valley_strength: average depth of a valley
 
-        kwargs['traitnumber']=0
-        self.set_trait_landscape(**kwargs)
+    .. note:: the effects of deleterious and beneficial sites are exponentially
+              distributed, i.e. most of them will still be almost neutral.
+    
+    .. note:: fractions refer to first and second positions only. For instance,
+              by default, 80% of first and second positions outside env are
+              deleterious.
+
+    .. note:: the third positions are always neutral (synonymous).
+    '''
+
+    self.set_trait_landscape(traitnumber=1,
+                        lethal_fraction=lethal_fraction,
+                        deleterious_fraction=deleterious_fraction,
+                        adaptive_fraction=adaptive_fraction,
+                        effect_size_lethal=effect_size_lethal,
+                        effect_size_deleterious=effect_size_deleterious,
+                        effect_size_adaptive=effect_size_adaptive,
+                        env_fraction=env_fraction,
+                        effect_size_env=effect_size_env,
+                        number_epitopes=number_epitopes,
+                        epitope_strength=epitope_strength,
+                        number_valleys=number_valleys,
+                        valley_strength=valley_strength)
+
+
 }
 
 } /* extend hivpopulation */

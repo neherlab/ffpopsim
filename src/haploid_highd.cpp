@@ -967,7 +967,9 @@ void haploid_highd::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
 	clone_t tempgt(number_of_traits);
 	tempgt.genotype=genotype;
 	tempgt.clone_size = n;
-	calc_individual_fitness(&tempgt);
+	calc_individual_traits(&tempgt);
+	calc_individual_fitness_from_traits(&tempgt);
+	check_individual_maximal_fitness(&tempgt);
 	current_pop->push_back(tempgt);
 	population_size+=n;
 }

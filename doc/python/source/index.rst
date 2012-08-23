@@ -6,16 +6,27 @@
 Welcome to FFPopSim's documentation!
 ====================================
 
+Table of Contents
+-----------------
 .. toctree::
    :maxdepth: 1
 
    haploid_lowd
+   haploid_highd
+   hivpopulation
+   hivgene
+   clone
+   index_value_pair
+   genotype_value_pair
+   stat
 
+Description
+-----------
 .. automodule:: FFPopSim
 
 Requirements
 ------------
-- NumPy_ is used extensively in this library, and is *strongly* recommended for all users. We suggest to import numpy explicitely before using the library (but it will work in any case).
+- NumPy_ is used extensively in this library. We suggest to import numpy explicitely before using the library (but it will work in any case).
 - matplotlib_ is used in the plot functions. As long as you do not call those, you can live without it. However, we suggest to import it explicitely before using the library.
 
 .. _NumPy: http://numpy.scipy.org/
@@ -36,6 +47,8 @@ In order to build the Python bindings to FFPopSim, you need the following progra
 - a C++ compiler
 
 The building process has been tested on SWIG 2.0, Numpy 1.6, matplotlib 1.1, and g++ 4.7.
+
+We are trying to reduce the requirements, lifting e.g. the need for SWIG, and making the building less manual. This work is in progress.
 
 .. _SWIG: http://www.swig.org/
 .. _Python: http://www.python.org/
@@ -59,9 +72,8 @@ Reference Manual
 FFPopSim exposes most classes and functions to Python, but not all. Here is a list of the currently supported ones:
 
 - :ref:`haploid_lowd <haploid_lowd>`;
-
-.. - :ref:`haploid_highd <haploid_highd>`;
-   - :ref:`hivpopulation <hivpopulation>`;
+- :ref:`haploid_highd <haploid_highd>`;
+- :ref:`hivpopulation <hivpopulation>`;
 
 
 Indices and tables

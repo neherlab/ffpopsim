@@ -4,6 +4,8 @@
 
 
 /**** INDEX_VALUE_PAIR_T ****/
+%feature("autodoc", "Pair of an index and a value") index_value_pair_t;
+
 %rename(index_value_pair) index_value_pair_t;
 %extend index_value_pair_t {
 const char* __str__() {
@@ -17,10 +19,16 @@ const char* __repr__() {
         sprintf(buffer,"(%d, %.2e)", $self->index, $self->val);
         return &buffer[0];
 }
+
+%feature("autodoc", "Index") index;
+%feature("autodoc", "Value") val;
+
 } /* extend index_value_pair_t */
 
 
 /**** GENOTYPE_VALUE_PAIR_T ****/
+%feature("autodoc", "Pair of a genotype and a value") genotype_value_pair_t;
+
 %rename(genotype_value_pair) genotype_value_pair_t;
 %extend genotype_value_pair_t {
 
@@ -86,17 +94,23 @@ void _set_genotype(boost::dynamic_bitset<> genotype_in) {$self->genotype = genot
 %pythoncode {
 @property
 def genotype(self):
-        import numpy as np
-        return np.array(self._get_genotype(self._get_genotype_length()), bool)
+    '''Genotype'''
+    import numpy as np
+    return np.array(self._get_genotype(self._get_genotype_length()), bool)
 
 
 @genotype.setter
 def genotype(self, genotype):
-        self._set_genotype(genotype)
+    self._set_genotype(genotype)
 }
+
+%feature("autodoc", "Value") val;
+
 } /* extend genotype_value_pair_t */
 
 /**** STAT_T ****/
+%feature("autodoc", "Mean and variance of a statistical distribution") stat_t;
+
 %rename(stat) stat_t;
 %extend stat_t {
 const char* __str__() {
@@ -110,4 +124,8 @@ const char* __repr__() {
         sprintf(buffer,"(%e, %e)", $self->mean, $self->variance);
         return &buffer[0];
 }
+
+%feature("autodoc", "Mean") mean;
+%feature("autodoc", "Variance") variance;
+
 } /* extend stat_t */

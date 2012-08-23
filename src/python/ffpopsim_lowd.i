@@ -22,8 +22,8 @@ def integerify(b):
     return np.dot(b,a)
 }
 
-/**** HAPLOID_GT_DIS ****/
-%define DOCSTRING_HAPLOID_GT_DIS
+/**** HAPLOID_LOWD ****/
+%define DOCSTRING_HAPLOID_LOWD
 "Class for low-dimensional population genetics (short genomes ~20 loci).
 
 The class offers a number of functions, but an example will explain the basic idea::
@@ -35,20 +35,28 @@ The class offers a number of functions, but an example will explain the basic id
     import matplotlib.pyplot as plt
     import FFPopSim as h
     
-    c = h.haploid_lowd(5)
-    c.set_genotypes([0, 2], [300, 700]) 
+    c = h.haploid_lowd(5)               # 5 loci
+
+    # initialize with 300 individuals with genotype 00000,
+    # and 700 with genotype 00010
+    c.set_genotypes([0, 2], [300, 700])
+ 
+    # set an additive fitness landscape with these coefficients
+    # Note: we are in the -/+ basis, so
+    #        F[10000] - F[00000] = 2 * 0.02
     c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
-    c.evolve(10)
+
+    c.evolve(100)                       # evolve for 100 generations
     c.plot_diversity_histogram()
     plt.show()
     #####################################
 "
 %enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS) haploid_lowd;
+%feature("autodoc", DOCSTRING_HAPLOID_LOWD) haploid_lowd;
 %extend haploid_lowd {
 
 /* constructor */
-%define DOCSTRING_HAPLOID_GT_DIS_INIT
+%define DOCSTRING_HAPLOID_LOWD_INIT
 "Construct a low-dimensional population with certain parameters.
 
 Parameters:
@@ -56,7 +64,7 @@ Parameters:
     - rng_seed : seed for the random number generator    
 "
 %enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_INIT) haploid_lowd;
+%feature("autodoc", DOCSTRING_HAPLOID_LOWD_INIT) haploid_lowd;
 %exception haploid_lowd {
         try {
                 $action
@@ -102,9 +110,9 @@ number_of_loci = property(_get_number_of_loci)
 population_size = property(_get_population_size)
 generation = property(_get_generation)
 }
-%feature("autodoc", "number of loci") get_number_of_loci;
-%feature("autodoc", "population size") get_population_size;
-%feature("autodoc", "current generation") get_generation;
+%feature("autodoc", "number of loci (read-only)") get_number_of_loci;
+%feature("autodoc", "population size (read-only)") get_population_size;
+%feature("autodoc", "current generation (read-only)") get_generation;
 
 /* initialize frequencies */
 %ignore set_allele_frequencies;
@@ -162,20 +170,16 @@ def set_genotypes(self, indices, counts):
 }
 
 /* set recombination rates */
-%define DOCSTRING_HAPLOID_GT_DIS_SET_RECOMBINATION_RATES
+%feature("autodoc",
 "Set the locus-specific recombination rates.
 
 Parameters:
-- rec_rates: sequence of locus-specific recombination rates.
+   - rec_rates: sequence of locus-specific recombination rates.
              For circular genomes, it must have length L, for linear ones L-1.
 
-Note: if a single, constant rate is wished, use the following trick (e.g. for
-      a linear genome):
+.. note:: if a single, constant rate is wished, use the following trick (e.g. for a linear genome): ``set_recombination_rates([r] * (L-1))``
 
-      set_recombination_rates([r] * (L-1))
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_INIT) haploid_lowd;
+") set_recombination_rates;
 %typemap(in) double *rec_rates {
         /* Ensure input is a Python sequence */
         PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
@@ -300,30 +304,26 @@ Parameters:
 }
 
 /* evolve */
-%define DOCSTRING_HAPLOID_GT_DIS_EVOLVE
+%feature("autodoc",
 "Evolve for some generations
 
 Parameters:
     - gen: number of generations to evolve the population
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_EVOLVE) evolve;
-%define DOCSTRING_HAPLOID_GT_DIS_EVOLVE_DETERMINISTIC
+") evolve;
+
+%feature("autodoc",
 "Evolve for some generations deterministically
 
 Parameters:
     - gen: number of generations to evolve the population
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_EVOLVE_DETERMINISTIC) evolve_deterministic;
-%define DOCSTRING_HAPLOID_GT_DIS_EVOLVE_NOREC
+") evolve_deterministic;
+
+%feature("autodoc",
 "Evolve for some generations without recombination
 
 Parameters:
     - gen: number of generations to evolve the population
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_EVOLVE_NOREC) evolve_norec;
+") evolve_norec;
 
 
 /* genotype frequencies */
@@ -333,7 +333,8 @@ def get_genotype_frequencies(self):
     import numpy as np
     return np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
 }
-%define DOCSTRING_HAPLOID_GT_DIS_GET_GENOTYPE_FREQUENCY
+
+%feature("autodoc",
 "Get the frequency of a genotype
 
 Parameters:
@@ -341,9 +342,7 @@ Parameters:
 
 Returns:
     - the frequency of the genotype
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_GENOTYPE_FREQUENCY) get_genotype_frequency;
+") get_genotype_frequency;
 
 /* allele frequencies */
 %pythoncode {
@@ -352,7 +351,8 @@ def get_allele_frequencies(self):
     import numpy as np
     return np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
 }
-%define DOCSTRING_HAPLOID_GT_DIS_GET_ALLELE_FREQUENCY
+
+%feature("autodoc",
 "Get the allele frequency at a locus
 
 Parameters:
@@ -360,10 +360,9 @@ Parameters:
 
 Returns:
     - the frequency of the + allele, :math:`\\nu_i := \\frac{1 + \\left<s_i\\right>}{2}`, where :math:`s_i \in \{-1, 1\}`.
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_ALLELE_FREQUENCY) get_allele_frequency;
-%define DOCSTRING_HAPLOID_GT_DIS_GET_CHI
+") get_allele_frequency;
+
+%feature("autodoc",
 "Get chi of an allele in the -/+ basis
 
 Parameters:
@@ -371,10 +370,9 @@ Parameters:
 
 Returns:
     - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \in \{-1, 1\}`.
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_CHI) get_chi;
-%define DOCSTRING_HAPLOID_GT_DIS_GET_MOMENT
+") get_chi;
+
+%feature("autodoc",
 "Get moment of two alleles in the -/+ basis
 
 Parameters:
@@ -383,10 +381,9 @@ Parameters:
 
 Returns:
     - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_MOMENT) get_moment;
-%define DOCSTRING_HAPLOID_GT_DIS_GET_LD
+") get_moment;
+
+%feature("autodoc",
 "Get linkage disequilibrium
 
 Parameters:
@@ -395,9 +392,7 @@ Parameters:
 
 Returns:
     - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_LD) get_LD;
+") get_LD;
 
 /* random sampling */
 %pythoncode {
@@ -431,7 +426,8 @@ def get_fitnesses(self):
     '''Get the fitness of all possible genotypes.'''
     return self._get_fitnesses(1<<self.L)
 }
-%define DOCSTRING_HAPLOID_GT_DIS_GET_FITNESS
+
+%feature("autodoc",
 "Get linkage disequilibrium
 
 Parameters:
@@ -439,9 +435,7 @@ Parameters:
 
 Returns:
     - the fitness of that genotype.
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_GET_FITNESS) get_fitness;
+") get_fitness;
 
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
 %pythoncode {
@@ -450,6 +444,9 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
 
     Parameters:
         - n_sample: number of individual to sample at random from the population
+
+    Returns:
+       - h: numpy.histogram of fitness in the population
     '''
     import numpy as np
 
@@ -493,7 +490,10 @@ def get_divergence_statistics(self, n_sample=1000):
     '''Get the mean and variance of the divergence in the population.
 
     Parameters:
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individuals to sample at random from the population
+
+    Returns:
+        - stat: structure with mean and variance of divergence in the population
     '''
 
     import numpy as np
@@ -515,6 +515,9 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
         - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
         - n_sample: number of individual to sample at random from the population
         - kwargs: further optional keyword arguments to numpy.histograms
+
+    Returns:
+       - h: numpy.histogram of divergence in the population
 
     *Note*: to get a normalized histogram, use the *density* keyword.
     '''
@@ -566,6 +569,9 @@ def get_diversity_statistics(self, n_sample=1000):
 
     Parameters:
         - n_sample: number of individual to sample at random from the population
+
+    Returns:
+        - stat: structure with mean and variance of diversity in the population
     '''
 
     import numpy as np
@@ -588,6 +594,9 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
         - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
         - n_sample: number of individual to sample at random from the population
         - kwargs: further optional keyword arguments to numpy.histograms
+
+    Returns:
+       - h: numpy.histogram of diversity in the population
 
     *Note*: to get a normalized histogram, use the *density* keyword.
     '''
@@ -669,6 +678,12 @@ def set_fitness_function(self, indices, vals):
 }
 
 /* set additive fitness component */
+%feature("autodoc",
+"Set an additive fitness landscape
+
+Parameters:
+    - coefficients: array/list of additive fitness coefficients. It must have length L.
+") set_fitness_additive;
 %exception set_fitness_additive {
     $action
     if (PyErr_Occurred()) SWIG_fail;
@@ -679,15 +694,6 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
         if (($self->fitness).additive(IN_ARRAY1))
                 PyErr_Format(PyExc_RuntimeError, "Error in the C++ function.");
 }
-/*TODO: autodoc of this function is not working*/
-%define DOCSTRING_HAPLOID_GT_DIS_SET_FITNESS_ADDITIVE
-"Set an additive fitness landscape
-
-Parameters:
-    - coefficients: array/list of additive fitness coefficients. It must have length L.
-"
-%enddef
-%feature("autodoc", DOCSTRING_HAPLOID_GT_DIS_SET_FITNESS_ADDITIVE) set_fitness_additive;
 
 /* entropy */
 %feature("autodoc", "get the genotype entropy of the population") genotype_entropy;

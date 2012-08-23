@@ -252,19 +252,18 @@ public:
 	int set_wildtype(unsigned long N);
 
 	// modify population
-	void add_genotypes(boost::dynamic_bitset<> newgt, int n);
-	void flip_single_locus(unsigned int clonenum, int locus);
+	void add_genotypes(boost::dynamic_bitset<> genotype_in, int n=1);
 
 	// modify traits
-	int add_trait_coefficient(double value, vector <int> loci, int traitnumber=0){return trait[traitnumber].add_coefficient(value, loci);}
-	void clear_trait(int t){if(t >= number_of_traits) throw (int)HP_BADARG; else trait[t].reset();}
+	int add_trait_coefficient(double value, vector <int> loci, int t=0){return trait[t].add_coefficient(value, loci);}
+	void clear_trait(int t=0){if(t >= number_of_traits) throw (int)HP_BADARG; else trait[t].reset();}
 	void clear_traits(){for(int t=0; t<number_of_traits; t++){trait[t].reset();}}
 	void set_random_trait_epistasis(double epistasis_std,int traitnumber=0){trait[traitnumber].epistatic_std=epistasis_std;}
 
 	// modify fitness (shortcuts: they only make sense if number_of_traits=1)
-	int add_fitness_coefficient(double value, vector <int> loci){if(number_of_traits>1) return HP_BADARG; return add_trait_coefficient(value, loci, 0);}
+	int add_fitness_coefficient(double value, vector <int> loci){if(number_of_traits>1) throw (int)HP_BADARG; return add_trait_coefficient(value, loci, 0);}
 	void clear_fitness(){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"What do you mean by fitness?"<<endl; throw (int)HP_BADARG;} clear_traits();}
-	void set_random_epistasis(double epistasis_std){trait[0].epistatic_std=epistasis_std;}
+	void set_random_epistasis(double epistasis_std){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"Please use set_random_trait_epistasis."<<endl; throw (int)HP_BADARG;} trait[0].epistatic_std=epistasis_std;}
 
 	// evolution
 	int evolve(int gen=1);	
@@ -342,6 +341,7 @@ protected:
 	double relaxation_value();
 	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
 	
+	void flip_single_locus(unsigned int clonenum, int locus);
 	int flip_single_locus(int locus);
 	void shuffle_genotypes();
 	int swap_populations();
