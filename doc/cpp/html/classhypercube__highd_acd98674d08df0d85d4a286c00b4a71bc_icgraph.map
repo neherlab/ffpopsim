@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classhaploid__highd.html#a2cd64aee1f057564834ef996489ddf5a" title="haploid_highd::add_trait_coefficient" alt="" coords="267,56,491,83"/>
-<area shape="rect" href="$classhaploid__highd.html#af785069be8a626717d8e705b407e76a6" title="haploid_highd::add_fitness_coefficient" alt="" coords="553,5,793,32"/>
-<area shape="rect" href="$classhivpopulation.html#ad1caa476f2d93020d52d0ce46f81a529" title="hivpopulation::read_replication_coefficients" alt="" coords="540,56,807,83"/>
-<area shape="rect" href="$classhivpopulation.html#a6afaadd90cf25378476a13a2bef80875" title="hivpopulation::read_resistance_coefficients" alt="" coords="540,107,807,133"/>
-</map>

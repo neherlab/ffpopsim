@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classhaploid__lowd.html#aa199e9f997b1095343a6783f39c2f551" title="haploid_lowd::get_chi" alt="" coords="213,5,357,32"/>
-<area shape="rect" href="$classhaploid__lowd.html#a441482910461230f5a9756e4158220e7" title="haploid_lowd::get_moment" alt="" coords="197,56,373,83"/>
-<area shape="rect" href="$classhypercube__lowd.html#aa6af3dac056ae01e2d28af7d1e5080ca" title="hypercube_lowd::get_coeff" alt="" coords="423,31,596,57"/>
-<area shape="rect" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft_func_to_coeff" alt="" coords="645,31,861,57"/>
-</map>

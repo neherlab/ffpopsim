@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classhaploid__highd.html#ae64df329db764e98e77398a775a43600" title="Get the log of the exp&#45;average fitness plus relaxation term." alt="" coords="301,5,501,32"/>
-<area shape="rect" href="$classhaploid__highd.html#aec2c31155f262a9c1cf21262eea2d03a" title="Generate offspring according to fitness (selection) and segregate some for sexual..." alt="" coords="549,5,749,32"/>
-<area shape="rect" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="799,5,940,32"/>
-</map>

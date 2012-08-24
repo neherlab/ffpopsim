@@ -1,0 +1,6 @@
+<map id="haploid_highd::add_genotypes" name="haploid_highd::add_genotypes">
+<area shape="rect" id="node3" href="$classhaploid__highd.html#acf40ae60f1441f5a8bb67a5a84444c01" title="Calculate traits of the chosen clone." alt="" coords="209,5,343,46"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a7f51d6a4f5791961d1b262e15735f820" title="Calculate fitness from traits of the chosen clone." alt="" coords="209,69,343,125"/>
+<area shape="rect" id="node9" href="$classhaploid__highd.html#a0d929c061bbf1c2fd4d82f6bb2f2f998" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="185,149,367,190"/>
+<area shape="rect" id="node5" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="417,12,594,39"/>
+</map>

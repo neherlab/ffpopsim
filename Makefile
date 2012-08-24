@@ -9,57 +9,85 @@
 # Makefile for the FFPopSim library.
 #
 # The first section deals with platform-specific programs, options, and paths.
-# If you are only compiling the C++ library and do not need the Python
-# bindings, please comment the lines that define the PYTHON, SWIG, and SPHINX
-# variables.
+# Please adapt it to your needs.
 #
 # The second section of this Makefile, below the clause within !!, is where
 # the make recipes are listed and specified. Modify that part of the file
 # only if you know what you are doing and want to change some technical detail
 # of the dependecy chain.
 #
+# ---------------------------------------------------------------------------
 # There are five main recipes:
-# - src: library compilation and (static) linking
-# - doc: documentation
-# - tests: test cases compilation and linking against the library
+#
+# - src: C++ library compilation and (static) linking
+# - doc: C++ documentation
+# - tests: C++ test cases compilation and linking against the library
 # - python: python bindings
 # - python-doc: python documentation
+#
+# By default, a make call without recipe does the following:
+#
+# - src tests python: if PYTHON is defined
+# - src tests: otherwise
+#
+# Moreover, the rule 'all' will call the following:
+#
+# - src tests python doc python-doc
+#
+# i.e. will build the whole library and the documentation. Of course, this
+# will only work if you have all necessary tools installed.
 #
 # The compiled library, the C++ include files, the Python bindings, and the
 # documentation are put into the pkg folder after building.
 #
 #############################################################################
 
-##==========================================================================
-# PLATFORM-DEPENDENT OPTIONS
-#
-# Please edit the following lines to your needs. If you do not have doxygen
-# or python, just leave that line untouched or delete it.
-##==========================================================================
+############################################################################
+#									   #
+#			PLATFORM-DEPENDENT OPTIONS			   #
+#									   #
+############################################################################
+# Please select your C and C++ compilers
 CC := gcc
 CXX := g++
+
+# Please set your doxygen executable if you want to rebuild the C++
+# documentation.
 DOXY := doxygen
-# Comment the following lines to avoid building the Python 2.7 bindings
+
+# Please set your Python 2.7 executable if you want to build the Python
+# bindings. If you are only interested in the C++ part of the library,
+# comment out the following line
 PYTHON := python2.7
+
+# Please set your SWIG executable if you wish to regenerate SWIG C++ files
+# from the interface files. This is normally not required for compiling the
+# Python bindings.
 SWIG := swig
+
+# Please set your Sphinx executable (based on Python 2.7) if you want to
+# rebuild the Python documentation.
 SPHINX := sphinx-build2
 
-# Lower this number if you prefer to use mildly optimized code only.
-OPTIMIZATION_LEVEL := 1
+# Please select the optimization level of the library. Lower this number if
+# you prefer to use mildly optimized code only.
+OPTIMIZATION_LEVEL := 2
 
 ############################################################################
-# !! DO NOT EDIT BELOW THIS LINE !!
+#									   #
+# 		!! DO NOT EDIT BELOW THIS LINE !!			   #
+#									   #
 ############################################################################
 ##==========================================================================
 # OVERVIEW
 ##==========================================================================
-SRCDIR = src
-DOCDIR = doc
-TESTSDIR = tests
+SRCDIR := src
+DOCDIR := doc
+TESTSDIR := tests
 PYBDIR := $(SRCDIR)/python
 PYDOCDIR := $(DOCDIR)/python
-PKGDIR = pkg
-PFLDIR = profile
+PKGDIR := pkg
+PFLDIR := profile
 DISTUTILS_SETUP := setup.py
 
 # Can we compile Python bindings?
@@ -68,8 +96,9 @@ ifdef PYTHON
 endif
 
 # List all explicit recipes
-.PHONY : all src tests doc python python-doc profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig
-all: src tests $(python)
+.PHONY : default all src tests doc python python-doc profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig
+default: src tests $(python)
+all: src tests python doc python-doc
 clean: clean-src clean-tests clean-python clean-profile
 clean-all: clean clean-doc clean-python-doc clean-swig
 
@@ -78,31 +107,33 @@ clean-all: clean clean-doc clean-python-doc clean-swig
 #PROFILEFLAGS := -pg
 
 ##==========================================================================
-# SOURCE
+# C++ SOURCE
 ##==========================================================================
 SRC_CXXFLAGS= -O$(OPTIMIZATION_LEVEL) -fPIC $(PROFILEFLAGS)
 
 LIBRARY := libFFPopSim.a
 
-HEADER_GENERIC = ffpopsim_generic.h
-SOURCE_GENERIC = sample.cpp
-OBJECT_GENERIC = $(SOURCE_GENERIC:%.cpp=%.o)
+HEADER_GENERIC := ffpopsim_generic.h
+SOURCE_GENERIC := sample.cpp
+OBJECT_GENERIC := $(SOURCE_GENERIC:%.cpp=%.o)
 
-HEADER_LOWD = $(HEADER_GENERIC) ffpopsim_lowd.h
-SOURCE_LOWD = hypercube_lowd.cpp haploid_lowd.cpp
-OBJECT_LOWD = $(SOURCE_LOWD:%.cpp=%.o)
+HEADER_LOWD := $(HEADER_GENERIC) ffpopsim_lowd.h
+SOURCE_LOWD := hypercube_lowd.cpp haploid_lowd.cpp
+OBJECT_LOWD := $(SOURCE_LOWD:%.cpp=%.o)
 
-HEADER_HIGHD = $(HEADER_GENERIC) ffpopsim_highd.h
-SOURCE_HIGHD = hypercube_highd.cpp haploid_highd.cpp
-OBJECT_HIGHD = $(SOURCE_HIGHD:%.cpp=%.o)
+HEADER_HIGHD := $(HEADER_GENERIC) ffpopsim_highd.h
+SOURCE_HIGHD := hypercube_highd.cpp haploid_highd.cpp
+OBJECT_HIGHD := $(SOURCE_HIGHD:%.cpp=%.o)
 
-HEADER_HIV = hivpopulation.h
-SOURCE_HIV = $(HEADER_HIV:%.h=%.cpp)
-OBJECT_HIV = $(SOURCE_HIV:%.cpp=%.o)
-SOURCE_HIVGENE = hivgene.cpp
-OBJECT_HIVGENE = $(SOURCE_HIVGENE:%.cpp=%.o)
+HEADER_HIV := hivpopulation.h
+SOURCE_HIV := $(HEADER_HIV:%.h=%.cpp)
+OBJECT_HIV := $(SOURCE_HIV:%.cpp=%.o)
 
-OBJECTS = $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD) $(OBJECT_HIV) $(OBJECT_HIVGENE)
+SOURCE_HIVGENE := hivgene.cpp
+OBJECT_HIVGENE := $(SOURCE_HIVGENE:%.cpp=%.o)
+
+SOURCES := $(HEADER_GENERIC) $(HEADER_LOWD) $(HEADER_HIGHD) $(HEADER_HIV) $(SOURCE_GENERIC) $(SOURCE_LOWD) $(SOURCE_HIGHD) $(SOURCE_HIV) $(SOURCE_HIVGENE)
+OBJECTS := $(OBJECT_GENERIC) $(OBJECT_LOWD) $(OBJECT_HIGHD) $(OBJECT_HIV) $(OBJECT_HIVGENE)
 
 # Recipes
 src: $(SRCDIR)/$(LIBRARY)
@@ -137,7 +168,7 @@ clean-src:
 	cd $(PKGDIR); rm -rf lib include
 
 ##==========================================================================
-# DOCUMENTATION
+# C++ DOCUMENTATION
 ##==========================================================================
 DOXYFILE   = $(DOCDIR)/cpp/Doxyfile
 
@@ -152,7 +183,7 @@ clean-doc:
 	cd $(PKGDIR)/doc; rm -rf cpp
 
 ##==========================================================================
-# TESTS
+# C++ TESTS
 ##==========================================================================
 TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC
 TESTS_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
@@ -172,22 +203,75 @@ TESTS_OBJECT_LOWD = $(TESTS_LOWD:%=%.o)
 TESTS_OBJECT_HIGHD = $(TESTS_HIGHD:%=%.o)
 
 # Recipes
-tests: $(SRCDIR)/$(LIBRARY) $(TESTS_LOWD:%=$(TESTSDIR)/%) $(TESTS_HIGHD:%=$(TESTSDIR)/%)
+tests: $(SRCDIR)/$(LIBRARY) $(TESTSDIR)/$(TESTS_LOWD) $(TESTSDIR)/$(TESTS_HIGHD)
 
-$(TESTS_LOWD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%) $(SRCDIR)/$(LIBRARY)
+$(TESTSDIR)/$(TESTS_LOWD): $(TESTSDIR)/$(TESTS_OBJECT_LOWD) $(SRCDIR)/$(LIBRARY)
 	$(CXX) $(TESTS_LDFLAGS) $^ $(TEST_LIBDIRS) $(TESTS_LIBS) -o $@
 
-$(TESTS_OBJECT_LOWD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_LOWD:%=$(TESTSDIR)/%) $(TESTS_HEADER_LOWD:%=$(TESTSDIR)/%)
+$(TESTSDIR)/$(TESTS_OBJECT_LOWD): $(TESTSDIR)/$(TESTS_SOURCE_LOWD) $(TESTSDIR)/$(TESTS_HEADER_LOWD)
 	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
-$(TESTS_HIGHD:%=$(TESTSDIR)/%): $(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%) $(OBJECT_HIV:%=$(SRCDIR)/%) $(SRCDIR)/$(LIBRARY)
+$(TESTSDIR)/$(TESTS_HIGHD): $(TESTSDIR)/$(TESTS_OBJECT_HIGHD) $(SRCDIR)/$(OBJECT_HIV) $(SRCDIR)/$(LIBRARY)
 	$(CXX) $(TESTS_LDFLAGS) $^ $(TEST_LIBDIRS) $(TESTS_LIBS) -o $@
 
-$(TESTS_OBJECT_HIGHD:%=$(TESTSDIR)/%): $(TESTS_SOURCE_HIGHD:%=$(TESTSDIR)/%) $(TESTS_HEADER_HIGHD:%=$(TESTSDIR)/%)
+$(TESTSDIR)/$(TESTS_OBJECT_HIGHD): $(TESTSDIR)/$(TESTS_SOURCE_HIGHD) $(TESTSDIR)/$(TESTS_HEADER_HIGHD)
 	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD)
+
+##==========================================================================
+# PYTHON BINDINGS
+##==========================================================================
+SWIG_MODULE := FFPopSim.i
+SWIG_GENERIC := ffpopsim_generic.i
+SWIG_LOWD := ffpopsim_lowd.i
+SWIG_HIGHD := ffpopsim_highd.i
+SWIG_HIV := hivpopulation.i
+
+SWIG_WRAP := $(SWIG_MODULE:%.i=%_wrap.cpp)
+
+PYMODULE := $(SWIG_MODULE:%.i=%.py)
+PYCMODULE := $(SWIG_MODULE:%.i=%.pyc)
+SOMODULE := $(SWIG_MODULE:%.i=_%.so)
+
+# Recipes
+python: $(PYBDIR)/$(PYMODULE) $(PYBDIR)/$(SOMODULE) $(DISTUTILS_SETUP)
+
+$(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%)
+	$(PYTHON) setup.py build_ext --inplace
+	rm -rf build
+	cp -f $(PYBDIR)/$(PYMODULE) $(PKGDIR)/python/
+	cp -f $(PYBDIR)/$(SOMODULE) $(PKGDIR)/python/
+
+clean-python:
+	cd $(PYBDIR); rm -rf $(SOMODULE) $(PYCMODULE)
+	cd $(PKGDIR)/python; rm -rf $(SOMODULE) $(PYMODULE) $(PYCMODULE)
+
+##==========================================================================
+# SWIG (USED FOR PYTHON BINDINGS)
+##==========================================================================
+SWIGFLAGS := -c++ -python -O -castmode -keyword
+
+swig: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE)
+
+$(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE): $(PYBDIR)/$(SWIG_MODULE) $(PYBDIR)/$(SWIG_GENERIC) $(PYBDIR)/$(SWIG_LOWD) $(PYBDIR)/$(SWIG_HIGHD) $(PYBDIR)/$(SWIG_HIV)
+	$(SWIG) $(SWIGFLAGS) -o $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(SWIG_MODULE)
+
+clean-swig:
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(PYMODULE)
+
+##==========================================================================
+# PYTHON DOCUMENTATION
+##==========================================================================
+python-doc:
+	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINX) html
+	mkdir -p $(PKGDIR)/doc/python
+	cp -rf $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/
+
+clean-python-doc:
+	cd $(PYDOCDIR); rm -rf build
+	cd $(PKGDIR)/doc; rm -rf python
 
 ##==========================================================================
 # PROFILE
@@ -210,53 +294,4 @@ $(PROFILE:%=$(PFLDIR)/%): $(PROFILE_OBJECT:%=$(PFLDIR)/%) $(SRCDIR)/$(LIBRARY)
 $(PROFILE_OBJECT:%=$(PFLDIR)/%): $(PROFILE_SOURCE:%=$(PFLDIR)/%)
 	$(CXX) $(PROFILE_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
-##==========================================================================
-# PYTHON BINDINGS AND DOCUMENTATION
-##==========================================================================
-SWIG_INTERFACE = FFPopSim.i
-SWIG_WRAP = $(SWIG_INTERFACE:%.i=%_wrap.cpp)
-SWIG_WRAP_OBJECT = $(SWIG_WRAP:%.cpp=%.o)
-SWIG_OBJECT = $(SWIG_INTERFACE:%.i=_%.so)
-SWIG_PYMODULE = $(SWIG_INTERFACE:%.i=%.py)
-SWIG_PYCMODULE = $(SWIG_INTERFACE:%.i=%.pyc)
-SWIG_SUPPORT_1 = ffpopsim_highd.i
-SWIG_SUPPORT_2 = hivpopulation.i
-SWIG_SUPPORT_3 = ffpopsim_lowd.i
-SWIG_SUPPORT_4 = ffpopsim_generic.i
-
-# Recipes
-python: $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SWIG_PYMCODULE:%=$(PYBDIR)/%) $(SWIG_OBJECT:%=$(PYBDIR)/%) $(DISTUTILS_SETUP)
-
-$(SWIG_OBJECT:%=$(PYBDIR)/%): $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(SOURCE_LOWD:%=$(SRCDIR)/%) $(SOURCE_HIGHD:%=$(SRCDIR)/%) $(SOURCE_HIV:%=$(SRCDIR)/%) $(SOURCE_HIVGENE:%=$(SRCDIR)/%) $(SOURCE_GENERIC:%=$(SRCDIR)/%)
-	CFLAGS='-O$(OPTIMIZATION_LEVEL)' $(PYTHON) setup.py build_ext --inplace
-	rm -rf build
-	cp -f $(SWIG_PYMODULE:%=$(PYBDIR)/%) $(PKGDIR)/python/
-	cp -f $(SWIG_OBJECT:%=$(PYBDIR)/%) $(PKGDIR)/python/
-
-clean-python:
-	cd $(PYBDIR); rm -rf $(SWIG_OBJECT) $(SWIG_WRAP_OBJECT) $(SWIG_PYCMODULE)
-	cd $(TESTSDIR); rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
-	cd $(PKGDIR)/python; rm -rf $(SWIG_OBJECT) $(SWIG_PYMODULE) $(SWIG_PYCMODULE)
-
-python-doc:
-	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINX) html
-	mkdir -p $(PKGDIR)/doc/python
-	cp -rf $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/
-
-clean-python-doc:
-	cd $(PYDOCDIR); rm -rf build
-	cd $(PKGDIR)/doc; rm -rf python
-
-##==========================================================================
-# SWIG (USED FOR PYTHON BINDINGS)
-##==========================================================================
-SWIGFLAGS = -c++ -python -O -castmode -keyword
-
-swig: $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(PYBDIR)/%)
-
-$(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_PYMODULE:%=$(PYBDIR)/%): $(SWIG_HEADER_HIV:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%) $(SWIG_SUPPORT_1:%=$(PYBDIR)/%) $(SWIG_SUPPORT_2:%=$(PYBDIR)/%) $(SWIG_SUPPORT_3:%=$(PYBDIR)/%) $(SWIG_SUPPORT_4:%=$(PYBDIR)/%)
-	$(SWIG) $(SWIGFLAGS) -o $(SWIG_WRAP:%=$(PYBDIR)/%) $(SWIG_INTERFACE:%=$(PYBDIR)/%)
-
-clean-swig:
-	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(SWIG_PYMODULE)
 #############################################################################

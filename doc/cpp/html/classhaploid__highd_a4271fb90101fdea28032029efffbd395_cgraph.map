@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classhaploid__highd.html#a6dd67288b3fc216d2b83d7e4861966af" title="Calculate and store fitness population statistics." alt="" coords="287,5,492,32"/>
-<area shape="rect" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="293,56,485,83"/>
-<area shape="rect" href="$classhaploid__highd.html#a609cef57350789435fb72080348c3faf" title="haploid_highd::calc_individual_fitness_from_traits" alt="" coords="541,56,845,83"/>
-</map>

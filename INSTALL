@@ -1,26 +1,35 @@
+-------------------------------------------------------------------
 DEPENDENCIES
 -------------------------------------------------------------------
-Make is used to build the FFPopSim library. FFPopSim depends on the 
-GNU Scientific Library (http://www.gnu.org/software/gsl/)
-and BOOST (http://www.boost.org/). The python wrapper requires
-NumPy, SciPy, and MatPlotLib (http://www.scipy.org). 
+Make is used to build the FFPopSim library. FFPopSim depends on:
+- the GNU Scientific Library (http://www.gnu.org/software/gsl/)
+- BOOST (http://www.boost.org/)
 
+The python wrapper requires:
+- Distutils (http://docs.python.org/library/distutils.html)
+- NumPy, SciPy, and MatPlotLib (http://www.scipy.org)
+
+The C++ documentation, in case you want to rebuild it, requires:
+- Doxygen (http://www.doxygen.org/)
+
+The Python documentation, in case you want to rebuild it, requires:
+- Sphinx (http://sphinx.pocoo.org/)
 
 -------------------------------------------------------------------
 INSTALL
 -------------------------------------------------------------------
-For the impatient ones
--------------------------------------------------------------------
+For the impatient ones, call
+
 make
 
 and have a look in the pkg folder.
 
 Full instructions
 -------------------------------------------------------------------
-Please open the Makefile and have a look at the first few lines. The
-script tries to be smart about your platform and Python installation,
-but is expected to fail in most cases, so please set the required
-variables in the Makefile according to your operating system.
+Please open the Makefile and have a look at the first few lines.
+Please set the required variables in the Makefile according to your
+platform (C/C++ compiler, Python interpreter, etc.) and preferences
+(optimization level).
 
 You can build the various pieces separately:
 
@@ -49,8 +58,11 @@ folder. Copy them into your system folders (e.g., /usr/local/lib and
 /usr/local/lib/python2.7/site-packages) to make them available to all
 users.
 
-Examples
+Documentation and examples
 -------------------------------------------------------------------
-C++ and Python examples are available in the tests folder. They are
-commented, so you should be able to understand what it's being done
-there by reading the code directly.
+C++ and Python examples are available in the tests and examples
+folders. They are commented, so you should be able to understand
+what it's being done there by reading the code directly.
+
+The documentation for the C++ library can be found in pkg/doc/cpp.
+The documentation for the Python bindings are in pkg/doc/python.

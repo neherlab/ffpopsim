@@ -1,11 +1,11 @@
 <map id="haploid_lowd_test::mutation_drift_equilibrium" name="haploid_lowd_test::mutation_drift_equilibrium">
-<area shape="rect" id="node3" href="$classhaploid__lowd.html#a0870bce09703ccd4645f0aec4de86584" title="Set a uniform mutation rate for all loci and both directions." alt="" coords="224,5,432,32"/>
-<area shape="rect" id="node5" href="$classhaploid__lowd.html#a3a98ee3499f180c59fb56bcb5500d698" title="Initialize population in linkage equilibrium." alt="" coords="249,57,407,98"/>
-<area shape="rect" id="node11" href="$classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="256,123,400,149"/>
-<area shape="rect" id="node14" href="$classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="249,173,407,200"/>
-<area shape="rect" id="node22" href="$classhaploid__lowd.html#aa199e9f997b1095343a6783f39c2f551" title="haploid_lowd::get_chi" alt="" coords="255,224,401,251"/>
-<area shape="rect" id="node7" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="487,115,628,157"/>
-<area shape="rect" id="node9" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="683,83,816,125"/>
-<area shape="rect" id="node17" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="480,181,635,208"/>
-<area shape="rect" id="node20" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="683,174,816,215"/>
+<area shape="rect" id="node3" href="$classhaploid__lowd.html#adca99c00433115ce2ed416626e1b06a2" title="Set a uniform mutation rate for all loci and both directions." alt="" coords="224,5,403,46"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#a3a98ee3499f180c59fb56bcb5500d698" title="Initialize population in linkage equilibrium." alt="" coords="234,70,393,111"/>
+<area shape="rect" id="node11" href="$classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="241,136,385,163"/>
+<area shape="rect" id="node14" href="$classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="235,187,392,213"/>
+<area shape="rect" id="node22" href="$classhaploid__lowd.html#aa199e9f997b1095343a6783f39c2f551" title="haploid_lowd::get_chi" alt="" coords="240,237,387,264"/>
+<area shape="rect" id="node7" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="457,129,599,170"/>
+<area shape="rect" id="node9" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="653,97,787,138"/>
+<area shape="rect" id="node17" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="451,195,605,221"/>
+<area shape="rect" id="node20" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="653,187,787,229"/>
 </map>

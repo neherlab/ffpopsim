@@ -1,8 +1,9 @@
 <map id="haploid_highd::calc_individual_fitness_from_traits" name="haploid_highd::calc_individual_fitness_from_traits">
 <area shape="rect" id="node3" href="$classhaploid__highd.html#a943354008a9931e4223f952f4790efd6" title="Flip a spin (locus) in individual." alt="" coords="209,57,335,98"/>
-<area shape="rect" id="node11" href="$classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e" title="Recombine two genotypes parent1 and parent2 to produce two new genotypes." alt="" coords="187,132,357,159"/>
-<area shape="rect" id="node16" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="198,318,346,359"/>
-<area shape="rect" id="node40" href="$classhaploid__highd.html#a1ee15d862374062377099130afc62c20" title="Calculate fitness of a particular clone." alt="" coords="205,185,339,226"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e" title="Recombine two genotypes parent1 and parent2 to produce two new genotypes." alt="" coords="187,136,357,163"/>
+<area shape="rect" id="node16" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="198,285,346,326"/>
+<area shape="rect" id="node40" href="$classhaploid__highd.html#a1ee15d862374062377099130afc62c20" title="Calculate fitness of a particular clone." alt="" coords="205,350,339,391"/>
+<area shape="rect" id="node42" href="$classhaploid__highd.html#afc7a081d373b749a0e6356070dc7657b" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="421,187,552,229"/>
 <area shape="rect" id="node5" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="412,5,561,32"/>
 <area shape="rect" id="node9" href="$classhaploid__highd.html#a710a61fe8975aaaf4d148b2da20985ae" title="Flip a spin at a specific locus in random individual." alt="" coords="424,57,549,98"/>
 <area shape="rect" id="node7" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="617,49,759,76"/>
@@ -18,5 +19,4 @@
 <area shape="rect" id="node26" href="$classhaploid__highd.html#a60617675023cab02a599a1ea7f9605c6" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution." alt="" coords="830,289,965,330"/>
 <area shape="rect" id="node28" href="$classhaploid__highd.html#a0e08d1847e521402cf0e2676d6ed38b9" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution." alt="" coords="826,166,969,207"/>
 <area shape="rect" id="node30" href="$classhivpopulation.html#a299863ae882da177d548edc26d9a2cb8" title="Construct a HIV population with certain parameters." alt="" coords="808,384,987,411"/>
-<area shape="rect" id="node42" href="$classhaploid__highd.html#aea031d85a4d91e7369506a2670a90dad" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="421,187,552,229"/>
 </map>

@@ -19,7 +19,7 @@ var searchData=
   ['chi2',['chi2',['../classhaploid__highd.html#a0047d21da6fe6fa9c1ce94b7b53ae37a',1,'haploid_highd']]],
   ['circular',['circular',['../classhaploid__highd.html#abc8e66940a4dd00a25388ec322cf7a49',1,'haploid_highd::circular()'],['../classhaploid__lowd.html#a4d3b4f7fa0ba754208a5536f70293481',1,'haploid_lowd::circular()']]],
   ['clear_5ffitness',['clear_fitness',['../classhaploid__highd.html#a298bdd5103be21db9f72fb72685cd414',1,'haploid_highd']]],
-  ['clear_5ftrait',['clear_trait',['../classhaploid__highd.html#a6648646c8902ce045c4386a768fd254f',1,'haploid_highd']]],
+  ['clear_5ftrait',['clear_trait',['../classhaploid__highd.html#a0a5523161a38427a7bdcc18136751817',1,'haploid_highd']]],
   ['clear_5ftraits',['clear_traits',['../classhaploid__highd.html#acc3e232638ff352b52a4c8db9b729a23',1,'haploid_highd']]],
   ['clone_5fsize',['clone_size',['../structclone__t.html#a43d78b6f1a0abac5d98075fd913aafc5',1,'clone_t']]],
   ['clone_5ft',['clone_t',['../structclone__t.html',1,'clone_t'],['../structclone__t.html#a9b7fd5efd2655e184df2901100767120',1,'clone_t::clone_t()']]],

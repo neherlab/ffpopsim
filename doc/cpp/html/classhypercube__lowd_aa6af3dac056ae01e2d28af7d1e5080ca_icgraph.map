@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classhaploid__lowd.html#a39d96ef456a2db762949d78ad2263f32" title="haploid_lowd::get_allele_frequency" alt="" coords="229,5,451,32"/>
-<area shape="rect" href="$classhaploid__lowd.html#aa199e9f997b1095343a6783f39c2f551" title="haploid_lowd::get_chi" alt="" coords="268,107,412,133"/>
-<area shape="rect" href="$classhaploid__lowd.html#a441482910461230f5a9756e4158220e7" title="haploid_lowd::get_moment" alt="" coords="252,56,428,83"/>
-<area shape="rect" href="$classhaploid__lowd.html#a0d319102011f2bf0d69ece8100e24dd1" title="haploid_lowd::get_LD" alt="" coords="567,56,711,83"/>
-<area shape="rect" href="$classhaploid__lowd__test.html#a30fb1659c167d90604f7a59a2934914c" title="Test the mutation&#45;drift equilibrium with diffusion theory." alt="" coords="499,107,779,133"/>
-<area shape="rect" href="$classhaploid__lowd__test.html#a7c852d1c12103d3b6811170b6eaef788" title="Test the recombination routine extensively." alt="" coords="827,56,1069,83"/>
-</map>
