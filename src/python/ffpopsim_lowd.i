@@ -5,7 +5,25 @@
 /* additional helper functions */
 %pythoncode {
 def binarify(gt, L=0):
-    '''Transform an integer into a binary sequence on the L hypercube.'''
+    '''Transform an integer into a binary sequence on the L hypercube.
+
+    Parameters:
+       - gt: integer representing a genotype
+       - L: number of dimensions of the hypercube
+
+    Returns:
+       - genotype: bool vector representing the same genotype
+
+    **Examples**:
+
+    .. sourcecode:: ipython
+
+       In [1]: binarify(3, 5)
+       Out[1]: array([False, False, False,  True,  True], dtype=bool)
+
+       In [2]: FFPopSim.binarify(0b11, 5)
+       Out[2]: array([False, False, False,  True,  True], dtype=bool)       
+    '''
     import numpy as np
     if not L:
         L=1
@@ -15,7 +33,21 @@ def binarify(gt, L=0):
 
 
 def integerify(b):
-    '''Transform a binary sequence on the HC into an integer.'''
+    '''Transform a binary sequence on the HC into an integer.
+
+    Parameters:
+       - b: bool vector representing a genotype
+
+    Returns:
+       - gt: integer representing the same genotype
+
+    **Examples**:
+
+    .. sourcecode:: ipython
+
+       In [1]: integerify([False, True, True])
+       Out[1]: 3
+    '''
     import numpy as np
     L = len(b)
     a = [(1<<(L-l-1)) for l in xrange(L)]
@@ -421,17 +453,15 @@ Returns:
 
 /* random sampling */
 %pythoncode {
-def random_clones(self, n_sample):
-    '''Get random clones according to their frequencies.
-
-Parameters:
-    - n_sample: number of random clones to sample
-
-Returns:
-    - integers corresponding to random clones in the population.
-
-**Note**: clones are drawn randomly from an flat distribution over individuals. A clone will be represented according to its size in variates drawn from this function.
-'''
+def random_genomes(self, n_sample):
+    '''Get random genomes according to their frequencies.
+    
+    Parameters:
+        - n_sample: number of random genomes to sample
+    
+    Returns:
+        - integers corresponding to random genomes in the population.
+    '''
     import numpy as np
     counts = np.random.multinomial(n_sample, self.get_genotype_frequencies())
     ind = counts.nonzero()[0]

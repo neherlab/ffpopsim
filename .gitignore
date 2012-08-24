@@ -3,7 +3,9 @@ profile/*.out
 profile/profile
 
 # Package files
-pkg/*
+pkg/python/*
+pkg/include/*
+pkg/lib/*
 
 # Documentation
 doc/latex/*

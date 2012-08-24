@@ -69,6 +69,21 @@ The documentation for the Python bindings are in pkg/doc/python.
 
 Troubleshooting Q&A
 -------------------------------------------------------------------
+Q. I cannot compile the C++ library because BOOST is not found, but
+   I am sure it's installed!
+
+A. BOOST is probably installed in a folder where your compiler cannot
+   find it. This is for instance the case if you are on a Mac and
+   installed it via Macports. There are two solutions: you either
+   tell your compiler where your headers are via the CXXFLAGS variable
+   in the Makefile; or you symlink your header folder, e.g.:
+
+   sudo ln -s /opt/local/include /usr/local/include
+
+   The latter solution is discouraged and should be avoided if
+   possible.
+
+
 Q. I cannot compile the Python bindings. The compiler complains that
    a number of gsl-related or boost-related files are not found!
 

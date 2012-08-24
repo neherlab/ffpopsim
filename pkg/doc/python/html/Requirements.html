@@ -1,0 +1,149 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Requirements &mdash; FFPopSim 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FFPopSim 1.1 documentation" href="index.html" />
+    <link rel="next" title="First steps with FFPopSim" href="First steps with FFPopSim.html" />
+    <link rel="prev" title="Welcome to FFPopSim" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="First steps with FFPopSim.html" title="First steps with FFPopSim"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to FFPopSim"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="requirements">
+<span id="id1"></span><h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<p>FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX. The basic library is written in C++ and can be used and extended independently of the Python bindings. This page will focus on the Python interface.</p>
+<div class="section" id="runtime-requirements">
+<h2>Runtime Requirements<a class="headerlink" href="#runtime-requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet) are the only supported Python versions. Older Python versions will <em>never</em> be supported, but Python 3 might become so in the future.</li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> is used extensively in this library. We suggest to import numpy explicitely before using the library (but it will work in any case).</li>
+<li><a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> is used in the plot functions. As long as you do not call those, you can live without it. However, we suggest to import it explicitely before using the library.</li>
+</ul>
+</div>
+<div class="section" id="building-requirements">
+<h2>Building Requirements<a class="headerlink" href="#building-requirements" title="Permalink to this headline">¶</a></h2>
+<p>In order to build the Python bindings to FFPopSim, you need the following programs:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet), including header files</li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a>, and <a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a>, including header files and shared libraries</li>
+<li><a class="reference external" href="http://www.swig.org/">SWIG</a></li>
+<li>a C++ compiler</li>
+</ul>
+<p>The building process has been tested on SWIG 2.0, Numpy 1.6, matplotlib 1.1, and g++ 4.7.</p>
+<p>We are trying to reduce the requirements, lifting e.g. the need for SWIG, and making the building less manual. This work is in progress.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Requirements</a><ul>
+<li><a class="reference internal" href="#runtime-requirements">Runtime Requirements</a></li>
+<li><a class="reference internal" href="#building-requirements">Building Requirements</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to FFPopSim</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="First steps with FFPopSim.html"
+                        title="next chapter">First steps with FFPopSim</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Requirements.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="First steps with FFPopSim.html" title="First steps with FFPopSim"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to FFPopSim"
+             >previous</a> |</li>
+        <li><a href="index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Fabio Zanini, Richard Neher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

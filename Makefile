@@ -73,6 +73,10 @@ SPHINX := sphinx-build2
 # you prefer to use mildly optimized code only.
 OPTIMIZATION_LEVEL := 2
 
+# Please use the following variable for additional include folders to the
+# compiler (e.g. /opt/local/include)
+#CXXFLAGS = -I/opt/local/include
+
 ############################################################################
 #									   #
 # 		!! DO NOT EDIT BELOW THIS LINE !!			   #
@@ -109,7 +113,7 @@ clean-all: clean clean-doc clean-python-doc clean-swig
 ##==========================================================================
 # C++ SOURCE
 ##==========================================================================
-SRC_CXXFLAGS= -O$(OPTIMIZATION_LEVEL) -fPIC $(PROFILEFLAGS)
+SRC_CXXFLAGS= $(CXXFLAGS) -O$(OPTIMIZATION_LEVEL) -fPIC $(PROFILEFLAGS)
 
 LIBRARY := libFFPopSim.a
 
@@ -176,16 +180,15 @@ DOXYFILE   = $(DOCDIR)/cpp/Doxyfile
 doc:
 	$(DOXY) $(DOXYFILE)
 	mkdir -p $(PKGDIR)/doc/cpp
-	cp -rf $(DOCDIR)/cpp/html $(PKGDIR)/doc/cpp/
+	mv -f $(DOCDIR)/cpp/html $(PKGDIR)/doc/cpp/
 
 clean-doc:
-	cd $(DOCDIR)/cpp; rm -rf latex html
 	cd $(PKGDIR)/doc; rm -rf cpp
 
 ##==========================================================================
 # C++ TESTS
 ##==========================================================================
-TESTS_CXXFLAGS = -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC
+TESTS_CXXFLAGS = $(CXXFLAGS) -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC
 TESTS_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
@@ -268,7 +271,7 @@ clean-swig:
 python-doc:
 	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINX) html
 	mkdir -p $(PKGDIR)/doc/python
-	cp -rf $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/
+	mv -f $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/
 
 clean-python-doc:
 	cd $(PYDOCDIR); rm -rf build
@@ -277,7 +280,7 @@ clean-python-doc:
 ##==========================================================================
 # PROFILE
 ##==========================================================================
-PROFILE_CXXFLAGS = -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC $(PROFILEFLAGS)
+PROFILE_CXXFLAGS = $(CXXFLAGS) -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC $(PROFILEFLAGS)
 PROFILE_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
 PROFILE_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PROFILE_LIBS = -lFFPopSim -lgsl -lgslcblas

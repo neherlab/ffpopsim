@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples for the low-dimensional package &mdash; FFPopSim 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FFPopSim 1.1 documentation" href="index.html" />
+    <link rel="up" title="First steps with FFPopSim" href="First steps with FFPopSim.html" />
+    <link rel="next" title="Examples for the high-dimensional package" href="Examples highd.html" />
+    <link rel="prev" title="First steps with FFPopSim" href="First steps with FFPopSim.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Examples highd.html" title="Examples for the high-dimensional package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="First steps with FFPopSim.html" title="First steps with FFPopSim"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">FFPopSim 1.1 documentation</a> &raquo;</li>
+          <li><a href="First steps with FFPopSim.html" accesskey="U">First steps with FFPopSim</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="examples-for-the-low-dimensional-package">
+<span id="examples-lowd"></span><h1>Examples for the low-dimensional package<a class="headerlink" href="#examples-for-the-low-dimensional-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="decay-of-linkage">
+<h2>Decay of linkage<a class="headerlink" href="#decay-of-linkage" title="Permalink to this headline">¶</a></h2>
+<p>In recombining populations, genetic linkage decays with time and distance. This script shows the decay curves of a simple population.</p>
+<p>First, we load the FFPopSim module and the number crunchung and plotting facilities:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">you might need to add the directory of the <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> file to your Python <tt class="docutils literal"><span class="pre">PATH</span></tt> for this to work. If you decide to copy files around instead, please make sure that <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> always be in the same folder.</p>
+</div>
+<p>Second, we set up the population:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># specify parameters</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">500000</span>                          <span class="c"># Population size</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mi">4</span>                               <span class="c"># number of loci</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">0.0</span>                            <span class="c"># no new mutations</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mf">0.01</span>                            <span class="c"># recombination rate</span>
+
+<span class="c">### set up</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_lowd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>             <span class="c"># produce an instance of haploid_lowd with L loci</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="n">N</span>           <span class="c"># set the steady-state population size</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_recombination_rates</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>      <span class="c"># assign the recombination rates</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_mutation_rates</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>          <span class="c"># assign the mutation rate</span>
+
+<span class="c"># initialize the population with N/2 individuals with genotypes 0, that is ----</span>
+<span class="c"># and N/2 with the opposite genotype, that is ++++</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Third, we let the population evolve in little steps and we track the linkage disequilibrium via the <tt class="docutils literal"><span class="pre">get_LD</span></tt> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">max_gen</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">LD_trajectories</span> <span class="o">=</span> <span class="p">[[</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)]]</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_gen</span><span class="p">):</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>               <span class="c">#N/10 generations between successive samples</span>
+    <span class="n">LD_trajectories</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)])</span>
+<span class="n">LD_trajectories</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Fourth, we plot the resulting linkage disequilibrium curves:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;g&#39;</span><span class="p">,</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">LD_trajectories</span><span class="p">[:,</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">r&#39;$D_{1&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;}$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">LD_trajectories</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">ii</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time [generations]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;LD $D_{ij}$&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The typical plot we obtain is the following:</p>
+<img alt="_images/decay_of_LD.png" src="_images/decay_of_LD.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Examples for the low-dimensional package</a><ul>
+<li><a class="reference internal" href="#decay-of-linkage">Decay of linkage</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="First steps with FFPopSim.html"
+                        title="previous chapter">First steps with FFPopSim</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Examples highd.html"
+                        title="next chapter">Examples for the high-dimensional package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Examples lowd.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Examples highd.html" title="Examples for the high-dimensional package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="First steps with FFPopSim.html" title="First steps with FFPopSim"
+             >previous</a> |</li>
+        <li><a href="index.html">FFPopSim 1.1 documentation</a> &raquo;</li>
+          <li><a href="First steps with FFPopSim.html" >First steps with FFPopSim</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Fabio Zanini, Richard Neher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

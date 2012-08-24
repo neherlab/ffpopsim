@@ -25,7 +25,7 @@ from numpy import distutils as npdis
 
 # Please add your include folders to the following list, where the compiler
 # can find GSL and BOOST headers.
-includes = ['/usr/include', '/usr/local/include']
+includes = ['/usr/include', '/usr/local/include', '/opt/local/include']
 
 ############################################################################
 #                !!  DO NOT EDIT BELOW THIS LINE  !!                       #
