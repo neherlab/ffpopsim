@@ -241,6 +241,7 @@ python: $(PYBDIR)/$(PYMODULE) $(PYBDIR)/$(SOMODULE) $(DISTUTILS_SETUP)
 $(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%)
 	$(PYTHON) setup.py build_ext --inplace
 	rm -rf build
+	mkdir -p $(PKGDIR)/python
 	cp -f $(PYBDIR)/$(PYMODULE) $(PKGDIR)/python/
 	cp -f $(PYBDIR)/$(SOMODULE) $(PKGDIR)/python/
 
