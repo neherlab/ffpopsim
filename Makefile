@@ -17,13 +17,15 @@
 # of the dependecy chain.
 #
 # ---------------------------------------------------------------------------
-# There are five main recipes:
+# The main recipes are the following:
 #
 # - src: C++ library compilation and (static) linking
 # - doc: C++ documentation
 # - tests: C++ test cases compilation and linking against the library
 # - python: python bindings
 # - python-doc: python documentation
+# - python-install: install python package system-wide (requires root
+#   priviledges)
 #
 # By default, a make call without recipe does the following:
 #
@@ -100,7 +102,7 @@ ifdef PYTHON
 endif
 
 # List all explicit recipes
-.PHONY : default all src tests doc python python-doc profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig
+.PHONY : default all src tests doc python python-doc python-install profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig
 default: src tests $(python)
 all: src tests python doc python-doc
 clean: clean-src clean-tests clean-python clean-profile
@@ -241,6 +243,10 @@ SOMODULE := $(SWIG_MODULE:%.i=_%.so)
 
 # Recipes
 python: $(PYBDIR)/$(PYMODULE) $(PYBDIR)/$(SOMODULE) $(DISTUTILS_SETUP)
+
+python-install:
+	$(PYTHON) setup.py install
+	rm -rf build
 
 $(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%)
 	$(PYTHON) setup.py build_ext --inplace
