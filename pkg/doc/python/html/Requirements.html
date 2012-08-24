@@ -69,14 +69,31 @@
 <div class="section" id="building-requirements">
 <h2>Building Requirements<a class="headerlink" href="#building-requirements" title="Permalink to this headline">¶</a></h2>
 <p>In order to build the Python bindings to FFPopSim, you need the following programs:</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet), including header files</li>
-<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a>, and <a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a>, including header files and shared libraries</li>
-<li><a class="reference external" href="http://www.swig.org/">SWIG</a></li>
+<blockquote>
+<div><ul class="simple">
 <li>a C++ compiler</li>
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet), including header files</li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a>, including header files and shared libraries</li>
+<li><a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a>, the GNU Scientific library</li>
+<li><a class="reference external" href="http://www.boost.org/">BOOST</a>, the C++ extension library</li>
 </ul>
-<p>The building process has been tested on SWIG 2.0, Numpy 1.6, matplotlib 1.1, and g++ 4.7.</p>
-<p>We are trying to reduce the requirements, lifting e.g. the need for SWIG, and making the building less manual. This work is in progress.</p>
+</div></blockquote>
+<p>In addition, if you modify the sources and want to regenerate the Python bindings, you
+will need the following programs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.swig.org/">SWIG</a>, the Simplified Wrapper and Interface Generator</li>
+</ul>
+</div></blockquote>
+<p>Finally, if you want to rebuild the documentation, you will need the following programs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>, the Python documentation generator, for Python 2.x</li>
+</ul>
+</div></blockquote>
+<p>The building process has been tested on Python 2.7, Numpy 1.6, gcc 4.7, gsl 1.15, boost
+1.50. The regeneration part has been tested on SWIG 2.0. The documentation has been
+created with Sphinx 1.1.</p>
 </div>
 </div>
 

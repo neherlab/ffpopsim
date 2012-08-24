@@ -10,25 +10,34 @@ Runtime Requirements
 - NumPy_ is used extensively in this library. We suggest to import numpy explicitely before using the library (but it will work in any case).
 - matplotlib_ is used in the plot functions. As long as you do not call those, you can live without it. However, we suggest to import it explicitely before using the library.
 
-.. _Python: http://www.python.org/
-.. _NumPy: http://numpy.scipy.org/
-.. _matplotlib: http://matplotlib.sourceforge.net/
-
 Building Requirements
 ---------------------
 In order to build the Python bindings to FFPopSim, you need the following programs:
 
-- Python_ 2.7+ (no Python 3 support yet), including header files
-- NumPy_, and matplotlib_, including header files and shared libraries
-- SWIG_
-- a C++ compiler
+   - a C++ compiler
+   - Python_ 2.7+ (no Python 3 support yet), including header files
+   - NumPy_, including header files and shared libraries
+   - GSL_, the GNU Scientific library
+   - BOOST_, the C++ extension library
 
-The building process has been tested on SWIG 2.0, Numpy 1.6, matplotlib 1.1, and g++ 4.7.
+In addition, if you modify the sources and want to regenerate the Python bindings, you
+will need the following programs:
 
-We are trying to reduce the requirements, lifting e.g. the need for SWIG, and making the building less manual. This work is in progress.
+   - SWIG_, the Simplified Wrapper and Interface Generator
 
+Finally, if you want to rebuild the documentation, you will need the following programs:
+
+   - Sphinx_, the Python documentation generator, for Python 2.x
+
+The building process has been tested on Python 2.7, Numpy 1.6, gcc 4.7, gsl 1.15, boost
+1.50. The regeneration part has been tested on SWIG 2.0. The documentation has been
+created with Sphinx 1.1.
+
+.. _GSL: http://www.gnu.org/software/gsl/
+.. _BOOST: http://www.boost.org/
 .. _SWIG: http://www.swig.org/
 .. _Python: http://www.python.org/
 .. _NumPy: http://numpy.scipy.org/
 .. _matplotlib: http://matplotlib.sourceforge.net/
+.. _Sphinx: http://sphinx.pocoo.org/
 
