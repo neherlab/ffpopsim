@@ -150,15 +150,16 @@ generation = property(_get_generation)
 %ignore set_allele_frequencies;
 int _set_allele_frequencies(int DIM1, double *IN_ARRAY1, unsigned long N) {return $self->set_allele_frequencies(IN_ARRAY1, N);}
 %pythoncode {
-def set_allele_frequencies(self, frequencies, N=1000):
+def set_allele_frequencies(self, frequencies, N):
     '''Initialize the population in linkage equilibrium with allele frequencies.
 
     Parameters:
-    - frequencies: an array of length L with all allele frequencies
-    - N: the carrying capacity (target population size)
+       - frequencies: an array of length L with all allele frequencies
+       - N: set the population size to this value and, if still unset, the carrying
+         capacity.
 
-    **Note**: the latter parameter is only used for resampling and has therefore
-    no crucial effect on the speed of the simulation.
+    .. note:: the latter parameter is only used for resampling and has therefore
+              no crucial effect on the speed of the simulation.
     '''
     if len(frequencies) != self.L:
         raise ValueError('The input array of allele frequencies has the wrong length.')

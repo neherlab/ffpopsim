@@ -467,13 +467,22 @@ landscape.</p>
 
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_allele_frequencies">
-<tt class="descname">set_allele_frequencies</tt><big>(</big><em>frequencies</em>, <em>N=1000</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_allele_frequencies" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_allele_frequencies</tt><big>(</big><em>frequencies</em>, <em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_allele_frequencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the population in linkage equilibrium with allele frequencies.</p>
-<p>Parameters:
-- frequencies: an array of length L with all allele frequencies
-- N: the carrying capacity (target population size)</p>
-<p><strong>Note</strong>: the latter parameter is only used for resampling and has therefore
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>frequencies: an array of length L with all allele frequencies</li>
+<li>N: set the population size to this value and, if still unset, the carrying
+capacity.</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the latter parameter is only used for resampling and has therefore
 no crucial effect on the speed of the simulation.</p>
+</div>
 </dd></dl>
 
 <dl class="method">

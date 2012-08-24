@@ -17,8 +17,8 @@ import FFPopSim as h
 simulate = False                # Use extant data or repeat the simulation?
 L = 4                           # Number of loci
 N = 1e10                        # Population size
-s1 = 1e-5                       # Fitness advantage of wildtype
-s2 = 0.01                       # Fitness advantage of quadruple mutant
+s1 = 1e-5                       # Fitness advantage of wildtype (half)
+s2 = 0.01                       # Fitness advantage of quadruple mutant (half)
 
 # Recombination rates to check out
 rs = np.logspace(-4,-3,10).tolist() + \
