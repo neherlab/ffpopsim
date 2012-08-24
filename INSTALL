@@ -66,3 +66,31 @@ what it's being done there by reading the code directly.
 
 The documentation for the C++ library can be found in pkg/doc/cpp.
 The documentation for the Python bindings are in pkg/doc/python.
+
+Troubleshooting Q&A
+-------------------------------------------------------------------
+Q. I cannot compile the Python bindings. The compiler complains that
+   a number of gsl-related or boost-related files are not found!
+
+A. Try opening the setup.py file and extend the list 'includes'. In
+   particular, add the paths of the header files for GSL and BOOST
+   on your system.
+
+
+Q. The examples work, but when I try to import FFPopSim from another
+   Python script I get in ImportError message!
+
+A. In order for Python to find FFPopSim, both FFPopsim.py and
+   _FFPopSim.so must be in your PYTHONPATH. A cheap way of achieving
+   this on a case-by-case basis is to write at the beginning of the
+   script:
+
+   import sys
+   sys.path.append('<FFPOPSIM>/pkg/python')
+
+   where <FFPOPSIM> is the folder in which FFPopSim was compiled. A
+   more elegant solution is to install the library system-wide, using
+   
+   python setup.py install
+
+   Note that you will be asked root priviledges for this operation.

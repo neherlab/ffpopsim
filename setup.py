@@ -4,20 +4,37 @@ author:     Richard Neher, Fabio Zanini
 date:       23/08/12
 content:    Distutils setup script for the Python bindings of FFPopSim.
 
+            If your compiler has problems finding GSL and/or BOOST and you are
+            sure they are installed on your system, please try to include the
+            paths to their include files in the 'includes' variable below.
+
             *Note*: this file is called by the Makefile with the command
-            build_ext to build the C++/Python extension. It can, however,
-            also be called directly including with other commands such as
-            install, to install the Python bindings of FFPopSim on the
-            system.
+
+            python setup.py build_ext
+            
+            to build the C++/Python extension. It can, however, also be called
+            directly including with other commands such as
+
+            python setup.py install
+
+            to install the Python bindings of FFPopSim on the system.
 '''
 from distutils.core import setup, Extension
 from numpy import distutils as npdis
 
+
+# Please add your include folders to the following list, where the compiler
+# can find GSL and BOOST headers.
+includes = ['/usr/include', '/usr/local/include']
+
+############################################################################
+#                !!  DO NOT EDIT BELOW THIS LINE  !!                       #
+############################################################################
 VERSION = '1.1'
 SRCDIR = 'src'
 PYBDIR = SRCDIR+'/python'
 
-includes = npdis.misc_util.get_numpy_include_dirs()
+includes = includes + npdis.misc_util.get_numpy_include_dirs()
 libs = ['gsl', 'gslcblas']
 setup(name='FFPopSim',
       author='Fabio Zanini, Richard Neher',
