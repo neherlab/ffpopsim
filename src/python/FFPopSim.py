@@ -116,6 +116,9 @@ def _swig_setattr_nondynamic_method(set):
     return set_attr
 
 
+FREE_RECOMBINATION = _FFPopSim.FREE_RECOMBINATION
+CROSSOVERS = _FFPopSim.CROSSOVERS
+SINGLE_CROSSOVER = _FFPopSim.SINGLE_CROSSOVER
 class index_value_pair(object):
     """Pair of an index and a value"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -313,7 +316,7 @@ class haploid_lowd(object):
     __swig_destroy__ = _FFPopSim.delete_haploid_lowd
     carrying_capacity = _swig_property(_FFPopSim.haploid_lowd_carrying_capacity_get, _FFPopSim.haploid_lowd_carrying_capacity_set)
     outcrossing_rate = _swig_property(_FFPopSim.haploid_lowd_outcrossing_rate_get, _FFPopSim.haploid_lowd_outcrossing_rate_set)
-    free_recombination = _swig_property(_FFPopSim.haploid_lowd_free_recombination_get, _FFPopSim.haploid_lowd_free_recombination_set)
+    recombination_model = _swig_property(_FFPopSim.haploid_lowd_recombination_model_get, _FFPopSim.haploid_lowd_recombination_model_set)
     circular = _swig_property(_FFPopSim.haploid_lowd_circular_get, _FFPopSim.haploid_lowd_circular_set)
     def _get_number_of_loci(self):
         """number of loci (read-only)"""
@@ -674,7 +677,7 @@ class haploid_lowd(object):
         import numpy as np
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -695,7 +698,7 @@ class haploid_lowd(object):
         import matplotlib.pyplot as plt
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -723,7 +726,7 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -749,7 +752,7 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -770,7 +773,7 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -801,8 +804,8 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt1 = self.random_clones(n_sample)
-        gt2 = self.random_clones(n_sample)
+        gt1 = self.random_genomes(n_sample)
+        gt2 = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -828,8 +831,8 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt1 = self.random_clones(n_sample)
-        gt2 = self.random_clones(n_sample)
+        gt1 = self.random_genomes(n_sample)
+        gt2 = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -851,8 +854,8 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt1 = self.random_clones(n_sample)
-        gt2 = self.random_clones(n_sample)
+        gt1 = self.random_genomes(n_sample)
+        gt2 = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -937,8 +940,6 @@ MAX_DELTAFITNESS = _FFPopSim.MAX_DELTAFITNESS
 MAX_POPSIZE = _FFPopSim.MAX_POPSIZE
 HP_NOTHING = _FFPopSim.HP_NOTHING
 HP_RANDOM_SAMPLE_FRAC = _FFPopSim.HP_RANDOM_SAMPLE_FRAC
-FREE_RECOMBINATION = _FFPopSim.FREE_RECOMBINATION
-CROSSOVERS = _FFPopSim.CROSSOVERS
 HP_BADARG = _FFPopSim.HP_BADARG
 HP_MEMERR = _FFPopSim.HP_MEMERR
 HP_EXPLOSIONWARN = _FFPopSim.HP_EXPLOSIONWARN

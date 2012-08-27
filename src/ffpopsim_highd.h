@@ -152,8 +152,6 @@ public:
 #define MAX_POPSIZE 500000
 #define HP_NOTHING 1e-12
 #define HP_RANDOM_SAMPLE_FRAC 0.01
-#define FREE_RECOMBINATION 1
-#define CROSSOVERS 2
 
 // Error Codes
 #define HP_BADARG -879564

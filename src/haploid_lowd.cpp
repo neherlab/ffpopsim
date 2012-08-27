@@ -42,7 +42,7 @@ size_t haploid_lowd::number_of_instances=0;
  * @param L_in number of loci (at least 1)
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), free_recombination(true), outcrossing_rate(1.0), circular(false), generation(0), long_time_generation(0) {
+haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), recombination_mem(FREE_RECOMBINATION), recombination_model(FREE_RECOMBINATION), outcrossing_rate(1.0), circular(false), generation(0), long_time_generation(0) {
 	if (L_in <1) {
 		cerr <<"haploid_lowd::haploid_lowd(): Bad Arguments! L must be larger or equal one."<<endl;
 		throw HG_BADARG;
@@ -136,16 +136,29 @@ int haploid_lowd::free_mem() {
 	}
 
 	gsl_rng_free(rng);
-	if (!free_recombination){
-		for (int i=0; i<(1<<number_of_loci); i++){
-			delete [] recombination_patters[i];
-		}
-		delete [] recombination_patters;
-	}
+	int err = free_recombination_mem();
 	delete [] mutation_rates[1];
 	delete [] mutation_rates[0];
 	delete [] mutation_rates;
 	mem=false;
+	return err;
+}
+
+/**
+ * @brief Release memory for recombination patterns
+ *
+ * @returns zero if successful, error codes otherwise
+ *
+ * *Note*: this function is called every time the recombination rates are set with another
+ * model for recombination than the previous one, and upon class destruction.
+ */
+int haploid_lowd::free_recombination_mem() {
+	if (recombination_mem != FREE_RECOMBINATION) {
+		for (int i=0; i<(1<<number_of_loci); i++){
+			delete [] recombination_patterns[i];
+		}
+		delete [] recombination_patterns;
+	}
 	return 0;
 }
 
@@ -341,7 +354,6 @@ int haploid_lowd::evolve_deterministic(int gen) {
  * *Note*: Population distribution is reweighted with exp(fitness) and renormalized.
  */
 int haploid_lowd::select() {
-	// FIXME: nobody should set the state from the outside like this...check whether we can save the elegance without losing speed!
 	population.set_state(HC_FUNC);
 	double norm=0;
 	for (int i=0; i<(1<<number_of_loci); i++){
@@ -422,7 +434,7 @@ int haploid_lowd::mutate() {
 int haploid_lowd::recombine() {
 	int err;
 	population.set_state(HC_FUNC);
-	if (free_recombination){
+	if (recombination_model == FREE_RECOMBINATION){
 		err=calculate_recombinants_free();
 		for (int i=0; i<(1<<number_of_loci); i++){
 			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
@@ -523,7 +535,7 @@ int haploid_lowd::calculate_recombinants_general() {
 				}
 
 			//add this particular contribution to the recombinant distribution
-			recombinants.coeff[i]+=recombination_patters[i][j]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
+			recombinants.coeff[i]+=recombination_patterns[i][j]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
 			if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
 		}
 
@@ -624,23 +636,15 @@ int haploid_lowd::set_mutation_rates(double** m) {
 
 
 /**
- * @brief calculate recombination patterns
+ * @brief Allocate memory for recombination patterns
  *
- * @param rec_rates a vector of recombination rates.
+ * @returns zero if successful, number of failed allocations otherwise
  *
- * *Note*: it must have length L-1 for linear chromosomes, length L for circular ones.
- *
- * @returns zero if successful, error codes otherwise (e.g. out of memory)
- *
- * A routine the calculates the probability of all possible recombination patters and
- * subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument.
- * It allocated the memory (\f$3^L\f$) and calculates the entire distribution.
+ * *Note*: this function also sets the recombination_mem flag.
  */
-int haploid_lowd::set_recombination_rates(double *rec_rates) {
-	double err=0;
-	int i, spin;
-	//check whether the memory is already allocated, do so if not
-	if (free_recombination==true) {
+int haploid_lowd::allocate_recombination_mem() {
+		int err = 0;
+		int i, spin;
 		int temp;
 		int *nspins;	//temporary variables the track the number of ones in the binary representation of i
 		nspins=new int [1<<number_of_loci];
@@ -651,8 +655,8 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 		spin=-1;
 		nspins[0]=0;
 		//allocate space for all possible subsets of loci
-		recombination_patters=new double* [1<<number_of_loci];
-		recombination_patters[0]=new double	[1];
+		recombination_patterns=new double* [1<<number_of_loci];
+		recombination_patterns[0]=new double	[1];
 		//loop over all possible locus subsets and allocate space for all
 		//possible ways to assign the subset to father and mother (2^nspins)
 		for (i=1; i<(1<<number_of_loci); i++){
@@ -660,10 +664,35 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 			temp=1+nspins[i-(1<<spin)];	//the order of coefficient k is 1+(the order of coefficient[k-2^spin])
 			nspins[i]=temp;
 			//all possible ways to assign the subset to father and mother (2^nspins)
-			recombination_patters[i]=new double [(1<<temp)];
-			if (recombination_patters[i]==NULL) err+=1;
+			recombination_patterns[i]=new double [(1<<temp)];
+			if (recombination_patterns[i]==NULL) err+=1;
 		}
 		delete [] nspins;
+		recombination_mem = CROSSOVERS;
+
+		return err;
+}
+
+/**
+ * @brief calculate recombination patterns
+ *
+ * @param rec_rates a vector of recombination rates.
+ *
+ * *Note*: it must have length L-1 for linear chromosomes, length L for circular ones.
+ *
+ * @returns zero if successful, error codes otherwise (e.g. out of memory)
+ *
+ * A routine the calculates the probability of all possible recombination patterns and
+ * subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument.
+ * It allocated the memory (\f$3^L\f$) and calculates the entire distribution.
+ */
+int haploid_lowd::set_recombination_rates(double *rec_rates) {
+	double err=0;
+	int i, spin;
+
+	// allocate/release memory on changes of recombination model
+	if (recombination_mem == FREE_RECOMBINATION) {
+		err += allocate_recombination_mem();
 	}
 
 	// If memory had problems, exit
@@ -694,25 +723,25 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 	//calculate the probabilities of different cross over realizations
 	//the constrained of even number of crossovers is fulfilled automatically
 	for (i=0; i<(1<<number_of_loci); i++) {
-		recombination_patters[(1<<number_of_loci)-1][i]=1.0;
+		recombination_patterns[(1<<number_of_loci)-1][i]=1.0;
 		strand=(i&(1<<(number_of_loci-1)))>0?1:0;
 		strandswitches=0;
 		for (locus=0; locus<number_of_loci; locus++) {
 			newstrand=((i&(1<<locus))>0)?1:0;
-			if (strand==newstrand) recombination_patters[(1<<number_of_loci)-1][i]*=(0.5*(1.0+exp(-2.0*rec_rates_vec[locus])));
+			if (strand==newstrand) recombination_patterns[(1<<number_of_loci)-1][i]*=(0.5*(1.0+exp(-2.0*rec_rates_vec[locus])));
 			else {
-				recombination_patters[(1<<number_of_loci)-1][i]*=(0.5*(1.0-exp(-2.0*rec_rates_vec[locus])));
+				recombination_patterns[(1<<number_of_loci)-1][i]*=(0.5*(1.0-exp(-2.0*rec_rates_vec[locus])));
 				strandswitches++;
 			}
 			strand=newstrand;
 		}
-		if (strandswitches%2) recombination_patters[(1<<number_of_loci)-1][i]=0;
-		sum+=recombination_patters[(1<<number_of_loci)-1][i];
+		if (strandswitches%2) recombination_patterns[(1<<number_of_loci)-1][i]=0;
+		sum+=recombination_patterns[(1<<number_of_loci)-1][i];
 	}
 	for (i=0; i<(1<<number_of_loci); i++) {
-		recombination_patters[(1<<number_of_loci)-1][i]/=sum;
+		recombination_patterns[(1<<number_of_loci)-1][i]/=sum;
 	}
-	//loop over set of spins of different size, starting with 11111101111 type patters
+	//loop over set of spins of different size, starting with 11111101111 type patterns
 	//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
 	for (set_size=number_of_loci-1; set_size>=0; set_size--)
 	{
@@ -730,17 +759,17 @@ int haploid_lowd::set_recombination_rates(double *rec_rates) {
 				}
 				//a short hand for the higher order recombination pattern, from which we will marginalize
 				higher_order_subset=subset+(1<<marg_locus);
-				rptemp=recombination_patters[higher_order_subset];
+				rptemp=recombination_patterns[higher_order_subset];
 				//loop over all pattern of the length set_size and marginalize
 				//i.e. 111x01011=111001011+111101011
 				for (rec_pattern=0; rec_pattern<(1<<set_size); rec_pattern++){
 					higher_order_rec_pattern=(rec_pattern&((1<<marg_locus)-1))+((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
-					recombination_patters[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
+					recombination_patterns[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
 				}
 			}
 		}
 	}
-	free_recombination=false;
+	recombination_model = CROSSOVERS;
 	return 0;
 }
 
@@ -815,12 +844,12 @@ int haploid_lowd_test::test_recombinant_distribution(){
 	int mother, father;
 	//now calculate the recombinant distribution from pairs of parents.
 	int gt1, gt2, rec_pattern;
-	if (free_recombination){
+	if (recombination_model == FREE_RECOMBINATION){
 		//calculate recombinants the efficient way
 		calculate_recombinants_free();
 		for (gt1=0; gt1<(1<<number_of_loci); gt1++){	//target genotype
 			test_rec[gt1]=0.0;							//initialize
-			//loop over all recombination patters (equal probability)
+			//loop over all recombination patterns (equal probability)
 			for (rec_pattern=0; rec_pattern<(1<<number_of_loci); rec_pattern++){
 				//loop over the parts of the maternal and paternal genomes not inherited
 				for (gt2=0; gt2<(1<<number_of_loci); gt2++){
@@ -847,8 +876,8 @@ int haploid_lowd_test::test_recombinant_distribution(){
 					mother=(gt1&(rec_pattern))+(gt2&(~rec_pattern));
 					father=(gt1&(~rec_pattern))+(gt2&(rec_pattern));
 					//contribution is weighted by the probability of this particular recombination pattern
-					//this got calculated and stored in recombination_patters[(1<<number_of_loci)-1]
-					test_rec[gt1]+=recombination_patters[(1<<number_of_loci)-1][rec_pattern]*population.func[mother]*population.func[father];
+					//this got calculated and stored in recombination_patterns[(1<<number_of_loci)-1]
+					test_rec[gt1]+=recombination_patterns[(1<<number_of_loci)-1][rec_pattern]*population.func[mother]*population.func[father];
 				}
 			}
 			cout <<gt1<<"  "<<test_rec[gt1]<<"  "<<recombinants.func[gt1]<<endl;

@@ -126,8 +126,14 @@ const char* __repr__() {
 /* read/write attributes */
 %feature("autodoc", "is the genome circular?") circular;
 %feature("autodoc", "current carrying capacity of the environment") carrying_capacity;
-%feature("autodoc", "using free recombination?") free_recombination;
 %feature("autodoc", "outcrossing rate (probability of sexual reproduction per generation)") outcrossing_rate;
+%feature("autodoc",
+"model of recombination to use
+
+Available values:
+   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
+   - FFPopSim.CROSSOVERS: block recombination with crossover probability
+") recombination_model;
 
 /* read only attributes */
 %ignore L;
@@ -507,7 +513,7 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
     import numpy as np
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate fitness
     fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -528,7 +534,7 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
     import matplotlib.pyplot as plt
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate fitness
     fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -556,7 +562,7 @@ def get_divergence_statistics(self, n_sample=1000):
     L = self.L
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate divegence
     div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -582,7 +588,7 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate divergence
     div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -603,7 +609,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate divegence
     div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -634,8 +640,8 @@ def get_diversity_statistics(self, n_sample=1000):
     L = self.L
 
     # Random sample
-    gt1 = self.random_clones(n_sample)
-    gt2 = self.random_clones(n_sample)
+    gt1 = self.random_genomes(n_sample)
+    gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
     div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -661,8 +667,8 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt1 = self.random_clones(n_sample)
-    gt2 = self.random_clones(n_sample)
+    gt1 = self.random_genomes(n_sample)
+    gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
     div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -684,8 +690,8 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt1 = self.random_clones(n_sample)
-    gt2 = self.random_clones(n_sample)
+    gt1 = self.random_genomes(n_sample)
+    gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
     div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)

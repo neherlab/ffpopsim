@@ -160,7 +160,7 @@ public:
 	// population parameters (read/write)
 	double carrying_capacity;
 	double outcrossing_rate;
-	bool free_recombination;
+	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
 
 	// population parameters (read only)
@@ -220,14 +220,15 @@ protected:
 	//population distribution due to mutations
 	hypercube_lowd recombinants;
 	hypercube_lowd mutants;
-	double** recombination_patters;				// array that holds the probabilities of all possible recombination outcomes for every subset of loci
+	double** recombination_patterns;	// array that holds the probabilities of all possible recombination outcomes for every subset of loci
+	int recombination_mem;			// flag that holds the recombination model for which memory has been allocated
 
 	// population parameters
 	int number_of_loci;
 	double population_size;
 	int generation;
 	double long_time_generation;
-	double** mutation_rates;				// the mutation rate can be made locus specific and genotype dependent.
+	double** mutation_rates;		// the mutation rate can be made locus specific and genotype dependent.
 
 	//evolution
 	int select();
@@ -243,6 +244,8 @@ private:
 	bool mem;
 	int allocate_mem();
 	int free_mem();
+	int allocate_recombination_mem();
+	int free_recombination_mem();
 
 	// counting reference
 	static size_t number_of_instances;
