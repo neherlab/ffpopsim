@@ -74,9 +74,10 @@ The class offers a number of functions, but an example will explain the basic id
     c.set_genotypes([0, 2], [300, 700])
  
     # set an additive fitness landscape with these coefficients
-    # Note: we are in the -/+ basis, so
-    #        F[10000] - F[00000] = 2 * 0.02
     c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
+    # Note: we are in the -/+ basis, so
+    #        F[10000] - F[00000] = 2 * 0.02 
+    # Hence the coefficients are half of the effect of mutation on fitness 
 
     c.evolve(100)                       # evolve for 100 generations
     c.plot_diversity_histogram()
@@ -156,10 +157,10 @@ def set_allele_frequencies(self, frequencies, N):
     Parameters:
        - frequencies: an array of length L with all allele frequencies
        - N: set the population size to this value and, if still unset, the carrying
-         capacity.
+         capacity will be set to N. Defaults to carrying capacity if not given.
 
-    .. note:: the latter parameter is only used for resampling and has therefore
-              no crucial effect on the speed of the simulation.
+    .. note:: the population size is only used for resampling and has therefore
+              no effect on the speed of the simulation.
     '''
     if len(frequencies) != self.L:
         raise ValueError('The input array of allele frequencies has the wrong length.')
@@ -190,7 +191,7 @@ def set_genotypes(self, indices, counts):
     - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
     - counts: list of counts for those genotypes
 
-    *Note*: the population size and the carrying capacity are set as the sum of the counts.
+    *Note*: the population size and, if not yet set, the carrying capacity will be set as the sum of the counts.
     *Note*: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
     '''
     import numpy as np
@@ -243,7 +244,7 @@ def set_recombination_rates(self, rates):
     '''Set the recombination rate(s).
 
 Parameters:
-    - rates: if a double, the recombination rate at any locus; if an array,
+    - rates: if a double, the recombination rate at between any two loci; if an array,
       the locus-specific recombination rates
 
 .. note:: if locus-specific rates are specified, the array must have length
@@ -366,11 +367,11 @@ Parameters:
 "Evolve for some generations
 
 Parameters:
-    - gen: number of generations to evolve the population
+    - gen: number of generations to evolve the population, defaults to one
 ") evolve;
 
 %feature("autodoc",
-"Evolve for some generations deterministically
+"Evolve for some generations deterministically (skips the resampling)
 
 Parameters:
     - gen: number of generations to evolve the population
@@ -396,7 +397,7 @@ def get_genotype_frequencies(self):
 "Get the frequency of a genotype
 
 Parameters:
-    - gt: genotype, whose the frequency is to be computed
+    - gt: genotype, whose the frequency is to be returned
 
 Returns:
     - the frequency of the genotype
@@ -484,7 +485,7 @@ def get_fitnesses(self):
 }
 
 %feature("autodoc",
-"Get linkage disequilibrium
+"Get fitness values of a genotype
 
 Parameters:
     - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
@@ -752,8 +753,8 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
 }
 
 /* entropy */
-%feature("autodoc", "get the genotype entropy of the population") genotype_entropy;
-%feature("autodoc", "get the allele entropy of the population") allele_entropy;
+%feature("autodoc", "get the genotype entropy of the population: :math:`-\sum_{i=0}^{2^L} p_i\log p_i` ") genotype_entropy;
+%feature("autodoc", "get the allele entropy of the population :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)` ") allele_entropy;
 
 /* ignore tests (they work by now) */
 %ignore test_recombinant_distribution();

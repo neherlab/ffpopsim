@@ -107,7 +107,7 @@ example will explain the basic idea::
    import FFPopSim as h
    c = h.haploid_highd(300)       # 300 loci
    pop.set_wildtype(1000)         # start with 1000 wildtype individuals
-   pop.mutation_rate = 1e-7       # mutation rate per site per generation
+   pop.mutation_rate = 1e-4       # mutation rate per site per generation
    pop.outcrossing_rate = 1e-1    # probability of sexual reproduction per gen
    pop.crossover_rate = 1e-2      # probability of crossover per site per gen
    pop.evolve(100)                # evolve for 100 generations
@@ -115,7 +115,7 @@ example will explain the basic idea::
    plt.show()
    ######################################
 
-Populations can have a number of phenotypic traits that concur to the fitness
+Populations can have a number of phenotypic traits that contribute to the fitness
 of each individual. The function that calculates fitness from the phenotype
 identifies fitness with the first trait only by default. The user is, however,
 free to subclass haploid_highd in C++ (as it is done in hivpopulation) and
@@ -140,7 +140,7 @@ phenotypic traits together.
 Parameters:
 - L     length of the genome(number of loci)
 - rng_seed      seed for the random generator. If zero (default) pick a random number
-- number_of_traits      number of phenotypic traits
+- number_of_traits      number of phenotypic traits, defaults to one
 ") haploid_highd;
 
 /* TODO: ignore hypercubes for now */
@@ -193,8 +193,8 @@ const char* __repr__() {
 "model of recombination to use
 
 Available values:
-   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
-   - FFPopSim.CROSSOVERS: block recombination with crossover probability
+   - FFPopSim.FREE_RECOMBINATION: free reassortment of all loci between parents
+   - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus
 ") recombination_model;
 
 
@@ -240,7 +240,7 @@ Parameters:
 int _set_allele_frequencies(double *IN_ARRAY1, int DIM1, int n_o_genotypes) {return $self->set_allele_frequencies(IN_ARRAY1, n_o_genotypes);}
 %pythoncode {
 def set_allele_frequencies(self, frequencies, N):
-    '''Initialize the population according to the given allele frequencies.
+    '''Initialize the population according to the given allele frequencies in linkage equilibrium.
 
     Parameters:
        - frequencies: an array of length L with all allele frequencies
@@ -277,10 +277,11 @@ def set_genotypes(self, genotypes, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
     Parameters:
-       - indices: list of genotypes to set (e.g. 0 -> 00...0, L-1 -> 11...1)
-       - counts: list of counts for those genotypes
+       - indices: list of genotypes to set. Genotypes themselves are lists of alleles,
+         e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
+       - counts: list of the number at which each of those genotypes it to be present
 
-    .. note:: the population size and the carrying capacity are set as the sum of the counts.
+    .. note:: the population size and the carrying capacity (if not already set) are set as the sum of the counts.
     .. note:: you can use Python binary notation for the indices, e.g. 0b0110 = 6.
 
     **Example**: if you want to initialize 200 individuals with genotype 001 and 300 individuals
@@ -305,7 +306,7 @@ def evolve(self, gen=1):
         '''Evolve for some generations.
 
         Parameters:
-           - gen: number of generations
+           - gen: number of generations, defaults to one
         '''
 
         if self._evolve(gen):
@@ -390,7 +391,7 @@ def get_allele_frequencies(self):
 "Get the frequency of the + allele at the selected locus
 
 Parameters:
-   - locus: locus whose frequency of the + allele is to be computed
+   - locus: locus whose frequency of the + allele is to be returned
 
 Returns:
    - frequency: allele frequency in the population
@@ -500,7 +501,7 @@ void _get_additive_trait(double* ARGOUT_ARRAY1, int DIM1, int t) {
 }
 %pythoncode{
 def get_additive_trait(self, t=0):
-    '''Get an array with the additive part of a trait for all loci.
+    '''Get an array with the additive coefficients of all loci of a trait. 
 
     Parameters:
        - t: number of the trait
@@ -520,7 +521,7 @@ def get_additive_trait(self, t=0):
 "Set the additive part of a trait
 
 Parameters:
-   - coefficients: array of coefficients for the trait (of length L)
+   - coefficients: array of coefficients for the trait (of length L). All previous additive coefficents are erased
    - t: number of the trait to set
 ") set_additive_trait;
 void set_additive_trait(int DIM1, double* IN_ARRAY1, int t=0) {
@@ -620,7 +621,7 @@ Parameters:
 
 /* random epistasis */
 %feature("autodoc",
-"Set a random epistatic term in the genotype-phenotype map
+"Set a random epistatic term in the genotype-phenotype map. This is meant as an approximation to multi-locus epistasis to which many locus sets contribute. It assigns to each genotype a reprodrucible fitness component drawn from a Gaussian distribution.
 
 Parameters:
    - epistasis_std: standard deviation of the random epistatic terms
