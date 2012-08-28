@@ -232,7 +232,9 @@ participation_ratio = property(_get_participation_ratio)
 "Set up a population of wildtype individuals
 
 Parameters:
-   - N: the number of individuals and carrying capacity
+   - N: the number of individuals
+
+.. note:: the carrying capacity is set to the same value if still unset.
 ") set_wildtype;
 
 /* initalize frequencies */
@@ -244,7 +246,8 @@ def set_allele_frequencies(self, frequencies, N):
 
     Parameters:
        - frequencies: an array of length L with all allele frequencies
-       - N: the number of individuals and carrying capacity
+       - N: set the population size and, if still unset, the carrying
+         capacity to this value
     '''
 
     if len(frequencies) != self.L:
@@ -281,7 +284,7 @@ def set_genotypes(self, genotypes, counts):
          e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
        - counts: list of the number at which each of those genotypes it to be present
 
-    .. note:: the population size and the carrying capacity (if not already set) are set as the sum of the counts.
+    .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
     .. note:: you can use Python binary notation for the indices, e.g. 0b0110 = 6.
 
     **Example**: if you want to initialize 200 individuals with genotype 001 and 300 individuals
@@ -398,16 +401,6 @@ Returns:
 ") get_allele_frequency;
 
 %feature("autodoc",
-"Get chi of an allele in the -/+ basis
-
-Parameters:
-    - locus: locus whose chi is to be computed
-
-Returns:
-    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \in \{-1, 1\}`.
-") get_chi;
-
-%feature("autodoc",
 "Get the joint frequency of two + alleles
 
 Parameters:
@@ -418,6 +411,48 @@ Returns:
     - the joint frequency of the + alleles
 ") get_pair_frequency;
 
+%feature("autodoc",
+"Get chi of an allele in the -/+ basis
+
+Parameters:
+    - locus: locus whose chi is to be computed
+
+Returns:
+    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \in \{-1, 1\}`.
+") get_chi;
+
+%feature("autodoc",
+"Get :math:`\\chi_{ij}`
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+") get_chi2;
+
+%feature("autodoc",
+"Get linkage disequilibrium
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+") get_LD;
+
+%feature("autodoc",
+"Get moment of two alleles in the -/+ basis
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+") get_moment;
 
 /* get genotypes */
 void _get_genotype(unsigned int n, short* ARGOUT_ARRAY1, int DIM1) {
