@@ -7,9 +7,7 @@ var hierarchy =
     [ "haploid_highd", "classhaploid__highd.html", [
       [ "hivpopulation", "classhivpopulation.html", null ]
     ] ],
-    [ "haploid_lowd", "classhaploid__lowd.html", [
-      [ "haploid_lowd_test", "classhaploid__lowd__test.html", null ]
-    ] ],
+    [ "haploid_lowd", "classhaploid__lowd.html", null ],
     [ "hivgene", "structhivgene.html", null ],
     [ "hypercube_highd", "classhypercube__highd.html", null ],
     [ "hypercube_lowd", "classhypercube__lowd.html", null ],

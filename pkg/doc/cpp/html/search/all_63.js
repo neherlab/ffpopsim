@@ -30,6 +30,6 @@ var searchData=
   ['coefficients_5fsingle_5flocus',['coefficients_single_locus',['../classhypercube__highd.html#a21b3e86447b5373763c72888bf182dda',1,'hypercube_highd']]],
   ['crossover_5fpattern',['crossover_pattern',['../classhaploid__highd.html#a33a62c8a5c57d36e071099906131eb31',1,'haploid_highd']]],
   ['crossover_5frate',['crossover_rate',['../classhaploid__highd.html#a023aab1a8360b632e471bdc3a4ec37d1',1,'haploid_highd']]],
-  ['crossovers',['crossovers',['../classhaploid__highd.html#a495c975322ea03d01417be29e951a1f0',1,'haploid_highd::crossovers()'],['../ffpopsim__highd_8h.html#ac5b596a182f64d36e97e58d7bc720922',1,'CROSSOVERS():&#160;ffpopsim_highd.h']]],
+  ['crossovers',['crossovers',['../classhaploid__highd.html#a495c975322ea03d01417be29e951a1f0',1,'haploid_highd::crossovers()'],['../ffpopsim__generic_8h.html#ac5b596a182f64d36e97e58d7bc720922',1,'CROSSOVERS():&#160;ffpopsim_generic.h']]],
   ['current_5fpop',['current_pop',['../classhaploid__highd.html#a7b2a100e6109b0190f3435b08097c327',1,'haploid_highd']]]
 ];

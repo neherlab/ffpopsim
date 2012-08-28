@@ -5,8 +5,6 @@ var ffpopsim__highd_8h =
     [ "hypercube_highd", "classhypercube__highd.html", "classhypercube__highd" ],
     [ "clone_t", "structclone__t.html", "structclone__t" ],
     [ "haploid_highd", "classhaploid__highd.html", "classhaploid__highd" ],
-    [ "CROSSOVERS", "ffpopsim__highd_8h.html#ac5b596a182f64d36e97e58d7bc720922", null ],
-    [ "FREE_RECOMBINATION", "ffpopsim__highd_8h.html#a620886f0888c07b3d154256a7f4ab883", null ],
     [ "HCF_BADARG", "ffpopsim__highd_8h.html#a771f0b45e8f16f6c184b0a672005f255", null ],
     [ "HCF_MEMERR", "ffpopsim__highd_8h.html#ac550679ab4c4d46d550da8ee9120cfbf", null ],
     [ "HCF_VERBOSE", "ffpopsim__highd_8h.html#a28143ccee1403a65c35ee37dfd4827db", null ],

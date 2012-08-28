@@ -1,7 +1,0 @@
-<map id="haploid_lowd_test::test_recombinant_distribution" name="haploid_lowd_test::test_recombinant_distribution">
-<area shape="rect" id="node3" href="$classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="246,38,402,79"/>
-<area shape="rect" id="node11" href="$classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="246,103,402,145"/>
-<area shape="rect" id="node5" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="455,5,588,46"/>
-<area shape="rect" id="node7" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="451,70,592,111"/>
-<area shape="rect" id="node9" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="455,135,588,177"/>
-</map>

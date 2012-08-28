@@ -9,7 +9,6 @@ var searchData=
   ['min',['MIN',['../ffpopsim__generic_8h.html#a3acffbd305ee72dcd4593c0d8af64a4f',1,'ffpopsim_generic.h']]],
   ['mutants',['mutants',['../classhaploid__lowd.html#ad1116f5f88974310d0484695e9ffad79',1,'haploid_lowd']]],
   ['mutate',['mutate',['../classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879',1,'haploid_highd::mutate()'],['../classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf',1,'haploid_lowd::mutate()']]],
-  ['mutation_5fdrift_5fequilibrium',['mutation_drift_equilibrium',['../classhaploid__lowd__test.html#a30fb1659c167d90604f7a59a2934914c',1,'haploid_lowd_test']]],
   ['mutation_5frate',['mutation_rate',['../classhaploid__highd.html#ad55b1105f6869684863c7e4f34023827',1,'haploid_highd']]],
   ['mutation_5frates',['mutation_rates',['../classhaploid__lowd.html#acf1922242ed45a82e57b00d8992bc06f',1,'haploid_lowd']]]
 ];

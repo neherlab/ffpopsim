@@ -254,17 +254,4 @@ private:
 	static size_t number_of_instances;
 };
 
-
-class haploid_lowd_test : public haploid_lowd {
-public:
-	// construction / destruction
-	haploid_lowd_test(int L=1, int rngseed=0) : haploid_lowd(L, rngseed){};
-	~haploid_lowd_test();
-
-	//testing
-	int test_recombinant_distribution();
-	int test_recombination(double *rec_rates);
-	int mutation_drift_equilibrium(double** mutrates);
-};
-
 #endif /* FFPOPSIM_LOWD_H_ */

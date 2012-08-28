@@ -2,7 +2,6 @@ var ffpopsim__lowd_8h =
 [
     [ "hypercube_lowd", "classhypercube__lowd.html", "classhypercube__lowd" ],
     [ "haploid_lowd", "classhaploid__lowd.html", "classhaploid__lowd" ],
-    [ "haploid_lowd_test", "classhaploid__lowd__test.html", "classhaploid__lowd__test" ],
     [ "HC_BADARG", "ffpopsim__lowd_8h.html#a39d5b56a8a3600e7e1d7037ac079864a", null ],
     [ "HC_COEFF", "ffpopsim__lowd_8h.html#aaf1af7c094c4c3c3690a7310a4cc146f", null ],
     [ "HC_FUNC", "ffpopsim__lowd_8h.html#a06168083c02be17b5984746197f5ee97", null ],

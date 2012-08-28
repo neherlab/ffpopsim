@@ -336,7 +336,15 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd__get_mutation_rate(self, *args, **kwargs)
 
     def set_wildtype(self, *args, **kwargs):
-        """set_wildtype(haploid_lowd self, unsigned long N) -> int"""
+        """
+        Set up a population of wildtype individuals
+
+        Parameters:
+           - N: the number of individuals
+
+        .. note:: the carrying capacity is set to the same value if still unset.
+
+        """
         return _FFPopSim.haploid_lowd_set_wildtype(self, *args, **kwargs)
 
     def _set_recombination_rates(self, *args, **kwargs):
@@ -413,34 +421,6 @@ class haploid_lowd(object):
         """
         return _FFPopSim.haploid_lowd_get_pair_frequency(self, *args, **kwargs)
 
-    def get_moment(self, *args, **kwargs):
-        """
-        Get moment of two alleles in the -/+ basis
-
-        Parameters:
-            - locus1: first locus
-            - locus2: second locus
-
-        Returns:
-            - the second moment, i.e. :math:`\left<s_i s_j\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
-
-        """
-        return _FFPopSim.haploid_lowd_get_moment(self, *args, **kwargs)
-
-    def get_LD(self, *args, **kwargs):
-        """
-        Get linkage disequilibrium
-
-        Parameters:
-            - locus1: first locus
-            - locus2: second locus
-
-        Returns:
-            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
-
-        """
-        return _FFPopSim.haploid_lowd_get_LD(self, *args, **kwargs)
-
     def get_chi(self, *args, **kwargs):
         """
         Get chi of an allele in the -/+ basis
@@ -467,6 +447,34 @@ class haploid_lowd(object):
 
         """
         return _FFPopSim.haploid_lowd_get_chi2(self, *args, **kwargs)
+
+    def get_LD(self, *args, **kwargs):
+        """
+        Get linkage disequilibrium
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_lowd_get_LD(self, *args, **kwargs)
+
+    def get_moment(self, *args, **kwargs):
+        """
+        Get moment of two alleles in the -/+ basis
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the second moment, i.e. :math:`\left<s_i s_j\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+
+        """
+        return _FFPopSim.haploid_lowd_get_moment(self, *args, **kwargs)
 
     def genotype_entropy(self):
         """get the genotype entropy of the population: :math:`-\sum_{i=0}^{2^L} p_i\log p_i` """
@@ -522,8 +530,8 @@ class haploid_lowd(object):
 
         Parameters:
            - frequencies: an array of length L with all allele frequencies
-           - N: set the population size to this value and, if still unset, the carrying
-             capacity will be set to N. Defaults to carrying capacity if not given.
+           - N: set the population size and, if still unset, the carrying
+             capacity to this value
 
         .. note:: the population size is only used for resampling and has therefore
                   no effect on the speed of the simulation.
@@ -541,11 +549,11 @@ class haploid_lowd(object):
         '''Initialize population with fixed counts for specific genotypes.
 
         Parameters:
-        - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
-        - counts: list of counts for those genotypes
+           - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+           - counts: list of counts for those genotypes
 
-        *Note*: the population size and, if not yet set, the carrying capacity will be set as the sum of the counts.
-        *Note*: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+        .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
+        .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
         '''
         import numpy as np
         indices = np.asarray(indices, float)
@@ -561,7 +569,8 @@ class haploid_lowd(object):
     Parameters:
         - rates: if a double, the recombination rate at between any two loci; if an array,
           the locus-specific recombination rates
-        - model: the recombination model to use (CROSSOVERS or SINGLE_CROSSOVER)
+        - model: the recombination model to use (CROSSOVERS or, for linear
+          genomes, SINGLE_CROSSOVER)
 
     .. note:: if locus-specific rates are specified, the array must have length
               (L-1) for linear chromosomes and length L for circular ones. The
@@ -574,8 +583,10 @@ class haploid_lowd(object):
         
         if model == 1:
             raise ValueError("Cannot assign rates to free recombination!")
-        elif model not in (2, 3):
+        if model not in (2, 3):
             raise ValueError("Model not recognized.")
+        if (self.circular and (model == 3)):
+            raise ValueError("Single crossover not available for circular genomes.") 
 
         
         if self.circular:
@@ -954,10 +965,10 @@ haploid_lowd.evolve_deterministic = new_instancemethod(_FFPopSim.haploid_lowd_ev
 haploid_lowd.get_genotype_frequency = new_instancemethod(_FFPopSim.haploid_lowd_get_genotype_frequency,None,haploid_lowd)
 haploid_lowd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_lowd_get_allele_frequency,None,haploid_lowd)
 haploid_lowd.get_pair_frequency = new_instancemethod(_FFPopSim.haploid_lowd_get_pair_frequency,None,haploid_lowd)
-haploid_lowd.get_moment = new_instancemethod(_FFPopSim.haploid_lowd_get_moment,None,haploid_lowd)
-haploid_lowd.get_LD = new_instancemethod(_FFPopSim.haploid_lowd_get_LD,None,haploid_lowd)
 haploid_lowd.get_chi = new_instancemethod(_FFPopSim.haploid_lowd_get_chi,None,haploid_lowd)
 haploid_lowd.get_chi2 = new_instancemethod(_FFPopSim.haploid_lowd_get_chi2,None,haploid_lowd)
+haploid_lowd.get_LD = new_instancemethod(_FFPopSim.haploid_lowd_get_LD,None,haploid_lowd)
+haploid_lowd.get_moment = new_instancemethod(_FFPopSim.haploid_lowd_get_moment,None,haploid_lowd)
 haploid_lowd.genotype_entropy = new_instancemethod(_FFPopSim.haploid_lowd_genotype_entropy,None,haploid_lowd)
 haploid_lowd.allele_entropy = new_instancemethod(_FFPopSim.haploid_lowd_allele_entropy,None,haploid_lowd)
 haploid_lowd.get_fitness = new_instancemethod(_FFPopSim.haploid_lowd_get_fitness,None,haploid_lowd)
@@ -1154,12 +1165,18 @@ class haploid_highd(object):
         """Number of traits (read-only)"""
         return _FFPopSim.haploid_highd__get_number_of_traits(self)
 
+    def _get_participation_ratio(self):
+        """Participation ratio (read-only)"""
+        return _FFPopSim.haploid_highd__get_participation_ratio(self)
+
     def set_wildtype(self, *args, **kwargs):
         """
         Set up a population of wildtype individuals
 
         Parameters:
-           - N: the number of individuals and carrying capacity
+           - N: the number of individuals
+
+        .. note:: the carrying capacity is set to the same value if still unset.
 
         """
         return _FFPopSim.haploid_highd_set_wildtype(self, *args, **kwargs)
@@ -1336,9 +1353,47 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_get_chi(self, *args, **kwargs)
 
-    def _get_participation_ratio(self):
-        """Participation ratio (read-only)"""
-        return _FFPopSim.haploid_highd__get_participation_ratio(self)
+    def get_chi2(self, *args, **kwargs):
+        """
+        Get :math:`\chi_{ij}`
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`\chi_{ij} := \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_highd_get_chi2(self, *args, **kwargs)
+
+    def get_LD(self, *args, **kwargs):
+        """
+        Get linkage disequilibrium
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_highd_get_LD(self, *args, **kwargs)
+
+    def get_moment(self, *args, **kwargs):
+        """
+        Get moment of two alleles in the -/+ basis
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the second moment, i.e. :math:`\left<s_i s_j\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+
+        """
+        return _FFPopSim.haploid_highd_get_moment(self, *args, **kwargs)
 
     def get_fitness(self, *args, **kwargs):
         """
@@ -1456,7 +1511,8 @@ class haploid_highd(object):
 
         Parameters:
            - frequencies: an array of length L with all allele frequencies
-           - N: the number of individuals and carrying capacity
+           - N: set the population size and, if still unset, the carrying
+             capacity to this value
         '''
 
         if len(frequencies) != self.L:
@@ -1476,7 +1532,7 @@ class haploid_highd(object):
              e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
            - counts: list of the number at which each of those genotypes it to be present
 
-        .. note:: the population size and the carrying capacity (if not already set) are set as the sum of the counts.
+        .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
         .. note:: you can use Python binary notation for the indices, e.g. 0b0110 = 6.
 
         **Example**: if you want to initialize 200 individuals with genotype 001 and 300 individuals
@@ -1842,6 +1898,7 @@ haploid_highd._get_population_size = new_instancemethod(_FFPopSim.haploid_highd_
 haploid_highd._get_generation = new_instancemethod(_FFPopSim.haploid_highd__get_generation,None,haploid_highd)
 haploid_highd._get_number_of_clones = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_clones,None,haploid_highd)
 haploid_highd._get_number_of_traits = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_traits,None,haploid_highd)
+haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
 haploid_highd.set_wildtype = new_instancemethod(_FFPopSim.haploid_highd_set_wildtype,None,haploid_highd)
 haploid_highd.add_genotypes = new_instancemethod(_FFPopSim.haploid_highd_add_genotypes,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
@@ -1861,7 +1918,9 @@ haploid_highd.get_divergence_statistics = new_instancemethod(_FFPopSim.haploid_h
 haploid_highd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_allele_frequency,None,haploid_highd)
 haploid_highd.get_pair_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_pair_frequency,None,haploid_highd)
 haploid_highd.get_chi = new_instancemethod(_FFPopSim.haploid_highd_get_chi,None,haploid_highd)
-haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
+haploid_highd.get_chi2 = new_instancemethod(_FFPopSim.haploid_highd_get_chi2,None,haploid_highd)
+haploid_highd.get_LD = new_instancemethod(_FFPopSim.haploid_highd_get_LD,None,haploid_highd)
+haploid_highd.get_moment = new_instancemethod(_FFPopSim.haploid_highd_get_moment,None,haploid_highd)
 haploid_highd.get_fitness = new_instancemethod(_FFPopSim.haploid_highd_get_fitness,None,haploid_highd)
 haploid_highd.get_clone_size = new_instancemethod(_FFPopSim.haploid_highd_get_clone_size,None,haploid_highd)
 haploid_highd.get_trait = new_instancemethod(_FFPopSim.haploid_highd_get_trait,None,haploid_highd)

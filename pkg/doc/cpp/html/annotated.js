@@ -6,7 +6,6 @@ var annotated =
     [ "genotype_value_pair_t", "structgenotype__value__pair__t.html", "structgenotype__value__pair__t" ],
     [ "haploid_highd", "classhaploid__highd.html", "classhaploid__highd" ],
     [ "haploid_lowd", "classhaploid__lowd.html", "classhaploid__lowd" ],
-    [ "haploid_lowd_test", "classhaploid__lowd__test.html", "classhaploid__lowd__test" ],
     [ "hivgene", "structhivgene.html", "structhivgene" ],
     [ "hivpopulation", "classhivpopulation.html", "classhivpopulation" ],
     [ "hypercube_highd", "classhypercube__highd.html", "classhypercube__highd" ],

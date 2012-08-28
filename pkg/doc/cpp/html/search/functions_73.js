@@ -13,7 +13,7 @@ var searchData=
   ['set_5frandom_5fepistasis_5fstrength',['set_random_epistasis_strength',['../classhypercube__highd.html#a7280d81ea5ab8e57e44d6ca60690514b',1,'hypercube_highd']]],
   ['set_5frandom_5ftrait_5fepistasis',['set_random_trait_epistasis',['../classhaploid__highd.html#ae8d94a3616a3c1ffdb07844fbd0349aa',1,'haploid_highd']]],
   ['set_5frange',['set_range',['../classsample.html#a046fc8a95e6ffef1ceacdffae1ee2906',1,'sample']]],
-  ['set_5frecombination_5frates',['set_recombination_rates',['../classhaploid__lowd.html#a4377a4554498ed74410a37c7c08df2a9',1,'haploid_lowd']]],
+  ['set_5frecombination_5frates',['set_recombination_rates',['../classhaploid__lowd.html#a8ff072f4e5537021d2714151230a5dc3',1,'haploid_lowd']]],
   ['set_5fstate',['set_state',['../classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d',1,'hypercube_lowd']]],
   ['set_5ftreatment',['set_treatment',['../classhivpopulation.html#a0f5bd29413e44f8a075afe164c05853e',1,'hivpopulation']]],
   ['set_5fup',['set_up',['../classsample.html#ab972d3a3c39876d80be1e9cc658eb792',1,'sample::set_up()'],['../classhypercube__highd.html#a8b2642cdc017434e33328c5d022f1339',1,'hypercube_highd::set_up()'],['../classhypercube__lowd.html#ae556c40dbb28835fc1daa585aff6ba67',1,'hypercube_lowd::set_up()']]],

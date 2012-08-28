@@ -4,7 +4,6 @@ var searchData=
   ['haploid_5fhighd_2ecpp',['haploid_highd.cpp',['../haploid__highd_8cpp.html',1,'']]],
   ['haploid_5flowd',['haploid_lowd',['../classhaploid__lowd.html',1,'haploid_lowd'],['../classhaploid__lowd.html#a8b4be76eb0d8a3c1b51ee6f1a261ae86',1,'haploid_lowd::haploid_lowd()']]],
   ['haploid_5flowd_2ecpp',['haploid_lowd.cpp',['../haploid__lowd_8cpp.html',1,'']]],
-  ['haploid_5flowd_5ftest',['haploid_lowd_test',['../classhaploid__lowd__test.html',1,'haploid_lowd_test'],['../classhaploid__lowd__test.html#a27d66d175245a62d178a6095a10c52c9',1,'haploid_lowd_test::haploid_lowd_test()']]],
   ['hc_5fbadarg',['HC_BADARG',['../ffpopsim__lowd_8h.html#a39d5b56a8a3600e7e1d7037ac079864a',1,'ffpopsim_lowd.h']]],
   ['hc_5fcoeff',['HC_COEFF',['../ffpopsim__lowd_8h.html#aaf1af7c094c4c3c3690a7310a4cc146f',1,'ffpopsim_lowd.h']]],
   ['hc_5ffunc',['HC_FUNC',['../ffpopsim__lowd_8h.html#a06168083c02be17b5984746197f5ee97',1,'ffpopsim_lowd.h']]],

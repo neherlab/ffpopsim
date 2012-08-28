@@ -5,28 +5,14 @@
  * @version 
  * @date 2012-04-20
  */
-#include "lowd.h"
+/* Include directives */
+#include <string>
+#include "ffpopsim_lowd.h"
+#define LOWD_BADARG -1354341
+#define NOTHING 1e-10
 
-/* MAIN */
-int main(int argc, char **argv){
-	int status;
-	if (argc > 1) {
-		cout<<"Usage: "<<argv[0]<<endl;
-		status = 1;
-	} else {
-		status = library_access();
-		status += sample_initialize();
-		status += hc_initialize();
-		status += hc_setting();
-		status += pop_initialize();
-		status += pop_evolve_af();
-		status += pop_evolve_gf();
-		status += pop_observables();
-	}
-	cout<<"Number of errors: "<<status<<endl;
-	return status;
-}
-
+/* Be verbose? */
+#define LOWD_VERBOSE 1
 
 /* Test generic library access */
 int library_access() {
@@ -120,7 +106,7 @@ int pop_evolve_af() {
 	pop.set_allele_frequencies(freq, N);
 
 	double* rr = new double[L-1];
-	for(size_t i=0; i<L-1;i++)
+	for(int i=0; i < L-1; i++)
 		rr[i] = 0.01;
 	pop.set_recombination_rates(rr);	
 	pop.set_mutation_rates(1e-2);
@@ -139,23 +125,16 @@ int pop_evolve_gf() {
 
 	haploid_lowd pop(L);
 
-	double freq[1<<L];
-	for(int i=0; i<(1<<L);i++)
-		freq[i] = 1.0 / (1<<L);
-
-	// Set allele frequencies
+	// Start with wildtype and a single mutant
 	index_value_pair_t ivp(0, N/2);
 	vector<index_value_pair_t> gts;
-
-	// Start with wildtype and a single mutant
 	gts.push_back(ivp);
 	ivp.index = 1;
 	gts.push_back(ivp);
 	pop.set_genotypes(gts);
 
-
 	double* rr = new double[L-1];
-	for(size_t i=0; i<L-1;i++)
+	for(int i=0; i < L-1; i++)
 		rr[i] = 0.01;
 	pop.set_recombination_rates(rr);	
 	pop.set_mutation_rates(1e-2);
@@ -190,3 +169,22 @@ int pop_observables() {
 	return 0;	
 }
 
+/* MAIN */
+int main(int argc, char **argv){
+	int status;
+	if (argc > 1) {
+		cout<<"Usage: "<<argv[0]<<endl;
+		status = 1;
+	} else {
+		status = library_access();
+		status += sample_initialize();
+		status += hc_initialize();
+		status += hc_setting();
+		status += pop_initialize();
+		status += pop_evolve_af();
+		status += pop_evolve_gf();
+		status += pop_observables();
+	}
+	cout<<"Number of errors: "<<status<<endl;
+	return status;
+}

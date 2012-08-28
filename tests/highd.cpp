@@ -5,34 +5,14 @@
  * @version 
  * @date 2012-04-20
  */
-#include "highd.h"
 
-/* MAIN */
-int main(int argc, char **argv){
+/* Include directives */
+#include "hivpopulation.h"
+#define HIGHD_BADARG -1354341
+#define NOTHING 1e-10
 
-	int status= 0;
-	if (argc > 1) {
-		cout<<"Usage: "<<argv[0]<<endl;
-		status = 1;
-	} else {
-//		status = library_access();
-//		status += sample_initialize();
-//		status += hc_initialize();
-//		status += hc_setting();
-//		status += pop_initialize();
-//		status += pop_evolve();
-//		status += pop_sampling();
-//		status += pop_Hamming();
-//		status += pop_divdiv();
-//		status += pop_histograms();
-//		status += hiv_initialize();
-//		status += hiv_evolve();
-		status += hiv_multiple_evolution();
-	}
-	cout<<"Number of errors: "<<status<<endl;
-	return status;
-}
-
+/* Be verbose? */
+#define HIGHD_VERBOSE 1
 
 /* Test generic library access */
 int library_access() {
@@ -418,3 +398,31 @@ int hiv_multiple_evolution() {
 
 	return err;
 }
+
+/* MAIN */
+int main(int argc, char **argv){
+
+	int status= 0;
+	if (argc > 1) {
+		cout<<"Usage: "<<argv[0]<<endl;
+		status = 1;
+	} else {
+//		status = library_access();
+//		status += sample_initialize();
+//		status += hc_initialize();
+//		status += hc_setting();
+//		status += pop_initialize();
+//		status += pop_evolve();
+//		status += pop_sampling();
+//		status += pop_Hamming();
+//		status += pop_divdiv();
+//		status += pop_histograms();
+//		status += hiv_initialize();
+//		status += hiv_evolve();
+		status += hiv_multiple_evolution();
+	}
+	cout<<"Number of errors: "<<status<<endl;
+	return status;
+}
+
+

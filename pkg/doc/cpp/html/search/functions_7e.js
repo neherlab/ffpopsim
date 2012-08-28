@@ -2,7 +2,6 @@ var searchData=
 [
   ['_7ehaploid_5fhighd',['~haploid_highd',['../classhaploid__highd.html#a4a8ea44da7eae169ae382d2840bd4185',1,'haploid_highd']]],
   ['_7ehaploid_5flowd',['~haploid_lowd',['../classhaploid__lowd.html#a637d1c306e2697af08d62d09a68d9cf2',1,'haploid_lowd']]],
-  ['_7ehaploid_5flowd_5ftest',['~haploid_lowd_test',['../classhaploid__lowd__test.html#a4ee93c40ba99aa8eb2817683ed63a71c',1,'haploid_lowd_test']]],
   ['_7ehivpopulation',['~hivpopulation',['../classhivpopulation.html#a79dcc9354ac7262a925550666ca84953',1,'hivpopulation']]],
   ['_7ehypercube_5fhighd',['~hypercube_highd',['../classhypercube__highd.html#a2706ce82ae3284fd56788e305c54f381',1,'hypercube_highd']]],
   ['_7ehypercube_5flowd',['~hypercube_lowd',['../classhypercube__lowd.html#af7657cfe42da844e39797031c5e5bf69',1,'hypercube_lowd']]],

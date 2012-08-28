@@ -78,9 +78,10 @@
 <span class="n">c</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">])</span>
 
 <span class="c"># set an additive fitness landscape with these coefficients</span>
-<span class="c"># Note: we are in the -/+ basis, so</span>
-<span class="c">#        F[10000] - F[00000] = 2 * 0.02</span>
 <span class="n">c</span><span class="o">.</span><span class="n">set_fitness_additive</span><span class="p">([</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.03</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03</span><span class="p">])</span>
+<span class="c"># Note: we are in the -/+ basis, so</span>
+<span class="c">#        F[10000] - F[00000] = 2 * 0.02 </span>
+<span class="c"># Hence the coefficients are half of the effect of mutation on fitness </span>
 
 <span class="n">c</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>                       <span class="c"># evolve for 100 generations</span>
 <span class="n">c</span><span class="o">.</span><span class="n">plot_diversity_histogram</span><span class="p">()</span>
@@ -91,7 +92,11 @@
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.allele_entropy">
 <tt class="descname">allele_entropy</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.allele_entropy" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the allele entropy of the population</p>
+<dd><p>get the allele entropy of the population <span class="math">\(-\sum_{i=0}^{L} 
+u_i\log 
+u_i + (1-
+u_i)\log(1-
+u_i)\)</span></p>
 </dd></dl>
 
 <dl class="method">
@@ -101,7 +106,7 @@
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>gen: number of generations to evolve the population</li>
+<li>gen: number of generations to evolve the population, defaults to one</li>
 </ul>
 </dd>
 </dl>
@@ -110,7 +115,7 @@
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.evolve_deterministic">
 <tt class="descname">evolve_deterministic</tt><big>(</big><em>gen=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.evolve_deterministic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evolve for some generations deterministically</p>
+<dd><p>Evolve for some generations deterministically (skips the resampling)</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -136,13 +141,13 @@
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.genotype_entropy">
 <tt class="descname">genotype_entropy</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.genotype_entropy" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the genotype entropy of the population</p>
+<dd><p>get the genotype entropy of the population: <span class="math">\(-\sum_{i=0}^{2^L} p_i\log p_i\)</span></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_allele_frequency">
 <tt class="descname">get_allele_frequency</tt><big>(</big><em>locus</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_allele_frequency" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the allele frequency at a locus</p>
+<dd><p>Get the frequency of the + allele</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -178,7 +183,7 @@
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_fitness">
 <tt class="descname">get_fitness</tt><big>(</big><em>genotype</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_fitness" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get linkage disequilibrium</p>
+<dd><p>Get fitness values of a genotype</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -200,7 +205,7 @@
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>gt: genotype, whose the frequency is to be computed</li>
+<li>gt: genotype, whose the frequency is to be returned</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -224,7 +229,7 @@
 </dd>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
-<li>the linkage disequilibiurm between them, i.e. <span class="math">\(\chi_{ij} := \left&lt;s_i s_j\right&gt; - \chi_i \cdot \chi_j\)</span>.</li>
+<li>the linkage disequilibiurm between them, i.e. <span class="math">\(LD := 1 / 4 \left&lt;s_i s_j\right&gt; - \chi_i \cdot \chi_j\)</span>.</li>
 </ul>
 </dd>
 </dl>
@@ -269,8 +274,10 @@
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>rates: if a double, the recombination rate at any locus; if an array,
+<li>rates: if a double, the recombination rate at between any two loci; if an array,
 the locus-specific recombination rates</li>
+<li>model: the recombination model to use (CROSSOVERS or, for linear
+genomes, SINGLE_CROSSOVER)</li>
 </ul>
 </dd>
 </dl>
@@ -473,15 +480,15 @@ landscape.</p>
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
 <li>frequencies: an array of length L with all allele frequencies</li>
-<li>N: set the population size to this value and, if still unset, the carrying
-capacity.</li>
+<li>N: set the population size and, if still unset, the carrying
+capacity to this value</li>
 </ul>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">the latter parameter is only used for resampling and has therefore
-no crucial effect on the speed of the simulation.</p>
+<p class="last">the population size is only used for resampling and has therefore
+no effect on the speed of the simulation.</p>
 </div>
 </dd></dl>
 
@@ -498,11 +505,22 @@ no crucial effect on the speed of the simulation.</p>
 <dt id="FFPopSim.haploid_lowd.set_genotypes">
 <tt class="descname">set_genotypes</tt><big>(</big><em>indices</em>, <em>counts</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_genotypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize population with fixed counts for specific genotypes.</p>
-<p>Parameters:
-- indices: list of genotypes to set (e.g. 0 &#8211;&gt; 00...0, L-1 &#8211;&gt; 11...1)
-- counts: list of counts for those genotypes</p>
-<p><em>Note</em>: the population size and the carrying capacity are set as the sum of the counts.
-<em>Note</em>: you can use Python binary notation for the indices, e.g. 0b0110 is 6.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>indices: list of genotypes to set (e.g. 0 &#8211;&gt; 00...0, L-1 &#8211;&gt; 11...1)</li>
+<li>counts: list of counts for those genotypes</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the population size and, if unset, the carrying capacity will be set as the sum of the counts.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">you can use Python binary notation for the indices, e.g. 0b0110 is 6.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -560,12 +578,6 @@ locus-specific)</p>
 <dt id="FFPopSim.haploid_lowd.carrying_capacity">
 <tt class="descname">carrying_capacity</tt><a class="headerlink" href="#FFPopSim.haploid_lowd.carrying_capacity" title="Permalink to this definition">¶</a></dt>
 <dd><p>current carrying capacity of the environment</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="FFPopSim.haploid_lowd.free_recombination">
-<tt class="descname">free_recombination</tt><a class="headerlink" href="#FFPopSim.haploid_lowd.free_recombination" title="Permalink to this definition">¶</a></dt>
-<dd><p>using free recombination?</p>
 </dd></dl>
 
 <dl class="attribute">

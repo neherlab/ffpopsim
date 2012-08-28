@@ -2,7 +2,6 @@ var searchData=
 [
   ['haploid_5fhighd',['haploid_highd',['../classhaploid__highd.html#ae58c4326bc251e8a86d3885f3297a25e',1,'haploid_highd']]],
   ['haploid_5flowd',['haploid_lowd',['../classhaploid__lowd.html#a8b4be76eb0d8a3c1b51ee6f1a261ae86',1,'haploid_lowd']]],
-  ['haploid_5flowd_5ftest',['haploid_lowd_test',['../classhaploid__lowd__test.html#a27d66d175245a62d178a6095a10c52c9',1,'haploid_lowd_test']]],
   ['hivgene',['hivgene',['../structhivgene.html#aadea83e9185c5bcc0b188cd5771042a5',1,'hivgene']]],
   ['hivpopulation',['hivpopulation',['../classhivpopulation.html#a299863ae882da177d548edc26d9a2cb8',1,'hivpopulation']]],
   ['hypercube_5fhighd',['hypercube_highd',['../classhypercube__highd.html#a59c723675a05c256789cff64c432b14c',1,'hypercube_highd::hypercube_highd()'],['../classhypercube__highd.html#a092d9fe66a1ef9ad14e5209833a04444',1,'hypercube_highd::hypercube_highd(int dim_in, int s=0)']]],

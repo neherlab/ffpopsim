@@ -1,27 +1,24 @@
 <map id="hypercube_lowd::fft_coeff_to_func" name="hypercube_lowd::fft_coeff_to_func">
-<area shape="rect" id="node3" href="$classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="198,81,354,122"/>
-<area shape="rect" id="node16" href="$classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="198,15,354,57"/>
-<area shape="rect" id="node20" href="$classhaploid__lowd.html#ab32fe827081bba1a7ea89e0e471496f6" title="Get the genotype entropy." alt="" coords="197,249,355,290"/>
-<area shape="rect" id="node22" href="$classhaploid__lowd.html#a0217296b1952e73575f360e8427c9804" title="Get fitness mean and variance in the population." alt="" coords="193,314,359,355"/>
-<area shape="rect" id="node24" href="$classhypercube__lowd.html#ada26a531e7efa9a13ca81da0418e6927" title="hypercube_lowd::gaussian\l_coefficients" alt="" coords="189,379,363,421"/>
-<area shape="rect" id="node26" href="$classhypercube__lowd.html#a0b0f30face6950933a4b4eaae73acc00" title="hypercube_lowd::additive" alt="" coords="193,445,359,472"/>
-<area shape="rect" id="node28" href="$classhypercube__lowd.html#aff3614e858e9b7a29b7197846e832468" title="hypercube_lowd::argmax" alt="" coords="193,496,359,523"/>
-<area shape="rect" id="node30" href="$classhypercube__lowd.html#ad7f54788a078d20a5481468c733b9ac7" title="hypercube_lowd::valuemax" alt="" coords="187,547,365,573"/>
-<area shape="rect" id="node32" href="$classhypercube__lowd.html#ac5aeb4da8302536bc9d7550257431d9b" title="hypercube_lowd::init\l_rand_gauss" alt="" coords="206,598,346,639"/>
-<area shape="rect" id="node34" href="$classhypercube__lowd.html#a92819cb35216cce7c38c86bcadb8aa4e" title="hypercube_lowd::init_list" alt="" coords="427,319,591,345"/>
-<area shape="rect" id="node40" href="$classhypercube__lowd.html#a0012d56d4718bf7a47aea8c2fbafaa56" title="hypercube_lowd::init\l_coeff_list" alt="" coords="206,663,346,705"/>
-<area shape="rect" id="node42" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="199,147,353,173"/>
-<area shape="rect" id="node61" href="$classhypercube__lowd.html#a7e5d03f9137963ac8a226aa79b29876c" title="hypercube_lowd::shift" alt="" coords="203,729,349,756"/>
-<area shape="rect" id="node5" href="$classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="427,81,591,108"/>
-<area shape="rect" id="node13" href="$classhaploid__lowd__test.html#af698da1abf2ed79003c522fe5d40482d" title="Test the recombination routine using Fourier transforms." alt="" coords="413,15,605,57"/>
-<area shape="rect" id="node7" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="679,136,817,163"/>
-<area shape="rect" id="node9" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="679,70,817,111"/>
-<area shape="rect" id="node11" href="$classhaploid__lowd__test.html#a7c852d1c12103d3b6811170b6eaef788" title="Test the recombination routine extensively." alt="" coords="681,5,815,46"/>
-<area shape="rect" id="node36" href="$classhaploid__lowd.html#a62cea9f272c1a5e502562335f43c7883" title="Initialize the population with genotype counts." alt="" coords="653,369,843,396"/>
-<area shape="rect" id="node38" href="$classhaploid__lowd.html#a23d53dd12a8b7788d6d12b358567f468" title="Initialize a wildtype population (00...0)" alt="" coords="660,319,836,345"/>
-<area shape="rect" id="node44" href="$classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="440,140,579,167"/>
-<area shape="rect" id="node50" href="$classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="431,191,588,217"/>
-<area shape="rect" id="node56" href="$classhypercube__lowd.html#a37e9bbaaaffdcf9e6d16a3f35abb49a1" title="hypercube_lowd::normalize" alt="" coords="420,252,599,279"/>
-<area shape="rect" id="node47" href="$classhaploid__lowd.html#ace81e593a66646976ecda97d4032fd12" title="Evolve the population for some generations, without recombination." alt="" coords="679,187,817,229"/>
-<area shape="rect" id="node54" href="$classhaploid__lowd__test.html#a30fb1659c167d90604f7a59a2934914c" title="Test the mutation&#45;drift equilibrium with diffusion theory." alt="" coords="663,253,833,294"/>
+<area shape="rect" id="node3" href="$classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="198,70,354,111"/>
+<area shape="rect" id="node11" href="$classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="198,5,354,46"/>
+<area shape="rect" id="node14" href="$classhaploid__lowd.html#ab32fe827081bba1a7ea89e0e471496f6" title="Get the genotype entropy." alt="" coords="197,238,355,279"/>
+<area shape="rect" id="node16" href="$classhaploid__lowd.html#a0217296b1952e73575f360e8427c9804" title="Get fitness mean and variance in the population." alt="" coords="193,303,359,345"/>
+<area shape="rect" id="node18" href="$classhypercube__lowd.html#ada26a531e7efa9a13ca81da0418e6927" title="hypercube_lowd::gaussian\l_coefficients" alt="" coords="189,369,363,410"/>
+<area shape="rect" id="node20" href="$classhypercube__lowd.html#a0b0f30face6950933a4b4eaae73acc00" title="hypercube_lowd::additive" alt="" coords="193,435,359,461"/>
+<area shape="rect" id="node22" href="$classhypercube__lowd.html#aff3614e858e9b7a29b7197846e832468" title="hypercube_lowd::argmax" alt="" coords="193,485,359,512"/>
+<area shape="rect" id="node24" href="$classhypercube__lowd.html#ad7f54788a078d20a5481468c733b9ac7" title="hypercube_lowd::valuemax" alt="" coords="187,536,365,563"/>
+<area shape="rect" id="node26" href="$classhypercube__lowd.html#ac5aeb4da8302536bc9d7550257431d9b" title="hypercube_lowd::init\l_rand_gauss" alt="" coords="206,587,346,629"/>
+<area shape="rect" id="node28" href="$classhypercube__lowd.html#a92819cb35216cce7c38c86bcadb8aa4e" title="hypercube_lowd::init_list" alt="" coords="421,236,585,263"/>
+<area shape="rect" id="node34" href="$classhypercube__lowd.html#a0012d56d4718bf7a47aea8c2fbafaa56" title="hypercube_lowd::init\l_coeff_list" alt="" coords="206,653,346,694"/>
+<area shape="rect" id="node36" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="199,136,353,163"/>
+<area shape="rect" id="node52" href="$classhypercube__lowd.html#a7e5d03f9137963ac8a226aa79b29876c" title="hypercube_lowd::shift" alt="" coords="203,719,349,745"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="421,17,585,44"/>
+<area shape="rect" id="node7" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="665,72,804,99"/>
+<area shape="rect" id="node9" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="665,6,804,47"/>
+<area shape="rect" id="node30" href="$classhaploid__lowd.html#a62cea9f272c1a5e502562335f43c7883" title="Initialize the population with genotype counts." alt="" coords="640,240,829,267"/>
+<area shape="rect" id="node32" href="$classhaploid__lowd.html#a23d53dd12a8b7788d6d12b358567f468" title="Initialize a wildtype population (00...0)" alt="" coords="647,189,823,216"/>
+<area shape="rect" id="node38" href="$classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="433,76,572,103"/>
+<area shape="rect" id="node44" href="$classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="424,131,581,157"/>
+<area shape="rect" id="node48" href="$classhypercube__lowd.html#a37e9bbaaaffdcf9e6d16a3f35abb49a1" title="hypercube_lowd::normalize" alt="" coords="413,185,592,212"/>
+<area shape="rect" id="node41" href="$classhaploid__lowd.html#ace81e593a66646976ecda97d4032fd12" title="Evolve the population for some generations, without recombination." alt="" coords="665,123,804,165"/>
 </map>
