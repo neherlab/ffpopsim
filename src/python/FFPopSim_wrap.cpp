@@ -5470,33 +5470,42 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_lowd_get_chi(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_haploid_lowd_get_pair_frequency(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_lowd *arg1 = (haploid_lowd *) 0 ;
   int arg2 ;
+  int arg3 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "locus", NULL 
+    (char *) "self",(char *) "locus1",(char *) "locus2", NULL 
   };
   double result;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_lowd_get_chi",kwnames,&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:haploid_lowd_get_pair_frequency",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd_get_chi" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd_get_pair_frequency" "', argument " "1"" of type '" "haploid_lowd *""'"); 
   }
   arg1 = reinterpret_cast< haploid_lowd * >(argp1);
   ecode2 = SWIG_AsVal_int(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd_get_chi" "', argument " "2"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd_get_pair_frequency" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  result = (double)(arg1)->get_chi(arg2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "haploid_lowd_get_pair_frequency" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)(arg1)->get_pair_frequency(arg2,arg3);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -5583,6 +5592,83 @@ SWIGINTERN PyObject *_wrap_haploid_lowd_get_LD(PyObject *SWIGUNUSEDPARM(self), P
   } 
   arg3 = static_cast< int >(val3);
   result = (double)(arg1)->get_LD(arg2,arg3);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_lowd_get_chi(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "locus", NULL 
+  };
+  double result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_lowd_get_chi",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd_get_chi" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd_get_chi" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (double)(arg1)->get_chi(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_lowd_get_chi2(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "locus1",(char *) "locus2", NULL 
+  };
+  double result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:haploid_lowd_get_chi2",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd_get_chi2" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd_get_chi2" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "haploid_lowd_get_chi2" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)(arg1)->get_chi2(arg2,arg3);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -9525,7 +9611,7 @@ static PyMethodDef SwigMethods[] = {
 		"Evolve for some generations\n"
 		"\n"
 		"Parameters:\n"
-		"    - gen: number of generations to evolve the population\n"
+		"    - gen: number of generations to evolve the population, defaults to one\n"
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_evolve_norec", (PyCFunction) _wrap_haploid_lowd_evolve_norec, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -9536,7 +9622,7 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_evolve_deterministic", (PyCFunction) _wrap_haploid_lowd_evolve_deterministic, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Evolve for some generations deterministically\n"
+		"Evolve for some generations deterministically (skips the resampling)\n"
 		"\n"
 		"Parameters:\n"
 		"    - gen: number of generations to evolve the population\n"
@@ -9546,14 +9632,14 @@ static PyMethodDef SwigMethods[] = {
 		"Get the frequency of a genotype\n"
 		"\n"
 		"Parameters:\n"
-		"    - gt: genotype, whose the frequency is to be computed\n"
+		"    - gt: genotype, whose the frequency is to be returned\n"
 		"\n"
 		"Returns:\n"
 		"    - the frequency of the genotype\n"
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_get_allele_frequency", (PyCFunction) _wrap_haploid_lowd_get_allele_frequency, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Get the allele frequency at a locus\n"
+		"Get the frequency of the + allele\n"
 		"\n"
 		"Parameters:\n"
 		"    - locus: locus, at which the frequency of the + allele is to be computed\n"
@@ -9562,14 +9648,15 @@ static PyMethodDef SwigMethods[] = {
 		"    - the frequency of the + allele, :math:`\\nu_i := \\frac{1 + \\left<s_i\\right>}{2}`, where :math:`s_i \\in \\{-1, 1\\}`.\n"
 		"\n"
 		""},
-	 { (char *)"haploid_lowd_get_chi", (PyCFunction) _wrap_haploid_lowd_get_chi, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Get chi of an allele in the -/+ basis\n"
+	 { (char *)"haploid_lowd_get_pair_frequency", (PyCFunction) _wrap_haploid_lowd_get_pair_frequency, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get the joint frequency of two + alleles\n"
 		"\n"
 		"Parameters:\n"
-		"    - locus: locus whose chi is to be computed\n"
+		"    - locus1: first locus\n"
+		"    - locus2: second locus\n"
 		"\n"
 		"Returns:\n"
-		"    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \\{-1, 1\\}`.\n"
+		"    - the joint frequency of the + alleles\n"
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_get_moment", (PyCFunction) _wrap_haploid_lowd_get_moment, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -9591,13 +9678,40 @@ static PyMethodDef SwigMethods[] = {
 		"    - locus2: second locus\n"
 		"\n"
 		"Returns:\n"
+		"    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.\n"
+		"\n"
+		""},
+	 { (char *)"haploid_lowd_get_chi", (PyCFunction) _wrap_haploid_lowd_get_chi, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get chi of an allele in the -/+ basis\n"
+		"\n"
+		"Parameters:\n"
+		"    - locus: locus whose chi is to be computed\n"
+		"\n"
+		"Returns:\n"
+		"    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \\{-1, 1\\}`.\n"
+		"\n"
+		""},
+	 { (char *)"haploid_lowd_get_chi2", (PyCFunction) _wrap_haploid_lowd_get_chi2, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get :math:`\\chi_{ij}`\n"
+		"\n"
+		"Parameters:\n"
+		"    - locus1: first locus\n"
+		"    - locus2: second locus\n"
+		"\n"
+		"Returns:\n"
 		"    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.\n"
 		"\n"
 		""},
-	 { (char *)"haploid_lowd_genotype_entropy", (PyCFunction)_wrap_haploid_lowd_genotype_entropy, METH_O, (char *)"get the genotype entropy of the population"},
-	 { (char *)"haploid_lowd_allele_entropy", (PyCFunction)_wrap_haploid_lowd_allele_entropy, METH_O, (char *)"get the allele entropy of the population"},
+	 { (char *)"haploid_lowd_genotype_entropy", (PyCFunction)_wrap_haploid_lowd_genotype_entropy, METH_O, (char *)"get the genotype entropy of the population: :math:`-\\sum_{i=0}^{2^L} p_i\\log p_i` "},
+	 { (char *)"haploid_lowd_allele_entropy", (PyCFunction)_wrap_haploid_lowd_allele_entropy, METH_O, (char *)"\n"
+		"get the allele entropy of the population :math:`-\\sum_{i=0}^{L} \n"
+		"u_i\\log \n"
+		"u_i + (1-\n"
+		"u_i)\\log(1-\n"
+		"u_i)` \n"
+		""},
 	 { (char *)"haploid_lowd_get_fitness", (PyCFunction) _wrap_haploid_lowd_get_fitness, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Get linkage disequilibrium\n"
+		"Get fitness values of a genotype\n"
 		"\n"
 		"Parameters:\n"
 		"    - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 \n"
@@ -9650,7 +9764,7 @@ static PyMethodDef SwigMethods[] = {
 		"Parameters:\n"
 		"- L     length of the genome(number of loci)\n"
 		"- rng_seed      seed for the random generator. If zero (default) pick a random number\n"
-		"- number_of_traits      number of phenotypic traits\n"
+		"- number_of_traits      number of phenotypic traits, defaults to one\n"
 		"\n"
 		""},
 	 { (char *)"delete_haploid_highd", (PyCFunction)_wrap_delete_haploid_highd, METH_O, (char *)"delete_haploid_highd(haploid_highd self)"},
@@ -9666,16 +9780,16 @@ static PyMethodDef SwigMethods[] = {
 		"model of recombination to use\n"
 		"\n"
 		"Available values:\n"
-		"   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents\n"
-		"   - FFPopSim.CROSSOVERS: block recombination with crossover probability\n"
+		"   - FFPopSim.FREE_RECOMBINATION: free reassortment of all loci between parents\n"
+		"   - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_recombination_model_get", (PyCFunction)_wrap_haploid_highd_recombination_model_get, METH_O, (char *)"\n"
 		"model of recombination to use\n"
 		"\n"
 		"Available values:\n"
-		"   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents\n"
-		"   - FFPopSim.CROSSOVERS: block recombination with crossover probability\n"
+		"   - FFPopSim.FREE_RECOMBINATION: free reassortment of all loci between parents\n"
+		"   - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_circular_set", _wrap_haploid_highd_circular_set, METH_VARARGS, (char *)"is the genome circular?"},
@@ -9724,7 +9838,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"haploid_highd_clear_traits", (PyCFunction)_wrap_haploid_highd_clear_traits, METH_O, (char *)"Clear all trait landscapes"},
 	 { (char *)"haploid_highd_set_random_trait_epistasis", (PyCFunction) _wrap_haploid_highd_set_random_trait_epistasis, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Set a random epistatic term in the genotype-phenotype map\n"
+		"Set a random epistatic term in the genotype-phenotype map. This is meant as an approximation to multi-locus epistasis to which many locus sets contribute. It assigns to each genotype a reprodrucible fitness component drawn from a Gaussian distribution.\n"
 		"\n"
 		"Parameters:\n"
 		"   - epistasis_std: standard deviation of the random epistatic terms\n"
@@ -9783,7 +9897,7 @@ static PyMethodDef SwigMethods[] = {
 		"Get the frequency of the + allele at the selected locus\n"
 		"\n"
 		"Parameters:\n"
-		"   - locus: locus whose frequency of the + allele is to be computed\n"
+		"   - locus: locus whose frequency of the + allele is to be returned\n"
 		"\n"
 		"Returns:\n"
 		"   - frequency: allele frequency in the population\n"
@@ -9884,7 +9998,7 @@ static PyMethodDef SwigMethods[] = {
 		"Set the additive part of a trait\n"
 		"\n"
 		"Parameters:\n"
-		"   - coefficients: array of coefficients for the trait (of length L)\n"
+		"   - coefficients: array of coefficients for the trait (of length L). All previous additive coefficents are erased\n"
 		"   - t: number of the trait to set\n"
 		"\n"
 		""},

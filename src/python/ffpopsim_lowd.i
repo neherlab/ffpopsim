@@ -74,9 +74,10 @@ The class offers a number of functions, but an example will explain the basic id
     c.set_genotypes([0, 2], [300, 700])
  
     # set an additive fitness landscape with these coefficients
-    # Note: we are in the -/+ basis, so
-    #        F[10000] - F[00000] = 2 * 0.02
     c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
+    # Note: we are in the -/+ basis, so
+    #        F[10000] - F[00000] = 2 * 0.02 
+    # Hence the coefficients are half of the effect of mutation on fitness 
 
     c.evolve(100)                       # evolve for 100 generations
     c.plot_diversity_histogram()
@@ -161,11 +162,11 @@ def set_allele_frequencies(self, frequencies, N):
 
     Parameters:
        - frequencies: an array of length L with all allele frequencies
-       - N: set the population size to this value and, if still unset, the carrying
-         capacity.
+       - N: set the population size and, if still unset, the carrying
+         capacity to this value
 
-    .. note:: the latter parameter is only used for resampling and has therefore
-              no crucial effect on the speed of the simulation.
+    .. note:: the population size is only used for resampling and has therefore
+              no effect on the speed of the simulation.
     '''
     if len(frequencies) != self.L:
         raise ValueError('The input array of allele frequencies has the wrong length.')
@@ -193,11 +194,11 @@ def set_genotypes(self, indices, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
     Parameters:
-    - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
-    - counts: list of counts for those genotypes
+       - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+       - counts: list of counts for those genotypes
 
-    *Note*: the population size and the carrying capacity are set as the sum of the counts.
-    *Note*: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+    .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
+    .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
     '''
     import numpy as np
     indices = np.asarray(indices, float)
@@ -207,6 +208,16 @@ def set_genotypes(self, indices, counts):
     if self._set_genotypes(indices, counts):
         raise RuntimeError('Error in the C++ function.')
 }
+
+/* initialize wildtype */
+%feature("autodoc",
+"Set up a population of wildtype individuals
+
+Parameters:
+   - N: the number of individuals
+
+.. note:: the carrying capacity is set to the same value if still unset.
+") set_wildtype;
 
 /* set recombination rates */
 %rename (_set_recombination_rates) set_recombination_rates;
@@ -249,7 +260,7 @@ def set_recombination_rates(self, rates, model=CROSSOVERS):
     '''Set the recombination rate(s).
 
 Parameters:
-    - rates: if a double, the recombination rate at any locus; if an array,
+    - rates: if a double, the recombination rate at between any two loci; if an array,
       the locus-specific recombination rates
     - model: the recombination model to use (CROSSOVERS or, for linear
       genomes, SINGLE_CROSSOVER)
@@ -382,11 +393,11 @@ Parameters:
 "Evolve for some generations
 
 Parameters:
-    - gen: number of generations to evolve the population
+    - gen: number of generations to evolve the population, defaults to one
 ") evolve;
 
 %feature("autodoc",
-"Evolve for some generations deterministically
+"Evolve for some generations deterministically (skips the resampling)
 
 Parameters:
     - gen: number of generations to evolve the population
@@ -412,7 +423,7 @@ def get_genotype_frequencies(self):
 "Get the frequency of a genotype
 
 Parameters:
-    - gt: genotype, whose the frequency is to be computed
+    - gt: genotype, whose the frequency is to be returned
 
 Returns:
     - the frequency of the genotype
@@ -427,7 +438,7 @@ def get_allele_frequencies(self):
 }
 
 %feature("autodoc",
-"Get the allele frequency at a locus
+"Get the frequency of the + allele
 
 Parameters:
     - locus: locus, at which the frequency of the + allele is to be computed
@@ -435,6 +446,17 @@ Parameters:
 Returns:
     - the frequency of the + allele, :math:`\\nu_i := \\frac{1 + \\left<s_i\\right>}{2}`, where :math:`s_i \in \{-1, 1\}`.
 ") get_allele_frequency;
+
+%feature("autodoc",
+"Get the joint frequency of two + alleles
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the joint frequency of the + alleles
+") get_pair_frequency;
 
 %feature("autodoc",
 "Get chi of an allele in the -/+ basis
@@ -447,15 +469,15 @@ Returns:
 ") get_chi;
 
 %feature("autodoc",
-"Get moment of two alleles in the -/+ basis
+"Get :math:`\\chi_{ij}`
 
 Parameters:
     - locus1: first locus
     - locus2: second locus
 
 Returns:
-    - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
-") get_moment;
+    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+") get_chi2;
 
 %feature("autodoc",
 "Get linkage disequilibrium
@@ -465,8 +487,19 @@ Parameters:
     - locus2: second locus
 
 Returns:
-    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
 ") get_LD;
+
+%feature("autodoc",
+"Get moment of two alleles in the -/+ basis
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+") get_moment;
 
 /* random sampling */
 %pythoncode {
@@ -500,7 +533,7 @@ def get_fitnesses(self):
 }
 
 %feature("autodoc",
-"Get linkage disequilibrium
+"Get fitness values of a genotype
 
 Parameters:
     - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
@@ -768,8 +801,8 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
 }
 
 /* entropy */
-%feature("autodoc", "get the genotype entropy of the population") genotype_entropy;
-%feature("autodoc", "get the allele entropy of the population") allele_entropy;
+%feature("autodoc", "get the genotype entropy of the population: :math:`-\sum_{i=0}^{2^L} p_i\log p_i` ") genotype_entropy;
+%feature("autodoc", "get the allele entropy of the population :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)` ") allele_entropy;
 
 /* ignore tests (they work by now) */
 %ignore test_recombinant_distribution();
