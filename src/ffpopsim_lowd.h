@@ -177,7 +177,7 @@ public:
 	int set_wildtype(unsigned long N);
 
 	// modify population
-	int set_recombination_rates(double *rec_rates);
+	int set_recombination_rates(double *rec_rates, int rec_model=CROSSOVERS);
 	int set_mutation_rates(double m);
 	int set_mutation_rates(double m1, double m2);
 	int set_mutation_rates(double* m);
@@ -244,7 +244,7 @@ private:
 	bool mem;
 	int allocate_mem();
 	int free_mem();
-	int allocate_recombination_mem();
+	int allocate_recombination_mem(int rec_model);
 	int free_recombination_mem();
 
 	// counting reference

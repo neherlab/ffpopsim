@@ -339,7 +339,7 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd_set_wildtype(self, *args, **kwargs)
 
     def _set_recombination_rates(self, *args, **kwargs):
-        """_set_recombination_rates(haploid_lowd self, double * rec_rates) -> int"""
+        """_set_recombination_rates(haploid_lowd self, double * rec_rates, int rec_model=2) -> int"""
         return _FFPopSim.haploid_lowd__set_recombination_rates(self, *args, **kwargs)
 
     def evolve(self, gen=1):
@@ -520,12 +520,13 @@ class haploid_lowd(object):
         if self._set_genotypes(indices, counts):
             raise RuntimeError('Error in the C++ function.')
 
-    def set_recombination_rates(self, rates):
+    def set_recombination_rates(self, rates, model=2):
         '''Set the recombination rate(s).
 
     Parameters:
         - rates: if a double, the recombination rate at any locus; if an array,
           the locus-specific recombination rates
+        - model: the recombination model to use (CROSSOVERS or SINGLE_CROSSOVER)
 
     .. note:: if locus-specific rates are specified, the array must have length
               (L-1) for linear chromosomes and length L for circular ones. The
@@ -536,6 +537,12 @@ class haploid_lowd(object):
         import numpy as np
 
         
+        if model == 1:
+            raise ValueError("Cannot assign rates to free recombination!")
+        elif model not in (2, 3):
+            raise ValueError("Model not recognized.")
+
+        
         if self.circular:
             len_rates = self.L
         else:
@@ -543,12 +550,12 @@ class haploid_lowd(object):
 
         
         if np.isscalar(rates):
-            self._set_recombination_rates([rates] * len_rates)
+            self._set_recombination_rates([rates] * len_rates, model)
 
         elif len(rates) != len_rates:
             raise ValueError("Expecting an array of length "+str(len_rates)+".")
         else:
-            self._set_recombination_rates(rates)
+            self._set_recombination_rates(rates, model)
 
 
     def get_mutation_rates(self, locus=None, direction=None):

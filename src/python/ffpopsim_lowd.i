@@ -245,12 +245,14 @@ def set_genotypes(self, indices, counts):
   if($1) delete[] $1;
 }
 %pythoncode {
-def set_recombination_rates(self, rates):
+def set_recombination_rates(self, rates, model=CROSSOVERS):
     '''Set the recombination rate(s).
 
 Parameters:
     - rates: if a double, the recombination rate at any locus; if an array,
       the locus-specific recombination rates
+    - model: the recombination model to use (CROSSOVERS or, for linear
+      genomes, SINGLE_CROSSOVER)
 
 .. note:: if locus-specific rates are specified, the array must have length
           (L-1) for linear chromosomes and length L for circular ones. The
@@ -260,6 +262,14 @@ Parameters:
 
     import numpy as np
 
+    # Check whether the model makes sense
+    if model == FREE_RECOMBINATION:
+        raise ValueError("Cannot assign rates to free recombination!")
+    if model not in (CROSSOVERS, SINGLE_CROSSOVER):
+        raise ValueError("Model not recognized.")
+    if (self.circular and (model == SINGLE_CROSSOVER)):
+        raise ValueError("Single crossover not available for circular genomes.") 
+
     # Check whether the chromosome is circular
     if self.circular:
         len_rates = self.L
@@ -268,12 +278,12 @@ Parameters:
 
     # Check whether the input argument is a list or a scalar
     if np.isscalar(rates):
-        self._set_recombination_rates([rates] * len_rates)
+        self._set_recombination_rates([rates] * len_rates, model)
 
     elif len(rates) != len_rates:
         raise ValueError("Expecting an array of length "+str(len_rates)+".")
     else:
-        self._set_recombination_rates(rates)
+        self._set_recombination_rates(rates, model)
 
 }
 

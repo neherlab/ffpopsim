@@ -5223,16 +5223,20 @@ SWIGINTERN PyObject *_wrap_haploid_lowd__set_recombination_rates(PyObject *SWIGU
   PyObject *resultobj = 0;
   haploid_lowd *arg1 = (haploid_lowd *) 0 ;
   double *arg2 = (double *) 0 ;
+  int arg3 = (int) 2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "rec_rates", NULL 
+    (char *) "self",(char *) "rec_rates",(char *) "rec_model", NULL 
   };
   int result;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_lowd__set_recombination_rates",kwnames,&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO|O:haploid_lowd__set_recombination_rates",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd__set_recombination_rates" "', argument " "1"" of type '" "haploid_lowd *""'"); 
@@ -5269,7 +5273,14 @@ SWIGINTERN PyObject *_wrap_haploid_lowd__set_recombination_rates(PyObject *SWIGU
       arg2[i] = tmpdouble;
     }
   }
-  result = (int)(arg1)->set_recombination_rates(arg2);
+  if (obj2) {
+    ecode3 = SWIG_AsVal_int(obj2, &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "haploid_lowd__set_recombination_rates" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = static_cast< int >(val3);
+  }
+  result = (int)(arg1)->set_recombination_rates(arg2,arg3);
   resultobj = SWIG_From_int(static_cast< int >(result));
   {
     if(arg2) delete[] arg2;
@@ -9509,7 +9520,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd__get_generation", (PyCFunction)_wrap_haploid_lowd__get_generation, METH_O, (char *)"current generation (read-only)"},
 	 { (char *)"haploid_lowd__get_mutation_rate", (PyCFunction) _wrap_haploid_lowd__get_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"},
 	 { (char *)"haploid_lowd_set_wildtype", (PyCFunction) _wrap_haploid_lowd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd_set_wildtype(haploid_lowd self, unsigned long N) -> int"},
-	 { (char *)"haploid_lowd__set_recombination_rates", (PyCFunction) _wrap_haploid_lowd__set_recombination_rates, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_recombination_rates(haploid_lowd self, double * rec_rates) -> int"},
+	 { (char *)"haploid_lowd__set_recombination_rates", (PyCFunction) _wrap_haploid_lowd__set_recombination_rates, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_recombination_rates(haploid_lowd self, double * rec_rates, int rec_model=2) -> int"},
 	 { (char *)"haploid_lowd_evolve", (PyCFunction) _wrap_haploid_lowd_evolve, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Evolve for some generations\n"
 		"\n"
