@@ -7,19 +7,22 @@ Examples for the low-dimensional package
 
 Various usage examples of the low-dimensional simulation package follow. Please note that they are sorted by increasing complexity.
 
-Decay of linkage
-^^^^^^^^^^^^^^^^
-In recombining populations, genetic linkage decays with time and distance. This script shows the decay curves of a simple population. The example can be found in ``decay_of_LD.py``.
+Decay of linkage disequilibrium
+^^^^^^^^^^^^^^^^^^^^^^^^^
+In recombining populations, genetic linkage decays with time. This
+script initializes a population with high linkage disequilibrium (LD) and tracks how LD. The example can be found in ``decay_of_LD.py``.
 
-First, we load the FFPopSim module and the number crunchung and plotting facilities::
+First, we load the FFPopSim module, along with the number crunching and plotting tools::
 
    import numpy as np
    import matplotlib.pyplot as plt
    import FFPopSim as h
 
-.. note:: you might need to add the directory of the ``FFPopSim.py`` file to your Python ``PATH`` for this to work. If you decide to copy files around instead, please make sure that ``FFPopSim.py`` and ``_FFPopSim.so`` always be in the same folder.
+.. note:: you might need to add the directory of the ``FFPopSim.py``
+file to your Python ``PATH`` for this to work. If you decide to copy
+the library to a different destination instead, please make sure that ``FFPopSim.py`` and ``_FFPopSim.so`` always are in the same folder.
 
-Second, we set up the population::
+Next, we set up the population::
 
    # specify parameters
    N = 500000                          # Population size
@@ -34,22 +37,25 @@ Second, we set up the population::
    pop.set_mutation_rates(mu)          # assign the mutation rate
    
    # initialize the population with N/2 individuals with genotypes 0, that is ----
-   # and N/2 with the opposite genotype, that is ++++
+   # and N/2 with the opposite genotype 2**L -1, that is ++++
    pop.set_genotypes([0, 2**L-1],[N/2, N/2])
 
-Third, we let the population evolve in little steps and we track the linkage disequilibrium via the ``get_LD`` function::
+Third, we let the population evolve and we track linkage disequilibrium via the ``get_LD`` function::
 
    max_gen = 50
+   #get LD for locus pairs (0,1), (0,2) and (0,3)
    LD_trajectories = [[pop.generation,pop.get_LD(0,1), pop.get_LD(0,2), pop.get_LD(0,3)]]
    for ii in range(max_gen):
-       pop.evolve(5)               #N/10 generations between successive samples
+       pop.evolve(5)               #evolve 5 generations
+       #get a new set of LD values
        LD_trajectories.append([pop.generation, pop.get_LD(0,1), pop.get_LD(0,2), pop.get_LD(0,3)])
-   LD_trajectories=np.array(LD_trajectories)
+   LD_trajectories=np.array(LD_trajectories)      #cast to an array for plotting
 
 Fourth, we plot the resulting linkage disequilibrium curves::
 
    cols = ['r', 'b', 'g', 'm', 'c']
    for ii in range(LD_trajectories.shape[1]-1):
+       #plot the LD from simulations and compare it to the exponential decay expected from theory
        plt.plot(LD_trajectories[:,0], LD_trajectories[:,ii+1], color=cols[ii], label=r'$D_{1'+str(ii+1)+'}$')
        plt.plot(LD_trajectories[:,0], np.exp(-LD_trajectories[:,0]* r * ii), ls='--', color=cols[ii])
    
@@ -60,7 +66,9 @@ Fourth, we plot the resulting linkage disequilibrium curves::
    plt.ion()
    plt.show()
 
-The typical plot we obtain is the following:
+As expected, LD decays faster if loci are further apart. The typical
+plot we obtain is the following and shows complete concordance of
+theory and simulations:
 
 .. image:: figures/examples/decay_of_LD.png
 
@@ -99,7 +107,7 @@ Third, simulations of ``G`` generations are repeated for various number of loci 
        #initialize the population with N individuals with genotypes 0, that is ----
        pop.set_allele_frequencies(0.2*np.ones(L), N)
    
-       pop.evolve(G)               # run for G generations to equilibrate
+       pop.evolve(G)               # run for G generations
        
        t2=time.time()
    
@@ -107,9 +115,11 @@ Third, simulations of ``G`` generations are repeated for various number of loci 
        
    exec_time=np.array(exec_time)
 
-Fourth, the same schedule is repeated without recombination, using ``haploid_lowd.evolve_norec``.
+Fourth, the same schedule is repeated without recombination, using
+``haploid_lowd.evolve_norec`` instead of the ``haploid_lowd.evolve``.
 
-Fifth, the resulting complexity is shown::
+Fifth, the time required is plotted agains the number of loci and
+compared to the expectation :math:`\mathcal{O}3^L`::
 
    plt.figure()
    plt.plot(exec_time[:,0], exec_time[:,1],label='with recombination', linestyle='None', marker = 'o')
@@ -138,14 +148,18 @@ The result confirm the theoretical expectation:
 
 Valley Crossing
 ^^^^^^^^^^^^^^^
-Now, something slightly more advanced. If sign epistasis is at work in a certain populaiton, the fitness landscape will include valleys. Those valleys need to be crossed by some individual carrying multiple mutations in order to reach the fitness maximum. It is well known that recombination helps this process as a source of genetic diversity (in addition to random mutation). This works up to a certain point, where recombination becomes so frequent that it actually destroys beneficial combinations of mutations more often than it creates them. This phenomenon is simulated in this example, which can be found integrally in ``valley.py``.
+Now, something slightly more advanced. If sign epistasis is at work in
+a certain populaiton, the fitness landscape will include
+valleys. Those valleys need to be crossed by some individual carrying
+multiple mutations in order to reach the fitness
+maximum. Recombination can accelerate this process as a source of genetic diversity (in addition to random mutation). This works up to a certain point, where recombination becomes so frequent that it actually destroys beneficial combinations of mutations more often than it creates them. This phenomenon is simulated in this example, which can be found integrally in ``valley.py``.
 
 First, we load the usual modules, and we set the population parameters::
 
    L = 4                           # Number of loci
    N = 1e10                        # Population size
-   s1 = 1e-5                       # Fitness advantage of wildtype (half)
-   s2 = 0.01                       # Fitness advantage of quadruple mutant (half)
+   s1 = 1e-5                       # Fitness of wildtype
+   s2 = 0.01                       # Fitness of quadruple mutant
 
 Second, we decide what recombination and mutation rates to explore::
 
@@ -174,13 +188,14 @@ Fourth, we repeat the simulation for various mutation and recombination rates::
         [...]
         for i, r in enumerate(rs):
             [...]
-            c = h.haploid_lowd(L)
-            c.set_genotypes([0],[N])
-            c.set_recombination_rates(r*np.ones(c.L-1))
+            c = h.haploid_lowd(L)             #produce population with L loci
+            c.set_genotypes([0],[N])          #initialize with N individuals in genotype 0 (wildtype)
+            c.set_recombination_rates(r)   #set the recombination rate
             c.set_mutation_rates(mu)
+	    #set the wildtype fitness to s1 and the quadruple mutant fitness to s1+s2 (all other genotype have relative fitness 0)
             c.set_fitness_function([0b0, 0b1111], [s1, s1+s2])
-            c.evolve()
-            # cross valley
+
+            # cross valley: evolve for gens generations at a time until quadruple mutant is at frequency >1/2
             gens = 100
             while c.get_genotype_frequency(0b1111)<0.5 and c.generation<1e6:
                 c.evolve(gens)
@@ -206,6 +221,6 @@ Finally, we complete the image::
     plt.ion()
     fig.show()
 
-We obtain the following plot:
+We obtain the following plot (note that the calculation takes a while):
 
 .. image:: figures/examples/valley_crossing.png
