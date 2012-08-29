@@ -61,7 +61,7 @@
 <span id="haploid-highd"></span><h1>haploid_highd Class Reference<a class="headerlink" href="#haploid-highd-class-reference" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="FFPopSim.haploid_highd">
-<em class="property">class </em><tt class="descclassname">FFPopSim.</tt><tt class="descname">haploid_highd</tt><big>(</big><em>L=0</em>, <em>rng_seed=0</em>, <em>number_of_traits=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descname">haploid_highd</tt><big>(</big><em>L=0</em>, <em>rng_seed=0</em>, <em>number_of_traits=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for high-dimensional population genetics (genomes larger than ~20 loci).</p>
 <p>This class is the main object for simulating the evolution of populations with
 many loci (more than ~20). The class offers a number of functions, but an
@@ -74,7 +74,7 @@ example will explain the basic idea:</p>
 <span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_highd</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>       <span class="c"># 300 loci</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">set_wildtype</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>         <span class="c"># start with 1000 wildtype individuals</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="mf">1e-7</span>       <span class="c"># mutation rate per site per generation</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="mf">1e-4</span>       <span class="c"># mutation rate per site per generation</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">outcrossing_rate</span> <span class="o">=</span> <span class="mf">1e-1</span>    <span class="c"># probability of sexual reproduction per gen</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">crossover_rate</span> <span class="o">=</span> <span class="mf">1e-2</span>      <span class="c"># probability of crossover per site per gen</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>                <span class="c"># evolve for 100 generations</span>
@@ -83,7 +83,7 @@ example will explain the basic idea:</p>
 <span class="c">######################################</span>
 </pre></div>
 </div>
-<p>Populations can have a number of phenotypic traits that concur to the fitness
+<p>Populations can have a number of phenotypic traits that contribute to the fitness
 of each individual. The function that calculates fitness from the phenotype
 identifies fitness with the first trait only by default. The user is, however,
 free to subclass haploid_highd in C++ (as it is done in hivpopulation) and
@@ -93,6 +93,16 @@ These can be set directly from Python (since the genotypic space has a finite
 number of elements).</p>
 <p><strong>Note</strong>: fitness is not a phenotypic trait directly, but rather a function of <em>all</em>
 phenotypic traits together.</p>
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>L=0</em>, <em>rng_seed=0</em>, <em>number_of_traits=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a high-dimensional population with certain parameters.</p>
+<p>Parameters:
+- L     length of the genome(number of loci)
+- rng_seed      seed for the random generator. If zero (default) pick a random number
+- number_of_traits      number of phenotypic traits, defaults to one</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="FFPopSim.haploid_highd.add_trait_coefficient">
 <tt class="descname">add_trait_coefficient</tt><big>(</big><em>value</em>, <em>loci</em>, <em>t</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.add_trait_coefficient" title="Permalink to this definition">¶</a></dt>
@@ -188,7 +198,7 @@ phenotypic traits together.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>locus: locus whose frequency of the + allele is to be computed</li>
+<li>locus: locus whose frequency of the + allele is to be returned</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -212,6 +222,63 @@ phenotypic traits together.</p>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
 <li>the chi of that allele, <span class="math">\(\chi_i := \left&lt;s_i\right&gt;\)</span>, where <span class="math">\(s_i \in \{-1, 1\}\)</span>.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_chi2">
+<tt class="descname">get_chi2</tt><big>(</big><em>locus1</em>, <em>locus2</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_chi2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get <span class="math">\(\chi_{ij}\)</span></p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>locus1: first locus</li>
+<li>locus2: second locus</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>the linkage disequilibiurm between them, i.e. <span class="math">\(\chi_{ij} := \left&lt;s_i s_j\right&gt; - \chi_i \cdot \chi_j\)</span>.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_LD">
+<tt class="descname">get_LD</tt><big>(</big><em>locus1</em>, <em>locus2</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_LD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get linkage disequilibrium</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>locus1: first locus</li>
+<li>locus2: second locus</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>the linkage disequilibiurm between them, i.e. <span class="math">\(LD := 1 / 4 \left&lt;s_i s_j\right&gt; - \chi_i \cdot \chi_j\)</span>.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_moment">
+<tt class="descname">get_moment</tt><big>(</big><em>locus1</em>, <em>locus2</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_moment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get moment of two alleles in the -/+ basis</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>locus1: first locus</li>
+<li>locus2: second locus</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>the second moment, i.e. <span class="math">\(\left&lt;s_i s_j\right&gt;\)</span>, where <span class="math">\(s_i, s_j \in \{-1, 1\}\)</span>.</li>
 </ul>
 </dd>
 </dl>
@@ -409,19 +476,19 @@ phenotypic traits together.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_highd.set_additive_fitness">
-<tt class="descname">set_additive_fitness</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_additive_fitness" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shortcut for set_additive_trait when there is only one trait</p>
+<dt id="FFPopSim.haploid_highd.set_fitness_additive">
+<tt class="descname">set_fitness_additive</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_fitness_additive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for set_trait_additive when there is only one trait</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_highd.set_additive_trait">
-<tt class="descname">set_additive_trait</tt><big>(</big><em>coefficients</em>, <em>t</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_additive_trait" title="Permalink to this definition">¶</a></dt>
+<dt id="FFPopSim.haploid_highd.set_trait_additive">
+<tt class="descname">set_trait_additive</tt><big>(</big><em>coefficients</em>, <em>t</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_trait_additive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the additive part of a trait</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>coefficients: array of coefficients for the trait (of length L)</li>
+<li>coefficients: array of coefficients for the trait (of length L). All previous additive coefficents are erased</li>
 <li>t: number of the trait to set</li>
 </ul>
 </dd>
@@ -437,7 +504,7 @@ phenotypic traits together.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_highd.set_random_trait_epistasis">
 <tt class="descname">set_random_trait_epistasis</tt><big>(</big><em>epistasis_std</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_random_trait_epistasis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set a random epistatic term in the genotype-phenotype map</p>
+<dd><p>Set a random epistatic term in the genotype-phenotype map. This is meant as an approximation to multi-locus epistasis to which many locus sets contribute. It assigns to each genotype a reprodrucible fitness component drawn from a Gaussian distribution.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -458,10 +525,14 @@ phenotypic traits together.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>N: the number of individuals and carrying capacity</li>
+<li>N: the number of individuals</li>
 </ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the carrying capacity is set to the same value if still unset.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -471,6 +542,48 @@ phenotypic traits together.</p>
 <p>During its evolution, identical clones might be generated by different routes at
 different times. This function merges any such duplicates into unique clones with
 the size equal to the sum of the sizes of the duplicates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.set_allele_frequencies">
+<tt class="descname">set_allele_frequencies</tt><big>(</big><em>frequencies</em>, <em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_allele_frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the population according to the given allele frequencies in linkage equilibrium.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>frequencies: an array of length L with all allele frequencies</li>
+<li>N: set the population size and, if still unset, the carrying
+capacity to this value</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.set_genotypes">
+<tt class="descname">set_genotypes</tt><big>(</big><em>genotypes</em>, <em>counts</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_genotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize population with fixed counts for specific genotypes.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>indices: list of genotypes to set. Genotypes themselves are lists of alleles,
+e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111</li>
+<li>counts: list of the number at which each of those genotypes it to be present</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the population size and, if unset, the carrying capacity will be set as the sum of the counts.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">you can use Python binary notation for the indices, e.g. 0b0110 = 6.</p>
+</div>
+<dl class="docutils">
+<dt><strong>Example</strong>: if you want to initialize 200 individuals with genotype 001 and 300 individuals</dt>
+<dd>with genotype 110, you can use <tt class="docutils literal"><span class="pre">set_genotypes([[0,0,1],</span> <span class="pre">[1,1,0]],</span> <span class="pre">[200,</span> <span class="pre">300])</span></tt></dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -499,16 +612,16 @@ limited to third codon positions between locus 90 and 200, use:
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>gen: number of generations</li>
+<li>gen: number of generations, defaults to one</li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_highd.get_additive_trait">
-<tt class="descname">get_additive_trait</tt><big>(</big><em>t=0</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_additive_trait" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an array with the additive part of a trait for all loci.</p>
+<dt id="FFPopSim.haploid_highd.get_trait_additive">
+<tt class="descname">get_trait_additive</tt><big>(</big><em>t=0</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_trait_additive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an array with the additive coefficients of all loci of a trait.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -740,49 +853,15 @@ otherwise, several genotypes are returned (default: all)</li>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="FFPopSim.haploid_highd.set_allele_frequencies">
-<tt class="descname">set_allele_frequencies</tt><big>(</big><em>frequencies</em>, <em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_allele_frequencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the population according to the given allele frequencies.</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>frequencies: an array of length L with all allele frequencies</li>
-<li>N: the number of individuals and carrying capacity</li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_highd.set_genotypes">
-<tt class="descname">set_genotypes</tt><big>(</big><em>genotypes</em>, <em>counts</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_genotypes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize population with fixed counts for specific genotypes.</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>indices: list of genotypes to set (e.g. 0 -&gt; 00...0, L-1 -&gt; 11...1)</li>
-<li>counts: list of counts for those genotypes</li>
-</ul>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">the population size and the carrying capacity are set as the sum of the counts.</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">you can use Python binary notation for the indices, e.g. 0b0110 = 6.</p>
-</div>
-<dl class="docutils">
-<dt><strong>Example</strong>: if you want to initialize 200 individuals with genotype 001 and 300 individuals</dt>
-<dd>with genotype 110, you can use <tt class="docutils literal"><span class="pre">set_genotypes([[0,0,1],</span> <span class="pre">[1,1,0]],</span> <span class="pre">[200,</span> <span class="pre">300])</span></tt></dd>
-</dl>
-</dd></dl>
-
 <dl class="attribute">
 <dt id="FFPopSim.haploid_highd.L">
 <tt class="descname">L</tt><a class="headerlink" href="#FFPopSim.haploid_highd.L" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of loci (read-only)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="FFPopSim.haploid_highd.number_of_loci">
+<tt class="descname">number_of_loci</tt><a class="headerlink" href="#FFPopSim.haploid_highd.number_of_loci" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of loci (read-only)</p>
 </dd></dl>
 
@@ -793,15 +872,15 @@ otherwise, several genotypes are returned (default: all)</li>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="FFPopSim.haploid_highd.number_of_loci">
-<tt class="descname">number_of_loci</tt><a class="headerlink" href="#FFPopSim.haploid_highd.number_of_loci" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of loci (read-only)</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="FFPopSim.haploid_highd.population_size">
 <tt class="descname">population_size</tt><a class="headerlink" href="#FFPopSim.haploid_highd.population_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Population size (read-only)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="FFPopSim.haploid_highd.generation">
+<tt class="descname">generation</tt><a class="headerlink" href="#FFPopSim.haploid_highd.generation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current generation (read-only)</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -817,9 +896,17 @@ otherwise, several genotypes are returned (default: all)</li>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="FFPopSim.haploid_highd.mutation_rate">
-<tt class="descname">mutation_rate</tt><a class="headerlink" href="#FFPopSim.haploid_highd.mutation_rate" title="Permalink to this definition">¶</a></dt>
-<dd><p>mutation rate (per site per generation)</p>
+<dt id="FFPopSim.haploid_highd.recombination_model">
+<tt class="descname">recombination_model</tt><a class="headerlink" href="#FFPopSim.haploid_highd.recombination_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>model of recombination to use</p>
+<dl class="docutils">
+<dt>Available values:</dt>
+<dd><ul class="first last simple">
+<li>FFPopSim.FREE_RECOMBINATION: free reassortment of all loci between parents</li>
+<li>FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus</li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -835,23 +922,9 @@ otherwise, several genotypes are returned (default: all)</li>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="FFPopSim.haploid_highd.recombination_model">
-<tt class="descname">recombination_model</tt><a class="headerlink" href="#FFPopSim.haploid_highd.recombination_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>model of recombination to use</p>
-<dl class="docutils">
-<dt>Available values:</dt>
-<dd><ul class="first last simple">
-<li>FFPopSim.FREE_RECOMBINATION: free shuffling between parents</li>
-<li>FFPopSim.CROSSOVERS: block recombination with crossover probability</li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="FFPopSim.haploid_highd.generation">
-<tt class="descname">generation</tt><a class="headerlink" href="#FFPopSim.haploid_highd.generation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current generation (read-only)</p>
+<dt id="FFPopSim.haploid_highd.mutation_rate">
+<tt class="descname">mutation_rate</tt><a class="headerlink" href="#FFPopSim.haploid_highd.mutation_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>mutation rate (per site per generation)</p>
 </dd></dl>
 
 <dl class="attribute">

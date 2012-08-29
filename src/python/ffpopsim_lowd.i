@@ -785,8 +785,16 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
 }
 
 /* entropy */
-%feature("autodoc", "get the genotype entropy of the population: :math:`-\sum_{i=0}^{2^L} p_i\log p_i` ") genotype_entropy;
-%feature("autodoc", "get the allele entropy of the population :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)` ") allele_entropy;
+%feature("autodoc",
+"Get the genotype entropy of the population
+
+.. note:: the genotype entropy is defined as :math:`-\\sum_{i=0}^{2^L} p_i \log p_i`.
+") genotype_entropy;
+%feature("autodoc",
+"get the allele entropy of the population
+
+.. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\nu_i\log \\nu_i + (1-\\nu_i)\log(1-\\nu_i)`.
+") allele_entropy;
 
 /* ignore tests (they work by now) */
 %ignore test_recombinant_distribution();

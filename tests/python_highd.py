@@ -25,10 +25,10 @@ pop = h.haploid_highd(L)
 # Test fitness landscapes
 rep = np.zeros(L)
 rep[np.random.random(L) > 0.5] = -0.1
-pop.set_additive_trait(rep)
+pop.set_trait_additive(rep)
 
 # Show the additive part of the fitness landscape
-print pop.get_additive_trait()
+print pop.get_trait_additive()
 
 # Test population initialization
 pop.set_allele_frequencies([0.3] * L, N)

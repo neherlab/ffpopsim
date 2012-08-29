@@ -64,13 +64,14 @@ The gene structure of HIV is not modelled explicitely, except for a stub of
 "Construct a HIV population with certain parameters.
 
 Parameters:
-- N     number of viral particles
-- rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
-- mutation_rate	mutation rate in events / generation / site
-- coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
-- crossover_rate	probability of template switching during coinfection in events / site
 
-Note: the genome length is 10000 (see HIVGENOME).
+   - N     number of viral particles
+   - rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
+   - mutation_rate	mutation rate in events / generation / site
+   - coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
+   - crossover_rate	probability of template switching during coinfection in events / site
+
+.. note:: the genome length is 10000 (see HIVGENOME).
 ") hivpopulation;
 
 /* we have two traits anyway */
@@ -103,15 +104,19 @@ treatment = property(_get_treatment, _set_treatment)
 
 /* read selection/resistance coefficients */
 %feature("autodoc",
-"Store random genotypes into a plain text file.
+"Read replication coefficient from a text file
 
 Parameters:
-   - filename: string with the name of the file to store the genotype into
-   - sample_size: how many random genotypes to store
-   - gt_label: common fasta label for the genotypes (e.g. 'HIV-sim')
-   - start: if only a portion of the genome is to be stored, start from this position
-   - length: store a chunk from ``start`` to this length
-") write_genotypes;
+   - filename: string with the name of the file to read the coefficient from
+") read_replication_coefficients;
+
+%feature("autodoc",
+"Read resistance coefficient from a text file
+
+Parameters:
+   - filename: string with the name of the file to read the coefficient from
+") read_resistance_coefficients;
+
 %typemap(in) istream &model (std::ifstream temp) {
         if (!PyString_Check($input)) {
                 PyErr_SetString(PyExc_ValueError, "Expecting a string");
@@ -122,6 +127,16 @@ Parameters:
 }
 
 /* write genotypes */
+%feature("autodoc",
+"Store random genotypes into a plain text file.
+
+Parameters:
+   - filename: string with the name of the file to store the genotype into
+   - sample_size: how many random genotypes to store
+   - gt_label: common fasta label for the genotypes (e.g. 'HIV-sim')
+   - start: if only a portion of the genome is to be stored, start from this position
+   - length: store a chunk from ``start`` to this length
+") write_genotypes;
 %typemap(in) ostream &out_genotypes (std::ofstream temp) {
         if (!PyString_Check($input)) {
                 PyErr_SetString(PyExc_ValueError, "Expecting a string");
@@ -152,7 +167,7 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
     d = {}
     for i in xrange(sample_size):
         rcl = self.random_clone()
-        d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl,L)[start:start+length]
+        d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl,L)[start:start+length]
     np.savez_compressed(filename, **d)    
 }
 
@@ -237,7 +252,7 @@ def set_trait_landscape(self,
     single_locus_effects[np.where(env_mutations)] = np.random.exponential(effect_size_env, env_mutations.sum())
         
     # Call the C++ routines
-    self.set_additive_trait(single_locus_effects, traitnumber)
+    self.set_trait_additive(single_locus_effects, traitnumber)
 
     # Epistasis
     multi_locus_coefficients=[]
@@ -283,8 +298,8 @@ def set_trait_landscape(self,
 
     for mlc in multi_locus_coefficients:
         self.add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
-    self.update_traits()
-    self.update_fitness()
+    self._update_traits()
+    self._update_fitness()
 }
 
 /* helper functions for replication and resistance */
@@ -293,7 +308,7 @@ to set them by slicing, e.g. pop.additive_replication[4:6] = 3. In order to impl
 this functionality we would need a whole subclass of ndarray with its own set/get
 methods, and nobody is really keen on doing this. */
 %pythoncode{
-def get_additive_replication(self):
+def get_replication_additive(self):
     '''The additive part of the replication lansdscape.
 
     Returns:
@@ -303,10 +318,10 @@ def get_additive_replication(self):
                  If you are used to the 0/1 basis, keep in mind that
                  the interaction series-expansion is different.
     '''
-    return self.get_additive_trait(0)
+    return self.get_trait_additive(0)
 
 
-def set_additive_replication(self, coefficients):
+def set_replication_additive(self, coefficients):
     '''Set the additive replication coefficients
 
     Parameters:
@@ -317,10 +332,10 @@ def set_additive_replication(self, coefficients):
                  the interaction series-expansion is different.
     '''
 
-    self.set_additive_trait(coefficients, 0)
+    self.set_trait_additive(coefficients, 0)
 
 
-def get_additive_resistance(self):
+def get_resistance_additive(self):
     '''The additive part of the resistance lansdscape.
 
     Returns:
@@ -330,10 +345,10 @@ def get_additive_resistance(self):
                  If you are used to the 0/1 basis, keep in mind that
                  the interaction series-expansion is different.
     '''
-    return self.get_additive_trait(1)
+    return self.get_trait_additive(1)
 
 
-def set_additive_resistance(self, coefficients):
+def set_resistance_additive(self, coefficients):
     '''Set the additive drug resistance coefficients
 
     Parameters:
@@ -344,7 +359,7 @@ def set_additive_resistance(self, coefficients):
                  the interaction series-expansion is different.
     '''
 
-    self.set_additive_trait(coefficients, 1)
+    self.set_trait_additive(coefficients, 1)
 
 
 }
