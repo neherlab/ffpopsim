@@ -28,6 +28,7 @@ public:
 	int test_recombinant_distribution();
 	int test_recombination(double *rec_rates);
 	int mutation_drift_equilibrium(double** mutrates);
+	int test_single_crossover_set_rates();
 };
 
 
@@ -235,6 +236,55 @@ int haploid_lowd_test::mutation_drift_equilibrium(double **mu){
 	return 0;
 }
 
+int haploid_lowd_test::test_single_crossover_set_rates() {
+	cerr<<"test_single_crossover_set_rates(): start..."<<endl;
+
+	// print number of loci
+	cerr<<"L = "<<number_of_loci<<endl<<endl;
+
+	// prepare rates
+	cerr<<"rates:";
+	double *rec_rates = new double[number_of_loci - 1];
+	for(int i=0; i < number_of_loci - 1; i++) {
+		rec_rates[i] = 1e-2 / pow10((double)i);
+		cerr<<" "<<rec_rates[i];
+	}
+	cerr<<endl<<endl;
+
+	// set rates
+	set_recombination_rates(rec_rates, SINGLE_CROSSOVER);
+
+	// check patterns
+	vector <int> ii;
+	int set_size;
+	cerr<<"Patterns\trates"<<endl;
+	for (int subset=(1<<number_of_loci) - 1; subset != 0; subset--) {
+		set_size = fitness.order[subset];
+		ii.clear();
+		for (int locus=0; locus < number_of_loci; locus++) {
+			if ((subset&(1<<locus)))
+				ii.push_back(locus);
+		}
+
+		for (int locus=0; locus < set_size; locus++) {
+			for(int i=0; i < set_size; i++) cerr<<((i <= locus)?0:1);
+			cerr<<" ";
+			for(int i=0; i < set_size; i++) cerr<<((i <= locus)?1:0);
+			cerr<<"\t"<<recombination_patterns[subset][locus]<<endl;
+			for(int i=0; i < set_size; i++) cerr<<ii[i];
+				
+			cerr<<endl<<endl;
+		}
+	}
+	cerr<<"(NULL)\t"<<recombination_patterns[0][0]<<endl;
+
+	// free memory
+	delete [] rec_rates;
+	return 0;
+
+}
+
+
 /* MAIN */
 int main(int argc, char **argv){
 	int status=0;
@@ -260,7 +310,8 @@ int main(int argc, char **argv){
 		pop.set_genotypes(gts);
 
 		// test recombination routine
-		status += pop.test_recombinant_distribution();
+		//status += pop.test_recombinant_distribution();
+		status += pop.test_single_crossover_set_rates();
 
 	}
 	cout<<"Number of errors: "<<status<<endl;

@@ -370,7 +370,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 	// 2. find patterns with k < L loci via successive marginalizations;
 	int locus;
 	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
-	int subset, marg_locus, higher_order_subset, higher_order_rec_pattern;
+	int marg_locus, higher_order_subset, higher_order_rec_pattern;
 	double *rptemp;
 
 	if (rec_model == CROSSOVERS) {
@@ -408,7 +408,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 		//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
 		for (int set_size=number_of_loci-1; set_size>=0; set_size--) {
 			//loop over all 2^L binary patterns
-			for (subset=0; subset < (1<<number_of_loci); subset++) {
+			for (int subset=0; subset < (1<<number_of_loci); subset++) {
 				//if correct number of ones... (its the same in every hypercube...)
 				if (fitness.order[subset]==set_size) {
 					//determine the first zero, i.e. a locus that can be used to marginalize
@@ -452,7 +452,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 			// II. run over all possible crossover points in the reduced set
 			// III. marginalize over all possible invisible crossover points (1 or 2)
 			//loop over all 2^L binary patterns
-			for (subset=0; subset < (1<<number_of_loci); subset++) {
+			for (int subset=0; subset < (1<<number_of_loci); subset++) {
 				//if correct number of ones... (its the same in every hypercube...)
 				if (fitness.order[subset] == set_size) {
 					//determine the first zero, i.e. a locus that can be used to marginalize
@@ -498,8 +498,14 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 					// II. for locus == set_size - 1, the restricted pattern is homogeneous,
 					// e.g. x00xx0x
 					// III. both OK
-					if ((marg_locus < ii[0]) or (marg_locus > ii[set_size - 1]))
-						recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[2 * set_size + 1];
+					// FIXME!
+					if (marg_locus < ii[0])
+						// e.g. P(x00xx0x) = P(000xx0x) + P(100xx0x)
+						// the latter being equal to P(011xx1x) = rptemp[0]
+						recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[0];
+					else if (marg_locus > ii[set_size - 1])
+						// e.g. P(x00xx0x) = P(x00xx00) + P(x00xx01)
+						recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[set_size - 1];
 					// III. only zero OK
 					else
 						recombination_patterns[subset][set_size - 1] = rptemp[set_size];
@@ -510,7 +516,7 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 			}
 		}
 		// the very bottom has len(ii) = 0, hence deserves a special treatment
-		recombination_patterns[0][0] = recombination_patterns[subset][0] + recombination_patterns[subset][1];
+		recombination_patterns[0][0] = recombination_patterns[1][0] + recombination_patterns[1][1];
 		recombination_model = SINGLE_CROSSOVER;
 	}
 	return 0;
