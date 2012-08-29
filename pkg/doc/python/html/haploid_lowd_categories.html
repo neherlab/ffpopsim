@@ -59,7 +59,13 @@
             
   <div class="section" id="haploid-lowd-overview">
 <h1>haploid_lowd Overview<a class="headerlink" href="#haploid-lowd-overview" title="Permalink to this headline">¶</a></h1>
-<p><tt class="docutils literal"><span class="pre">haploid_lowd</span></tt> has several kinds of methods.</p>
+<p>The following lists all methods and attributes of <tt class="docutils literal"><span class="pre">haploid_lowd</span></tt>, grouped according to purpose and function.
+Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#8216;. If you have initialized for example as
+<tt class="docutils literal"><span class="pre">pop=haploid_lowd(L)</span></tt>, the prefix in your program needs to be <tt class="docutils literal"><span class="pre">pop.*</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Clicking on the name of the function will take you to a more detailed explanation listing all arguments.</p>
+</div>
 <div class="section" id="initialization">
 <h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
@@ -97,11 +103,11 @@
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.generation" title="FFPopSim.haploid_lowd.generation"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.generation</span></tt></a></td>
 <td>current generation (read-only)</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.circular" title="FFPopSim.haploid_lowd.circular"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.circular</span></tt></a></td>
-<td>is the genome circular?</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.carrying_capacity" title="FFPopSim.haploid_lowd.carrying_capacity"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.carrying_capacity</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.carrying_capacity" title="FFPopSim.haploid_lowd.carrying_capacity"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.carrying_capacity</span></tt></a></td>
 <td>current carrying capacity of the environment</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.circular" title="FFPopSim.haploid_lowd.circular"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.circular</span></tt></a></td>
+<td>is the genome circular?</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.free_recombination" title="FFPopSim.haploid_lowd.free_recombination"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.free_recombination</span></tt></a></td>
 <td>using free recombination?</td>
@@ -112,8 +118,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="set-population">
-<h2>Set Population<a class="headerlink" href="#set-population" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initialize-the-population">
+<h2>Initialize the Population<a class="headerlink" href="#initialize-the-population" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -132,6 +138,23 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="set-the-fitness-landscape">
+<h2>Set the fitness landscape<a class="headerlink" href="#set-the-fitness-landscape" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_fitness_additive" title="FFPopSim.haploid_lowd.set_fitness_additive"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_fitness_additive</span></tt></a></td>
+<td>Set an additive fitness landscape</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_fitness_function" title="FFPopSim.haploid_lowd.set_fitness_function"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_fitness_function</span></tt></a></td>
+<td>Set the fitness landscape at single points.</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="mutation-and-recombination">
 <h2>Mutation and Recombination<a class="headerlink" href="#mutation-and-recombination" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
@@ -140,13 +163,22 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_recombination_rates" title="FFPopSim.haploid_lowd.set_recombination_rates"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_recombination_rates</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.circular" title="FFPopSim.haploid_lowd.circular"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.circular</span></tt></a></td>
+<td>is the genome circular?</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.free_recombination" title="FFPopSim.haploid_lowd.free_recombination"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.free_recombination</span></tt></a></td>
+<td>using free recombination?</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.outcrossing_rate" title="FFPopSim.haploid_lowd.outcrossing_rate"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.outcrossing_rate</span></tt></a></td>
+<td>outcrossing rate (probability of sexual reproduction per generation)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_recombination_rates" title="FFPopSim.haploid_lowd.set_recombination_rates"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_recombination_rates</span></tt></a></td>
 <td>Set the recombination rate(s).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_mutation_rates" title="FFPopSim.haploid_lowd.set_mutation_rates"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_mutation_rates</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_mutation_rates" title="FFPopSim.haploid_lowd.set_mutation_rates"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_mutation_rates</span></tt></a></td>
 <td>Set the mutation rate(s).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_mutation_rates" title="FFPopSim.haploid_lowd.get_mutation_rates"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_mutation_rates</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_mutation_rates" title="FFPopSim.haploid_lowd.get_mutation_rates"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_mutation_rates</span></tt></a></td>
 <td>Get one or several mutation rates.</td>
 </tr>
 </tbody>
@@ -222,28 +254,22 @@
 <td>Get moment of two alleles in the -/+ basis</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.allele_entropy" title="FFPopSim.haploid_lowd.allele_entropy"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.allele_entropy</span></tt></a></td>
-<td>get the allele entropy of the population :math:<a href="#id1"><span class="problematic" id="id2">`</span></a>-sum_{i=0}^{L}</td>
+<td>get the allele entropy of the population</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.genotype_entropy" title="FFPopSim.haploid_lowd.genotype_entropy"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.genotype_entropy</span></tt></a></td>
-<td>get the genotype entropy of the population: <span class="math">\(-\sum_{i=0}^{2^L} p_i\log p_i\)</span></td>
+<td>Get the genotype entropy of the population  ..</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="fitness-landscape">
-<h2>Fitness Landscape<a class="headerlink" href="#fitness-landscape" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="analyze-the-fitness-distribution">
+<h2>Analyze the fitness distribution<a class="headerlink" href="#analyze-the-fitness-distribution" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_fitness_additive" title="FFPopSim.haploid_lowd.set_fitness_additive"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_fitness_additive</span></tt></a></td>
-<td>Set an additive fitness landscape</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_fitness_function" title="FFPopSim.haploid_lowd.set_fitness_function"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_fitness_function</span></tt></a></td>
-<td>Set the fitness landscape at single points.</td>
-</tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_fitness" title="FFPopSim.haploid_lowd.get_fitness"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_fitness</span></tt></a></td>
 <td>Get fitness values of a genotype</td>
 </tr>
@@ -304,12 +330,13 @@
 <li><a class="reference internal" href="#">haploid_lowd Overview</a><ul>
 <li><a class="reference internal" href="#initialization">Initialization</a></li>
 <li><a class="reference internal" href="#attributes">Attributes</a></li>
-<li><a class="reference internal" href="#set-population">Set Population</a></li>
+<li><a class="reference internal" href="#initialize-the-population">Initialize the Population</a></li>
+<li><a class="reference internal" href="#set-the-fitness-landscape">Set the fitness landscape</a></li>
 <li><a class="reference internal" href="#mutation-and-recombination">Mutation and Recombination</a></li>
 <li><a class="reference internal" href="#evolution">Evolution</a></li>
 <li><a class="reference internal" href="#random-sampling">Random Sampling</a></li>
 <li><a class="reference internal" href="#get-allele-genotype-frequencies">Get allele/genotype frequencies</a></li>
-<li><a class="reference internal" href="#fitness-landscape">Fitness Landscape</a></li>
+<li><a class="reference internal" href="#analyze-the-fitness-distribution">Analyze the fitness distribution</a></li>
 <li><a class="reference internal" href="#divergence-and-diversity">Divergence and Diversity</a></li>
 </ul>
 </li>

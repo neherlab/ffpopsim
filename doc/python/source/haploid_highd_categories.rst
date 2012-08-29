@@ -1,8 +1,12 @@
-haploid_highd Overview
-=====================
 .. currentmodule:: FFPopSim
 
-The following lists all methods and attributes of ``haploid_highd``, grouped according to purpose and function. Member functions are shown with the prefix ''haploid_highd.*''. If you have initialized for example as ''pop=haploid_highd(L)'', the prefix in your program needs to be ''pop.*''. Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
+haploid_highd Overview
+=====================
+The following lists all methods and attributes of ``haploid_highd``, grouped according to purpose and function.
+Member functions are shown with the prefix ``haploid_highd.*``.
+If you have initialized for example as ``pop=haploid_highd(L)``, the prefix in your program needs to be ``pop.*``.
+
+.. note:: Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
 
 Initialization
 ^^^^^^^^^^^^^^

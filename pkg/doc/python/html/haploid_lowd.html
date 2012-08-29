@@ -362,47 +362,6 @@ i-th element is the crossover rate between the i-th site and the
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_lowd.get_allele_frequencies">
-<tt class="descname">get_allele_frequencies</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_allele_frequencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the frequencies of all + alleles</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_lowd.get_fitnesses">
-<tt class="descname">get_fitnesses</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_fitnesses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the fitness of all possible genotypes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_lowd.get_genotype_frequencies">
-<tt class="descname">get_genotype_frequencies</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_genotype_frequencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the frequency of each genotype.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_lowd.get_mutation_rates">
-<tt class="descname">get_mutation_rates</tt><big>(</big><em>locus=None</em>, <em>direction=None</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_mutation_rates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get one or several mutation rates.</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>locus: get only the mutation rate(s) of this locus</li>
-<li>direction: get only the forward or backward mutation rate(s)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="first last simple">
-<li>the mutation rate(s) requensted</li>
-</ul>
-</dd>
-</dl>
-<p><strong>Note</strong>: if the mutation rates for all loci and/or directions are the same,
-this function will try to be smart and give you the answer you are looking for.
-In case of doubt, you will get a matrix (L x 2) with the full mutation rate
-landscape.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="FFPopSim.haploid_lowd.random_genomes">
 <tt class="descname">random_genomes</tt><big>(</big><em>n_sample</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.random_genomes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get random genomes according to their frequencies.</p>
@@ -493,57 +452,44 @@ locus-specific)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_lowd.get_divergence_statistics">
-<tt class="descname">get_divergence_statistics</tt><big>(</big><em>n_sample=1000</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_divergence_statistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the mean and variance of the divergence in the population.</p>
+<dt id="FFPopSim.haploid_lowd.get_allele_frequencies">
+<tt class="descname">get_allele_frequencies</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_allele_frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the frequencies of all + alleles</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.get_fitnesses">
+<tt class="descname">get_fitnesses</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_fitnesses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the fitness of all possible genotypes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.get_genotype_frequencies">
+<tt class="descname">get_genotype_frequencies</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_genotype_frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the frequency of each genotype.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.get_mutation_rates">
+<tt class="descname">get_mutation_rates</tt><big>(</big><em>locus=None</em>, <em>direction=None</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_mutation_rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get one or several mutation rates.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>n_sample: number of individuals to sample at random from the population</li>
+<li>locus: get only the mutation rate(s) of this locus</li>
+<li>direction: get only the forward or backward mutation rate(s)</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
-<li>stat: structure with mean and variance of divergence in the population</li>
+<li>the mutation rate(s) requensted</li>
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_lowd.get_divergence_histogram">
-<tt class="descname">get_divergence_histogram</tt><big>(</big><em>bins=10</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_divergence_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the histogram of the divergence in the population.</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)</li>
-<li>n_sample: number of individual to sample at random from the population</li>
-<li>kwargs: further optional keyword arguments to numpy.histograms</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="first last simple">
-<li>h: numpy.histogram of divergence in the population</li>
-</ul>
-</dd>
-</dl>
-<p><em>Note</em>: to get a normalized histogram, use the <em>density</em> keyword.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_lowd.plot_divergence_histogram">
-<tt class="descname">plot_divergence_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_divergence_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the histogram of the divergence in the population.</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>axis: use an already existing axis for the plot</li>
-<li>n_sample: number of individual to sample at random from the population</li>
-<li>kwargs: further optional keyword arguments to numpy.histograms</li>
-</ul>
-</dd>
-</dl>
+<p><strong>Note</strong>: if the mutation rates for all loci and/or directions are the same,
+this function will try to be smart and give you the answer you are looking for.
+In case of doubt, you will get a matrix (L x 2) with the full mutation rate
+landscape.</p>
 </dd></dl>
 
 <dl class="method">
@@ -586,18 +532,42 @@ locus-specific)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_lowd.plot_diversity_histogram">
-<tt class="descname">plot_diversity_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_diversity_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the histogram of the diversity in the population.</p>
+<dt id="FFPopSim.haploid_lowd.get_divergence_statistics">
+<tt class="descname">get_divergence_statistics</tt><big>(</big><em>n_sample=1000</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_divergence_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the mean and variance of the divergence in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>axis: use an already existing axis for the plot</li>
+<li>n_sample: number of individuals to sample at random from the population</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>stat: structure with mean and variance of divergence in the population</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.get_divergence_histogram">
+<tt class="descname">get_divergence_histogram</tt><big>(</big><em>bins=10</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_divergence_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the histogram of the divergence in the population.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)</li>
 <li>n_sample: number of individual to sample at random from the population</li>
 <li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>h: numpy.histogram of divergence in the population</li>
+</ul>
+</dd>
 </dl>
+<p><em>Note</em>: to get a normalized histogram, use the <em>density</em> keyword.</p>
 </dd></dl>
 
 <dl class="method">
@@ -619,6 +589,36 @@ locus-specific)</p>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
 <li>h: numpy.histogram of fitness in the population</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.plot_diversity_histogram">
+<tt class="descname">plot_diversity_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_diversity_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the histogram of the diversity in the population.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>axis: use an already existing axis for the plot</li>
+<li>n_sample: number of individual to sample at random from the population</li>
+<li>kwargs: further optional keyword arguments to numpy.histograms</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.plot_divergence_histogram">
+<tt class="descname">plot_divergence_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_divergence_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the histogram of the divergence in the population.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>axis: use an already existing axis for the plot</li>
+<li>n_sample: number of individual to sample at random from the population</li>
+<li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>
 </dl>

@@ -1,8 +1,12 @@
-2haploid_lowd Overview
-=====================
-The following lists all methods and attributes of ``haploid_lowd``, grouped according to purpose and function. Member functions are shown with the prefix ''haploid_lowd.*''. If you have initialized for example as ''pop=haploid_lowd(L)'', the prefix in your program needs to be ''pop.*''. Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
-
 .. currentmodule:: FFPopSim
+
+haploid_lowd Overview
+=====================
+The following lists all methods and attributes of ``haploid_lowd``, grouped according to purpose and function.
+Member functions are shown with the prefix ''haploid_lowd.*''. If you have initialized for example as
+``pop=haploid_lowd(L)``, the prefix in your program needs to be ``pop.*``.
+
+.. note:: Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
 
 Initialization
 ^^^^^^^^^^^^^^

@@ -19,7 +19,7 @@ haploid_highd Class Reference
              participation_ratio,
              number_of_clones,
              number_of_traits,
-             max_fitness
+             max_fitness,
 
              set_allele_frequencies,
              set_genotypes,
@@ -37,7 +37,7 @@ haploid_highd Class Reference
              plot_divergence_histogram,
              plot_diversity_histogram,
              plot_fitness_histogram,
-             random_genomes,
+             random_genomes
 
    .. automethod:: haploid_highd.__init__
    .. automethod:: haploid_highd.add_trait_coefficient(value, loci, t)

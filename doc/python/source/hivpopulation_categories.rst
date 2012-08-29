@@ -9,6 +9,8 @@ Moreover, ``hivpopulation`` has some HIV-specific methods.
 They contribute linearly to the viral fitness. The relative weight is set by
 the attribute ``treatment``.
 
+.. note:: Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
+
 Initialization
 ^^^^^^^^^^^^^^
 .. autosummary::
