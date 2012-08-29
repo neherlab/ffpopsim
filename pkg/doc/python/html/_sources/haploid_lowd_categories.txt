@@ -1,8 +1,12 @@
+.. currentmodule:: FFPopSim
+
 haploid_lowd Overview
 =====================
-``haploid_lowd`` has several kinds of methods.
+The following lists all methods and attributes of ``haploid_lowd``, grouped according to purpose and function.
+Member functions are shown with the prefix ''haploid_lowd.*''. If you have initialized for example as
+``pop=haploid_lowd(L)``, the prefix in your program needs to be ``pop.*``.
 
-.. currentmodule:: FFPopSim
+.. note:: Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
 
 Initialization
 ^^^^^^^^^^^^^^
@@ -22,13 +26,13 @@ Attributes
    haploid_lowd.population_size
    haploid_lowd.generation
 
-   haploid_lowd.circular
    haploid_lowd.carrying_capacity
+   haploid_lowd.circular
    haploid_lowd.free_recombination
    haploid_lowd.outcrossing_rate
 
-Set Population
-^^^^^^^^^^^^^^
+Initialize the Population
+^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :nosignatures:
 
@@ -36,10 +40,23 @@ Set Population
    haploid_lowd.set_allele_frequencies
    haploid_lowd.set_genotypes
 
+Set the fitness landscape
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autosummary::
+   :nosignatures:
+
+   haploid_lowd.set_fitness_additive
+   haploid_lowd.set_fitness_function
+
+
 Mutation and Recombination
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :nosignatures:
+
+   haploid_lowd.circular
+   haploid_lowd.free_recombination
+   haploid_lowd.outcrossing_rate
 
    haploid_lowd.set_recombination_rates
    haploid_lowd.set_mutation_rates
@@ -79,13 +96,12 @@ Get allele/genotype frequencies
    haploid_lowd.allele_entropy
    haploid_lowd.genotype_entropy
 
-Fitness Landscape
-^^^^^^^^^^^^^^^^^
+Analyze the fitness distribution
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :nosignatures:
 
-   haploid_lowd.set_fitness_additive
-   haploid_lowd.set_fitness_function
+
    haploid_lowd.get_fitness
    haploid_lowd.get_fitnesses
 
