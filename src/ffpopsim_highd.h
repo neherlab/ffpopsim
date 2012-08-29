@@ -245,6 +245,7 @@ public:
 	int get_generation(){return generation;}
 	int get_number_of_clones(){return current_pop->size();}
 	int get_number_of_traits(){return number_of_traits;}
+	double get_participation_ratio(){return participation_ratio;};
 
 	// initialization
 	int set_allele_frequencies(double *freq, unsigned long N);
@@ -294,9 +295,10 @@ public:
 	double get_allele_frequency(int l) {return allele_frequencies[l];}
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
-	double get_chi(int l) {return 2*allele_frequencies[l]-1.0;}
-	double get_participation_ratio(){return participation_ratio;};
-//	double get_multi_point_frequency(vector <int> loci);
+	double get_chi(int l) {return 2 * get_allele_frequency(l) - 1;}
+	double get_chi2(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
+	double get_LD(int locus1, int locus2){return 0.25 * get_chi2(locus1, locus2);}
+	double get_moment(int locus1, int locus2){return 4 * get_pair_frequency(locus1, locus2) + 1 - 2 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
 
 	// fitness/phenotype readout
 	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}

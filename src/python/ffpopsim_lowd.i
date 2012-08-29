@@ -156,8 +156,8 @@ def set_allele_frequencies(self, frequencies, N):
 
     Parameters:
        - frequencies: an array of length L with all allele frequencies
-       - N: set the population size to this value and, if still unset, the carrying
-         capacity will be set to N. Defaults to carrying capacity if not given.
+       - N: set the population size and, if still unset, the carrying
+         capacity to this value
 
     .. note:: the population size is only used for resampling and has therefore
               no effect on the speed of the simulation.
@@ -188,11 +188,11 @@ def set_genotypes(self, indices, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
     Parameters:
-    - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
-    - counts: list of counts for those genotypes
+       - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+       - counts: list of counts for those genotypes
 
-    *Note*: the population size and, if not yet set, the carrying capacity will be set as the sum of the counts.
-    *Note*: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+    .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
+    .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
     '''
     import numpy as np
     indices = np.asarray(indices, float)
@@ -202,6 +202,16 @@ def set_genotypes(self, indices, counts):
     if self._set_genotypes(indices, counts):
         raise RuntimeError('Error in the C++ function.')
 }
+
+/* initialize wildtype */
+%feature("autodoc",
+"Set up a population of wildtype individuals
+
+Parameters:
+   - N: the number of individuals
+
+.. note:: the carrying capacity is set to the same value if still unset.
+") set_wildtype;
 
 /* set recombination rates */
 %rename (_set_recombination_rates) set_recombination_rates;
@@ -412,7 +422,7 @@ def get_allele_frequencies(self):
 }
 
 %feature("autodoc",
-"Get the allele frequency at a locus
+"Get the frequency of the + allele
 
 Parameters:
     - locus: locus, at which the frequency of the + allele is to be computed
@@ -420,6 +430,17 @@ Parameters:
 Returns:
     - the frequency of the + allele, :math:`\\nu_i := \\frac{1 + \\left<s_i\\right>}{2}`, where :math:`s_i \in \{-1, 1\}`.
 ") get_allele_frequency;
+
+%feature("autodoc",
+"Get the joint frequency of two + alleles
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the joint frequency of the + alleles
+") get_pair_frequency;
 
 %feature("autodoc",
 "Get chi of an allele in the -/+ basis
@@ -432,15 +453,15 @@ Returns:
 ") get_chi;
 
 %feature("autodoc",
-"Get moment of two alleles in the -/+ basis
+"Get :math:`\\chi_{ij}`
 
 Parameters:
     - locus1: first locus
     - locus2: second locus
 
 Returns:
-    - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
-") get_moment;
+    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+") get_chi2;
 
 %feature("autodoc",
 "Get linkage disequilibrium
@@ -450,8 +471,19 @@ Parameters:
     - locus2: second locus
 
 Returns:
-    - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
 ") get_LD;
+
+%feature("autodoc",
+"Get moment of two alleles in the -/+ basis
+
+Parameters:
+    - locus1: first locus
+    - locus2: second locus
+
+Returns:
+    - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+") get_moment;
 
 /* random sampling */
 %pythoncode {
@@ -508,7 +540,7 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
     import numpy as np
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate fitness
     fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -529,7 +561,7 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
     import matplotlib.pyplot as plt
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate fitness
     fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -557,7 +589,7 @@ def get_divergence_statistics(self, n_sample=1000):
     L = self.L
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate divegence
     div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -583,7 +615,7 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate divergence
     div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -604,7 +636,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt = self.random_clones(n_sample)
+    gt = self.random_genomes(n_sample)
 
     # Calculate divegence
     div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -635,8 +667,8 @@ def get_diversity_statistics(self, n_sample=1000):
     L = self.L
 
     # Random sample
-    gt1 = self.random_clones(n_sample)
-    gt2 = self.random_clones(n_sample)
+    gt1 = self.random_genomes(n_sample)
+    gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
     div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -662,8 +694,8 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt1 = self.random_clones(n_sample)
-    gt2 = self.random_clones(n_sample)
+    gt1 = self.random_genomes(n_sample)
+    gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
     div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -685,8 +717,8 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     L = self.L
 
     # Random sample
-    gt1 = self.random_clones(n_sample)
-    gt2 = self.random_clones(n_sample)
+    gt1 = self.random_genomes(n_sample)
+    gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
     div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -753,8 +785,16 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
 }
 
 /* entropy */
-%feature("autodoc", "get the genotype entropy of the population: :math:`-\sum_{i=0}^{2^L} p_i\log p_i` ") genotype_entropy;
-%feature("autodoc", "get the allele entropy of the population :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)` ") allele_entropy;
+%feature("autodoc",
+"Get the genotype entropy of the population
+
+.. note:: the genotype entropy is defined as :math:`-\\sum_{i=0}^{2^L} p_i \log p_i`.
+") genotype_entropy;
+%feature("autodoc",
+"get the allele entropy of the population
+
+.. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\nu_i\log \\nu_i + (1-\\nu_i)\log(1-\\nu_i)`.
+") allele_entropy;
 
 /* ignore tests (they work by now) */
 %ignore test_recombinant_distribution();

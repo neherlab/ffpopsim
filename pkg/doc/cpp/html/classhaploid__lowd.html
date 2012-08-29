@@ -194,12 +194,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a975ad1a158c32b2101edb11def3d1351"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39d96ef456a2db762949d78ad2263f32"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a39d96ef456a2db762949d78ad2263f32">get_allele_frequency</a> (int locus)</td></tr>
 <tr class="separator:a39d96ef456a2db762949d78ad2263f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd01cfd317f02dfc2fa3f219a02a039"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a1cd01cfd317f02dfc2fa3f219a02a039">get_pair_frequency</a> (int locus1, int locus2)</td></tr>
+<tr class="separator:a1cd01cfd317f02dfc2fa3f219a02a039"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa199e9f997b1095343a6783f39c2f551"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#aa199e9f997b1095343a6783f39c2f551">get_chi</a> (int locus)</td></tr>
 <tr class="separator:aa199e9f997b1095343a6783f39c2f551"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a441482910461230f5a9756e4158220e7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a441482910461230f5a9756e4158220e7">get_moment</a> (int locus1, int locus2)</td></tr>
-<tr class="separator:a441482910461230f5a9756e4158220e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace9348f7338a14f98a130261e512ba9f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ace9348f7338a14f98a130261e512ba9f">get_chi2</a> (int locus1, int locus2)</td></tr>
+<tr class="separator:ace9348f7338a14f98a130261e512ba9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d319102011f2bf0d69ece8100e24dd1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a0d319102011f2bf0d69ece8100e24dd1">get_LD</a> (int locus1, int locus2)</td></tr>
 <tr class="separator:a0d319102011f2bf0d69ece8100e24dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a441482910461230f5a9756e4158220e7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a441482910461230f5a9756e4158220e7">get_moment</a> (int locus1, int locus2)</td></tr>
+<tr class="separator:a441482910461230f5a9756e4158220e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab32fe827081bba1a7ea89e0e471496f6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ab32fe827081bba1a7ea89e0e471496f6">genotype_entropy</a> ()</td></tr>
 <tr class="memdesc:ab32fe827081bba1a7ea89e0e471496f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the genotype entropy.  <a href="#ab32fe827081bba1a7ea89e0e471496f6"></a><br/></td></tr>
 <tr class="separator:ab32fe827081bba1a7ea89e0e471496f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -670,6 +674,40 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="ace9348f7338a14f98a130261e512ba9f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double haploid_lowd::get_chi2 </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>locus1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>locus2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a14f3f13c0ccd324dbe435bf06300c578"></a>
 <div class="memitem">
 <div class="memproto">
@@ -891,6 +929,40 @@ Here is the caller graph for this function:</div>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1cd01cfd317f02dfc2fa3f219a02a039"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double haploid_lowd::get_pair_frequency </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>locus1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>locus2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1751,7 +1823,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classhaploid__lowd.html">haploid_lowd</a></li>
-    <li class="footer">Generated on Fri Aug 24 2012 14:24:56 for FFPopSim by
+    <li class="footer">Generated on Wed Aug 29 2012 17:53:56 for FFPopSim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

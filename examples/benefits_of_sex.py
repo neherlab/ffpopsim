@@ -28,7 +28,7 @@ L=256                                           #the number of loci
 pop=ffpop.haploid_highd(L)                      #produce an instance of haploid_highd
 pop.recombination_model = ffpop.CROSSOVERS      #specify crossover recombination
 pop.crossover_rate = 2.0/L                      #on average 2 crossovers per recombination event
-pop.set_additive_trait(np.ones(L)*params.sel)   #set additive contribution of each locus to s
+pop.set_trait_additive(np.ones(L)*params.sel)   #set additive contribution of each locus to s
 pop.mutation_rate=params.mut                    #set mutation rate
 outcrossing_rates = np.linspace(0,.2, 6)        #produce an array containing the out-crossing rates to be simulated
 

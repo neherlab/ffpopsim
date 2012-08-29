@@ -27,6 +27,7 @@ sys.path.append(os.path.abspath('../sphinxext'))
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.autosummary',
               'sphinx.ext.todo',
               'sphinx.ext.mathjax',
               'sphinx.ext.ifconfig',
@@ -80,7 +81,7 @@ exclude_patterns = []
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
-#add_module_names = True
+add_module_names = False
 
 # If true, sectionauthor and moduleauthor directives will be shown in the
 # output. They are ignored by default.
@@ -93,6 +94,7 @@ pygments_style = 'sphinx'
 #modindex_common_prefix = []
 
 autodoc_member_order = 'groupwise'
+#autosummary_generate = True
 
 # -- Options for HTML output ---------------------------------------------------
 

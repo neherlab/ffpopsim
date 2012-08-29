@@ -198,9 +198,12 @@ public:
 	
 	// allele frequencies
 	double get_allele_frequency(int locus){return 0.5 * (1 + get_chi(locus));}
+	double get_pair_frequency(int locus1, int locus2){return 0.25 * (get_moment(locus1, locus2) - 1) + 0.5 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
+
 	double get_chi(int locus){return (1<<number_of_loci)*population.get_coeff(1<<locus);}
+	double get_chi2(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
+	double get_LD(int locus1, int locus2){return 0.25 * get_chi2(locus1, locus2);}
 	double get_moment(int locus1, int locus2){return (1<<number_of_loci)*population.get_coeff((1<<locus1)+(1<<locus2));}
-	double get_LD(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
 
         // entropy
 	double genotype_entropy();

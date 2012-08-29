@@ -170,8 +170,7 @@ int haploid_highd::free_mem() {
  *
  * @returns zero if successful, error codes otherwise
  *
- * *Note*: the carrying capacity is set equal to N_in. If you wish to change this parameter,
- * do so explicitely afterwards.
+ * *Note*: the carrying capacity is set equal to N_in if it is still unset.
  */
 int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	if (HP_VERBOSE) cerr <<"haploid_highd::set_allele_frequencies(double* freq, int N_in)...";
@@ -180,14 +179,17 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 		return HP_BADARG;
 	}
 
-        // Set the population size
-	carrying_capacity = N_in;
+        // set the carrying capacity if unset
+        if(carrying_capacity < HP_NOTHING)
+                carrying_capacity = N_in;
+
+	// reset the current population
+	current_pop->clear();
 	population_size = 0;
-    // Set the allele frequencies
+
+        // set the allele frequencies
 	int i, locus;
 	boost::dynamic_bitset<> tempgt(number_of_loci);
-
-	current_pop->clear();	//reset the current population
 	random_sample.clear();	//and the random sample
 	if (HP_VERBOSE) cerr <<"add "<<N_in<<" genotypes of length "<<number_of_loci<<"..."<<endl;
 	for (i=0; i < N_in; i++) {
@@ -214,9 +216,8 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
  *
  * @returns 0 if successful, nonzero otherwise.
  *
- * *Note*: the population size and carrying capacity will be set as the total sum of
- * counts of all genotypes. If you wish to modify the latter, you can do so directly
- * afterwards.
+ * *Note*: the population size is set as the total sum of counts of all genotypes.
+ * The carrying capacity is also set to the same number if it is still unset.
  */
 int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	if (HP_VERBOSE) cerr <<"haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt)...";
@@ -231,7 +232,10 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 		add_genotypes(gt[i].genotype, gt[i].val);
 		population_size += gt[i].val;
 	}
-        carrying_capacity = population_size;
+
+        // set the carrying capacity if unset
+        if(carrying_capacity < HP_NOTHING)
+                carrying_capacity = population_size;
 
 	// Calculate all statistics to be sure
 	calc_stat();
@@ -246,6 +250,8 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
  * @param N_in number of individuals
  *
  * @returns 0 if successful, nonzero otherwise.
+ *
+ * *Note*: the carrying capacity is set equal to N_in if it is still unset.
  */
 int haploid_highd::set_wildtype(unsigned long N_in) {
 	if (HP_VERBOSE) cerr <<"haploid_highd::set_wildtype(unsigned long N_in)...";
@@ -257,7 +263,11 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 	// Initialize the clones and calculate the population size
 	boost::dynamic_bitset<> wildtype(number_of_loci);
 	add_genotypes(wildtype, N_in);
-        carrying_capacity = population_size = N_in;
+        population_size = N_in;
+
+        // set the carrying capacity if unset
+        if(carrying_capacity < HP_NOTHING)
+                carrying_capacity = N_in;
 
 	// Calculate all statistics to be sure
 	calc_stat();

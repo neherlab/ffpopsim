@@ -61,7 +61,7 @@
 <span id="hivpopulation"></span><h1>hivpopulation Class Reference<a class="headerlink" href="#hivpopulation-class-reference" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="FFPopSim.hivpopulation">
-<em class="property">class </em><tt class="descclassname">FFPopSim.</tt><tt class="descname">hivpopulation</tt><big>(</big><em>N=0</em>, <em>rng_seed=0</em>, <em>mutation_rate=3e-05</em>, <em>coinfection_rate=0.01</em>, <em>crossover_rate=0.001</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descname">hivpopulation</tt><big>(</big><em>N=0</em>, <em>rng_seed=0</em>, <em>mutation_rate=3e-05</em>, <em>coinfection_rate=0.01</em>, <em>crossover_rate=0.001</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for HIV population genetics (genome size = 10000).</p>
 <p>This class is the main object for simulating the evolution of HIV.
 The class offers a number of functions, but an example will explain the basic
@@ -93,6 +93,26 @@ relative importance for viral fitness is set by the <tt class="docutils literal"
 <p>The gene structure of HIV is not modelled explicitely, except for a stub of
 1000 sites between position 7000 and 8000 to roughly model the _env_ gene.</p>
 <dl class="method">
+<dt id="FFPopSim.hivpopulation.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>N=0</em>, <em>rng_seed=0</em>, <em>mutation_rate=3e-05</em>, <em>coinfection_rate=0.01</em>, <em>crossover_rate=0.001</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a HIV population with certain parameters.</p>
+<p>Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>N     number of viral particles</li>
+<li>rng_seed   seed for the random number generator. If this is 0, time(NULL)+getpid() is used.</li>
+<li>mutation_rate      mutation rate in events / generation / site</li>
+<li>coinfection_rate   probability of coinfection of the same cell by two viral particles in events / generation</li>
+<li>crossover_rate     probability of template switching during coinfection in events / site</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the genome length is 10000 (see HIVGENOME).</p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="FFPopSim.hivpopulation.write_genotypes">
 <tt class="descname">write_genotypes</tt><big>(</big><em>filename</em>, <em>sample_size</em>, <em>gt_label=''</em>, <em>start=0</em>, <em>length=0</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.write_genotypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Store random genotypes into a plain text file.</p>
@@ -104,6 +124,32 @@ relative importance for viral fitness is set by the <tt class="docutils literal"
 <li>gt_label: common fasta label for the genotypes (e.g. &#8216;HIV-sim&#8217;)</li>
 <li>start: if only a portion of the genome is to be stored, start from this position</li>
 <li>length: store a chunk from <tt class="docutils literal"><span class="pre">start</span></tt> to this length</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.hivpopulation.read_replication_coefficients">
+<tt class="descname">read_replication_coefficients</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.read_replication_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read replication coefficient from a text file</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>filename: string with the name of the file to read the coefficient from</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.hivpopulation.read_resistance_coefficients">
+<tt class="descname">read_resistance_coefficients</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.read_resistance_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read resistance coefficient from a text file</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>filename: string with the name of the file to read the coefficient from</li>
 </ul>
 </dd>
 </dl>
@@ -245,8 +291,8 @@ deleterious.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.hivpopulation.get_additive_replication">
-<tt class="descname">get_additive_replication</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.get_additive_replication" title="Permalink to this definition">¶</a></dt>
+<dt id="FFPopSim.hivpopulation.get_replication_additive">
+<tt class="descname">get_replication_additive</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.get_replication_additive" title="Permalink to this definition">¶</a></dt>
 <dd><p>The additive part of the replication lansdscape.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
@@ -264,8 +310,8 @@ the interaction series-expansion is different.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.hivpopulation.get_additive_resistance">
-<tt class="descname">get_additive_resistance</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.get_additive_resistance" title="Permalink to this definition">¶</a></dt>
+<dt id="FFPopSim.hivpopulation.get_resistance_additive">
+<tt class="descname">get_resistance_additive</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.get_resistance_additive" title="Permalink to this definition">¶</a></dt>
 <dd><p>The additive part of the resistance lansdscape.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
@@ -283,8 +329,8 @@ the interaction series-expansion is different.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.hivpopulation.set_additive_replication">
-<tt class="descname">set_additive_replication</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.set_additive_replication" title="Permalink to this definition">¶</a></dt>
+<dt id="FFPopSim.hivpopulation.set_replication_additive">
+<tt class="descname">set_replication_additive</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.set_replication_additive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the additive replication coefficients</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
@@ -302,8 +348,8 @@ the interaction series-expansion is different.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.hivpopulation.set_additive_resistance">
-<tt class="descname">set_additive_resistance</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.set_additive_resistance" title="Permalink to this definition">¶</a></dt>
+<dt id="FFPopSim.hivpopulation.set_resistance_additive">
+<tt class="descname">set_resistance_additive</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.set_resistance_additive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the additive drug resistance coefficients</p>
 <dl class="docutils">
 <dt>Parameters:</dt>

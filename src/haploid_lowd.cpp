@@ -917,7 +917,7 @@ int haploid_lowd_test::test_recombination(double *rec_rates){
 			cout <<setw(10)<<g;
 			for (int l1=0; l1<number_of_loci; l1++){
 				for(int l2=0; l2<l1; l2++){
-					cout <<setw(15)<<get_LD(l1,l2)*exp(g*0.5*(1.0-exp(-2.0*(cumulative_rates[l1+1]-cumulative_rates[l2+1]))));
+					cout <<setw(15)<<4 * get_LD(l1,l2)*exp(g*0.5*(1.0-exp(-2.0*(cumulative_rates[l1+1]-cumulative_rates[l2+1]))));
 				}
 			}
 			cout <<setw(15)<<exp(-g*0.5*(1.0-exp(-2.0*(cumulative_rates[number_of_loci]-cumulative_rates[1]))));

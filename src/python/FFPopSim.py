@@ -289,9 +289,10 @@ class haploid_lowd(object):
         c.set_genotypes([0, 2], [300, 700])
      
         # set an additive fitness landscape with these coefficients
-        # Note: we are in the -/+ basis, so
-        #        F[10000] - F[00000] = 2 * 0.02
         c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
+        # Note: we are in the -/+ basis, so
+        #        F[10000] - F[00000] = 2 * 0.02 
+        # Hence the coefficients are half of the effect of mutation on fitness 
 
         c.evolve(100)                       # evolve for 100 generations
         c.plot_diversity_histogram()
@@ -332,7 +333,15 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd__get_mutation_rate(self, *args, **kwargs)
 
     def set_wildtype(self, *args, **kwargs):
-        """set_wildtype(haploid_lowd self, unsigned long N) -> int"""
+        """
+        Set up a population of wildtype individuals
+
+        Parameters:
+           - N: the number of individuals
+
+        .. note:: the carrying capacity is set to the same value if still unset.
+
+        """
         return _FFPopSim.haploid_lowd_set_wildtype(self, *args, **kwargs)
 
     def _set_recombination_rates(self, *args, **kwargs):
@@ -344,7 +353,7 @@ class haploid_lowd(object):
         Evolve for some generations
 
         Parameters:
-            - gen: number of generations to evolve the population
+            - gen: number of generations to evolve the population, defaults to one
 
         """
         return _FFPopSim.haploid_lowd_evolve(self, gen)
@@ -361,7 +370,7 @@ class haploid_lowd(object):
 
     def evolve_deterministic(self, gen=1):
         """
-        Evolve for some generations deterministically
+        Evolve for some generations deterministically (skips the resampling)
 
         Parameters:
             - gen: number of generations to evolve the population
@@ -374,7 +383,7 @@ class haploid_lowd(object):
         Get the frequency of a genotype
 
         Parameters:
-            - gt: genotype, whose the frequency is to be computed
+            - gt: genotype, whose the frequency is to be returned
 
         Returns:
             - the frequency of the genotype
@@ -384,7 +393,7 @@ class haploid_lowd(object):
 
     def get_allele_frequency(self, *args, **kwargs):
         """
-        Get the allele frequency at a locus
+        Get the frequency of the + allele
 
         Parameters:
             - locus: locus, at which the frequency of the + allele is to be computed
@@ -394,6 +403,20 @@ class haploid_lowd(object):
 
         """
         return _FFPopSim.haploid_lowd_get_allele_frequency(self, *args, **kwargs)
+
+    def get_pair_frequency(self, *args, **kwargs):
+        """
+        Get the joint frequency of two + alleles
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the joint frequency of the + alleles
+
+        """
+        return _FFPopSim.haploid_lowd_get_pair_frequency(self, *args, **kwargs)
 
     def get_chi(self, *args, **kwargs):
         """
@@ -407,6 +430,34 @@ class haploid_lowd(object):
 
         """
         return _FFPopSim.haploid_lowd_get_chi(self, *args, **kwargs)
+
+    def get_chi2(self, *args, **kwargs):
+        """
+        Get :math:`\chi_{ij}`
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`\chi_{ij} := \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_lowd_get_chi2(self, *args, **kwargs)
+
+    def get_LD(self, *args, **kwargs):
+        """
+        Get linkage disequilibrium
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_lowd_get_LD(self, *args, **kwargs)
 
     def get_moment(self, *args, **kwargs):
         """
@@ -422,31 +473,27 @@ class haploid_lowd(object):
         """
         return _FFPopSim.haploid_lowd_get_moment(self, *args, **kwargs)
 
-    def get_LD(self, *args, **kwargs):
-        """
-        Get linkage disequilibrium
-
-        Parameters:
-            - locus1: first locus
-            - locus2: second locus
-
-        Returns:
-            - the linkage disequilibiurm between them, i.e. :math:`\chi_{ij} := \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
-
-        """
-        return _FFPopSim.haploid_lowd_get_LD(self, *args, **kwargs)
-
     def genotype_entropy(self):
-        """get the genotype entropy of the population"""
+        """
+        Get the genotype entropy of the population
+
+        .. note:: the genotype entropy is defined as :math:`-\sum_{i=0}^{2^L} p_i \log p_i`.
+
+        """
         return _FFPopSim.haploid_lowd_genotype_entropy(self)
 
     def allele_entropy(self):
-        """get the allele entropy of the population"""
+        """
+        get the allele entropy of the population
+
+        .. note:: the allele entropy is defined as :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)`.
+
+        """
         return _FFPopSim.haploid_lowd_allele_entropy(self)
 
     def get_fitness(self, *args, **kwargs):
         """
-        Get linkage disequilibrium
+        Get fitness values of a genotype
 
         Parameters:
             - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
@@ -484,11 +531,11 @@ class haploid_lowd(object):
 
         Parameters:
            - frequencies: an array of length L with all allele frequencies
-           - N: set the population size to this value and, if still unset, the carrying
-             capacity.
+           - N: set the population size and, if still unset, the carrying
+             capacity to this value
 
-        .. note:: the latter parameter is only used for resampling and has therefore
-                  no crucial effect on the speed of the simulation.
+        .. note:: the population size is only used for resampling and has therefore
+                  no effect on the speed of the simulation.
         '''
         if len(frequencies) != self.L:
             raise ValueError('The input array of allele frequencies has the wrong length.')
@@ -503,11 +550,11 @@ class haploid_lowd(object):
         '''Initialize population with fixed counts for specific genotypes.
 
         Parameters:
-        - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
-        - counts: list of counts for those genotypes
+           - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+           - counts: list of counts for those genotypes
 
-        *Note*: the population size and the carrying capacity are set as the sum of the counts.
-        *Note*: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+        .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
+        .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
         '''
         import numpy as np
         indices = np.asarray(indices, float)
@@ -521,7 +568,7 @@ class haploid_lowd(object):
         '''Set the recombination rate(s).
 
     Parameters:
-        - rates: if a double, the recombination rate at any locus; if an array,
+        - rates: if a double, the recombination rate at between any two loci; if an array,
           the locus-specific recombination rates
 
     .. note:: if locus-specific rates are specified, the array must have length
@@ -674,7 +721,7 @@ class haploid_lowd(object):
         import numpy as np
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -695,7 +742,7 @@ class haploid_lowd(object):
         import matplotlib.pyplot as plt
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
@@ -723,7 +770,7 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -749,7 +796,7 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -770,7 +817,7 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt = self.random_clones(n_sample)
+        gt = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
@@ -801,8 +848,8 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt1 = self.random_clones(n_sample)
-        gt2 = self.random_clones(n_sample)
+        gt1 = self.random_genomes(n_sample)
+        gt2 = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -828,8 +875,8 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt1 = self.random_clones(n_sample)
-        gt2 = self.random_clones(n_sample)
+        gt1 = self.random_genomes(n_sample)
+        gt2 = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -851,8 +898,8 @@ class haploid_lowd(object):
         L = self.L
 
         
-        gt1 = self.random_clones(n_sample)
-        gt2 = self.random_clones(n_sample)
+        gt1 = self.random_genomes(n_sample)
+        gt2 = self.random_genomes(n_sample)
 
         
         div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
@@ -908,9 +955,11 @@ haploid_lowd.evolve_norec = new_instancemethod(_FFPopSim.haploid_lowd_evolve_nor
 haploid_lowd.evolve_deterministic = new_instancemethod(_FFPopSim.haploid_lowd_evolve_deterministic,None,haploid_lowd)
 haploid_lowd.get_genotype_frequency = new_instancemethod(_FFPopSim.haploid_lowd_get_genotype_frequency,None,haploid_lowd)
 haploid_lowd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_lowd_get_allele_frequency,None,haploid_lowd)
+haploid_lowd.get_pair_frequency = new_instancemethod(_FFPopSim.haploid_lowd_get_pair_frequency,None,haploid_lowd)
 haploid_lowd.get_chi = new_instancemethod(_FFPopSim.haploid_lowd_get_chi,None,haploid_lowd)
-haploid_lowd.get_moment = new_instancemethod(_FFPopSim.haploid_lowd_get_moment,None,haploid_lowd)
+haploid_lowd.get_chi2 = new_instancemethod(_FFPopSim.haploid_lowd_get_chi2,None,haploid_lowd)
 haploid_lowd.get_LD = new_instancemethod(_FFPopSim.haploid_lowd_get_LD,None,haploid_lowd)
+haploid_lowd.get_moment = new_instancemethod(_FFPopSim.haploid_lowd_get_moment,None,haploid_lowd)
 haploid_lowd.genotype_entropy = new_instancemethod(_FFPopSim.haploid_lowd_genotype_entropy,None,haploid_lowd)
 haploid_lowd.allele_entropy = new_instancemethod(_FFPopSim.haploid_lowd_allele_entropy,None,haploid_lowd)
 haploid_lowd.get_fitness = new_instancemethod(_FFPopSim.haploid_lowd_get_fitness,None,haploid_lowd)
@@ -1048,7 +1097,7 @@ class haploid_highd(object):
        import FFPopSim as h
        c = h.haploid_highd(300)       # 300 loci
        pop.set_wildtype(1000)         # start with 1000 wildtype individuals
-       pop.mutation_rate = 1e-7       # mutation rate per site per generation
+       pop.mutation_rate = 1e-4       # mutation rate per site per generation
        pop.outcrossing_rate = 1e-1    # probability of sexual reproduction per gen
        pop.crossover_rate = 1e-2      # probability of crossover per site per gen
        pop.evolve(100)                # evolve for 100 generations
@@ -1056,7 +1105,7 @@ class haploid_highd(object):
        plt.show()
        ######################################
 
-    Populations can have a number of phenotypic traits that concur to the fitness
+    Populations can have a number of phenotypic traits that contribute to the fitness
     of each individual. The function that calculates fitness from the phenotype
     identifies fitness with the first trait only by default. The user is, however,
     free to subclass haploid_highd in C++ (as it is done in hivpopulation) and
@@ -1078,7 +1127,7 @@ class haploid_highd(object):
         Parameters:
         - L     length of the genome(number of loci)
         - rng_seed      seed for the random generator. If zero (default) pick a random number
-        - number_of_traits      number of phenotypic traits
+        - number_of_traits      number of phenotypic traits, defaults to one
 
         """
         _FFPopSim.haploid_highd_swiginit(self,_FFPopSim.new_haploid_highd(L, rng_seed, number_of_traits))
@@ -1109,12 +1158,18 @@ class haploid_highd(object):
         """Number of traits (read-only)"""
         return _FFPopSim.haploid_highd__get_number_of_traits(self)
 
+    def _get_participation_ratio(self):
+        """Participation ratio (read-only)"""
+        return _FFPopSim.haploid_highd__get_participation_ratio(self)
+
     def set_wildtype(self, *args, **kwargs):
         """
         Set up a population of wildtype individuals
 
         Parameters:
-           - N: the number of individuals and carrying capacity
+           - N: the number of individuals
+
+        .. note:: the carrying capacity is set to the same value if still unset.
 
         """
         return _FFPopSim.haploid_highd_set_wildtype(self, *args, **kwargs)
@@ -1164,7 +1219,7 @@ class haploid_highd(object):
 
     def set_random_trait_epistasis(self, *args, **kwargs):
         """
-        Set a random epistatic term in the genotype-phenotype map
+        Set a random epistatic term in the genotype-phenotype map. This is meant as an approximation to multi-locus epistasis to which many locus sets contribute. It assigns to each genotype a reprodrucible fitness component drawn from a Gaussian distribution.
 
         Parameters:
            - epistasis_std: standard deviation of the random epistatic terms
@@ -1256,7 +1311,7 @@ class haploid_highd(object):
         Get the frequency of the + allele at the selected locus
 
         Parameters:
-           - locus: locus whose frequency of the + allele is to be computed
+           - locus: locus whose frequency of the + allele is to be returned
 
         Returns:
            - frequency: allele frequency in the population
@@ -1291,9 +1346,47 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_get_chi(self, *args, **kwargs)
 
-    def _get_participation_ratio(self):
-        """Participation ratio (read-only)"""
-        return _FFPopSim.haploid_highd__get_participation_ratio(self)
+    def get_chi2(self, *args, **kwargs):
+        """
+        Get :math:`\chi_{ij}`
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`\chi_{ij} := \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_highd_get_chi2(self, *args, **kwargs)
+
+    def get_LD(self, *args, **kwargs):
+        """
+        Get linkage disequilibrium
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+
+        """
+        return _FFPopSim.haploid_highd_get_LD(self, *args, **kwargs)
+
+    def get_moment(self, *args, **kwargs):
+        """
+        Get moment of two alleles in the -/+ basis
+
+        Parameters:
+            - locus1: first locus
+            - locus2: second locus
+
+        Returns:
+            - the second moment, i.e. :math:`\left<s_i s_j\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
+
+        """
+        return _FFPopSim.haploid_highd_get_moment(self, *args, **kwargs)
 
     def get_fitness(self, *args, **kwargs):
         """
@@ -1407,11 +1500,12 @@ class haploid_highd(object):
         return _FFPopSim.haploid_highd__set_allele_frequencies(self, *args, **kwargs)
 
     def set_allele_frequencies(self, frequencies, N):
-        '''Initialize the population according to the given allele frequencies.
+        '''Initialize the population according to the given allele frequencies in linkage equilibrium.
 
         Parameters:
            - frequencies: an array of length L with all allele frequencies
-           - N: the number of individuals and carrying capacity
+           - N: set the population size and, if still unset, the carrying
+             capacity to this value
         '''
 
         if len(frequencies) != self.L:
@@ -1427,10 +1521,11 @@ class haploid_highd(object):
         '''Initialize population with fixed counts for specific genotypes.
 
         Parameters:
-           - indices: list of genotypes to set (e.g. 0 -> 00...0, L-1 -> 11...1)
-           - counts: list of counts for those genotypes
+           - indices: list of genotypes to set. Genotypes themselves are lists of alleles,
+             e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
+           - counts: list of the number at which each of those genotypes it to be present
 
-        .. note:: the population size and the carrying capacity are set as the sum of the counts.
+        .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
         .. note:: you can use Python binary notation for the indices, e.g. 0b0110 = 6.
 
         **Example**: if you want to initialize 200 individuals with genotype 001 and 300 individuals
@@ -1449,7 +1544,7 @@ class haploid_highd(object):
             '''Evolve for some generations.
 
             Parameters:
-               - gen: number of generations
+               - gen: number of generations, defaults to one
             '''
 
             if self._evolve(gen):
@@ -1502,12 +1597,12 @@ class haploid_highd(object):
             genotypes[i] = self._get_genotype(indi, L)
         return genotypes
 
-    def _get_additive_trait(self, *args, **kwargs):
-        """_get_additive_trait(haploid_highd self, double * ARGOUT_ARRAY1, int t)"""
-        return _FFPopSim.haploid_highd__get_additive_trait(self, *args, **kwargs)
+    def _get_trait_additive(self, *args, **kwargs):
+        """_get_trait_additive(haploid_highd self, double * ARGOUT_ARRAY1, int t)"""
+        return _FFPopSim.haploid_highd__get_trait_additive(self, *args, **kwargs)
 
-    def get_additive_trait(self, t=0):
-        '''Get an array with the additive part of a trait for all loci.
+    def get_trait_additive(self, t=0):
+        '''Get an array with the additive coefficients of all loci of a trait. 
 
         Parameters:
            - t: number of the trait
@@ -1515,22 +1610,23 @@ class haploid_highd(object):
         Returns:
            - coefficients: array of additive coefficients for the selected trait
         '''
-        return self._get_additive_trait(self.L, t)
 
-    def set_additive_trait(self, *args, **kwargs):
+        return self._get_trait_additive(self.L, t)
+
+    def set_trait_additive(self, *args, **kwargs):
         """
         Set the additive part of a trait
 
         Parameters:
-           - coefficients: array of coefficients for the trait (of length L)
+           - coefficients: array of coefficients for the trait (of length L). All previous additive coefficents are erased
            - t: number of the trait to set
 
         """
-        return _FFPopSim.haploid_highd_set_additive_trait(self, *args, **kwargs)
+        return _FFPopSim.haploid_highd_set_trait_additive(self, *args, **kwargs)
 
-    def set_additive_fitness(self, *args, **kwargs):
-        """Shortcut for set_additive_trait when there is only one trait"""
-        return _FFPopSim.haploid_highd_set_additive_fitness(self, *args, **kwargs)
+    def set_fitness_additive(self, *args, **kwargs):
+        """Shortcut for set_trait_additive when there is only one trait"""
+        return _FFPopSim.haploid_highd_set_fitness_additive(self, *args, **kwargs)
 
     def _get_fitnesses(self, *args, **kwargs):
         """_get_fitnesses(haploid_highd self, int DIM1)"""
@@ -1796,6 +1892,7 @@ haploid_highd._get_population_size = new_instancemethod(_FFPopSim.haploid_highd_
 haploid_highd._get_generation = new_instancemethod(_FFPopSim.haploid_highd__get_generation,None,haploid_highd)
 haploid_highd._get_number_of_clones = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_clones,None,haploid_highd)
 haploid_highd._get_number_of_traits = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_traits,None,haploid_highd)
+haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
 haploid_highd.set_wildtype = new_instancemethod(_FFPopSim.haploid_highd_set_wildtype,None,haploid_highd)
 haploid_highd.add_genotypes = new_instancemethod(_FFPopSim.haploid_highd_add_genotypes,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
@@ -1815,7 +1912,9 @@ haploid_highd.get_divergence_statistics = new_instancemethod(_FFPopSim.haploid_h
 haploid_highd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_allele_frequency,None,haploid_highd)
 haploid_highd.get_pair_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_pair_frequency,None,haploid_highd)
 haploid_highd.get_chi = new_instancemethod(_FFPopSim.haploid_highd_get_chi,None,haploid_highd)
-haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
+haploid_highd.get_chi2 = new_instancemethod(_FFPopSim.haploid_highd_get_chi2,None,haploid_highd)
+haploid_highd.get_LD = new_instancemethod(_FFPopSim.haploid_highd_get_LD,None,haploid_highd)
+haploid_highd.get_moment = new_instancemethod(_FFPopSim.haploid_highd_get_moment,None,haploid_highd)
 haploid_highd.get_fitness = new_instancemethod(_FFPopSim.haploid_highd_get_fitness,None,haploid_highd)
 haploid_highd.get_clone_size = new_instancemethod(_FFPopSim.haploid_highd_get_clone_size,None,haploid_highd)
 haploid_highd.get_trait = new_instancemethod(_FFPopSim.haploid_highd_get_trait,None,haploid_highd)
@@ -1831,9 +1930,9 @@ haploid_highd._set_allele_frequencies = new_instancemethod(_FFPopSim.haploid_hig
 haploid_highd._set_genotypes = new_instancemethod(_FFPopSim.haploid_highd__set_genotypes,None,haploid_highd)
 haploid_highd._get_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__get_allele_frequencies,None,haploid_highd)
 haploid_highd._get_genotype = new_instancemethod(_FFPopSim.haploid_highd__get_genotype,None,haploid_highd)
-haploid_highd._get_additive_trait = new_instancemethod(_FFPopSim.haploid_highd__get_additive_trait,None,haploid_highd)
-haploid_highd.set_additive_trait = new_instancemethod(_FFPopSim.haploid_highd_set_additive_trait,None,haploid_highd)
-haploid_highd.set_additive_fitness = new_instancemethod(_FFPopSim.haploid_highd_set_additive_fitness,None,haploid_highd)
+haploid_highd._get_trait_additive = new_instancemethod(_FFPopSim.haploid_highd__get_trait_additive,None,haploid_highd)
+haploid_highd.set_trait_additive = new_instancemethod(_FFPopSim.haploid_highd_set_trait_additive,None,haploid_highd)
+haploid_highd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_highd_set_fitness_additive,None,haploid_highd)
 haploid_highd._get_fitnesses = new_instancemethod(_FFPopSim.haploid_highd__get_fitnesses,None,haploid_highd)
 haploid_highd._get_clone_sizes = new_instancemethod(_FFPopSim.haploid_highd__get_clone_sizes,None,haploid_highd)
 haploid_highd.random_clones = new_instancemethod(_FFPopSim.haploid_highd_random_clones,None,haploid_highd)
@@ -1912,13 +2011,14 @@ class hivpopulation(haploid_highd):
         Construct a HIV population with certain parameters.
 
         Parameters:
-        - N     number of viral particles
-        - rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
-        - mutation_rate	mutation rate in events / generation / site
-        - coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
-        - crossover_rate	probability of template switching during coinfection in events / site
 
-        Note: the genome length is 10000 (see HIVGENOME).
+           - N     number of viral particles
+           - rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
+           - mutation_rate	mutation rate in events / generation / site
+           - coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
+           - crossover_rate	probability of template switching during coinfection in events / site
+
+        .. note:: the genome length is 10000 (see HIVGENOME).
 
         """
         _FFPopSim.hivpopulation_swiginit(self,_FFPopSim.new_hivpopulation(N, rng_seed, mutation_rate, coinfection_rate, crossover_rate))
@@ -1940,11 +2040,23 @@ class hivpopulation(haploid_highd):
         return _FFPopSim.hivpopulation__get_treatment(self)
 
     def read_replication_coefficients(self, *args, **kwargs):
-        """read_replication_coefficients(hivpopulation self, istream & model) -> int"""
+        """
+        Read replication coefficient from a text file
+
+        Parameters:
+           - filename: string with the name of the file to read the coefficient from
+
+        """
         return _FFPopSim.hivpopulation_read_replication_coefficients(self, *args, **kwargs)
 
     def read_resistance_coefficients(self, *args, **kwargs):
-        """read_resistance_coefficients(hivpopulation self, istream & model) -> int"""
+        """
+        Read resistance coefficient from a text file
+
+        Parameters:
+           - filename: string with the name of the file to read the coefficient from
+
+        """
         return _FFPopSim.hivpopulation_read_resistance_coefficients(self, *args, **kwargs)
 
     def write_genotypes(self, *args, **kwargs):
@@ -1983,7 +2095,7 @@ class hivpopulation(haploid_highd):
         d = {}
         for i in xrange(sample_size):
             rcl = self.random_clone()
-            d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl,L)[start:start+length]
+            d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl,L)[start:start+length]
         np.savez_compressed(filename, **d)    
 
     def set_trait_landscape(self,
@@ -2064,7 +2176,7 @@ class hivpopulation(haploid_highd):
         single_locus_effects[np.where(env_mutations)] = np.random.exponential(effect_size_env, env_mutations.sum())
             
         
-        self.set_additive_trait(single_locus_effects, traitnumber)
+        self.set_trait_additive(single_locus_effects, traitnumber)
 
         
         multi_locus_coefficients=[]
@@ -2110,10 +2222,10 @@ class hivpopulation(haploid_highd):
 
         for mlc in multi_locus_coefficients:
             self.add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
-        self.update_traits()
-        self.update_fitness()
+        self._update_traits()
+        self._update_fitness()
 
-    def get_additive_replication(self):
+    def get_replication_additive(self):
         '''The additive part of the replication lansdscape.
 
         Returns:
@@ -2123,10 +2235,10 @@ class hivpopulation(haploid_highd):
                      If you are used to the 0/1 basis, keep in mind that
                      the interaction series-expansion is different.
         '''
-        return self.get_additive_trait(0)
+        return self.get_trait_additive(0)
 
 
-    def set_additive_replication(self, coefficients):
+    def set_replication_additive(self, coefficients):
         '''Set the additive replication coefficients
 
         Parameters:
@@ -2137,10 +2249,10 @@ class hivpopulation(haploid_highd):
                      the interaction series-expansion is different.
         '''
 
-        self.set_additive_trait(coefficients, 0)
+        self.set_trait_additive(coefficients, 0)
 
 
-    def get_additive_resistance(self):
+    def get_resistance_additive(self):
         '''The additive part of the resistance lansdscape.
 
         Returns:
@@ -2150,10 +2262,10 @@ class hivpopulation(haploid_highd):
                      If you are used to the 0/1 basis, keep in mind that
                      the interaction series-expansion is different.
         '''
-        return self.get_additive_trait(1)
+        return self.get_trait_additive(1)
 
 
-    def set_additive_resistance(self, coefficients):
+    def set_resistance_additive(self, coefficients):
         '''Set the additive drug resistance coefficients
 
         Parameters:
@@ -2164,7 +2276,7 @@ class hivpopulation(haploid_highd):
                      the interaction series-expansion is different.
         '''
 
-        self.set_additive_trait(coefficients, 1)
+        self.set_trait_additive(coefficients, 1)
 
 
 

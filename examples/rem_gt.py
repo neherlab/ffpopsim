@@ -27,7 +27,7 @@ pop.outcrossing_rate=params.rec
 pop.set_random_epistasis(params.sigma*np.sqrt(1-params.hsq))
 pop.recombination_model = ffpop.FREE_RECOMBINATION
 if (params.hsq>0):
-    pop.set_additive_trait(np.ones(L)*params.sigma*sqrt(params.hsp/L))
+    pop.set_trait_additive(np.ones(L)*params.sigma*sqrt(params.hsp/L))
 
 
 #evolve
