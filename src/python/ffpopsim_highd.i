@@ -440,7 +440,7 @@ Parameters:
     - locus2: second locus
 
 Returns:
-    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left[\\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j\\right]`.
 ") get_LD;
 
 %feature("autodoc",
@@ -632,7 +632,7 @@ void set_fitness_additive(int DIM1, double *IN_ARRAY1) {
 }
 %feature("autodoc",
 "Add a coefficient to the trait landscape.
-
+ 
 Parameters:
    - value: value of the coefficient
    - loci: array/list of loci indexed by the coefficient.
@@ -765,7 +765,7 @@ def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
 /* get random clones/genotypes */
 %pythoncode {
 def random_genomes(self, n):
-    '''Get random genomes from the population
+    '''Get a sample of random genomes from the population
 
     Parameters:
        - n: number of random genomes to compute
@@ -812,7 +812,7 @@ Returns:
 %ignore get_fitness_histogram;
 %pythoncode {
 def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
-    '''Calculate the fitness histogram.
+    '''Calculate the fitness histogram of a population sample.
 
     Parameters:
        - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
@@ -829,7 +829,7 @@ def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
     
     
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot a distribution of fitness in the population.
+    '''Plot a distribution of fitness of a population sample.
 
     Parameters:
        - axis: an axis to use. A new figure is created by default
@@ -895,7 +895,7 @@ def get_divergence_histogram(self, bins=10, chunks=None, every=1, n_sample=1000,
     
     
 def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the divergence histogram.
+    '''Plot the divergence histogram of a population sample.
 
     Parameters:
        - axis: an axis to use. A new figure is created by default
@@ -968,7 +968,7 @@ def get_diversity_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, 
 
 
 def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the diversity histogram.
+    '''Plot the diversity histogram of a population sample.
 
     Parameters:
        - axis: an axis to use. A new figure is created by default

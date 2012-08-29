@@ -152,7 +152,7 @@ generation = property(_get_generation)
 int _set_allele_frequencies(int DIM1, double *IN_ARRAY1, unsigned long N) {return $self->set_allele_frequencies(IN_ARRAY1, N);}
 %pythoncode {
 def set_allele_frequencies(self, frequencies, N):
-    '''Initialize the population in linkage equilibrium with allele frequencies.
+    '''Initialize the population in linkage equilibrium with specified allele frequencies.
 
     Parameters:
        - frequencies: an array of length L with all allele frequencies
@@ -188,7 +188,7 @@ def set_genotypes(self, indices, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
     Parameters:
-       - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+       - indices: list of genotypes to set. Genotypes are specified as intergers, e.g. 00...0 --> 0, 11...1 --> 2^L-1.
        - counts: list of counts for those genotypes
 
     .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
@@ -205,7 +205,7 @@ def set_genotypes(self, indices, counts):
 
 /* initialize wildtype */
 %feature("autodoc",
-"Set up a population of wildtype individuals
+"Set up a population of N individuals with the - allele at all loci (wildtype)
 
 Parameters:
    - N: the number of individuals
@@ -293,7 +293,7 @@ Parameters:
     - direction: get only the forward or backward mutation rate(s)
 
 Returns:
-    - the mutation rate(s) requensted
+    - the mutation rate(s) requested
 
 **Note**: if the mutation rates for all loci and/or directions are the same,
 this function will try to be smart and give you the answer you are looking for.
@@ -432,7 +432,7 @@ Returns:
 ") get_allele_frequency;
 
 %feature("autodoc",
-"Get the joint frequency of two + alleles
+"Get the frequency of genotypes with the + allele at both loci.
 
 Parameters:
     - locus1: first locus
@@ -471,7 +471,7 @@ Parameters:
     - locus2: second locus
 
 Returns:
-    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
+    - the linkage disequilibiurm between them, i.e. :math:`D_{ij} := 1 / 4 \\left[\\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j\\right]`.
 ") get_LD;
 
 %feature("autodoc",
@@ -488,7 +488,7 @@ Returns:
 /* random sampling */
 %pythoncode {
 def random_genomes(self, n_sample):
-    '''Get random genomes according to their frequencies.
+    '''Get random genomes according sampled from the population. 
     
     Parameters:
         - n_sample: number of random genomes to sample
@@ -529,10 +529,10 @@ Returns:
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
 %pythoncode {
 def get_fitness_histogram(self, n_sample=1000, **kwargs):
-    '''Get the histogram of the fitness in the population.
+    '''Get the histogram of the fitness of a sample from the population.
 
     Parameters:
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population. defaults to 1000
 
     Returns:
        - h: numpy.histogram of fitness in the population
@@ -549,11 +549,11 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
 
 
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the histogram of the fitness in the population.
+    '''Plot the histogram of the fitness of a sample from the population.
 
     Parameters:
         - axis: use an already existing axis for the plot
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population. Defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
     '''
 
@@ -576,10 +576,10 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
 
 
 def get_divergence_statistics(self, n_sample=1000):
-    '''Get the mean and variance of the divergence in the population.
+    '''Get the mean and variance of the divergence of a population sample -- same as mean and variance of allele frequencies.
 
     Parameters:
-        - n_sample: number of individuals to sample at random from the population
+        - n_sample: number of individuals to sample at random from the population. defaults to 1000.
 
     Returns:
         - stat: structure with mean and variance of divergence in the population
@@ -598,11 +598,11 @@ def get_divergence_statistics(self, n_sample=1000):
 
 
 def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
-    '''Get the histogram of the divergence in the population.
+    '''Get the histogram of the divergence of a population sample.
 
     Parameters:
         - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population, defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
 
     Returns:
@@ -624,11 +624,11 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
 
 
 def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the histogram of the divergence in the population.
+    '''Plot the histogram of the divergence of a population sample.
 
     Parameters:
         - axis: use an already existing axis for the plot
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population, defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
     '''
     import numpy as np
@@ -654,10 +654,10 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
 
 
 def get_diversity_statistics(self, n_sample=1000):
-    '''Get the mean and variance of the diversity in the population.
+    '''Get the mean and variance of the diversity of a population sample
 
     Parameters:
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population, defaults to 1000.
 
     Returns:
         - stat: structure with mean and variance of diversity in the population
@@ -677,11 +677,11 @@ def get_diversity_statistics(self, n_sample=1000):
 
 
 def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
-    '''Get the histogram of the diversity in the population.
+    '''Get the histogram of the diversity in a sample from the population.
 
     Parameters:
         - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population, defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
 
     Returns:
@@ -705,11 +705,11 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
 
 
 def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
-    '''Plot the histogram of the diversity in the population.
+    '''Plot the histogram of the diversity of a population sample.
 
     Parameters:
         - axis: use an already existing axis for the plot
-        - n_sample: number of individual to sample at random from the population
+        - n_sample: number of individual to sample at random from the population, defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
     '''
     import numpy as np
@@ -751,7 +751,7 @@ int _set_fitness_func(int len1, double* indices, int len2, double* vals) {
 %clear (int len2, double* vals);
 %pythoncode {
 def set_fitness_function(self, indices, vals):
-    '''Set the fitness landscape at single points.
+    '''Set the fitness landscape for individual genotypes.
 
     Parameters:
     - indices: genotype to which the fitness values will be assigned
@@ -768,7 +768,7 @@ def set_fitness_function(self, indices, vals):
 
 /* set additive fitness component */
 %feature("autodoc",
-"Set an additive fitness landscape
+"Set an additive fitness landscape. Coefficients obey +/- convention.
 
 Parameters:
     - coefficients: array/list of additive fitness coefficients. It must have length L.
@@ -788,12 +788,12 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
 %feature("autodoc",
 "Get the genotype entropy of the population
 
-.. note:: the genotype entropy is defined as :math:`-\\sum_{i=0}^{2^L} p_i \log p_i`.
+.. note:: the genotype entropy is defined as :math:`-\\sum_{i=0}^{2^L} p_i \\log p_i`.
 ") genotype_entropy;
 %feature("autodoc",
 "get the allele entropy of the population
 
-.. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\nu_i\log \\nu_i + (1-\\nu_i)\log(1-\\nu_i)`.
+.. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\left[\\nu_i\log \\nu_i + (1-\\nu_i)\log(1-\\nu_i)\\right]`.
 ") allele_entropy;
 
 /* ignore tests (they work by now) */
