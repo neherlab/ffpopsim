@@ -19,12 +19,12 @@ pop = h.hivpopulation(1000)
 pop.set_replication_landscape(lethal_fraction=0.05,
                             number_valleys=0)
 pop.read_replication_coefficients('hiv_model.dat')
-rep = pop.get_additive_replication()
+rep = pop.get_replication_additive()
 rep[np.random.random(10000) > 0.5] = -0.1
-pop.set_additive_replication(rep)
+pop.set_replication_additive(rep)
 
 # Show the additive part of the fitness landscape
-print pop.get_additive_trait()
+print pop.get_trait_additive()
 
 # Test population initialization
 pop.set_allele_frequencies([0.3] * h.HIVGENOME, 1000)

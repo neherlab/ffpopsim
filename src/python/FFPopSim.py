@@ -477,16 +477,20 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd_get_moment(self, *args, **kwargs)
 
     def genotype_entropy(self):
-        """get the genotype entropy of the population: :math:`-\sum_{i=0}^{2^L} p_i\log p_i` """
+        """
+        Get the genotype entropy of the population
+
+        .. note:: the genotype entropy is defined as :math:`-\sum_{i=0}^{2^L} p_i \log p_i`.
+
+        """
         return _FFPopSim.haploid_lowd_genotype_entropy(self)
 
     def allele_entropy(self):
         """
-        get the allele entropy of the population :math:`-\sum_{i=0}^{L} 
-        u_i\log 
-        u_i + (1-
-        u_i)\log(1-
-        u_i)` 
+        get the allele entropy of the population
+
+        .. note:: the allele entropy is defined as :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)`.
+
         """
         return _FFPopSim.haploid_lowd_allele_entropy(self)
 
@@ -1604,11 +1608,11 @@ class haploid_highd(object):
             genotypes[i] = self._get_genotype(indi, L)
         return genotypes
 
-    def _get_additive_trait(self, *args, **kwargs):
-        """_get_additive_trait(haploid_highd self, double * ARGOUT_ARRAY1, int t)"""
-        return _FFPopSim.haploid_highd__get_additive_trait(self, *args, **kwargs)
+    def _get_trait_additive(self, *args, **kwargs):
+        """_get_trait_additive(haploid_highd self, double * ARGOUT_ARRAY1, int t)"""
+        return _FFPopSim.haploid_highd__get_trait_additive(self, *args, **kwargs)
 
-    def get_additive_trait(self, t=0):
+    def get_trait_additive(self, t=0):
         '''Get an array with the additive coefficients of all loci of a trait. 
 
         Parameters:
@@ -1617,9 +1621,10 @@ class haploid_highd(object):
         Returns:
            - coefficients: array of additive coefficients for the selected trait
         '''
-        return self._get_additive_trait(self.L, t)
 
-    def set_additive_trait(self, *args, **kwargs):
+        return self._get_trait_additive(self.L, t)
+
+    def set_trait_additive(self, *args, **kwargs):
         """
         Set the additive part of a trait
 
@@ -1628,11 +1633,11 @@ class haploid_highd(object):
            - t: number of the trait to set
 
         """
-        return _FFPopSim.haploid_highd_set_additive_trait(self, *args, **kwargs)
+        return _FFPopSim.haploid_highd_set_trait_additive(self, *args, **kwargs)
 
-    def set_additive_fitness(self, *args, **kwargs):
-        """Shortcut for set_additive_trait when there is only one trait"""
-        return _FFPopSim.haploid_highd_set_additive_fitness(self, *args, **kwargs)
+    def set_fitness_additive(self, *args, **kwargs):
+        """Shortcut for set_trait_additive when there is only one trait"""
+        return _FFPopSim.haploid_highd_set_fitness_additive(self, *args, **kwargs)
 
     def _get_fitnesses(self, *args, **kwargs):
         """_get_fitnesses(haploid_highd self, int DIM1)"""
@@ -1936,9 +1941,9 @@ haploid_highd._set_allele_frequencies = new_instancemethod(_FFPopSim.haploid_hig
 haploid_highd._set_genotypes = new_instancemethod(_FFPopSim.haploid_highd__set_genotypes,None,haploid_highd)
 haploid_highd._get_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__get_allele_frequencies,None,haploid_highd)
 haploid_highd._get_genotype = new_instancemethod(_FFPopSim.haploid_highd__get_genotype,None,haploid_highd)
-haploid_highd._get_additive_trait = new_instancemethod(_FFPopSim.haploid_highd__get_additive_trait,None,haploid_highd)
-haploid_highd.set_additive_trait = new_instancemethod(_FFPopSim.haploid_highd_set_additive_trait,None,haploid_highd)
-haploid_highd.set_additive_fitness = new_instancemethod(_FFPopSim.haploid_highd_set_additive_fitness,None,haploid_highd)
+haploid_highd._get_trait_additive = new_instancemethod(_FFPopSim.haploid_highd__get_trait_additive,None,haploid_highd)
+haploid_highd.set_trait_additive = new_instancemethod(_FFPopSim.haploid_highd_set_trait_additive,None,haploid_highd)
+haploid_highd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_highd_set_fitness_additive,None,haploid_highd)
 haploid_highd._get_fitnesses = new_instancemethod(_FFPopSim.haploid_highd__get_fitnesses,None,haploid_highd)
 haploid_highd._get_clone_sizes = new_instancemethod(_FFPopSim.haploid_highd__get_clone_sizes,None,haploid_highd)
 haploid_highd.random_clones = new_instancemethod(_FFPopSim.haploid_highd_random_clones,None,haploid_highd)
@@ -2017,13 +2022,14 @@ class hivpopulation(haploid_highd):
         Construct a HIV population with certain parameters.
 
         Parameters:
-        - N     number of viral particles
-        - rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
-        - mutation_rate	mutation rate in events / generation / site
-        - coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
-        - crossover_rate	probability of template switching during coinfection in events / site
 
-        Note: the genome length is 10000 (see HIVGENOME).
+           - N     number of viral particles
+           - rng_seed	seed for the random number generator. If this is 0, time(NULL)+getpid() is used.
+           - mutation_rate	mutation rate in events / generation / site
+           - coinfection_rate	probability of coinfection of the same cell by two viral particles in events / generation
+           - crossover_rate	probability of template switching during coinfection in events / site
+
+        .. note:: the genome length is 10000 (see HIVGENOME).
 
         """
         _FFPopSim.hivpopulation_swiginit(self,_FFPopSim.new_hivpopulation(N, rng_seed, mutation_rate, coinfection_rate, crossover_rate))
@@ -2045,11 +2051,23 @@ class hivpopulation(haploid_highd):
         return _FFPopSim.hivpopulation__get_treatment(self)
 
     def read_replication_coefficients(self, *args, **kwargs):
-        """read_replication_coefficients(hivpopulation self, istream & model) -> int"""
+        """
+        Read replication coefficient from a text file
+
+        Parameters:
+           - filename: string with the name of the file to read the coefficient from
+
+        """
         return _FFPopSim.hivpopulation_read_replication_coefficients(self, *args, **kwargs)
 
     def read_resistance_coefficients(self, *args, **kwargs):
-        """read_resistance_coefficients(hivpopulation self, istream & model) -> int"""
+        """
+        Read resistance coefficient from a text file
+
+        Parameters:
+           - filename: string with the name of the file to read the coefficient from
+
+        """
         return _FFPopSim.hivpopulation_read_resistance_coefficients(self, *args, **kwargs)
 
     def write_genotypes(self, *args, **kwargs):
@@ -2088,7 +2106,7 @@ class hivpopulation(haploid_highd):
         d = {}
         for i in xrange(sample_size):
             rcl = self.random_clone()
-            d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl,L)[start:start+length]
+            d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self._get_genotype(rcl,L)[start:start+length]
         np.savez_compressed(filename, **d)    
 
     def set_trait_landscape(self,
@@ -2169,7 +2187,7 @@ class hivpopulation(haploid_highd):
         single_locus_effects[np.where(env_mutations)] = np.random.exponential(effect_size_env, env_mutations.sum())
             
         
-        self.set_additive_trait(single_locus_effects, traitnumber)
+        self.set_trait_additive(single_locus_effects, traitnumber)
 
         
         multi_locus_coefficients=[]
@@ -2215,10 +2233,10 @@ class hivpopulation(haploid_highd):
 
         for mlc in multi_locus_coefficients:
             self.add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
-        self.update_traits()
-        self.update_fitness()
+        self._update_traits()
+        self._update_fitness()
 
-    def get_additive_replication(self):
+    def get_replication_additive(self):
         '''The additive part of the replication lansdscape.
 
         Returns:
@@ -2228,10 +2246,10 @@ class hivpopulation(haploid_highd):
                      If you are used to the 0/1 basis, keep in mind that
                      the interaction series-expansion is different.
         '''
-        return self.get_additive_trait(0)
+        return self.get_trait_additive(0)
 
 
-    def set_additive_replication(self, coefficients):
+    def set_replication_additive(self, coefficients):
         '''Set the additive replication coefficients
 
         Parameters:
@@ -2242,10 +2260,10 @@ class hivpopulation(haploid_highd):
                      the interaction series-expansion is different.
         '''
 
-        self.set_additive_trait(coefficients, 0)
+        self.set_trait_additive(coefficients, 0)
 
 
-    def get_additive_resistance(self):
+    def get_resistance_additive(self):
         '''The additive part of the resistance lansdscape.
 
         Returns:
@@ -2255,10 +2273,10 @@ class hivpopulation(haploid_highd):
                      If you are used to the 0/1 basis, keep in mind that
                      the interaction series-expansion is different.
         '''
-        return self.get_additive_trait(1)
+        return self.get_trait_additive(1)
 
 
-    def set_additive_resistance(self, coefficients):
+    def set_resistance_additive(self, coefficients):
         '''Set the additive drug resistance coefficients
 
         Parameters:
@@ -2269,7 +2287,7 @@ class hivpopulation(haploid_highd):
                      the interaction series-expansion is different.
         '''
 
-        self.set_additive_trait(coefficients, 1)
+        self.set_trait_additive(coefficients, 1)
 
 
 

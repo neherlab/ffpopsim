@@ -21,7 +21,7 @@ initial_allele_frequencies[::m] = 0
 
 #initialize the population in LD with the specified allele frequencies
 pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
-pop.set_additive_trait(selection_coefficients)
+pop.set_trait_additive(selection_coefficients)
 
 
 #evolve for 2000 generations and track the allele frequencies
@@ -33,7 +33,7 @@ while pop.generation<maxgen:
     if (pop.generation%200==0):                 #every 200 generations, make one of the deleterious mutations beneficial
         print "generation:", pop.generation, 'out of', maxgen
         selection_coefficients[m*np.random.randint(0,25)] = 0.01
-        pop.set_additive_trait(selection_coefficients)      #update fitness function
+        pop.set_trait_additive(selection_coefficients)      #update fitness function
 
     allele_frequencies.append(pop.get_allele_frequencies()) #save the allele frequencies
     tp.append(pop.generation)                               #and the associated generation
