@@ -127,10 +127,10 @@ Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_wildtype" title="FFPopSim.haploid_lowd.set_wildtype"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_wildtype</span></tt></a></td>
-<td>Set up a population of wildtype individuals</td>
+<td>Set up a population of N individuals with the - allele at all loci (wildtype)</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_allele_frequencies" title="FFPopSim.haploid_lowd.set_allele_frequencies"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_allele_frequencies</span></tt></a></td>
-<td>Initialize the population in linkage equilibrium with allele frequencies.</td>
+<td>Initialize the population in linkage equilibrium with specified allele frequencies.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_genotypes" title="FFPopSim.haploid_lowd.set_genotypes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_genotypes</span></tt></a></td>
 <td>Initialize population with fixed counts for specific genotypes.</td>
@@ -147,10 +147,10 @@ Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_fitness_additive" title="FFPopSim.haploid_lowd.set_fitness_additive"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_fitness_additive</span></tt></a></td>
-<td>Set an additive fitness landscape</td>
+<td>Set an additive fitness landscape.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.set_fitness_function" title="FFPopSim.haploid_lowd.set_fitness_function"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.set_fitness_function</span></tt></a></td>
-<td>Set the fitness landscape at single points.</td>
+<td>Set the fitness landscape for individual genotypes.</td>
 </tr>
 </tbody>
 </table>
@@ -213,7 +213,7 @@ Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.random_genomes" title="FFPopSim.haploid_lowd.random_genomes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.random_genomes</span></tt></a></td>
-<td>Get random genomes according to their frequencies.</td>
+<td>Get random genomes according sampled from the population.</td>
 </tr>
 </tbody>
 </table>
@@ -239,7 +239,7 @@ Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#
 <td>Get the frequency of each genotype.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_pair_frequency" title="FFPopSim.haploid_lowd.get_pair_frequency"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_pair_frequency</span></tt></a></td>
-<td>Get the joint frequency of two + alleles</td>
+<td>Get the frequency of genotypes with the + allele at both loci.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_chi" title="FFPopSim.haploid_lowd.get_chi"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_chi</span></tt></a></td>
 <td>Get chi of an allele in the -/+ basis</td>
@@ -280,10 +280,10 @@ Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#
 <td>haploid_lowd_get_fitness_statistics(haploid_lowd self) -&gt; stat</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_fitness_histogram" title="FFPopSim.haploid_lowd.get_fitness_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_fitness_histogram</span></tt></a></td>
-<td>Get the histogram of the fitness in the population.</td>
+<td>Get the histogram of the fitness of a sample from the population.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.plot_fitness_histogram" title="FFPopSim.haploid_lowd.plot_fitness_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.plot_fitness_histogram</span></tt></a></td>
-<td>Plot the histogram of the fitness in the population.</td>
+<td>Plot the histogram of the fitness of a sample from the population.</td>
 </tr>
 </tbody>
 </table>
@@ -297,22 +297,22 @@ Member functions are shown with the prefix &#8216;&#8217;haploid_lowd.*&#8217;&#
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_divergence_statistics" title="FFPopSim.haploid_lowd.get_divergence_statistics"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_divergence_statistics</span></tt></a></td>
-<td>Get the mean and variance of the divergence in the population.</td>
+<td>Get the mean and variance of the divergence of a population sample &#8211; same as mean and variance of allele frequencies.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_diversity_statistics" title="FFPopSim.haploid_lowd.get_diversity_statistics"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_diversity_statistics</span></tt></a></td>
-<td>Get the mean and variance of the diversity in the population.</td>
+<td>Get the mean and variance of the diversity of a population sample</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_divergence_histogram" title="FFPopSim.haploid_lowd.get_divergence_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_divergence_histogram</span></tt></a></td>
-<td>Get the histogram of the divergence in the population.</td>
+<td>Get the histogram of the divergence of a population sample.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.get_diversity_histogram" title="FFPopSim.haploid_lowd.get_diversity_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.get_diversity_histogram</span></tt></a></td>
-<td>Get the histogram of the diversity in the population.</td>
+<td>Get the histogram of the diversity in a sample from the population.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.plot_divergence_histogram" title="FFPopSim.haploid_lowd.plot_divergence_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.plot_divergence_histogram</span></tt></a></td>
-<td>Plot the histogram of the divergence in the population.</td>
+<td>Plot the histogram of the divergence of a population sample.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_lowd.html#FFPopSim.haploid_lowd.plot_diversity_histogram" title="FFPopSim.haploid_lowd.plot_diversity_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_lowd.plot_diversity_histogram</span></tt></a></td>
-<td>Plot the histogram of the diversity in the population.</td>
+<td>Plot the histogram of the diversity of a population sample.</td>
 </tr>
 </tbody>
 </table>

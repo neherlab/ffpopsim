@@ -2,13 +2,15 @@
 
 Examples for the high-dimensional package
 =========================================
+.. contents:: `Table of contents`
+   :depth: 2
 
 Genetic Drift
-^^^^^^^^^^
+^^^^^^^^^^^^^
 As a very basic example, lets simulate how allele frequencies change
 due to genetic drift. If we want to track a large number of loci, we
 can use haploid_hd. First, we import the necessary tools, including
-FFPopSim
+FFPopSim::
 
     import numpy as np
     from matplotlib import pyplot as plt
@@ -16,6 +18,8 @@ FFPopSim
 
 Next, we specify the parameters of the population and set up the
 population.
+
+::
 
    #simulate 256 loci
    L=256
@@ -35,6 +39,8 @@ We now have a population of size 5000 where each of the 256 loci is
 present at frequency 1/2. Next, we want to evolve the population and
 track the frequencies of the alleles.
 
+::
+
     #evolve for 2000 generations and track the allele frequencies
     maxgen = 2000
     #make lists to store allele frequencies and time points
@@ -50,7 +56,7 @@ track the frequencies of the alleles.
     allele_frequencies=np.array(allele_frequencies)
 
 The array *allele_frequencies* now contains the frequencies of 256
-loci every 10 generations. We can plot a subset of these as follows:
+loci every 10 generations. We can plot a subset of these as follows::
 
     plt.figure()
     for locus in xrange(5,pop.L,50):        #plot a few neutral trajectories
@@ -60,15 +66,17 @@ loci every 10 generations. We can plot a subset of these as follows:
     plt.xlabel('Time [generations]')
     plt.ylabel('Allele frequencies')
 
+.. image:: figures/examples/genetic_drift.png
+
 
 Genetic drift versus genetic draft
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The next examples explores the interplay between genetic drift and
 genetic draft, i.e., the effect of linked selection on the
 trajectories of neutral alleles. The basic script is the same as
 above, only that we now set a fitness landscape and change the effects
 of some mutations from being deleterious to beneficial during the
-simulation. This generates selective sweeps. As before, we have
+simulation. This generates selective sweeps. As before, we have::
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -86,7 +94,7 @@ simulation. This generates selective sweeps. As before, we have
 
     
 In addition, we set the selection coefficients to 0 for most loci, but
-make every 10th locus strongly deleterious
+make every 10th locus strongly deleterious::
 
     m=10
     selection_coefficients = 0.0*np.ones(pop.L)     #most loci are neutral
@@ -94,7 +102,7 @@ make every 10th locus strongly deleterious
     pop.set_additive_trait(selection_coefficients)
     
 Neutral loci are set the frequency 1/2, while the deleterious ones to
-frequency 0
+frequency 0::
 
     initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies
     initial_allele_frequencies[::m] = 0
@@ -105,6 +113,8 @@ frequency 0
 Next, we start evolving and track the allele frequencies as we go
 along. Every 200 generations, we pick a random locus from the
 deleterious ones and make it beneficial.
+
+::
 
     #evolve for 2000 generations and track the allele frequencies
     maxgen = 2000
@@ -128,6 +138,8 @@ that become beneficial in the process have risen quickly to high
 frequencies. When they sweep, they influence the trajectories of
 linked neutral loci, of which also a few trajectories are shown.
 
+::
+
     plt.figure()
     for locus in xrange(0,pop.L,m):         #plot the allele frequency trajectories of the selected mutations
         plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus),lw=2)
@@ -139,6 +151,7 @@ linked neutral loci, of which also a few trajectories are shown.
     plt.xlabel('Time [generations]')
     plt.ylabel('Allele frequencies')
 
+.. image:: figures/examples/drift_and_draft.png
 
 
 Condensation of genotypes driven by epistasis

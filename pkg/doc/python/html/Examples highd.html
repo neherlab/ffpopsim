@@ -58,9 +58,158 @@
           <div class="body">
             
   <div class="section" id="examples-for-the-high-dimensional-package">
-<span id="examples-highd"></span><h1>Examples for the high-dimensional package<a class="headerlink" href="#examples-for-the-high-dimensional-package" title="Permalink to this headline">¶</a></h1>
+<span id="examples-highd"></span><h1><a class="toc-backref" href="#id1">Examples for the high-dimensional package</a><a class="headerlink" href="#examples-for-the-high-dimensional-package" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first"><cite>Table of contents</cite></p>
+<ul class="simple">
+<li><a class="reference internal" href="#examples-for-the-high-dimensional-package" id="id1">Examples for the high-dimensional package</a><ul>
+<li><a class="reference internal" href="#genetic-drift" id="id2">Genetic Drift</a></li>
+<li><a class="reference internal" href="#genetic-drift-versus-genetic-draft" id="id3">Genetic drift versus genetic draft</a></li>
+<li><a class="reference internal" href="#condensation-of-genotypes-driven-by-epistasis" id="id4">Condensation of genotypes driven by epistasis</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="genetic-drift">
+<h2><a class="toc-backref" href="#id2">Genetic Drift</a><a class="headerlink" href="#genetic-drift" title="Permalink to this headline">¶</a></h2>
+<p>As a very basic example, lets simulate how allele frequencies change
+due to genetic drift. If we want to track a large number of loci, we
+can use haploid_hd. First, we import the necessary tools, including
+FFPopSim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
+</pre></div>
+</div>
+<p>Next, we specify the parameters of the population and set up the
+population.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#simulate 256 loci</span>
+<span class="n">L</span><span class="o">=</span><span class="mi">256</span>
+
+<span class="c">### set up</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_highd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>                        <span class="c">#produce an instance of haploid_lowd with L loci</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="mi">5000</span>                    <span class="c">#set the average population size to 50000</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">outcrossing_rate</span> <span class="o">=</span> <span class="mi">1</span>                        <span class="c">#make the species obligate outcrossing</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">crossover_rate</span> <span class="o">=</span> <span class="mf">0.02</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span>                 <span class="c">#set the crossover rate of the segment to 2 centimorgans</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span>   <span class="c">#per locus mutation rate equal to 0.1/N</span>
+<span class="n">initial_allele_frequencies</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="c">#define some initial allele frequencies</span>
+
+<span class="c">#initialize the population in LD with the specified allele frequencies</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_allele_frequencies</span><span class="p">(</span><span class="n">initial_allele_frequencies</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now have a population of size 5000 where each of the 256 loci is
+present at frequency 1/2. Next, we want to evolve the population and
+track the frequencies of the alleles.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#evolve for 2000 generations and track the allele frequencies</span>
+<span class="n">maxgen</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="c">#make lists to store allele frequencies and time points</span>
+<span class="n">allele_frequencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">()]</span>
+<span class="n">tp</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">]</span>
+
+<span class="k">while</span> <span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="o">&lt;</span><span class="n">maxgen</span><span class="p">:</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                                          <span class="c">#procede 10 generations</span>
+    <span class="n">allele_frequencies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">())</span> <span class="c">#save the allele frequencies</span>
+    <span class="n">tp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">)</span>                               <span class="c">#and the associated generation</span>
+
+<span class="c">#convert to an array to enable slicing</span>
+<span class="n">allele_frequencies</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">allele_frequencies</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The array <em>allele_frequencies</em> now contains the frequencies of 256
+loci every 10 generations. We can plot a subset of these as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">locus</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">,</span><span class="mi">50</span><span class="p">):</span>        <span class="c">#plot a few neutral trajectories</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">allele_frequencies</span><span class="p">[:,</span><span class="n">locus</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">locus</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Genetic Drift&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time [generations]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Allele frequencies&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/genetic_drift.png" src="_images/genetic_drift.png" />
+</div>
+<div class="section" id="genetic-drift-versus-genetic-draft">
+<h2><a class="toc-backref" href="#id3">Genetic drift versus genetic draft</a><a class="headerlink" href="#genetic-drift-versus-genetic-draft" title="Permalink to this headline">¶</a></h2>
+<p>The next examples explores the interplay between genetic drift and
+genetic draft, i.e., the effect of linked selection on the
+trajectories of neutral alleles. The basic script is the same as
+above, only that we now set a fitness landscape and change the effects
+of some mutations from being deleterious to beneficial during the
+simulation. This generates selective sweeps. As before, we have:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cm</span>
+<span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
+
+<span class="n">L</span><span class="o">=</span><span class="mi">256</span>
+
+<span class="c">### set up</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_highd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>                        <span class="c">#produce an instance of haploid_lowd with L loci</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="mi">50000</span>                   <span class="c">#set the average population size to 50000</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">outcrossing_rate</span> <span class="o">=</span> <span class="mi">1</span>                        <span class="c">#make the species obligate outcrossing</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">crossover_rate</span> <span class="o">=</span> <span class="mf">0.02</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span>                 <span class="c">#set the crossover rate of the segment to 2 centimorgans</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span>   <span class="c">#per locus mutation rate equal to 0.1/N</span>
+</pre></div>
+</div>
+<p>In addition, we set the selection coefficients to 0 for most loci, but
+make every 10th locus strongly deleterious:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">selection_coefficients</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">)</span>     <span class="c">#most loci are neutral</span>
+<span class="n">selection_coefficients</span><span class="p">[::</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>              <span class="c">#every m-th locus is strongly deleterious</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_additive_trait</span><span class="p">(</span><span class="n">selection_coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Neutral loci are set the frequency 1/2, while the deleterious ones to
+frequency 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">initial_allele_frequencies</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="c">#define some initial allele frequencies</span>
+<span class="n">initial_allele_frequencies</span><span class="p">[::</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c">#initialize the population in LD with the specified allele frequencies</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_allele_frequencies</span><span class="p">(</span><span class="n">initial_allele_frequencies</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we start evolving and track the allele frequencies as we go
+along. Every 200 generations, we pick a random locus from the
+deleterious ones and make it beneficial.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#evolve for 2000 generations and track the allele frequencies</span>
+<span class="n">maxgen</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">allele_frequencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">()]</span>
+<span class="n">tp</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">]</span>
+<span class="k">while</span> <span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="o">&lt;</span><span class="n">maxgen</span><span class="p">:</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                              <span class="c">#procede 10 generations</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="o">%</span><span class="mi">200</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>                 <span class="c">#every 200 generations, make one of the deleterious mutations beneficial</span>
+        <span class="k">print</span> <span class="s">&quot;generation:&quot;</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span> <span class="s">&#39;out of&#39;</span><span class="p">,</span> <span class="n">maxgen</span>
+        <span class="n">selection_coefficients</span><span class="p">[</span><span class="n">m</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">pop</span><span class="o">.</span><span class="n">set_additive_trait</span><span class="p">(</span><span class="n">selection_coefficients</span><span class="p">)</span>      <span class="c">#update fitness function</span>
+
+<span class="n">allele_frequencies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">())</span> <span class="c">#save the allele frequencies</span>
+<span class="n">tp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">)</span>                               <span class="c">#and the associated generation</span>
+
+<span class="c">#convert to an array to enable slicing</span>
+<span class="n">allele_frequencies</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">allele_frequencies</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now plot the frequency trajectories of all selected loci. Those
+that become beneficial in the process have risen quickly to high
+frequencies. When they sweep, they influence the trajectories of
+linked neutral loci, of which also a few trajectories are shown.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">locus</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>         <span class="c">#plot the allele frequency trajectories of the selected mutations</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">allele_frequencies</span><span class="p">[:,</span><span class="n">locus</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">locus</span><span class="p">),</span><span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">locus</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">,</span><span class="mi">50</span><span class="p">):</span>        <span class="c">#plot a few neutral trajectories</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">allele_frequencies</span><span class="p">[:,</span><span class="n">locus</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">locus</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Drift and Draft&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time [generations]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Allele frequencies&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/drift_and_draft.png" src="_images/drift_and_draft.png" />
+</div>
 <div class="section" id="condensation-of-genotypes-driven-by-epistasis">
-<h2>Condensation of genotypes driven by epistasis<a class="headerlink" href="#condensation-of-genotypes-driven-by-epistasis" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Condensation of genotypes driven by epistasis</a><a class="headerlink" href="#condensation-of-genotypes-driven-by-epistasis" title="Permalink to this headline">¶</a></h2>
 <p>Epistatis and rugged landscapes favour more clonal populations compared to smooth and monotonic landscapes. This process is observed in this example.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -112,6 +261,8 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Examples for the high-dimensional package</a><ul>
+<li><a class="reference internal" href="#genetic-drift">Genetic Drift</a></li>
+<li><a class="reference internal" href="#genetic-drift-versus-genetic-draft">Genetic drift versus genetic draft</a></li>
 <li><a class="reference internal" href="#condensation-of-genotypes-driven-by-epistasis">Condensation of genotypes driven by epistasis</a></li>
 </ul>
 </li>

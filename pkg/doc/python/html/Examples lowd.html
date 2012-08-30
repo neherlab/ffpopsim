@@ -63,7 +63,7 @@
 <p class="topic-title first"><cite>Table of contents</cite></p>
 <ul class="simple">
 <li><a class="reference internal" href="#examples-for-the-low-dimensional-package" id="id1">Examples for the low-dimensional package</a><ul>
-<li><a class="reference internal" href="#decay-of-linkage" id="id2">Decay of linkage</a></li>
+<li><a class="reference internal" href="#decay-of-linkage-disequilibrium" id="id2">Decay of linkage disequilibrium</a></li>
 <li><a class="reference internal" href="#time-complexity-and-scaling" id="id3">Time complexity and scaling</a></li>
 <li><a class="reference internal" href="#valley-crossing" id="id4">Valley Crossing</a></li>
 </ul>
@@ -71,10 +71,11 @@
 </ul>
 </div>
 <p>Various usage examples of the low-dimensional simulation package follow. Please note that they are sorted by increasing complexity.</p>
-<div class="section" id="decay-of-linkage">
-<h2><a class="toc-backref" href="#id2">Decay of linkage</a><a class="headerlink" href="#decay-of-linkage" title="Permalink to this headline">¶</a></h2>
-<p>In recombining populations, genetic linkage decays with time and distance. This script shows the decay curves of a simple population. The example can be found in <tt class="docutils literal"><span class="pre">decay_of_LD.py</span></tt>.</p>
-<p>First, we load the FFPopSim module and the number crunchung and plotting facilities:</p>
+<div class="section" id="decay-of-linkage-disequilibrium">
+<h2><a class="toc-backref" href="#id2">Decay of linkage disequilibrium</a><a class="headerlink" href="#decay-of-linkage-disequilibrium" title="Permalink to this headline">¶</a></h2>
+<p>In recombining populations, genetic linkage decays with time. This
+script initializes a population with high linkage disequilibrium (LD) and tracks how LD. The example can be found in <tt class="docutils literal"><span class="pre">decay_of_LD.py</span></tt>.</p>
+<p>First, we load the FFPopSim module, along with the number crunching and plotting tools:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
@@ -82,9 +83,11 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">you might need to add the directory of the <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> file to your Python <tt class="docutils literal"><span class="pre">PATH</span></tt> for this to work. If you decide to copy files around instead, please make sure that <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> always be in the same folder.</p>
+<p class="last">you might need to add the directory of the <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt></p>
 </div>
-<p>Second, we set up the population:</p>
+<p>file to your Python <tt class="docutils literal"><span class="pre">PATH</span></tt> for this to work. If you decide to copy
+the library to a different destination instead, please make sure that <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> always are in the same folder.</p>
+<p>Next, we set up the population:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># specify parameters</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">500000</span>                          <span class="c"># Population size</span>
 <span class="n">L</span> <span class="o">=</span> <span class="mi">4</span>                               <span class="c"># number of loci</span>
@@ -98,22 +101,25 @@
 <span class="n">pop</span><span class="o">.</span><span class="n">set_mutation_rates</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>          <span class="c"># assign the mutation rate</span>
 
 <span class="c"># initialize the population with N/2 individuals with genotypes 0, that is ----</span>
-<span class="c"># and N/2 with the opposite genotype, that is ++++</span>
+<span class="c"># and N/2 with the opposite genotype 2**L -1, that is ++++</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Third, we let the population evolve in little steps and we track the linkage disequilibrium via the <tt class="docutils literal"><span class="pre">get_LD</span></tt> function:</p>
+<p>Third, we let the population evolve and we track linkage disequilibrium via the <tt class="docutils literal"><span class="pre">get_LD</span></tt> function:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">max_gen</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c">#get LD for locus pairs (0,1), (0,2) and (0,3)</span>
 <span class="n">LD_trajectories</span> <span class="o">=</span> <span class="p">[[</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)]]</span>
 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_gen</span><span class="p">):</span>
-    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>               <span class="c">#N/10 generations between successive samples</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>               <span class="c">#evolve 5 generations</span>
+    <span class="c">#get a new set of LD values</span>
     <span class="n">LD_trajectories</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_LD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)])</span>
-<span class="n">LD_trajectories</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">)</span>
+<span class="n">LD_trajectories</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">)</span>      <span class="c">#cast to an array for plotting</span>
 </pre></div>
 </div>
 <p>Fourth, we plot the resulting linkage disequilibrium curves:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;g&#39;</span><span class="p">,</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c">#plot the LD from simulations and compare it to the exponential decay expected from theory</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">LD_trajectories</span><span class="p">[:,</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">r&#39;$D_{1&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;}$&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">LD_trajectories</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">LD_trajectories</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">ii</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cols</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
 
@@ -125,7 +131,9 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The typical plot we obtain is the following:</p>
+<p>As expected, LD decays faster if loci are further apart. The typical
+plot we obtain is the following and shows complete concordance of
+theory and simulations:</p>
 <img alt="_images/decay_of_LD.png" src="_images/decay_of_LD.png" />
 </div>
 <div class="section" id="time-complexity-and-scaling">
@@ -160,7 +168,7 @@
     <span class="c">#initialize the population with N individuals with genotypes 0, that is ----</span>
     <span class="n">pop</span><span class="o">.</span><span class="n">set_allele_frequencies</span><span class="p">(</span><span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span>
 
-    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>               <span class="c"># run for G generations to equilibrate</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>               <span class="c"># run for G generations</span>
 
     <span class="n">t2</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
@@ -169,8 +177,10 @@
 <span class="n">exec_time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">exec_time</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Fourth, the same schedule is repeated without recombination, using <tt class="docutils literal"><span class="pre">haploid_lowd.evolve_norec</span></tt>.</p>
-<p>Fifth, the resulting complexity is shown:</p>
+<p>Fourth, the same schedule is repeated without recombination, using
+<tt class="docutils literal"><span class="pre">haploid_lowd.evolve_norec</span></tt> instead of the <tt class="docutils literal"><span class="pre">haploid_lowd.evolve</span></tt>.</p>
+<p>Fifth, the time required is plotted agains the number of loci and
+compared to the expectation <span class="math">\(\mathcal{O}3^L\)</span>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exec_time</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">exec_time</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;with recombination&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;None&#39;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s">&#39;o&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exec_time</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">exec_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">3.0</span><span class="o">**</span><span class="p">(</span><span class="n">Lmax</span><span class="o">-</span><span class="n">exec_time</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s">r&#39;$\propto 3^L$&#39;</span><span class="p">)</span>
@@ -197,12 +207,16 @@
 </div>
 <div class="section" id="valley-crossing">
 <h2><a class="toc-backref" href="#id4">Valley Crossing</a><a class="headerlink" href="#valley-crossing" title="Permalink to this headline">¶</a></h2>
-<p>Now, something slightly more advanced. If sign epistasis is at work in a certain populaiton, the fitness landscape will include valleys. Those valleys need to be crossed by some individual carrying multiple mutations in order to reach the fitness maximum. It is well known that recombination helps this process as a source of genetic diversity (in addition to random mutation). This works up to a certain point, where recombination becomes so frequent that it actually destroys beneficial combinations of mutations more often than it creates them. This phenomenon is simulated in this example, which can be found integrally in <tt class="docutils literal"><span class="pre">valley.py</span></tt>.</p>
+<p>Now, something slightly more advanced. If sign epistasis is at work in
+a certain populaiton, the fitness landscape will include
+valleys. Those valleys need to be crossed by some individual carrying
+multiple mutations in order to reach the fitness
+maximum. Recombination can accelerate this process as a source of genetic diversity (in addition to random mutation). This works up to a certain point, where recombination becomes so frequent that it actually destroys beneficial combinations of mutations more often than it creates them. This phenomenon is simulated in this example, which can be found integrally in <tt class="docutils literal"><span class="pre">valley.py</span></tt>.</p>
 <p>First, we load the usual modules, and we set the population parameters:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">L</span> <span class="o">=</span> <span class="mi">4</span>                           <span class="c"># Number of loci</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mf">1e10</span>                        <span class="c"># Population size</span>
-<span class="n">s1</span> <span class="o">=</span> <span class="mf">1e-5</span>                       <span class="c"># Fitness advantage of wildtype (half)</span>
-<span class="n">s2</span> <span class="o">=</span> <span class="mf">0.01</span>                       <span class="c"># Fitness advantage of quadruple mutant (half)</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="mf">1e-5</span>                       <span class="c"># Fitness of wildtype</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="mf">0.01</span>                       <span class="c"># Fitness of quadruple mutant</span>
 </pre></div>
 </div>
 <p>Second, we decide what recombination and mutation rates to explore:</p>
@@ -231,13 +245,14 @@
     <span class="p">[</span><span class="o">...</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rs</span><span class="p">):</span>
         <span class="p">[</span><span class="o">...</span><span class="p">]</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_lowd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">],[</span><span class="n">N</span><span class="p">])</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">set_recombination_rates</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_lowd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>             <span class="c">#produce population with L loci</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">],[</span><span class="n">N</span><span class="p">])</span>          <span class="c">#initialize with N individuals in genotype 0 (wildtype)</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">set_recombination_rates</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>   <span class="c">#set the recombination rate</span>
         <span class="n">c</span><span class="o">.</span><span class="n">set_mutation_rates</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+        <span class="c">#set the wildtype fitness to s1 and the quadruple mutant fitness to s1+s2 (all other genotype have relative fitness 0)</span>
         <span class="n">c</span><span class="o">.</span><span class="n">set_fitness_function</span><span class="p">([</span><span class="mi">0</span><span class="n">b0</span><span class="p">,</span> <span class="mi">0</span><span class="n">b1111</span><span class="p">],</span> <span class="p">[</span><span class="n">s1</span><span class="p">,</span> <span class="n">s1</span><span class="o">+</span><span class="n">s2</span><span class="p">])</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
-        <span class="c"># cross valley</span>
+
+        <span class="c"># cross valley: evolve for gens generations at a time until quadruple mutant is at frequency &gt;1/2</span>
         <span class="n">gens</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="k">while</span> <span class="n">c</span><span class="o">.</span><span class="n">get_genotype_frequency</span><span class="p">(</span><span class="mi">0</span><span class="n">b1111</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.5</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">generation</span><span class="o">&lt;</span><span class="mf">1e6</span><span class="p">:</span>
             <span class="n">c</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">gens</span><span class="p">)</span>
@@ -264,7 +279,7 @@
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>We obtain the following plot:</p>
+<p>We obtain the following plot (note that the calculation takes a while):</p>
 <img alt="_images/valley_crossing.png" src="_images/valley_crossing.png" />
 </div>
 </div>
@@ -278,7 +293,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Examples for the low-dimensional package</a><ul>
-<li><a class="reference internal" href="#decay-of-linkage">Decay of linkage</a></li>
+<li><a class="reference internal" href="#decay-of-linkage-disequilibrium">Decay of linkage disequilibrium</a></li>
 <li><a class="reference internal" href="#time-complexity-and-scaling">Time complexity and scaling</a></li>
 <li><a class="reference internal" href="#valley-crossing">Valley Crossing</a></li>
 </ul>

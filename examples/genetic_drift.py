@@ -1,5 +1,15 @@
+'''
+author:     Richard Neher
+date:       11/07/12
+content:    Example on genetic drift
+'''
+# Import module
+import sys
+sys.path.append('../pkg/python')
+
 import numpy as np
 from matplotlib import pyplot as plt
+import matplotlib.cm as cm
 import FFPopSim as h
 
 #simulate 256 loci

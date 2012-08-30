@@ -334,7 +334,7 @@ class haploid_lowd(object):
 
     def set_wildtype(self, *args, **kwargs):
         """
-        Set up a population of wildtype individuals
+        Set up a population of N individuals with the - allele at all loci (wildtype)
 
         Parameters:
            - N: the number of individuals
@@ -406,7 +406,7 @@ class haploid_lowd(object):
 
     def get_pair_frequency(self, *args, **kwargs):
         """
-        Get the joint frequency of two + alleles
+        Get the frequency of genotypes with the + allele at both loci.
 
         Parameters:
             - locus1: first locus
@@ -454,7 +454,7 @@ class haploid_lowd(object):
             - locus2: second locus
 
         Returns:
-            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+            - the linkage disequilibiurm between them, i.e. :math:`D_{ij} := 1 / 4 \left[\left<s_i s_j\right> - \chi_i \cdot \chi_j\right]`.
 
         """
         return _FFPopSim.haploid_lowd_get_LD(self, *args, **kwargs)
@@ -486,7 +486,7 @@ class haploid_lowd(object):
         """
         get the allele entropy of the population
 
-        .. note:: the allele entropy is defined as :math:`-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)`.
+        .. note:: the allele entropy is defined as :math:`-\sum_{i=0}^{L} \left[\nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)\right]`.
 
         """
         return _FFPopSim.haploid_lowd_allele_entropy(self)
@@ -527,7 +527,7 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd__set_allele_frequencies(self, *args, **kwargs)
 
     def set_allele_frequencies(self, frequencies, N):
-        '''Initialize the population in linkage equilibrium with allele frequencies.
+        '''Initialize the population in linkage equilibrium with specified allele frequencies.
 
         Parameters:
            - frequencies: an array of length L with all allele frequencies
@@ -550,7 +550,7 @@ class haploid_lowd(object):
         '''Initialize population with fixed counts for specific genotypes.
 
         Parameters:
-           - indices: list of genotypes to set (e.g. 0 --> 00...0, L-1 --> 11...1)
+           - indices: list of genotypes to set. Genotypes are specified as intergers, e.g. 00...0 --> 0, 11...1 --> 2^L-1.
            - counts: list of counts for those genotypes
 
         .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
@@ -603,7 +603,7 @@ class haploid_lowd(object):
         - direction: get only the forward or backward mutation rate(s)
 
     Returns:
-        - the mutation rate(s) requensted
+        - the mutation rate(s) requested
 
     **Note**: if the mutation rates for all loci and/or directions are the same,
     this function will try to be smart and give you the answer you are looking for.
@@ -685,7 +685,7 @@ class haploid_lowd(object):
         return np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
 
     def random_genomes(self, n_sample):
-        '''Get random genomes according to their frequencies.
+        '''Get random genomes according sampled from the population. 
         
         Parameters:
             - n_sample: number of random genomes to sample
@@ -710,10 +710,10 @@ class haploid_lowd(object):
         return self._get_fitnesses(1<<self.L)
 
     def get_fitness_histogram(self, n_sample=1000, **kwargs):
-        '''Get the histogram of the fitness in the population.
+        '''Get the histogram of the fitness of a sample from the population.
 
         Parameters:
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population. defaults to 1000
 
         Returns:
            - h: numpy.histogram of fitness in the population
@@ -730,11 +730,11 @@ class haploid_lowd(object):
 
 
     def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the histogram of the fitness in the population.
+        '''Plot the histogram of the fitness of a sample from the population.
 
         Parameters:
             - axis: use an already existing axis for the plot
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population. Defaults to 1000.
             - kwargs: further optional keyword arguments to numpy.histograms
         '''
 
@@ -757,10 +757,10 @@ class haploid_lowd(object):
 
 
     def get_divergence_statistics(self, n_sample=1000):
-        '''Get the mean and variance of the divergence in the population.
+        '''Get the mean and variance of the divergence of a population sample -- same as mean and variance of allele frequencies.
 
         Parameters:
-            - n_sample: number of individuals to sample at random from the population
+            - n_sample: number of individuals to sample at random from the population. defaults to 1000.
 
         Returns:
             - stat: structure with mean and variance of divergence in the population
@@ -779,11 +779,11 @@ class haploid_lowd(object):
 
 
     def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
-        '''Get the histogram of the divergence in the population.
+        '''Get the histogram of the divergence of a population sample.
 
         Parameters:
             - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population, defaults to 1000.
             - kwargs: further optional keyword arguments to numpy.histograms
 
         Returns:
@@ -805,11 +805,11 @@ class haploid_lowd(object):
 
 
     def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the histogram of the divergence in the population.
+        '''Plot the histogram of the divergence of a population sample.
 
         Parameters:
             - axis: use an already existing axis for the plot
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population, defaults to 1000.
             - kwargs: further optional keyword arguments to numpy.histograms
         '''
         import numpy as np
@@ -835,10 +835,10 @@ class haploid_lowd(object):
 
 
     def get_diversity_statistics(self, n_sample=1000):
-        '''Get the mean and variance of the diversity in the population.
+        '''Get the mean and variance of the diversity of a population sample
 
         Parameters:
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population, defaults to 1000.
 
         Returns:
             - stat: structure with mean and variance of diversity in the population
@@ -858,11 +858,11 @@ class haploid_lowd(object):
 
 
     def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
-        '''Get the histogram of the diversity in the population.
+        '''Get the histogram of the diversity in a sample from the population.
 
         Parameters:
             - bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population, defaults to 1000.
             - kwargs: further optional keyword arguments to numpy.histograms
 
         Returns:
@@ -886,11 +886,11 @@ class haploid_lowd(object):
 
 
     def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the histogram of the diversity in the population.
+        '''Plot the histogram of the diversity of a population sample.
 
         Parameters:
             - axis: use an already existing axis for the plot
-            - n_sample: number of individual to sample at random from the population
+            - n_sample: number of individual to sample at random from the population, defaults to 1000.
             - kwargs: further optional keyword arguments to numpy.histograms
         '''
         import numpy as np
@@ -920,7 +920,7 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd__set_fitness_func(self, *args, **kwargs)
 
     def set_fitness_function(self, indices, vals):
-        '''Set the fitness landscape at single points.
+        '''Set the fitness landscape for individual genotypes.
 
         Parameters:
         - indices: genotype to which the fitness values will be assigned
@@ -936,7 +936,7 @@ class haploid_lowd(object):
 
     def set_fitness_additive(self, *args, **kwargs):
         """
-        Set an additive fitness landscape
+        Set an additive fitness landscape. Coefficients obey +/- convention.
 
         Parameters:
             - coefficients: array/list of additive fitness coefficients. It must have length L.
@@ -1190,7 +1190,7 @@ class haploid_highd(object):
     def add_trait_coefficient(self, *args, **kwargs):
         """
         Add a coefficient to the trait landscape.
-
+         
         Parameters:
            - value: value of the coefficient
            - loci: array/list of loci indexed by the coefficient.
@@ -1369,7 +1369,7 @@ class haploid_highd(object):
             - locus2: second locus
 
         Returns:
-            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
+            - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \left[\left<s_i s_j\right> - \chi_i \cdot \chi_j\right]`.
 
         """
         return _FFPopSim.haploid_highd_get_LD(self, *args, **kwargs)
@@ -1674,7 +1674,7 @@ class haploid_highd(object):
         return (clone_gt1 != clone_gt2).sum()
 
     def random_genomes(self, n):
-        '''Get random genomes from the population
+        '''Get a sample of random genomes from the population
 
         Parameters:
            - n: number of random genomes to compute
@@ -1704,7 +1704,7 @@ class haploid_highd(object):
         return _FFPopSim.haploid_highd_random_clones(self, *args, **kwargs)
 
     def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
-        '''Calculate the fitness histogram.
+        '''Calculate the fitness histogram of a population sample.
 
         Parameters:
            - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
@@ -1721,7 +1721,7 @@ class haploid_highd(object):
         
         
     def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot a distribution of fitness in the population.
+        '''Plot a distribution of fitness of a population sample.
 
         Parameters:
            - axis: an axis to use. A new figure is created by default
@@ -1787,7 +1787,7 @@ class haploid_highd(object):
         
         
     def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the divergence histogram.
+        '''Plot the divergence histogram of a population sample.
 
         Parameters:
            - axis: an axis to use. A new figure is created by default
@@ -1860,7 +1860,7 @@ class haploid_highd(object):
 
 
     def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
-        '''Plot the diversity histogram.
+        '''Plot the diversity histogram of a population sample.
 
         Parameters:
            - axis: an axis to use. A new figure is created by default
