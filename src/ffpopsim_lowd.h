@@ -239,6 +239,9 @@ protected:
 	int recombine();
 	int resample();
 
+	// recombination
+	int set_recombination_rates_general(double *rec_rates);
+	int set_recombination_rates_single_crossover(double *rec_rates);
 	int calculate_recombinants_free();
 	int calculate_recombinants_single();
 	int calculate_recombinants_general();

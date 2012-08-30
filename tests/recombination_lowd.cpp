@@ -53,7 +53,7 @@ int haploid_lowd_test::test_recombinant_distribution(){
 	test_rec=new double [(1<<number_of_loci)];
 	int mother, father;
 	//now calculate the recombinant distribution from pairs of parents.
-	int gt1, gt2, rec_pattern;
+	int gt1, gt2, rec_pattern, inherited;
 
 	cout <<"test_recombinant_distribution(): start..."<<endl;
 
@@ -82,26 +82,52 @@ int haploid_lowd_test::test_recombinant_distribution(){
 	} else if (recombination_model == SINGLE_CROSSOVER) {
 		//calculate recombinants the efficient way
 		calculate_recombinants_single();
-		for (gt1=0; gt1<(1<<number_of_loci); gt1++)
-			test_rec[gt1]=0.0;
-		for (mother=0; mother<(1<<number_of_loci); mother++){
-			for (gt2=0; gt2<(1<<number_of_loci); gt2++){
-				// the recombination patterns are L-1, plus one "nothing happens" pattern
-				for (int crossover_point=0; crossover_point<number_of_loci; crossover_point++){
-					rec_pattern = 0;
-					for (int locus=crossover_point; locus<number_of_loci-1; locus++)
-						rec_pattern += (1<<(number_of_loci-2-crossover_point));
-					for (int first_digit=0; first_digit <= 1; first_digit++) {
-						if(first_digit)	rec_pattern = ~rec_pattern;
+		for (gt1=0; gt1<(1<<number_of_loci); gt1++) test_rec[gt1]=0.0;
 
-						mother=(gt1&(rec_pattern))+(gt2&(~rec_pattern));
-						father=(gt1&(~rec_pattern))+(gt2&(rec_pattern));
+		// the recombination patterns are L-1, plus one "nothing happens" pattern
+		for (int crossover_point=0; crossover_point < number_of_loci; crossover_point++){
+
+			// set the recombination pattern
+			rec_pattern = 0;
+			for (int locus=0; locus != number_of_loci - 1 - crossover_point; locus++)
+				rec_pattern += (1<<(number_of_loci - 1 - locus));
+
+			// include both patterns, 00111 and 11000
+			for (int first_digit=0; first_digit <= 1; first_digit++) {
+				if(first_digit)	rec_pattern = (1<<number_of_loci) - 1 - rec_pattern;
+
+				// print debugging info
+				for (int locus=number_of_loci - 1; locus >= 0; locus--) {
+					cout<<((rec_pattern&(1<<locus))?1:0);	
+				}
+				cout<<"\t"<<rec_pattern<<endl;
+				for (int locus=0; locus<number_of_loci-1; locus++) {
+					cout<<(locus<=crossover_point?" ":(locus==(crossover_point+1)?"|":" "));					
+				}
+				cout<<endl<<endl;
+
+				// iteratre over mothers and fathers
+				for (mother=0; mother<(1<<number_of_loci); mother++){
+					for (father=0; father<(1<<number_of_loci); father++){
+
 						//contribution is weighted by the probability of this particular recombination pattern
 						//this got calculated and stored in recombination_patterns[(1<<number_of_loci)-1]
-						test_rec[gt1]+=recombination_patterns[(1<<number_of_loci)-1][rec_pattern]*population.func[mother]*population.func[father];
+						inherited = (mother&(rec_pattern)) + (father&(~rec_pattern));
+//						if(inherited == 1)
+//							cout<<crossover_point<<" "<<mother<<" "<<father<<endl;
+
+						test_rec[inherited]+=recombination_patterns[(1<<number_of_loci)-1][crossover_point]*population.func[mother]*population.func[father];
 					}
 				}
 			}
+		}
+		// normalize
+		double sum=0;
+		for (gt1=0; gt1<(1<<number_of_loci); gt1++) sum+=test_rec[gt1];
+		for (gt1=0; gt1<(1<<number_of_loci); gt1++) test_rec[gt1]/=sum;
+		// output
+		cout<<"Genotype slow fast"<<endl;
+		for (gt1=0; gt1<(1<<number_of_loci); gt1++) {
 			cout <<gt1<<"  "<<test_rec[gt1]<<"  "<<recombinants.func[gt1]<<endl;
 			dev+=(test_rec[gt1]-recombinants.func[gt1])*(test_rec[gt1]-recombinants.func[gt1]);
 		}
@@ -282,6 +308,7 @@ int haploid_lowd_test::test_single_crossover_set_rates() {
 
 	// set rates
 	set_recombination_rates(rec_rates, SINGLE_CROSSOVER);
+	//set_recombination_rates(rec_rates, CROSSOVERS);
 
 	// check patterns
 	vector <int> ii;
@@ -332,17 +359,17 @@ int main(int argc, char **argv){
 		index_value_pair_t ivp(0, N/4);
 		vector<index_value_pair_t> gts;
 		gts.push_back(ivp);
-//		ivp.index = 1;
-//		gts.push_back(ivp);
-//		ivp.index = 5;
-//		gts.push_back(ivp);
-//		ivp.index = 15;
-//		gts.push_back(ivp);
+		ivp.index = 1;
+		gts.push_back(ivp);
+		ivp.index = 6;
+		gts.push_back(ivp);
+		ivp.index = 15;
+		gts.push_back(ivp);
 		pop.set_genotypes(gts);
 
 		// test recombination routine
-		status += pop.test_single_crossover_set_rates();
-		status += pop.test_recombinant_distribution();
+		if (pop.test_single_crossover_set_rates()) status += 1;
+		if (pop.test_recombinant_distribution()) status += 1;
 
 	}
 	cout<<"Number of errors: "<<status<<endl;

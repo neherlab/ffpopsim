@@ -364,7 +364,24 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 		}
 	}
 
-	//if memory allocation has been successful, calculate the probabilities of recombination
+	//if memory allocation has been successful, calculate the probabilities of recombination based on the model
+	if (rec_model == SINGLE_CROSSOVER)
+		err += set_recombination_rates_single_crossover(rec_rates);
+	else
+		err += set_recombination_rates_general(rec_rates);
+
+	return err;
+}
+
+/**
+ * @brief Set the recombination rates for the general model
+ *
+ * @param rec_rates array with the recombination rates
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
+
 	// The algorithm is divided in two parts:
 	// 1. calculate the patterns with all L loci;
 	// 2. find patterns with k < L loci via successive marginalizations;
@@ -373,156 +390,170 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 	int marg_locus, higher_order_subset, higher_order_rec_pattern;
 	double *rptemp;
 
-	if (rec_model == CROSSOVERS) {
-		// 1. calculate the probabilities of different crossover realizations
-		int strand=0, newstrand, strandswitches;
-		double rr;
-		sum=0;
-		for (int i=0; i < (1<<number_of_loci); i++) {
-			patterns_order_L[i]=1.0;
-			strand=(i & (1<<(number_of_loci-1)))>0?1:0;
-			strandswitches=0;
-			for (locus=0; locus < number_of_loci; locus++) {
-				newstrand=((i&(1<<locus))>0)?1:0;
+	// 1. calculate the probabilities of different crossover realizations
+	int strand=0, newstrand, strandswitches;
+	double rr;
+	double sum=0;
+	for (int i=0; i < (1<<number_of_loci); i++) {
+		patterns_order_L[i]=1.0;
+		strand=(i & (1<<(number_of_loci-1)))>0?1:0;
+		strandswitches=0;
+		for (locus=0; locus < number_of_loci; locus++) {
+			newstrand=((i&(1<<locus))>0)?1:0;
 	
-				// Circular genomes have all rates, linear ones lack the first (which must be a large number, e.g. 50)
-				rr = circular?rec_rates[locus]:(locus?rec_rates[locus - 1]:50);
-				if (strand==newstrand)
-					patterns_order_L[i] *= (0.5*(1.0 + exp(-2.0*rr)));
-				else {
-					patterns_order_L[i] *= (0.5*(1.0 - exp(-2.0*rr)));
-					strandswitches++;
-				}
-				strand=newstrand;
+			// Circular genomes have all rates, linear ones lack the first (which must be a large number, e.g. 50)
+			rr = circular?rec_rates[locus]:(locus?rec_rates[locus - 1]:50);
+			if (strand==newstrand)
+				patterns_order_L[i] *= (0.5*(1.0 + exp(-2.0*rr)));
+			else {
+				patterns_order_L[i] *= (0.5*(1.0 - exp(-2.0*rr)));
+				strandswitches++;
 			}
-			// the constraint of even number of crossovers must be enforced because the genome is
-			// always internally represented as circular
-			if (strandswitches%2) patterns_order_L[i] = 0;
-			sum += patterns_order_L[i];
+			strand=newstrand;
 		}
-		for (int i=0; i < (1<<number_of_loci); i++)
-			patterns_order_L[i]/=sum;
+		// the constraint of even number of crossovers must be enforced because the genome is
+		// always internally represented as circular
+		if (strandswitches%2) patterns_order_L[i] = 0;
+		sum += patterns_order_L[i];
+	}
+	for (int i=0; i < (1<<number_of_loci); i++)
+		patterns_order_L[i]/=sum;
 	
-		// 2. marginalize repeatedly until the bottom
-		//loop over set of spins of different size, starting with 11111101111 type patterns
-		//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
-		for (int set_size=number_of_loci-1; set_size>=0; set_size--) {
-			//loop over all 2^L binary patterns
-			for (int subset=0; subset < (1<<number_of_loci); subset++) {
-				//if correct number of ones... (its the same in every hypercube...)
-				if (fitness.order[subset]==set_size) {
-					//determine the first zero, i.e. a locus that can be used to marginalize
-					marg_locus=-1;
-					for (locus=0; locus < number_of_loci; locus++) {
-						if ((subset&(1<<locus))==0)
-							{marg_locus=locus; break;}
-					}
-					//a short hand for the higher order recombination pattern, from which we will marginalize
-					higher_order_subset=subset+(1<<marg_locus);
-					rptemp=recombination_patterns[higher_order_subset];
-					//loop over all pattern of the length set_size and marginalize
-					//i.e. 111x01011=111001011+111101011
-					for (int rec_pattern=0; rec_pattern<(1<<set_size); rec_pattern++) {
-						higher_order_rec_pattern=(rec_pattern&((1<<marg_locus)-1))+((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
-						recombination_patterns[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
-					}
+	// 2. marginalize repeatedly until the bottom
+	//loop over set of spins of different size, starting with 11111101111 type patterns
+	//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
+	for (int set_size=number_of_loci-1; set_size>=0; set_size--) {
+		//loop over all 2^L binary patterns
+		for (int subset=0; subset < (1<<number_of_loci); subset++) {
+			//if correct number of ones... (its the same in every hypercube...)
+			if (fitness.order[subset]==set_size) {
+				//determine the first zero, i.e. a locus that can be used to marginalize
+				marg_locus=-1;
+				for (locus=0; locus < number_of_loci; locus++) {
+					if ((subset&(1<<locus))==0)
+						{marg_locus=locus; break;}
+				}
+				//a short hand for the higher order recombination pattern, from which we will marginalize
+				higher_order_subset=subset+(1<<marg_locus);
+				rptemp=recombination_patterns[higher_order_subset];
+				//loop over all pattern of the length set_size and marginalize
+				//i.e. 111x01011=111001011+111101011
+				for (int rec_pattern=0; rec_pattern<(1<<set_size); rec_pattern++) {
+					higher_order_rec_pattern=(rec_pattern&((1<<marg_locus)-1))+((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
+					recombination_patterns[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
 				}
 			}
 		}
-		recombination_model = CROSSOVERS;
 	}
-
-	// single crossover for linear genomes
-	else {
-		vector <int> ii;
-
-		// 1. calculate the probabilities of different crossover realizations
-		// pat[locus] is the proability of the pattern with the crossover
-		// immediately AFTER locus, and pat[L-1] is the probability of
-		// no crossover at all
-		patterns_order_L[number_of_loci - 1] = patterns_order_L[2 * number_of_loci - 1] = 0.5 * (1.0 - sum);
-		for (locus=0; locus < number_of_loci - 1; locus++)
-			patterns_order_L[locus] = patterns_order_L[locus + number_of_loci] = 0.5 * rec_rates[locus];
-
-		// 2. marginalize repeatedly until the bottom
-		for (int set_size=number_of_loci-1; set_size > 0; set_size--) {
-			// recombination_patterns of set_size have length 2 * set_size
-			// we have to do three things:
-			// I. figure out what set of sites correspond to i
-			// II. run over all possible crossover points in the reduced set
-			// III. marginalize over all possible invisible crossover points (1 or 2)
-			//loop over all 2^L binary patterns
-			for (int subset=0; subset < (1<<number_of_loci); subset++) {
-				//if correct number of ones... (its the same in every hypercube...)
-				if (fitness.order[subset] == set_size) {
-					//determine the first zero, i.e. a locus that can be used to marginalize
-					marg_locus=-1;
-					for (locus=0; locus < number_of_loci; locus++) {
-						if ((subset&(1<<locus))==0)
-							{marg_locus=locus; break;}
-					}
-					//a short hand for the higher order recombination pattern, from which we will marginalize
-					higher_order_subset=subset+(1<<marg_locus);
-					rptemp=recombination_patterns[higher_order_subset];
-
-					// I. create the multiindex i = indices(subset != 0)
-					ii.clear();
-					for (locus=0; locus < number_of_loci; locus++) {
-						if ((subset&(1<<locus)))
-							ii.push_back(locus);
-					}
-
-					// II. loop over all pattern of the length set_size and marginalize
-					// This can only happen at the boundary between 0s and 1s
-					// i.e. 111x00 = 111000 + 111100
-					// but  110x00 = 110000 by virtue of the single crossover!
-					// for locus < set_size - 1, the restricted pattern is heterogeneous,
-					// e.g. x00xx1x
-					for (locus = 0; locus < set_size - 1; locus++) {
-
-						// III. only zero OK
-						if (marg_locus < ii[locus])
-							recombination_patterns[subset][locus] = rptemp[locus + 1];
-
-						// III. only one OK
-						else if (marg_locus > ii[locus + 1])
-							recombination_patterns[subset][locus] = rptemp[locus];
-						
-						// III. both OK
-						else
-							recombination_patterns[subset][locus] = rptemp[locus + 1] + rptemp[locus];
-						
-						// there is symmetry between the probabilities 0x0xx1x and 1x1xx0x
-						recombination_patterns[subset][locus + set_size] = recombination_patterns[subset][locus];
-					}
-					// II. for locus == set_size - 1, the restricted pattern is homogeneous,
-					// e.g. x00xx0x
-					// III. both OK
-					// FIXME!
-					if (marg_locus < ii[0])
-						// e.g. P(x00xx0x) = P(000xx0x) + P(100xx0x)
-						// the latter being equal to P(011xx1x) = rptemp[0]
-						recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[0];
-					else if (marg_locus > ii[set_size - 1])
-						// e.g. P(x00xx0x) = P(x00xx00) + P(x00xx01)
-						recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[set_size - 1];
-					// III. only zero OK
-					else
-						recombination_patterns[subset][set_size - 1] = rptemp[set_size];
-					
-					// there is symmetry between the probabilities 0x0xx1x and 1x1xx0x
-					recombination_patterns[subset][2 * set_size - 1] = recombination_patterns[subset][set_size - 1];
-				}			
-			}
-		}
-		// the very bottom has len(ii) = 0, hence deserves a special treatment
-		recombination_patterns[0][0] = recombination_patterns[1][0] + recombination_patterns[1][1];
-		recombination_model = SINGLE_CROSSOVER;
-	}
+	recombination_model = CROSSOVERS;
 	return 0;
 }
 
+/**
+ * @brief Set the recombination rates for the single crossover model
+ *
+ * @param rec_rates array with the recombination rates
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 
+	// The algorithm is divided in two parts:
+	// 1. calculate the patterns with all L loci;
+	// 2. find patterns with k < L loci via successive marginalizations;
+	int locus;
+	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
+	int marg_locus, higher_order_subset, higher_order_rec_pattern;
+	double *rptemp;
+	vector <int> ii;
+
+	// calculate the sum of all crossover rates
+	double sum=0;
+	for (double * rtmp = rec_rates; rtmp != rec_rates + number_of_loci - 1; rtmp++)
+		sum += *rtmp;
+
+	// 1. calculate the probabilities of different crossover realizations
+	// pat[locus] is the proability of the pattern with the crossover
+	// immediately AFTER locus, and pat[L-1] is the probability of
+	// no crossover at all
+	patterns_order_L[number_of_loci - 1] = patterns_order_L[2 * number_of_loci - 1] = 0.5 * (1.0 - sum);
+	for (locus=0; locus < number_of_loci - 1; locus++)
+		patterns_order_L[locus] = patterns_order_L[locus + number_of_loci] = 0.5 * rec_rates[locus];
+
+	// 2. marginalize repeatedly until the bottom
+	for (int set_size=number_of_loci-1; set_size > 0; set_size--) {
+		// recombination_patterns of set_size have length 2 * set_size
+		// we have to do three things:
+		// I. figure out what set of sites correspond to i
+		// II. run over all possible crossover points in the reduced set
+		// III. marginalize over all possible invisible crossover points (1 or 2)
+		//loop over all 2^L binary patterns
+		for (int subset=0; subset < (1<<number_of_loci); subset++) {
+			//if correct number of ones... (its the same in every hypercube...)
+			if (fitness.order[subset] == set_size) {
+				//determine the first zero, i.e. a locus that can be used to marginalize
+				marg_locus=-1;
+				for (locus=0; locus < number_of_loci; locus++) {
+					if ((subset&(1<<locus))==0)
+						{marg_locus=locus; break;}
+				}
+				//a short hand for the higher order recombination pattern, from which we will marginalize
+				higher_order_subset=subset+(1<<marg_locus);
+				rptemp=recombination_patterns[higher_order_subset];
+
+				// I. create the multiindex i = indices(subset != 0)
+				ii.clear();
+				for (locus=0; locus < number_of_loci; locus++) {
+					if ((subset&(1<<locus)))
+						ii.push_back(locus);
+				}
+
+				// II. loop over all pattern of the length set_size and marginalize
+				// This can only happen at the boundary between 0s and 1s
+				// i.e. 111x00 = 111000 + 111100
+				// but  110x00 = 110000 by virtue of the single crossover!
+				// for locus < set_size - 1, the restricted pattern is heterogeneous,
+				// e.g. x00xx1x
+				for (locus = 0; locus < set_size - 1; locus++) {
+
+					// III. only zero OK
+					if (marg_locus < ii[locus])
+						recombination_patterns[subset][locus] = rptemp[locus + 1];
+
+					// III. only one OK
+					else if (marg_locus > ii[locus + 1])
+						recombination_patterns[subset][locus] = rptemp[locus];
+					
+					// III. both OK
+					else
+						recombination_patterns[subset][locus] = rptemp[locus + 1] + rptemp[locus];
+					
+					// there is symmetry between the probabilities 0x0xx1x and 1x1xx0x
+					recombination_patterns[subset][locus + set_size] = recombination_patterns[subset][locus];
+				}
+				// II. for locus == set_size - 1, the restricted pattern is homogeneous,
+				// e.g. x00xx0x
+				if (marg_locus < ii[0])
+					// e.g. P(x00xx0x) = P(000xx0x) + P(100xx0x)
+					// the latter being equal to P(011xx1x) = rptemp[0]
+					recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[0];
+				else if (marg_locus > ii[set_size - 1])
+					// e.g. P(x00xx0x) = P(x00xx00) + P(x00xx01)
+					recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[set_size - 1];
+				// III. only zero OK
+				else
+					recombination_patterns[subset][set_size - 1] = rptemp[set_size];
+				
+				// there is symmetry between the probabilities 0x0xx1x and 1x1xx0x
+				recombination_patterns[subset][2 * set_size - 1] = recombination_patterns[subset][set_size - 1];
+			}			
+		}
+	}
+	// the very bottom has len(ii) = 0, hence deserves a special treatment
+	recombination_patterns[0][0] = recombination_patterns[1][0] + recombination_patterns[1][1];
+	recombination_model = SINGLE_CROSSOVER;
+	return 0;
+}
 
 /**
  * @brief Initialize population in linkage equilibrium.
@@ -874,7 +905,8 @@ int haploid_lowd::calculate_recombinants_free() {
  * pairs sampled with replacement.
  */
 int haploid_lowd::calculate_recombinants_single() {
-	int i,j,k, maternal_alleles, paternal_alleles, count, count_father, first_digit, crossover_point;
+	int i,j,k, maternal_alleles, paternal_alleles, count, rec_pattern, crossover_point, set_size, l;
+	vector <int> a;
 
 	// prepare hypercubes
 	population.fft_func_to_coeff();
@@ -888,45 +920,39 @@ int haploid_lowd::calculate_recombinants_single() {
 	for (i=1; i<(1<<number_of_loci); i++) {
 		recombinants.coeff[i]=0;
 
-		//loop over all possible partitions of the loci s1..sk in R^(k)_s1..sk to mother and father
-		//keeping the single_crossover contraint
-		for (j=0; j<(1<<recombinants.order[i]); j++) {
-			count=0;
-			maternal_alleles=0;
-			paternal_alleles=0;
-			count_father=0;
-			first_digit=-1;
-			
-			//build the integers to pull out the maternal and paternal moments
-			for (k=0; k<number_of_loci; k++)
-				if (i&(1<<k)) {
-					if (j&(1<<count)) {
-						maternal_alleles+=(1<<k);
-						if(first_digit == -1)
-							first_digit = 1;
-					} else {
-						paternal_alleles+=(1<<k);
-						if(first_digit == -1)
-							first_digit = 0;
-						count_father+=1;
-					}
-					count++;
+		// find the k for this coefficient
+		set_size = recombinants.order[i];
+
+		// find the set_size loci
+		a.clear();
+		for(int locus=0; locus != number_of_loci; locus++)
+			if(i&(1<<locus))
+				a.push_back(locus);
+
+		// the mother can contribute l loci | l in [0, set_size]
+		// l specifies the recombination pattern: it is either
+		//   1. (set_size - l) zeros followed by l ones, or
+		//   2. l ones followed by (set_size - l) zeros
+		// equivalently, we look where the crossover happens from
+		// 0 to set_size - 1, the last case meaning no crossover at all
+		for (crossover_point=0; crossover_point != set_size; crossover_point++) {
+
+			// consider both cases, 00111 and 11000
+			for (int first_digit=0; first_digit != 2; first_digit++) {
+
+				// pick the maternal and paternal Fourier coefficients
+				paternal_alleles=0;
+				maternal_alleles=0;
+				for(int locus=0; locus != set_size; locus++) {
+					if((crossover_point < set_size - 1 - locus) ^ first_digit)
+						paternal_alleles += (1<<a[set_size - 1 - locus]);
+					else
+						maternal_alleles += (1<<a[set_size - 1 - locus]);
 				}
-	
-			//add this particular contribution to the recombinant distribution
-			switch (first_digit) {
-			case 0:
-				crossover_point = count_father - 1;
-				break;
-			case 1:
-				crossover_point = recombinants.order[i] - 1 - count_father;
-				break;
-			default:
-				crossover_point = 0;
-				break;
-			}
-			recombinants.coeff[i]+=recombination_patterns[i][crossover_point]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
-			if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
+				recombinants.coeff[i]+=recombination_patterns[i][crossover_point]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
+				if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
+			}		
+		
 		}
 
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
