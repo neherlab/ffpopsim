@@ -1,7 +1,8 @@
 <map id="haploid_lowd::recombine" name="haploid_lowd::recombine">
-<area shape="rect" id="node3" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="424,5,565,46"/>
-<area shape="rect" id="node5" href="$classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="219,129,375,170"/>
-<area shape="rect" id="node12" href="$classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="219,63,375,105"/>
-<area shape="rect" id="node7" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="428,135,561,177"/>
-<area shape="rect" id="node10" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="428,70,561,111"/>
+<area shape="rect" id="node3" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="424,27,565,68"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="219,27,375,68"/>
+<area shape="rect" id="node12" href="$classhaploid__lowd.html#ac9e57c425b8e9e00058db41743d2aa18" title="Calculate the recombinant distribution for the single crossover case." alt="" coords="219,92,375,133"/>
+<area shape="rect" id="node17" href="$classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="219,157,375,199"/>
+<area shape="rect" id="node7" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="428,157,561,199"/>
+<area shape="rect" id="node10" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="428,92,561,133"/>
 </map>

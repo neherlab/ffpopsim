@@ -13,6 +13,7 @@ var searchData=
   ['calc_5fvariance',['calc_variance',['../classsample.html#aab1c486f5126b7f85bc39e41f1053ac1',1,'sample']]],
   ['calculate_5frecombinants_5ffree',['calculate_recombinants_free',['../classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642',1,'haploid_lowd']]],
   ['calculate_5frecombinants_5fgeneral',['calculate_recombinants_general',['../classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c',1,'haploid_lowd']]],
+  ['calculate_5frecombinants_5fsingle',['calculate_recombinants_single',['../classhaploid__lowd.html#ac9e57c425b8e9e00058db41743d2aa18',1,'haploid_lowd']]],
   ['carrying_5fcapacity',['carrying_capacity',['../classhaploid__highd.html#aa496b4cc82e39329cc6d18b1432cd515',1,'haploid_highd::carrying_capacity()'],['../classhaploid__lowd.html#a249f68a04333129f58ac140841d6f3b2',1,'haploid_lowd::carrying_capacity()']]],
   ['check_5findividual_5fmaximal_5ffitness',['check_individual_maximal_fitness',['../classhaploid__highd.html#a0d929c061bbf1c2fd4d82f6bb2f2f998',1,'haploid_highd']]],
   ['chi1',['chi1',['../classhaploid__highd.html#a1f25e3ce87377569a3b14c92bb72fc55',1,'haploid_highd']]],

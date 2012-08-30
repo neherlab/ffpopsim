@@ -12,7 +12,7 @@ haploid_lowd Class Reference
              generation,
              circular,
              carrying_capacity,
-             free_recombination,
+             recombination_model,
              outcrossing_rate,
              random_genomes,
              set_allele_frequencies,

@@ -42,7 +42,7 @@ size_t haploid_lowd::number_of_instances=0;
  * @param L_in number of loci (at least 1)
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), recombination_mem(FREE_RECOMBINATION), recombination_model(FREE_RECOMBINATION), outcrossing_rate(1.0), circular(false), generation(0), long_time_generation(0) {
+haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), recombination_model(FREE_RECOMBINATION), outcrossing_rate(1.0), circular(false), generation(0), long_time_generation(0) {
 	if (L_in <1) {
 		cerr <<"haploid_lowd::haploid_lowd(): Bad Arguments! L must be larger or equal one."<<endl;
 		throw HG_BADARG;
@@ -151,7 +151,7 @@ int haploid_lowd::free_mem() {
  *
  * @returns zero if successful, number of failed allocations otherwise
  *
- * *Note*: this function also sets the recombination_mem flag.
+ * *Note*: this function also sets the recombination_model flag.
  *
  * *Note*: in the SINGLE_CROSSOVER model, the recombination patterns are sorted as follows:
  *
@@ -188,18 +188,19 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
 			//all possible ways to assign the subset to father and mother
 			// for CROSSOVERS: 2^temp
 			//     e.g. 000, 001, 010, 011, 100, 101, 110, 111
-			//
+			if (rec_model == CROSSOVERS) {
+				recombination_patterns[i]=new double [(1<<temp)];
+				recombination_model = CROSSOVERS;
 			// for SINGLE_CROSSOVER: 2 * temp
 			//     e.g. 000, 001, 011, 111, 110, 100
-			if (rec_model == CROSSOVERS)
-				recombination_patterns[i]=new double [(1<<temp)];
-			else
+			} else {
 				recombination_patterns[i]=new double [2 * temp];
+				recombination_model = SINGLE_CROSSOVER;
+			}
 
 			if (recombination_patterns[i]==NULL) err+=1;
 		}
 		delete [] nspins;
-		recombination_mem = CROSSOVERS;
 
 		return err;
 }
@@ -213,11 +214,12 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
  * model for recombination than the previous one, and upon class destruction.
  */
 int haploid_lowd::free_recombination_mem() {
-	if (recombination_mem != FREE_RECOMBINATION) {
+	if (recombination_model != FREE_RECOMBINATION) {
 		for (int i=0; i<(1<<number_of_loci); i++){
 			delete [] recombination_patterns[i];
 		}
 		delete [] recombination_patterns;
+		recombination_model = FREE_RECOMBINATION;
 	}
 	return 0;
 }
@@ -306,6 +308,45 @@ int haploid_lowd::set_mutation_rates(double** m) {
 }
 
 /**
+ * @brief Set a new recombination model
+ *
+ * @param rec_model the new recombination model
+ *
+ * @returns zero if successful, error codes otherwise
+ *
+ * The allowed models are FREE_RECOMBINATION, SINGLE_CROSSOVER, and CROSSOVERS.
+ *
+ * Note: this function call involves memory release and allocation.
+ */
+int haploid_lowd::set_recombination_model(int rec_model) {
+	int err=0;
+	switch(rec_model) {
+		case FREE_RECOMBINATION:
+			break;
+		case SINGLE_CROSSOVER:
+			break;
+		case CROSSOVERS:
+			break;
+		default:
+			return HG_BADARG;
+			break;	
+	}
+
+	if (rec_model != recombination_model) {
+		if(recombination_model != FREE_RECOMBINATION)
+			err += free_recombination_mem();
+		if (rec_model != FREE_RECOMBINATION)
+			err += allocate_recombination_mem(rec_model);
+		if(err) {
+			cerr <<"haploid_lowd::set_recombination_model(): cannot allocate memory for recombination patterns!"<<endl;
+			return HG_MEMERR;
+		}
+	}
+	return 0;
+}
+
+
+/**
  * @brief calculate recombination patterns
  *
  * @param rec_rates a vector of recombination rates.
@@ -318,11 +359,22 @@ int haploid_lowd::set_mutation_rates(double** m) {
  *
  * A routine the calculates the probability of all possible recombination patterns and
  * subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument.
- * It allocated the memory (\f$3^L\f$) and calculates the entire distribution.
+ * It allocated the memory (\f$3^L\f$ or \f$L \: 2^L\f$) and calculates the entire distribution.
+ *
+ * *Note*: the default value for rec_model is the current recombination model or, if that is FREE_RECOMBINATION,
+ * then it's CROSSOVERS.
  */
 int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 	double err=0;
 	double sum;
+
+	// default value for the recombination model parameter
+	if (rec_model == -1) {
+		if(recombination_model != FREE_RECOMBINATION)
+			rec_model = recombination_model;
+		else
+			rec_model = CROSSOVERS;
+	}
 
 	// one cannot assign recombination rates to free recombination
 	if (rec_model == FREE_RECOMBINATION) {
@@ -353,16 +405,8 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 	}
 
 	// allocate/release memory on changes of recombination model
-	if (rec_model != recombination_mem) {
-		if (recombination_mem != FREE_RECOMBINATION)
-			err += free_recombination_mem();
-		err += allocate_recombination_mem(rec_model);
-		// If memory had problems, exit
-		if(err) {
-			cerr <<"haploid_lowd::set_recombination_rates(): cannot allocate memory for recombination patterns!"<<endl;
-			return HG_MEMERR;
-		}
-	}
+	err += set_recombination_model(rec_model);
+	if(err) return err;
 
 	//if memory allocation has been successful, calculate the probabilities of recombination based on the model
 	if (rec_model == SINGLE_CROSSOVER)
@@ -445,7 +489,6 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 			}
 		}
 	}
-	recombination_model = CROSSOVERS;
 	return 0;
 }
 
@@ -551,7 +594,6 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	}
 	// the very bottom has len(ii) = 0, hence deserves a special treatment
 	recombination_patterns[0][0] = recombination_patterns[1][0] + recombination_patterns[1][1];
-	recombination_model = SINGLE_CROSSOVER;
 	return 0;
 }
 

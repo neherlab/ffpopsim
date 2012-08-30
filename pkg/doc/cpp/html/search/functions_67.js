@@ -35,6 +35,7 @@ var searchData=
   ['get_5fparticipation_5fratio',['get_participation_ratio',['../classhaploid__highd.html#a2e29536be4ec4c75d2889e5a2a28642e',1,'haploid_highd']]],
   ['get_5fpopulation_5fsize',['get_population_size',['../classhaploid__highd.html#a5f2fe58daa26fce5a3cea94adf92fe97',1,'haploid_highd::get_population_size()'],['../classhaploid__lowd.html#a9fb078f27695cb39e57d2083ae0b2838',1,'haploid_lowd::get_population_size()']]],
   ['get_5frandom_5fseed',['get_random_seed',['../classhaploid__highd.html#a643f680f350c9060df4b01cd856cc50e',1,'haploid_highd::get_random_seed()'],['../classhaploid__lowd.html#ae359b4f7f711890fa6759b16135afa1a',1,'haploid_lowd::get_random_seed()']]],
+  ['get_5frecombination_5fmodel',['get_recombination_model',['../classhaploid__lowd.html#a0ce89f5705952d15b564e3d175ed0d1c',1,'haploid_lowd']]],
   ['get_5fseed',['get_seed',['../classhypercube__highd.html#a08ca2ef3718e7bc6ef3ac1a08d9daa73',1,'hypercube_highd::get_seed()'],['../classhypercube__lowd.html#ae1eee52e274564eafe93130ab994bac0',1,'hypercube_lowd::get_seed()']]],
   ['get_5fstate',['get_state',['../classhypercube__lowd.html#a03837da3f5817b0ce0d262c83c42bf09',1,'hypercube_lowd']]],
   ['get_5ftrait',['get_trait',['../classhaploid__highd.html#a1da3a90a51c42ccccbd9c47a93817052',1,'haploid_highd']]],

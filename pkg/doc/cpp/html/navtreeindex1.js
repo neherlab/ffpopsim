@@ -1,5 +1,9 @@
 var NAVTREEINDEX1 =
 {
+"classsample.html#a52a1e7c128a27aaeb4649f88a290a570":[0,0,11,10],
+"classsample.html#a56f9a226633fa2683db06c489d297218":[0,0,11,0],
+"classsample.html#a6781c0e481dec3ceaed9907e74a80b2e":[0,0,11,18],
+"classsample.html#a74577292139aa69a99be2280d34bad23":[0,0,11,14],
 "classsample.html#a76ec0ddaac26fab9d22abb031d3d6739":[0,0,11,6],
 "classsample.html#a7b2f16058a505e35cd36e78fa337a38d":[0,0,11,19],
 "classsample.html#a8f4e594ff52a901a035db68864e3bb8c":[0,0,11,2],
@@ -57,8 +61,8 @@ var NAVTREEINDEX1 =
 "ffpopsim__lowd_8h.html#ab7ee9eb9fa38753132a6ffc8bf3223af":[1,0,0,2,14],
 "ffpopsim__lowd_8h_source.html":[1,0,0,2],
 "files.html":[1,0],
-"functions.html":[0,3,0],
 "functions.html":[0,3,0,0],
+"functions.html":[0,3,0],
 "functions_0x62.html":[0,3,0,1],
 "functions_0x63.html":[0,3,0,2],
 "functions_0x64.html":[0,3,0,3],

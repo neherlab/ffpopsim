@@ -128,13 +128,6 @@ const char* __repr__() {
 %feature("autodoc", "is the genome circular?") circular;
 %feature("autodoc", "current carrying capacity of the environment") carrying_capacity;
 %feature("autodoc", "outcrossing rate (probability of sexual reproduction per generation)") outcrossing_rate;
-%feature("autodoc",
-"model of recombination to use
-
-Available values:
-   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
-   - FFPopSim.CROSSOVERS: block recombination with crossover probability
-") recombination_model;
 
 /* read only attributes */
 %ignore L;
@@ -152,6 +145,36 @@ generation = property(_get_generation)
 %feature("autodoc", "number of loci (read-only)") get_number_of_loci;
 %feature("autodoc", "population size (read-only)") get_population_size;
 %feature("autodoc", "current generation (read-only)") get_generation;
+
+/* recombination model */
+%rename (_get_recombination_model) get_recombination_model;
+%rename (_set_recombination_model) set_recombination_model;
+%pythoncode {
+@property
+def recombination_model(self):
+    '''Model of recombination to use
+
+    Available values:
+
+       - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
+       - FFPopSim.CROSSOVERS: block recombination with crossover probability
+       - FFPopSim.SINGLE_CROSSOVER: block recombination with crossover probability
+    '''
+    return self._get_recombination_model()
+
+
+@recombination_model.setter
+def recombination_model(self, value):
+    err = self._set_recombination_model(value)
+    if err == HG_BADARG:
+        raise ValueError("Recombination model nor recognized.")
+    elif err == HG_MEMERR:
+        raise MemoryError("Unable to allocate/release memory for the recombination patterns.")
+
+
+}
+
+
 
 /* initialize frequencies */
 %ignore set_allele_frequencies;
@@ -256,7 +279,7 @@ Parameters:
   if($1) delete[] $1;
 }
 %pythoncode {
-def set_recombination_rates(self, rates, model=CROSSOVERS):
+def set_recombination_rates(self, rates, model=None):
     '''Set the recombination rate(s).
 
 Parameters:
@@ -269,9 +292,19 @@ Parameters:
           (L-1) for linear chromosomes and length L for circular ones. The
           i-th element is the crossover rate between the i-th site and the
           (i+1)-th site.
+
+.. note:: if the recombination model is not specified, the current model will be kept or,
+          if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.
     '''
 
     import numpy as np
+
+    # Default recombination model
+    if model is None:
+        if self.recombination_model != FREE_RECOMBINATION:
+            model = self.recombination_model
+        else:
+            model = CROSSOVERS
 
     # Check whether the model makes sense
     if model == FREE_RECOMBINATION:

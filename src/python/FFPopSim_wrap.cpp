@@ -4968,58 +4968,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_lowd_recombination_model_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
-  int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  if (!SWIG_Python_UnpackTuple(args,"haploid_lowd_recombination_model_set",2,2,swig_obj)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd_recombination_model_set" "', argument " "1"" of type '" "haploid_lowd *""'"); 
-  }
-  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
-  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd_recombination_model_set" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = static_cast< int >(val2);
-  if (arg1) (arg1)->recombination_model = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_haploid_lowd_recombination_model_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  int result;
-  
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd_recombination_model_get" "', argument " "1"" of type '" "haploid_lowd *""'"); 
-  }
-  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
-  result = (int) ((arg1)->recombination_model);
-  resultobj = SWIG_From_int(static_cast< int >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_haploid_lowd_circular_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_lowd *arg1 = (haploid_lowd *) 0 ;
@@ -5184,6 +5132,29 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_lowd__get_recombination_model(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd__get_recombination_model" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  result = (int)(arg1)->get_recombination_model();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_lowd_set_wildtype(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_lowd *arg1 = (haploid_lowd *) 0 ;
@@ -5218,11 +5189,45 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_lowd__set_recombination_model(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "rec_model", NULL 
+  };
+  int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_lowd__set_recombination_model",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd__set_recombination_model" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd__set_recombination_model" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (int)(arg1)->set_recombination_model(arg2);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_lowd__set_recombination_rates(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_lowd *arg1 = (haploid_lowd *) 0 ;
   double *arg2 = (double *) 0 ;
-  int arg3 = (int) 2 ;
+  int arg3 = (int) -1 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   int val3 ;
@@ -9711,28 +9716,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd_carrying_capacity_get", (PyCFunction)_wrap_haploid_lowd_carrying_capacity_get, METH_O, (char *)"current carrying capacity of the environment"},
 	 { (char *)"haploid_lowd_outcrossing_rate_set", _wrap_haploid_lowd_outcrossing_rate_set, METH_VARARGS, (char *)"outcrossing rate (probability of sexual reproduction per generation)"},
 	 { (char *)"haploid_lowd_outcrossing_rate_get", (PyCFunction)_wrap_haploid_lowd_outcrossing_rate_get, METH_O, (char *)"outcrossing rate (probability of sexual reproduction per generation)"},
-	 { (char *)"haploid_lowd_recombination_model_set", _wrap_haploid_lowd_recombination_model_set, METH_VARARGS, (char *)"\n"
-		"model of recombination to use\n"
-		"\n"
-		"Available values:\n"
-		"   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents\n"
-		"   - FFPopSim.CROSSOVERS: block recombination with crossover probability\n"
-		"\n"
-		""},
-	 { (char *)"haploid_lowd_recombination_model_get", (PyCFunction)_wrap_haploid_lowd_recombination_model_get, METH_O, (char *)"\n"
-		"model of recombination to use\n"
-		"\n"
-		"Available values:\n"
-		"   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents\n"
-		"   - FFPopSim.CROSSOVERS: block recombination with crossover probability\n"
-		"\n"
-		""},
 	 { (char *)"haploid_lowd_circular_set", _wrap_haploid_lowd_circular_set, METH_VARARGS, (char *)"is the genome circular?"},
 	 { (char *)"haploid_lowd_circular_get", (PyCFunction)_wrap_haploid_lowd_circular_get, METH_O, (char *)"is the genome circular?"},
 	 { (char *)"haploid_lowd__get_number_of_loci", (PyCFunction)_wrap_haploid_lowd__get_number_of_loci, METH_O, (char *)"number of loci (read-only)"},
 	 { (char *)"haploid_lowd__get_population_size", (PyCFunction)_wrap_haploid_lowd__get_population_size, METH_O, (char *)"population size (read-only)"},
 	 { (char *)"haploid_lowd__get_generation", (PyCFunction)_wrap_haploid_lowd__get_generation, METH_O, (char *)"current generation (read-only)"},
 	 { (char *)"haploid_lowd__get_mutation_rate", (PyCFunction) _wrap_haploid_lowd__get_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"},
+	 { (char *)"haploid_lowd__get_recombination_model", (PyCFunction)_wrap_haploid_lowd__get_recombination_model, METH_O, (char *)"haploid_lowd__get_recombination_model(haploid_lowd self) -> int"},
 	 { (char *)"haploid_lowd_set_wildtype", (PyCFunction) _wrap_haploid_lowd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Set up a population of wildtype individuals\n"
 		"\n"
@@ -9742,7 +9732,8 @@ static PyMethodDef SwigMethods[] = {
 		".. note:: the carrying capacity is set to the same value if still unset.\n"
 		"\n"
 		""},
-	 { (char *)"haploid_lowd__set_recombination_rates", (PyCFunction) _wrap_haploid_lowd__set_recombination_rates, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_recombination_rates(haploid_lowd self, double * rec_rates, int rec_model=2) -> int"},
+	 { (char *)"haploid_lowd__set_recombination_model", (PyCFunction) _wrap_haploid_lowd__set_recombination_model, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_recombination_model(haploid_lowd self, int rec_model) -> int"},
+	 { (char *)"haploid_lowd__set_recombination_rates", (PyCFunction) _wrap_haploid_lowd__set_recombination_rates, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_recombination_rates(haploid_lowd self, double * rec_rates, int rec_model=-1) -> int"},
 	 { (char *)"haploid_lowd_evolve", (PyCFunction) _wrap_haploid_lowd_evolve, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Evolve for some generations\n"
 		"\n"

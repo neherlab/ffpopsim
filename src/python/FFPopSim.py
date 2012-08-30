@@ -317,7 +317,6 @@ class haploid_lowd(object):
     __swig_destroy__ = _FFPopSim.delete_haploid_lowd
     carrying_capacity = _swig_property(_FFPopSim.haploid_lowd_carrying_capacity_get, _FFPopSim.haploid_lowd_carrying_capacity_set)
     outcrossing_rate = _swig_property(_FFPopSim.haploid_lowd_outcrossing_rate_get, _FFPopSim.haploid_lowd_outcrossing_rate_set)
-    recombination_model = _swig_property(_FFPopSim.haploid_lowd_recombination_model_get, _FFPopSim.haploid_lowd_recombination_model_set)
     circular = _swig_property(_FFPopSim.haploid_lowd_circular_get, _FFPopSim.haploid_lowd_circular_set)
     def _get_number_of_loci(self):
         """number of loci (read-only)"""
@@ -335,6 +334,10 @@ class haploid_lowd(object):
         """_get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"""
         return _FFPopSim.haploid_lowd__get_mutation_rate(self, *args, **kwargs)
 
+    def _get_recombination_model(self):
+        """_get_recombination_model(haploid_lowd self) -> int"""
+        return _FFPopSim.haploid_lowd__get_recombination_model(self)
+
     def set_wildtype(self, *args, **kwargs):
         """
         Set up a population of wildtype individuals
@@ -347,8 +350,12 @@ class haploid_lowd(object):
         """
         return _FFPopSim.haploid_lowd_set_wildtype(self, *args, **kwargs)
 
+    def _set_recombination_model(self, *args, **kwargs):
+        """_set_recombination_model(haploid_lowd self, int rec_model) -> int"""
+        return _FFPopSim.haploid_lowd__set_recombination_model(self, *args, **kwargs)
+
     def _set_recombination_rates(self, *args, **kwargs):
-        """_set_recombination_rates(haploid_lowd self, double * rec_rates, int rec_model=2) -> int"""
+        """_set_recombination_rates(haploid_lowd self, double * rec_rates, int rec_model=-1) -> int"""
         return _FFPopSim.haploid_lowd__set_recombination_rates(self, *args, **kwargs)
 
     def evolve(self, gen=1):
@@ -525,6 +532,29 @@ class haploid_lowd(object):
     population_size = property(_get_population_size)
     generation = property(_get_generation)
 
+    @property
+    def recombination_model(self):
+        '''Model of recombination to use
+
+        Available values:
+
+           - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
+           - FFPopSim.CROSSOVERS: block recombination with crossover probability
+           - FFPopSim.SINGLE_CROSSOVER: block recombination with crossover probability
+        '''
+        return self._get_recombination_model()
+
+
+    @recombination_model.setter
+    def recombination_model(self, value):
+        err = self._set_recombination_model(value)
+        if err == HG_BADARG:
+            raise ValueError("Recombination model nor recognized.")
+        elif err == HG_MEMERR:
+            raise MemoryError("Unable to allocate/release memory for the recombination patterns.")
+
+
+
     def _set_allele_frequencies(self, *args, **kwargs):
         """_set_allele_frequencies(haploid_lowd self, int DIM1, unsigned long N) -> int"""
         return _FFPopSim.haploid_lowd__set_allele_frequencies(self, *args, **kwargs)
@@ -567,7 +597,7 @@ class haploid_lowd(object):
         if self._set_genotypes(indices, counts):
             raise RuntimeError('Error in the C++ function.')
 
-    def set_recombination_rates(self, rates, model=2):
+    def set_recombination_rates(self, rates, model=None):
         '''Set the recombination rate(s).
 
     Parameters:
@@ -580,9 +610,19 @@ class haploid_lowd(object):
               (L-1) for linear chromosomes and length L for circular ones. The
               i-th element is the crossover rate between the i-th site and the
               (i+1)-th site.
+
+    .. note:: if the recombination model is not specified, the current model will be kept or,
+              if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.
         '''
 
         import numpy as np
+
+        
+        if model is None:
+            if self.recombination_model != 1:
+                model = self.recombination_model
+            else:
+                model = 2
 
         
         if model == 1:
@@ -961,7 +1001,9 @@ haploid_lowd._get_number_of_loci = new_instancemethod(_FFPopSim.haploid_lowd__ge
 haploid_lowd._get_population_size = new_instancemethod(_FFPopSim.haploid_lowd__get_population_size,None,haploid_lowd)
 haploid_lowd._get_generation = new_instancemethod(_FFPopSim.haploid_lowd__get_generation,None,haploid_lowd)
 haploid_lowd._get_mutation_rate = new_instancemethod(_FFPopSim.haploid_lowd__get_mutation_rate,None,haploid_lowd)
+haploid_lowd._get_recombination_model = new_instancemethod(_FFPopSim.haploid_lowd__get_recombination_model,None,haploid_lowd)
 haploid_lowd.set_wildtype = new_instancemethod(_FFPopSim.haploid_lowd_set_wildtype,None,haploid_lowd)
+haploid_lowd._set_recombination_model = new_instancemethod(_FFPopSim.haploid_lowd__set_recombination_model,None,haploid_lowd)
 haploid_lowd._set_recombination_rates = new_instancemethod(_FFPopSim.haploid_lowd__set_recombination_rates,None,haploid_lowd)
 haploid_lowd.evolve = new_instancemethod(_FFPopSim.haploid_lowd_evolve,None,haploid_lowd)
 haploid_lowd.evolve_norec = new_instancemethod(_FFPopSim.haploid_lowd_evolve_norec,None,haploid_lowd)

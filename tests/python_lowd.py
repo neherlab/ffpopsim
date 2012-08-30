@@ -21,7 +21,7 @@ c = h.haploid_lowd(4)
 c.set_genotypes([1,2],[400,800])
 
 # Test setting the recombination/mutation rates
-c.set_recombination_rates([0.01, 0.03, 0.02])
+c.set_recombination_rates([0.01, 0.03, 0.02], h.SINGLE_CROSSOVER)
 c.set_mutation_rates([0.003,0.002,0.004,0.005],
                      [0.006,0.004,0.008,0.010])
 

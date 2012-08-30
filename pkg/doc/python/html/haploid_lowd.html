@@ -344,6 +344,11 @@ genomes, SINGLE_CROSSOVER)</li>
 i-th element is the crossover rate between the i-th site and the
 (i+1)-th site.</p>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if the recombination model is not specified, the current model will be kept or,
+if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -681,6 +686,20 @@ landscape.</p>
 <dt id="FFPopSim.haploid_lowd.carrying_capacity">
 <tt class="descname">carrying_capacity</tt><a class="headerlink" href="#FFPopSim.haploid_lowd.carrying_capacity" title="Permalink to this definition">¶</a></dt>
 <dd><p>current carrying capacity of the environment</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="FFPopSim.haploid_lowd.recombination_model">
+<tt class="descname">recombination_model</tt><a class="headerlink" href="#FFPopSim.haploid_lowd.recombination_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model of recombination to use</p>
+<p>Available values:</p>
+<blockquote>
+<div><ul class="simple">
+<li>FFPopSim.FREE_RECOMBINATION: free shuffling between parents</li>
+<li>FFPopSim.CROSSOVERS: block recombination with crossover probability</li>
+<li>FFPopSim.SINGLE_CROSSOVER: block recombination with crossover probability</li>
+</ul>
+</div></blockquote>
 </dd></dl>
 
 <dl class="attribute">

@@ -28,8 +28,8 @@ Attributes
 
    haploid_lowd.carrying_capacity
    haploid_lowd.circular
-   haploid_lowd.free_recombination
    haploid_lowd.outcrossing_rate
+   haploid_lowd.recombination_model
 
 Initialize the Population
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -55,8 +55,8 @@ Mutation and Recombination
    :nosignatures:
 
    haploid_lowd.circular
-   haploid_lowd.free_recombination
    haploid_lowd.outcrossing_rate
+   haploid_lowd.recombination_model
 
    haploid_lowd.set_recombination_rates
    haploid_lowd.set_mutation_rates

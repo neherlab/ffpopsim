@@ -150,6 +150,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6da77dee2ec13608f0d7ac6745ba2466"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b99898c67b2f75337e31f6d814ac1de"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a7b99898c67b2f75337e31f6d814ac1de">get_mutation_rate</a> (int locus, int direction)</td></tr>
 <tr class="separator:a7b99898c67b2f75337e31f6d814ac1de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce89f5705952d15b564e3d175ed0d1c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a0ce89f5705952d15b564e3d175ed0d1c">get_recombination_model</a> ()</td></tr>
+<tr class="separator:a0ce89f5705952d15b564e3d175ed0d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a98ee3499f180c59fb56bcb5500d698"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a3a98ee3499f180c59fb56bcb5500d698">set_allele_frequencies</a> (double *freq, unsigned long <a class="el" href="classhaploid__lowd.html#ac39475f2a6c25bdc0bb92c9cb973b637">N</a>)</td></tr>
 <tr class="memdesc:a3a98ee3499f180c59fb56bcb5500d698"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize population in linkage equilibrium.  <a href="#a3a98ee3499f180c59fb56bcb5500d698"></a><br/></td></tr>
 <tr class="separator:a3a98ee3499f180c59fb56bcb5500d698"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,9 +161,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a23d53dd12a8b7788d6d12b358567f468"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a23d53dd12a8b7788d6d12b358567f468">set_wildtype</a> (unsigned long <a class="el" href="classhaploid__lowd.html#ac39475f2a6c25bdc0bb92c9cb973b637">N</a>)</td></tr>
 <tr class="memdesc:a23d53dd12a8b7788d6d12b358567f468"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a wildtype population (00...0)  <a href="#a23d53dd12a8b7788d6d12b358567f468"></a><br/></td></tr>
 <tr class="separator:a23d53dd12a8b7788d6d12b358567f468"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ff072f4e5537021d2714151230a5dc3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a8ff072f4e5537021d2714151230a5dc3">set_recombination_rates</a> (double *rec_rates, int rec_model=<a class="el" href="ffpopsim__generic_8h.html#ac5b596a182f64d36e97e58d7bc720922">CROSSOVERS</a>)</td></tr>
-<tr class="memdesc:a8ff072f4e5537021d2714151230a5dc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate recombination patterns  <a href="#a8ff072f4e5537021d2714151230a5dc3"></a><br/></td></tr>
-<tr class="separator:a8ff072f4e5537021d2714151230a5dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64dd2122bfc9330916f287a24663f17e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e">set_recombination_model</a> (int rec_model)</td></tr>
+<tr class="memdesc:a64dd2122bfc9330916f287a24663f17e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a new recombination model.  <a href="#a64dd2122bfc9330916f287a24663f17e"></a><br/></td></tr>
+<tr class="separator:a64dd2122bfc9330916f287a24663f17e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7205efecac8e96a40fd74dafde0ec1eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb">set_recombination_rates</a> (double *rec_rates, int rec_model=-1)</td></tr>
+<tr class="memdesc:a7205efecac8e96a40fd74dafde0ec1eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate recombination patterns  <a href="#a7205efecac8e96a40fd74dafde0ec1eb"></a><br/></td></tr>
+<tr class="separator:a7205efecac8e96a40fd74dafde0ec1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adca99c00433115ce2ed416626e1b06a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#adca99c00433115ce2ed416626e1b06a2">set_mutation_rates</a> (double m)</td></tr>
 <tr class="memdesc:adca99c00433115ce2ed416626e1b06a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a uniform mutation rate for all loci and both directions.  <a href="#adca99c00433115ce2ed416626e1b06a2"></a><br/></td></tr>
 <tr class="separator:adca99c00433115ce2ed416626e1b06a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,8 +224,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a249f68a04333129f58ac140841d6f3b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d53e7c6c6b3b67a8d455c328e46f04d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a8d53e7c6c6b3b67a8d455c328e46f04d">outcrossing_rate</a></td></tr>
 <tr class="separator:a8d53e7c6c6b3b67a8d455c328e46f04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf6f69f17327345b33eb44fabe07a79c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#adf6f69f17327345b33eb44fabe07a79c">recombination_model</a></td></tr>
-<tr class="separator:adf6f69f17327345b33eb44fabe07a79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d3b4f7fa0ba754208a5536f70293481"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a4d3b4f7fa0ba754208a5536f70293481">circular</a></td></tr>
 <tr class="separator:a4d3b4f7fa0ba754208a5536f70293481"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -241,9 +244,18 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a19da70ced12330ed26ae1571e334ca81"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81">resample</a> ()</td></tr>
 <tr class="memdesc:a19da70ced12330ed26ae1571e334ca81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resample the population according to the carrying capacity.  <a href="#a19da70ced12330ed26ae1571e334ca81"></a><br/></td></tr>
 <tr class="separator:a19da70ced12330ed26ae1571e334ca81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e5d90e6421e2523a9a1d6880b116526"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526">set_recombination_rates_general</a> (double *rec_rates)</td></tr>
+<tr class="memdesc:a1e5d90e6421e2523a9a1d6880b116526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the recombination rates for the general model.  <a href="#a1e5d90e6421e2523a9a1d6880b116526"></a><br/></td></tr>
+<tr class="separator:a1e5d90e6421e2523a9a1d6880b116526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9238fef89702bcced8c5d0c1d26bc12"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12">set_recombination_rates_single_crossover</a> (double *rec_rates)</td></tr>
+<tr class="memdesc:ac9238fef89702bcced8c5d0c1d26bc12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the recombination rates for the single crossover model.  <a href="#ac9238fef89702bcced8c5d0c1d26bc12"></a><br/></td></tr>
+<tr class="separator:ac9238fef89702bcced8c5d0c1d26bc12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c4ed6ec76d8a0fbfb767089d0025642"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642">calculate_recombinants_free</a> ()</td></tr>
 <tr class="memdesc:a7c4ed6ec76d8a0fbfb767089d0025642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the recombinant distribution for the free recombination case.  <a href="#a7c4ed6ec76d8a0fbfb767089d0025642"></a><br/></td></tr>
 <tr class="separator:a7c4ed6ec76d8a0fbfb767089d0025642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9e57c425b8e9e00058db41743d2aa18"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ac9e57c425b8e9e00058db41743d2aa18">calculate_recombinants_single</a> ()</td></tr>
+<tr class="memdesc:ac9e57c425b8e9e00058db41743d2aa18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the recombinant distribution for the single crossover case.  <a href="#ac9e57c425b8e9e00058db41743d2aa18"></a><br/></td></tr>
+<tr class="separator:ac9e57c425b8e9e00058db41743d2aa18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d48e331ec07d230521a5f2e0dffeb8c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c">calculate_recombinants_general</a> ()</td></tr>
 <tr class="memdesc:a4d48e331ec07d230521a5f2e0dffeb8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the recombinant distribution for the general case.  <a href="#a4d48e331ec07d230521a5f2e0dffeb8c"></a><br/></td></tr>
 <tr class="separator:a4d48e331ec07d230521a5f2e0dffeb8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -260,8 +272,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ad1116f5f88974310d0484695e9ffad79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a362ea0105cf753341686a9c6439639e1"><td class="memItemLeft" align="right" valign="top">double **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a362ea0105cf753341686a9c6439639e1">recombination_patterns</a></td></tr>
 <tr class="separator:a362ea0105cf753341686a9c6439639e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af562b1d3db81ba3b91bd36e0c42a4961"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#af562b1d3db81ba3b91bd36e0c42a4961">recombination_mem</a></td></tr>
-<tr class="separator:af562b1d3db81ba3b91bd36e0c42a4961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6f69f17327345b33eb44fabe07a79c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#adf6f69f17327345b33eb44fabe07a79c">recombination_model</a></td></tr>
+<tr class="separator:adf6f69f17327345b33eb44fabe07a79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4d589e6df72b5bf6db6902821bd8f19"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ad4d589e6df72b5bf6db6902821bd8f19">number_of_loci</a></td></tr>
 <tr class="separator:ad4d589e6df72b5bf6db6902821bd8f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29700284ab1dc3b82879a0f2faa19940"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a29700284ab1dc3b82879a0f2faa19940">population_size</a></td></tr>
@@ -475,6 +487,51 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="ac9e57c425b8e9e00058db41743d2aa18"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::calculate_recombinants_single </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the recombinant distribution for the single crossover case. </p>
+<dl class="section return"><dt>Returns</dt><dd>zero if successful, nonzero otherwise</dd></dl>
+<p>Calculate the distribution after recombination assumed in random mating with pairs sampled with replacement. </p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_cgraph.png" border="0" usemap="#classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_cgraph" alt=""/></div>
+<map name="classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_cgraph" id="classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_cgraph">
+<area shape="rect" id="node3" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="215,5,348,46"/><area shape="rect" id="node5" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="211,70,352,111"/><area shape="rect" id="node7" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="215,135,348,177"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_icgraph.png" border="0" usemap="#classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_icgraph" alt=""/></div>
+<map name="classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_icgraph" id="classhaploid__lowd_ac9e57c425b8e9e00058db41743d2aa18_icgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="211,35,375,61"/><area shape="rect" id="node5" href="classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="424,5,563,32"/><area shape="rect" id="node7" href="classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="424,57,563,98"/></map>
+</div>
+</p>
+
+</div>
+</div>
 <a class="anchor" id="a3e274a08491732bcabdc028afa780514"></a>
 <div class="memitem">
 <div class="memproto">
@@ -504,7 +561,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhaploid__lowd_a3e274a08491732bcabdc028afa780514_cgraph.png" border="0" usemap="#classhaploid__lowd_a3e274a08491732bcabdc028afa780514_cgraph" alt=""/></div>
 <map name="classhaploid__lowd_a3e274a08491732bcabdc028afa780514_cgraph" id="classhaploid__lowd_a3e274a08491732bcabdc028afa780514_cgraph">
-<area shape="rect" id="node3" href="classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="205,277,344,304"/><area shape="rect" id="node13" href="classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="412,5,556,32"/><area shape="rect" id="node16" href="classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="193,176,357,203"/><area shape="rect" id="node29" href="classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="196,227,353,253"/><area shape="rect" id="node5" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="611,125,752,166"/><area shape="rect" id="node7" href="classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="407,340,561,367"/><area shape="rect" id="node9" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="615,242,748,283"/><area shape="rect" id="node11" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="615,307,748,349"/><area shape="rect" id="node19" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="406,274,562,315"/><area shape="rect" id="node24" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="406,209,562,250"/></map>
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="205,212,344,239"/><area shape="rect" id="node13" href="classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="203,31,347,58"/><area shape="rect" id="node16" href="classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="193,162,357,188"/><area shape="rect" id="node34" href="classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="196,263,353,290"/><area shape="rect" id="node5" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="611,96,752,137"/><area shape="rect" id="node7" href="classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="407,351,561,378"/><area shape="rect" id="node9" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="615,220,748,261"/><area shape="rect" id="node11" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="615,285,748,326"/><area shape="rect" id="node19" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="406,154,562,196"/><area shape="rect" id="node24" href="classhaploid__lowd.html#ac9e57c425b8e9e00058db41743d2aa18" title="Calculate the recombinant distribution for the single crossover case." alt="" coords="406,220,562,261"/><area shape="rect" id="node29" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="406,285,562,326"/></map>
 </div>
 </p>
 
@@ -539,7 +596,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhaploid__lowd_ad18f10568b801e4e8a6a008fb80aa38e_cgraph.png" border="0" usemap="#classhaploid__lowd_ad18f10568b801e4e8a6a008fb80aa38e_cgraph" alt=""/></div>
 <map name="classhaploid__lowd_ad18f10568b801e4e8a6a008fb80aa38e_cgraph" id="classhaploid__lowd_ad18f10568b801e4e8a6a008fb80aa38e_cgraph">
-<area shape="rect" id="node3" href="classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="205,161,344,188"/><area shape="rect" id="node13" href="classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="203,5,347,32"/><area shape="rect" id="node16" href="classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="193,111,357,137"/><area shape="rect" id="node5" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="611,71,752,113"/><area shape="rect" id="node7" href="classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="407,261,561,288"/><area shape="rect" id="node9" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="615,163,748,205"/><area shape="rect" id="node11" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="615,229,748,270"/><area shape="rect" id="node19" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="406,130,562,171"/><area shape="rect" id="node24" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="406,195,562,237"/></map>
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="205,144,344,171"/><area shape="rect" id="node13" href="classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="203,300,347,327"/><area shape="rect" id="node16" href="classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="193,195,357,221"/><area shape="rect" id="node5" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="611,217,752,258"/><area shape="rect" id="node7" href="classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="407,5,561,32"/><area shape="rect" id="node9" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="615,57,748,98"/><area shape="rect" id="node11" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="615,122,748,163"/><area shape="rect" id="node19" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="406,57,562,98"/><area shape="rect" id="node24" href="classhaploid__lowd.html#ac9e57c425b8e9e00058db41743d2aa18" title="Calculate the recombinant distribution for the single crossover case." alt="" coords="406,122,562,163"/><area shape="rect" id="node29" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="406,187,562,229"/></map>
 </div>
 </p>
 
@@ -1009,6 +1066,29 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a0ce89f5705952d15b564e3d175ed0d1c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::get_recombination_model </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a9bd36fc2aa96a2808705b68a1d0552ff"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1130,7 +1210,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhaploid__lowd_a5e7df14b35c4bca168b54ec2031bb903_cgraph.png" border="0" usemap="#classhaploid__lowd_a5e7df14b35c4bca168b54ec2031bb903_cgraph" alt=""/></div>
 <map name="classhaploid__lowd_a5e7df14b35c4bca168b54ec2031bb903_cgraph" id="classhaploid__lowd_a5e7df14b35c4bca168b54ec2031bb903_cgraph">
-<area shape="rect" id="node3" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="424,5,565,46"/><area shape="rect" id="node5" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="219,129,375,170"/><area shape="rect" id="node12" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="219,63,375,105"/><area shape="rect" id="node7" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="428,135,561,177"/><area shape="rect" id="node10" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="428,70,561,111"/></map>
+<area shape="rect" id="node3" href="classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="424,27,565,68"/><area shape="rect" id="node5" href="classhaploid__lowd.html#a7c4ed6ec76d8a0fbfb767089d0025642" title="Calculate the recombinant distribution for the free recombination case." alt="" coords="219,27,375,68"/><area shape="rect" id="node12" href="classhaploid__lowd.html#ac9e57c425b8e9e00058db41743d2aa18" title="Calculate the recombinant distribution for the single crossover case." alt="" coords="219,92,375,133"/><area shape="rect" id="node17" href="classhaploid__lowd.html#a4d48e331ec07d230521a5f2e0dffeb8c" title="Calculate the recombinant distribution for the general case." alt="" coords="219,157,375,199"/><area shape="rect" id="node7" href="classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="428,157,561,199"/><area shape="rect" id="node10" href="classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="428,92,561,133"/></map>
 </div>
 </p>
 
@@ -1428,7 +1508,43 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a8ff072f4e5537021d2714151230a5dc3"></a>
+<a class="anchor" id="a64dd2122bfc9330916f287a24663f17e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::set_recombination_model </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rec_model</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set a new recombination model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rec_model</td><td>the new recombination model</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zero if successful, error codes otherwise</dd></dl>
+<p>The allowed models are FREE_RECOMBINATION, SINGLE_CROSSOVER, and CROSSOVERS.</p>
+<p>Note: this function call involves memory release and allocation. </p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph.png" border="0" usemap="#classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph" alt=""/></div>
+<map name="classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph" id="classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb" title="calculate recombination patterns" alt="" coords="264,5,475,46"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a7205efecac8e96a40fd74dafde0ec1eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1442,7 +1558,7 @@ Here is the call graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>rec_model</em> = <code><a class="el" href="ffpopsim__generic_8h.html#ac5b596a182f64d36e97e58d7bc720922">CROSSOVERS</a></code>&#160;</td>
+          <td class="paramname"><em>rec_model</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1462,7 +1578,101 @@ Here is the call graph for this function:</div>
 </dl>
 <p><em>Note</em>: rec_rates must have length L-1 for linear chromosomes, length L for circular ones. <em>Note</em>: rec_model must be either CROSSOVERS or, for linear genomes, SINGLE_CROSSOVER</p>
 <dl class="section return"><dt>Returns</dt><dd>zero if successful, error codes otherwise (e.g. out of memory)</dd></dl>
-<p>A routine the calculates the probability of all possible recombination patterns and subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument. It allocated the memory ( \(3^L\)) and calculates the entire distribution. </p>
+<p>A routine the calculates the probability of all possible recombination patterns and subpatterns thereof from a vector of recombination rates (rec_rates) passed as argument. It allocated the memory ( \(3^L\) or \(L \: 2^L\)) and calculates the entire distribution.</p>
+<p><em>Note</em>: the default value for rec_model is the current recombination model or, if that is FREE_RECOMBINATION, then it's CROSSOVERS. </p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph.png" border="0" usemap="#classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph" alt=""/></div>
+<map name="classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph" id="classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e" title="Set a new recombination model." alt="" coords="264,5,475,46"/><area shape="rect" id="node5" href="classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12" title="Set the recombination rates for the single crossover model." alt="" coords="264,70,475,111"/><area shape="rect" id="node7" href="classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526" title="Set the recombination rates for the general model." alt="" coords="264,135,475,177"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e5d90e6421e2523a9a1d6880b116526"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::set_recombination_rates_general </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>rec_rates</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the recombination rates for the general model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rec_rates</td><td>array with the recombination rates</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zero if successful, error codes otherwise </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_icgraph.png" border="0" usemap="#classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_icgraph" alt=""/></div>
+<map name="classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_icgraph" id="classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_icgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb" title="calculate recombination patterns" alt="" coords="264,5,475,46"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac9238fef89702bcced8c5d0c1d26bc12"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::set_recombination_rates_single_crossover </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>rec_rates</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the recombination rates for the single crossover model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rec_rates</td><td>array with the recombination rates</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zero if successful, error codes otherwise </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_ac9238fef89702bcced8c5d0c1d26bc12_icgraph.png" border="0" usemap="#classhaploid__lowd_ac9238fef89702bcced8c5d0c1d26bc12_icgraph" alt=""/></div>
+<map name="classhaploid__lowd_ac9238fef89702bcced8c5d0c1d26bc12_icgraph" id="classhaploid__lowd_ac9238fef89702bcced8c5d0c1d26bc12_icgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb" title="calculate recombination patterns" alt="" coords="264,5,475,46"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -1702,7 +1912,7 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="af562b1d3db81ba3b91bd36e0c42a4961"></a>
+<a class="anchor" id="adf6f69f17327345b33eb44fabe07a79c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1710,7 +1920,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int haploid_lowd::recombination_mem</td>
+          <td class="memname">int haploid_lowd::recombination_model</td>
         </tr>
       </table>
   </td>
@@ -1718,18 +1928,6 @@ Here is the call graph for this function:</div>
 <span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adf6f69f17327345b33eb44fabe07a79c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int haploid_lowd::recombination_model</td>
-        </tr>
-      </table>
 </div><div class="memdoc">
 
 </div>
@@ -1804,7 +2002,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classhaploid__lowd.html">haploid_lowd</a></li>
-    <li class="footer">Generated on Wed Aug 29 2012 17:55:56 for FFPopSim by
+    <li class="footer">Generated on Thu Aug 30 2012 16:56:02 for FFPopSim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

@@ -160,7 +160,6 @@ public:
 	// population parameters (read/write)
 	double carrying_capacity;
 	double outcrossing_rate;
-	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
 
 	// population parameters (read only)
@@ -170,6 +169,7 @@ public:
 	double get_population_size(){return population_size;}
 	double get_generation(){return long_time_generation+generation;}
 	double get_mutation_rate(int locus, int direction) {return mutation_rates[direction][locus];}
+	int get_recombination_model(){return recombination_model;}
 
 	//initialization
 	int set_allele_frequencies(double *freq, unsigned long N);
@@ -177,7 +177,8 @@ public:
 	int set_wildtype(unsigned long N);
 
 	// modify population
-	int set_recombination_rates(double *rec_rates, int rec_model=CROSSOVERS);
+	int set_recombination_model(int rec_model);
+	int set_recombination_rates(double *rec_rates, int rec_model=-1);
 	int set_mutation_rates(double m);
 	int set_mutation_rates(double m1, double m2);
 	int set_mutation_rates(double* m);
@@ -224,7 +225,7 @@ protected:
 	hypercube_lowd recombinants;
 	hypercube_lowd mutants;
 	double** recombination_patterns;	// array that holds the probabilities of all possible recombination outcomes for every subset of loci
-	int recombination_mem;			// flag that holds the recombination model for which memory has been allocated
+	int recombination_model;		//model of recombination to be used
 
 	// population parameters
 	int number_of_loci;

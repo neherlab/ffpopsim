@@ -1,0 +1,5 @@
+<map id="haploid_lowd::set_recombination_rates" name="haploid_lowd::set_recombination_rates">
+<area shape="rect" id="node3" href="$classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e" title="Set a new recombination model." alt="" coords="264,5,475,46"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12" title="Set the recombination rates for the single crossover model." alt="" coords="264,70,475,111"/>
+<area shape="rect" id="node7" href="$classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526" title="Set the recombination rates for the general model." alt="" coords="264,135,475,177"/>
+</map>
