@@ -109,7 +109,7 @@
 <dd><p>get the allele entropy of the population</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">the allele entropy is defined as <span class="math">\(-\sum_{i=0}^{L} \left[\nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)\right]\)</span>.</p>
+<p class="last">the allele entropy is defined as <span class="math">\(-\sum_{i=0}^{L} \nu_i\log \nu_i + (1-\nu_i)\log(1-\nu_i)\)</span>.</p>
 </div>
 </dd></dl>
 
@@ -183,7 +183,7 @@
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_pair_frequency">
 <tt class="descname">get_pair_frequency</tt><big>(</big><em>locus1</em>, <em>locus2</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_pair_frequency" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the frequency of genotypes with the + allele at both loci.</p>
+<dd><p>Get the joint frequency of two + alleles</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -285,7 +285,7 @@
 </dd>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
-<li>the linkage disequilibiurm between them, i.e. <span class="math">\(D_{ij} := 1 / 4 \left[\left&lt;s_i s_j\right&gt; - \chi_i \cdot \chi_j\right]\)</span>.</li>
+<li>the linkage disequilibiurm between them, i.e. <span class="math">\(LD := 1 / 4 \left&lt;s_i s_j\right&gt; - \chi_i \cdot \chi_j\)</span>.</li>
 </ul>
 </dd>
 </dl>
@@ -313,7 +313,7 @@
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_fitness_additive">
 <tt class="descname">set_fitness_additive</tt><big>(</big><em>coefficient</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_fitness_additive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set an additive fitness landscape. Coefficients obey +/- convention.</p>
+<dd><p>Set an additive fitness landscape</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -354,7 +354,7 @@ if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_wildtype">
 <tt class="descname">set_wildtype</tt><big>(</big><em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_wildtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set up a population of N individuals with the - allele at all loci (wildtype)</p>
+<dd><p>Set up a population of wildtype individuals</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -371,7 +371,7 @@ if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.random_genomes">
 <tt class="descname">random_genomes</tt><big>(</big><em>n_sample</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.random_genomes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get random genomes according sampled from the population.</p>
+<dd><p>Get random genomes according to their frequencies.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -389,7 +389,7 @@ if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_allele_frequencies">
 <tt class="descname">set_allele_frequencies</tt><big>(</big><em>frequencies</em>, <em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_allele_frequencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the population in linkage equilibrium with specified allele frequencies.</p>
+<dd><p>Initialize the population in linkage equilibrium with allele frequencies.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -409,7 +409,7 @@ no effect on the speed of the simulation.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_fitness_function">
 <tt class="descname">set_fitness_function</tt><big>(</big><em>indices</em>, <em>vals</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_fitness_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the fitness landscape for individual genotypes.</p>
+<dd><p>Set the fitness landscape at single points.</p>
 <p>Parameters:
 - indices: genotype to which the fitness values will be assigned
 - vals: fitness values to assign</p>
@@ -422,7 +422,7 @@ no effect on the speed of the simulation.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>indices: list of genotypes to set. Genotypes are specified as intergers, e.g. 00...0 &#8211;&gt; 0, 11...1 &#8211;&gt; 2^L-1.</li>
+<li>indices: list of genotypes to set (e.g. 0 &#8211;&gt; 00...0, L-1 &#8211;&gt; 11...1)</li>
 <li>counts: list of counts for those genotypes</li>
 </ul>
 </dd>
@@ -489,7 +489,7 @@ locus-specific)</p>
 </dd>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
-<li>the mutation rate(s) requested</li>
+<li>the mutation rate(s) requensted</li>
 </ul>
 </dd>
 </dl>
@@ -502,11 +502,11 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_diversity_statistics">
 <tt class="descname">get_diversity_statistics</tt><big>(</big><em>n_sample=1000</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_diversity_statistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the mean and variance of the diversity of a population sample</p>
+<dd><p>Get the mean and variance of the diversity in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>n_sample: number of individual to sample at random from the population, defaults to 1000.</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -520,12 +520,12 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_diversity_histogram">
 <tt class="descname">get_diversity_histogram</tt><big>(</big><em>bins=10</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_diversity_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the histogram of the diversity in a sample from the population.</p>
+<dd><p>Get the histogram of the diversity in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
 <li>bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)</li>
-<li>n_sample: number of individual to sample at random from the population, defaults to 1000.</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 <li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>
@@ -541,11 +541,11 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_divergence_statistics">
 <tt class="descname">get_divergence_statistics</tt><big>(</big><em>n_sample=1000</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_divergence_statistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the mean and variance of the divergence of a population sample &#8211; same as mean and variance of allele frequencies.</p>
+<dd><p>Get the mean and variance of the divergence in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>n_sample: number of individuals to sample at random from the population. defaults to 1000.</li>
+<li>n_sample: number of individuals to sample at random from the population</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -559,12 +559,12 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_divergence_histogram">
 <tt class="descname">get_divergence_histogram</tt><big>(</big><em>bins=10</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_divergence_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the histogram of the divergence of a population sample.</p>
+<dd><p>Get the histogram of the divergence in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
 <li>bins: number of bins or list of bin edges (passed verbatim to numpy.histogram)</li>
-<li>n_sample: number of individual to sample at random from the population, defaults to 1000.</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 <li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>
@@ -586,11 +586,11 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_fitness_histogram">
 <tt class="descname">get_fitness_histogram</tt><big>(</big><em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_fitness_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the histogram of the fitness of a sample from the population.</p>
+<dd><p>Get the histogram of the fitness in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>n_sample: number of individual to sample at random from the population. defaults to 1000</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -604,12 +604,12 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.plot_diversity_histogram">
 <tt class="descname">plot_diversity_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_diversity_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the histogram of the diversity of a population sample.</p>
+<dd><p>Plot the histogram of the diversity in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
 <li>axis: use an already existing axis for the plot</li>
-<li>n_sample: number of individual to sample at random from the population, defaults to 1000.</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 <li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>
@@ -619,12 +619,12 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.plot_divergence_histogram">
 <tt class="descname">plot_divergence_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_divergence_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the histogram of the divergence of a population sample.</p>
+<dd><p>Plot the histogram of the divergence in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
 <li>axis: use an already existing axis for the plot</li>
-<li>n_sample: number of individual to sample at random from the population, defaults to 1000.</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 <li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>
@@ -634,12 +634,12 @@ landscape.</p>
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.plot_fitness_histogram">
 <tt class="descname">plot_fitness_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.plot_fitness_histogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the histogram of the fitness of a sample from the population.</p>
+<dd><p>Plot the histogram of the fitness in the population.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
 <li>axis: use an already existing axis for the plot</li>
-<li>n_sample: number of individual to sample at random from the population. Defaults to 1000.</li>
+<li>n_sample: number of individual to sample at random from the population</li>
 <li>kwargs: further optional keyword arguments to numpy.histograms</li>
 </ul>
 </dd>

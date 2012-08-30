@@ -8,7 +8,7 @@ Examples for the low-dimensional package
 Various usage examples of the low-dimensional simulation package follow. Please note that they are sorted by increasing complexity.
 
 Decay of linkage disequilibrium
-^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In recombining populations, genetic linkage decays with time. This
 script initializes a population with high linkage disequilibrium (LD) and tracks how LD. The example can be found in ``decay_of_LD.py``.
 
@@ -19,8 +19,9 @@ First, we load the FFPopSim module, along with the number crunching and plotting
    import FFPopSim as h
 
 .. note:: you might need to add the directory of the ``FFPopSim.py``
-file to your Python ``PATH`` for this to work. If you decide to copy
-the library to a different destination instead, please make sure that ``FFPopSim.py`` and ``_FFPopSim.so`` always are in the same folder.
+          file to your Python ``PATH`` for this to work. If you decide to copy
+          the library to a different destination instead, please make sure that
+          ``FFPopSim.py`` and ``_FFPopSim.so`` always are in the same folder.
 
 Next, we set up the population::
 
@@ -75,7 +76,10 @@ theory and simulations:
 
 Time complexity and scaling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Recombination is implemented in ``haploid_lowd`` in such a way that it scales with the number of loci as :math:`\mathcal{O}(3^L)` instead of the naive :math:`\mathcal{O}(8^L)`. This is shown in this example, called ``speed_lowd.py``.
+Recombination is implemented in ``haploid_lowd`` in such a way that it scales with the number of loci as
+:math:`\mathcal{O}(3^L)` instead of the naive :math:`\mathcal{O}(8^L)`. Moreover, if a single crossover
+event is allowed to happen, the complexity is reduced even further to :math:`\mathcal{O}(L^2 \cdot 2^L)`.
+This is shown in this example, called ``speed_lowd.py``.
 
 First, modules and paths are imported as usual, plus the ``time`` module is imported as well::
 
@@ -115,11 +119,12 @@ Third, simulations of ``G`` generations are repeated for various number of loci 
        
    exec_time=np.array(exec_time)
 
-Fourth, the same schedule is repeated without recombination, using
-``haploid_lowd.evolve_norec`` instead of the ``haploid_lowd.evolve``.
+Fourth, the same schedule is repeated with a simpler recombination model, in which only one crossover is allowed,
+setting the recombination rates with the optional argument ``pop.set_recombination_rates(r, h.SINGLE_CROSSOVER)``,
+and without recombination, using ``haploid_lowd.evolve_norec`` instead of the ``haploid_lowd.evolve``.
 
 Fifth, the time required is plotted agains the number of loci and
-compared to the expectation :math:`\mathcal{O}3^L`::
+compared to the expectation :math:`\mathcal{O}(3^L)`::
 
    plt.figure()
    plt.plot(exec_time[:,0], exec_time[:,1],label='with recombination', linestyle='None', marker = 'o')

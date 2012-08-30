@@ -301,7 +301,7 @@ int haploid_lowd_test::test_single_crossover_set_rates() {
 	cout<<"rates:";
 	double *rec_rates = new double[number_of_loci - 1];
 	for(int i=0; i < number_of_loci - 1; i++) {
-		rec_rates[i] = 1e-2 / pow10((double)i);
+		rec_rates[i] = 1e-2 / pow(10, (double)i);
 		cout<<" "<<rec_rates[i];
 	}
 	cout<<endl<<endl;

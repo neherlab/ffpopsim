@@ -83,10 +83,11 @@ script initializes a population with high linkage disequilibrium (LD) and tracks
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">you might need to add the directory of the <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt></p>
+<p class="last">you might need to add the directory of the <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt>
+file to your Python <tt class="docutils literal"><span class="pre">PATH</span></tt> for this to work. If you decide to copy
+the library to a different destination instead, please make sure that
+<tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> always are in the same folder.</p>
 </div>
-<p>file to your Python <tt class="docutils literal"><span class="pre">PATH</span></tt> for this to work. If you decide to copy
-the library to a different destination instead, please make sure that <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> always are in the same folder.</p>
 <p>Next, we set up the population:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># specify parameters</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">500000</span>                          <span class="c"># Population size</span>
@@ -138,7 +139,10 @@ theory and simulations:</p>
 </div>
 <div class="section" id="time-complexity-and-scaling">
 <h2><a class="toc-backref" href="#id3">Time complexity and scaling</a><a class="headerlink" href="#time-complexity-and-scaling" title="Permalink to this headline">¶</a></h2>
-<p>Recombination is implemented in <tt class="docutils literal"><span class="pre">haploid_lowd</span></tt> in such a way that it scales with the number of loci as <span class="math">\(\mathcal{O}(3^L)\)</span> instead of the naive <span class="math">\(\mathcal{O}(8^L)\)</span>. This is shown in this example, called <tt class="docutils literal"><span class="pre">speed_lowd.py</span></tt>.</p>
+<p>Recombination is implemented in <tt class="docutils literal"><span class="pre">haploid_lowd</span></tt> in such a way that it scales with the number of loci as
+<span class="math">\(\mathcal{O}(3^L)\)</span> instead of the naive <span class="math">\(\mathcal{O}(8^L)\)</span>. Moreover, if a single crossover
+event is allowed to happen, the complexity is reduced even further to <span class="math">\(\mathcal{O}(L^2 \cdot 2^L)\)</span>.
+This is shown in this example, called <tt class="docutils literal"><span class="pre">speed_lowd.py</span></tt>.</p>
 <p>First, modules and paths are imported as usual, plus the <tt class="docutils literal"><span class="pre">time</span></tt> module is imported as well:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
 </pre></div>
@@ -177,10 +181,11 @@ theory and simulations:</p>
 <span class="n">exec_time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">exec_time</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Fourth, the same schedule is repeated without recombination, using
-<tt class="docutils literal"><span class="pre">haploid_lowd.evolve_norec</span></tt> instead of the <tt class="docutils literal"><span class="pre">haploid_lowd.evolve</span></tt>.</p>
+<p>Fourth, the same schedule is repeated with a simpler recombination model, in which only one crossover is allowed,
+setting the recombination rates with the optional argument <tt class="docutils literal"><span class="pre">pop.set_recombination_rates(r,</span> <span class="pre">h.SINGLE_CROSSOVER)</span></tt>,
+and without recombination, using <tt class="docutils literal"><span class="pre">haploid_lowd.evolve_norec</span></tt> instead of the <tt class="docutils literal"><span class="pre">haploid_lowd.evolve</span></tt>.</p>
 <p>Fifth, the time required is plotted agains the number of loci and
-compared to the expectation <span class="math">\(\mathcal{O}3^L\)</span>:</p>
+compared to the expectation <span class="math">\(\mathcal{O}(3^L)\)</span>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exec_time</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">exec_time</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;with recombination&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;None&#39;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s">&#39;o&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exec_time</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">exec_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">3.0</span><span class="o">**</span><span class="p">(</span><span class="n">Lmax</span><span class="o">-</span><span class="n">exec_time</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s">r&#39;$\propto 3^L$&#39;</span><span class="p">)</span>
