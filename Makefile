@@ -255,6 +255,7 @@ python-install:
 	rm -rf build
 
 $(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%)
+	rm -rf build
 	$(PYTHON) setup.py build_ext --inplace
 	rm -rf build
 	mkdir -p $(PKGDIR)/python

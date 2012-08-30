@@ -191,10 +191,11 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
 			if (rec_model == CROSSOVERS) {
 				recombination_patterns[i]=new double [(1<<temp)];
 				recombination_model = CROSSOVERS;
-			// for SINGLE_CROSSOVER: 2 * temp
-			//     e.g. 000, 001, 011, 111, 110, 100
+			// for SINGLE_CROSSOVER: temp
+			//     e.g. 000, 001, 011
+			// the symmetric ones, 111, 110, 100, have the same rates
 			} else {
-				recombination_patterns[i]=new double [2 * temp];
+				recombination_patterns[i]=new double [temp];
 				recombination_model = SINGLE_CROSSOVER;
 			}
 
@@ -521,7 +522,7 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	// no crossover at all
 	patterns_order_L[number_of_loci - 1] = patterns_order_L[2 * number_of_loci - 1] = 0.5 * (1.0 - sum);
 	for (locus=0; locus < number_of_loci - 1; locus++)
-		patterns_order_L[locus] = patterns_order_L[locus + number_of_loci] = 0.5 * rec_rates[locus];
+		patterns_order_L[locus] = 0.5 * rec_rates[locus];
 
 	// 2. marginalize repeatedly until the bottom
 	for (int set_size=number_of_loci-1; set_size > 0; set_size--) {
@@ -570,9 +571,6 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 					// III. both OK
 					else
 						recombination_patterns[subset][locus] = rptemp[locus + 1] + rptemp[locus];
-					
-					// there is symmetry between the probabilities 0x0xx1x and 1x1xx0x
-					recombination_patterns[subset][locus + set_size] = recombination_patterns[subset][locus];
 				}
 				// II. for locus == set_size - 1, the restricted pattern is homogeneous,
 				// e.g. x00xx0x
@@ -586,9 +584,6 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 				// III. only zero OK
 				else
 					recombination_patterns[subset][set_size - 1] = rptemp[set_size];
-				
-				// there is symmetry between the probabilities 0x0xx1x and 1x1xx0x
-				recombination_patterns[subset][2 * set_size - 1] = recombination_patterns[subset][set_size - 1];
 			}			
 		}
 	}
