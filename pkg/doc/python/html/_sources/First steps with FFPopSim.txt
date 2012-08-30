@@ -12,7 +12,7 @@ an interactive shell (e.g. iPython), create a population, and use TAB autocomple
 .. sourcecode:: ipython
 
     In [1]: import FFPopSim as h
-    In [2]: pop = h.haploid_lowd(5, 2000)
+    In [2]: pop = h.haploid_lowd(5)   #create a population with 5 loci
     In [3]: pop.      <--- TAB
 
 Examples

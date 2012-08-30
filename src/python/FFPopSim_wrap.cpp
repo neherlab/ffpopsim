@@ -9724,7 +9724,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd__get_mutation_rate", (PyCFunction) _wrap_haploid_lowd__get_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"},
 	 { (char *)"haploid_lowd__get_recombination_model", (PyCFunction)_wrap_haploid_lowd__get_recombination_model, METH_O, (char *)"haploid_lowd__get_recombination_model(haploid_lowd self) -> int"},
 	 { (char *)"haploid_lowd_set_wildtype", (PyCFunction) _wrap_haploid_lowd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Set up a population of wildtype individuals\n"
+		"Set up a population of N individuals with the - allele at all loci (wildtype)\n"
 		"\n"
 		"Parameters:\n"
 		"   - N: the number of individuals\n"
@@ -9776,7 +9776,7 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_get_pair_frequency", (PyCFunction) _wrap_haploid_lowd_get_pair_frequency, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Get the joint frequency of two + alleles\n"
+		"Get the frequency of genotypes with the + allele at both loci.\n"
 		"\n"
 		"Parameters:\n"
 		"    - locus1: first locus\n"
@@ -9815,7 +9815,7 @@ static PyMethodDef SwigMethods[] = {
 		"    - locus2: second locus\n"
 		"\n"
 		"Returns:\n"
-		"    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.\n"
+		"    - the linkage disequilibiurm between them, i.e. :math:`D_{ij} := 1 / 4 \\left[\\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j\\right]`.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_get_moment", (PyCFunction) _wrap_haploid_lowd_get_moment, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -9838,7 +9838,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd_allele_entropy", (PyCFunction)_wrap_haploid_lowd_allele_entropy, METH_O, (char *)"\n"
 		"get the allele entropy of the population\n"
 		"\n"
-		".. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\nu_i\\log \\nu_i + (1-\\nu_i)\\log(1-\\nu_i)`.\n"
+		".. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\left[\\nu_i\\log \\nu_i + (1-\\nu_i)\\log(1-\\nu_i)\\right]`.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_lowd_get_fitness", (PyCFunction) _wrap_haploid_lowd_get_fitness, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -9860,7 +9860,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd__get_fitnesses", (PyCFunction) _wrap_haploid_lowd__get_fitnesses, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_fitnesses(haploid_lowd self, int DIM1)"},
 	 { (char *)"haploid_lowd__set_fitness_func", (PyCFunction) _wrap_haploid_lowd__set_fitness_func, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_fitness_func(haploid_lowd self, int len1, int len2) -> int"},
 	 { (char *)"haploid_lowd_set_fitness_additive", (PyCFunction) _wrap_haploid_lowd_set_fitness_additive, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Set an additive fitness landscape\n"
+		"Set an additive fitness landscape. Coefficients obey +/- convention.\n"
 		"\n"
 		"Parameters:\n"
 		"    - coefficients: array/list of additive fitness coefficients. It must have length L.\n"
@@ -9952,7 +9952,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"haploid_highd_add_trait_coefficient", (PyCFunction) _wrap_haploid_highd_add_trait_coefficient, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Add a coefficient to the trait landscape.\n"
-		"\n"
+		" \n"
 		"Parameters:\n"
 		"   - value: value of the coefficient\n"
 		"   - loci: array/list of loci indexed by the coefficient.\n"
@@ -10077,7 +10077,7 @@ static PyMethodDef SwigMethods[] = {
 		"    - locus2: second locus\n"
 		"\n"
 		"Returns:\n"
-		"    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.\n"
+		"    - the linkage disequilibiurm between them, i.e. :math:`LD := 1 / 4 \\left[\\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j\\right]`.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_get_moment", (PyCFunction) _wrap_haploid_highd_get_moment, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
