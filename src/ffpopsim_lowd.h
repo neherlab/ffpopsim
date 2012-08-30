@@ -240,6 +240,7 @@ protected:
 	int resample();
 
 	int calculate_recombinants_free();
+	int calculate_recombinants_single();
 	int calculate_recombinants_general();
 
 private:

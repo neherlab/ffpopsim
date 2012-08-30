@@ -796,12 +796,17 @@ int haploid_lowd::mutate() {
 int haploid_lowd::recombine() {
 	int err;
 	population.set_state(HC_FUNC);
-	if (recombination_model == FREE_RECOMBINATION){
+	if (recombination_model == FREE_RECOMBINATION) {
 		err=calculate_recombinants_free();
+		for (int i=0; i<(1<<number_of_loci); i++) {
+			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
+		}
+	} else if (recombination_model == SINGLE_CROSSOVER) {
+		err=calculate_recombinants_single();
 		for (int i=0; i<(1<<number_of_loci); i++){
 			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
 		}
-	}else{
+	} else {
 		err=calculate_recombinants_general();
 		for (int i=0; i<(1<<number_of_loci); i++){
 			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
@@ -827,6 +832,7 @@ int haploid_lowd::calculate_recombinants_free() {
 
 	//normalization of the distribution
 	recombinants.coeff[0]=1.0/(1<<number_of_loci);
+	if(HG_VERBOSE) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
 
 	//loop of all coefficients of the distribution of recombinants
 	for (i=1; i<(1<<number_of_loci); i++) {
@@ -852,6 +858,80 @@ int haploid_lowd::calculate_recombinants_free() {
 
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=1.0*(1<<(number_of_loci-recombinants.order[i]));
+	}
+
+	//backtransform to genotype representation
+	recombinants.fft_coeff_to_func();
+	return 0;
+}
+
+/**
+ * @brief Calculate the recombinant distribution for the single crossover case
+ *
+ * @returns zero if successful, nonzero otherwise
+ *
+ * Calculate the distribution after recombination assumed in random mating with
+ * pairs sampled with replacement.
+ */
+int haploid_lowd::calculate_recombinants_single() {
+	int i,j,k, maternal_alleles, paternal_alleles, count, count_father, first_digit, crossover_point;
+
+	// prepare hypercubes
+	population.fft_func_to_coeff();
+	recombinants.set_state(HC_COEFF);
+
+	//normalization of the distribution
+	recombinants.coeff[0]=1.0/(1<<number_of_loci);
+	if(HG_VERBOSE) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
+
+	//loop of all coefficients of the distribution of recombinants
+	for (i=1; i<(1<<number_of_loci); i++) {
+		recombinants.coeff[i]=0;
+
+		//loop over all possible partitions of the loci s1..sk in R^(k)_s1..sk to mother and father
+		//keeping the single_crossover contraint
+		for (j=0; j<(1<<recombinants.order[i]); j++) {
+			count=0;
+			maternal_alleles=0;
+			paternal_alleles=0;
+			count_father=0;
+			first_digit=-1;
+			
+			//build the integers to pull out the maternal and paternal moments
+			for (k=0; k<number_of_loci; k++)
+				if (i&(1<<k)) {
+					if (j&(1<<count)) {
+						maternal_alleles+=(1<<k);
+						if(first_digit == -1)
+							first_digit = 1;
+					} else {
+						paternal_alleles+=(1<<k);
+						if(first_digit == -1)
+							first_digit = 0;
+						count_father+=1;
+					}
+					count++;
+				}
+	
+			//add this particular contribution to the recombinant distribution
+			switch (first_digit) {
+			case 0:
+				crossover_point = count_father - 1;
+				break;
+			case 1:
+				crossover_point = recombinants.order[i] - 1 - count_father;
+				break;
+			default:
+				crossover_point = 0;
+				break;
+			}
+			recombinants.coeff[i]+=recombination_patterns[i][crossover_point]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
+			if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
+		}
+
+		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
+		recombinants.coeff[i]*=(1<<(number_of_loci));
+		if(HG_VERBOSE) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
 	}
 
 	//backtransform to genotype representation
