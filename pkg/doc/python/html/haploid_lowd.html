@@ -256,12 +256,12 @@
 
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.get_genotype_frequency">
-<tt class="descname">get_genotype_frequency</tt><big>(</big><em>locus</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_genotype_frequency" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_genotype_frequency</tt><big>(</big><em>genotype</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.get_genotype_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the frequency of a genotype</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>gt: genotype, whose the frequency is to be returned</li>
+<li>genotype: genotype, whose the frequency is to be returned</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -312,7 +312,7 @@
 
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_fitness_additive">
-<tt class="descname">set_fitness_additive</tt><big>(</big><em>coefficient</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_fitness_additive" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_fitness_additive</tt><big>(</big><em>coefficients</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_fitness_additive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set an additive fitness landscape. Coefficients obey +/- convention.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
@@ -324,37 +324,9 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_lowd.set_recombination_rates">
-<tt class="descname">set_recombination_rates</tt><big>(</big><em>rec_rates</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_recombination_rates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the recombination rate(s).</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>rates: if a double, the recombination rate at between any two loci; if an array,
-the locus-specific recombination rates</li>
-<li>model: the recombination model to use (CROSSOVERS or, for linear
-genomes, SINGLE_CROSSOVER)</li>
-</ul>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">if locus-specific rates are specified, the array must have length
-(L-1) for linear chromosomes and length L for circular ones. The
-i-th element is the crossover rate between the i-th site and the
-(i+1)-th site.</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">if the recombination model is not specified, the current model will be kept or,
-if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.</p>
-</div>
-</dd></dl>
-
-<dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_wildtype">
 <tt class="descname">set_wildtype</tt><big>(</big><em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_wildtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set up a population of N individuals with the - allele at all loci (wildtype)</p>
+<dd><p>Initialize population of N individuals with the - allele at all loci (wildtype)</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -408,22 +380,43 @@ no effect on the speed of the simulation.</p>
 
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_fitness_function">
-<tt class="descname">set_fitness_function</tt><big>(</big><em>indices</em>, <em>vals</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_fitness_function" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_fitness_function</tt><big>(</big><em>genotypes</em>, <em>values</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_fitness_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the fitness landscape for individual genotypes.</p>
-<p>Parameters:
-- indices: genotype to which the fitness values will be assigned
-- vals: fitness values to assign</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>genotypes: genotype to which the fitness values will be assigned. Genotypes are specified as integers,</dt>
+<dd><p class="first last">from 00...0 that is 0, up to 11...1 that is 2^L-1.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">values: fitness values to assign</p>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">you can use Python binary notation for the indices, e.g. 0b0110 is 6.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="FFPopSim.haploid_lowd.set_genotypes">
-<tt class="descname">set_genotypes</tt><big>(</big><em>indices</em>, <em>counts</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_genotypes" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_genotypes</tt><big>(</big><em>genotypes</em>, <em>counts</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_genotypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize population with fixed counts for specific genotypes.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>indices: list of genotypes to set. Genotypes are specified as intergers, e.g. 00...0 &#8211;&gt; 0, 11...1 &#8211;&gt; 2^L-1.</li>
-<li>counts: list of counts for those genotypes</li>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>genotypes: list of genotypes to set. Genotypes are specified as integers,</dt>
+<dd><p class="first last">from 00...0 that is 0, up to 11...1 that is 2^L-1.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">counts: list of counts for those genotypes</p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -434,6 +427,34 @@ no effect on the speed of the simulation.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">you can use Python binary notation for the indices, e.g. 0b0110 is 6.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_lowd.set_recombination_rates">
+<tt class="descname">set_recombination_rates</tt><big>(</big><em>rates</em>, <em>model=None</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_lowd.set_recombination_rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the recombination rate(s).</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>rates: if a double, the recombination rate at between any two loci; if an array,
+the locus-specific recombination rates</li>
+<li>model: the recombination model to use (CROSSOVERS or, for linear
+genomes, SINGLE_CROSSOVER)</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if locus-specific rates are specified, the array must have length
+(L-1) for linear chromosomes and length L for circular ones. The
+i-th element is the crossover rate between the i-th site and the
+(i+1)-th site.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if the recombination model is not specified, the current model will be kept or,
+if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.</p>
 </div>
 </dd></dl>
 
@@ -482,9 +503,15 @@ locus-specific)</p>
 <dd><p>Get one or several mutation rates.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>locus: get only the mutation rate(s) of this locus</li>
-<li>direction: get only the forward or backward mutation rate(s)</li>
+<dd><ul class="first last">
+<li><p class="first">locus: get only the mutation rate(s) of this locus</p>
+</li>
+<li><dl class="first docutils">
+<dt>direction: get only the forward or backward mutation rate(s). This argument</dt>
+<dd><p class="first last">is a Boolean, 0/False for forward rates, 1/True for backward rates.</p>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 <dt>Returns:</dt>

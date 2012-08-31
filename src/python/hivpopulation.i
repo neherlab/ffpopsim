@@ -104,17 +104,17 @@ treatment = property(_get_treatment, _set_treatment)
 
 /* read selection/resistance coefficients */
 %feature("autodoc",
-"Read replication coefficient from a text file
+"Read replication coefficients from a text file
 
 Parameters:
-   - filename: string with the name of the file to read the coefficient from
+   - filename: string with the name of the file to read the coefficients from
 ") read_replication_coefficients;
 
 %feature("autodoc",
-"Read resistance coefficient from a text file
+"Read resistance coefficients from a text file
 
 Parameters:
-   - filename: string with the name of the file to read the coefficient from
+   - filename: string with the name of the file to read the coefficients from
 ") read_resistance_coefficients;
 
 %typemap(in) istream &model (std::ifstream temp) {

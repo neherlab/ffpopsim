@@ -1,6 +1,6 @@
 <map id="haploid_highd::read_ms_sample" name="haploid_highd::read_ms_sample">
 <area shape="rect" id="node3" href="$classhaploid__highd.html#a9418c16f238aacab3be2dbffb62246c4" title="Initialize a wildtype population (00...0)" alt="" coords="190,67,317,109"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#afc7a081d373b749a0e6356070dc7657b" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="585,9,716,50"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="585,9,716,50"/>
 <area shape="rect" id="node15" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="365,180,528,207"/>
 <area shape="rect" id="node7" href="$classhaploid__highd.html#acf40ae60f1441f5a8bb67a5a84444c01" title="Calculate traits of the chosen clone." alt="" coords="799,6,932,47"/>
 <area shape="rect" id="node11" href="$classhaploid__highd.html#a7f51d6a4f5791961d1b262e15735f820" title="Calculate fitness from traits of the chosen clone." alt="" coords="799,136,932,192"/>

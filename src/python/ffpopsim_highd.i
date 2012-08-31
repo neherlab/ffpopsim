@@ -138,9 +138,9 @@ phenotypic traits together.
 "Construct a high-dimensional population with certain parameters.
 
 Parameters:
-- L     length of the genome(number of loci)
-- rng_seed      seed for the random generator. If zero (default) pick a random number
-- number_of_traits      number of phenotypic traits, defaults to one
+   - L     number of loci
+   - rng_seed      seed for the random generator. If zero (default) pick a random number
+   - number_of_traits      number of phenotypic traits, defaults to one
 ") haploid_highd;
 
 /* TODO: ignore hypercubes for now */
@@ -229,7 +229,7 @@ participation_ratio = property(_get_participation_ratio)
 
 /* initialize wildtype */
 %feature("autodoc",
-"Set up a population of wildtype individuals
+"Initialize a population of wildtype individuals
 
 Parameters:
    - N: the number of individuals
@@ -280,12 +280,11 @@ def set_genotypes(self, genotypes, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
     Parameters:
-       - indices: list of genotypes to set. Genotypes themselves are lists of alleles,
+       - genotypes: list of genotypes to set. Genotypes are lists of alleles,
          e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
        - counts: list of the number at which each of those genotypes it to be present
 
     .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
-    .. note:: you can use Python binary notation for the indices, e.g. 0b0110 = 6.
 
     **Example**: if you want to initialize 200 individuals with genotype 001 and 300 individuals
                  with genotype 110, you can use ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``
@@ -295,7 +294,9 @@ def set_genotypes(self, genotypes, counts):
     genotypes = np.array(genotypes, float, copy=False, ndmin=2)
     counts = np.asarray(counts, float)
     if len(genotypes) != len(counts):
-        raise ValueError('Indices and counts must have the same length')
+        raise ValueError('Genotypes and counts must have the same length')
+    
+    # Call the C++ with the flattened array
     if self._set_genotypes(genotypes.flatten(), counts):
         raise RuntimeError('Error in the C++ function.')
 }
@@ -412,13 +413,13 @@ Returns:
 ") get_pair_frequency;
 
 %feature("autodoc",
-"Get chi of an allele in the -/+ basis
+"Get :math:`\\chi_i` of an allele
 
 Parameters:
     - locus: locus whose chi is to be computed
 
 Returns:
-    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \in \{-1, 1\}`.
+    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \{\\pm1\}`.
 ") get_chi;
 
 %feature("autodoc",
@@ -468,7 +469,7 @@ def get_genotype(self, n):
        - n: index of the clone whose genotype is to be returned
 
     Returns:
-       - gt: boolean array of the genotype
+       - genotype: Boolean array of the genotype
     '''
 
     return self._get_genotype(n, self.number_of_loci)
@@ -500,11 +501,9 @@ def get_genotypes(self, ind=None):
 "Add new individuals to the population with certain genotypes
 
 Parameters:
-   - gt: genotype to add to the population
+   - genotype: genotype to add to the population (Boolean list)
    - n: number of new individuals carrying that genotype
-
-.. note:: gt is an array/list that must be convertible into a bool.
-") add_genotypes;
+") add_genotype;
 
 /* set trait/fitness coefficients */
 %exception clear_fitness {
@@ -661,6 +660,7 @@ Parameters:
 
 Parameters:
    - epistasis_std: standard deviation of the random epistatic terms
+   - t: trait number
 
 .. note:: the epistatic terms will be Gaussian distributed around zero with the given standard deviation.
 ") set_random_trait_epistasis;
@@ -700,14 +700,11 @@ Returns:
 ") get_trait;
 
 /* get sizes of all clones */
-void _get_clone_sizes(int DIM1, int* ARGOUT_ARRAY1) {
-        for(size_t i=0; i < DIM1; i++)
-                ARGOUT_ARRAY1[i] = $self->get_clone_size(i);
-}
 %pythoncode {
 def get_clone_sizes(self):
-        '''Get the fitness of all clones.'''
-        return self._get_clone_sizes(self.number_of_clones)
+        '''Get the size of all clones.'''
+        import numpy as np
+        return np.array(map(self.get_clone_size, xrange(self.number_of_clones)), int)
 }
 
 %feature("autodoc",

@@ -93,37 +93,24 @@ These can be set directly from Python (since the genotypic space has a finite
 number of elements).</p>
 <p><strong>Note</strong>: fitness is not a phenotypic trait directly, but rather a function of <em>all</em>
 phenotypic traits together.</p>
-<blockquote>
-<div>set_allele_frequencies,
-set_genotypes,
-distance_Hamming,
-evolve,
-get_allele_frequencies,
-get_clone_sizes,
-get_fitnesses,
-get_trait_additive,
-get_genotype,
-get_genotypes,
-get_divergence_histogram,
-get_diversity_histogram,
-get_fitness_histogram,
-plot_divergence_histogram,
-plot_diversity_histogram,
-plot_fitness_histogram,
-random_genomes</div></blockquote>
 <dl class="method">
 <dt id="FFPopSim.haploid_highd.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>L=0</em>, <em>rng_seed=0</em>, <em>number_of_traits=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a high-dimensional population with certain parameters.</p>
-<p>Parameters:
-- L     length of the genome(number of loci)
-- rng_seed      seed for the random generator. If zero (default) pick a random number
-- number_of_traits      number of phenotypic traits, defaults to one</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>L     number of loci</li>
+<li>rng_seed      seed for the random generator. If zero (default) pick a random number</li>
+<li>number_of_traits      number of phenotypic traits, defaults to one</li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="FFPopSim.haploid_highd.add_trait_coefficient">
-<tt class="descname">add_trait_coefficient</tt><big>(</big><em>value</em>, <em>loci</em>, <em>t</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.add_trait_coefficient" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add_trait_coefficient</tt><big>(</big><em>value</em>, <em>loci</em>, <em>t=0</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.add_trait_coefficient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a coefficient to the trait landscape.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
@@ -142,27 +129,47 @@ random_genomes</div></blockquote>
 </dd></dl>
 
 <dl class="method">
+<dt id="FFPopSim.haploid_highd.set_random_trait_epistasis">
+<tt class="descname">set_random_trait_epistasis</tt><big>(</big><em>epistasis_std</em>, <em>t=0</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_random_trait_epistasis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a random epistatic term in the genotype-phenotype map. This is meant as an approximation to multi-locus epistasis to which many locus sets contribute. It assigns to each genotype a reprodrucible fitness component drawn from a Gaussian distribution.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>epistasis_std: standard deviation of the random epistatic terms</li>
+<li>t: trait number</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the epistatic terms will be Gaussian distributed around zero with the given standard deviation.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="FFPopSim.haploid_highd.add_fitness_coefficient">
 <tt class="descname">add_fitness_coefficient</tt><big>(</big><em>value</em>, <em>loci</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.add_fitness_coefficient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut for add_trait_coefficient when there is only one trait</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_highd.add_genotypes">
-<tt class="descname">add_genotypes</tt><big>(</big><em>gt</em>, <em>n=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.add_genotypes" title="Permalink to this definition">¶</a></dt>
+<dt id="FFPopSim.haploid_highd.set_random_epistasis">
+<tt class="descname">set_random_epistasis</tt><big>(</big><em>epistasis_std</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_random_epistasis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for set_random_trait_epistasis when there is only one trait</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.add_genotype">
+<tt class="descname">add_genotype</tt><big>(</big><em>genotype</em>, <em>n=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.add_genotype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add new individuals to the population with certain genotypes</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>gt: genotype to add to the population</li>
+<li>genotype: genotype to add to the population (Boolean list)</li>
 <li>n: number of new individuals carrying that genotype</li>
 </ul>
 </dd>
 </dl>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">gt is an array/list that must be convertible into a bool.</p>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -186,32 +193,9 @@ random_genomes</div></blockquote>
 </dd></dl>
 
 <dl class="method">
-<dt id="FFPopSim.haploid_highd.set_random_epistasis">
-<tt class="descname">set_random_epistasis</tt><big>(</big><em>epistasis_std</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_random_epistasis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shortcut for set_random_trait_epistasis when there is only one trait</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="FFPopSim.haploid_highd.set_random_trait_epistasis">
-<tt class="descname">set_random_trait_epistasis</tt><big>(</big><em>epistasis_std</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_random_trait_epistasis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set a random epistatic term in the genotype-phenotype map. This is meant as an approximation to multi-locus epistasis to which many locus sets contribute. It assigns to each genotype a reprodrucible fitness component drawn from a Gaussian distribution.</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd><ul class="first last simple">
-<li>epistasis_std: standard deviation of the random epistatic terms</li>
-</ul>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">the epistatic terms will be Gaussian distributed around zero with the given standard deviation.</p>
-</div>
-</dd></dl>
-
-<dl class="method">
 <dt id="FFPopSim.haploid_highd.set_wildtype">
 <tt class="descname">set_wildtype</tt><big>(</big><em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_wildtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set up a population of wildtype individuals</p>
+<dd><p>Initialize a population of wildtype individuals</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -233,7 +217,7 @@ random_genomes</div></blockquote>
 
 <dl class="method">
 <dt id="FFPopSim.haploid_highd.clear_trait">
-<tt class="descname">clear_trait</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.clear_trait" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">clear_trait</tt><big>(</big><em>t=0</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.clear_trait" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clear a trait landscape.</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
@@ -290,7 +274,7 @@ random_genomes</div></blockquote>
 <dl class="method">
 <dt id="FFPopSim.haploid_highd.get_chi">
 <tt class="descname">get_chi</tt><big>(</big><em>locus</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_chi" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get chi of an allele in the -/+ basis</p>
+<dd><p>Get <span class="math">\(\chi_i\)</span> of an allele</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
@@ -299,7 +283,7 @@ random_genomes</div></blockquote>
 </dd>
 <dt>Returns:</dt>
 <dd><ul class="first last simple">
-<li>the chi of that allele, <span class="math">\(\chi_i := \left&lt;s_i\right&gt;\)</span>, where <span class="math">\(s_i \in \{-1, 1\}\)</span>.</li>
+<li>the chi of that allele, <span class="math">\(\chi_i := \left&lt;s_i\right&gt;\)</span>, where <span class="math">\(s_i \in \{\pm1\}\)</span>.</li>
 </ul>
 </dd>
 </dl>
@@ -560,6 +544,311 @@ random_genomes</div></blockquote>
 <p>During its evolution, identical clones might be generated by different routes at
 different times. This function merges any such duplicates into unique clones with
 the size equal to the sum of the sizes of the duplicates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.set_allele_frequencies">
+<tt class="descname">set_allele_frequencies</tt><big>(</big><em>frequencies</em>, <em>N</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_allele_frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the population according to the given allele frequencies in linkage equilibrium.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>frequencies: an array of length L with all allele frequencies</li>
+<li>N: set the population size and, if still unset, the carrying
+capacity to this value</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.set_genotypes">
+<tt class="descname">set_genotypes</tt><big>(</big><em>genotypes</em>, <em>counts</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.set_genotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize population with fixed counts for specific genotypes.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>genotypes: list of genotypes to set. Genotypes are lists of alleles,
+e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111</li>
+<li>counts: list of the number at which each of those genotypes it to be present</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the population size and, if unset, the carrying capacity will be set as the sum of the counts.</p>
+</div>
+<dl class="docutils">
+<dt><strong>Example</strong>: if you want to initialize 200 individuals with genotype 001 and 300 individuals</dt>
+<dd>with genotype 110, you can use <tt class="docutils literal"><span class="pre">set_genotypes([[0,0,1],</span> <span class="pre">[1,1,0]],</span> <span class="pre">[200,</span> <span class="pre">300])</span></tt></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.distance_Hamming">
+<tt class="descname">distance_Hamming</tt><big>(</big><em>clone_gt1</em>, <em>clone_gt2</em>, <em>chunks=None</em>, <em>every=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.distance_Hamming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the Hamming distance between two genotypes</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>clone_gt1: index of the clone corresponding to the first genotype</li>
+<li>clone_gt2: index of the clone corresponding to the second genotype</li>
+<li>chunks: list of pairs delimiting the genetic areas to include</li>
+<li>every: do the comparison only on certain sites</li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example</strong>: to calculate the distance between the first two clones
+limited to third codon positions between locus 90 and 200, use:
+<tt class="docutils literal"><span class="pre">distance_Hamming(0,</span> <span class="pre">1,</span> <span class="pre">chunks=[92,</span> <span class="pre">200],</span> <span class="pre">every=3)</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.evolve">
+<tt class="descname">evolve</tt><big>(</big><em>gen=1</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.evolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evolve for some generations.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>gen: number of generations, defaults to one</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_allele_frequencies">
+<tt class="descname">get_allele_frequencies</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_allele_frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all allele frequencies</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_clone_sizes">
+<tt class="descname">get_clone_sizes</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_clone_sizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of all clones.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_fitnesses">
+<tt class="descname">get_fitnesses</tt><big>(</big><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_fitnesses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the fitness of all clones.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_trait_additive">
+<tt class="descname">get_trait_additive</tt><big>(</big><em>t=0</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_trait_additive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an array with the additive coefficients of all loci of a trait.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>t: number of the trait</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>coefficients: array of additive coefficients for the selected trait</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_genotype">
+<tt class="descname">get_genotype</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_genotype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a genotype from the population</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>n: index of the clone whose genotype is to be returned</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>genotype: Boolean array of the genotype</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_genotypes">
+<tt class="descname">get_genotypes</tt><big>(</big><em>ind=None</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_genotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get genotypes of the population.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>ind: if a scalar, a single genotype corresponding to clone ind is returned;
+otherwise, several genotypes are returned (default: all)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_divergence_histogram">
+<tt class="descname">get_divergence_histogram</tt><big>(</big><em>bins=10</em>, <em>chunks=None</em>, <em>every=1</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_divergence_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the divergence histogram restricted to those chunks of the genome.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last">
+<li><p class="first">bins: number or array of bins to be used in the histogram (see also numpy.histogram)</p>
+</li>
+<li><dl class="first docutils">
+<dt>chunks: restrict analysis to some chunk in the genome. It must be an n x 2 matrix with</dt>
+<dd><p class="first last">the initial and (final+1) positions of the chunks</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>every: restrict analysis to every X positions. For instance, if every third site is neutral,</dt>
+<dd><p class="first last">this argument can be used to only look at those neutral sites</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">n_sample: number of individuals to sample</p>
+</li>
+<li><p class="first">kwargs: further optional keyword arguments to numpy.histogram</p>
+</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>h: numpy.histogram of divergence in the population</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_diversity_histogram">
+<tt class="descname">get_diversity_histogram</tt><big>(</big><em>bins=10</em>, <em>chunks=None</em>, <em>every=1</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_diversity_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the diversity histogram restricted to those chunks of the genome.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last">
+<li><p class="first">bins: number or array of bins to be used in the histogram (see also numpy.histogram)</p>
+</li>
+<li><dl class="first docutils">
+<dt>chunks: restrict analysis to some chunk in the genome. It must be an n x 2 matrix with</dt>
+<dd><p class="first last">the initial and (final+1) positions of the chunks</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>every: restrict analysis to every X positions. For instance, if every third site is neutral,</dt>
+<dd><p class="first last">this argument can be used to only look at those neutral sites</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">n_sample: number of individuals to sample</p>
+</li>
+<li><p class="first">kwargs: further optional keyword arguments to numpy.histogram</p>
+</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>h: numpy.histogram of diversity in the population</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.get_fitness_histogram">
+<tt class="descname">get_fitness_histogram</tt><big>(</big><em>bins=10</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.get_fitness_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the fitness histogram of a population sample.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>bins: number or array of bins to be used in the histogram (see also numpy.histogram)</li>
+<li>n_sample: number of individuals to sample</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>h: numpy.histogram of fitness in the population</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.plot_divergence_histogram">
+<tt class="descname">plot_divergence_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.plot_divergence_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the divergence histogram of a population sample.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>axis: an axis to use. A new figure is created by default</li>
+<li>n_sample: number of individuals to sample</li>
+<li>kwargs: further optional keyword arguments to matplotlib.pyplot.hist</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>return value of axis.hist(...)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.plot_diversity_histogram">
+<tt class="descname">plot_diversity_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.plot_diversity_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the diversity histogram of a population sample.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>axis: an axis to use. A new figure is created by default</li>
+<li>n_sample: number of individuals to sample</li>
+<li>kwargs: further optional keyword arguments to matplotlib.pyplot.hist</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>return value of axis.hist(...)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.plot_fitness_histogram">
+<tt class="descname">plot_fitness_histogram</tt><big>(</big><em>axis=None</em>, <em>n_sample=1000</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.plot_fitness_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a distribution of fitness of a population sample.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>axis: an axis to use. A new figure is created by default</li>
+<li>n_sample: number of individuals to sample</li>
+<li>kwargs: further optional keyword arguments to matplotlib.pyplot.hist</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>return value of axis.hist(...)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="FFPopSim.haploid_highd.random_genomes">
+<tt class="descname">random_genomes</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#FFPopSim.haploid_highd.random_genomes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a sample of random genomes from the population</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><ul class="first last simple">
+<li>n: number of random genomes to compute</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>gts: (n x L) bool matrix with the n genotypes</li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">

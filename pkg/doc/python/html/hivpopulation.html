@@ -94,7 +94,7 @@ relative importance for viral fitness is set by the <tt class="docutils literal"
 1000 sites between position 7000 and 8000 to roughly model the _env_ gene.</p>
 <dl class="method">
 <dt id="FFPopSim.hivpopulation.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>N=0</em>, <em>rng_seed=0</em>, <em>mutation_rate=3e-05</em>, <em>coinfection_rate=0.01</em>, <em>crossover_rate=0.001</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>N=0</em>, <em>rng_seed=0</em>, <em>mutation_rate=3e-5</em>, <em>coinfection_rate=1e-2</em>, <em>crossover_rate=1e-3</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a HIV population with certain parameters.</p>
 <p>Parameters:</p>
 <blockquote>
@@ -132,11 +132,11 @@ relative importance for viral fitness is set by the <tt class="docutils literal"
 <dl class="method">
 <dt id="FFPopSim.hivpopulation.read_replication_coefficients">
 <tt class="descname">read_replication_coefficients</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.read_replication_coefficients" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read replication coefficient from a text file</p>
+<dd><p>Read replication coefficients from a text file</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>filename: string with the name of the file to read the coefficient from</li>
+<li>filename: string with the name of the file to read the coefficients from</li>
 </ul>
 </dd>
 </dl>
@@ -145,11 +145,11 @@ relative importance for viral fitness is set by the <tt class="docutils literal"
 <dl class="method">
 <dt id="FFPopSim.hivpopulation.read_resistance_coefficients">
 <tt class="descname">read_resistance_coefficients</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#FFPopSim.hivpopulation.read_resistance_coefficients" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read resistance coefficient from a text file</p>
+<dd><p>Read resistance coefficients from a text file</p>
 <dl class="docutils">
 <dt>Parameters:</dt>
 <dd><ul class="first last simple">
-<li>filename: string with the name of the file to read the coefficient from</li>
+<li>filename: string with the name of the file to read the coefficients from</li>
 </ul>
 </dd>
 </dl>

@@ -118,14 +118,14 @@ If you have initialized for example as <tt class="docutils literal"><span class=
 <tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.circular" title="FFPopSim.haploid_highd.circular"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.circular</span></tt></a></td>
 <td>is the genome circular?</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.recombination_model" title="FFPopSim.haploid_highd.recombination_model"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.recombination_model</span></tt></a></td>
-<td>model of recombination to use</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.outcrossing_rate" title="FFPopSim.haploid_highd.outcrossing_rate"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.outcrossing_rate</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.outcrossing_rate" title="FFPopSim.haploid_highd.outcrossing_rate"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.outcrossing_rate</span></tt></a></td>
 <td>outcrossing rate (probability of sexual reproduction per generation)</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.crossover_rate" title="FFPopSim.haploid_highd.crossover_rate"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.crossover_rate</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.crossover_rate" title="FFPopSim.haploid_highd.crossover_rate"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.crossover_rate</span></tt></a></td>
 <td>crossover rate (probability of crossover per site per generation)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.recombination_model" title="FFPopSim.haploid_highd.recombination_model"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.recombination_model</span></tt></a></td>
+<td>model of recombination to use</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.mutation_rate" title="FFPopSim.haploid_highd.mutation_rate"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.mutation_rate</span></tt></a></td>
 <td>mutation rate (per site per generation)</td>
@@ -142,15 +142,15 @@ If you have initialized for example as <tt class="docutils literal"><span class=
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.set_wildtype" title="FFPopSim.haploid_highd.set_wildtype"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_wildtype</span></tt></a></td>
-<td>Set up a population of wildtype individuals</td>
+<td>Initialize a population of wildtype individuals</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_allele_frequencies</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.set_allele_frequencies" title="FFPopSim.haploid_highd.set_allele_frequencies"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_allele_frequencies</span></tt></a></td>
 <td>Initialize the population according to the given allele frequencies in linkage equilibrium.</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_genotypes</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.set_genotypes" title="FFPopSim.haploid_highd.set_genotypes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_genotypes</span></tt></a></td>
 <td>Initialize population with fixed counts for specific genotypes.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.add_genotypes" title="FFPopSim.haploid_highd.add_genotypes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.add_genotypes</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.add_genotype" title="FFPopSim.haploid_highd.add_genotype"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.add_genotype</span></tt></a></td>
 <td>Add new individuals to the population with certain genotypes</td>
 </tr>
 </tbody>
@@ -158,9 +158,31 @@ If you have initialized for example as <tt class="docutils literal"><span class=
 </div>
 <div class="section" id="set-phenotypes-and-fitness-function">
 <h2>Set phenotypes and fitness function<a class="headerlink" href="#set-phenotypes-and-fitness-function" title="Permalink to this headline">¶</a></h2>
-<p>The following methods are shortcuts if you have only one trait
-(true if you do not subclass <tt class="docutils literal"><span class="pre">haploid_highd</span></tt>) and will not work
-for populations with more than one phenotypic trait:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.set_trait_additive" title="FFPopSim.haploid_highd.set_trait_additive"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_trait_additive</span></tt></a></td>
+<td>Set the additive part of a trait</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.add_trait_coefficient" title="FFPopSim.haploid_highd.add_trait_coefficient"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.add_trait_coefficient</span></tt></a></td>
+<td>Add a coefficient to the trait landscape.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.set_random_trait_epistasis" title="FFPopSim.haploid_highd.set_random_trait_epistasis"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.set_random_trait_epistasis</span></tt></a></td>
+<td>Set a random epistatic term in the genotype-phenotype map.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.clear_trait" title="FFPopSim.haploid_highd.clear_trait"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.clear_trait</span></tt></a></td>
+<td>Clear a trait landscape.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.clear_traits" title="FFPopSim.haploid_highd.clear_traits"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.clear_traits</span></tt></a></td>
+<td>Clear all trait landscapes</td>
+</tr>
+</tbody>
+</table>
+<p>The following methods are shortcuts if you have only one trait and will not work
+for populations with more than one trait:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -190,7 +212,7 @@ for populations with more than one phenotypic trait:</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.evolve</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.evolve" title="FFPopSim.haploid_highd.evolve"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.evolve</span></tt></a></td>
 <td>Evolve for some generations.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.bottleneck" title="FFPopSim.haploid_highd.bottleneck"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.bottleneck</span></tt></a></td>
@@ -219,7 +241,7 @@ for populations with more than one phenotypic trait:</p>
 <tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.random_clones" title="FFPopSim.haploid_highd.random_clones"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.random_clones</span></tt></a></td>
 <td>Get random clones</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.random_genomes</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.random_genomes" title="FFPopSim.haploid_highd.random_genomes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.random_genomes</span></tt></a></td>
 <td>Get a sample of random genomes from the population</td>
 </tr>
 </tbody>
@@ -236,13 +258,13 @@ for populations with more than one phenotypic trait:</p>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_clone_size" title="FFPopSim.haploid_highd.get_clone_size"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_clone_size</span></tt></a></td>
 <td>Get the size of a clone</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_clone_sizes</span></tt></td>
-<td>Get the fitness of all clones.</td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_clone_sizes" title="FFPopSim.haploid_highd.get_clone_sizes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_clone_sizes</span></tt></a></td>
+<td>Get the size of all clones.</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_genotype</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_genotype" title="FFPopSim.haploid_highd.get_genotype"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_genotype</span></tt></a></td>
 <td>Get a genotype from the population</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_genotypes</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_genotypes" title="FFPopSim.haploid_highd.get_genotypes"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_genotypes</span></tt></a></td>
 <td>Get genotypes of the population.</td>
 </tr>
 </tbody>
@@ -259,20 +281,20 @@ for populations with more than one phenotypic trait:</p>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_allele_frequency" title="FFPopSim.haploid_highd.get_allele_frequency"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_allele_frequency</span></tt></a></td>
 <td>Get the frequency of the + allele at the selected locus</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_allele_frequencies</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_allele_frequencies" title="FFPopSim.haploid_highd.get_allele_frequencies"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_allele_frequencies</span></tt></a></td>
 <td>Get all allele frequencies</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_pair_frequency" title="FFPopSim.haploid_highd.get_pair_frequency"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_pair_frequency</span></tt></a></td>
 <td>Get the joint frequency of two + alleles</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_chi" title="FFPopSim.haploid_highd.get_chi"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_chi</span></tt></a></td>
-<td>Get chi of an allele in the -/+ basis</td>
+<td>Get <span class="math">\(\chi_i\)</span> of an allele</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_chi2" title="FFPopSim.haploid_highd.get_chi2"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_chi2</span></tt></a></td>
-<td>Get <span class="math">\(\chi_{ij}\)</span></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_LD" title="FFPopSim.haploid_highd.get_LD"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_LD</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_LD" title="FFPopSim.haploid_highd.get_LD"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_LD</span></tt></a></td>
 <td>Get linkage disequilibrium</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_chi2" title="FFPopSim.haploid_highd.get_chi2"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_chi2</span></tt></a></td>
+<td>Get <span class="math">\(\chi_{ij}\)</span></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_moment" title="FFPopSim.haploid_highd.get_moment"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_moment</span></tt></a></td>
 <td>Get moment of two alleles in the -/+ basis</td>
@@ -291,7 +313,7 @@ for populations with more than one phenotypic trait:</p>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.calc_stat" title="FFPopSim.haploid_highd.calc_stat"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.calc_stat</span></tt></a></td>
 <td>Calculate trait and fitness statistics for the population</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_trait_additive</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_trait_additive" title="FFPopSim.haploid_highd.get_trait_additive"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_trait_additive</span></tt></a></td>
 <td>Get an array with the additive coefficients of all loci of a trait.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_trait_statistics" title="FFPopSim.haploid_highd.get_trait_statistics"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_trait_statistics</span></tt></a></td>
@@ -303,16 +325,16 @@ for populations with more than one phenotypic trait:</p>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_fitness" title="FFPopSim.haploid_highd.get_fitness"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_fitness</span></tt></a></td>
 <td>Get the fitness of an individual</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_fitnesses</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_fitnesses" title="FFPopSim.haploid_highd.get_fitnesses"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_fitnesses</span></tt></a></td>
 <td>Get the fitness of all clones.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_fitness_statistics" title="FFPopSim.haploid_highd.get_fitness_statistics"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_fitness_statistics</span></tt></a></td>
 <td>Get the mean and variance of the fitness in the population.</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_fitness_histogram</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_fitness_histogram" title="FFPopSim.haploid_highd.get_fitness_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_fitness_histogram</span></tt></a></td>
 <td>Calculate the fitness histogram of a population sample.</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.plot_fitness_histogram</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.plot_fitness_histogram" title="FFPopSim.haploid_highd.plot_fitness_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.plot_fitness_histogram</span></tt></a></td>
 <td>Plot a distribution of fitness of a population sample.</td>
 </tr>
 </tbody>
@@ -332,19 +354,16 @@ for populations with more than one phenotypic trait:</p>
 <tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_diversity_statistics" title="FFPopSim.haploid_highd.get_diversity_statistics"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_diversity_statistics</span></tt></a></td>
 <td>Get the mean and variance of the diversity in the population.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_trait_statistics" title="FFPopSim.haploid_highd.get_trait_statistics"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_trait_statistics</span></tt></a></td>
-<td>Get the mean and variance of a trait in the population.</td>
-</tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_divergence_histogram</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_divergence_histogram" title="FFPopSim.haploid_highd.get_divergence_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_divergence_histogram</span></tt></a></td>
 <td>Get the divergence histogram restricted to those chunks of the genome.</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_diversity_histogram</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.get_diversity_histogram" title="FFPopSim.haploid_highd.get_diversity_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.get_diversity_histogram</span></tt></a></td>
 <td>Get the diversity histogram restricted to those chunks of the genome.</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.plot_divergence_histogram</span></tt></td>
+<tr class="row-odd"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.plot_divergence_histogram" title="FFPopSim.haploid_highd.plot_divergence_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.plot_divergence_histogram</span></tt></a></td>
 <td>Plot the divergence histogram of a population sample.</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.plot_diversity_histogram</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="haploid_highd.html#FFPopSim.haploid_highd.plot_diversity_histogram" title="FFPopSim.haploid_highd.plot_diversity_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">haploid_highd.plot_diversity_histogram</span></tt></a></td>
 <td>Plot the diversity histogram of a population sample.</td>
 </tr>
 </tbody>

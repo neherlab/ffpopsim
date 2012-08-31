@@ -28,12 +28,11 @@ Attributes
    haploid_highd.generation
    haploid_highd.participation_ratio
    haploid_highd.number_of_clones
-
    haploid_highd.carrying_capacity
    haploid_highd.circular
-   haploid_highd.recombination_model
    haploid_highd.outcrossing_rate
    haploid_highd.crossover_rate
+   haploid_highd.recombination_model
    haploid_highd.mutation_rate
 
 Initialize the population
@@ -44,20 +43,21 @@ Initialize the population
    haploid_highd.set_wildtype
    haploid_highd.set_allele_frequencies
    haploid_highd.set_genotypes
-   haploid_highd.add_genotypes
+   haploid_highd.add_genotype
 
 Set phenotypes and fitness function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :nosignatures:
+
    haploid_highd.set_trait_additive
    haploid_highd.add_trait_coefficient
    haploid_highd.set_random_trait_epistasis
    haploid_highd.clear_trait
    haploid_highd.clear_traits
-The following methods are shortcuts if you have only one trait
-(true if you do not subclass ``haploid_highd``) and will not work
-for populations with more than one phenotypic trait:
+
+The following methods are shortcuts if you have only one trait and will not work
+for populations with more than one trait:
 
 .. autosummary::
    :nosignatures:
@@ -107,8 +107,8 @@ Get allele frequencies and linkage disequilibria
    haploid_highd.get_allele_frequencies
    haploid_highd.get_pair_frequency
    haploid_highd.get_chi
-   haploid_highd.get_chi2
    haploid_highd.get_LD
+   haploid_highd.get_chi2
    haploid_highd.get_moment
 
 Analyze fitness and trait distributions
@@ -117,14 +117,11 @@ Analyze fitness and trait distributions
    :nosignatures:
 
    haploid_highd.calc_stat
-
    haploid_highd.get_trait_additive
    haploid_highd.get_trait_statistics
    haploid_highd.get_trait_covariance
-
    haploid_highd.get_fitness
    haploid_highd.get_fitnesses
-
    haploid_highd.get_fitness_statistics
    haploid_highd.get_fitness_histogram
    haploid_highd.plot_fitness_histogram
@@ -137,10 +134,7 @@ Divergence and Diversity
    
    haploid_highd.get_divergence_statistics
    haploid_highd.get_diversity_statistics
-   haploid_highd.get_trait_statistics
-
    haploid_highd.get_divergence_histogram
    haploid_highd.get_diversity_histogram
-
    haploid_highd.plot_divergence_histogram
    haploid_highd.plot_diversity_histogram

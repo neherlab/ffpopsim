@@ -1,5 +1,5 @@
 <map id="haploid_highd::set_genotypes" name="haploid_highd::set_genotypes">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#afc7a081d373b749a0e6356070dc7657b" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="401,70,532,111"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="401,70,532,111"/>
 <area shape="rect" id="node13" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="181,188,344,215"/>
 <area shape="rect" id="node5" href="$classhaploid__highd.html#acf40ae60f1441f5a8bb67a5a84444c01" title="Calculate traits of the chosen clone." alt="" coords="615,38,748,79"/>
 <area shape="rect" id="node9" href="$classhaploid__highd.html#a7f51d6a4f5791961d1b262e15735f820" title="Calculate fitness from traits of the chosen clone." alt="" coords="615,132,748,188"/>

@@ -3,7 +3,7 @@ var classhaploid__highd =
     [ "haploid_highd", "classhaploid__highd.html#ae58c4326bc251e8a86d3885f3297a25e", null ],
     [ "~haploid_highd", "classhaploid__highd.html#a4a8ea44da7eae169ae382d2840bd4185", null ],
     [ "add_fitness_coefficient", "classhaploid__highd.html#af785069be8a626717d8e705b407e76a6", null ],
-    [ "add_genotypes", "classhaploid__highd.html#afc7a081d373b749a0e6356070dc7657b", null ],
+    [ "add_genotype", "classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a", null ],
     [ "add_recombinants", "classhaploid__highd.html#ab08783cb783ca66ff2c87227dbd74314", null ],
     [ "add_trait_coefficient", "classhaploid__highd.html#ac9da76630ffc3a1581f44f3e94004854", null ],
     [ "bottleneck", "classhaploid__highd.html#aae3666ef1b744f0a1918d5694ec5199b", null ],

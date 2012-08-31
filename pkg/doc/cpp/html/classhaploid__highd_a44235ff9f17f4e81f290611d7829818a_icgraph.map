@@ -1,4 +1,4 @@
-<map id="haploid_highd::add_genotypes" name="haploid_highd::add_genotypes">
+<map id="haploid_highd::add_genotype" name="haploid_highd::add_genotype">
 <area shape="rect" id="node3" href="$classhaploid__highd.html#a3351949a49ad6702beb996b58755ce4e" title="Initialize population in linkage equilibrium." alt="" coords="185,5,317,46"/>
 <area shape="rect" id="node5" href="$classhaploid__highd.html#aa0c34e02ed924603417fdb8109918f7e" title="Initialize the population with genotype counts." alt="" coords="187,70,314,111"/>
 <area shape="rect" id="node7" href="$classhaploid__highd.html#a9418c16f238aacab3be2dbffb62246c4" title="Initialize a wildtype population (00...0)" alt="" coords="187,187,314,229"/>

@@ -195,7 +195,7 @@ public:
 	// with protected methods.
 
 	// genotype readout
-	double get_genotype_frequency(int gt){return population.get_func(gt);}
+	double get_genotype_frequency(int genotype){return population.get_func(genotype);}
 	
 	// allele frequencies
 	double get_allele_frequency(int locus){return 0.5 * (1 + get_chi(locus));}

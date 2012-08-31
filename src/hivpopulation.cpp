@@ -54,7 +54,8 @@ hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, do
 	recombination_model = CROSSOVERS;
 
 	//by default, create a population of size carrying capacity at 00...0 (this is cheap, a single clone)
-	set_wildtype(N_in);
+        if(N_in > 0)
+        	set_wildtype(N_in);
 }
 
 /**

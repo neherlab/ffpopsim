@@ -213,28 +213,29 @@ int _set_genotypes(int len1, double* indices, int len2, double* vals) {
 %clear (int len1, double* indices);
 %clear (int len2, double* vals);
 %pythoncode {
-def set_genotypes(self, indices, counts):
+def set_genotypes(self, genotypes, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
     Parameters:
-       - indices: list of genotypes to set. Genotypes are specified as intergers, e.g. 00...0 --> 0, 11...1 --> 2^L-1.
+       - genotypes: list of genotypes to set. Genotypes are specified as integers,
+                    from 00...0 that is 0, up to 11...1 that is 2^L-1.
        - counts: list of counts for those genotypes
 
     .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
     .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
     '''
     import numpy as np
-    indices = np.asarray(indices, float)
+    genotypes = np.asarray(genotypes, float)
     counts = np.asarray(counts, float)
-    if len(indices) != len(counts):
+    if len(genotypes) != len(counts):
         raise ValueError('Indices and counts must have the same length')
-    if self._set_genotypes(indices, counts):
+    if self._set_genotypes(genotypes, counts):
         raise RuntimeError('Error in the C++ function.')
 }
 
 /* initialize wildtype */
 %feature("autodoc",
-"Set up a population of N individuals with the - allele at all loci (wildtype)
+"Initialize population of N individuals with the - allele at all loci (wildtype)
 
 Parameters:
    - N: the number of individuals
@@ -339,7 +340,8 @@ def get_mutation_rates(self, locus=None, direction=None):
 
 Parameters:
     - locus: get only the mutation rate(s) of this locus
-    - direction: get only the forward or backward mutation rate(s)
+    - direction: get only the forward or backward mutation rate(s). This argument
+                 is a Boolean, 0/False for forward rates, 1/True for backward rates.
 
 Returns:
     - the mutation rate(s) requested
@@ -456,7 +458,7 @@ def get_genotype_frequencies(self):
 "Get the frequency of a genotype
 
 Parameters:
-    - gt: genotype, whose the frequency is to be returned
+    - genotype: genotype, whose the frequency is to be returned
 
 Returns:
     - the frequency of the genotype
@@ -799,19 +801,22 @@ int _set_fitness_func(int len1, double* indices, int len2, double* vals) {
 %clear (int len1, double* indices);
 %clear (int len2, double* vals);
 %pythoncode {
-def set_fitness_function(self, indices, vals):
+def set_fitness_function(self, genotypes, values):
     '''Set the fitness landscape for individual genotypes.
 
     Parameters:
-    - indices: genotype to which the fitness values will be assigned
-    - vals: fitness values to assign
+       - genotypes: genotype to which the fitness values will be assigned. Genotypes are specified as integers,
+                    from 00...0 that is 0, up to 11...1 that is 2^L-1.
+       - values: fitness values to assign
+
+    .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
     '''
     import numpy as np
-    indices = np.asarray(indices, float)
-    vals = np.asarray(vals, float)
-    if len(indices) != len(vals):
+    genotypes = np.asarray(genotypes, float)
+    values = np.asarray(values, float)
+    if len(genotypes) != len(values):
         raise ValueError('Indices and values must have the same length')
-    if self._set_fitness_func(indices, vals):
+    if self._set_fitness_func(genotypes, values):
         raise RuntimeError('Error in the C++ function.')
 }
 

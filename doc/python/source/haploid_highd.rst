@@ -20,7 +20,6 @@ haploid_highd Class Reference
              number_of_clones,
              number_of_traits,
              max_fitness,
-
              set_allele_frequencies,
              set_genotypes,
              distance_Hamming,
@@ -40,16 +39,16 @@ haploid_highd Class Reference
              random_genomes
 
    .. automethod:: haploid_highd.__init__
-   .. automethod:: haploid_highd.add_trait_coefficient(value, loci, t)
+   .. automethod:: haploid_highd.add_trait_coefficient(value, loci, t=0)
+   .. automethod:: haploid_highd.set_random_trait_epistasis(epistasis_std, t=0)
    .. automethod:: haploid_highd.add_fitness_coefficient(value, loci)
-   .. automethod:: haploid_highd.add_genotypes(gt, n=1)
+   .. automethod:: haploid_highd.set_random_epistasis(epistasis_std)
+   .. automethod:: haploid_highd.add_genotype(genotype, n=1)
    .. automethod:: haploid_highd.set_fitness_additive(coefficients)
    .. automethod:: haploid_highd.set_trait_additive(coefficients, t)
-   .. automethod:: haploid_highd.set_random_epistasis(epistasis_std)
-   .. automethod:: haploid_highd.set_random_trait_epistasis(epistasis_std)
    .. automethod:: haploid_highd.set_wildtype(N)
    .. automethod:: haploid_highd.calc_stat()
-   .. automethod:: haploid_highd.clear_trait(t)
+   .. automethod:: haploid_highd.clear_trait(t=0)
    .. automethod:: haploid_highd.clear_fitness()
    .. automethod:: haploid_highd.clear_traits()
    .. automethod:: haploid_highd.bottleneck(size_of_bottleneck)

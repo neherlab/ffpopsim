@@ -38,6 +38,7 @@ var searchData=
   ['hp_5frandom_5fsample_5ffrac',['HP_RANDOM_SAMPLE_FRAC',['../ffpopsim__highd_8h.html#a3f0086d9024eec2e073aff83b91a3816',1,'ffpopsim_highd.h']]],
   ['hp_5fruntimeerr',['HP_RUNTIMEERR',['../ffpopsim__highd_8h.html#a9519086492ad7baa22bdabb4eb743f05',1,'ffpopsim_highd.h']]],
   ['hp_5fverbose',['HP_VERBOSE',['../ffpopsim__highd_8h.html#af50d111882971f48a393dc16fc0e1bc4',1,'ffpopsim_highd.h']]],
+  ['hp_5fvery_5fnegative',['HP_VERY_NEGATIVE',['../ffpopsim__highd_8h.html#a6c5fe287de5c5d78672209edb72ec02b',1,'ffpopsim_highd.h']]],
   ['hp_5fwrongbinserr',['HP_WRONGBINSERR',['../ffpopsim__highd_8h.html#aeb3b7ef01302d85a7a22c2d159b7d4a7',1,'ffpopsim_highd.h']]],
   ['hypercube_5fhighd',['hypercube_highd',['../classhypercube__highd.html',1,'hypercube_highd'],['../classhypercube__highd.html#a59c723675a05c256789cff64c432b14c',1,'hypercube_highd::hypercube_highd()'],['../classhypercube__highd.html#a092d9fe66a1ef9ad14e5209833a04444',1,'hypercube_highd::hypercube_highd(int dim_in, int s=0)']]],
   ['hypercube_5fhighd_2ecpp',['hypercube_highd.cpp',['../hypercube__highd_8cpp.html',1,'']]],

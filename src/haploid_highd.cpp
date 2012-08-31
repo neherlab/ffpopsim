@@ -48,7 +48,7 @@ size_t haploid_highd::number_of_instances=0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false), carrying_capacity(0), mutation_rate(0), outcrossing_rate(0), crossover_rate(0), recombination_model(CROSSOVERS), fitness_max(0) {
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false), carrying_capacity(0), mutation_rate(0), outcrossing_rate(0), crossover_rate(0), recombination_model(CROSSOVERS), fitness_max(HP_VERY_NEGATIVE) {
 	if (L_in <1 or n_o_traits<1) {
 		cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
 		throw HP_BADARG;
@@ -198,7 +198,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 		for(locus=0; locus<number_of_loci; locus++){
 			if (gsl_rng_uniform(evo_generator)<freq[locus])	tempgt.set(locus);
 		}
-		add_genotypes(tempgt,1);	//add genotype with multiplicity 1
+		add_genotype(tempgt,1);	//add genotype with multiplicity 1
 		if (HP_VERBOSE >= 2) cerr <<i<<" ";
 	}
 
@@ -229,7 +229,7 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	// Initialize the clones and calculate the population size
 	population_size=0;
 	for(size_t i = 0; i < gt.size(); i++) {
-		add_genotypes(gt[i].genotype, gt[i].val);
+		add_genotype(gt[i].genotype, gt[i].val);
 		population_size += gt[i].val;
 	}
 
@@ -256,13 +256,18 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 int haploid_highd::set_wildtype(unsigned long N_in) {
 	if (HP_VERBOSE) cerr <<"haploid_highd::set_wildtype(unsigned long N_in)...";
 
+	if(N_in == 0) {
+		if (HP_VERBOSE) cerr<<"the desired population size must be at least 1."<<endl;
+		return HP_BADARG;
+	}
+
 	// Clear population
 	current_pop->clear();
 	random_sample.clear();
 
 	// Initialize the clones and calculate the population size
 	boost::dynamic_bitset<> wildtype(number_of_loci);
-	add_genotypes(wildtype, N_in);
+	add_genotype(wildtype, N_in);
         population_size = N_in;
 
         // set the carrying capacity if unset
@@ -430,7 +435,7 @@ int haploid_highd::select_gametes() {
 	new_pop->clear();
 	new_pop->reserve(current_pop->size()*1.1);
 	unsigned int i=0;
-	fitness_max = 0;
+	fitness_max = HP_VERY_NEGATIVE;
 	for(vector<clone_t>::iterator pop_iter = current_pop->begin(); pop_iter != current_pop->end(); pop_iter++, i++) {
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)})
 		if (pop_iter->clone_size>0){
@@ -973,15 +978,17 @@ int haploid_highd::random_clones(unsigned int n_o_individuals, vector <int> *sam
  *
  * Note: this function also calculates the traits and fitness of the new individual.
  */
-void haploid_highd::add_genotypes(boost::dynamic_bitset<> genotype, int n) {
-	clone_t tempgt(number_of_traits);
-	tempgt.genotype=genotype;
-	tempgt.clone_size = n;
-	calc_individual_traits(&tempgt);
-	calc_individual_fitness_from_traits(&tempgt);
-	check_individual_maximal_fitness(&tempgt);
-	current_pop->push_back(tempgt);
-	population_size+=n;
+void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
+	if(n > 0) {
+		clone_t tempgt(number_of_traits);
+		tempgt.genotype=genotype;
+		tempgt.clone_size = n;
+		calc_individual_traits(&tempgt);
+		calc_individual_fitness_from_traits(&tempgt);
+		check_individual_maximal_fitness(&tempgt);
+		current_pop->push_back(tempgt);
+		population_size+=n;
+	}
 }
 
 /**
@@ -1195,7 +1202,7 @@ int haploid_highd::read_ms_sample(istream &gts, int skip_locus, int multiplicity
 					  }
 					}
 				}
-				add_genotypes(newgt, multiplicity);
+				add_genotype(newgt, multiplicity);
 			}else{ //reading the header
 				header.assign(line);
 				if (header.compare(0,2, "//")==0) {
@@ -1275,7 +1282,7 @@ int haploid_highd::read_ms_sample_sparse(istream &gts, int skip_locus, int multi
 					    }
 					}
 				}
-				add_genotypes(newgt, multiplicity);
+				add_genotype(newgt, multiplicity);
 			}else{ //reading the header
 				header.assign(line);
 				if (header.compare(0,2, "//")==0) {

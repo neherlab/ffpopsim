@@ -15,10 +15,10 @@ import time
 
 # specify parameters
 N = 1000                        # Population size
-Lmax = 15                       # Maimal number of loci
+Lmax = 12                       # Maimal number of loci
 r = 0.01                        # Recombination rate
 mu = 0.001                      # Mutation rate
-G = 1000                        # Generations
+G = 1                        # Generations
 
 # Repeat the same simulation for various numbers of loci, and see how the
 # algorithm scales. It should be O(3^L) with recombination, and O(L 2^L) without
@@ -69,6 +69,7 @@ for L in range(2,Lmax):
     t2=time.time()
 
     exec_time_sc.append([L, t2-t1])    # store the execution time
+    del pop
     
 exec_time_sc=np.array(exec_time_sc)
 

@@ -152,6 +152,7 @@ public:
 #define MAX_POPSIZE 500000
 #define HP_NOTHING 1e-12
 #define HP_RANDOM_SAMPLE_FRAC 0.01
+#define HP_VERY_NEGATIVE -1e15
 
 // Error Codes
 #define HP_BADARG -879564
@@ -251,7 +252,7 @@ public:
 	int set_wildtype(unsigned long N);
 
 	// modify population
-	void add_genotypes(boost::dynamic_bitset<> genotype_in, int n=1);
+	void add_genotype(boost::dynamic_bitset<> genotype, int n=1);
 
 	// modify traits
 	int add_trait_coefficient(double value, vector <int> loci, int t=0){return trait[t].add_coefficient(value, loci);}

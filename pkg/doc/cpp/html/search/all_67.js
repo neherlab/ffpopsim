@@ -24,7 +24,7 @@ var searchData=
   ['get_5ffunc',['get_func',['../classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2',1,'hypercube_highd::get_func()'],['../classhypercube__lowd.html#a384dece26cb1942a581420daf5d8c22f',1,'hypercube_lowd::get_func()']]],
   ['get_5ffunc_5fdiff',['get_func_diff',['../classhypercube__highd.html#a8352b2198e0b8f6d352face30dff6989',1,'hypercube_highd']]],
   ['get_5fgeneration',['get_generation',['../classhaploid__highd.html#a3a2a61046b0810e5b7b3794b49434aad',1,'haploid_highd::get_generation()'],['../classhaploid__lowd.html#a6da77dee2ec13608f0d7ac6745ba2466',1,'haploid_lowd::get_generation()']]],
-  ['get_5fgenotype_5ffrequency',['get_genotype_frequency',['../classhaploid__lowd.html#a975ad1a158c32b2101edb11def3d1351',1,'haploid_lowd']]],
+  ['get_5fgenotype_5ffrequency',['get_genotype_frequency',['../classhaploid__lowd.html#a5f4e38f32d227afd2f8cead45c1db039',1,'haploid_lowd']]],
   ['get_5fgenotype_5fstring',['get_genotype_string',['../classhaploid__highd.html#a2f6a793822b830dbb67fdb2d22c22194',1,'haploid_highd']]],
   ['get_5fld',['get_LD',['../classhaploid__highd.html#a99d356f0eac94d6710f54b8a7f303f4a',1,'haploid_highd::get_LD()'],['../classhaploid__lowd.html#a0d319102011f2bf0d69ece8100e24dd1',1,'haploid_lowd::get_LD()']]],
   ['get_5flogmean_5fexpfitness',['get_logmean_expfitness',['../classhaploid__highd.html#a0aaa82167545768f814c7e28868eee77',1,'haploid_highd']]],

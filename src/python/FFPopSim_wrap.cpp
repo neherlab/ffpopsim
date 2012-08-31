@@ -2969,17 +2969,16 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_hivgene swig_types[7]
 #define SWIGTYPE_p_hivpopulation swig_types[8]
 #define SWIGTYPE_p_index_value_pair_t swig_types[9]
-#define SWIGTYPE_p_int swig_types[10]
-#define SWIGTYPE_p_istream swig_types[11]
-#define SWIGTYPE_p_ostream swig_types[12]
-#define SWIGTYPE_p_short swig_types[13]
-#define SWIGTYPE_p_stat_t swig_types[14]
-#define SWIGTYPE_p_string swig_types[15]
-#define SWIGTYPE_p_unsigned_int swig_types[16]
-#define SWIGTYPE_p_vectorT_double_t swig_types[17]
-#define SWIGTYPE_p_vectorT_int_t swig_types[18]
-static swig_type_info *swig_types[20];
-static swig_module_info swig_module = {swig_types, 19, 0, 0, 0, 0};
+#define SWIGTYPE_p_istream swig_types[10]
+#define SWIGTYPE_p_ostream swig_types[11]
+#define SWIGTYPE_p_short swig_types[12]
+#define SWIGTYPE_p_stat_t swig_types[13]
+#define SWIGTYPE_p_string swig_types[14]
+#define SWIGTYPE_p_unsigned_int swig_types[15]
+#define SWIGTYPE_p_vectorT_double_t swig_types[16]
+#define SWIGTYPE_p_vectorT_int_t swig_types[17]
+static swig_type_info *swig_types[19];
+static swig_module_info swig_module = {swig_types, 18, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4027,10 +4026,6 @@ SWIGINTERN void haploid_highd_set_fitness_additive(haploid_highd *self,int DIM1,
 SWIGINTERN void haploid_highd__get_fitnesses(haploid_highd *self,int DIM1,double *ARGOUT_ARRAY1){
         for(size_t i=0; i < DIM1; i++)
                 ARGOUT_ARRAY1[i] = self->get_fitness(i);
-}
-SWIGINTERN void haploid_highd__get_clone_sizes(haploid_highd *self,int DIM1,int *ARGOUT_ARRAY1){
-        for(size_t i=0; i < DIM1; i++)
-                ARGOUT_ARRAY1[i] = self->get_clone_size(i);
 }
 SWIGINTERN void haploid_highd_random_clones(haploid_highd *self,int DIM1,unsigned int *ARGOUT_ARRAY1){
         vector <int> sample = vector <int>(0);
@@ -5417,7 +5412,7 @@ SWIGINTERN PyObject *_wrap_haploid_lowd_get_genotype_frequency(PyObject *SWIGUNU
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "gt", NULL 
+    (char *) "self",(char *) "genotype", NULL 
   };
   double result;
   
@@ -7386,55 +7381,51 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_highd_add_genotypes(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_haploid_highd_add_genotype(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
   boost::dynamic_bitset< > arg2 ;
   int arg3 = (int) 1 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  boost::dynamic_bitset< > temp2 ;
+  void *argp2 ;
+  int res2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "genotype_in",(char *) "n", NULL 
+    (char *) "self",(char *) "genotype",(char *) "n", NULL 
   };
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO|O:haploid_highd_add_genotypes",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO|O:haploid_highd_add_genotype",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_add_genotypes" "', argument " "1"" of type '" "haploid_highd *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_add_genotype" "', argument " "1"" of type '" "haploid_highd *""'"); 
   }
   arg1 = reinterpret_cast< haploid_highd * >(argp1);
   {
-    /* Ensure input is a Python sequence */
-    PyObject *tmplist = PySequence_Fast(obj1, "I expected a sequence");
-    unsigned long L = PySequence_Length(tmplist);
-    
-    /* Create boost::dynamic_bitset from Python list */
-    temp2.resize(L);
-    long tmplong;
-    for(size_t i=0; i < L; i++) {
-      tmplong = PyInt_AsLong(PySequence_Fast_GET_ITEM(tmplist, i));
-      if(tmplong < 0) {
-        PyErr_SetString(PyExc_ValueError, "Expecting an array of bool.");
-        SWIG_fail;
-      }
-      temp2[i] = (bool)tmplong; 
-    }      
-    arg2 = temp2;
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_boost__dynamic_bitsetT_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "haploid_highd_add_genotype" "', argument " "2"" of type '" "boost::dynamic_bitset< >""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "haploid_highd_add_genotype" "', argument " "2"" of type '" "boost::dynamic_bitset< >""'");
+    } else {
+      boost::dynamic_bitset< > * temp = reinterpret_cast< boost::dynamic_bitset< > * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
   }
   if (obj2) {
     ecode3 = SWIG_AsVal_int(obj2, &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "haploid_highd_add_genotypes" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "haploid_highd_add_genotype" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = static_cast< int >(val3);
   }
-  (arg1)->add_genotypes(arg2,arg3);
+  (arg1)->add_genotype(arg2,arg3);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8967,53 +8958,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_highd__get_clone_sizes(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  haploid_highd *arg1 = (haploid_highd *) 0 ;
-  int arg2 ;
-  int *arg3 = (int *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *array2 = NULL ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  char *  kwnames[] = {
-    (char *) "self",(char *) "DIM1", NULL 
-  };
-  
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd__get_clone_sizes",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd__get_clone_sizes" "', argument " "1"" of type '" "haploid_highd *""'"); 
-  }
-  arg1 = reinterpret_cast< haploid_highd * >(argp1);
-  {
-    npy_intp dims[1];
-    if (!PyInt_Check(obj1))
-    {
-      const char* typestring = pytype_string(obj1);
-      PyErr_Format(PyExc_TypeError,
-        "Int dimension expected.  '%s' given.",
-        typestring);
-      SWIG_fail;
-    }
-    arg2 = (int) PyInt_AsLong(obj1);
-    dims[0] = (npy_intp) arg2;
-    array2 = PyArray_SimpleNew(1, dims, NPY_INT);
-    if (!array2) SWIG_fail;
-    arg3 = (int*) array_data(array2);
-  }
-  haploid_highd__get_clone_sizes(arg1,arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  {
-    resultobj = SWIG_Python_AppendOutput(resultobj,array2);
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_haploid_highd_random_clones(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -9724,7 +9668,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd__get_mutation_rate", (PyCFunction) _wrap_haploid_lowd__get_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"},
 	 { (char *)"haploid_lowd__get_recombination_model", (PyCFunction)_wrap_haploid_lowd__get_recombination_model, METH_O, (char *)"haploid_lowd__get_recombination_model(haploid_lowd self) -> int"},
 	 { (char *)"haploid_lowd_set_wildtype", (PyCFunction) _wrap_haploid_lowd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Set up a population of N individuals with the - allele at all loci (wildtype)\n"
+		"Initialize population of N individuals with the - allele at all loci (wildtype)\n"
 		"\n"
 		"Parameters:\n"
 		"   - N: the number of individuals\n"
@@ -9759,7 +9703,7 @@ static PyMethodDef SwigMethods[] = {
 		"Get the frequency of a genotype\n"
 		"\n"
 		"Parameters:\n"
-		"    - gt: genotype, whose the frequency is to be returned\n"
+		"    - genotype: genotype, whose the frequency is to be returned\n"
 		"\n"
 		"Returns:\n"
 		"    - the frequency of the genotype\n"
@@ -9893,9 +9837,9 @@ static PyMethodDef SwigMethods[] = {
 		"Construct a high-dimensional population with certain parameters.\n"
 		"\n"
 		"Parameters:\n"
-		"- L     length of the genome(number of loci)\n"
-		"- rng_seed      seed for the random generator. If zero (default) pick a random number\n"
-		"- number_of_traits      number of phenotypic traits, defaults to one\n"
+		"   - L     number of loci\n"
+		"   - rng_seed      seed for the random generator. If zero (default) pick a random number\n"
+		"   - number_of_traits      number of phenotypic traits, defaults to one\n"
 		"\n"
 		""},
 	 { (char *)"delete_haploid_highd", (PyCFunction)_wrap_delete_haploid_highd, METH_O, (char *)"delete_haploid_highd(haploid_highd self)"},
@@ -9932,7 +9876,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_number_of_traits", (PyCFunction)_wrap_haploid_highd__get_number_of_traits, METH_O, (char *)"Number of traits (read-only)"},
 	 { (char *)"haploid_highd__get_participation_ratio", (PyCFunction)_wrap_haploid_highd__get_participation_ratio, METH_O, (char *)"Participation ratio (read-only)"},
 	 { (char *)"haploid_highd_set_wildtype", (PyCFunction) _wrap_haploid_highd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Set up a population of wildtype individuals\n"
+		"Initialize a population of wildtype individuals\n"
 		"\n"
 		"Parameters:\n"
 		"   - N: the number of individuals\n"
@@ -9940,14 +9884,12 @@ static PyMethodDef SwigMethods[] = {
 		".. note:: the carrying capacity is set to the same value if still unset.\n"
 		"\n"
 		""},
-	 { (char *)"haploid_highd_add_genotypes", (PyCFunction) _wrap_haploid_highd_add_genotypes, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+	 { (char *)"haploid_highd_add_genotype", (PyCFunction) _wrap_haploid_highd_add_genotype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Add new individuals to the population with certain genotypes\n"
 		"\n"
 		"Parameters:\n"
-		"   - gt: genotype to add to the population\n"
+		"   - genotype: genotype to add to the population (Boolean list)\n"
 		"   - n: number of new individuals carrying that genotype\n"
-		"\n"
-		".. note:: gt is an array/list that must be convertible into a bool.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_add_trait_coefficient", (PyCFunction) _wrap_haploid_highd_add_trait_coefficient, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -9976,6 +9918,7 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		"Parameters:\n"
 		"   - epistasis_std: standard deviation of the random epistatic terms\n"
+		"   - t: trait number\n"
 		"\n"
 		".. note:: the epistatic terms will be Gaussian distributed around zero with the given standard deviation.\n"
 		"\n"
@@ -10049,13 +9992,13 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		""},
 	 { (char *)"haploid_highd_get_chi", (PyCFunction) _wrap_haploid_highd_get_chi, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Get chi of an allele in the -/+ basis\n"
+		"Get :math:`\\chi_i` of an allele\n"
 		"\n"
 		"Parameters:\n"
 		"    - locus: locus whose chi is to be computed\n"
 		"\n"
 		"Returns:\n"
-		"    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \\{-1, 1\\}`.\n"
+		"    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \\{\\pm1\\}`.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_get_chi2", (PyCFunction) _wrap_haploid_highd_get_chi2, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -10170,7 +10113,6 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"haploid_highd_set_fitness_additive", (PyCFunction) _wrap_haploid_highd_set_fitness_additive, METH_VARARGS | METH_KEYWORDS, (char *)"Shortcut for set_trait_additive when there is only one trait"},
 	 { (char *)"haploid_highd__get_fitnesses", (PyCFunction) _wrap_haploid_highd__get_fitnesses, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__get_fitnesses(haploid_highd self, int DIM1)"},
-	 { (char *)"haploid_highd__get_clone_sizes", (PyCFunction) _wrap_haploid_highd__get_clone_sizes, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__get_clone_sizes(haploid_highd self, int DIM1)"},
 	 { (char *)"haploid_highd_random_clones", (PyCFunction) _wrap_haploid_highd_random_clones, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Get random clones\n"
 		"\n"
@@ -10220,17 +10162,17 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		""},
 	 { (char *)"hivpopulation_read_replication_coefficients", (PyCFunction) _wrap_hivpopulation_read_replication_coefficients, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Read replication coefficient from a text file\n"
+		"Read replication coefficients from a text file\n"
 		"\n"
 		"Parameters:\n"
-		"   - filename: string with the name of the file to read the coefficient from\n"
+		"   - filename: string with the name of the file to read the coefficients from\n"
 		"\n"
 		""},
 	 { (char *)"hivpopulation_read_resistance_coefficients", (PyCFunction) _wrap_hivpopulation_read_resistance_coefficients, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
-		"Read resistance coefficient from a text file\n"
+		"Read resistance coefficients from a text file\n"
 		"\n"
 		"Parameters:\n"
-		"   - filename: string with the name of the file to read the coefficient from\n"
+		"   - filename: string with the name of the file to read the coefficients from\n"
 		"\n"
 		""},
 	 { (char *)"hivpopulation_write_genotypes", (PyCFunction) _wrap_hivpopulation_write_genotypes, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -10265,7 +10207,6 @@ static swig_type_info _swigt__p_haploid_lowd = {"_p_haploid_lowd", "haploid_lowd
 static swig_type_info _swigt__p_hivgene = {"_p_hivgene", "hivgene *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_hivpopulation = {"_p_hivpopulation", "hivpopulation *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_index_value_pair_t = {"_p_index_value_pair_t", "index_value_pair_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_istream = {"_p_istream", "istream *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ostream = {"_p_ostream", "ostream *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *", 0, 0, (void*)0, 0};
@@ -10286,7 +10227,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_hivgene,
   &_swigt__p_hivpopulation,
   &_swigt__p_index_value_pair_t,
-  &_swigt__p_int,
   &_swigt__p_istream,
   &_swigt__p_ostream,
   &_swigt__p_short,
@@ -10307,7 +10247,6 @@ static swig_cast_info _swigc__p_haploid_lowd[] = {  {&_swigt__p_haploid_lowd, 0,
 static swig_cast_info _swigc__p_hivgene[] = {  {&_swigt__p_hivgene, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_hivpopulation[] = {  {&_swigt__p_hivpopulation, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_index_value_pair_t[] = {  {&_swigt__p_index_value_pair_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_istream[] = {  {&_swigt__p_istream, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ostream[] = {  {&_swigt__p_ostream, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 0, 0}};
@@ -10328,7 +10267,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_hivgene,
   _swigc__p_hivpopulation,
   _swigc__p_index_value_pair_t,
-  _swigc__p_int,
   _swigc__p_istream,
   _swigc__p_ostream,
   _swigc__p_short,
@@ -11052,6 +10990,7 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "MAX_POPSIZE",SWIG_From_int(static_cast< int >(500000)));
   SWIG_Python_SetConstant(d, "HP_NOTHING",SWIG_From_double(static_cast< double >(1e-12)));
   SWIG_Python_SetConstant(d, "HP_RANDOM_SAMPLE_FRAC",SWIG_From_double(static_cast< double >(0.01)));
+  SWIG_Python_SetConstant(d, "HP_VERY_NEGATIVE",SWIG_From_double(static_cast< double >(-1e15)));
   SWIG_Python_SetConstant(d, "HP_BADARG",SWIG_From_int(static_cast< int >(-879564)));
   SWIG_Python_SetConstant(d, "HP_MEMERR",SWIG_From_int(static_cast< int >(-986465)));
   SWIG_Python_SetConstant(d, "HP_EXPLOSIONWARN",SWIG_From_int(static_cast< int >(4)));

@@ -2,7 +2,7 @@
 <area shape="rect" id="node3" href="$classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e" title="Recombine two genotypes parent1 and parent2 to produce two new genotypes." alt="" coords="187,91,357,117"/>
 <area shape="rect" id="node9" href="$classhaploid__highd.html#ad5eee5bc7f757e20fb3119bb01c59b1e" title="For each clone, recalculate its traits." alt="" coords="198,223,346,265"/>
 <area shape="rect" id="node33" href="$classhaploid__highd.html#a1ee15d862374062377099130afc62c20" title="Calculate fitness of a particular clone." alt="" coords="205,289,339,330"/>
-<area shape="rect" id="node35" href="$classhaploid__highd.html#afc7a081d373b749a0e6356070dc7657b" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="421,129,552,170"/>
+<area shape="rect" id="node35" href="$classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="421,129,552,170"/>
 <area shape="rect" id="node5" href="$classhaploid__highd.html#ab08783cb783ca66ff2c87227dbd74314" title="Pair and mate sexual gametes." alt="" coords="421,11,552,53"/>
 <area shape="rect" id="node7" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="617,5,759,32"/>
 <area shape="rect" id="node11" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="405,260,568,287"/>

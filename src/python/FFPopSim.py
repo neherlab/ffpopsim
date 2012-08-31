@@ -340,7 +340,7 @@ class haploid_lowd(object):
 
     def set_wildtype(self, *args, **kwargs):
         """
-        Set up a population of N individuals with the - allele at all loci (wildtype)
+        Initialize population of N individuals with the - allele at all loci (wildtype)
 
         Parameters:
            - N: the number of individuals
@@ -393,7 +393,7 @@ class haploid_lowd(object):
         Get the frequency of a genotype
 
         Parameters:
-            - gt: genotype, whose the frequency is to be returned
+            - genotype: genotype, whose the frequency is to be returned
 
         Returns:
             - the frequency of the genotype
@@ -579,22 +579,23 @@ class haploid_lowd(object):
         """_set_genotypes(haploid_lowd self, int len1, int len2) -> int"""
         return _FFPopSim.haploid_lowd__set_genotypes(self, *args, **kwargs)
 
-    def set_genotypes(self, indices, counts):
+    def set_genotypes(self, genotypes, counts):
         '''Initialize population with fixed counts for specific genotypes.
 
         Parameters:
-           - indices: list of genotypes to set. Genotypes are specified as intergers, e.g. 00...0 --> 0, 11...1 --> 2^L-1.
+           - genotypes: list of genotypes to set. Genotypes are specified as integers,
+                        from 00...0 that is 0, up to 11...1 that is 2^L-1.
            - counts: list of counts for those genotypes
 
         .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
         .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
         '''
         import numpy as np
-        indices = np.asarray(indices, float)
+        genotypes = np.asarray(genotypes, float)
         counts = np.asarray(counts, float)
-        if len(indices) != len(counts):
+        if len(genotypes) != len(counts):
             raise ValueError('Indices and counts must have the same length')
-        if self._set_genotypes(indices, counts):
+        if self._set_genotypes(genotypes, counts):
             raise RuntimeError('Error in the C++ function.')
 
     def set_recombination_rates(self, rates, model=None):
@@ -653,7 +654,8 @@ class haploid_lowd(object):
 
     Parameters:
         - locus: get only the mutation rate(s) of this locus
-        - direction: get only the forward or backward mutation rate(s)
+        - direction: get only the forward or backward mutation rate(s). This argument
+                     is a Boolean, 0/False for forward rates, 1/True for backward rates.
 
     Returns:
         - the mutation rate(s) requested
@@ -972,19 +974,22 @@ class haploid_lowd(object):
         """_set_fitness_func(haploid_lowd self, int len1, int len2) -> int"""
         return _FFPopSim.haploid_lowd__set_fitness_func(self, *args, **kwargs)
 
-    def set_fitness_function(self, indices, vals):
+    def set_fitness_function(self, genotypes, values):
         '''Set the fitness landscape for individual genotypes.
 
         Parameters:
-        - indices: genotype to which the fitness values will be assigned
-        - vals: fitness values to assign
+           - genotypes: genotype to which the fitness values will be assigned. Genotypes are specified as integers,
+                        from 00...0 that is 0, up to 11...1 that is 2^L-1.
+           - values: fitness values to assign
+
+        .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
         '''
         import numpy as np
-        indices = np.asarray(indices, float)
-        vals = np.asarray(vals, float)
-        if len(indices) != len(vals):
+        genotypes = np.asarray(genotypes, float)
+        values = np.asarray(values, float)
+        if len(genotypes) != len(values):
             raise ValueError('Indices and values must have the same length')
-        if self._set_fitness_func(indices, vals):
+        if self._set_fitness_func(genotypes, values):
             raise RuntimeError('Error in the C++ function.')
 
     def set_fitness_additive(self, *args, **kwargs):
@@ -1041,6 +1046,7 @@ MAX_DELTAFITNESS = _FFPopSim.MAX_DELTAFITNESS
 MAX_POPSIZE = _FFPopSim.MAX_POPSIZE
 HP_NOTHING = _FFPopSim.HP_NOTHING
 HP_RANDOM_SAMPLE_FRAC = _FFPopSim.HP_RANDOM_SAMPLE_FRAC
+HP_VERY_NEGATIVE = _FFPopSim.HP_VERY_NEGATIVE
 HP_BADARG = _FFPopSim.HP_BADARG
 HP_MEMERR = _FFPopSim.HP_MEMERR
 HP_EXPLOSIONWARN = _FFPopSim.HP_EXPLOSIONWARN
@@ -1178,9 +1184,9 @@ class haploid_highd(object):
         Construct a high-dimensional population with certain parameters.
 
         Parameters:
-        - L     length of the genome(number of loci)
-        - rng_seed      seed for the random generator. If zero (default) pick a random number
-        - number_of_traits      number of phenotypic traits, defaults to one
+           - L     number of loci
+           - rng_seed      seed for the random generator. If zero (default) pick a random number
+           - number_of_traits      number of phenotypic traits, defaults to one
 
         """
         _FFPopSim.haploid_highd_swiginit(self,_FFPopSim.new_haploid_highd(L, rng_seed, number_of_traits))
@@ -1217,7 +1223,7 @@ class haploid_highd(object):
 
     def set_wildtype(self, *args, **kwargs):
         """
-        Set up a population of wildtype individuals
+        Initialize a population of wildtype individuals
 
         Parameters:
            - N: the number of individuals
@@ -1227,18 +1233,16 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_set_wildtype(self, *args, **kwargs)
 
-    def add_genotypes(self, *args, **kwargs):
+    def add_genotype(self, *args, **kwargs):
         """
         Add new individuals to the population with certain genotypes
 
         Parameters:
-           - gt: genotype to add to the population
+           - genotype: genotype to add to the population (Boolean list)
            - n: number of new individuals carrying that genotype
 
-        .. note:: gt is an array/list that must be convertible into a bool.
-
         """
-        return _FFPopSim.haploid_highd_add_genotypes(self, *args, **kwargs)
+        return _FFPopSim.haploid_highd_add_genotype(self, *args, **kwargs)
 
     def add_trait_coefficient(self, *args, **kwargs):
         """
@@ -1276,6 +1280,7 @@ class haploid_highd(object):
 
         Parameters:
            - epistasis_std: standard deviation of the random epistatic terms
+           - t: trait number
 
         .. note:: the epistatic terms will be Gaussian distributed around zero with the given standard deviation.
 
@@ -1388,13 +1393,13 @@ class haploid_highd(object):
 
     def get_chi(self, *args, **kwargs):
         """
-        Get chi of an allele in the -/+ basis
+        Get :math:`\chi_i` of an allele
 
         Parameters:
             - locus: locus whose chi is to be computed
 
         Returns:
-            - the chi of that allele, :math:`\chi_i := \left<s_i\right>`, where :math:`s_i \in \{-1, 1\}`.
+            - the chi of that allele, :math:`\chi_i := \left<s_i\right>`, where :math:`s_i \in \{\pm1\}`.
 
         """
         return _FFPopSim.haploid_highd_get_chi(self, *args, **kwargs)
@@ -1574,12 +1579,11 @@ class haploid_highd(object):
         '''Initialize population with fixed counts for specific genotypes.
 
         Parameters:
-           - indices: list of genotypes to set. Genotypes themselves are lists of alleles,
+           - genotypes: list of genotypes to set. Genotypes are lists of alleles,
              e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
            - counts: list of the number at which each of those genotypes it to be present
 
         .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
-        .. note:: you can use Python binary notation for the indices, e.g. 0b0110 = 6.
 
         **Example**: if you want to initialize 200 individuals with genotype 001 and 300 individuals
                      with genotype 110, you can use ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``
@@ -1589,7 +1593,9 @@ class haploid_highd(object):
         genotypes = np.array(genotypes, float, copy=False, ndmin=2)
         counts = np.asarray(counts, float)
         if len(genotypes) != len(counts):
-            raise ValueError('Indices and counts must have the same length')
+            raise ValueError('Genotypes and counts must have the same length')
+        
+        
         if self._set_genotypes(genotypes.flatten(), counts):
             raise RuntimeError('Error in the C++ function.')
 
@@ -1624,7 +1630,7 @@ class haploid_highd(object):
            - n: index of the clone whose genotype is to be returned
 
         Returns:
-           - gt: boolean array of the genotype
+           - genotype: Boolean array of the genotype
         '''
 
         return self._get_genotype(n, self.number_of_loci)
@@ -1689,13 +1695,10 @@ class haploid_highd(object):
             '''Get the fitness of all clones.'''
             return self._get_fitnesses(self.number_of_clones)
 
-    def _get_clone_sizes(self, *args, **kwargs):
-        """_get_clone_sizes(haploid_highd self, int DIM1)"""
-        return _FFPopSim.haploid_highd__get_clone_sizes(self, *args, **kwargs)
-
     def get_clone_sizes(self):
-            '''Get the fitness of all clones.'''
-            return self._get_clone_sizes(self.number_of_clones)
+            '''Get the size of all clones.'''
+            import numpy as np
+            return np.array(map(self.get_clone_size, xrange(self.number_of_clones)), int)
 
     def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
         '''Calculate the Hamming distance between two genotypes
@@ -1947,7 +1950,7 @@ haploid_highd._get_number_of_clones = new_instancemethod(_FFPopSim.haploid_highd
 haploid_highd._get_number_of_traits = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_traits,None,haploid_highd)
 haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
 haploid_highd.set_wildtype = new_instancemethod(_FFPopSim.haploid_highd_set_wildtype,None,haploid_highd)
-haploid_highd.add_genotypes = new_instancemethod(_FFPopSim.haploid_highd_add_genotypes,None,haploid_highd)
+haploid_highd.add_genotype = new_instancemethod(_FFPopSim.haploid_highd_add_genotype,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
 haploid_highd.clear_trait = new_instancemethod(_FFPopSim.haploid_highd_clear_trait,None,haploid_highd)
 haploid_highd.clear_traits = new_instancemethod(_FFPopSim.haploid_highd_clear_traits,None,haploid_highd)
@@ -1987,7 +1990,6 @@ haploid_highd._get_trait_additive = new_instancemethod(_FFPopSim.haploid_highd__
 haploid_highd.set_trait_additive = new_instancemethod(_FFPopSim.haploid_highd_set_trait_additive,None,haploid_highd)
 haploid_highd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_highd_set_fitness_additive,None,haploid_highd)
 haploid_highd._get_fitnesses = new_instancemethod(_FFPopSim.haploid_highd__get_fitnesses,None,haploid_highd)
-haploid_highd._get_clone_sizes = new_instancemethod(_FFPopSim.haploid_highd__get_clone_sizes,None,haploid_highd)
 haploid_highd.random_clones = new_instancemethod(_FFPopSim.haploid_highd_random_clones,None,haploid_highd)
 haploid_highd_swigregister = _FFPopSim.haploid_highd_swigregister
 haploid_highd_swigregister(haploid_highd)
@@ -2094,20 +2096,20 @@ class hivpopulation(haploid_highd):
 
     def read_replication_coefficients(self, *args, **kwargs):
         """
-        Read replication coefficient from a text file
+        Read replication coefficients from a text file
 
         Parameters:
-           - filename: string with the name of the file to read the coefficient from
+           - filename: string with the name of the file to read the coefficients from
 
         """
         return _FFPopSim.hivpopulation_read_replication_coefficients(self, *args, **kwargs)
 
     def read_resistance_coefficients(self, *args, **kwargs):
         """
-        Read resistance coefficient from a text file
+        Read resistance coefficients from a text file
 
         Parameters:
-           - filename: string with the name of the file to read the coefficient from
+           - filename: string with the name of the file to read the coefficients from
 
         """
         return _FFPopSim.hivpopulation_read_resistance_coefficients(self, *args, **kwargs)

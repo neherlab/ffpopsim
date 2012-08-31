@@ -18,6 +18,7 @@ haploid_lowd Class Reference
              set_allele_frequencies,
              set_fitness_function,
              set_genotypes,
+             set_recombination_rates,
              set_mutation_rates,
              get_allele_frequencies,
              get_fitnesses,
@@ -44,11 +45,10 @@ haploid_lowd Class Reference
    .. automethod:: haploid_lowd.get_chi(locus)
    .. automethod:: haploid_lowd.get_chi2(locus1, locus2)
    .. automethod:: haploid_lowd.get_fitness(genotype)
-   .. automethod:: haploid_lowd.get_genotype_frequency(locus)
+   .. automethod:: haploid_lowd.get_genotype_frequency(genotype)
    .. automethod:: haploid_lowd.get_LD(locus1, locus2)
    .. automethod:: haploid_lowd.get_moment(locus1, locus2)
-   .. automethod:: haploid_lowd.set_fitness_additive(coefficient)
-   .. automethod:: haploid_lowd.set_recombination_rates(rec_rates)
+   .. automethod:: haploid_lowd.set_fitness_additive(coefficients)
    .. automethod:: haploid_lowd.set_wildtype(N)
 
 

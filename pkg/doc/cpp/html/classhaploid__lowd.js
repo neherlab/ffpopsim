@@ -16,7 +16,7 @@ var classhaploid__lowd =
     [ "get_fitness", "classhaploid__lowd.html#a14f3f13c0ccd324dbe435bf06300c578", null ],
     [ "get_fitness_statistics", "classhaploid__lowd.html#a0217296b1952e73575f360e8427c9804", null ],
     [ "get_generation", "classhaploid__lowd.html#a6da77dee2ec13608f0d7ac6745ba2466", null ],
-    [ "get_genotype_frequency", "classhaploid__lowd.html#a975ad1a158c32b2101edb11def3d1351", null ],
+    [ "get_genotype_frequency", "classhaploid__lowd.html#a5f4e38f32d227afd2f8cead45c1db039", null ],
     [ "get_LD", "classhaploid__lowd.html#a0d319102011f2bf0d69ece8100e24dd1", null ],
     [ "get_moment", "classhaploid__lowd.html#a441482910461230f5a9756e4158220e7", null ],
     [ "get_mutation_rate", "classhaploid__lowd.html#a7b99898c67b2f75337e31f6d814ac1de", null ],

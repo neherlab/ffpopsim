@@ -18,6 +18,7 @@ var ffpopsim__highd_8h =
     [ "HP_RANDOM_SAMPLE_FRAC", "ffpopsim__highd_8h.html#a3f0086d9024eec2e073aff83b91a3816", null ],
     [ "HP_RUNTIMEERR", "ffpopsim__highd_8h.html#a9519086492ad7baa22bdabb4eb743f05", null ],
     [ "HP_VERBOSE", "ffpopsim__highd_8h.html#af50d111882971f48a393dc16fc0e1bc4", null ],
+    [ "HP_VERY_NEGATIVE", "ffpopsim__highd_8h.html#a6c5fe287de5c5d78672209edb72ec02b", null ],
     [ "HP_WRONGBINSERR", "ffpopsim__highd_8h.html#aeb3b7ef01302d85a7a22c2d159b7d4a7", null ],
     [ "MAX_DELTAFITNESS", "ffpopsim__highd_8h.html#a4b60f38477e596592773796f58ac4381", null ],
     [ "MAX_POPSIZE", "ffpopsim__highd_8h.html#a36d37e90dca769118510b4fb805128db", null ],

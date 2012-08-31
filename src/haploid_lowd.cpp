@@ -161,49 +161,51 @@ int haploid_lowd::free_mem() {
  *    [...]
  */
 int haploid_lowd::allocate_recombination_mem(int rec_model) {
-		int err = 0;
-		int i, spin;
-		int temp;
-		int *nspins;	//temporary variables the track the number of ones in the binary representation of i
-		nspins=new int [1<<number_of_loci];
-		if (nspins==NULL) {
-			cerr<<"haploid_lowd::set_recombination_rates(): Can not allocate memory!"<<endl;
-			return HG_MEMERR;
+        if (HG_VERBOSE) cerr<<"haploid_lowd::allocate_recombination_mem()...";
+	int err = 0;
+	int i, spin;
+	int temp;
+	int *nspins;	//temporary variables the track the number of ones in the binary representation of i
+	nspins=new int [1<<number_of_loci];
+	if (nspins==NULL) {
+		cerr<<"haploid_lowd::set_recombination_rates(): Can not allocate memory!"<<endl;
+		return HG_MEMERR;
+	}
+	spin=-1;
+	nspins[0]=0;
+	//allocate space for all possible subsets of loci
+	recombination_patterns=new double* [1<<number_of_loci];
+	recombination_patterns[0]=new double [1];
+	//loop over all possible locus subsets and allocate space for all
+	//possible ways to assign the subset to father and mother (2^nspins)
+	for (i=1; i<(1<<number_of_loci); i++){
+
+		// coefficients are sorted in a specific order
+		// the order of coefficient k is 1+(the order of coefficient[k-2^spin])
+		if (i==(1<<(spin+1))) spin++;
+		temp=1+nspins[i-(1<<spin)];
+		nspins[i]=temp;
+
+		//all possible ways to assign the subset to father and mother
+		// for CROSSOVERS: 2^temp
+		//     e.g. 000, 001, 010, 011, 100, 101, 110, 111
+		if (rec_model == CROSSOVERS) {
+			recombination_patterns[i]=new double [(1<<temp)];
+			recombination_model = CROSSOVERS;
+		// for SINGLE_CROSSOVER: temp
+		//     e.g. 000, 001, 011
+		// the symmetric ones, 111, 110, 100, have the same rates
+		} else {
+			recombination_patterns[i]=new double [temp];
+			recombination_model = SINGLE_CROSSOVER;
 		}
-		spin=-1;
-		nspins[0]=0;
-		//allocate space for all possible subsets of loci
-		recombination_patterns=new double* [1<<number_of_loci];
-		recombination_patterns[0]=new double [1];
-		//loop over all possible locus subsets and allocate space for all
-		//possible ways to assign the subset to father and mother (2^nspins)
-		for (i=1; i<(1<<number_of_loci); i++){
 
-			// coefficients are sorted in a specific order
-			// the order of coefficient k is 1+(the order of coefficient[k-2^spin])
-			if (i==(1<<(spin+1))) spin++;
-			temp=1+nspins[i-(1<<spin)];
-			nspins[i]=temp;
+		if (recombination_patterns[i]==NULL) err+=1;
+	}
+	delete [] nspins;
 
-			//all possible ways to assign the subset to father and mother
-			// for CROSSOVERS: 2^temp
-			//     e.g. 000, 001, 010, 011, 100, 101, 110, 111
-			if (rec_model == CROSSOVERS) {
-				recombination_patterns[i]=new double [(1<<temp)];
-				recombination_model = CROSSOVERS;
-			// for SINGLE_CROSSOVER: temp
-			//     e.g. 000, 001, 011
-			// the symmetric ones, 111, 110, 100, have the same rates
-			} else {
-				recombination_patterns[i]=new double [temp];
-				recombination_model = SINGLE_CROSSOVER;
-			}
-
-			if (recombination_patterns[i]==NULL) err+=1;
-		}
-		delete [] nspins;
-
-		return err;
+        if (HG_VERBOSE) cerr<<"...done."<<endl;
+	return err;
 }
 
 /**
@@ -215,6 +217,7 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
  * model for recombination than the previous one, and upon class destruction.
  */
 int haploid_lowd::free_recombination_mem() {
+        if (HG_VERBOSE) cerr<<"haploid_lowd::free_recombination_mem()...";
 	if (recombination_model != FREE_RECOMBINATION) {
 		for (int i=0; i<(1<<number_of_loci); i++){
 			delete [] recombination_patterns[i];
@@ -222,6 +225,7 @@ int haploid_lowd::free_recombination_mem() {
 		delete [] recombination_patterns;
 		recombination_model = FREE_RECOMBINATION;
 	}
+        if (HG_VERBOSE) cerr<<"...done."<<endl;
 	return 0;
 }
 
@@ -427,6 +431,8 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
  */
 int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 
+	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates_general()..."<<endl;
+
 	// The algorithm is divided in two parts:
 	// 1. calculate the patterns with all L loci;
 	// 2. find patterns with k < L loci via successive marginalizations;
@@ -490,6 +496,8 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 			}
 		}
 	}
+
+	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
 
@@ -501,6 +509,8 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
+
+	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates_single_crossover()...";
 
 	// The algorithm is divided in two parts:
 	// 1. calculate the patterns with all L loci;
@@ -520,7 +530,7 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	// pat[locus] is the proability of the pattern with the crossover
 	// immediately AFTER locus, and pat[L-1] is the probability of
 	// no crossover at all
-	patterns_order_L[number_of_loci - 1] = patterns_order_L[2 * number_of_loci - 1] = 0.5 * (1.0 - sum);
+	patterns_order_L[number_of_loci - 1] = 0.5 * (1.0 - sum);
 	for (locus=0; locus < number_of_loci - 1; locus++)
 		patterns_order_L[locus] = 0.5 * rec_rates[locus];
 
@@ -589,6 +599,8 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	}
 	// the very bottom has len(ii) = 0, hence deserves a special treatment
 	recombination_patterns[0][0] = recombination_patterns[1][0] + recombination_patterns[1][1];
+
+	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
 
