@@ -99,7 +99,7 @@ make every 10th locus strongly deleterious::
     m=10
     selection_coefficients = 0.0*np.ones(pop.L)     #most loci are neutral
     selection_coefficients[::m] = -0.1              #every m-th locus is strongly deleterious
-    pop.set_additive_trait(selection_coefficients)
+    pop.set_trait_additive(selection_coefficients,0)	#trait 0 is by default fitness
     
 Neutral loci are set the frequency 1/2, while the deleterious ones to
 frequency 0::
@@ -107,7 +107,7 @@ frequency 0::
     initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies
     initial_allele_frequencies[::m] = 0
 
-    #initialize the population in LD with the specified allele frequencies
+    #initialize the population in linkage equilibrium with the specified allele frequencies
     pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
 
 Next, we start evolving and track the allele frequencies as we go
@@ -125,7 +125,7 @@ deleterious ones and make it beneficial.
     	if (pop.generation%200==0):                 #every 200 generations, make one of the deleterious mutations beneficial
             print "generation:", pop.generation, 'out of', maxgen
             selection_coefficients[m*np.random.randint(0,25)] = 0.01
-            pop.set_additive_trait(selection_coefficients)      #update fitness function
+            pop.set_trait_additive(selection_coefficients)      #update fitness function
 
     allele_frequencies.append(pop.get_allele_frequencies()) #save the allele frequencies
     tp.append(pop.generation)                               #and the associated generation

@@ -225,7 +225,7 @@ protected:
 	hypercube_lowd recombinants;
 	hypercube_lowd mutants;
 	double** recombination_patterns;	// array that holds the probabilities of all possible recombination outcomes for every subset of loci
-	int recombination_model;		//model of recombination to be used
+	int recombination_model;			//model of recombination to be used
 
 	// population parameters
 	int number_of_loci;
@@ -242,6 +242,8 @@ protected:
 
 	// recombination
 	int set_recombination_rates_general(double *rec_rates);
+	int set_recombination_patterns(vector<index_value_pair_t> iv);
+	int marginalize_recombination_patterns();
 	int set_recombination_rates_single_crossover(double *rec_rates);
 	int calculate_recombinants_free();
 	int calculate_recombinants_single();

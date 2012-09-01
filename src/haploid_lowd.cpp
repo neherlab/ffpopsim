@@ -469,9 +469,62 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 		if (strandswitches%2) patterns_order_L[i] = 0;
 		sum += patterns_order_L[i];
 	}
+	marginalize_recombination_patterns();
+
+	if(HG_VERBOSE) cerr <<"done."<<endl;
+	return 0;
+}
+
+/**
+ * @brief set recombination patterns with a list of index value pairs
+ *
+ * @param vector of index_value_pair_t structures
+ *
+ * @returns zero if successful, error code otherwise
+ */
+int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
+	int err=0;
+	// allocate/release memory on changes of recombination model
+	err += set_recombination_model(CROSSOVERS);
+	if(err) return err;
+	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
+	for (int i=0; i < (1<<number_of_loci); i++) {
+		patterns_order_L[i]=0;
+	}
+	vector<index_value_pair_t>::iterator pair;
+	for (pair=iv.begin();pair!=iv.end(); pair++){
+		patterns_order_L[pair->index] = pair->val;
+		patterns_order_L[~(pair->index)] = pair->val;
+	}
+	err+=marginalize_recombination_patterns();
+	return err;
+}
+
+
+/**
+ * @brief Starting from a fully specified set of probabilities of recombination patterns, compute all sub patterns
+ *
+ * @param
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int haploid_lowd::marginalize_recombination_patterns() {
+
+	if(HG_VERBOSE) cerr <<"haploid_lowd::marginalize_recombination_patterns()..."<<endl;
+
+	int locus;
+	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
+	int marg_locus, higher_order_subset, higher_order_rec_pattern;
+	double *rptemp;
+
+	// 1. normalize the recombination patterns
+	double sum=0;
+	for (int i=0; i < (1<<number_of_loci); i++) {
+		sum += patterns_order_L[i];
+	}
 	for (int i=0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i]/=sum;
-	
+
 	// 2. marginalize repeatedly until the bottom
 	//loop over set of spins of different size, starting with 11111101111 type patterns
 	//then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
@@ -502,6 +555,7 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
+
 
 /**
  * @brief Set the recombination rates for the single crossover model

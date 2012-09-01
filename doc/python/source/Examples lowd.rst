@@ -58,7 +58,7 @@ Fourth, we plot the resulting linkage disequilibrium curves::
    for ii in range(LD_trajectories.shape[1]-1):
        #plot the LD from simulations and compare it to the exponential decay expected from theory
        plt.plot(LD_trajectories[:,0], LD_trajectories[:,ii+1], color=cols[ii], label=r'$D_{1'+str(ii+1)+'}$')
-       plt.plot(LD_trajectories[:,0], np.exp(-LD_trajectories[:,0]* r * ii), ls='--', color=cols[ii])
+       plt.plot(LD_trajectories[:,0], 0.25*np.exp(-LD_trajectories[:,0]* r * (ii+1)), ls='--', color=cols[ii])
    
    plt.legend()
    plt.xlabel('Time [generations]')

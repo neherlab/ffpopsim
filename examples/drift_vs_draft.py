@@ -16,12 +16,12 @@ m=10
 selection_coefficients = 0.0*np.ones(pop.L)     #most loci are neutral
 selection_coefficients[::m] = -0.1              #every m-th locus is strongly deleterious
 
-initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies
-initial_allele_frequencies[::m] = 0
+initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies as 1/2
+initial_allele_frequencies[::m] = 0             #set a subset of alleles to frequency 0
 
-#initialize the population in LD with the specified allele frequencies
+#initialize the population in linkage equilibrium with the specified allele frequencies
 pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
-pop.set_trait_additive(selection_coefficients)
+pop.set_trait_additive(selection_coefficients)  #trait 0 is by default fitness
 
 
 #evolve for 2000 generations and track the allele frequencies
