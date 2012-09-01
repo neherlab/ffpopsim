@@ -166,19 +166,20 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
 	int i, spin;
 	int temp;
 	int *nspins;	//temporary variables the track the number of ones in the binary representation of i
-	nspins=new int [1<<number_of_loci];
-	if (nspins==NULL) {
-		cerr<<"haploid_lowd::set_recombination_rates(): Can not allocate memory!"<<endl;
-		return HG_MEMERR;
-	}
-	spin=-1;
-	nspins[0]=0;
-	//allocate space for all possible subsets of loci
-	recombination_patterns=new double* [1<<number_of_loci];
-	recombination_patterns[0]=new double [1];
-	//loop over all possible locus subsets and allocate space for all
-	//possible ways to assign the subset to father and mother (2^nspins)
-	for (i=1; i<(1<<number_of_loci); i++){
+	if (rec_model ==CROSSOVERS){
+	  nspins=new int [1<<number_of_loci];
+	  if (nspins==NULL) {
+	    cerr<<"haploid_lowd::set_recombination_rates(): Can not allocate memory!"<<endl;
+	    return HG_MEMERR;
+	  }
+	  spin=-1;
+	  nspins[0]=0;
+	  //allocate space for all possible subsets of loci
+	  recombination_patterns=new double* [1<<number_of_loci];
+	  recombination_patterns[0]=new double [1];
+	  //loop over all possible locus subsets and allocate space for all
+	  //possible ways to assign the subset to father and mother (2^nspins)
+	  for (i=1; i<(1<<number_of_loci); i++){
 
 		// coefficients are sorted in a specific order
 		// the order of coefficient k is 1+(the order of coefficient[k-2^spin])
@@ -189,20 +190,17 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
 		//all possible ways to assign the subset to father and mother
 		// for CROSSOVERS: 2^temp
 		//     e.g. 000, 001, 010, 011, 100, 101, 110, 111
-		if (rec_model == CROSSOVERS) {
-			recombination_patterns[i]=new double [(1<<temp)];
-			recombination_model = CROSSOVERS;
-		// for SINGLE_CROSSOVER: temp
-		//     e.g. 000, 001, 011
-		// the symmetric ones, 111, 110, 100, have the same rates
-		} else {
-			recombination_patterns[i]=new double [temp];
-			recombination_model = SINGLE_CROSSOVER;
-		}
-
+		recombination_patterns[i]=new double [(1<<temp)];
 		if (recombination_patterns[i]==NULL) err+=1;
+	  }
+	  recombination_model = CROSSOVERS;
+	  delete [] nspins;
+
+	}else if (rec_model==SINGLE_CROSSOVER){
+	  recombination_patterns = new double* [1];
+	  recombination_patterns[0]=new double [number_of_loci];
+	  recombination_model = SINGLE_CROSSOVER;
 	}
-	delete [] nspins;
 
         if (HG_VERBOSE) cerr<<"...done."<<endl;
 	return err;
@@ -218,12 +216,16 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
  */
 int haploid_lowd::free_recombination_mem() {
         if (HG_VERBOSE) cerr<<"haploid_lowd::free_recombination_mem()...";
-	if (recombination_model != FREE_RECOMBINATION) {
+	if (recombination_model == CROSSOVERS) {
 		for (int i=0; i<(1<<number_of_loci); i++){
 			delete [] recombination_patterns[i];
 		}
 		delete [] recombination_patterns;
 		recombination_model = FREE_RECOMBINATION;
+	}else if (recombination_model==SINGLE_CROSSOVER){
+	  delete [] recombination_patterns[0];
+	  delete [] recombination_patterns;
+	  recombination_model = FREE_RECOMBINATION;
 	}
         if (HG_VERBOSE) cerr<<"...done."<<endl;
 	return 0;
@@ -516,7 +518,6 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	// 1. calculate the patterns with all L loci;
 	// 2. find patterns with k < L loci via successive marginalizations;
 	int locus;
-	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
 	int marg_locus, higher_order_subset, higher_order_rec_pattern;
 	double *rptemp;
 	vector <int> ii;
@@ -530,75 +531,9 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	// pat[locus] is the proability of the pattern with the crossover
 	// immediately AFTER locus, and pat[L-1] is the probability of
 	// no crossover at all
-	patterns_order_L[number_of_loci - 1] = 0.5 * (1.0 - sum);
+	recombination_patterns[0][number_of_loci - 1] = 0.5 * (1.0 - sum);
 	for (locus=0; locus < number_of_loci - 1; locus++)
-		patterns_order_L[locus] = 0.5 * rec_rates[locus];
-
-	// 2. marginalize repeatedly until the bottom
-	for (int set_size=number_of_loci-1; set_size > 0; set_size--) {
-		// recombination_patterns of set_size have length 2 * set_size
-		// we have to do three things:
-		// I. figure out what set of sites correspond to i
-		// II. run over all possible crossover points in the reduced set
-		// III. marginalize over all possible invisible crossover points (1 or 2)
-		//loop over all 2^L binary patterns
-		for (int subset=0; subset < (1<<number_of_loci); subset++) {
-			//if correct number of ones... (its the same in every hypercube...)
-			if (fitness.order[subset] == set_size) {
-				//determine the first zero, i.e. a locus that can be used to marginalize
-				marg_locus=-1;
-				for (locus=0; locus < number_of_loci; locus++) {
-					if ((subset&(1<<locus))==0)
-						{marg_locus=locus; break;}
-				}
-				//a short hand for the higher order recombination pattern, from which we will marginalize
-				higher_order_subset=subset+(1<<marg_locus);
-				rptemp=recombination_patterns[higher_order_subset];
-
-				// I. create the multiindex i = indices(subset != 0)
-				ii.clear();
-				for (locus=0; locus < number_of_loci; locus++) {
-					if ((subset&(1<<locus)))
-						ii.push_back(locus);
-				}
-
-				// II. loop over all pattern of the length set_size and marginalize
-				// This can only happen at the boundary between 0s and 1s
-				// i.e. 111x00 = 111000 + 111100
-				// but  110x00 = 110000 by virtue of the single crossover!
-				// for locus < set_size - 1, the restricted pattern is heterogeneous,
-				// e.g. x00xx1x
-				for (locus = 0; locus < set_size - 1; locus++) {
-
-					// III. only zero OK
-					if (marg_locus < ii[locus])
-						recombination_patterns[subset][locus] = rptemp[locus + 1];
-
-					// III. only one OK
-					else if (marg_locus > ii[locus + 1])
-						recombination_patterns[subset][locus] = rptemp[locus];
-					
-					// III. both OK
-					else
-						recombination_patterns[subset][locus] = rptemp[locus + 1] + rptemp[locus];
-				}
-				// II. for locus == set_size - 1, the restricted pattern is homogeneous,
-				// e.g. x00xx0x
-				if (marg_locus < ii[0])
-					// e.g. P(x00xx0x) = P(000xx0x) + P(100xx0x)
-					// the latter being equal to P(011xx1x) = rptemp[0]
-					recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[0];
-				else if (marg_locus > ii[set_size - 1])
-					// e.g. P(x00xx0x) = P(x00xx00) + P(x00xx01)
-					recombination_patterns[subset][set_size - 1] = rptemp[set_size] + rptemp[set_size - 1];
-				// III. only zero OK
-				else
-					recombination_patterns[subset][set_size - 1] = rptemp[set_size];
-			}			
-		}
-	}
-	// the very bottom has len(ii) = 0, hence deserves a special treatment
-	recombination_patterns[0][0] = recombination_patterns[1][0] + recombination_patterns[1][1];
+		recombination_patterns[0][locus] = 0.5 * rec_rates[locus];
 
 	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
@@ -878,19 +813,13 @@ int haploid_lowd::recombine() {
 	population.set_state(HC_FUNC);
 	if (recombination_model == FREE_RECOMBINATION) {
 		err=calculate_recombinants_free();
-		for (int i=0; i<(1<<number_of_loci); i++) {
-			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
-		}
 	} else if (recombination_model == SINGLE_CROSSOVER) {
 		err=calculate_recombinants_single();
-		for (int i=0; i<(1<<number_of_loci); i++){
-			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
-		}
 	} else {
 		err=calculate_recombinants_general();
-		for (int i=0; i<(1<<number_of_loci); i++){
-			population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
-		}
+	}
+	for (int i=0; i<(1<<number_of_loci); i++) {
+	  population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
 	}
 	return err;
 }
@@ -955,7 +884,8 @@ int haploid_lowd::calculate_recombinants_free() {
  */
 int haploid_lowd::calculate_recombinants_single() {
 	int i,j,k, maternal_alleles, paternal_alleles, count, rec_pattern, crossover_point, set_size, l;
-	vector <int> a;
+	
+	if (HG_VERBOSE) {cerr<<"haploid_lowd::calculate_recombinants_single()...";}
 
 	// prepare hypercubes
 	population.fft_func_to_coeff();
@@ -964,19 +894,12 @@ int haploid_lowd::calculate_recombinants_single() {
 	//normalization of the distribution
 	recombinants.coeff[0]=1.0/(1<<number_of_loci);
 	if(HG_VERBOSE) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
+	
+	double *RP = recombination_patterns[0];
 
 	//loop of all coefficients of the distribution of recombinants
 	for (i=1; i<(1<<number_of_loci); i++) {
 		recombinants.coeff[i]=0;
-
-		// find the k for this coefficient
-		set_size = recombinants.order[i];
-
-		// find the set_size loci
-		a.clear();
-		for(int locus=0; locus != number_of_loci; locus++)
-			if(i&(1<<locus))
-				a.push_back(locus);
 
 		// the mother can contribute l loci | l in [0, set_size]
 		// l specifies the recombination pattern: it is either
@@ -984,30 +907,27 @@ int haploid_lowd::calculate_recombinants_single() {
 		//   2. l ones followed by (set_size - l) zeros
 		// equivalently, we look where the crossover happens from
 		// 0 to set_size - 1, the last case meaning no crossover at all
-		for (crossover_point=0; crossover_point != set_size; crossover_point++) {
-
-			// consider both cases, 00111 and 11000
-			for (int first_digit=0; first_digit != 2; first_digit++) {
-
-				// pick the maternal and paternal Fourier coefficients
-				paternal_alleles=0;
-				maternal_alleles=0;
-				for(int locus=0; locus != set_size; locus++) {
-					if((crossover_point < set_size - 1 - locus) ^ first_digit)
-						paternal_alleles += (1<<a[set_size - 1 - locus]);
-					else
-						maternal_alleles += (1<<a[set_size - 1 - locus]);
-				}
-				recombinants.coeff[i]+=recombination_patterns[i][crossover_point]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
-				if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
-			}		
+		rec_pattern = 0;
+		crossover_point = number_of_loci-1;
+		maternal_alleles = i;
+		paternal_alleles = 0;
+		recombinants.coeff[i]+=2*RP[crossover_point]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
 		
-		}
-
+		for (crossover_point=0; crossover_point < number_of_loci-1; crossover_point++) {
+		  rec_pattern=(2<<crossover_point)-1;
+		  // pick the maternal and paternal Fourier coefficients
+		  paternal_alleles=(i&(~rec_pattern));
+		  maternal_alleles=(i&rec_pattern);
+		  recombinants.coeff[i]+=2*RP[crossover_point]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
+		  if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
+		}		
+		
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=(1<<(number_of_loci));
 		if(HG_VERBOSE) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
 	}
+
+	if (HG_VERBOSE) {cerr<<"done."<<endl;}
 
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();

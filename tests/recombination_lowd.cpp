@@ -116,7 +116,7 @@ int haploid_lowd_test::test_recombinant_distribution(){
 //						if(inherited == 1)
 //							cout<<crossover_point<<" "<<mother<<" "<<father<<endl;
 
-						test_rec[inherited]+=recombination_patterns[(1<<number_of_loci)-1][crossover_point]*population.func[mother]*population.func[father];
+						test_rec[inherited]+=recombination_patterns[0][crossover_point]*population.func[mother]*population.func[father];
 					}
 				}
 			}
@@ -368,7 +368,7 @@ int main(int argc, char **argv){
 		pop.set_genotypes(gts);
 
 		// test recombination routine
-		if (pop.test_single_crossover_set_rates()) status += 1;
+		//if (pop.test_single_crossover_set_rates()) status += 1;
 		if (pop.test_recombinant_distribution()) status += 1;
 
 	}
