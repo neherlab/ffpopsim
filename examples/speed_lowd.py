@@ -115,32 +115,3 @@ plt.legend(loc=4)
 plt.xlim([1,Lmax_single_xo+2])
 plt.ylim([0.5*np.min(exec_time_norec[:,1]),3*np.max(exec_time[:,1])])
 
-plt.figure()
-#general recombination
-plt.plot(exec_time[:,0], exec_time[:,1],label='with recombination', linestyle='None', marker = 'o')
-plt.plot(exec_time[:,0], exec_time[-1,1]/3.0**(Lmax_general-exec_time[:,0]),label=r'$\propto 3^L$')
-
-##single crossovers
-plt.plot(exec_time_single_xo[:,0],
-         exec_time_single_xo[:,1],label='single crossover', linestyle='None', marker = 'o')
-plt.plot(exec_time_single_xo[:,0],
-         exec_time_single_xo[-1,1]/2.0**(Lmax_single_xo-exec_time_single_xo[:,0])*(exec_time_single_xo[:,0]/Lmax_single_xo),
-         label=r'$\propto L2^L$')
-
-# no recombination
-plt.plot(exec_time_norec[:,0], exec_time_norec[:,1],label='without recombination', linestyle='None', marker = 'x')
-
-# complexity of the naive algorithm
-plt.plot(exec_time[:,0], exec_time[-1,1]/3.0**(Lmax_general)*8**(exec_time[:,0]),label=r'$\propto 8^L$')
-
-ax=plt.gca()
-ax.set_yscale('log')
-plt.xlabel('number of loci')
-plt.ylabel('seconds for '+str(G)+' generations')
-plt.legend(loc=4)
-plt.xlim([1,Lmax_single_xo+2])
-plt.ylim([0.2*np.min(exec_time_norec[:,1]),10*np.max(exec_time[:,1])])
-plt.show()
-
-
-
