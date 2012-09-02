@@ -66,7 +66,7 @@ using namespace std;
  * @brief Pairs of an index and a value
  */
 struct index_value_pair_t {
-	int index;
+	size_t index;
 	double val;
 	index_value_pair_t(int index_in=0, double val_in=0) : index(index_in), val(val_in) {};
 };

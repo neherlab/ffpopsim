@@ -281,7 +281,7 @@ $(document).ready(function(){initNavTree('ffpopsim__lowd_8h_source.html','');});
 <div class="line"><a name="l00225"></a><span class="lineno"><a class="code" href="classhaploid__lowd.html#ab7fe51badacceffb88691367de3f83f3">  225</a></span>&#160;        <a class="code" href="classhypercube__lowd.html" title="Binary hypercube_lowd used in low-dimensional simulations.">hypercube_lowd</a> <a class="code" href="classhaploid__lowd.html#ab7fe51badacceffb88691367de3f83f3">recombinants</a>;</div>
 <div class="line"><a name="l00226"></a><span class="lineno"><a class="code" href="classhaploid__lowd.html#ad1116f5f88974310d0484695e9ffad79">  226</a></span>&#160;        <a class="code" href="classhypercube__lowd.html" title="Binary hypercube_lowd used in low-dimensional simulations.">hypercube_lowd</a> <a class="code" href="classhaploid__lowd.html#ad1116f5f88974310d0484695e9ffad79">mutants</a>;</div>
 <div class="line"><a name="l00227"></a><span class="lineno"><a class="code" href="classhaploid__lowd.html#a362ea0105cf753341686a9c6439639e1">  227</a></span>&#160;        <span class="keywordtype">double</span>** <a class="code" href="classhaploid__lowd.html#a362ea0105cf753341686a9c6439639e1">recombination_patterns</a>;        <span class="comment">// array that holds the probabilities of all possible recombination outcomes for every subset of loci</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno"><a class="code" href="classhaploid__lowd.html#adf6f69f17327345b33eb44fabe07a79c">  228</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classhaploid__lowd.html#adf6f69f17327345b33eb44fabe07a79c">recombination_model</a>;                <span class="comment">//model of recombination to be used</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno"><a class="code" href="classhaploid__lowd.html#adf6f69f17327345b33eb44fabe07a79c">  228</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classhaploid__lowd.html#adf6f69f17327345b33eb44fabe07a79c">recombination_model</a>;                        <span class="comment">//model of recombination to be used</span></div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="comment">// population parameters</span></div>
 <div class="line"><a name="l00231"></a><span class="lineno"><a class="code" href="classhaploid__lowd.html#ad4d589e6df72b5bf6db6902821bd8f19">  231</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classhaploid__lowd.html#ad4d589e6df72b5bf6db6902821bd8f19">number_of_loci</a>;</div>
@@ -298,31 +298,33 @@ $(document).ready(function(){initNavTree('ffpopsim__lowd_8h_source.html','');});
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="comment">// recombination</span></div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordtype">int</span> set_recombination_rates_general(<span class="keywordtype">double</span> *rec_rates);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordtype">int</span> set_recombination_rates_single_crossover(<span class="keywordtype">double</span> *rec_rates);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordtype">int</span> calculate_recombinants_free();</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordtype">int</span> calculate_recombinants_single();</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keywordtype">int</span> calculate_recombinants_general();</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="comment">// Memory management is private, subclasses must take care only of their own memory</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordtype">bool</span> mem;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordtype">int</span> allocate_mem();</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="keywordtype">int</span> free_mem();</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordtype">int</span> allocate_recombination_mem(<span class="keywordtype">int</span> rec_model);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="keywordtype">int</span> free_recombination_mem();</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="comment">// counting reference</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">size_t</span> number_of_instances;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;};</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* FFPOPSIM_LOWD_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordtype">int</span> set_recombination_patterns(vector&lt;index_value_pair_t&gt; iv);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordtype">int</span> marginalize_recombination_patterns();</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordtype">int</span> set_recombination_rates_single_crossover(<span class="keywordtype">double</span> *rec_rates);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keywordtype">int</span> calculate_recombinants_free();</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="keywordtype">int</span> calculate_recombinants_single();</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="keywordtype">int</span> calculate_recombinants_general();</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="comment">// Memory management is private, subclasses must take care only of their own memory</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="keywordtype">bool</span> mem;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordtype">int</span> allocate_mem();</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="keywordtype">int</span> free_mem();</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="keywordtype">int</span> allocate_recombination_mem(<span class="keywordtype">int</span> rec_model);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="keywordtype">int</span> free_recombination_mem();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="comment">// counting reference</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">size_t</span> number_of_instances;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;};</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* FFPOPSIM_LOWD_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="ffpopsim__lowd_8h.html">ffpopsim_lowd.h</a></li>
-    <li class="footer">Generated on Fri Aug 31 2012 16:53:16 for FFPopSim by
+    <li class="footer">Generated on Sun Sep 2 2012 18:10:45 for FFPopSim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

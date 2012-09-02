@@ -14,6 +14,7 @@ var searchData=
   ['set_5frandom_5ftrait_5fepistasis',['set_random_trait_epistasis',['../classhaploid__highd.html#ae8d94a3616a3c1ffdb07844fbd0349aa',1,'haploid_highd']]],
   ['set_5frange',['set_range',['../classsample.html#a046fc8a95e6ffef1ceacdffae1ee2906',1,'sample']]],
   ['set_5frecombination_5fmodel',['set_recombination_model',['../classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e',1,'haploid_lowd']]],
+  ['set_5frecombination_5fpatterns',['set_recombination_patterns',['../classhaploid__lowd.html#a2aea34b97e0dfc7ae103f86a58efe593',1,'haploid_lowd']]],
   ['set_5frecombination_5frates',['set_recombination_rates',['../classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb',1,'haploid_lowd']]],
   ['set_5frecombination_5frates_5fgeneral',['set_recombination_rates_general',['../classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526',1,'haploid_lowd']]],
   ['set_5frecombination_5frates_5fsingle_5fcrossover',['set_recombination_rates_single_crossover',['../classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12',1,'haploid_lowd']]],

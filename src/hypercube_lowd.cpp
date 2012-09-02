@@ -206,8 +206,8 @@ int hypercube_lowd::init_list(vector <index_value_pair_t> iv, bool add){
 		reset();
 	}else if (state==HC_COEFF)	fft_coeff_to_func();
 
-	for (unsigned int pair=0; pair<iv.size(); pair++){
-		func[iv[pair].index]=iv[pair].val;
+	for (unsigned int pair=0; pair < iv.size(); pair++){
+		func[iv[pair].index] = iv[pair].val;
 	}
 	return fft_func_to_coeff();
 }
@@ -218,8 +218,8 @@ int hypercube_lowd::init_coeff_list(vector <index_value_pair_t> iv, bool add){
 		reset();
 	}else if (state==HC_FUNC)	fft_func_to_coeff();
 
-	for (unsigned int pair=0; pair<iv.size(); pair++){
-		coeff[iv[pair].index]=iv[pair].val;
+	for (unsigned int pair=0; pair < iv.size(); pair++){
+		coeff[iv[pair].index] = iv[pair].val;
 	}
 	return fft_coeff_to_func();
 }

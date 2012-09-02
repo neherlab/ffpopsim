@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"classsample.html#a4285c92a876e82ecdfb499058646f26d":[0,0,11,3],
+"classsample.html#a49b37838e8d6af5d402a83c0d3fe61fa":[0,0,11,16],
 "classsample.html#a52a1e7c128a27aaeb4649f88a290a570":[0,0,11,10],
 "classsample.html#a56f9a226633fa2683db06c489d297218":[0,0,11,0],
 "classsample.html#a6781c0e481dec3ceaed9907e74a80b2e":[0,0,11,18],
@@ -62,8 +64,8 @@ var NAVTREEINDEX1 =
 "ffpopsim__lowd_8h.html#ab7ee9eb9fa38753132a6ffc8bf3223af":[1,0,0,2,14],
 "ffpopsim__lowd_8h_source.html":[1,0,0,2],
 "files.html":[1,0],
-"functions.html":[0,3,0,0],
 "functions.html":[0,3,0],
+"functions.html":[0,3,0,0],
 "functions_0x62.html":[0,3,0,1],
 "functions_0x63.html":[0,3,0,2],
 "functions_0x64.html":[0,3,0,3],
@@ -134,8 +136,8 @@ var NAVTREEINDEX1 =
 "structhivgene.html#a6dee0bde690a31012059fd0c68065b96":[0,0,6,1],
 "structhivgene.html#aadea83e9185c5bcc0b188cd5771042a5":[0,0,6,0],
 "structindex__value__pair__t.html":[0,0,10],
-"structindex__value__pair__t.html#a3909a9768a78940fddde8e0faa73fe66":[0,0,10,1],
 "structindex__value__pair__t.html#a49a5c7b35a5d547261837e9fc4d3b82d":[0,0,10,0],
+"structindex__value__pair__t.html#ab79faebd970e6b2056527e3cef2aeeef":[0,0,10,1],
 "structindex__value__pair__t.html#abf0a3137b9ec19afe7d8526bc58cde05":[0,0,10,2],
 "structstat__t.html":[0,0,12],
 "structstat__t.html#a63e455a3eeb20284eb33babea46819ec":[0,0,12,1],

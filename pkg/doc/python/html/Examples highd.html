@@ -157,7 +157,7 @@ make every 10th locus strongly deleterious:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">m</span><span class="o">=</span><span class="mi">10</span>
 <span class="n">selection_coefficients</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">)</span>     <span class="c">#most loci are neutral</span>
 <span class="n">selection_coefficients</span><span class="p">[::</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>              <span class="c">#every m-th locus is strongly deleterious</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">set_additive_trait</span><span class="p">(</span><span class="n">selection_coefficients</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_trait_additive</span><span class="p">(</span><span class="n">selection_coefficients</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>    <span class="c">#trait 0 is by default fitness</span>
 </pre></div>
 </div>
 <p>Neutral loci are set the frequency 1/2, while the deleterious ones to
@@ -165,7 +165,7 @@ frequency 0:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">initial_allele_frequencies</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="c">#define some initial allele frequencies</span>
 <span class="n">initial_allele_frequencies</span><span class="p">[::</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="c">#initialize the population in LD with the specified allele frequencies</span>
+<span class="c">#initialize the population in linkage equilibrium with the specified allele frequencies</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">set_allele_frequencies</span><span class="p">(</span><span class="n">initial_allele_frequencies</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -181,7 +181,7 @@ deleterious ones and make it beneficial.</p>
     <span class="k">if</span> <span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="o">%</span><span class="mi">200</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>                 <span class="c">#every 200 generations, make one of the deleterious mutations beneficial</span>
         <span class="k">print</span> <span class="s">&quot;generation:&quot;</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span> <span class="s">&#39;out of&#39;</span><span class="p">,</span> <span class="n">maxgen</span>
         <span class="n">selection_coefficients</span><span class="p">[</span><span class="n">m</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.01</span>
-        <span class="n">pop</span><span class="o">.</span><span class="n">set_additive_trait</span><span class="p">(</span><span class="n">selection_coefficients</span><span class="p">)</span>      <span class="c">#update fitness function</span>
+        <span class="n">pop</span><span class="o">.</span><span class="n">set_trait_additive</span><span class="p">(</span><span class="n">selection_coefficients</span><span class="p">)</span>      <span class="c">#update fitness function</span>
 
 <span class="n">allele_frequencies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">())</span> <span class="c">#save the allele frequencies</span>
 <span class="n">tp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">)</span>                               <span class="c">#and the associated generation</span>

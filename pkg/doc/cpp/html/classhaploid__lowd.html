@@ -247,6 +247,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a1e5d90e6421e2523a9a1d6880b116526"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526">set_recombination_rates_general</a> (double *rec_rates)</td></tr>
 <tr class="memdesc:a1e5d90e6421e2523a9a1d6880b116526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the recombination rates for the general model.  <a href="#a1e5d90e6421e2523a9a1d6880b116526"></a><br/></td></tr>
 <tr class="separator:a1e5d90e6421e2523a9a1d6880b116526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2aea34b97e0dfc7ae103f86a58efe593"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#a2aea34b97e0dfc7ae103f86a58efe593">set_recombination_patterns</a> (vector&lt; <a class="el" href="structindex__value__pair__t.html">index_value_pair_t</a> &gt; iv)</td></tr>
+<tr class="memdesc:a2aea34b97e0dfc7ae103f86a58efe593"><td class="mdescLeft">&#160;</td><td class="mdescRight">set recombination patterns with a list of index value pairs  <a href="#a2aea34b97e0dfc7ae103f86a58efe593"></a><br/></td></tr>
+<tr class="separator:a2aea34b97e0dfc7ae103f86a58efe593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae219885fed693ee203b9d0dc1b2f7af2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ae219885fed693ee203b9d0dc1b2f7af2">marginalize_recombination_patterns</a> ()</td></tr>
+<tr class="memdesc:ae219885fed693ee203b9d0dc1b2f7af2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starting from a fully specified set of probabilities of recombination patterns, compute all sub patterns.  <a href="#ae219885fed693ee203b9d0dc1b2f7af2"></a><br/></td></tr>
+<tr class="separator:ae219885fed693ee203b9d0dc1b2f7af2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9238fef89702bcced8c5d0c1d26bc12"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12">set_recombination_rates_single_crossover</a> (double *rec_rates)</td></tr>
 <tr class="memdesc:ac9238fef89702bcced8c5d0c1d26bc12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the recombination rates for the single crossover model.  <a href="#ac9238fef89702bcced8c5d0c1d26bc12"></a><br/></td></tr>
 <tr class="separator:ac9238fef89702bcced8c5d0c1d26bc12"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1112,6 +1118,46 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="ae219885fed693ee203b9d0dc1b2f7af2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::marginalize_recombination_patterns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Starting from a fully specified set of probabilities of recombination patterns, compute all sub patterns. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">@returns</td><td>zero if successful, error codes otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_ae219885fed693ee203b9d0dc1b2f7af2_icgraph.png" border="0" usemap="#classhaploid__lowd_ae219885fed693ee203b9d0dc1b2f7af2_icgraph" alt=""/></div>
+<map name="classhaploid__lowd_ae219885fed693ee203b9d0dc1b2f7af2_icgraph" id="classhaploid__lowd_ae219885fed693ee203b9d0dc1b2f7af2_icgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526" title="Set the recombination rates for the general model." alt="" coords="224,5,435,46"/><area shape="rect" id="node7" href="classhaploid__lowd.html#a2aea34b97e0dfc7ae103f86a58efe593" title="set recombination patterns with a list of index value pairs" alt="" coords="224,70,435,111"/><area shape="rect" id="node5" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb" title="calculate recombination patterns" alt="" coords="483,5,693,46"/></map>
+</div>
+</p>
+
+</div>
+</div>
 <a class="anchor" id="a80a7b4f7281c7140a117bd2646571edf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1538,7 +1584,49 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph.png" border="0" usemap="#classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph" alt=""/></div>
 <map name="classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph" id="classhaploid__lowd_a64dd2122bfc9330916f287a24663f17e_icgraph">
-<area shape="rect" id="node3" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb" title="calculate recombination patterns" alt="" coords="264,5,475,46"/></map>
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a7205efecac8e96a40fd74dafde0ec1eb" title="calculate recombination patterns" alt="" coords="264,5,475,46"/><area shape="rect" id="node5" href="classhaploid__lowd.html#a2aea34b97e0dfc7ae103f86a58efe593" title="set recombination patterns with a list of index value pairs" alt="" coords="264,70,475,111"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a2aea34b97e0dfc7ae103f86a58efe593"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int haploid_lowd::set_recombination_patterns </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structindex__value__pair__t.html">index_value_pair_t</a> &gt;&#160;</td>
+          <td class="paramname"><em>iv</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>set recombination patterns with a list of index value pairs </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vector</td><td>of <a class="el" href="structindex__value__pair__t.html" title="Pairs of an index and a value.">index_value_pair_t</a> structures</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zero if successful, error code otherwise </dd></dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_a2aea34b97e0dfc7ae103f86a58efe593_cgraph.png" border="0" usemap="#classhaploid__lowd_a2aea34b97e0dfc7ae103f86a58efe593_cgraph" alt=""/></div>
+<map name="classhaploid__lowd_a2aea34b97e0dfc7ae103f86a58efe593_cgraph" id="classhaploid__lowd_a2aea34b97e0dfc7ae103f86a58efe593_cgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e" title="Set a new recombination model." alt="" coords="264,5,475,46"/><area shape="rect" id="node5" href="classhaploid__lowd.html#ae219885fed693ee203b9d0dc1b2f7af2" title="Starting from a fully specified set of probabilities of recombination patterns, compute all sub patte..." alt="" coords="284,70,455,111"/></map>
 </div>
 </p>
 
@@ -1586,7 +1674,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph.png" border="0" usemap="#classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph" alt=""/></div>
 <map name="classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph" id="classhaploid__lowd_a7205efecac8e96a40fd74dafde0ec1eb_cgraph">
-<area shape="rect" id="node3" href="classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e" title="Set a new recombination model." alt="" coords="264,5,475,46"/><area shape="rect" id="node5" href="classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12" title="Set the recombination rates for the single crossover model." alt="" coords="264,70,475,111"/><area shape="rect" id="node7" href="classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526" title="Set the recombination rates for the general model." alt="" coords="264,135,475,177"/></map>
+<area shape="rect" id="node3" href="classhaploid__lowd.html#a64dd2122bfc9330916f287a24663f17e" title="Set a new recombination model." alt="" coords="264,5,475,46"/><area shape="rect" id="node5" href="classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12" title="Set the recombination rates for the single crossover model." alt="" coords="264,70,475,111"/><area shape="rect" id="node7" href="classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526" title="Set the recombination rates for the general model." alt="" coords="264,135,475,177"/><area shape="rect" id="node9" href="classhaploid__lowd.html#ae219885fed693ee203b9d0dc1b2f7af2" title="Starting from a fully specified set of probabilities of recombination patterns, compute all sub patte..." alt="" coords="523,135,693,177"/></map>
 </div>
 </p>
 
@@ -1622,6 +1710,15 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>zero if successful, error codes otherwise </dd></dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_cgraph.png" border="0" usemap="#classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_cgraph" alt=""/></div>
+<map name="classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_cgraph" id="classhaploid__lowd_a1e5d90e6421e2523a9a1d6880b116526_cgraph">
+<area shape="rect" id="node3" href="classhaploid__lowd.html#ae219885fed693ee203b9d0dc1b2f7af2" title="Starting from a fully specified set of probabilities of recombination patterns, compute all sub patte..." alt="" coords="264,5,435,46"/></map>
+</div>
+</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -2002,7 +2099,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classhaploid__lowd.html">haploid_lowd</a></li>
-    <li class="footer">Generated on Fri Aug 31 2012 16:53:16 for FFPopSim by
+    <li class="footer">Generated on Sun Sep 2 2012 18:10:45 for FFPopSim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

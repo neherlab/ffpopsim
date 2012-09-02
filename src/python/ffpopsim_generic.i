@@ -10,13 +10,13 @@
 %extend index_value_pair_t {
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"index: %d, val: %.2e", $self->index, $self->val);
+        sprintf(buffer,"index: %u, val: %.2e", $self->index, $self->val);
         return &buffer[0];
 }
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"(%d, %.2e)", $self->index, $self->val);
+        sprintf(buffer,"(%u, %.2e)", $self->index, $self->val);
         return &buffer[0];
 }
 

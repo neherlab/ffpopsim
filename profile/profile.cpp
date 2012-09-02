@@ -29,6 +29,7 @@ int main(int argc, char **argv){
 		cout<<"Usage: "<<argv[0]<<endl;
 		status = 1;
 	} else {
+                for(int i=0; i < 5; i++)
 		status += hiv_profile();
 	}
 	cout<<"Number of errors: "<<status<<endl;
@@ -49,7 +50,7 @@ int hiv_profile() {
 		pop.read_replication_coefficients(model);
 		if(PROFILE_VERBOSE) cerr<<"read!"<<endl;
 	
-		for(size_t j = 0; j < 10; j++) {
+		for(size_t j = 0; j < 5; j++) {
 			pop.get_max_fitness();
 			err += pop.evolve(100);
 		}
