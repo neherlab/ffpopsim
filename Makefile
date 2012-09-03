@@ -251,13 +251,12 @@ SOMODULE := $(SWIG_MODULE:%.i=_%.so)
 python: $(PYBDIR)/$(PYMODULE) $(PYBDIR)/$(SOMODULE) $(DISTUTILS_SETUP)
 
 python-install:
-	$(PYTHON) setup.py install
 	rm -rf build
+	$(PYTHON) setup.py install
 
 $(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%)
 	rm -rf build
 	$(PYTHON) setup.py build_ext --inplace
-	rm -rf build
 	mkdir -p $(PKGDIR)/python
 	cp -f $(PYBDIR)/$(PYMODULE) $(PKGDIR)/python/
 	cp -f $(PYBDIR)/$(SOMODULE) $(PKGDIR)/python/

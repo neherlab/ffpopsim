@@ -465,8 +465,12 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 		sum += patterns_order_L[i];
 	}
 	// normalize the recombination patterns
-	for (double *rptemp=patterns_order_L; rptemp != patterns_order_L + sizeof(double)*(1<<number_of_loci); rptemp++)
-		(*rptemp) /= sum; 
+	if(sum < HG_NOTHING) {
+		if(HG_VERBOSE) cerr<<"Recombination rates must be greater than zero!"<<endl;
+		return HG_BADARG;
+	}
+	for (int i=0; i < (1<<number_of_loci); i++)
+		patterns_order_L[i] /= sum;
 
 	// 2. marginalize
 	marginalize_recombination_patterns();
@@ -488,9 +492,9 @@ int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
 	err += set_recombination_model(CROSSOVERS);
 	if(err) return err;
 	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
-	for (int i=0; i < (1<<number_of_loci); i++) {
+	for (int i=0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i]=0;
-	}
+
 	vector<index_value_pair_t>::iterator pair;
 	for (pair=iv.begin();pair!=iv.end(); pair++){
 		if((pair->index < (1<<number_of_loci)) and (pair->val > 0)) {
@@ -501,11 +505,14 @@ int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
 
 	// normalize the recombination patterns
 	double sum=0;
-	double *rptempf = patterns_order_L + sizeof(double)*(1<<number_of_loci);
-	for (double *rptemp=patterns_order_L; rptemp != rptempf; rptemp++)
-		sum += (*rptemp); 
-	for (double *rptemp=patterns_order_L; rptemp != rptempf; rptemp++)
-		(*rptemp) /= sum;
+	for (int i=0; i < (1<<number_of_loci); i++)
+		sum += patterns_order_L[i];
+	if(sum < HG_NOTHING) {
+		if(HG_VERBOSE) cerr<<"Recombination rates must be greater than zero!"<<endl;
+		return HG_BADARG;
+	}
+	for (int i=0; i < (1<<number_of_loci); i++)
+		patterns_order_L[i] /= sum;
 
 	err+=marginalize_recombination_patterns();
 	return err;
@@ -888,13 +895,15 @@ int haploid_lowd::recombine() {
 int haploid_lowd::calculate_recombinants_free() {
 	int i,j,k, maternal_alleles, paternal_alleles, count;
 
+	if (HG_VERBOSE) {cerr<<"haploid_lowd::calculate_recombinants_free()...";}
+
 	// prepare hypercubes
 	population.fft_func_to_coeff();
 	recombinants.set_state(HC_COEFF);
 
 	//normalization of the distribution
 	recombinants.coeff[0]=1.0/(1<<number_of_loci);
-	if(HG_VERBOSE) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
+	if(HG_VERBOSE >= 2) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
 
 	//loop of all coefficients of the distribution of recombinants
 	for (i=1; i<(1<<number_of_loci); i++) {
@@ -921,9 +930,10 @@ int haploid_lowd::calculate_recombinants_free() {
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=1.0*(1<<(number_of_loci-recombinants.order[i]));
 	}
-
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();
+
+	if (HG_VERBOSE) {cerr<<"done."<<endl;}
 	return 0;
 }
 
@@ -946,7 +956,7 @@ int haploid_lowd::calculate_recombinants_single() {
 
 	//normalization of the distribution
 	recombinants.coeff[0]=1.0/(1<<number_of_loci);
-	if(HG_VERBOSE) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
+	if(HG_VERBOSE >= 2) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
 	
 	double *RP = recombination_patterns[0];
 
@@ -956,6 +966,7 @@ int haploid_lowd::calculate_recombinants_single() {
 		// two things can happen:
 		// 1. everything is contributed by the same parent i
 		recombinants.coeff[i] = 2*RP[number_of_loci-1] * population.coeff[i] * population.coeff[0];
+		if(HG_VERBOSE >= 3) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[i]<<endl;
 		
 		// 2. both parents contribute in variable proportions
 		for (crossover_point=0; crossover_point < number_of_loci-1; crossover_point++) {
@@ -964,18 +975,17 @@ int haploid_lowd::calculate_recombinants_single() {
 			paternal_alleles=(i&(~rec_pattern));
 			maternal_alleles=(i&rec_pattern);
 			recombinants.coeff[i] += 2*RP[crossover_point] * population.coeff[maternal_alleles] * population.coeff[paternal_alleles];
-			if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
+			if(HG_VERBOSE >= 3) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
 		}		
 		
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=(1<<(number_of_loci));
-		if(HG_VERBOSE) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
+		if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
 	}
-
-	if (HG_VERBOSE) {cerr<<"done."<<endl;}
-
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();
+
+	if (HG_VERBOSE) {cerr<<"done."<<endl;}
 	return 0;
 }
 
@@ -990,13 +1000,15 @@ int haploid_lowd::calculate_recombinants_single() {
 int haploid_lowd::calculate_recombinants_general() {
 	int i,j,k, maternal_alleles, paternal_alleles, count;
 
+	if (HG_VERBOSE) {cerr<<"haploid_lowd::calculate_recombinants_general()...";}
+
 	// prepare hypercubes
 	population.fft_func_to_coeff();
 	recombinants.set_state(HC_COEFF);
 
 	//normalization of the distribution
 	recombinants.coeff[0]=1.0/(1<<number_of_loci);
-	if(HG_VERBOSE) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
+	if(HG_VERBOSE >= 2) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
 
 	//loop of all coefficients of the distribution of recombinants
 	for (i=1; i<(1<<number_of_loci); i++) {
@@ -1018,16 +1030,17 @@ int haploid_lowd::calculate_recombinants_general() {
 
 			//add this particular contribution to the recombinant distribution
 			recombinants.coeff[i]+=recombination_patterns[i][j]*population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
-			if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
+			if(HG_VERBOSE >= 3) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
 		}
 
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=(1<<(number_of_loci));
-		if(HG_VERBOSE) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
+		if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
 	}
-
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();
+
+	if (HG_VERBOSE) {cerr<<"done."<<endl;}
 	return 0;
 }
 

@@ -24,6 +24,7 @@ G = 1000                         # Generations
 # Repeat the same simulation for various numbers of loci, and see how the
 # algorithm scales. It should be O(3^L) with recombination, and O(L 2^L) with
 # single crossovers only or skipping recombination altogether.
+print "general"
 exec_time = []
 for L in range(2,Lmax_general+1):
     t1=time.time()
@@ -50,6 +51,7 @@ for L in range(2,Lmax_general+1):
 exec_time=np.array(exec_time)
 
 # repeat with single crossover recombination
+print "single crossover"
 exec_time_single_xo = []
 for L in range(2,Lmax_single_xo+1):
     t1=time.time()
@@ -67,12 +69,12 @@ for L in range(2,Lmax_single_xo+1):
     t2=time.time()
 
     exec_time_single_xo.append([L, t2-t1])    # store the execution time
-    del pop
     
 exec_time_single_xo=np.array(exec_time_single_xo)
 
 
 # repeat without recombination
+print "no recombination"
 exec_time_norec = []
 for L in range(2,Lmax_single_xo+1):
     t1=time.time()
@@ -115,3 +117,6 @@ plt.legend(loc=4)
 plt.xlim([1,Lmax_single_xo+2])
 plt.ylim([0.5*np.min(exec_time_norec[:,1]),3*np.max(exec_time[:,1])])
 
+
+plt.ion()
+plt.show()
