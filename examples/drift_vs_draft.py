@@ -18,10 +18,10 @@ pop.mutation_rate = 0.1/pop.carrying_capacity   #per locus mutation rate equal t
 
 m=10
 selection_coefficients = 0.0*np.ones(pop.L)     #most loci are neutral
-selection_coefficients[::m] = -0.1              #every m-th locus is strongly deleterious
+selection_coefficients[::m] = -0.1            #every m-th locus is strongly deleterious
 
 initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies as 1/2
-initial_allele_frequencies[::m] = 0             #set a subset of alleles to frequency 0
+initial_allele_frequencies[::m] = 0.0             #set a subset of alleles to frequency 0
 
 #initialize the population in linkage equilibrium with the specified allele frequencies
 pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
@@ -34,8 +34,8 @@ allele_frequencies = [pop.get_allele_frequencies()]
 tp = [pop.generation]
 while pop.generation<maxgen:
     pop.evolve(10)                              #procede 10 generations
-    #pop.unique_clones()
     pop.calc_stat()
+    #pop.unique_clones()
     if (pop.generation%200==0):                 #every 200 generations, make one of the deleterious mutations beneficial
         print "generation:", pop.generation, 'out of', maxgen
         selection_coefficients[m*np.random.randint(0,25)] = 0.01

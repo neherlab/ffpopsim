@@ -208,10 +208,10 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	// reset the current population
 	population.clear();
 	available_clones.clear();
-	provide_at_least(N_in);
 	population_size = 0;
 	number_of_clones=0;
 	last_clone=0;
+	provide_at_least(N_in);
         // set the allele frequencies
 	int i, locus;
 	boost::dynamic_bitset<> tempgt(number_of_loci);
@@ -250,7 +250,6 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	// Clear population
 	population.clear();
 	available_clones.clear();
-	provide_at_least(gt.size());
 	population_size = 0;
 	random_sample.clear();
 
@@ -258,6 +257,7 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	population_size=0;
 	number_of_clones=0;
 	last_clone=0;
+	provide_at_least(gt.size());
 
 	for(size_t i = 0; i < gt.size(); i++) {
 		add_genotype(gt[i].genotype, gt[i].val);
@@ -295,11 +295,11 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 	// Clear population
 	population.clear();
 	available_clones.clear();
-	provide_at_least(10);
 	population_size = 0;
 	number_of_clones=0;
 	last_clone=0;
 	random_sample.clear();
+	provide_at_least(10);
 
 	// Initialize the clones and calculate the population size
 	boost::dynamic_bitset<> wildtype(number_of_loci);
@@ -708,7 +708,7 @@ int haploid_highd::recombine(int parent1, int parent2) {
 	{
 		crossover_pattern();
 	}
-	else {rec_pattern.resize(number_of_loci);}
+	//else {rec_pattern.resize(number_of_loci);}
 
 	// produce two new genoytes
 	int offspring_num1 = available_clones.back();
@@ -754,8 +754,10 @@ int haploid_highd::recombine(int parent1, int parent2) {
  */
 void haploid_highd::update_traits() {
 	int i=0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end(), i<last_clone; pop_iter++,i++)
-		calc_individual_traits(*pop_iter);
+	for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) && (i<last_clone+1); pop_iter++,i++)
+		if (pop_iter->clone_size>0){
+			calc_individual_traits(*pop_iter);
+		}
 }
 
 /**
@@ -763,13 +765,17 @@ void haploid_highd::update_traits() {
  */
 void haploid_highd::update_fitness() {
 	if(population.size() > 0) {
-		calc_individual_fitness_from_traits(*(population.begin()));
-		fitness_max = population[0].fitness;
-		if(population.size() > 1)
+		unsigned int i=0;
+		vector<clone_t>::iterator pop_iter = population.begin();
+		while (pop_iter->clone_size==0){
+			pop_iter++;
+			i++;
+		}
+		calc_individual_fitness_from_traits(*pop_iter);
+		fitness_max = pop_iter->fitness;
+		for(; pop_iter != population.end() && (i<last_clone+1); pop_iter++, i++)
 		{
-			int i=0;
-			for(vector<clone_t>::iterator pop_iter = population.begin()+1; pop_iter != population.end() && (i<last_clone+1); pop_iter++, i++)
-			{
+			if (pop_iter->clone_size>0){
 				calc_individual_fitness_from_traits(*pop_iter);
 				check_individual_maximal_fitness(*pop_iter);
 			}
@@ -847,7 +853,7 @@ void haploid_highd::calc_individual_fitness(clone_t &tempgt) {
 	//calculate the new fitness value of the mutant
 	calc_individual_traits(tempgt);
 	calc_individual_fitness_from_traits(tempgt);
-	check_individual_maximal_fitness(tempgt);
+	//check_individual_maximal_fitness(tempgt);
 }
 
 /**
@@ -858,12 +864,13 @@ void haploid_highd::calc_individual_fitness(clone_t &tempgt) {
  * A typical crossover pattern would be 0000111100011111101101.
  */
 void haploid_highd::crossover_pattern() {
+	if (HP_VERBOSE) cerr<<"haploid_highd::crossover_pattern() "<<"...";
 	int n_o_c=0;
 	vector <int> crossover_points;
 	double total_rec = number_of_loci * crossover_rate;
 	//TODO this should be poisson conditional on having at least one
 	if (total_rec<0.1) n_o_c=1;
-	else while (n_o_c==0) n_o_c= gsl_ran_poisson(evo_generator,number_of_loci*crossover_rate);
+	else while (n_o_c==0) n_o_c= gsl_ran_poisson(evo_generator,total_rec);
 
 	//for circular chromosomes make sure there is an even number of crossovers
 	if (circular)
@@ -877,22 +884,39 @@ void haploid_highd::crossover_pattern() {
 	else
 	{
 		n_o_c=(n_o_c<number_of_loci)?n_o_c:(number_of_loci-1);
+		crossover_points.resize(n_o_c);
 		for (int c=0; c<n_o_c; c++){
-			crossovers[c]=gsl_rng_uniform_int(evo_generator,number_of_loci);
+			crossover_points[c]=gsl_rng_uniform_int(evo_generator,number_of_loci);
 			//gsl_ran_choose(evo_generator,crossovers,n_o_c,(genome+1),number_of_loci-1,sizeof(int));
 		}
 		sort(crossover_points.begin(), crossover_points.end());
 	}
 
 	bool origin=true;
-	rec_pattern.reset();
+	rec_pattern.clear();
 	//start with an empty bitset and extend to crossovers[c] with origing =0,1
+	if (HP_VERBOSE>2) cerr<<" n_o_c: "<<n_o_c<<" origin "<<origin<<'\n';
 	for (int c=0;c<crossover_points.size(); c++){
+		if (HP_VERBOSE>2)
+		{
+			cerr<<" xo: "<<crossover_points[c]<<" origin "<<origin<<'\n';
+			cerr<<rec_pattern<<'\n';
+		}
 		rec_pattern.resize(crossover_points[c], origin);
 		origin=!origin; //toggle origin
 	}
 	//extend to full length
+	if (HP_VERBOSE>2)
+	{
+		cerr<<" xo: "<<" origin "<<origin;
+		cerr<<rec_pattern<<endl;
+	}
 	rec_pattern.resize(number_of_loci, origin);
+
+	if (HP_VERBOSE){
+		cerr<<rec_pattern<<endl;
+		cerr <<"..done"<<endl;
+	}
 
 	return;
 }
@@ -1742,7 +1766,7 @@ void haploid_highd::unique_clones() {
 		sort(population.begin(), population.begin()+last_clone+1);
 		sort(available_clones.begin(), available_clones.end(), std::greater<int>());
 		reverse(population.begin(), population.begin()+last_clone+1);
-		while (available_clones.back()<last_clone) available_clones.pop_back();
+		while (available_clones.back()<last_clone+1) available_clones.pop_back();
 		// merge clones with the same fitness and genotype
 		vector<clone_t>::iterator pop_iter = population.begin();
 		unsigned int i=0;

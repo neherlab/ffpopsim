@@ -104,20 +104,25 @@ int pop_evolve() {
 
 	haploid_highd pop(L);
 
-	pop.mutation_rate = 1e-2;
+	pop.mutation_rate = 1e-4;
 	pop.outcrossing_rate = 1;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.set_wildtype(N);		// start with a population of the right size
 
-//	vector <int> loci;
-//	for(int i=0; i< L; i++) {
-//		loci.assign(1, i);
-//		pop.add_fitness_coefficient(0.01*(0.1-drand48()), loci);
-//		loci.clear();
-//	}
-
-	pop.evolve(100);
+	vector <int> loci;
+	for(int i=0; i< L; i++) {
+		loci.assign(1, i);
+		pop.add_fitness_coefficient(0.01, loci);
+		loci.clear();
+	}
+	stat_t fitstat;
+	for (int i=0; i< L; i++) {
+		pop.evolve();
+		pop.calc_stat();
+		fitstat = pop.get_fitness_statistics();
+		cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+	}
 	pop.calc_stat();
 
 	stat_t fitness = pop.get_fitness_statistics();
