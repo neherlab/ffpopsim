@@ -5,7 +5,7 @@ content:    Example on genetic drift
 '''
 # Import module
 import sys
-sys.path.append('../pkg/python')
+sys.path.insert(0,'../pkg/python')
 
 import numpy as np
 from matplotlib import pyplot as plt

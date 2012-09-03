@@ -5,11 +5,12 @@ content:    Genotype condensation in driven by epistasis
 '''
 # Import module
 import sys
-sys.path.append('../pkg/python')
+sys.path.insert(0,'../pkg/python')
 
 import numpy as np
 import matplotlib.pyplot as plt
 import FFPopSim as ffpop
+import time
 
 #parse the command line arguments
 import argparse
@@ -23,7 +24,7 @@ parser.add_argument('--dt',  default=1,type =int, help='time increments of traje
 params=parser.parse_args()
 
 #set up the population
-L=64
+L=1000
 pop=ffpop.haploid_highd(L)
 pop.outcrossing_rate=params.rec
 pop.set_random_epistasis(params.sigma*np.sqrt(1-params.hsq))
@@ -36,6 +37,7 @@ if (params.hsq>0):
 pop.set_allele_frequencies(np.ones(L)*0.5, params.pop)
 pfit = pop.get_fitness_statistics()
 popstat = []
+t1=time.time()
 for gen in range(params.dt,params.Ttraj, params.dt):
     #append current statistics to the list
     pfit = pop.get_fitness_statistics()
@@ -47,6 +49,7 @@ for gen in range(params.dt,params.Ttraj, params.dt):
     pop.calc_stat()
 
 popstat=np.array(popstat)
+print time.time()-t1
 
 #plot quantities of interest
 plt.figure(1)

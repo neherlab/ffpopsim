@@ -220,10 +220,6 @@ public:
 	// genotype to traits maps, which in turn are used in the trait-to-fitness map
 	hypercube_highd *trait;
 
-	// pointers to the current population and the temporary one
-	vector <clone_t> *current_pop;
-	vector <clone_t> *new_pop;
-
 	// construction / destruction
 	haploid_highd(int L=0, int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_highd();
@@ -242,7 +238,7 @@ public:
 	int N(){return population_size;}
 	int get_population_size() {return population_size;}
 	int get_generation(){return generation;}
-	int get_number_of_clones(){return current_pop->size();}
+	int get_number_of_clones(){return number_of_clones;}
 	int get_number_of_traits(){return number_of_traits;}
 	double get_participation_ratio(){return participation_ratio;};
 
@@ -284,8 +280,8 @@ public:
 	int random_clones(unsigned int n_o_individuals, vector <int> *sample);
 
 	// genotype readout
-	string get_genotype_string(unsigned int i){string gts; boost::to_string((*current_pop)[i].genotype, gts); return gts;}
-	int distance_Hamming(unsigned int clone1, unsigned int clone2, vector <unsigned int *> *chunks=NULL, unsigned int every=1){return distance_Hamming((*current_pop)[clone1].genotype, (*current_pop)[clone2].genotype, chunks, every);}
+	string get_genotype_string(unsigned int i){string gts; boost::to_string(population[i].genotype, gts); return gts;}
+	int distance_Hamming(unsigned int clone1, unsigned int clone2, vector <unsigned int *> *chunks=NULL, unsigned int every=1){return distance_Hamming(population[clone1].genotype, population[clone2].genotype, chunks, every);}
 	int distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_bitset<> gt2, vector<unsigned int *> *chunks=NULL, unsigned int every=1);
 	stat_t get_diversity_statistics(unsigned int n_sample=1000);
 	stat_t get_divergence_statistics(unsigned int n_sample=1000);
@@ -300,9 +296,9 @@ public:
 	double get_moment(int locus1, int locus2){return 4 * get_pair_frequency(locus1, locus2) + 1 - 2 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
 
 	// fitness/phenotype readout
-	double get_fitness(int n) {calc_individual_fitness(&((*current_pop)[n])); return (*current_pop)[n].fitness;}
-	int get_clone_size(int n) {return (*current_pop)[n].clone_size;}
-	double get_trait(int n, int t=0) {calc_individual_traits(&((*current_pop)[n])); return (*current_pop)[n].trait[t];}
+	double get_fitness(int n) {calc_individual_fitness(population[n]); return population[n].fitness;}
+	int get_clone_size(int n) {return population[n].clone_size;}
+	double get_trait(int n, int t=0) {calc_individual_traits(population[n]); return population[n].trait[t];}
 	stat_t get_fitness_statistics() {update_fitness(); calc_fitness_stat(); return fitness_stat;}
 	stat_t get_trait_statistics(int t=0) {calc_trait_stat(); return trait_stat[t];}
 	double get_trait_covariance(int t1, int t2) {calc_trait_stat(); return trait_covariance[t1][t2];}
@@ -320,6 +316,8 @@ public:
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 
+	vector <clone_t> population;
+
 protected:
 	// random number generator
 	gsl_rng* evo_generator;
@@ -335,6 +333,7 @@ protected:
 	int number_of_traits;
 	int scratch;			//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
 	int generation;
+	int number_of_clones;
 
 	// evolution
 	int mutate();
@@ -342,8 +341,8 @@ protected:
 	double relaxation_value();
 	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
 	
-	void flip_single_locus(unsigned int clonenum, int locus);
-	int flip_single_locus(int locus);
+	unsigned int flip_single_locus(unsigned int clonenum, int locus);
+	unsigned int flip_single_locus(int locus);
 	void shuffle_genotypes();
 	int swap_populations();
 	int new_generation();
@@ -362,8 +361,8 @@ protected:
 	double outcrossing_rate_effective;
 	int *genome;				//Auxiliary array holding the positions along the genome
 	int *crossovers;
-	boost::dynamic_bitset<> reassortment_pattern();
-	boost::dynamic_bitset<> crossover_pattern();
+	void reassortment_pattern();
+	void crossover_pattern();
 	vector <int> sex_gametes;		//array holding the indices of gametes
 	int add_recombinants();
 	int recombine(int parent1, int parent2);
@@ -377,11 +376,14 @@ protected:
 	double **trait_covariance;
 	void calc_fitness_stat();
 	void calc_trait_stat();
-	void calc_individual_traits(clone_t *tempgt);
-	void calc_individual_fitness(clone_t *tempgt);
-	virtual void calc_individual_fitness_from_traits(clone_t *tempgt);	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
-	void check_individual_maximal_fitness(clone_t *tempgt){fitness_max = fmax(fitness_max, tempgt->fitness);}
-	double get_trait_difference(clone_t *tempgt1, clone_t *tempgt2, vector<int>& diffpos, int traitnum);
+	void calc_individual_traits(clone_t &tempgt);
+	void calc_individual_fitness(clone_t &tempgt);
+	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
+	void calc_individual_traits(int clonenum){calc_individual_traits(population[clonenum]);}
+	void calc_individual_fitness(int clonenum){calc_individual_fitness(population[clonenum]);}
+	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
+	void check_individual_maximal_fitness(clone_t &tempgt){fitness_max = fmax(fitness_max, tempgt.fitness);}
+	double get_trait_difference(clone_t &tempgt1, clone_t &tempgt2, vector<int>& diffpos, int traitnum);
 
 private:
 	// Memory management is private, subclasses must take care only of their own memory
@@ -389,12 +391,14 @@ private:
 	bool cumulants_mem;
 	int allocate_mem();
 	int free_mem();
-
+	int provide_at_least(int n);
+	int last_clone;
 	// These two vectors are referenced by subclasses and programs using their pointers,
 	// current_pop and new_pop, which are public. In fact, these vectors are created only
 	// to ensure their memory is released upon destruction of the class.
-	vector <clone_t> current_pop_vector;
-	vector <clone_t> new_pop_vector;
+	vector <int> available_clones;
+
+	boost::dynamic_bitset<> rec_pattern;
 
 	// counting reference
 	static size_t number_of_instances;

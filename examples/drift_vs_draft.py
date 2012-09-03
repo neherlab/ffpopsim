@@ -1,3 +1,7 @@
+# Import module
+import sys
+sys.path.insert(0,'../pkg/python')
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -30,6 +34,8 @@ allele_frequencies = [pop.get_allele_frequencies()]
 tp = [pop.generation]
 while pop.generation<maxgen:
     pop.evolve(10)                              #procede 10 generations
+    #pop.unique_clones()
+    pop.calc_stat()
     if (pop.generation%200==0):                 #every 200 generations, make one of the deleterious mutations beneficial
         print "generation:", pop.generation, 'out of', maxgen
         selection_coefficients[m*np.random.randint(0,25)] = 0.01

@@ -189,7 +189,7 @@ int hivpopulation::write_genotypes(ostream &out, int sample_size, string gt_labe
 				gti=random_clone();
 				out <<">GT-"<<gt_label<<"_"<<gti<<'\n';
 				for (int i =start; i<start+length; i++ ){
-					if ((*current_pop)[gti].genotype[i]) out <<'1';
+					if (population[gti].genotype[i]) out <<'1';
 					else out <<'0';
 				}
 				out<<'\n';

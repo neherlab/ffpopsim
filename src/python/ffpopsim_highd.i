@@ -457,7 +457,7 @@ Returns:
 
 /* get genotypes */
 void _get_genotype(unsigned int n, short* ARGOUT_ARRAY1, int DIM1) {
-        boost::dynamic_bitset<> newgt = (*($self->current_pop))[n].genotype;
+        boost::dynamic_bitset<> newgt = ($self->population)[n].genotype;
         for(size_t i=0; i < DIM1; i++)
                 ARGOUT_ARRAY1[i] = newgt[i];
 }
