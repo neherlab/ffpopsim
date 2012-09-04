@@ -264,7 +264,7 @@ int _set_genotypes(int len1, double* genotypes, int len2, double* vals) {
         len1 /= len2;
         vector<genotype_value_pair_t> gt;
         genotype_value_pair_t temp;
-        for(size_t i = 0; i != len1; i++) {
+        for(size_t i = 0; i != len2; i++) {
                 temp.genotype = boost::dynamic_bitset<>(len1);
                 for(size_t j=0; j < len1; j++)
                         temp.genotype[j] = (bool)genotypes[i * len1 + j];

@@ -2700,10 +2700,11 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_stat_t swig_types[13]
 #define SWIGTYPE_p_string swig_types[14]
 #define SWIGTYPE_p_unsigned_int swig_types[15]
-#define SWIGTYPE_p_vectorT_double_t swig_types[16]
-#define SWIGTYPE_p_vectorT_int_t swig_types[17]
-static swig_type_info *swig_types[19];
-static swig_module_info swig_module = {swig_types, 18, 0, 0, 0, 0};
+#define SWIGTYPE_p_vectorT_clone_t_t swig_types[16]
+#define SWIGTYPE_p_vectorT_double_t swig_types[17]
+#define SWIGTYPE_p_vectorT_int_t swig_types[18]
+static swig_type_info *swig_types[20];
+static swig_module_info swig_module = {swig_types, 19, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3693,7 +3694,7 @@ SWIGINTERN int haploid_highd__set_genotypes(haploid_highd *self,int len1,double 
         len1 /= len2;
         vector<genotype_value_pair_t> gt;
         genotype_value_pair_t temp;
-        for(size_t i = 0; i != len1; i++) {
+        for(size_t i = 0; i != len2; i++) {
                 temp.genotype = boost::dynamic_bitset<>(len1);
                 for(size_t j=0; j < len1; j++)
                         temp.genotype[j] = (bool)genotypes[i * len1 + j];
@@ -8201,6 +8202,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd_population_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  vector< clone_t > *arg2 = (vector< clone_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"haploid_highd_population_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_population_set" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_vectorT_clone_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "haploid_highd_population_set" "', argument " "2"" of type '" "vector< clone_t > *""'"); 
+  }
+  arg2 = reinterpret_cast< vector< clone_t > * >(argp2);
+  if (arg1) (arg1)->population = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd_population_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  vector< clone_t > *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_population_get" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = (vector< clone_t > *)& ((arg1)->population);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_vectorT_clone_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -9849,6 +9902,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_max_fitness", (PyCFunction)_wrap_haploid_highd__get_max_fitness, METH_O, (char *)"Maximal fitness in the population (read-only)"},
 	 { (char *)"haploid_highd__update_traits", (PyCFunction)_wrap_haploid_highd__update_traits, METH_O, (char *)"haploid_highd__update_traits(haploid_highd self)"},
 	 { (char *)"haploid_highd__update_fitness", (PyCFunction)_wrap_haploid_highd__update_fitness, METH_O, (char *)"haploid_highd__update_fitness(haploid_highd self)"},
+	 { (char *)"haploid_highd_population_set", _wrap_haploid_highd_population_set, METH_VARARGS, (char *)"haploid_highd_population_set(haploid_highd self, vector<(clone_t)> population)"},
+	 { (char *)"haploid_highd_population_get", (PyCFunction)_wrap_haploid_highd_population_get, METH_O, (char *)"haploid_highd_population_get(haploid_highd self) -> vector<(clone_t)>"},
 	 { (char *)"haploid_highd___str__", (PyCFunction)_wrap_haploid_highd___str__, METH_O, (char *)"haploid_highd___str__(haploid_highd self) -> char"},
 	 { (char *)"haploid_highd___repr__", (PyCFunction)_wrap_haploid_highd___repr__, METH_O, (char *)"haploid_highd___repr__(haploid_highd self) -> char"},
 	 { (char *)"haploid_highd__set_allele_frequencies", (PyCFunction) _wrap_haploid_highd__set_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_allele_frequencies(haploid_highd self, double IN_ARRAY1, int n_o_genotypes) -> int"},
@@ -9966,6 +10021,7 @@ static swig_type_info _swigt__p_short = {"_p_short", "short *", 0, 0, (void*)0, 
 static swig_type_info _swigt__p_stat_t = {"_p_stat_t", "stat_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_string = {"_p_string", "string *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "unsigned int *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_vectorT_clone_t_t = {"_p_vectorT_clone_t_t", "vector< clone_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_vectorT_double_t = {"_p_vectorT_double_t", "vector< double > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_vectorT_int_t = {"_p_vectorT_int_t", "vector< int > *", 0, 0, (void*)0, 0};
 
@@ -9986,6 +10042,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_stat_t,
   &_swigt__p_string,
   &_swigt__p_unsigned_int,
+  &_swigt__p_vectorT_clone_t_t,
   &_swigt__p_vectorT_double_t,
   &_swigt__p_vectorT_int_t,
 };
@@ -10006,6 +10063,7 @@ static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 
 static swig_cast_info _swigc__p_stat_t[] = {  {&_swigt__p_stat_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_string[] = {  {&_swigt__p_string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_vectorT_clone_t_t[] = {  {&_swigt__p_vectorT_clone_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_vectorT_double_t[] = {  {&_swigt__p_vectorT_double_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_vectorT_int_t[] = {  {&_swigt__p_vectorT_int_t, 0, 0, 0},{0, 0, 0, 0}};
 
@@ -10026,6 +10084,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_stat_t,
   _swigc__p_string,
   _swigc__p_unsigned_int,
+  _swigc__p_vectorT_clone_t_t,
   _swigc__p_vectorT_double_t,
   _swigc__p_vectorT_int_t,
 };
@@ -10644,7 +10703,7 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "HCF_BADARG",SWIG_From_int(static_cast< int >(-131546)));
   SWIG_Python_SetConstant(d, "HCF_VERBOSE",SWIG_From_int(static_cast< int >(0)));
   SWIG_Python_SetConstant(d, "WORDLENGTH",SWIG_From_int(static_cast< int >(28)));
-  SWIG_Python_SetConstant(d, "HP_VERBOSE",SWIG_From_int(static_cast< int >(0)));
+  SWIG_Python_SetConstant(d, "HP_VERBOSE",SWIG_From_int(static_cast< int >(1)));
   SWIG_Python_SetConstant(d, "NO_GENOTYPE",SWIG_From_int(static_cast< int >(-1)));
   SWIG_Python_SetConstant(d, "HP_MINAF",SWIG_From_double(static_cast< double >(0.02)));
   SWIG_Python_SetConstant(d, "MAX_DELTAFITNESS",SWIG_From_int(static_cast< int >(8)));

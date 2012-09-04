@@ -131,7 +131,7 @@ double hypercube_highd::get_func(boost::dynamic_bitset<>& genotype) {
 	     coefficients_epistasis_iter++) {
 		sign=1;
 		for (locus=0; locus < coefficients_epistasis_iter->order; locus++) {
-			if (!(genotype)[coefficients_epistasis_iter->loci[locus]]) sign*= -1;
+			if (!(genotype[coefficients_epistasis_iter->loci[locus]])) sign*= -1;
 		}
 		result += sign * coefficients_epistasis_iter->value;
 	}
@@ -153,6 +153,7 @@ double hypercube_highd::get_func(boost::dynamic_bitset<>& genotype) {
 		gsl_rng_set(rng,gt_seed+rng_offset);
 		result+=gsl_ran_gaussian(rng,epistatic_std);
 	}
+	if (HCF_VERBOSE) cerr<<"...done"<<endl;
 	return result;
 }
 
@@ -169,45 +170,39 @@ double hypercube_highd::get_func_diff(boost::dynamic_bitset<>& genotype1, boost:
 	if (HCF_VERBOSE) cerr<<"fluct_hypercube::get_func_diff()"<<endl;
 	double result = 0;
 	int locus;
-	// first order contributions
-	for(size_t i=0; i != diffpos.size(); i++) {
-		locus = diffpos[i];
-		if(genotype1[locus]) result += 2 * get_additive_coefficient(locus);
-		else result -= 2 * get_additive_coefficient(locus);
-	}
-	// TODO: calculate epistasis more efficiently!
-	// interaction contributions
-	int sign1, sign2;
-	for (coefficients_epistasis_iter = coefficients_epistasis.begin();
-	     coefficients_epistasis_iter != coefficients_epistasis.end();
-	     coefficients_epistasis_iter++) {
-		sign1 = sign2 = 1;
-		for (locus=0; locus < coefficients_epistasis_iter->order; locus++) {
-			if (!(genotype1)[coefficients_epistasis_iter->loci[locus]]) sign1 *= -1;
-			if (!(genotype2)[coefficients_epistasis_iter->loci[locus]]) sign2 *= -1;
+
+	//in case of random epistasis, evaluating the difference does not make a lot of sense.
+	if (epistatic_std>HP_NOTHING){
+		double val1, val2;
+		val1 = get_func(genotype1);
+		val2 = get_func(genotype2);
+		return val1-val2;
+	}else{
+		// first order contributions
+		for(size_t i=0; i != diffpos.size(); i++) {
+			locus = diffpos[i];
+			if (genotype1[locus] and !genotype2[locus]) result += 2 * get_additive_coefficient(locus);
+			else if (!genotype1[locus] and genotype2[locus]) result -= 2 * get_additive_coefficient(locus);
+			else{ cerr<<"fluct_hypercube::get_func_diff(): Difference vector is screwed up"<<endl;}
 		}
-		if(sign1 != sign2)
-			result += (sign1 - sign2) * coefficients_epistasis_iter->value;
-	}
-	// calculate the random fitness part
-	if (epistatic_std > HP_NOTHING) {
-		int gt_seed=0;
-		int word=0, locus, ii;
-		// calculate the seed for the random number generator
-		for (locus=0;locus<dim;) {
-			word=0;
-			ii=0;
-			while (ii<WORDLENGTH and locus<dim) {
-				if ((genotype1)[locus]) word+=(1<<ii);
-				ii++; locus++;
+		// TODO: calculate epistasis more efficiently!
+		// interaction contributions
+		int sign1, sign2;
+		for (coefficients_epistasis_iter = coefficients_epistasis.begin();
+			 coefficients_epistasis_iter != coefficients_epistasis.end();
+			 coefficients_epistasis_iter++) {
+			sign1 = sign2 = 1;
+			for (locus=0; locus < coefficients_epistasis_iter->order; locus++) {
+				if (!(genotype1[coefficients_epistasis_iter->loci[locus]])) sign1 *= -1;
+				if (!(genotype2[coefficients_epistasis_iter->loci[locus]])) sign2 *= -1;
 			}
-			gt_seed+=word;
+			if(sign1 != sign2)
+				result += (sign1 - sign2) * coefficients_epistasis_iter->value;
 		}
-		// add a gaussion random number to the fitness from the rng seeded with the genoytpe
-		gsl_rng_set(rng,gt_seed+rng_offset);
-		result+=gsl_ran_gaussian(rng,epistatic_std);
+
+		if (HCF_VERBOSE) cerr<<"...done"<<endl;
+		return result;
 	}
-	return result;
 }
 
 
@@ -232,8 +227,8 @@ double hypercube_highd::get_additive_coefficient(int locus){
  * @brief Reset the hypercube
  */
 void hypercube_highd::reset() {
-        reset_additive();
-        epistatic_std = 0;
+	reset_additive();
+	epistatic_std = 0;
 	coefficients_epistasis.clear();
 }
 
@@ -244,7 +239,7 @@ void hypercube_highd::reset() {
 void hypercube_highd::reset_additive() {
 	hypercube_mean = 0;
 	coefficients_single_locus.clear();
-        fill(coefficients_single_locus_static.begin(), coefficients_single_locus_static.end(), 0);
+	fill(coefficients_single_locus_static.begin(), coefficients_single_locus_static.end(), 0);
 }
 
 

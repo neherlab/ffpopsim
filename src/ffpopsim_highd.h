@@ -287,7 +287,7 @@ public:
 	stat_t get_divergence_statistics(unsigned int n_sample=1000);
 
 	// allele frequencies
-	double get_allele_frequency(int l) {return allele_frequencies[l];}
+	double get_allele_frequency(int l) {if (!allele_frequencies_up_to_date){calc_allele_freqs();} return allele_frequencies[l];}
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_chi(int l) {return 2 * get_allele_frequency(l) - 1;}
@@ -331,7 +331,7 @@ protected:
 	int number_of_loci;
 	int population_size;
 	int number_of_traits;
-	int scratch;			//variable by how much the memory for offsprings exceeds the number_of_individuals (1+scratch)*..
+
 	int generation;
 	int number_of_clones;
 
@@ -389,6 +389,7 @@ private:
 	// Memory management is private, subclasses must take care only of their own memory
 	bool mem;
 	bool cumulants_mem;
+	bool allele_frequencies_up_to_date;
 	int allocate_mem();
 	int free_mem();
 	int provide_at_least(int n);

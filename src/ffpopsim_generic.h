@@ -54,7 +54,7 @@
 
 #define MIN(a,b) (a<b)?a:b
 #define MAX(a,b) (a>b)?a:b
-#define RNG gsl_rng_taus		//choose the random number generator algorithm, see http://www.gnu.org/software/gsl/manual/html_node/Random-number-generator-algorithms.html
+#define RNG gsl_rng_taus2		//choose the random number generator algorithm, see http://www.gnu.org/software/gsl/manual/html_node/Random-number-generator-algorithms.html
 
 #define FREE_RECOMBINATION 1
 #define CROSSOVERS 2

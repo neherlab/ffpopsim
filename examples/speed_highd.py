@@ -34,7 +34,7 @@ for L in Llist_MB:
         
         pop.set_wildtype(N)
         pop.evolve(1.0/(L*(mu+r)))
-    
+        
         t1=time.time()
         pop.evolve(G)                   # run for G generations to measure execution time    
         t2=time.time()

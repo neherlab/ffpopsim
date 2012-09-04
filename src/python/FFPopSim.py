@@ -1533,6 +1533,7 @@ class haploid_highd(object):
         """_update_fitness(self)"""
         return _FFPopSim.haploid_highd__update_fitness(self)
 
+    population = _swig_property(_FFPopSim.haploid_highd_population_get, _FFPopSim.haploid_highd_population_set)
     def __str__(self):
         """__str__(self) -> char"""
         return _FFPopSim.haploid_highd___str__(self)
