@@ -2,9 +2,11 @@
 '''
 author:     Richard Neher
 date:       23/08/12
-content:    Example of haploid_lowd on linkage relaxation via recombination
+content:    Example of haploid_highd demonstrating the balance between recombination and 
+            genetic drift in a finite population. The example plots the average r^2 for loci
+            at different distances along the chromosome.
 '''
-# Import module
+# Import module (setting the path should not be necessary when the module is installed in the python path
 import sys
 sys.path.insert(0,'../pkg/python')
 
@@ -16,7 +18,7 @@ import FFPopSim as h
 # specify parameters
 N = 500                            # Population size
 L = 1000                           # number of loci
-mu = 0.5/N                            # mutation rate
+mu = 0.1/N                            # mutation rate
 r = 10.0/L/N                           # crossover rate
 
 ### set up
@@ -34,11 +36,13 @@ pop.set_genotypes([np.zeros(L), np.ones(L)],[N/2, N/2])
 ld_points = np.arange(5,L-1,100)
 locus_pairs = [ [L/2, l1] for l1 in ld_points]
 
+### equilibrate
 pop.evolve(4*N)
 
 #### sample allele frequencies and store in array allele_frequencies
 nsamples = 10000                    #increase for better statistics      
 
+### propagate the population and periodically calculate LD 
 LD=[]
 rsq = []
 for ii in range(nsamples):
@@ -49,12 +53,10 @@ for ii in range(nsamples):
     LD.append(templd)
     rsq.append([templd[pi]**2/(af[l1]*(1-af[l1])*af[l2]*(1-af[l2])+1e-10) for pi,(l1,l2) in enumerate(locus_pairs)])
     
-LD=np.array(LD);
-rsq=np.array(rsq);
 
-
-
+#### plot the result
 plt.figure()
-plt.plot(ld_points, np.mean(rsq,axis=0))
-rho = 2*r*N*abs(L/2-ld_points)
-plt.plot(ld_points, (rho+10)/(rho**2+13*rho+22))
+plt.plot(ld_points-L/2, np.mean(rsq,axis=0))
+plt.xlabel('Distance on genome')
+plt.ylabel(r'$\langle r^2 \rangle$')
+plt.title("".join(map(str,[r'$N=',N,r',\,\rho=',r,r',\,\mu=',mu,'$'])))

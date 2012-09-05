@@ -181,6 +181,7 @@ int haploid_highd::provide_at_least(int n){
 			available_clones.push_back(population.size());
 			population.push_back(tempgt);
 		}
+		available_clones.reserve(population.size());
 		sort(available_clones.begin(), available_clones.end(), std::greater<int>());
 		if (HP_VERBOSE) {cerr <<" total number of clones new:: "<<population.size()<< " number of clones available: "<<available_clones.size()<<endl;}
 	}
@@ -483,6 +484,8 @@ int haploid_highd::select_gametes() {
 
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
 	sex_gametes.clear();
+	clones_needed_for_recombination.clear();
+	clones_needed_for_recombination.reserve(number_of_clones*outcrossing_rate_effective*1.1);
 	sex_gametes.reserve(population_size*outcrossing_rate_effective*1.1);
 	int new_last_clone=0;
 	number_of_clones=0;
@@ -510,7 +513,11 @@ int haploid_highd::select_gametes() {
 				number_of_clones++;
 			}else{
 				pop_iter->clone_size = 0;
-				available_clones.push_back(clone_index);
+				if (nrec==0){
+					available_clones.push_back(clone_index);
+				}else{
+					clones_needed_for_recombination.push_back(clone_index);
+				}
 			}
 		}
 	}
@@ -709,6 +716,10 @@ int haploid_highd::add_recombinants() {
 			if(err) throw HP_RUNTIMEERR;
 		}
 	}
+	for (vector<int>::iterator c=clones_needed_for_recombination.begin(); c!=clones_needed_for_recombination.end();c++){
+		available_clones.push_back(*c);
+	}
+	clones_needed_for_recombination.clear();
 	return 0;
 }
 
@@ -909,9 +920,11 @@ void haploid_highd::crossover_pattern() {
 	{
 		n_o_c*=2;
 		n_o_c=(n_o_c<number_of_loci)?n_o_c:number_of_loci;	//make sure there are fewer xovers than loci
-		//choose xovers at random from the genome label list
 		crossover_points.resize(n_o_c);
+		//choose xovers at random from the genome label list
+		//choose is expensive. could be replaced by simply random number followed by sorting
 		gsl_ran_choose(evo_generator,(void*) &crossover_points[0],n_o_c,genome,number_of_loci,sizeof(int));
+		for (int c=0; c<crossover_points.size(); c++){crossover_points[c]++;} //increase all points by since crossover is after the selected locus
 	}
 	else
 	{
@@ -919,7 +932,6 @@ void haploid_highd::crossover_pattern() {
 		crossover_points.resize(n_o_c);
 		for (int c=0; c<n_o_c; c++){
 			crossover_points[c]=gsl_rng_uniform_int(evo_generator,number_of_loci-1)+1;
-			//gsl_ran_choose(evo_generator,crossovers,n_o_c,(genome+1),number_of_loci-1,sizeof(int));
 		}
 		sort(crossover_points.begin(), crossover_points.end());
 	}

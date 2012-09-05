@@ -398,6 +398,7 @@ private:
 	// current_pop and new_pop, which are public. In fact, these vectors are created only
 	// to ensure their memory is released upon destruction of the class.
 	vector <int> available_clones;
+	vector <int> clones_needed_for_recombination;
 
 	boost::dynamic_bitset<> rec_pattern;
 

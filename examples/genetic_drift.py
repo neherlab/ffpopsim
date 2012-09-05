@@ -1,9 +1,9 @@
 '''
 author:     Richard Neher
 date:       11/07/12
-content:    Example on genetic drift
+content:    Example on genetic drift using haploid_highd
 '''
-# Import module
+# Import module (setting the path should not be necessary when the module is installed in the python path
 import sys
 sys.path.insert(0,'../pkg/python')
 
@@ -28,12 +28,12 @@ initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele freq
 #initialize the population in LD with the specified allele frequencies
 pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
 
-#evolve for 2000 generations and track the allele frequencies
-maxgen = 2000
 #make lists to store allele frequencies and time points
 allele_frequencies = [pop.get_allele_frequencies()] 
 tp = [pop.generation]
 
+#evolve for 2000 generations and track the allele frequencies
+maxgen = 2000
 while pop.generation<maxgen:
     pop.evolve(10)                                          #procede 10 generations
     allele_frequencies.append(pop.get_allele_frequencies()) #save the allele frequencies
@@ -42,6 +42,7 @@ while pop.generation<maxgen:
 #convert to an array to enable slicing
 allele_frequencies=np.array(allele_frequencies)
 
+#plot the result
 plt.figure()
 for locus in xrange(5,pop.L,50):        #plot a few neutral trajectories
     plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus), lw=2)

@@ -2,9 +2,9 @@
 '''
 author:     Richard Neher
 date:       23/08/12
-content:    Example of haploid_lowd on linkage relaxation via recombination
+content:    Example of haploid_highd on linkage relaxation via recombination
 '''
-# Import module
+# Import module (setting the path should not be necessary when the module is installed in the python path
 import sys
 sys.path.insert(0,'../pkg/python')
 
@@ -33,11 +33,10 @@ pop.set_genotypes([np.zeros(L,dtype='int'), np.ones(L,dtype='int')],[N/2, N/2])
 #locus pairs for which LD is to be tracked
 locus_pairs = [ [0,10], [0,20], [40,50], [10,60]]
 
-max_gen = 50
 #get initial LD
 LD_trajectories = [[pop.get_LD(l1,l2) for l1,l2 in locus_pairs]]
 tp = [pop.generation]
-for ii in xrange(max_gen):
+for ii in xrange(50):
     pop.evolve(5)               #5 generations between successive samples
     #get LD and time
     LD_trajectories.append([pop.get_LD(l1,l2) for l1,l2 in locus_pairs])

@@ -3,7 +3,7 @@ author:     Richard Neher
 date:       11/07/12
 content:    Genotype condensation in driven by epistasis
 '''
-# Import module
+# Import module (setting the path should not be necessary when the module is installed in the python path
 import sys
 sys.path.insert(0,'../pkg/python')
 

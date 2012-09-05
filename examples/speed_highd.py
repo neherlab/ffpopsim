@@ -17,7 +17,7 @@ import time
 r = 1e-8                        # crossover rate
 mu = 1e-8                      # Mutation rate
 G = 100                         # Generations
-
+NS = 1000
 exec_time_MB = {}
 Llist_MB = [1e5, 3e5,1e6]
 Nlist = [100,300,1000,3000,10000,30000]
@@ -39,9 +39,24 @@ for L in Llist_MB:
         pop.evolve(G)                   # run for G generations to measure execution time    
         t2=time.time()
         print L, "bases, human like, population size:",N,"time required for", G ,"generations:",round(t2-t1,3),"seconds"
-        exec_time.append([N, t2-t1])    # store the execution time
+        
+        selection_coefficients = np.zeros(L)
+        for locus in xrange(0,int(L),int(L/NS)): selection_coefficients[locus]=0.01*((np.random.rand()-0.98)>0)
+        pop.set_fitness_additive(selection_coefficients)
+        t3=time.time()
+        pop.evolve(G)                   # run for G generations to measure execution time    
+        t4=time.time()
+
+        print L, "bases, human like, population size:",N,"time required for", G ,"generations with selection:",round(t4-t3,3),"seconds"
+        exec_time.append([N, t2-t1, t4-t3])    # store the execution time
     
     exec_time_MB[L]=np.array(exec_time)
+
+cols=['r','g','b','c','m','k']
+plt.figure()
+for ii,L in enumerate(Llist_MB):
+    plt.plot(exec_time_MB[L][:,0], exec_time_MB[L][:,1], label = r'human like, $L=10^{'+str(round(np.log10(L),2))+'}$',c=cols[ii])
+    plt.plot(exec_time_MB[L][:,0], exec_time_MB[L][:,2], ls='--',c=cols[ii])
 
 
 # specify parameters for a virus like genome
@@ -69,21 +84,27 @@ for L in Llist_virus:
     
         t2=time.time()
         print "Population size:",N,"time required for", G ,"generations:",round(t2-t1,3),"seconds"
-        exec_time.append([N, t2-t1])    # store the execution time
+
+        selection_coefficients = np.zeros(L)
+        for locus in xrange(0,int(L),int(L/NS)): selection_coefficients[locus]=0.01*((np.random.rand()-0.98)>0)
+        pop.set_fitness_additive(selection_coefficients)
+        t3=time.time()
+        pop.evolve(G)                   # run for G generations to measure execution time    
+        t4=time.time()
+        print "Population size:",N,"time required for", G ,"generations with selection:",round(t4-t3,3),"seconds"
+
+        exec_time.append([N, t2-t1,t4-t3])    # store the execution time
         
     exec_time_virus[L]=np.array(exec_time)
 
 
-plt.figure()
-for L in Llist_MB:
-    plt.plot(exec_time_MB[L][:,0], exec_time_MB[L][:,1], label = 'Human like, L='+str(L))
-
-for L in Llist_virus:
-    plt.plot(exec_time_virus[L][:,0], exec_time_virus[L][:,1], label = 'virus like, L='+str(L))
+for ii,L in enumerate(Llist_virus):
+    plt.plot(exec_time_virus[L][:,0], exec_time_virus[L][:,1],  label =r'virus like, $L=10^{'+str(round(np.log10(L),2))+'}$',c=cols[ii+3])
+    plt.plot(exec_time_virus[L][:,0], exec_time_virus[L][:,2], ls='--',c=cols[ii+3])
 
 ax=plt.gca()
 ax.set_yscale('log')
 ax.set_xscale('log')
-plt.legend(loc=2)
+plt.legend(loc=4)
 plt.xlabel('Population size')
 plt.ylabel('seconds for '+str(G)+' generations')

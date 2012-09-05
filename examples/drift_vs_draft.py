@@ -1,4 +1,10 @@
-# Import module
+# vim: fdm=indent
+'''
+author:     Richard Neher
+date:       23/08/12
+content:    Example of haploid_highd showing how neutral alleles are affected by linked selective sweeps
+'''
+# Import module (setting the path should not be necessary when the module is installed in the python path
 import sys
 sys.path.insert(0,'../pkg/python')
 
@@ -7,6 +13,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import FFPopSim as h
 
+#simulate 256 loci
 L=256
 
 ### set up
@@ -18,10 +25,10 @@ pop.mutation_rate = 0.1/pop.carrying_capacity   #per locus mutation rate equal t
 
 m=10
 selection_coefficients = 0.0*np.ones(pop.L)     #most loci are neutral
-selection_coefficients[::m] = -0.1            #every m-th locus is strongly deleterious
+selection_coefficients[::m] = -0.1              #every m-th locus is strongly deleterious
 
-initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies as 1/2
-initial_allele_frequencies[::m] = 0.0             #set a subset of alleles to frequency 0
+initial_allele_frequencies = 0.5*np.ones(pop.L)  #define some initial allele frequencies as 1/2
+initial_allele_frequencies[::m] = 0.0            #set a subset of alleles to frequency 0
 
 #initialize the population in linkage equilibrium with the specified allele frequencies
 pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
@@ -49,11 +56,14 @@ allele_frequencies=np.array(allele_frequencies)
 
 plt.figure()
 for locus in xrange(0,pop.L,m):         #plot the allele frequency trajectories of the selected mutations
-    plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus),lw=2)
+    plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus),lw=2, ls='--')
 
 for locus in xrange(5,pop.L,50):        #plot a few neutral trajectories
     plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus), lw=2)
 
-plt.title('Drift and Draft')
+plt.title('Drift and draft')
 plt.xlabel('Time [generations]')
 plt.ylabel('Allele frequencies')
+plt.text(100,0.85, "neutral alleles: solid")
+plt.text(100,0.9, "sweeping alleles: dashed")
+plt.text(100,0.765, "color indicates position \non the genome")

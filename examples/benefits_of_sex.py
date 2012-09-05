@@ -3,9 +3,9 @@ author:     Richard Neher
 date:       11/07/12
 content:    compare the speed of evolution at different recombination rates
 '''
-# Import module
+# Import module (setting the path should not be necessary when the module is installed in the python path
 import sys
-sys.path.append('../pkg/python')
+sys.path.insert(0,'../pkg/python')
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -43,7 +43,7 @@ for r in outcrossing_rates:
     for gen in range(params.dt,params.Ttraj, params.dt):
         #append current statistics to the list
         pfit = pop.get_fitness_statistics()
-        popstat.append([gen,pfit.mean, pfit.variance, pop.get_participation_ratio(), pop.number_of_clones])
+        popstat.append([gen,pfit.mean, pfit.variance, pop.participation_ratio, pop.number_of_clones])
         
         #evolve for dt generations and clean up
         pop.evolve(params.dt)

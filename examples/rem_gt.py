@@ -37,12 +37,12 @@ for ri in xrange(params.runs):
     #initialize
     pop.set_allele_frequencies(np.ones(L)*0.5, params.pop)
     pfit = pop.get_fitness_statistics()
-    popstat.append([[0,pfit.mean, pfit.variance, pop.get_participation_ratio(), pop.number_of_clones]])
+    popstat.append([[0,pfit.mean, pfit.variance, pop.participation_ratio, pop.number_of_clones]])
     for gen in range(0,params.Ttraj, params.dt):
         pop.evolve(params.dt)
         pop.unique_clones()
         pfit = pop.get_fitness_statistics()
-        popstat[-1].append([0,pfit.mean, pfit.variance, pop.get_participation_ratio(), pop.number_of_clones])
+        popstat[-1].append([0,pfit.mean, pfit.variance, pop.participation_ratio, pop.number_of_clones])
     
 
 popstat=np.array(popstat)
