@@ -100,27 +100,29 @@ int haploid_lowd::allocate_mem() {
 		return HG_BADARG;
 	}
 
-	int err=0;
-	rng=gsl_rng_alloc(RNG);
+	int err = 0;
+	rng = gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
 	cerr <<"haploid_lowd() random number seed: "<<seed<<endl;
-	err+=fitness.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
-	err+=population.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
-	err+=mutants.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
-	err+=recombinants.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
-	mutation_rates=new double*[2]; //allocate backward and forward mutation rates arrays
-	mutation_rates[0]=new double [number_of_loci]; //allocate forward mutation rates
-	mutation_rates[1]=new double [number_of_loci]; //allocate backward mutation rates
-	for (int fb=0; fb<2; fb++){	//set mutation rates to zero
-		for (int locus=0; locus<number_of_loci; locus++){
-			mutation_rates[fb][locus]=0;
-		}
-	}
+	err += fitness.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
+	err += population.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
+	err += mutants.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
+	err += recombinants.set_up(number_of_loci, gsl_rng_uniform_int(rng, gsl_rng_max(rng)));
+
+	mutation_rates = new double*[2]; //allocate backward and forward mutation rates arrays
+	mutation_rates[0] = new double [number_of_loci]; //allocate forward mutation rates
+	mutation_rates[1] = new double [number_of_loci]; //allocate backward mutation rates
+
+	//set mutation rates to zero
+	for (int fb = 0; fb < 2; fb++)
+		for (int locus = 0; locus < number_of_loci; locus++)
+			mutation_rates[fb][locus] = 0;
 	if (err==0) {
 		mem=true;
 		return 0;
 	}
-	else return HG_MEMERR;
+	else
+		return HG_MEMERR;
 }
 
 
@@ -153,20 +155,15 @@ int haploid_lowd::free_mem() {
  *
  * *Note*: this function also sets the recombination_model flag.
  *
- * *Note*: in the SINGLE_CROSSOVER model, the recombination patterns are sorted as follows:
- *
- *    patterns[0] = 0..000, patterns[L]   = 1..111
- *    patterns[1] = 0..001, patterns[L+1] = 1..110
- *    patterns[2] = 0..011, patterns[L+2] = 1..100
- *    [...]
+ * *Note*: in the SINGLE_CROSSOVER model, only recombination_patterns[0] exists,
+ * and it stores the crossover rates.
  */
 int haploid_lowd::allocate_recombination_mem(int rec_model) {
 	if (HG_VERBOSE) cerr<<"haploid_lowd::allocate_recombination_mem()...";
 	int err = 0;
-	int i, spin;
-	int temp;
+	int spin, temp;
 	int *nspins;	//temporary variables the track the number of ones in the binary representation of i
-	if (rec_model ==CROSSOVERS) {
+	if (rec_model == CROSSOVERS) {
 		nspins=new int [1<<number_of_loci];
 		if (nspins==NULL) {
 			cerr<<"haploid_lowd::set_recombination_rates(): Can not allocate memory!"<<endl;
@@ -175,29 +172,29 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
 		spin=-1;
 		nspins[0]=0;
 		//allocate space for all possible subsets of loci
-		recombination_patterns=new double* [1<<number_of_loci];
-		recombination_patterns[0]=new double [1];
+		recombination_patterns = new double* [1<<number_of_loci];
+		recombination_patterns[0] = new double [1];
 		//loop over all possible locus subsets and allocate space for all
 		//possible ways to assign the subset to father and mother (2^nspins)
-		for (i=1; i<(1<<number_of_loci); i++){
+		for (int i = 1; i < (1<<number_of_loci); i++) {
 			// coefficients are sorted in a specific order
 			// the order of coefficient k is 1+(the order of coefficient[k-2^spin])
 			if (i==(1<<(spin+1))) spin++;
-			temp=1+nspins[i-(1<<spin)];
-			nspins[i]=temp;
+			temp = 1+nspins[i-(1<<spin)];
+			nspins[i] = temp;
 
 			//all possible ways to assign the subset to father and mother
 			// for CROSSOVERS: 2^temp
 			//     e.g. 000, 001, 010, 011, 100, 101, 110, 111
-			recombination_patterns[i]=new double [(1<<temp)];
-			if (recombination_patterns[i]==NULL) err+=1;
+			recombination_patterns[i] = new double [(1<<temp)];
+			if (recombination_patterns[i]==NULL) err += 1;
 		}
 		recombination_model = CROSSOVERS;
 		delete [] nspins;
 
-	} else if (rec_model==SINGLE_CROSSOVER) {
+	} else if (rec_model == SINGLE_CROSSOVER) {
 		recombination_patterns = new double* [1];
-		recombination_patterns[0]=new double [number_of_loci];
+		recombination_patterns[0] = new double [number_of_loci];
 		recombination_model = SINGLE_CROSSOVER;
 	}
 
@@ -215,14 +212,17 @@ int haploid_lowd::allocate_recombination_mem(int rec_model) {
  */
 int haploid_lowd::free_recombination_mem() {
 	if (HG_VERBOSE) cerr<<"haploid_lowd::free_recombination_mem()...";
+
 	if (recombination_model == CROSSOVERS) {
-		for (int i=0; i<(1<<number_of_loci); i++)
+		for (int i = 0; i < (1<<number_of_loci); i++)
 			delete [] recombination_patterns[i];
 		delete [] recombination_patterns;
+
 	} else if (recombination_model==SINGLE_CROSSOVER) {
 		delete [] recombination_patterns[0];
 		delete [] recombination_patterns;
 	}
+
 	recombination_model = FREE_RECOMBINATION;
 	if (HG_VERBOSE) cerr<<"...done."<<endl;
 	return 0;
@@ -236,17 +236,15 @@ int haploid_lowd::free_recombination_mem() {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::set_mutation_rates(double m) {
-	if (mem){
-		for (int fb=0; fb<2; fb++){
-			for (int locus=0; locus<number_of_loci; locus++){
-				mutation_rates[fb][locus]=m;
-			}
-		}
-		return 0;
-	} else {
-		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
-		return HG_MEMERR;
+	if (not mem) {
+		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!"<<endl;
+		return HG_MEMERR;	
 	}
+
+	for (int fb = 0; fb < 2; fb++)
+		for (int locus = 0; locus < number_of_loci; locus++)
+			mutation_rates[fb][locus] = m;
+	return 0;
 }
 
 /**
@@ -258,16 +256,16 @@ int haploid_lowd::set_mutation_rates(double m) {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::set_mutation_rates(double mforward, double mbackward) {
-	if (mem){
-		for (int locus=0; locus<number_of_loci; locus++){
-			mutation_rates[0][locus]=mforward;
-			mutation_rates[1][locus]=mbackward;
-		}
-		return 0;
-	} else {
+	if (not mem) {
 		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
+
+	for (int locus = 0; locus < number_of_loci; locus++) {
+		mutation_rates[0][locus] = mforward;
+		mutation_rates[1][locus] = mbackward;
+	}
+	return 0;
 }
 
 /**
@@ -278,16 +276,16 @@ int haploid_lowd::set_mutation_rates(double mforward, double mbackward) {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::set_mutation_rates(double* m) {
-	if (mem){
-		for (int locus=0; locus<number_of_loci; locus++){
-			mutation_rates[0][locus]=m[locus];
-			mutation_rates[1][locus]=m[locus];
-		}
-		return 0;
-	}else{
+	if (not mem) {
 		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
+
+	for (int locus = 0; locus < number_of_loci; locus++) {
+		mutation_rates[0][locus] = m[locus];
+		mutation_rates[1][locus] = m[locus];
+	}
+	return 0;
 }
 
 /**
@@ -298,17 +296,15 @@ int haploid_lowd::set_mutation_rates(double* m) {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::set_mutation_rates(double** m) {
-	if (mem){
-		for (int fb=0; fb<2; fb++){
-			for (int locus=0; locus<number_of_loci; locus++){
-				mutation_rates[fb][locus]=m[fb][locus];
-			}
-		}
-		return 0;
-	}else{
+	if (not mem) {
 		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!\n";
 		return HG_MEMERR;
 	}
+
+	for (int fb = 0; fb < 2; fb++)
+		for (int locus = 0; locus < number_of_loci; locus++)
+			mutation_rates[fb][locus] = m[fb][locus];
+	return 0;
 }
 
 /**
@@ -323,19 +319,14 @@ int haploid_lowd::set_mutation_rates(double** m) {
  * Note: this function call involves memory release and allocation.
  */
 int haploid_lowd::set_recombination_model(int rec_model) {
-	int err=0;
 	switch(rec_model) {
-		case FREE_RECOMBINATION:
-			break;
-		case SINGLE_CROSSOVER:
-			break;
-		case CROSSOVERS:
-			break;
-		default:
-			return HG_BADARG;
-			break;	
+		case FREE_RECOMBINATION: break;
+		case SINGLE_CROSSOVER: break;
+		case CROSSOVERS: break;
+		default: return HG_BADARG; break;	
 	}
 
+	int err = 0;
 	if (rec_model != recombination_model) {
 		if(recombination_model != FREE_RECOMBINATION)
 			err += free_recombination_mem();
@@ -369,9 +360,6 @@ int haploid_lowd::set_recombination_model(int rec_model) {
  * then it's CROSSOVERS.
  */
 int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
-	double err=0;
-	double sum;
-
 	// default value for the recombination model parameter
 	if (rec_model == -1) {
 		if(recombination_model != FREE_RECOMBINATION)
@@ -392,33 +380,59 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 		return HG_BADARG;	
 	}
 
-	if (circular and (rec_model == SINGLE_CROSSOVER)) {
-		if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Single crossover not available for circular genomes."<<endl;
-		return HG_BADARG;	
-	}
-
-	// check that the sum of probablity densities is not larger than one
+	// single crossover cannot work for circular genomes, and the crossover probabilities
+	// must add up to a number less equal one :-)
 	if (rec_model == SINGLE_CROSSOVER) {
-		sum = 0;
-		for (double * rtmp = rec_rates; rtmp != rec_rates + number_of_loci - 1; rtmp++)
-			sum += *rtmp;
+		if (circular) {
+			if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Single crossover not available for circular genomes."<<endl;
+			return HG_BADARG;	
+		}
+	
+		double sum = 0;
+		for (int locus = 0; locus != number_of_loci - 1; locus++)
+			sum += rec_rates[locus];
 		if(sum > 1) {
-			if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Rate of NO crossover less than zero!"<<endl;
+			if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Sum of crossover rates is greater than one!"<<endl;
 			return HG_BADARG;	
 		}
 	}
 
 	// allocate/release memory on changes of recombination model
-	err += set_recombination_model(rec_model);
+	double err = set_recombination_model(rec_model);
 	if(err) return err;
 
 	//if memory allocation has been successful, calculate the probabilities of recombination based on the model
 	if (rec_model == SINGLE_CROSSOVER)
-		err += set_recombination_rates_single_crossover(rec_rates);
+		err = set_recombination_rates_single_crossover(rec_rates);
 	else
-		err += set_recombination_rates_general(rec_rates);
-
+		err = set_recombination_rates_general(rec_rates);
 	return err;
+}
+
+/**
+ * @brief Set the recombination rates for the single crossover model
+ *
+ * @param rec_rates array with the recombination rates
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
+	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates_single_crossover()...";
+
+	int marg_locus, higher_order_subset, higher_order_rec_pattern;
+	double *rptemp;
+
+	// pat[locus] is the proability of the pattern with the crossover immediately AFTER locus
+	double sum = 0;
+	for (int locus = 0; locus != number_of_loci - 1; locus++) {
+		recombination_patterns[0][locus] = 0.5 * rec_rates[locus];
+		sum += rec_rates[locus];
+	}
+	// and pat[L-1] is the probability of no crossover at all
+	recombination_patterns[0][number_of_loci - 1] = 0.5 * (1.0 - sum);
+
+	if(HG_VERBOSE) cerr <<"done."<<endl;
+	return 0;
 }
 
 /**
@@ -429,7 +443,6 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
-
 	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates_general()..."<<endl;
 
 	// The algorithm is divided in two parts:
@@ -439,14 +452,14 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 	int marg_locus, higher_order_subset, higher_order_rec_pattern;
 
 	// 1. calculate the probabilities of different crossover realizations
-	int strand=0, newstrand, strandswitches;
+	int strand = 0, newstrand, strandswitches;
 	double rr;
 	double sum=0;
-	for (int i=0; i < (1<<number_of_loci); i++) {
+	for (int i = 0; i < (1<<number_of_loci); i++) {
 		patterns_order_L[i]=1.0;
 		strand=(i & (1<<(number_of_loci-1)))>0?1:0;
 		strandswitches=0;
-		for (int locus=0; locus < number_of_loci; locus++) {
+		for (int locus = 0; locus < number_of_loci; locus++) {
 			newstrand=((i&(1<<locus))>0)?1:0;
 	
 			// Circular genomes have all rates, linear ones lack the first (which must be a large number, e.g. 50)
@@ -469,11 +482,12 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 		if(HG_VERBOSE) cerr<<"Recombination rates must be greater than zero!"<<endl;
 		return HG_BADARG;
 	}
-	for (int i=0; i < (1<<number_of_loci); i++)
+	for (int i = 0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i] /= sum;
 
 	// 2. marginalize
-	marginalize_recombination_patterns();
+	int err = marginalize_recombination_patterns();
+	if(err) return err;
 
 	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
@@ -487,31 +501,31 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
  * @returns zero if successful, error code otherwise
  */
 int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
-	int err=0;
 	// allocate/release memory on changes of recombination model
-	err += set_recombination_model(CROSSOVERS);
+	int err = set_recombination_model(CROSSOVERS);
 	if(err) return err;
+
+	// set the recombination patterns
 	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
-	for (int i=0; i < (1<<number_of_loci); i++)
+	for (int i = 0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i]=0;
 
 	vector<index_value_pair_t>::iterator pair;
-	for (pair=iv.begin();pair!=iv.end(); pair++){
+	for (pair=iv.begin();pair!=iv.end(); pair++)
 		if((pair->index < (1<<number_of_loci)) and (pair->val > 0)) {
 			patterns_order_L[pair->index] = pair->val;
 			patterns_order_L[~(int)(pair->index)] = pair->val;
 		}
-	}
 
 	// normalize the recombination patterns
 	double sum=0;
-	for (int i=0; i < (1<<number_of_loci); i++)
+	for (int i = 0; i < (1<<number_of_loci); i++)
 		sum += patterns_order_L[i];
 	if(sum < HG_NOTHING) {
 		if(HG_VERBOSE) cerr<<"Recombination rates must be greater than zero!"<<endl;
 		return HG_BADARG;
 	}
-	for (int i=0; i < (1<<number_of_loci); i++)
+	for (int i = 0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i] /= sum;
 
 	err+=marginalize_recombination_patterns();
@@ -527,7 +541,6 @@ int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
  * @returns zero if successful, error codes otherwise
  */
 int haploid_lowd::marginalize_recombination_patterns() {
-
 	if(HG_VERBOSE) cerr <<"haploid_lowd::marginalize_recombination_patterns()..."<<endl;
 
 	int marg_locus, higher_order_subset, higher_order_rec_pattern;
@@ -536,61 +549,28 @@ int haploid_lowd::marginalize_recombination_patterns() {
 	// marginalize repeatedly until the bottom
 	// loop over set of spins of different size, starting with 11111101111 type patterns
 	// then 11101110111 type patterns etc. first loop is over different numbers of ones, i.e. spins
-	for (int set_size=number_of_loci-1; set_size>=0; set_size--) {
+	for (int set_size = number_of_loci-1; set_size >= 0; set_size--)
 		//loop over all 2^L binary patterns
-		for (int subset=0; subset < (1<<number_of_loci); subset++) {
+		for (int subset = 0; subset < (1<<number_of_loci); subset++)
 			//if correct number of ones... (its the same in every hypercube...)
 			if (fitness.order[subset]==set_size) {
 				//determine the first zero, i.e. a locus that can be used to marginalize
 				marg_locus=-1;
-				for (int locus=0; locus < number_of_loci; locus++) {
+				for (int locus=0; locus < number_of_loci; locus++)
 					if ((subset&(1<<locus))==0)
 						{marg_locus=locus; break;}
-				}
+
 				//a short hand for the higher order recombination pattern, from which we will marginalize
-				higher_order_subset=subset+(1<<marg_locus);
-				rptemp=recombination_patterns[higher_order_subset];
+				higher_order_subset = subset+(1<<marg_locus);
+				rptemp = recombination_patterns[higher_order_subset];
+
 				//loop over all pattern of the length set_size and marginalize
 				//i.e. 111x01011=111001011+111101011
-				for (int rec_pattern=0; rec_pattern<(1<<set_size); rec_pattern++) {
-					higher_order_rec_pattern=(rec_pattern&((1<<marg_locus)-1))+((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
-					recombination_patterns[subset][rec_pattern]=rptemp[higher_order_rec_pattern]+rptemp[higher_order_rec_pattern+(1<<marg_locus)];
+				for (int rec_pattern = 0; rec_pattern < (1<<set_size); rec_pattern++) {
+					higher_order_rec_pattern = (rec_pattern&((1<<marg_locus)-1)) + ((rec_pattern&((1<<set_size)-(1<<marg_locus)))<<1);
+					recombination_patterns[subset][rec_pattern] = rptemp[higher_order_rec_pattern] + rptemp[higher_order_rec_pattern+(1<<marg_locus)];
 				}
 			}
-		}
-	}
-
-	if(HG_VERBOSE) cerr <<"done."<<endl;
-	return 0;
-}
-
-
-/**
- * @brief Set the recombination rates for the single crossover model
- *
- * @param rec_rates array with the recombination rates
- *
- * @returns zero if successful, error codes otherwise
- */
-int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
-
-	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates_single_crossover()...";
-
-	int locus;
-	int marg_locus, higher_order_subset, higher_order_rec_pattern;
-	double *rptemp;
-
-	// calculate the sum of all crossover rates
-	double sum=0;
-	for (double * rtmp = rec_rates; rtmp != rec_rates + number_of_loci - 1; rtmp++)
-		sum += *rtmp;
-
-	// and pat[L-1] is the probability of no crossover at all
-	recombination_patterns[0][number_of_loci - 1] = 0.5 * (1.0 - sum);
-
-	// pat[locus] is the proability of the pattern with the crossover immediately AFTER locus
-	for (locus=0; locus < number_of_loci - 1; locus++)
-		recombination_patterns[0][locus] = 0.5 * rec_rates[locus];
 
 	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
@@ -612,22 +592,20 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
  * capacity will be set to the same number.
  */
 int haploid_lowd::set_allele_frequencies(double *freq, unsigned long N_in) {
-	// Set the population size
 	population_size=N_in;
 	if(carrying_capacity < HG_NOTHING)
 		carrying_capacity = population_size;
 
 	// Set the allele frequencies
-	int locus, i;
-	double prob;
 	population.set_state(HC_FUNC);
-	for (i=0; i<(1<<number_of_loci); i++){
+	double prob;
+	for (int i=0; i<(1<<number_of_loci); i++){
 		prob=1.0;
-		for (locus=0; locus<number_of_loci; locus++){
-			if (i&(1<<locus)) prob*=freq[locus];
-			else prob*=(1.0-freq[locus]);
+		for (int locus=0; locus < number_of_loci; locus++) {
+			if (i&(1<<locus)) prob *= freq[locus];
+			else prob *= (1.0-freq[locus]);
 		}
-		population.func[i]=prob;
+		population.func[i] = prob;
 	}
 	return population.fft_func_to_coeff();
 }
@@ -651,7 +629,7 @@ int haploid_lowd::set_genotypes(vector <index_value_pair_t> gt) {
 	// Set the population size as the sum of the clones in input
 	population_size=0;
 	vector<index_value_pair_t>::iterator pair;
-	for (pair=gt.begin(); pair != gt.end(); pair++)
+	for (pair = gt.begin(); pair != gt.end(); pair++)
 		population_size += pair->val;
 
 	if(carrying_capacity < HG_NOTHING)
@@ -670,8 +648,7 @@ int haploid_lowd::set_genotypes(vector <index_value_pair_t> gt) {
  * capacity will be set to the same number.
  */
 int haploid_lowd::set_wildtype(unsigned long N_in) {
-
-	// Initialize the genotypes
+	// Initialize the genotype
 	index_value_pair_t wildtype(0,N_in);
 	vector <index_value_pair_t> temp(1, wildtype);
 	int err = population.init_list(temp, false);
@@ -792,11 +769,11 @@ int haploid_lowd::evolve_deterministic(int gen) {
 int haploid_lowd::select() {
 	population.set_state(HC_FUNC);
 	double norm=0;
-	for (int i=0; i<(1<<number_of_loci); i++){
-		population.func[i]*=exp(fitness.func[i]);
-		norm+=population.func[i];
+	for (int i = 0; i < (1<<number_of_loci); i++) {
+		population.func[i] *= exp(fitness.func[i]);
+		norm += population.func[i];
 	}
-	population.scale(1.0/norm);
+	population.scale(1.0 / norm);
 	return 0;
 }
 
@@ -809,25 +786,20 @@ int haploid_lowd::select() {
  * genotypes with many individuals are resampled using a Gaussian distribution, for performance reasons.
  */
 int haploid_lowd::resample() {
-
 	population.set_state(HC_FUNC);
-	double threshold_HG_CONTINUOUS=double(HG_CONTINUOUS)/carrying_capacity;
+	double threshold_HG_CONTINUOUS = double(HG_CONTINUOUS) / carrying_capacity;
 	population_size=0;
-	for (int i=0; i<(1<<number_of_loci); i++){
+	for (int i = 0; i < (1<<number_of_loci); i++) {
 		if (population.func[i]<threshold_HG_CONTINUOUS)
-		{
-			population.func[i]=double(gsl_ran_poisson(rng, carrying_capacity*population.func[i]))/carrying_capacity;
-		}
+			population.func[i] = double(gsl_ran_poisson(rng, carrying_capacity*population.func[i])) / carrying_capacity;
 		else
-		{
-			population.func[i]+=double(gsl_ran_gaussian(rng, sqrt(population.func[i]/carrying_capacity)));
-		}
+			population.func[i] += double(gsl_ran_gaussian(rng, sqrt(population.func[i]/carrying_capacity)));
 		population_size += population.func[i];
 	}
-	if (population_size<HG_NOTHING){
+	if (population_size<HG_NOTHING)
 		return HG_EXTINCT;
-	}
-	else population.scale(1.0/population_size);
+	else
+		population.scale(1.0 / population_size);
 	population_size *= carrying_capacity;
 	return 0;
 }
@@ -840,21 +812,19 @@ int haploid_lowd::resample() {
  * Calculate the distribution of mutants and update the population distribution
  */
 int haploid_lowd::mutate() {
-	int locus;
 	mutants.set_state(HC_FUNC);
 	population.set_state(HC_FUNC);
-	for (int i=0; i<(1<<number_of_loci); i++) {
-		mutants.func[i]=0;
-		for (locus=0; locus<number_of_loci; locus++) {
+	for (int i = 0; i < (1<<number_of_loci); i++) {
+		mutants.func[i] = 0;
+		for (int locus=0; locus<number_of_loci; locus++) {
 			if (i&(1<<locus))
-				mutants.func[i]+=mutation_rates[0][locus]*population.func[i-(1<<locus)]-mutation_rates[1][locus]*population.func[i];
+				mutants.func[i] += mutation_rates[0][locus] * population.func[i-(1<<locus)] - mutation_rates[1][locus] * population.func[i];
 			else
-				mutants.func[i]+=mutation_rates[1][locus]*population.func[i+(1<<locus)]-mutation_rates[0][locus]*population.func[i];
+				mutants.func[i] += mutation_rates[1][locus] * population.func[i+(1<<locus)] - mutation_rates[0][locus] * population.func[i];
 		}
 	}
-	for (int i=0; i<(1<<number_of_loci); i++){
-		population.func[i]+=mutants.func[i];
-	}
+	for (int i = 0; i < (1<<number_of_loci); i++)
+		population.func[i] += mutants.func[i];
 	return 0;
 }
 
@@ -878,8 +848,8 @@ int haploid_lowd::recombine() {
 	else
 		err=calculate_recombinants_general();
 
-	for (int i=0; i<(1<<number_of_loci); i++)
-		population.func[i]+=outcrossing_rate*(recombinants.func[i]-population.func[i]);
+	for (int i = 0; i < (1<<number_of_loci); i++)
+		population.func[i] += outcrossing_rate * (recombinants.func[i] - population.func[i]);
 
 	return err;
 }
@@ -893,7 +863,7 @@ int haploid_lowd::recombine() {
  * performance reasons - this is the most expensive part (3^L).
  */
 int haploid_lowd::calculate_recombinants_free() {
-	int i,j,k, maternal_alleles, paternal_alleles, count;
+	int maternal_alleles, paternal_alleles, count;
 
 	if (HG_VERBOSE) {cerr<<"haploid_lowd::calculate_recombinants_free()...";}
 
@@ -906,34 +876,34 @@ int haploid_lowd::calculate_recombinants_free() {
 	if(HG_VERBOSE >= 2) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
 
 	//loop of all coefficients of the distribution of recombinants
-	for (i=1; i<(1<<number_of_loci); i++) {
+	for (int i = 1; i < (1<<number_of_loci); i++) {
 		recombinants.coeff[i]=0;
 
 		//loop over all possible partitions of the loci s1..sk in R^(k)_s1..sk to mother and father
-		for (j=0; j<(1<<recombinants.order[i]); j++) {
+		for (int j = 0; j < (1<<recombinants.order[i]); j++) {
 			count=0;
 			maternal_alleles=0;
 			paternal_alleles=0;
 
 			//build the integers to pull out the maternal and paternal moments
-			for (k=0; k<number_of_loci; k++)
+			for (int k = 0; k < number_of_loci; k++)
 				if (i&(1<<k)) {
-					if (j&(1<<count)) maternal_alleles+=(1<<k);
-					else paternal_alleles+=(1<<k);
+					if (j&(1<<count)) maternal_alleles += (1<<k);
+					else paternal_alleles += (1<<k);
 					count++;
 				}
 
 			//add this particular contribution to the recombinant distribution
-			recombinants.coeff[i]+=population.coeff[maternal_alleles]*population.coeff[paternal_alleles];
+			recombinants.coeff[i] += population.coeff[maternal_alleles] * population.coeff[paternal_alleles];
 		}
 
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
-		recombinants.coeff[i]*=1.0*(1<<(number_of_loci-recombinants.order[i]));
+		recombinants.coeff[i] *= (1<<(number_of_loci - recombinants.order[i]));
 	}
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();
 
-	if (HG_VERBOSE) {cerr<<"done."<<endl;}
+	if (HG_VERBOSE) cerr<<"done."<<endl;
 	return 0;
 }
 
@@ -946,9 +916,9 @@ int haploid_lowd::calculate_recombinants_free() {
  * pairs sampled with replacement.
  */
 int haploid_lowd::calculate_recombinants_single() {
+	if (HG_VERBOSE) cerr<<"haploid_lowd::calculate_recombinants_single()...";
+
 	int i,j,k, maternal_alleles, paternal_alleles, count, rec_pattern, crossover_point, set_size, l;
-	
-	if (HG_VERBOSE) {cerr<<"haploid_lowd::calculate_recombinants_single()...";}
 
 	// prepare hypercubes
 	population.fft_func_to_coeff();
@@ -962,7 +932,6 @@ int haploid_lowd::calculate_recombinants_single() {
 
 	//loop of all coefficients of the distribution of recombinants
 	for (i=1; i<(1<<number_of_loci); i++) {
-
 		// two things can happen:
 		// 1. everything is contributed by the same parent i
 		recombinants.coeff[i] = 2*RP[number_of_loci-1] * population.coeff[i] * population.coeff[0];
@@ -985,7 +954,7 @@ int haploid_lowd::calculate_recombinants_single() {
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();
 
-	if (HG_VERBOSE) {cerr<<"done."<<endl;}
+	if (HG_VERBOSE) cerr<<"done."<<endl;
 	return 0;
 }
 
@@ -998,9 +967,9 @@ int haploid_lowd::calculate_recombinants_single() {
  * pairs sampled with replacement.
  */
 int haploid_lowd::calculate_recombinants_general() {
-	int i,j,k, maternal_alleles, paternal_alleles, count;
+	if (HG_VERBOSE) cerr<<"haploid_lowd::calculate_recombinants_general()...";
 
-	if (HG_VERBOSE) {cerr<<"haploid_lowd::calculate_recombinants_general()...";}
+	int i,j,k, maternal_alleles, paternal_alleles, count;
 
 	// prepare hypercubes
 	population.fft_func_to_coeff();
@@ -1040,7 +1009,7 @@ int haploid_lowd::calculate_recombinants_general() {
 	//backtransform to genotype representation
 	recombinants.fft_coeff_to_func();
 
-	if (HG_VERBOSE) {cerr<<"done."<<endl;}
+	if (HG_VERBOSE) cerr<<"done."<<endl;
 	return 0;
 }
 
@@ -1054,13 +1023,14 @@ int haploid_lowd::calculate_recombinants_general() {
  * where \f$g\f$ runs over all possible genomes, and \f$\nu_g\f$ is the frequency of that genome
  * in the population.
  */
-double haploid_lowd::genotype_entropy(){
-	double S=0;
+double haploid_lowd::genotype_entropy() {
+	// make sure the population is in the right state
 	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
-	for (int i=0; i<(1<<number_of_loci); i++){
-		S-=population.func[i]*log(population.func[i]);
-	}
-	return S;
+
+	double entropy = 0;
+	for (int i = 0; i < (1<<number_of_loci); i++)
+		entropy -= population.func[i] * log(population.func[i]);
+	return entropy;
 }
 
 /**
@@ -1072,14 +1042,16 @@ double haploid_lowd::genotype_entropy(){
  * \f[ S := - \sum_{i=1}^L \nu_i\log \nu_i + (1 - \nu_i)\log (1 - \nu_i), \f]
  * where \f$\nu_i\f$ is the frequency of the i-th allele.
  */
-double haploid_lowd::allele_entropy(){
-	double SA=0;
+double haploid_lowd::allele_entropy() {
+	// make sure the population is in the right state
 	if (population.get_state()==HC_FUNC) population.fft_func_to_coeff();
-	for (int locus=0; locus<number_of_loci; locus++){
-		SA-=0.5*(1.0+population.coeff[(1<<locus)])*log(0.5*(1.0+population.coeff[(1<<locus)]));
-		SA-=0.5*(1.0-population.coeff[(1<<locus)])*log(0.5*(1.0-population.coeff[(1<<locus)]));
+
+	double entropy = 0;
+	for (int locus = 0; locus < number_of_loci; locus++) {
+		entropy -= 0.5 * (1.0 + population.coeff[(1<<locus)]) * log(0.5*(1.0 + population.coeff[(1<<locus)]));
+		entropy -= 0.5 * (1.0 - population.coeff[(1<<locus)]) * log(0.5*(1.0 - population.coeff[(1<<locus)]));
 	}
-	return SA;
+	return entropy;
 }
 
 /**
@@ -1087,13 +1059,14 @@ double haploid_lowd::allele_entropy(){
  *
  * @returns stat_t with the requested statistics
  */
-stat_t haploid_lowd::get_fitness_statistics(){
-	double mf=0, sq=0, temp;
+stat_t haploid_lowd::get_fitness_statistics() {
 	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
-	for (int locus=0; locus<1<<number_of_loci; locus++){
-		temp=population.get_func(locus)*fitness.get_func(locus);
-		mf+=temp;
-		sq+=temp*temp;
+
+	double mf = 0, sq = 0, temp;
+	for (int i = 0; i < (1<<number_of_loci); i++) {
+		temp = population.get_func(i) * fitness.get_func(i);
+		mf += temp;
+		sq += temp*temp;
 	}
-	return stat_t(mf, sq-mf);
+	return stat_t(mf, sq - mf * mf);
 }
