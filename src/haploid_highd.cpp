@@ -476,7 +476,6 @@ int haploid_highd::select_gametes() {
 		cerr <<"haploid_highd::select_gametes(): outcrossing_rate needs to be <=1 and >=0, got: "<<outcrossing_rate_effective<<'\n';
 		return HP_BADARG;
 	}
-
 	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
 	sex_gametes.clear();
 	clones_needed_for_recombination.clear();
@@ -486,7 +485,7 @@ int haploid_highd::select_gametes() {
 	number_of_clones = 0;
 	fitness_max = HP_VERY_NEGATIVE;
 	unsigned int clone_index = 0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) && (clone_index < last_clone+1); pop_iter++, clone_index++)
+	for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) && (clone_index < last_clone+1); pop_iter++, clone_index++){
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)})
 		if (pop_iter->clone_size > 0) {
 			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
@@ -514,8 +513,9 @@ int haploid_highd::select_gametes() {
 					clones_needed_for_recombination.push_back(clone_index);
 			}
 		}
+	}
 	last_clone = new_last_clone;
-	if(population_size < 1) {
+	if(population_size+sex_gametes.size() < 1) {
 		err = HP_EXTINCTERR;
 		if (HP_VERBOSE) cerr<<"error "<<err<<". The population went extinct!"<<endl;
 	}
@@ -690,6 +690,7 @@ int haploid_highd::add_recombinants() {
 	//construct new generation
 	int n_sex_gam = sex_gametes.size();
 	int parent1, parent2, err;
+	if (HP_VERBOSE) cerr <<"haploid_highd::add_recombinants(): add "<<n_sex_gam<<"recombinants!\n";
 
 	if (n_sex_gam > 1) {
 		//sexual offspring -- shuffle the set of gametes to ensure random mating

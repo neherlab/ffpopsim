@@ -99,8 +99,8 @@ int pop_initialize() {
 
 /* Test evolution */
 int pop_evolve() {
-	int L = 100;
-	int N = 30000;
+	int L = 1000;
+	int N = 100;
 
 	haploid_highd pop(L);
 
@@ -117,7 +117,7 @@ int pop_evolve() {
 		loci.clear();
 	}
 	stat_t fitstat;
-	for (int i=0; i< L; i++) {
+	for (int i=0; i< 10; i++) {
 		pop.evolve();
 		pop.calc_stat();
 		fitstat = pop.get_fitness_statistics();
