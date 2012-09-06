@@ -1,0 +1,8 @@
+<map id="haploid_highd::flip_single_locus" name="haploid_highd::flip_single_locus">
+<area shape="rect" id="node3" href="$classhaploid__highd.html#aae22b4b9ae415c0616996351e76f5c04" title="Calculate trait difference between two clones." alt="" coords="207,27,334,69"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="204,92,337,148"/>
+<area shape="rect" id="node13" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="179,171,362,213"/>
+<area shape="rect" id="node5" href="$classhypercube__highd.html#a8352b2198e0b8f6d352face30dff6989" title="Calculate difference between two hypercube points efficiently." alt="" coords="411,27,557,69"/>
+<area shape="rect" id="node7" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="606,5,783,32"/>
+<area shape="rect" id="node9" href="$classhypercube__highd.html#a44781cd1dcf006cd33263ca5fbdf245a" title=": get the trait coefficient of a locus." alt="" coords="621,57,768,98"/>
+</map>

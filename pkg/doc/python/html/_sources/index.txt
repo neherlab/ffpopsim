@@ -13,8 +13,11 @@ Documentation
    :maxdepth: 1
 
    Requirements
+   Install
    First steps with FFPopSim
    Contents
+
+In addition, the underlying C++ library is documented `here <../../cpp/html/index.html>`_. Note that some objects and functions have slightly different names in C++ and Python.
 
 Indices and tables
 ------------------

@@ -1,13 +1,14 @@
 var NAVTREE =
 [
   [ "FFPopSim", "index.html", [
+    [ "FFPopSim Documentation", "index.html", null ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ],
@@ -24,7 +25,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classsample.html#a4285c92a876e82ecdfb499058646f26d"
+"classsample.html#a0ad9d37a0aecc909652bbe35209554e1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

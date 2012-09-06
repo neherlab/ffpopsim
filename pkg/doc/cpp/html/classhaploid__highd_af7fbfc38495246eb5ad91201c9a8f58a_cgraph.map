@@ -1,21 +1,20 @@
 <map id="haploid_highd::evolve" name="haploid_highd::evolve">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="197,112,347,139"/>
-<area shape="rect" id="node22" href="$classhaploid__highd.html#aec2c31155f262a9c1cf21262eea2d03a" title="Generate offspring according to fitness (selection) and segregate some for sexual mating..." alt="" coords="200,345,344,386"/>
-<area shape="rect" id="node28" href="$classhaploid__highd.html#ab08783cb783ca66ff2c87227dbd74314" title="Pair and mate sexual gametes." alt="" coords="207,279,337,321"/>
-<area shape="rect" id="node42" href="$classhaploid__highd.html#a6fa4ffe295eef314642dec0208f81b7d" title="Make the the temporary population the current one." alt="" coords="203,410,341,451"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="629,5,784,46"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#a943354008a9931e4223f952f4790efd6" title="Flip a spin (locus) in individual." alt="" coords="417,141,543,182"/>
-<area shape="rect" id="node19" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="404,69,556,110"/>
-<area shape="rect" id="node9" href="$classhaploid__highd.html#ac4d5cd6a0e86ae30257f41c1e5b889c5" title="Calculate trait difference between two clones." alt="" coords="643,70,770,111"/>
-<area shape="rect" id="node15" href="$classhaploid__highd.html#a7f51d6a4f5791961d1b262e15735f820" title="Calculate fitness from traits of the chosen clone." alt="" coords="640,135,773,191"/>
-<area shape="rect" id="node17" href="$classhaploid__highd.html#a0d929c061bbf1c2fd4d82f6bb2f2f998" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="615,214,798,255"/>
-<area shape="rect" id="node11" href="$classhypercube__highd.html#a8352b2198e0b8f6d352face30dff6989" title="Calculate difference between two hypercube points efficiently." alt="" coords="864,70,1011,111"/>
-<area shape="rect" id="node13" href="$classhypercube__highd.html#a44781cd1dcf006cd33263ca5fbdf245a" title=": get the trait coefficient of a locus." alt="" coords="1075,70,1221,111"/>
-<area shape="rect" id="node24" href="$classhaploid__highd.html#ae64df329db764e98e77398a775a43600" title="Get the log of the exp&#45;average fitness plus relaxation term." alt="" coords="397,410,563,451"/>
-<area shape="rect" id="node26" href="$classhaploid__highd.html#a0aaa82167545768f814c7e28868eee77" title="Get the population exp&#45;average of fitness, used for keeping the population size fixed." alt="" coords="635,475,779,517"/>
-<area shape="rect" id="node30" href="$classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e" title="Recombine two genotypes parent1 and parent2 to produce two new genotypes." alt="" coords="395,287,565,313"/>
-<area shape="rect" id="node32" href="$classhaploid__highd.html#ac79972f0e845b52b3191a27ddae309a8" title="Produce a random reassortement pattern." alt="" coords="614,279,799,321"/>
-<area shape="rect" id="node34" href="$classhaploid__highd.html#a33a62c8a5c57d36e071099906131eb31" title="Choose a number of crossover points and produce a crossover pattern." alt="" coords="625,345,789,386"/>
-<area shape="rect" id="node36" href="$classhaploid__highd.html#acf40ae60f1441f5a8bb67a5a84444c01" title="Calculate traits of the chosen clone." alt="" coords="640,410,773,451"/>
-<area shape="rect" id="node38" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="849,417,1026,444"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#aec2c31155f262a9c1cf21262eea2d03a" title="Generate offspring according to fitness (selection) and segregate some for sexual mating..." alt="" coords="200,98,344,139"/>
+<area shape="rect" id="node9" href="$classhaploid__highd.html#ab08783cb783ca66ff2c87227dbd74314" title="Pair and mate sexual gametes." alt="" coords="207,194,337,235"/>
+<area shape="rect" id="node25" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="197,375,347,401"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#ae64df329db764e98e77398a775a43600" title="Get the log of the exp&#45;average fitness plus relaxation term." alt="" coords="397,37,563,78"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a0aaa82167545768f814c7e28868eee77" title="Get the population exp&#45;average of fitness, used for keeping the population size fixed." alt="" coords="635,5,779,46"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e" title="Recombine two genotypes parent1 and parent2 to produce two new genotypes." alt="" coords="395,201,565,228"/>
+<area shape="rect" id="node13" href="$classhaploid__highd.html#a67ecbdd5a8833b1e60843e6f73d817eb" title="Produce a random reassortement pattern." alt="" coords="614,70,799,111"/>
+<area shape="rect" id="node15" href="$classhaploid__highd.html#aebe30398571cd1c350a773b8a67e5bae" title="Choose a number of crossover points and produce a crossover pattern." alt="" coords="625,135,789,177"/>
+<area shape="rect" id="node17" href="$classhaploid__highd.html#ae9137cf2555811e415d2a6ae04e00471" title="Calculate traits of the chosen clone." alt="" coords="855,229,988,270"/>
+<area shape="rect" id="node21" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="640,252,773,308"/>
+<area shape="rect" id="node23" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="615,331,798,373"/>
+<area shape="rect" id="node19" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="1043,257,1221,284"/>
+<area shape="rect" id="node27" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="629,462,784,503"/>
+<area shape="rect" id="node29" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="404,401,556,442"/>
+<area shape="rect" id="node32" href="$classhaploid__highd.html#ac81ee2a7de13999b02eb910b6a153bcc" title="Flip a spin (locus) in individual." alt="" coords="417,334,543,375"/>
+<area shape="rect" id="node34" href="$classhaploid__highd.html#aae22b4b9ae415c0616996351e76f5c04" title="Calculate trait difference between two clones." alt="" coords="643,397,770,438"/>
+<area shape="rect" id="node36" href="$classhypercube__highd.html#a8352b2198e0b8f6d352face30dff6989" title="Calculate difference between two hypercube points efficiently." alt="" coords="848,329,995,370"/>
+<area shape="rect" id="node39" href="$classhypercube__highd.html#a44781cd1dcf006cd33263ca5fbdf245a" title=": get the trait coefficient of a locus." alt="" coords="1059,329,1205,370"/>
 </map>

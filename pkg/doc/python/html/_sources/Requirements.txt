@@ -14,11 +14,13 @@ Building Requirements
 ---------------------
 In order to build the Python bindings to FFPopSim, you need the following programs:
 
-   - a C++ compiler
+   - a C++ compiler, e.g. GCC_
    - Python_ 2.7+ (no Python 3 support yet), including header files
    - NumPy_, including header files and shared libraries
    - GSL_, the GNU Scientific library
    - BOOST_, the C++ extension library
+   - an implementation of Make, e.g. `GNU Make`_
+   - distutils_, a library for installing Python packages
 
 In addition, if you modify the sources and want to regenerate the Python bindings, you
 will need the following programs:
@@ -33,6 +35,7 @@ The building process has been tested on Python 2.7, Numpy 1.6, gcc 4.7, gsl 1.15
 1.50. The regeneration part has been tested on SWIG 2.0. The documentation has been
 created with Sphinx 1.1.
 
+.. _GCC: http://gcc.gnu.org/
 .. _GSL: http://www.gnu.org/software/gsl/
 .. _BOOST: http://www.boost.org/
 .. _SWIG: http://www.swig.org/
@@ -40,4 +43,5 @@ created with Sphinx 1.1.
 .. _NumPy: http://numpy.scipy.org/
 .. _matplotlib: http://matplotlib.sourceforge.net/
 .. _Sphinx: http://sphinx.pocoo.org/
-
+.. _GNU Make: http://www.gnu.org/software/make/
+.. _distutils: http://docs.python.org/library/distutils.html

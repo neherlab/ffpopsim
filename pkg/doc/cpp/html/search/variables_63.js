@@ -9,6 +9,5 @@ var searchData=
   ['coefficients_5fepistasis',['coefficients_epistasis',['../classhypercube__highd.html#ab7af876af26864a914e4957113ca58e2',1,'hypercube_highd']]],
   ['coefficients_5fsingle_5flocus',['coefficients_single_locus',['../classhypercube__highd.html#a21b3e86447b5373763c72888bf182dda',1,'hypercube_highd']]],
   ['crossover_5frate',['crossover_rate',['../classhaploid__highd.html#a023aab1a8360b632e471bdc3a4ec37d1',1,'haploid_highd']]],
-  ['crossovers',['crossovers',['../classhaploid__highd.html#a495c975322ea03d01417be29e951a1f0',1,'haploid_highd']]],
-  ['current_5fpop',['current_pop',['../classhaploid__highd.html#a7b2a100e6109b0190f3435b08097c327',1,'haploid_highd']]]
+  ['crossovers',['crossovers',['../classhaploid__highd.html#a495c975322ea03d01417be29e951a1f0',1,'haploid_highd']]]
 ];

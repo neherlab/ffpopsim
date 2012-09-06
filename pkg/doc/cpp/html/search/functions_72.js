@@ -9,7 +9,7 @@ var searchData=
   ['read_5fms_5fsample_5fsparse',['read_ms_sample_sparse',['../classhaploid__highd.html#a0e08d1847e521402cf0e2676d6ed38b9',1,'haploid_highd']]],
   ['read_5freplication_5fcoefficients',['read_replication_coefficients',['../classhivpopulation.html#ad1caa476f2d93020d52d0ce46f81a529',1,'hivpopulation']]],
   ['read_5fresistance_5fcoefficients',['read_resistance_coefficients',['../classhivpopulation.html#a6afaadd90cf25378476a13a2bef80875',1,'hivpopulation']]],
-  ['reassortment_5fpattern',['reassortment_pattern',['../classhaploid__highd.html#ac79972f0e845b52b3191a27ddae309a8',1,'haploid_highd']]],
+  ['reassortment_5fpattern',['reassortment_pattern',['../classhaploid__highd.html#a67ecbdd5a8833b1e60843e6f73d817eb',1,'haploid_highd']]],
   ['recombine',['recombine',['../classhaploid__highd.html#afb3d9e695f16b8412902757f18cfb63e',1,'haploid_highd::recombine()'],['../classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903',1,'haploid_lowd::recombine()']]],
   ['recombine_5fcrossover',['recombine_crossover',['../classhaploid__highd.html#ae9c993847dc49cd24811df7ef1fb9a5e',1,'haploid_highd']]],
   ['relaxation_5fvalue',['relaxation_value',['../classhaploid__highd.html#ae64df329db764e98e77398a775a43600',1,'haploid_highd']]],

@@ -7,7 +7,7 @@ FFPopSim is supposed to be easy to use. This page is meant to help new users to 
 For the impatient ones...
 -------------------------
 An effective way to discover all available methods is to import FFPopSim from
-an interactive shell (e.g. iPython), create a population, and use TAB autocompletion:
+the iPython_ interactive shell, create a population, and use TAB autocompletion:
 
 .. sourcecode:: ipython
 
@@ -15,12 +15,63 @@ an interactive shell (e.g. iPython), create a population, and use TAB autocomple
     In [2]: pop = h.haploid_lowd(5)   #create a population with 5 loci
     In [3]: pop.      <--- TAB
 
+Importing FFPopSim
+------------------
+FFPopSim is a single Python module. As such, you can import it with the python ``import`` statement,
+provided the files ``FFPopSim.py`` and ``_FFPopSim.so`` are in a folder in your ``PYTHONPATH``.
+If you wish to perform a system-wide installation of FFPopSim, call the make recipe ``python-install``
+*as a superuser*:
+
+.. code-block:: bash
+
+   $ sudo make python-install
+
+.. note:: if this sounds new to you, just put those two files into your current directory, from which
+          you plan to call the Python interpreter. ``import`` statements first look in the current
+          folder for modules.
+
+We recommend to import Numpy_ and matplotlib_ together with FFPopSim. In short, all your scripts should
+begin with the following piece of code::
+
+   import numpy as np
+   import matplotlib.pyplot as plt
+   import FFPopSim
+
+The selective import of parts of FFPopSim using ``from FFPopSim import <xxx>`` is discouraged and its results
+are untested.
+
 Examples
 --------
-The source code for all examples can be found in the ``examples`` folder.
+Usage examples of FFPopSim can be found at the following pages.
 
+The descriptions focus on FFPopSim and tend to ignore aesthetic aspects of the scripts
+such as figures, labels, *et similia*. This also means that glueing together the various
+code chunks found at those pages will not produce exactly the same figures; neither is this
+necessary at all, because the full source code for all examples (and more) can be found in the
+`examples <../../../../examples>`_ folder.
+
+.. note:: examples are ordered by increasing complexity.
+
+Low-dimensional examples
+^^^^^^^^^^^^^^^^^^^^^^^^
 .. toctree::
    :maxdepth: 1
 
-   Examples lowd
-   Examples highd
+   examples/lowd/Decay of linkage disequilibrium
+   examples/lowd/Time complexity and scaling
+   examples/lowd/Valley crossing
+
+
+High-dimensional examples
+^^^^^^^^^^^^^^^^^^^^^^^^^
+.. toctree::
+   :maxdepth: 1
+
+   examples/highd/Genetic drift
+   examples/highd/Genetic drift versus genetic draft
+   examples/highd/Condensation of genotypes driven by epistasis
+
+
+.. _iPython: http://ipython.org/
+.. _NumPy: http://numpy.scipy.org/
+.. _matplotlib: http://matplotlib.sourceforge.net/

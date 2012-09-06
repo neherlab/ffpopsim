@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Genetic drift &mdash; FFPopSim 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FFPopSim 1.1 documentation" href="../../index.html" />
+    <link rel="up" title="First steps with FFPopSim" href="../../First steps with FFPopSim.html" />
+    <link rel="next" title="Genetic drift versus genetic draft" href="Genetic drift versus genetic draft.html" />
+    <link rel="prev" title="Valley Crossing" href="../lowd/Valley crossing.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Genetic drift versus genetic draft.html" title="Genetic drift versus genetic draft"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../lowd/Valley crossing.html" title="Valley Crossing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li>
+          <li><a href="../../First steps with FFPopSim.html" accesskey="U">First steps with FFPopSim</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="genetic-drift">
+<h1>Genetic drift<a class="headerlink" href="#genetic-drift" title="Permalink to this headline">¶</a></h1>
+<p>As a very basic example, lets simulate how allele frequencies change
+due to genetic drift. If we want to track a large number of loci, we
+can use haploid_hd. First, we import the necessary tools, including
+FFPopSim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
+</pre></div>
+</div>
+<p>Next, we specify the parameters of the population and set up the
+population.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">L</span><span class="o">=</span><span class="mi">256</span>                                           <span class="c"># simulate 256 loci</span>
+
+<span class="n">pop</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_highd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>                        <span class="c"># produce an instance of haploid_lowd with L loci</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="mi">5000</span>                    <span class="c"># set the average population size to 50000</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">outcrossing_rate</span> <span class="o">=</span> <span class="mi">1</span>                        <span class="c"># make the species obligate outcrossing</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">crossover_rate</span> <span class="o">=</span> <span class="mf">0.02</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span>                 <span class="c"># set the crossover rate of the segment to 2 centimorgans</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span>   <span class="c"># per locus mutation rate equal to 0.1/N</span>
+<span class="n">initial_allele_frequencies</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="c"># define some initial allele frequencies</span>
+
+<span class="c"># initialize the population in LD with the specified allele frequencies</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_allele_frequencies</span><span class="p">(</span><span class="n">initial_allele_frequencies</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now have a population of size 5000 where each of the 256 loci is
+present at frequency 1/2. Next, we want to evolve the population and
+track the frequencies of the alleles.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#evolve for 2000 generations and track the allele frequencies</span>
+<span class="n">maxgen</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="c">#make lists to store allele frequencies and time points</span>
+<span class="n">allele_frequencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">()]</span>
+<span class="n">tp</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">]</span>
+
+<span class="k">while</span> <span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="o">&lt;</span><span class="n">maxgen</span><span class="p">:</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                                          <span class="c">#procede 10 generations</span>
+    <span class="n">allele_frequencies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">())</span> <span class="c">#save the allele frequencies</span>
+    <span class="n">tp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">generation</span><span class="p">)</span>                               <span class="c">#and the associated generation</span>
+</pre></div>
+</div>
+<p>The array <em>allele_frequencies</em> now contains the frequencies of 256
+loci every 10 generations. We can plot a subset of these as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">locus</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">L</span><span class="p">,</span><span class="mi">50</span><span class="p">):</span>        <span class="c">#plot a few neutral trajectories</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">allele_frequencies</span><span class="p">[:,</span><span class="n">locus</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">locus</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/genetic_drift.png" src="../../_images/genetic_drift.png" />
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../lowd/Valley crossing.html"
+                        title="previous chapter">Valley Crossing</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Genetic drift versus genetic draft.html"
+                        title="next chapter">Genetic drift versus genetic draft</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/examples/highd/Genetic drift.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Genetic drift versus genetic draft.html" title="Genetic drift versus genetic draft"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../lowd/Valley crossing.html" title="Valley Crossing"
+             >previous</a> |</li>
+        <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li>
+          <li><a href="../../First steps with FFPopSim.html" >First steps with FFPopSim</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Fabio Zanini, Richard Neher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

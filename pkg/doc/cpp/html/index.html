@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>FFPopSim: Main Page</title>
+<title>FFPopSim: FFPopSim Documentation</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('index.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -100,15 +100,30 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">FFPopSim Documentation</div>  </div>
+<div class="title">FFPopSim Documentation </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p>FFPopSim is a C++ library used to simulate evolution of genome populations.</p>
+<p>Two kinds of simulations are supported, depending on their genome size:</p>
+<ul>
+<li>few loci (up to ~20): the *lowd classes and functions, mainly <code><a class="el" href="classhaploid__lowd.html" title="Low-dimensional population evolving on the hypercube_lowd.">haploid_lowd</a></code> and <code><a class="el" href="classhypercube__lowd.html" title="Binary hypercube_lowd used in low-dimensional simulations.">hypercube_lowd</a></code>. The full space of possible genomes is generated and simulations can be performed with any population size.</li>
+</ul>
+<ul>
+<li>many loci (&gt; 20, tested up to several tens of thousands): the *highd classes and functions, mainly <code><a class="el" href="classhaploid__highd.html" title="Population class for high-dimensional simulations.">haploid_highd</a></code> and <code><a class="el" href="classhypercube__highd.html" title="Hypercube class for high-dimensional simulations.">hypercube_highd</a></code>. Only the observed genotypes are monitored. If a new genotype is created either by mutation or by recombination, a more resources are required. Population sizes up to \(10^6\) can be modeled this way.</li>
+</ul>
+<p>In addition, FFPopSim includes a specialized subclass of <code><a class="el" href="classhaploid__highd.html" title="Population class for high-dimensional simulations.">haploid_highd</a></code> used for simulating evolution of the Human Immunodeficiency Virus (HIV), <code>hivpopulation</code>. Viruses have a fixed genome size of 10000, and default constructor values are offered to start reasonable simulations quickly. Furthermore, helper I/O routine are included.</p>
+<h1><a class="anchor" id="tests-examples"></a>
+Tests and Examples</h1>
+<p>Examples and tests are found in the <code>tests</code> folder. They include a few functions that show that the Fast Fourier Transform-based algorithm for recombination yields the same result as the more expensive naive algorithm.</p>
+<h1><a class="anchor" id="python"></a>
+Python Interface</h1>
+<p>FFPopSim also includes bindings to Python 2.7. If you are starting using the library and have Python and all other requirements installed, it is easiest to start out there. Once you are feeling confident with the interface of FFPopSim, the C++ documentation can enlighten you on the internals and details. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Sep 2 2012 18:10:46 for FFPopSim by
+    <li class="footer">Generated on Thu Sep 6 2012 11:55:29 for FFPopSim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

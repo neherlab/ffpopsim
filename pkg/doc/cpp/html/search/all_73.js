@@ -4,7 +4,6 @@ var searchData=
   ['sample_2ecpp',['sample.cpp',['../sample_8cpp.html',1,'']]],
   ['sample_5ferror',['SAMPLE_ERROR',['../ffpopsim__generic_8h.html#acd383c7dc7a764f84ee55a46c170559a',1,'ffpopsim_generic.h']]],
   ['scale',['scale',['../classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3',1,'hypercube_lowd']]],
-  ['scratch',['scratch',['../classhaploid__highd.html#ad364734ea945abb84658303eefa0d817',1,'haploid_highd']]],
   ['seed',['seed',['../classhaploid__highd.html#a1d7ee5c309f75b8b5d97f087569c532d',1,'haploid_highd::seed()'],['../classhypercube__lowd.html#a4ee9d0cb17a75f02db7877984b3abad1',1,'hypercube_lowd::seed()'],['../classhaploid__lowd.html#a7bd2d798544073a19a788b44f6d41862',1,'haploid_lowd::seed()']]],
   ['select',['select',['../classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2',1,'haploid_lowd']]],
   ['select_5fgametes',['select_gametes',['../classhaploid__highd.html#aec2c31155f262a9c1cf21262eea2d03a',1,'haploid_highd']]],

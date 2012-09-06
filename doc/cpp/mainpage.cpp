@@ -9,10 +9,27 @@
  *
  * FFPopSim is a C++ library used to simulate evolution of genome populations.
  *
- * Currently, two kinds of populations are supported, depending on their genome size.
- * 1. For very short genomes, the full space of possible genomes is generated and simulations can be performed with any population size.
- * 2. For longer genomes, the dimension of the genotype space increases too rapidly, and only the observed genotypes are monitored.
- * If a new genotype is created either by mutation or by recombination, a larger amount of resources is required.
- * Population sizes up to \f$10^5\f$ or \f$10^6\f$ for a genome length of \f$10^4\f$ can be modeled this way.
+ * Two kinds of simulations are supported, depending on their genome size:
+ * - few loci (up to ~20): the *lowd classes and functions, mainly `haploid_lowd` and `hypercube_lowd`.
+ *   The full space of possible genomes is generated and simulations can be performed with any population size.
+ *
+ * - many loci (> 20, tested up to several tens of thousands): the *highd classes and functions, mainly `haploid_highd` and `hypercube_highd`.
+ *   Only the observed genotypes are monitored. If a new genotype is created either by mutation or by recombination, a more resources are required.
+ *   Population sizes up to \f$10^6\f$ can be modeled this way.
+ *
+ * In addition, FFPopSim includes a specialized subclass of `haploid_highd` used for simulating evolution of the Human Immunodeficiency Virus (HIV),
+ * `hivpopulation`. Viruses have a fixed genome size of 10000, and default constructor values are offered to start reasonable simulations quickly.
+ * Furthermore, helper I/O routine are included.
+ *
+ * @section tests-examples Tests and Examples
+ *
+ * Examples and tests are found in the `tests` folder. They include a few functions that show that the Fast Fourier Transform-based algorithm for
+ * recombination yields the same result as the more expensive naive algorithm.
+ *
+ * @section python Python Interface
+ *
+ * FFPopSim also includes bindings to Python 2.7. If you are starting using the library and have Python and all other requirements installed, it is
+ * easiest to start out there. Once you are feeling confident with the interface of FFPopSim, the C++ documentation can enlighten you on the internals
+ * and details.
  */
 

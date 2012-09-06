@@ -27,8 +27,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="FFPopSim 1.1 documentation" href="index.html" />
-    <link rel="next" title="Examples for the low-dimensional package" href="Examples lowd.html" />
-    <link rel="prev" title="Requirements" href="Requirements.html" /> 
+    <link rel="next" title="Decay of linkage disequilibrium" href="examples/lowd/Decay of linkage disequilibrium.html" />
+    <link rel="prev" title="Install" href="Install.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="Examples lowd.html" title="Examples for the low-dimensional package"
+          <a href="examples/lowd/Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="Requirements.html" title="Requirements"
+          <a href="Install.html" title="Install"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
       </ul>
@@ -61,21 +61,69 @@
 <div class="section" id="for-the-impatient-ones">
 <h2>For the impatient ones...<a class="headerlink" href="#for-the-impatient-ones" title="Permalink to this headline">¶</a></h2>
 <p>An effective way to discover all available methods is to import FFPopSim from
-an interactive shell (e.g. iPython), create a population, and use TAB autocompletion:</p>
+the <a class="reference external" href="http://ipython.org/">iPython</a> interactive shell, create a population, and use TAB autocompletion:</p>
 <div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">FFPopSim</span> <span class="kn">as</span> <span class="nn">h</span>
 <span class="gp">In [2]: </span><span class="n">pop</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_lowd</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>   <span class="c">#create a population with 5 loci</span>
 <span class="gp">In [3]: </span><span class="n">pop</span><span class="o">.</span>      <span class="o">&lt;---</span> <span class="n">TAB</span>
 </pre></div>
 </div>
 </div>
+<div class="section" id="importing-ffpopsim">
+<h2>Importing FFPopSim<a class="headerlink" href="#importing-ffpopsim" title="Permalink to this headline">¶</a></h2>
+<p>FFPopSim is a single Python module. As such, you can import it with the python <tt class="docutils literal"><span class="pre">import</span></tt> statement,
+provided the files <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> are in a folder in your <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt>.
+If you wish to perform a system-wide installation of FFPopSim, call the make recipe <tt class="docutils literal"><span class="pre">python-install</span></tt>
+<em>as a superuser</em>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo make python-install
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if this sounds new to you, just put those two files into your current directory, from which
+you plan to call the Python interpreter. <tt class="docutils literal"><span class="pre">import</span></tt> statements first look in the current
+folder for modules.</p>
+</div>
+<p>We recommend to import <a class="reference external" href="http://numpy.scipy.org/">Numpy</a> and <a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> together with FFPopSim. In short, all your scripts should
+begin with the following piece of code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">FFPopSim</span>
+</pre></div>
+</div>
+<p>The selective import of parts of FFPopSim using <tt class="docutils literal"><span class="pre">from</span> <span class="pre">FFPopSim</span> <span class="pre">import</span> <span class="pre">&lt;xxx&gt;</span></tt> is discouraged and its results
+are untested.</p>
+</div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<p>The source code for all examples can be found in the <tt class="docutils literal"><span class="pre">examples</span></tt> folder.</p>
+<p>Usage examples of FFPopSim can be found at the following pages.</p>
+<p>The descriptions focus on FFPopSim and tend to ignore aesthetic aspects of the scripts
+such as figures, labels, <em>et similia</em>. This also means that glueing together the various
+code chunks found at those pages will not produce exactly the same figures; neither is this
+necessary at all, because the full source code for all examples (and more) can be found in the
+<a class="reference external" href="../../../../examples">examples</a> folder.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">examples are ordered by increasing complexity.</p>
+</div>
+<div class="section" id="low-dimensional-examples">
+<h3>Low-dimensional examples<a class="headerlink" href="#low-dimensional-examples" title="Permalink to this headline">¶</a></h3>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Examples lowd.html">Examples for the low-dimensional package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Examples highd.html">Examples for the high-dimensional package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/lowd/Decay of linkage disequilibrium.html">Decay of linkage disequilibrium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/lowd/Time complexity and scaling.html">Time complexity and scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/lowd/Valley crossing.html">Valley Crossing</a></li>
 </ul>
+</div>
+</div>
+<div class="section" id="high-dimensional-examples">
+<h3>High-dimensional examples<a class="headerlink" href="#high-dimensional-examples" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/highd/Genetic drift.html">Genetic drift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/highd/Genetic drift versus genetic draft.html">Genetic drift versus genetic draft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/highd/Condensation of genotypes driven by epistasis.html">Condensation of genotypes driven by epistasis</a></li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -90,7 +138,14 @@ an interactive shell (e.g. iPython), create a population, and use TAB autocomple
   <ul>
 <li><a class="reference internal" href="#">First steps with FFPopSim</a><ul>
 <li><a class="reference internal" href="#for-the-impatient-ones">For the impatient ones...</a></li>
+<li><a class="reference internal" href="#importing-ffpopsim">Importing FFPopSim</a></li>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#low-dimensional-examples">Low-dimensional examples</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#high-dimensional-examples">High-dimensional examples</a><ul>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -98,11 +153,11 @@ an interactive shell (e.g. iPython), create a population, and use TAB autocomple
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="Requirements.html"
-                        title="previous chapter">Requirements</a></p>
+  <p class="topless"><a href="Install.html"
+                        title="previous chapter">Install</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="Examples lowd.html"
-                        title="next chapter">Examples for the low-dimensional package</a></p>
+  <p class="topless"><a href="examples/lowd/Decay of linkage disequilibrium.html"
+                        title="next chapter">Decay of linkage disequilibrium</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/First steps with FFPopSim.txt"
@@ -135,10 +190,10 @@ an interactive shell (e.g. iPython), create a population, and use TAB autocomple
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="Examples lowd.html" title="Examples for the low-dimensional package"
+          <a href="examples/lowd/Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
              >next</a> |</li>
         <li class="right" >
-          <a href="Requirements.html" title="Requirements"
+          <a href="Install.html" title="Install"
              >previous</a> |</li>
         <li><a href="index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
       </ul>
