@@ -82,6 +82,7 @@ Evolution
    haploid_highd.evolve
    haploid_highd.bottleneck
    haploid_highd.unique_clones
+   haploid_highd.flip_single_locus
    haploid_highd.calc_stat
 
 

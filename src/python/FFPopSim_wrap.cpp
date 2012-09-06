@@ -3938,6 +3938,13 @@ SWIGINTERN void clone_t__get_genotype(clone_t *self,int DIM1,short *ARGOUT_ARRAY
 }
 SWIGINTERN void clone_t__set_genotype(clone_t *self,boost::dynamic_bitset< > genotype_in){self->genotype = genotype_in;}
 
+SWIGINTERNINLINE PyObject*
+  SWIG_From_unsigned_SS_int  (unsigned int value)
+{
+  return PyInt_FromSize_t((size_t) value);
+}
+
+
 SWIGINTERN int
 SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
 {
@@ -4063,13 +4070,6 @@ SWIGINTERN void haploid_highd_random_clones(haploid_highd *self,int DIM1,unsigne
                 for(size_t i=0; i < DIM1; i++)
                         ARGOUT_ARRAY1[i] = sample[i];
 }
-
-SWIGINTERNINLINE PyObject*
-  SWIG_From_unsigned_SS_int  (unsigned int value)
-{
-  return PyInt_FromSize_t((size_t) value);
-}
-
 SWIGINTERN char const *hivgene___str__(hivgene *self){
         static char buffer[255];
         sprintf(buffer,"hivgene: start: %d, end: %d", self->start, self->end);
@@ -7826,6 +7826,40 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd_flip_single_locus(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "locus", NULL 
+  };
+  unsigned int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd_flip_single_locus",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_flip_single_locus" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_flip_single_locus" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (unsigned int)(arg1)->flip_single_locus(arg2);
+  resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd_calc_stat(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -10069,6 +10103,16 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		"Parameters:\n"
 		"   - size_of_bottleneck: the number of individuals at the bottleneck\n"
+		"\n"
+		""},
+	 { (char *)"haploid_highd_flip_single_locus", (PyCFunction) _wrap_haploid_highd_flip_single_locus, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Take a random clone, flip the allele at the selected locus and create a new clone.\n"
+		"\n"
+		"Parameters:\n"
+		"   - locus: locus to flip\n"
+		"\n"
+		"Returns:\n"
+		"   - index: index of the new clone with the flipped locus\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_calc_stat", (PyCFunction)_wrap_haploid_highd_calc_stat, METH_O, (char *)"Calculate trait and fitness statistics for the population"},

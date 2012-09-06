@@ -1,7 +1,4 @@
 <map id="hypercube_highd::get_func_diff" name="hypercube_highd::get_func_diff">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#aae22b4b9ae415c0616996351e76f5c04" title="Calculate trait difference between two clones." alt="" coords="201,27,327,69"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#ac81ee2a7de13999b02eb910b6a153bcc" title="Flip a spin (locus) in individual." alt="" coords="376,27,501,69"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="549,5,699,32"/>
-<area shape="rect" id="node11" href="$classhaploid__highd.html#a793692551c51067de6319c14703d8261" title="Flip a spin at a specific locus in random individual." alt="" coords="561,57,687,98"/>
-<area shape="rect" id="node9" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="747,5,890,32"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#aae22b4b9ae415c0616996351e76f5c04" title="Calculate trait difference between two clones." alt="" coords="201,5,327,46"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#ac81ee2a7de13999b02eb910b6a153bcc" title="Flip a spin (locus) in individual." alt="" coords="376,5,501,46"/>
 </map>

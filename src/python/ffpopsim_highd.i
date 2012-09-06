@@ -380,6 +380,18 @@ Parameters:
    - size_of_bottleneck: the number of individuals at the bottleneck
 ") bottleneck;
 
+/* flip single locus */
+%feature("autodoc",
+"
+Take a random clone, flip the allele at the selected locus and create a new clone.
+
+Parameters:
+   - locus: locus to flip
+
+Returns:
+   - index: index of the new clone with the flipped locus
+") flip_single_locus;
+
 /* statistics */
 %feature("autodoc", "Calculate trait and fitness statistics for the population") calc_stat;
 

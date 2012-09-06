@@ -1,6 +1,3 @@
 <map id="haploid_highd::get_trait_difference" name="haploid_highd::get_trait_difference">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ac81ee2a7de13999b02eb910b6a153bcc" title="Flip a spin (locus) in individual." alt="" coords="181,27,307,69"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#af173582ee41aecd03d8f97aa234cf879" title="Mutate random clones at random loci (all loci)" alt="" coords="355,5,504,32"/>
-<area shape="rect" id="node9" href="$classhaploid__highd.html#a793692551c51067de6319c14703d8261" title="Flip a spin at a specific locus in random individual." alt="" coords="367,57,492,98"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#af7fbfc38495246eb5ad91201c9a8f58a" title="Evolve for some generations under the specified conditions." alt="" coords="553,5,695,32"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#ac81ee2a7de13999b02eb910b6a153bcc" title="Flip a spin (locus) in individual." alt="" coords="181,5,307,46"/>
 </map>

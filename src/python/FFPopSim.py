@@ -1340,6 +1340,19 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_bottleneck(self, *args, **kwargs)
 
+    def flip_single_locus(self, *args, **kwargs):
+        """
+        Take a random clone, flip the allele at the selected locus and create a new clone.
+
+        Parameters:
+           - locus: locus to flip
+
+        Returns:
+           - index: index of the new clone with the flipped locus
+
+        """
+        return _FFPopSim.haploid_highd_flip_single_locus(self, *args, **kwargs)
+
     def calc_stat(self):
         """Calculate trait and fitness statistics for the population"""
         return _FFPopSim.haploid_highd_calc_stat(self)
@@ -2018,6 +2031,7 @@ haploid_highd.clear_fitness = new_instancemethod(_FFPopSim.haploid_highd_clear_f
 haploid_highd.set_random_epistasis = new_instancemethod(_FFPopSim.haploid_highd_set_random_epistasis,None,haploid_highd)
 haploid_highd._evolve = new_instancemethod(_FFPopSim.haploid_highd__evolve,None,haploid_highd)
 haploid_highd.bottleneck = new_instancemethod(_FFPopSim.haploid_highd_bottleneck,None,haploid_highd)
+haploid_highd.flip_single_locus = new_instancemethod(_FFPopSim.haploid_highd_flip_single_locus,None,haploid_highd)
 haploid_highd.calc_stat = new_instancemethod(_FFPopSim.haploid_highd_calc_stat,None,haploid_highd)
 haploid_highd.unique_clones = new_instancemethod(_FFPopSim.haploid_highd_unique_clones,None,haploid_highd)
 haploid_highd.random_clone = new_instancemethod(_FFPopSim.haploid_highd_random_clone,None,haploid_highd)

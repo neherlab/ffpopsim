@@ -48,6 +48,7 @@ haploid_highd Class Reference
    .. automethod:: haploid_highd.set_fitness_additive(coefficients)
    .. automethod:: haploid_highd.set_trait_additive(coefficients, t)
    .. automethod:: haploid_highd.set_wildtype(N)
+   .. automethod:: haploid_highd.flip_single_locus(locus)
    .. automethod:: haploid_highd.calc_stat()
    .. automethod:: haploid_highd.clear_trait(t=0)
    .. automethod:: haploid_highd.clear_fitness()

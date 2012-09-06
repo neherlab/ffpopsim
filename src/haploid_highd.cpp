@@ -629,6 +629,8 @@ int haploid_highd::mutate() {
  * Note: this function calls flip_single_locus(unsigned int clonenum, int locus).
  */
 unsigned int haploid_highd::flip_single_locus(int locus) {
+	if (available_clones.size() == 0)
+		provide_at_least(1);
 	return flip_single_locus(random_clone(), locus);
 }
 

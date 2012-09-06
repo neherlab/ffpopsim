@@ -257,11 +257,11 @@ public:
 	// evolution
 	int evolve(int gen=1);	
 	int bottleneck(int size_of_bottleneck);
+	unsigned int flip_single_locus(int locus);
 
 	// update traits and fitness and calculate statistics
 	void calc_stat();
 	void unique_clones();
-	
 
 	// readout
 	// Note: these functions are for the general public and are not expected to be
@@ -335,7 +335,6 @@ protected:
 	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
 	
 	unsigned int flip_single_locus(unsigned int clonenum, int locus);
-	unsigned int flip_single_locus(int locus);
 	void shuffle_genotypes();
 	int swap_populations();
 	int new_generation();
