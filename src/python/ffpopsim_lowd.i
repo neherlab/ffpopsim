@@ -194,7 +194,33 @@ def recombination_model(self, value):
 
 }
 
+/* status function */
+%pythoncode {
+def status(self):
+    '''Print a status list of the population parameters'''
+    parameters = (('number of loci', 'L'),
+                  ('circular', 'circular'),
+                  ('population size', 'N'),
+                  ('carrying capacity', 'carrying_capacity'),
+                  ('generation', 'generation'),
+                  ('outcrossing rate', 'outcrossing_rate'),
+                  ('recombination model', 'recombination_model'),
+                 )
+    lenmax = max(map(lambda x: len(x[0]), parameters))
 
+    for (strin, name) in parameters:
+        par = getattr(self, name)
+        # Recombination model needs a conversion
+        # (a very frequently used one, to be honest)
+        if strin == 'recombination model':
+            if par == 0:
+                par = 'FREE_RECOMBINATION'
+            elif par == 1:
+                par = 'SINGLE_CROSSOVER'
+            else:
+                par = 'CROSSOVERS'
+        print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
+}
 
 /* initialize frequencies */
 %ignore set_allele_frequencies;

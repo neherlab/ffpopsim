@@ -247,6 +247,39 @@ participation_ratio = property(_get_participation_ratio)
 %feature("autodoc", "Maximal fitness in the population (read-only)") get_max_fitness;
 %feature("autodoc", "Participation ratio (read-only)") get_participation_ratio;
 
+/* status function */
+%pythoncode {
+def status(self):
+    '''Print a status list of the population parameters'''
+    parameters = (('number of loci', 'L'),
+                  ('circular', 'circular'),
+                  ('number of traits', 'number_of_traits'),
+                  ('population size', 'N'),
+                  ('carrying capacity', 'carrying_capacity'),
+                  ('generation', 'generation'),
+                  ('outcrossing rate', 'outcrossing_rate'),
+                  ('crossover rate', 'crossover_rate'),
+                  ('recombination model', 'recombination_model'),
+                  ('mutation rate', 'mutation_rate'),
+                  ('participation ratio', 'participation_ratio'),
+                  ('number of clones', 'number_of_clones'),
+                 )
+    lenmax = max(map(lambda x: len(x[0]), parameters))
+
+    for (strin, name) in parameters:
+        par = getattr(self, name)
+        # Recombination model needs a conversion
+        # (a very frequently used one, to be honest)
+        if strin == 'recombination model':
+            if par == 0:
+                par = 'FREE_RECOMBINATION'
+            elif par == 1:
+                par = 'SINGLE_CROSSOVER'
+            else:
+                par = 'CROSSOVERS'
+        print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
+}
+
 /* initialize wildtype */
 %feature("autodoc",
 "Initialize a population of wildtype individuals

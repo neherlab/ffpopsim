@@ -557,6 +557,31 @@ class haploid_lowd(object):
 
 
 
+    def status(self):
+        '''Print a status list of the population parameters'''
+        parameters = (('number of loci', 'L'),
+                      ('circular', 'circular'),
+                      ('population size', 'N'),
+                      ('carrying capacity', 'carrying_capacity'),
+                      ('generation', 'generation'),
+                      ('outcrossing rate', 'outcrossing_rate'),
+                      ('recombination model', 'recombination_model'),
+                     )
+        lenmax = max(map(lambda x: len(x[0]), parameters))
+
+        for (strin, name) in parameters:
+            par = getattr(self, name)
+            
+            
+            if strin == 'recombination model':
+                if par == 0:
+                    par = 'FREE_RECOMBINATION'
+                elif par == 1:
+                    par = 'SINGLE_CROSSOVER'
+                else:
+                    par = 'CROSSOVERS'
+            print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
+
     def _set_allele_frequencies(self, *args, **kwargs):
         """_set_allele_frequencies(haploid_lowd self, int DIM1, unsigned long N) -> int"""
         return _FFPopSim.haploid_lowd__set_allele_frequencies(self, *args, **kwargs)
@@ -1555,6 +1580,36 @@ class haploid_highd(object):
     number_of_traits = property(_get_number_of_traits)
     max_fitness = property(_get_max_fitness)
     participation_ratio = property(_get_participation_ratio)
+
+    def status(self):
+        '''Print a status list of the population parameters'''
+        parameters = (('number of loci', 'L'),
+                      ('circular', 'circular'),
+                      ('number of traits', 'number_of_traits'),
+                      ('population size', 'N'),
+                      ('carrying capacity', 'carrying_capacity'),
+                      ('generation', 'generation'),
+                      ('outcrossing rate', 'outcrossing_rate'),
+                      ('crossover rate', 'crossover_rate'),
+                      ('recombination model', 'recombination_model'),
+                      ('mutation rate', 'mutation_rate'),
+                      ('participation ratio', 'participation_ratio'),
+                      ('number of clones', 'number_of_clones'),
+                     )
+        lenmax = max(map(lambda x: len(x[0]), parameters))
+
+        for (strin, name) in parameters:
+            par = getattr(self, name)
+            
+            
+            if strin == 'recombination model':
+                if par == 0:
+                    par = 'FREE_RECOMBINATION'
+                elif par == 1:
+                    par = 'SINGLE_CROSSOVER'
+                else:
+                    par = 'CROSSOVERS'
+            print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
 
     def _set_allele_frequencies(self, *args, **kwargs):
         """_set_allele_frequencies(haploid_highd self, double * IN_ARRAY1, int n_o_genotypes) -> int"""

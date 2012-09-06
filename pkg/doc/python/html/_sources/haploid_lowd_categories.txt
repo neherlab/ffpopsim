@@ -31,6 +31,13 @@ Attributes
    haploid_lowd.outcrossing_rate
    haploid_lowd.recombination_model
 
+Status
+^^^^^^
+.. autosummary::
+   :nosignatures:
+
+   haploid_lowd.status
+
 Initialize the Population
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::

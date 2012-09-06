@@ -262,6 +262,7 @@ $(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=
 	cp -f $(PYBDIR)/$(SOMODULE) $(PKGDIR)/python/
 
 clean-python:
+	rm -rf build
 	cd $(PYBDIR); rm -rf $(SOMODULE) $(PYCMODULE)
 	cd $(PKGDIR)/python; rm -rf $(SOMODULE) $(PYMODULE) $(PYCMODULE)
 

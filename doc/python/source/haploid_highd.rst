@@ -19,6 +19,7 @@ haploid_highd Class Reference
              participation_ratio,
              number_of_clones,
              number_of_traits,
+             status,
              max_fitness,
              set_allele_frequencies,
              set_genotypes,

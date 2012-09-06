@@ -35,6 +35,13 @@ Attributes
    haploid_highd.recombination_model
    haploid_highd.mutation_rate
 
+Status
+^^^^^^
+.. autosummary::
+   :nosignatures:
+
+   haploid_highd.status
+
 Initialize the population
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::

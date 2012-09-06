@@ -14,6 +14,7 @@ haploid_lowd Class Reference
              carrying_capacity,
              recombination_model,
              outcrossing_rate,
+             status,
              random_genomes,
              set_allele_frequencies,
              set_fitness_function,
