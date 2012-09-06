@@ -2118,7 +2118,6 @@ class hivpopulation(haploid_highd):
 
     """
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
     def __init__(self, N=0, rng_seed=0, mutation_rate=3e-5, coinfection_rate=1e-2, crossover_rate=1e-3): 
         """
         Construct a HIV population with certain parameters.
@@ -2185,6 +2184,14 @@ class hivpopulation(haploid_highd):
 
         """
         return _FFPopSim.hivpopulation_write_genotypes(self, *args, **kwargs)
+
+    def __str__(self):
+        """__str__(hivpopulation self) -> char const *"""
+        return _FFPopSim.hivpopulation___str__(self)
+
+    def __repr__(self):
+        """__repr__(hivpopulation self) -> char const *"""
+        return _FFPopSim.hivpopulation___repr__(self)
 
     treatment = property(_get_treatment, _set_treatment)
 
@@ -2511,6 +2518,8 @@ hivpopulation._get_treatment = new_instancemethod(_FFPopSim.hivpopulation__get_t
 hivpopulation.read_replication_coefficients = new_instancemethod(_FFPopSim.hivpopulation_read_replication_coefficients,None,hivpopulation)
 hivpopulation.read_resistance_coefficients = new_instancemethod(_FFPopSim.hivpopulation_read_resistance_coefficients,None,hivpopulation)
 hivpopulation.write_genotypes = new_instancemethod(_FFPopSim.hivpopulation_write_genotypes,None,hivpopulation)
+hivpopulation.__str__ = new_instancemethod(_FFPopSim.hivpopulation___str__,None,hivpopulation)
+hivpopulation.__repr__ = new_instancemethod(_FFPopSim.hivpopulation___repr__,None,hivpopulation)
 hivpopulation_swigregister = _FFPopSim.hivpopulation_swigregister
 hivpopulation_swigregister(hivpopulation)
 

@@ -130,13 +130,13 @@ Parameters:
 /* string representations */
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_lowd: L = %d, N = %d", $self->L(), $self->N());
+        sprintf(buffer,"haploid_lowd: L = %d, N = %f", (long)$self->L(), $self->N());
         return &buffer[0];
 }
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_lowd(%d, %5.2e)", $self->L(), $self->N());
+        sprintf(buffer,"<haploid_lowd(%d, %g)>", (long)$self->L(), $self->N());
         return &buffer[0];
 }
 

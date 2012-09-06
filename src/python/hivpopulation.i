@@ -24,7 +24,7 @@
 %extend hivgene {
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"start: %d, end: %d", $self->start, $self->end);
+        sprintf(buffer,"hivgene: start: %d, end: %d", $self->start, $self->end);
         return &buffer[0];
 }
 
@@ -106,6 +106,19 @@ Parameters:
                 PyErr_SetString(PyExc_ValueError,"Construction impossible. Please check input args.");
                 SWIG_fail;
         }
+}
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"hivpopulation: N = %d", $self->N());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<hivpopulation(%d)>", $self->N());
+        return &buffer[0];
 }
 
 /* treatment */

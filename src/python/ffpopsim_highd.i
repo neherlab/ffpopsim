@@ -59,7 +59,7 @@ const char* __str__() {
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"clone");
+        sprintf(buffer,"<clone>");
         return &buffer[0];
 }
 
@@ -199,7 +199,7 @@ const char* __str__() {
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_highd(%d, %5.2e)", $self->L(), $self->N());
+        sprintf(buffer,"<haploid_highd(%d, %d)>", $self->L(), $self->N());
         return &buffer[0];
 }
 

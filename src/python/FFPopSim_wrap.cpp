@@ -3868,12 +3868,12 @@ SWIGINTERNINLINE PyObject*
 
 SWIGINTERN char const *haploid_lowd___str__(haploid_lowd *self){
         static char buffer[255];
-        sprintf(buffer,"haploid_lowd: L = %d, N = %d", self->L(), self->N());
+        sprintf(buffer,"haploid_lowd: L = %d, N = %f", (long)self->L(), self->N());
         return &buffer[0];
 }
 SWIGINTERN char const *haploid_lowd___repr__(haploid_lowd *self){
         static char buffer[255];
-        sprintf(buffer,"haploid_lowd(%d, %5.2e)", self->L(), self->N());
+        sprintf(buffer,"<haploid_lowd(%d, %g)>", (long)self->L(), self->N());
         return &buffer[0];
 }
 SWIGINTERN int haploid_lowd__set_allele_frequencies(haploid_lowd *self,int DIM1,double *IN_ARRAY1,unsigned long N){return self->set_allele_frequencies(IN_ARRAY1, N);}
@@ -3922,7 +3922,7 @@ SWIGINTERN char const *clone_t___str__(clone_t *self){
 }
 SWIGINTERN char const *clone_t___repr__(clone_t *self){
         static char buffer[255];
-        sprintf(buffer,"clone");
+        sprintf(buffer,"<clone>");
         return &buffer[0];
 }
 SWIGINTERN int clone_t__get_number_of_traits(clone_t *self){
@@ -3960,7 +3960,7 @@ SWIGINTERN char const *haploid_highd___str__(haploid_highd *self){
 }
 SWIGINTERN char const *haploid_highd___repr__(haploid_highd *self){
         static char buffer[255];
-        sprintf(buffer,"haploid_highd(%d, %5.2e)", self->L(), self->N());
+        sprintf(buffer,"<haploid_highd(%d, %d)>", self->L(), self->N());
         return &buffer[0];
 }
 SWIGINTERN int haploid_highd__set_allele_frequencies(haploid_highd *self,double *IN_ARRAY1,int DIM1,int n_o_genotypes){return self->set_allele_frequencies(IN_ARRAY1, n_o_genotypes);}
@@ -4072,12 +4072,22 @@ SWIGINTERNINLINE PyObject*
 
 SWIGINTERN char const *hivgene___str__(hivgene *self){
         static char buffer[255];
-        sprintf(buffer,"start: %d, end: %d", self->start, self->end);
+        sprintf(buffer,"hivgene: start: %d, end: %d", self->start, self->end);
         return &buffer[0];
 }
 SWIGINTERN char const *hivgene___repr__(hivgene *self){
         static char buffer[255];
         sprintf(buffer,"hivgene(%d, %d)", self->start, self->end);
+        return &buffer[0];
+}
+SWIGINTERN char const *hivpopulation___str__(hivpopulation *self){
+        static char buffer[255];
+        sprintf(buffer,"hivpopulation: N = %d", self->N());
+        return &buffer[0];
+}
+SWIGINTERN char const *hivpopulation___repr__(hivpopulation *self){
+        static char buffer[255];
+        sprintf(buffer,"<hivpopulation(%d)>", self->N());
         return &buffer[0];
 }
 #ifdef __cplusplus
@@ -9684,6 +9694,52 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_hivpopulation___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  hivpopulation *arg1 = (hivpopulation *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_hivpopulation, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "hivpopulation___str__" "', argument " "1"" of type '" "hivpopulation *""'"); 
+  }
+  arg1 = reinterpret_cast< hivpopulation * >(argp1);
+  result = (char *)hivpopulation___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_hivpopulation___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  hivpopulation *arg1 = (hivpopulation *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_hivpopulation, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "hivpopulation___repr__" "', argument " "1"" of type '" "hivpopulation *""'"); 
+  }
+  arg1 = reinterpret_cast< hivpopulation * >(argp1);
+  result = (char *)hivpopulation___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *hivpopulation_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
@@ -10269,6 +10325,8 @@ static PyMethodDef SwigMethods[] = {
 		"   - length: store a chunk from ``start`` to this length\n"
 		"\n"
 		""},
+	 { (char *)"hivpopulation___str__", (PyCFunction)_wrap_hivpopulation___str__, METH_O, (char *)"hivpopulation___str__(hivpopulation self) -> char const *"},
+	 { (char *)"hivpopulation___repr__", (PyCFunction)_wrap_hivpopulation___repr__, METH_O, (char *)"hivpopulation___repr__(hivpopulation self) -> char const *"},
 	 { (char *)"hivpopulation_swigregister", hivpopulation_swigregister, METH_VARARGS, NULL},
 	 { (char *)"hivpopulation_swiginit", hivpopulation_swiginit, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
