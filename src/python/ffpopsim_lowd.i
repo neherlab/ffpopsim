@@ -642,7 +642,7 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
     # Calculate fitness
     fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
 
-    return np.histogram(fit, bins=bins, **kwargs)
+    return np.histogram(fit, **kwargs)
 
 
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):

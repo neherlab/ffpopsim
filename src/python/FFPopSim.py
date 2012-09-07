@@ -808,7 +808,7 @@ class haploid_lowd(object):
         
         fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
 
-        return np.histogram(fit, bins=bins, **kwargs)
+        return np.histogram(fit, **kwargs)
 
 
     def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
@@ -1830,11 +1830,10 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_random_clones(self, *args, **kwargs)
 
-    def get_fitness_histogram(self, bins=10, n_sample=1000, **kwargs):
+    def get_fitness_histogram(self, n_sample=1000, **kwargs):
         '''Calculate the fitness histogram of a population sample.
 
         Parameters:
-           - bins: number or array of bins to be used in the histogram (see also numpy.histogram)
            - n_sample: number of individuals to sample
 
         Returns:
@@ -1843,7 +1842,7 @@ class haploid_highd(object):
 
         import numpy as np
         fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
-        h = np.histogram(fit, bins=bins, **kwargs)
+        h = np.histogram(fit, **kwargs)
         return h
         
         

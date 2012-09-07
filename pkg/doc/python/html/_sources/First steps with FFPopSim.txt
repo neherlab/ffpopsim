@@ -60,6 +60,7 @@ Low-dimensional examples
    examples/lowd/Decay of linkage disequilibrium
    examples/lowd/Time complexity and scaling
    examples/lowd/Valley crossing
+   examples/lowd/Fitness wave
 
 
 High-dimensional examples
