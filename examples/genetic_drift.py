@@ -16,7 +16,7 @@ import FFPopSim as h
 L=256
 
 ### set up
-pop = h.haploid_highd(L)                        #produce an instance of haploid_lowd with L loci
+pop = h.haploid_highd(L)                        #produce an instance of haploid_highd with L loci
 pop.carrying_capacity = 5000                    #set the average population size to 50000
 pop.outcrossing_rate = 1                        #make the species obligate outcrossing
 pop.crossover_rate = 0.02/pop.L                 #set the crossover rate of the segment to 2 centimorgans
@@ -25,7 +25,7 @@ pop.mutation_rate = 0.1/pop.carrying_capacity   #per locus mutation rate equal t
 
 initial_allele_frequencies = 0.5*np.ones(pop.L) #define some initial allele frequencies
 
-#initialize the population in LD with the specified allele frequencies
+#initialize the population in linkage equilibrium with the specified allele frequencies
 pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
 
 #make lists to store allele frequencies and time points

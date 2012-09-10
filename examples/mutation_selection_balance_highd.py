@@ -20,7 +20,7 @@ mu = 0.5/N                          #mutation rate, scaled relative to N
 r  = 50.0/N/L                       #recombination rate for each interval between loci. 
 
 ### set up
-pop = h.haploid_highd(L)            #produce an instance of haploid_lowd with L loci
+pop = h.haploid_highd(L)            #produce an instance of haploid_highd with L loci
 pop.carrying_capacity = N           #set the population size
 pop.set_fitness_additive(0.5*s)     #set and additive fitness function. Note that FFPopSim models fitness landscape 
                                     #in a +/- rather than 0/1 basis, hence the factor 1/2

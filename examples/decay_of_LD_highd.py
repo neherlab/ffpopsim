@@ -1,6 +1,6 @@
 # vim: fdm=indent
 '''
-author:     Richard Neher
+author:     Fabio Zanini and Richard Neher
 date:       23/08/12
 content:    Example of haploid_highd on linkage relaxation via recombination
 '''
@@ -20,7 +20,7 @@ mu = 0.0                            # no new mutations
 r = 0.1/L                           # crossover rate
 
 ### set up
-pop = h.haploid_highd(L)             # produce an instance of haploid_lowd with L loci
+pop = h.haploid_highd(L)             # produce an instance of haploid_highd with L loci
 pop.carrying_capacity = N            # set the steady-state population size
 pop.outcrossing_rate=1               # assign the outcrossing rate (equals 1 be default)
 pop.crossover_rate = r               # assign the crossover rate per locus

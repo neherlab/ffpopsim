@@ -17,7 +17,7 @@ import FFPopSim as h
 L=256
 
 ### set up
-pop = h.haploid_highd(L)                        #produce an instance of haploid_lowd with L loci
+pop = h.haploid_highd(L)                        #produce an instance of haploid_highd with L loci
 pop.carrying_capacity = 50000                   #set the average population size to 50000
 pop.outcrossing_rate = 1                        #make the species obligate outcrossing
 pop.crossover_rate = 0.02/pop.L                 #set the crossover rate of the segment to 2 centimorgans
