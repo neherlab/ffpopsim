@@ -9,6 +9,7 @@ Runtime Requirements
 - Python_ 2.7+ (no Python 3 support yet) are the only supported Python versions. Older Python versions will *never* be supported, but Python 3 might become so in the future.
 - NumPy_ is used extensively in this library. We suggest to import numpy explicitely before using the library (but it will work in any case).
 - matplotlib_ is used in the plot functions. As long as you do not call those, you can live without it. However, we suggest to import it explicitely before using the library.
+- GSL_ shared libraries, from the GNU Scientific library
 
 Building Requirements
 ---------------------
