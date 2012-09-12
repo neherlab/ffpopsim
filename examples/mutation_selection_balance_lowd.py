@@ -25,15 +25,15 @@ r = 5.0 / N                         # recombination rate for each interval betwe
 pop = h.haploid_lowd(L)             # produce an instance of haploid_lowd with L loci
 pop.carrying_capacity = N           # set the population size
 
-# set and additive fitness function. Note that FFPopSim models fitness landscape
-# in a +/- rather than 0/1 basis, hence the factor 1/2
-pop.set_fitness_additive(0.5 * s) 
+# initialize the population with N wildtype individuals, that is ----
+pop.set_genotypes([0], [N])
 
 pop.set_recombination_rates(r)      # recombination rate (CROSSOVERS model by default)
 pop.set_mutation_rates(mu)          # mutation rate
 
-# initialize the population with N wildtype individuals, that is ----
-pop.set_genotypes([0], [N])
+# set and additive fitness function. Note that FFPopSim models fitness landscape
+# in a +/- rather than 0/1 basis, hence the factor 1/2
+pop.set_fitness_additive(0.5 * s) 
 
 pop.evolve(10 * N)                  # run for 10N generations to equilibrate
 
@@ -57,7 +57,7 @@ cols = ['r', 'b', 'g', 'm', 'c']
 for locus in range(L):
 
     # make histogram
-    y,x = np.histogram(allele_frequencies[:,locus], bins=af_bins, normed='True')
+    y,x = np.histogram(allele_frequencies[:,locus], bins=af_bins, density='True')
 
     # plot
     plt.plot(bin_centers, y, color=cols[locus], label = r'$N s_'+str(locus+1)+'='+str(N*s[locus])+'$')
@@ -71,7 +71,7 @@ for locus in range(L):
     plt.plot(nu,diffusion_theory, color=cols[locus], ls='--')
 
 plt.legend(loc=9)
-plt.title('Comparison to diffusion theory for $rN='+str(r[0]*N)+'$, $\mu N='+str(mu*N)+'$, $N='+str(N)+'$')
+plt.title('Comparison to diffusion theory for $rN='+str(r*N)+'$, $\mu N='+str(mu*N)+'$, $N='+str(N)+'$')
 plt.xlabel(r'Allele frequency $\nu$')
 plt.ylabel('Allele frequency distribution')
 

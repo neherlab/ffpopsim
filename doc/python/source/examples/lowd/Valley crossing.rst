@@ -6,7 +6,7 @@ crossed by some individual carrying multiple mutations in order to reach the
 fitness maximum. Recombination can accelerate this process as a source of
 genetic diversity (in addition to random mutation).  This works up to a certain
 point, where recombination becomes so frequent that it actually destroys
-beneficial combinations of mutations more often than it creates them.  This
+beneficial combinations of mutations more often than it creates them. This
 phenomenon is simulated in this example, which can be found integrally in
 ``valley.py``.
 

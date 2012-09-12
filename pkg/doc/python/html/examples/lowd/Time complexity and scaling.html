@@ -28,7 +28,7 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="FFPopSim 1.1 documentation" href="../../index.html" />
     <link rel="next" title="Valley Crossing" href="Valley crossing.html" />
-    <link rel="prev" title="Decay of linkage disequilibrium" href="Decay of linkage disequilibrium.html" /> 
+    <link rel="prev" title="Mutation-selection balance" href="Mutation-selection.html" /> 
   </head>
   <body>
     <div class="related">
@@ -44,7 +44,7 @@
           <a href="Valley crossing.html" title="Valley Crossing"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
+          <a href="Mutation-selection.html" title="Mutation-selection balance"
              accesskey="P">previous</a> |</li>
         <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
       </ul>
@@ -59,7 +59,7 @@
 <h1>Time complexity and scaling<a class="headerlink" href="#time-complexity-and-scaling" title="Permalink to this headline">¶</a></h1>
 <p>Recombination is implemented in <tt class="docutils literal"><span class="pre">haploid_lowd</span></tt> in such a way that it scales with the number of loci as
 <span class="math">\(\mathcal{O}(3^L)\)</span> instead of the naive <span class="math">\(\mathcal{O}(8^L)\)</span>. Moreover, if a single crossover
-event is allowed to happen, the complexity is reduced even further to <span class="math">\(\mathcal{O}(L^2 \cdot 2^L)\)</span>.
+event is allowed to happen, the complexity is reduced even further to <span class="math">\(\mathcal{O}(L\, \cdot 2^L)\)</span>.
 This is shown in this example, called <tt class="docutils literal"><span class="pre">speed_lowd.py</span></tt>.</p>
 <p>First, modules and paths are imported as usual, plus the <tt class="docutils literal"><span class="pre">time</span></tt> module is imported as well:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
@@ -136,8 +136,8 @@ compared to the expectation <span class="math">\(\mathcal{O}(3^L)\)</span>:</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="Decay of linkage disequilibrium.html"
-                        title="previous chapter">Decay of linkage disequilibrium</a></p>
+  <p class="topless"><a href="Mutation-selection.html"
+                        title="previous chapter">Mutation-selection balance</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="Valley crossing.html"
                         title="next chapter">Valley Crossing</a></p>
@@ -176,7 +176,7 @@ compared to the expectation <span class="math">\(\mathcal{O}(3^L)\)</span>:</p>
           <a href="Valley crossing.html" title="Valley Crossing"
              >next</a> |</li>
         <li class="right" >
-          <a href="Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
+          <a href="Mutation-selection.html" title="Mutation-selection balance"
              >previous</a> |</li>
         <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
       </ul>

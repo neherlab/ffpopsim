@@ -2,7 +2,7 @@ Time complexity and scaling
 ===========================
 Recombination is implemented in ``haploid_lowd`` in such a way that it scales with the number of loci as
 :math:`\mathcal{O}(3^L)` instead of the naive :math:`\mathcal{O}(8^L)`. Moreover, if a single crossover
-event is allowed to happen, the complexity is reduced even further to :math:`\mathcal{O}(L^2 \cdot 2^L)`.
+event is allowed to happen, the complexity is reduced even further to :math:`\mathcal{O}(L\, \cdot 2^L)`.
 This is shown in this example, called ``speed_lowd.py``.
 
 First, modules and paths are imported as usual, plus the ``time`` module is imported as well::

@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mutation-selection balance &mdash; FFPopSim 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FFPopSim 1.1 documentation" href="../../index.html" />
+    <link rel="next" title="Time complexity and scaling" href="Time complexity and scaling.html" />
+    <link rel="prev" title="Decay of linkage disequilibrium" href="Decay of linkage disequilibrium.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Time complexity and scaling.html" title="Time complexity and scaling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mutation-selection-balance">
+<h1>Mutation-selection balance<a class="headerlink" href="#mutation-selection-balance" title="Permalink to this headline">¶</a></h1>
+<p>In finite populations, new alleles are introduced continuously by mutation and
+their abundance subject to genetic drift. If their effects are not neutral,
+however, selection acts as well. In the steady state, a balance between drift
+and selection sets in and determines the spectrum of allele frequencies. The
+full script for this example can be found in the examples folder, in
+<tt class="docutils literal"><span class="pre">mutation_selection_balance_lowd.py</span></tt>.</p>
+<p>Fist, after loading all necessary modules, we set the parameters as usual and
+create the population class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">N</span> <span class="o">=</span> <span class="mi">500</span>                             <span class="c"># population size</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mi">4</span>                               <span class="c"># number of loci</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span> <span class="p">,</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>   <span class="c"># additive selection coefficients for L loci, scaled to N</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">0.4</span> <span class="o">/</span> <span class="n">N</span>                        <span class="c"># mutation rate, scaled to N</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mf">5.0</span> <span class="o">/</span> <span class="n">N</span>                         <span class="c"># recombination rate for each interval between loci.</span>
+
+<span class="n">pop</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">haploid_lowd</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>             <span class="c"># produce an instance of haploid_lowd with L loci</span>
+</pre></div>
+</div>
+<p>Note that selection coefficients go from negative to positive across the L
+sites. We fix the carrying capacity and initialize the population with wildtypes
+only:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="n">N</span>           <span class="c"># set the population size</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">N</span><span class="p">])</span>         <span class="c"># wildtype individuals, that is ----</span>
+</pre></div>
+</div>
+<p>We set the mutation/recombination rates, using a full multiple-crossover model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">set_recombination_rates</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>      <span class="c"># recombination rate (CROSSOVERS model by default)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_mutation_rates</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>          <span class="c"># mutation rate</span>
+</pre></div>
+</div>
+<p>Now we can start to evolve the population. We first let it equilibrate towards
+the steady-state:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span>                  <span class="c"># run for 10N generations to equilibrate</span>
+</pre></div>
+</div>
+<p>and we start to record the allele frequencies from now on:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span>             <span class="c"># N / 10 generations between successive samples</span>
+
+    <span class="c"># get allele frequencies</span>
+    <span class="n">allele_frequencies</span><span class="p">[</span><span class="n">ii</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">get_allele_frequencies</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, we histogram and plot the spectra of the single sites separately, since
+they have a different fitness coefficient:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">locus</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+
+    <span class="n">y</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">allele_frequencies</span><span class="p">[:,</span><span class="n">locus</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">af_bins</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="s">&#39;True&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result of the plot, compared to diffusion theory, is shown here below.</p>
+<img alt="../../_images/mutation-selection.png" src="../../_images/mutation-selection.png" />
+<p>It fits the simulations quite well indeed; note the accumulation of alleles
+close to the boundaries. Note also that <span class="math">\(rN \gg 1\)</span>, hence the sites are
+essentially uncoupled.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Decay of linkage disequilibrium.html"
+                        title="previous chapter">Decay of linkage disequilibrium</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Time complexity and scaling.html"
+                        title="next chapter">Time complexity and scaling</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/examples/lowd/Mutation-selection.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Time complexity and scaling.html" title="Time complexity and scaling"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
+             >previous</a> |</li>
+        <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Fabio Zanini, Richard Neher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

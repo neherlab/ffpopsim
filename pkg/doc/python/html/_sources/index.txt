@@ -37,6 +37,7 @@ Low-dimensional examples
    :maxdepth: 1
 
    examples/lowd/Decay of linkage disequilibrium
+   examples/lowd/Mutation-selection
    examples/lowd/Time complexity and scaling
    examples/lowd/Valley crossing
    examples/lowd/Fitness wave
