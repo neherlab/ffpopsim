@@ -1,5 +1,5 @@
 <map id="haploid_lowd::mutate" name="haploid_lowd::mutate">
-<area shape="rect" id="node3" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="197,5,336,32"/>
-<area shape="rect" id="node5" href="$classhaploid__lowd.html#ace81e593a66646976ecda97d4032fd12" title="Evolve the population for some generations, without recombination." alt="" coords="197,57,336,98"/>
-<area shape="rect" id="node7" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="197,122,336,163"/>
+<area shape="rect" id="node3" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="198,5,341,32"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#ace81e593a66646976ecda97d4032fd12" title="Evolve the population for some generations, without recombination." alt="" coords="198,57,341,98"/>
+<area shape="rect" id="node7" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="198,122,341,163"/>
 </map>

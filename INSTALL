@@ -1,73 +1,123 @@
+Licence:	GPL3
+Author:		Richard Neher, Fabio Zanini
+Date:		2012/09/12
+
+Description:
+------------
+Intallation instructions and troubleshooting for the FFPopSim library.
+
+This file is made of three parts:
+
+   1. Requirements
+   2. Installation instructions
+   3. Troubleshooting
+
 -------------------------------------------------------------------
-DEPENDENCIES
+1. REQUIREMENTS
 -------------------------------------------------------------------
-Make is used to build the FFPopSim library. FFPopSim depends on:
+Make is used to build the FFPopSim library. The pure C++ part
+requires:
+
+- a C++ compiler and linker
 - the GNU Scientific Library (http://www.gnu.org/software/gsl/)
 - BOOST (http://www.boost.org/)
 
-The python wrapper requires:
+The python wrapper requires, *in addition the the aforementioned*:
+
+- Python 2.7
 - Distutils (http://docs.python.org/library/distutils.html)
 - NumPy, SciPy, and MatPlotLib (http://www.scipy.org)
 
+Optional dependencies
+-------------------------------------------------------------------
+The C wrapper for Python, in case you want to regenerate it, requires:
+
+- SWIG (http://www.swig.org)
+
 The C++ documentation, in case you want to rebuild it, requires:
+
 - Doxygen (http://www.doxygen.org/)
 
 The Python documentation, in case you want to rebuild it, requires:
+
 - Sphinx (http://sphinx.pocoo.org/)
 
 -------------------------------------------------------------------
-INSTALL
+2. INSTALLATION INSTRUCTIONS
 -------------------------------------------------------------------
 For the impatient ones, call
 
-make
+	make
 
 and have a look in the pkg folder.
 
 Full instructions
 -------------------------------------------------------------------
-Please open the Makefile and have a look at the first few lines.
-Please set the required variables in the Makefile according to your
-platform (C/C++ compiler, Python interpreter, etc.) and preferences
-(optimization level).
+Open the Makefile and have a look at the first few lines. Set the
+required variables in the Makefile according to your platform (C/C++
+compiler, Python interpreter, etc.) and preferences (optimization
+level, compiler flags).
+
+The variable CXXFLAGS can be used to add the paths for include files
+for GSL and BOOST.
+
+If you are compiling the Python part of FFPopSim, open also setup.py
+and modify the 'includes' and 'library_dirs' lists there if GSL or
+BOOST are not found.
 
 You can build the various pieces separately:
 
-1. To build only the C++ sources, call
+- To build only the C++ sources, call
 
-make src
+	make src
 
-2. To build also the Python bindings, call
+- To build the C++ test programs, call
 
-make python
+	make tests
 
-3. To build the documentation, call
+- To build the Python bindings, call
 
-make doc
+	make python
 
-4. To build the C++ test programs, call
+- To install the Python extension system-wide, call
 
-make tests
+	make python-install
 
-To build all of them, just call
+  *as superuser*
 
-make
+- To rebuild the C++ documentation, call
+
+	make doc
+
+- To rebuild the Python documentation, call
+
+	make python-doc
+
+- To build both the C++ and Python parts (no documentation), just call
+
+	make
+
+- Finally, to rebuild everything including documentation, call
+
+	make all
 
 The C++ library and the Python module files are stored in the pkg
-folder. Copy them into your system folders (e.g., /usr/local/lib and
-/usr/local/lib/python2.7/site-packages) to make them available to all
-users.
+folder. Copy them into your system folders (e.g., /usr/local/include,
+/usr/local/lib and /usr/local/lib/python2.7/site-packages,
+respectively) to make them available to all users.
 
 Documentation and examples
 -------------------------------------------------------------------
+Documentation and examples are online at:
+
+	http://webdav.tuebingen.mpg.de/ffpopsim/
+
 C++ and Python examples are available in the tests and examples
 folders. They are commented, so you should be able to understand
-what it's being done there by reading the code directly.
+what is being done there by reading the code directly.
 
-The documentation for the C++ library can be found in pkg/doc/cpp.
-The documentation for the Python bindings are in pkg/doc/python.
-
-Troubleshooting Q&A
+-------------------------------------------------------------------
+3. TROUBLESHOOTING
 -------------------------------------------------------------------
 Q. I cannot compile the C++ library because BOOST is not found, but
    I am sure it's installed!
@@ -87,9 +137,10 @@ A. BOOST is probably installed in a folder where your compiler cannot
 Q. I cannot compile the Python bindings. The compiler complains that
    a number of gsl-related or boost-related files are not found!
 
-A. Try opening the setup.py file and extend the list 'includes'. In
-   particular, add the paths of the header files for GSL and BOOST
-   on your system.
+A. Try opening the setup.py file and extend the lists 'includes' and
+   'library_dirs'. In particular, add the paths of the header files 
+   for GSL and BOOST on your system to 'includes', and the shared
+   library files for GSL to 'library_dirs'.
 
 
 Q. The examples work, but when I try to import FFPopSim from another
@@ -106,6 +157,6 @@ A. In order for Python to find FFPopSim, both FFPopsim.py and
    where <FFPOPSIM> is the folder in which FFPopSim was compiled. A
    more elegant solution is to install the library system-wide, using
    
-   python setup.py install
+   make python-install
 
    Note that you will be asked root priviledges for this operation.

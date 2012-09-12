@@ -1,6 +1,6 @@
 #############################################################################
 #
-# Licence:	
+# Licence:	GPL3
 # Author:	Richard Neher, Fabio Zanini
 # Date:		2012/05/15
 #
@@ -11,20 +11,18 @@
 # The first section deals with platform-specific programs, options, and paths.
 # Please adapt it to your needs.
 #
-# The second section of this Makefile, below the clause within !!, is where
-# the make recipes are listed and specified. Modify that part of the file
-# only if you know what you are doing and want to change some technical detail
-# of the dependecy chain.
+# The second section of this Makefile, below the clause within !!, is where the
+# make recipes are listed and specified. Modify that part of the file only if
+# you know what you are doing and want to change some technical detail of the
+# dependecy chain.
 #
 # ---------------------------------------------------------------------------
 # The main recipes are the following:
 #
 # - src: C++ library compilation and (static) linking
-# - doc: C++ documentation
 # - tests: C++ test cases compilation and linking against the library
-# - python: python bindings
-# - python-doc: python documentation
-# - python-install: install python package system-wide (requires root
+# - python: Python bindings
+# - python-install: install Python package system-wide (requires root
 #   priviledges)
 #
 # By default, a make call without recipe does the following:
@@ -32,9 +30,14 @@
 # - src tests python: if PYTHON is defined
 # - src tests: otherwise
 #
+# The C++ and Python documentations are built by the following rules:
+#
+# - doc: C++ documentation
+# - python-doc: Python documentation
+#
 # Moreover, the rule 'all' will call the following:
 #
-# - src tests python doc python-doc
+# - src python tests doc python-doc
 #
 # i.e. will build the whole library and the documentation. Of course, this
 # will only work if you have all necessary tools installed.
@@ -49,13 +52,8 @@
 #			PLATFORM-DEPENDENT OPTIONS			   #
 #									   #
 ############################################################################
-# Please select your C and C++ compilers
-CC := gcc
+# Please select your C++ compiler
 CXX := g++
-
-# Please set your doxygen executable if you want to rebuild the C++
-# documentation.
-DOXY := doxygen
 
 # Please set your Python 2.7 executable if you want to build the Python
 # bindings. If you are only interested in the C++ part of the library,
@@ -67,17 +65,27 @@ PYTHON := python2.7
 # Python bindings.
 SWIG := swig
 
+
+# Please set your doxygen executable if you want to rebuild the C++
+# documentation.
+DOXY := doxygen
+
 # Please set your Sphinx executable (based on Python 2.7) if you want to
 # rebuild the Python documentation.
+#SPHINX := sphinx-build
 SPHINX := sphinx-build2
 
 # Please select the optimization level of the library. Lower this number if
-# you prefer to use mildly optimized code only.
-OPTIMIZATION_LEVEL := 2
+# you prefer to use mildly optimized code only. On Mac OSX, you can use the
+# string 'fast' for maximal performance
+OPTIMIZATION_LEVEL := O2
+#OPTIMIZATION_LEVEL := fast
 
 # Please use the following variable for additional include folders to the
 # compiler (e.g. /opt/local/include)
 #CXXFLAGS = -I/opt/local/include
+
+# Please look in 'setup.py' if you are trying to compile the Python extension!
 
 ############################################################################
 #									   #
@@ -115,7 +123,7 @@ clean-all: clean clean-doc clean-python-doc clean-swig
 ##==========================================================================
 # C++ SOURCE
 ##==========================================================================
-SRC_CXXFLAGS= $(CXXFLAGS) -O$(OPTIMIZATION_LEVEL) -fPIC $(PROFILEFLAGS)
+SRC_CXXFLAGS= $(CXXFLAGS) -$(OPTIMIZATION_LEVEL) -fPIC $(PROFILEFLAGS)
 
 LIBRARY := libFFPopSim.a
 
@@ -191,8 +199,8 @@ clean-doc:
 ##==========================================================================
 # C++ TESTS
 ##==========================================================================
-TESTS_CXXFLAGS = $(CXXFLAGS) -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC
-TESTS_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
+TESTS_CXXFLAGS = $(CXXFLAGS) -I$(SRCDIR) -Wall -$(OPTIMIZATION_LEVEL) -c -fPIC
+TESTS_LDFLAGS = -$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
 TEST_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
 
@@ -295,8 +303,8 @@ clean-python-doc:
 ##==========================================================================
 # PROFILE
 ##==========================================================================
-PROFILE_CXXFLAGS = $(CXXFLAGS) -I$(SRCDIR) -Wall -O$(OPTIMIZATION_LEVEL) -c -fPIC $(PROFILEFLAGS)
-PROFILE_LDFLAGS = -O$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
+PROFILE_CXXFLAGS = $(CXXFLAGS) -I$(SRCDIR) -Wall -$(OPTIMIZATION_LEVEL) -c -fPIC $(PROFILEFLAGS)
+PROFILE_LDFLAGS = -$(OPTIMIZATION_LEVEL) $(PROFILEFLAGS)
 PROFILE_LIBDIRS = -L$(CURDIR)/$(SRCDIR)
 PROFILE_LIBS = -lFFPopSim -lgsl -lgslcblas
 

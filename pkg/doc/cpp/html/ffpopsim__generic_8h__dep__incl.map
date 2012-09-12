@@ -1,12 +1,12 @@
 <map id="src/ffpopsim_generic.h" name="src/ffpopsim_generic.h">
-<area shape="rect" id="node3" href="$ffpopsim__highd_8h.html" title="src/ffpopsim_highd.h" alt="" coords="256,80,396,107"/>
-<area shape="rect" id="node15" href="$ffpopsim__lowd_8h.html" title="src/ffpopsim_lowd.h" alt="" coords="524,80,659,107"/>
-<area shape="rect" id="node21" href="$sample_8cpp.html" title="src/sample.cpp" alt="" coords="685,80,795,107"/>
+<area shape="rect" id="node3" href="$ffpopsim__highd_8h.html" title="src/ffpopsim_highd.h" alt="" coords="257,80,399,107"/>
+<area shape="rect" id="node15" href="$ffpopsim__lowd_8h.html" title="src/ffpopsim_lowd.h" alt="" coords="524,80,663,107"/>
+<area shape="rect" id="node21" href="$sample_8cpp.html" title="src/sample.cpp" alt="" coords="687,80,797,107"/>
 <area shape="rect" id="node5" href="$haploid__highd_8cpp.html" title="src/haploid_highd.cpp" alt="" coords="5,155,152,181"/>
-<area shape="rect" id="node7" href="$hivpopulation_8h.html" title="Header file for a typical HIV population (subclass of haploid_highd)" alt="" coords="177,155,305,181"/>
-<area shape="rect" id="node13" href="$hypercube__highd_8cpp.html" title="src/hypercube_highd.cpp" alt="" coords="330,155,496,181"/>
-<area shape="rect" id="node9" href="$hivgene_8cpp.html" title="Implementation of an HIV gene." alt="" coords="109,229,220,256"/>
-<area shape="rect" id="node11" href="$hivpopulation_8cpp.html" title="Implementation of an HIV population with drug treatment." alt="" coords="245,229,387,256"/>
-<area shape="rect" id="node17" href="$haploid__lowd_8cpp.html" title="src/haploid_lowd.cpp" alt="" coords="521,155,663,181"/>
-<area shape="rect" id="node19" href="$hypercube__lowd_8cpp.html" title="src/hypercube_lowd.cpp" alt="" coords="688,155,851,181"/>
+<area shape="rect" id="node7" href="$hivpopulation_8h.html" title="Header file for a typical HIV population (subclass of haploid_highd)" alt="" coords="176,155,305,181"/>
+<area shape="rect" id="node13" href="$hypercube__highd_8cpp.html" title="src/hypercube_highd.cpp" alt="" coords="331,155,497,181"/>
+<area shape="rect" id="node9" href="$hivgene_8cpp.html" title="Implementation of an HIV gene." alt="" coords="107,229,221,256"/>
+<area shape="rect" id="node11" href="$hivpopulation_8cpp.html" title="Implementation of an HIV population with drug treatment." alt="" coords="246,229,391,256"/>
+<area shape="rect" id="node17" href="$haploid__lowd_8cpp.html" title="src/haploid_lowd.cpp" alt="" coords="522,155,664,181"/>
+<area shape="rect" id="node19" href="$hypercube__lowd_8cpp.html" title="src/hypercube_lowd.cpp" alt="" coords="689,155,852,181"/>
 </map>

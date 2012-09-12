@@ -1,5 +1,5 @@
 <map id="hivpopulation::write_genotypes" name="hivpopulation::write_genotypes">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="384,28,539,69"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#a5f2fe58daa26fce5a3cea94adf92fe97" title="haploid_highd::get\l_population_size" alt="" coords="197,24,323,65"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="184,89,336,130"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="387,28,541,69"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#a5f2fe58daa26fce5a3cea94adf92fe97" title="haploid_highd::get\l_population_size" alt="" coords="199,24,326,65"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="187,89,339,130"/>
 </map>

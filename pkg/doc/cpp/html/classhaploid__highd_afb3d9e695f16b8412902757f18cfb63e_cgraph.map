@@ -1,8 +1,8 @@
 <map id="haploid_highd::recombine" name="haploid_highd::recombine">
 <area shape="rect" id="node3" href="$classhaploid__highd.html#a67ecbdd5a8833b1e60843e6f73d817eb" title="Produce a random reassortement pattern." alt="" coords="225,5,410,46"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#aebe30398571cd1c350a773b8a67e5bae" title="Choose a number of crossover points and produce a crossover pattern." alt="" coords="235,70,399,111"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#aebe30398571cd1c350a773b8a67e5bae" title="Choose a number of crossover points and produce a crossover pattern." alt="" coords="234,70,401,111"/>
 <area shape="rect" id="node7" href="$classhaploid__highd.html#ae9137cf2555811e415d2a6ae04e00471" title="Calculate traits of the chosen clone." alt="" coords="251,135,384,177"/>
 <area shape="rect" id="node11" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="251,200,384,256"/>
-<area shape="rect" id="node13" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="226,279,409,321"/>
+<area shape="rect" id="node13" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="225,279,410,321"/>
 <area shape="rect" id="node9" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="459,143,637,169"/>
 </map>

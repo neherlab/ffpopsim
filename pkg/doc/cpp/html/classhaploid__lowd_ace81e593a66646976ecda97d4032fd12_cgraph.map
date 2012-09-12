@@ -1,9 +1,9 @@
 <map id="haploid_lowd::evolve_norec" name="haploid_lowd::evolve_norec">
-<area shape="rect" id="node3" href="$classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="201,107,340,133"/>
-<area shape="rect" id="node13" href="$classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="199,5,343,32"/>
-<area shape="rect" id="node16" href="$classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="192,56,349,83"/>
-<area shape="rect" id="node5" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="404,41,545,82"/>
-<area shape="rect" id="node7" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="397,107,552,133"/>
-<area shape="rect" id="node9" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="600,66,733,107"/>
-<area shape="rect" id="node11" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="600,131,733,173"/>
+<area shape="rect" id="node3" href="$classhaploid__lowd.html#a0bb19399b11e047fc3d859bbe8ae4fb2" title="Selection step." alt="" coords="207,107,345,133"/>
+<area shape="rect" id="node13" href="$classhaploid__lowd.html#a80a7b4f7281c7140a117bd2646571edf" title="Mutation step." alt="" coords="204,5,348,32"/>
+<area shape="rect" id="node16" href="$classhaploid__lowd.html#a19da70ced12330ed26ae1571e334ca81" title="Resample the population according to the carrying capacity." alt="" coords="197,56,355,83"/>
+<area shape="rect" id="node5" href="$classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d" title="hypercube_lowd::set\l_state" alt="" coords="409,41,551,82"/>
+<area shape="rect" id="node7" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="403,107,557,133"/>
+<area shape="rect" id="node9" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="606,66,741,107"/>
+<area shape="rect" id="node11" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="606,131,741,173"/>
 </map>

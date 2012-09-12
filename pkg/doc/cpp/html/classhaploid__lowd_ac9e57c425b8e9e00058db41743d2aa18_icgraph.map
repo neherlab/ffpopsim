@@ -1,5 +1,5 @@
 <map id="haploid_lowd::calculate_recombinants_single" name="haploid_lowd::calculate_recombinants_single">
 <area shape="rect" id="node3" href="$classhaploid__lowd.html#a5e7df14b35c4bca168b54ec2031bb903" title="Recombination step." alt="" coords="211,35,375,61"/>
-<area shape="rect" id="node5" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="424,5,563,32"/>
-<area shape="rect" id="node7" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="424,57,563,98"/>
+<area shape="rect" id="node5" href="$classhaploid__lowd.html#a3e274a08491732bcabdc028afa780514" title="Evolve the population for some generations." alt="" coords="425,5,567,32"/>
+<area shape="rect" id="node7" href="$classhaploid__lowd.html#ad18f10568b801e4e8a6a008fb80aa38e" title="Evolve the population for some generations, without resampling (deterministic)" alt="" coords="425,57,567,98"/>
 </map>

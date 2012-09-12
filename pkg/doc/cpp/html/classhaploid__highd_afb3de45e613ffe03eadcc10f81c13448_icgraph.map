@@ -1,10 +1,10 @@
 <map id="haploid_highd::calc_trait_stat" name="haploid_highd::calc_trait_stat">
 <area shape="rect" id="node3" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="187,111,349,137"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#a3351949a49ad6702beb996b58755ce4e" title="Initialize population in linkage equilibrium." alt="" coords="399,5,531,46"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#a3351949a49ad6702beb996b58755ce4e" title="Initialize population in linkage equilibrium." alt="" coords="399,5,532,46"/>
 <area shape="rect" id="node7" href="$classhaploid__highd.html#aa0c34e02ed924603417fdb8109918f7e" title="Initialize the population with genotype counts." alt="" coords="402,70,529,111"/>
 <area shape="rect" id="node9" href="$classhaploid__highd.html#a9418c16f238aacab3be2dbffb62246c4" title="Initialize a wildtype population (00...0)" alt="" coords="402,135,529,177"/>
 <area shape="rect" id="node17" href="$classhaploid__highd.html#ae25ec86176f438db2dc0194f04ecfc42" title="Print all allele frequencies into a stream provided." alt="" coords="398,201,533,242"/>
-<area shape="rect" id="node11" href="$classhaploid__highd.html#a60617675023cab02a599a1ea7f9605c6" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution." alt="" coords="603,70,738,111"/>
-<area shape="rect" id="node13" href="$classhaploid__highd.html#a0e08d1847e521402cf0e2676d6ed38b9" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution." alt="" coords="599,135,742,177"/>
-<area shape="rect" id="node15" href="$classhivpopulation.html#a299863ae882da177d548edc26d9a2cb8" title="Construct a HIV population with certain parameters." alt="" coords="581,201,760,228"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#a60617675023cab02a599a1ea7f9605c6" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution." alt="" coords="606,70,741,111"/>
+<area shape="rect" id="node13" href="$classhaploid__highd.html#a0e08d1847e521402cf0e2676d6ed38b9" title="Read the output of Hudson&#39;s ms and use it to initialize the genotype distribution." alt="" coords="602,135,745,177"/>
+<area shape="rect" id="node15" href="$classhivpopulation.html#a299863ae882da177d548edc26d9a2cb8" title="Construct a HIV population with certain parameters." alt="" coords="582,201,765,228"/>
 </map>

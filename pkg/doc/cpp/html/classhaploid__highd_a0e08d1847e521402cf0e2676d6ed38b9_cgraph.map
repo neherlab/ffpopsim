@@ -3,10 +3,10 @@
 <area shape="rect" id="node5" href="$classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="593,7,724,49"/>
 <area shape="rect" id="node30" href="$classhaploid__highd.html#a303677b163c6b7edbf5f39a63ab84693" title="haploid_highd::get\l_number_of_loci" alt="" coords="198,131,325,173"/>
 <area shape="rect" id="node15" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="373,179,536,205"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#ae9137cf2555811e415d2a6ae04e00471" title="Calculate traits of the chosen clone." alt="" coords="807,5,940,46"/>
-<area shape="rect" id="node11" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="807,135,940,191"/>
-<area shape="rect" id="node13" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="782,70,965,111"/>
-<area shape="rect" id="node9" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="1014,12,1191,39"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#ae9137cf2555811e415d2a6ae04e00471" title="Calculate traits of the chosen clone." alt="" coords="808,5,941,46"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="808,135,941,191"/>
+<area shape="rect" id="node13" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="782,70,967,111"/>
+<area shape="rect" id="node9" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="1016,12,1195,39"/>
 <area shape="rect" id="node17" href="$classhaploid__highd.html#ad5eee5bc7f757e20fb3119bb01c59b1e" title="For each clone, recalculate its traits." alt="" coords="585,73,733,114"/>
 <area shape="rect" id="node20" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="585,138,733,179"/>
 <area shape="rect" id="node24" href="$classhaploid__highd.html#afb3de45e613ffe03eadcc10f81c13448" title="Calculate and store trait population statistics and covariances." alt="" coords="592,203,725,245"/>

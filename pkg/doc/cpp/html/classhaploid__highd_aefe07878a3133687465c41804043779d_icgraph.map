@@ -1,7 +1,7 @@
 <map id="haploid_highd::random_clones" name="haploid_highd::random_clones">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#af77958954fe6001b2640b70bcc3681a4" title="Calculate mean and variance of the divergence from the [00...0] bitset." alt="" coords="207,5,358,46"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#abf5d073bfa998684b94c0b3248d7bdad" title="Calculate diversity in the current population (Hamming distance between pairs of sequences)" alt="" coords="215,70,351,111"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#a2dae66421820a2248db9be1771ce9e62" title="Calculate histogram of fitness from traits." alt="" coords="217,135,348,177"/>
-<area shape="rect" id="node9" href="$classhaploid__highd.html#a234a418eff9319a2dfb6371b73220b56" title="Get histogram of divergence from the [00...0] bitset." alt="" coords="205,201,360,242"/>
-<area shape="rect" id="node11" href="$classhaploid__highd.html#a25a490ade017cff4cccb88ced04261ce" title="Get histogram of diversity in the population (mutual Hamming distance)" alt="" coords="213,266,353,307"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#af77958954fe6001b2640b70bcc3681a4" title="Calculate mean and variance of the divergence from the [00...0] bitset." alt="" coords="208,5,360,46"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#abf5d073bfa998684b94c0b3248d7bdad" title="Calculate diversity in the current population (Hamming distance between pairs of sequences)" alt="" coords="215,70,353,111"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#a2dae66421820a2248db9be1771ce9e62" title="Calculate histogram of fitness from traits." alt="" coords="218,135,350,177"/>
+<area shape="rect" id="node9" href="$classhaploid__highd.html#a234a418eff9319a2dfb6371b73220b56" title="Get histogram of divergence from the [00...0] bitset." alt="" coords="206,201,362,242"/>
+<area shape="rect" id="node11" href="$classhaploid__highd.html#a25a490ade017cff4cccb88ced04261ce" title="Get histogram of diversity in the population (mutual Hamming distance)" alt="" coords="213,266,355,307"/>
 </map>
