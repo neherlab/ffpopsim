@@ -414,13 +414,13 @@ int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	int marg_locus, higher_order_subset, higher_order_rec_pattern;
 	double *rptemp;
 
-	// pat[locus] is the proability of the pattern with the crossover immediately AFTER locus
+	// recombination_patterns[0][locus] is the probability of the pattern with the crossover immediately AFTER locus
 	double sum = 0;
 	for (int locus = 0; locus != number_of_loci - 1; locus++) {
 		recombination_patterns[0][locus] = 0.5 * rec_rates[locus];
 		sum += rec_rates[locus];
 	}
-	// and pat[L-1] is the probability of no crossover at all
+	// and recombination_patterns[0][L-1] is the probability of no crossover at all
 	recombination_patterns[0][number_of_loci - 1] = 0.5 * (1.0 - sum);
 
 	if(HG_VERBOSE) cerr <<"done."<<endl;
@@ -449,24 +449,27 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 	double sum=0;
 	for (int i = 0; i < (1<<number_of_loci); i++) {
 		patterns_order_L[i]=1.0;
+
+		//parent of the last locus -- equals locus -1 on a circular genome
 		strand=(i & (1<<(number_of_loci-1)))>0?1:0;
 		strandswitches=0;
 		for (int locus = 0; locus < number_of_loci; locus++) {
-			newstrand=((i&(1<<locus))>0)?1:0;
+			newstrand=((i&(1<<locus))>0)?1:0;	//determine the parent of current locus
 	
-			// Circular genomes have all rates, linear ones lack the first (which must be a large number, e.g. 50)
+			// For circular genomes all rates are specified.
+			// for linear genomes the first rate  is set to a large number, e.g. 50
 			rr = circular?rec_rates[locus]:(locus?rec_rates[locus - 1]:50);
 			if (strand==newstrand)
-				patterns_order_L[i] *= (0.5*(1.0 + exp(-2.0*rr)));
+				patterns_order_L[i] *= (0.5*(1.0 + exp(-2.0*rr)));	//probability of an even number of crossovers
 			else {
-				patterns_order_L[i] *= (0.5*(1.0 - exp(-2.0*rr)));
+				patterns_order_L[i] *= (0.5*(1.0 - exp(-2.0*rr)));  //probability of an odd number of crossovers
 				strandswitches++;
 			}
 			strand=newstrand;
 		}
 		// the constraint of even number of crossovers must be enforced because the genome is
 		// always internally represented as circular
-		if (strandswitches%2) patterns_order_L[i] = 0;
+		if (strandswitches%2) {patterns_order_L[i] = 0; cerr<<"haploid_lowd::set_recombination_rates_general(): should never happen"<<endl;}
 		sum += patterns_order_L[i];
 	}
 	// normalize the recombination patterns
@@ -474,10 +477,13 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 		if(HG_VERBOSE) cerr<<"Recombination rates must be greater than zero!"<<endl;
 		return HG_BADARG;
 	}
+
+	//normalize the patterns
 	for (int i = 0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i] /= sum;
 
-	// 2. marginalize
+	// 2. marginalize the full recombination patterns to the obtain the subsets
+	//needed to calculate the recombinant distribution
 	int err = marginalize_recombination_patterns();
 	if(err) return err;
 
@@ -493,18 +499,22 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
  * @returns zero if successful, error code otherwise
  */
 int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
+	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_patterns()..."<<endl;
+
 	// allocate/release memory on changes of recombination model
 	int err = set_recombination_model(CROSSOVERS);
 	if(err) return err;
 
-	// set the recombination patterns
+	// reset the recombination patterns
 	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
 	for (int i = 0; i < (1<<number_of_loci); i++)
 		patterns_order_L[i]=0;
 
+	// set the specified recombination patterns
 	vector<index_value_pair_t>::iterator pair;
 	for (pair=iv.begin();pair!=iv.end(); pair++)
 		if((pair->index < (1<<number_of_loci)) and (pair->val > 0)) {
+			//parents are symmetric, hence assign the complementary pattern the same value
 			patterns_order_L[pair->index] = pair->val;
 			patterns_order_L[~(int)(pair->index)] = pair->val;
 		}
@@ -513,14 +523,19 @@ int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
 	double sum=0;
 	for (int i = 0; i < (1<<number_of_loci); i++)
 		sum += patterns_order_L[i];
+
+	for (int i = 0; i < (1<<number_of_loci); i++)
+		patterns_order_L[i] /= sum;
+
 	if(sum < HG_NOTHING) {
 		if(HG_VERBOSE) cerr<<"Recombination rates must be greater than zero!"<<endl;
 		return HG_BADARG;
 	}
-	for (int i = 0; i < (1<<number_of_loci); i++)
-		patterns_order_L[i] /= sum;
 
+	// 2. marginalize the full recombination patterns to the obtain the subsets
+	//needed to calculate the recombinant distribution
 	err+=marginalize_recombination_patterns();
+	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return err;
 }
 
@@ -781,6 +796,7 @@ int haploid_lowd::resample() {
 	population.set_state(HC_FUNC);
 	double threshold_HG_CONTINUOUS = double(HG_CONTINUOUS) / carrying_capacity;
 	population_size=0;
+	//loop over all possible genotypes
 	for (int i = 0; i < (1<<number_of_loci); i++) {
 		if (population.func[i]<threshold_HG_CONTINUOUS)
 			population.func[i] = double(gsl_ran_poisson(rng, carrying_capacity*population.func[i])) / carrying_capacity;
@@ -788,6 +804,7 @@ int haploid_lowd::resample() {
 			population.func[i] += double(gsl_ran_gaussian(rng, sqrt(population.func[i]/carrying_capacity)));
 		population_size += population.func[i];
 	}
+	//normalize
 	if (population_size<HG_NOTHING)
 		return HG_EXTINCT;
 	else
@@ -806,8 +823,10 @@ int haploid_lowd::resample() {
 int haploid_lowd::mutate() {
 	mutants.set_state(HC_FUNC);
 	population.set_state(HC_FUNC);
+	//loop over all possible genotypes
 	for (int i = 0; i < (1<<number_of_loci); i++) {
 		mutants.func[i] = 0;
+		//loop over all possible mutations
 		for (int locus=0; locus<number_of_loci; locus++) {
 			if (i&(1<<locus))
 				mutants.func[i] += mutation_rates[0][locus] * population.func[i-(1<<locus)] - mutation_rates[1][locus] * population.func[i];
