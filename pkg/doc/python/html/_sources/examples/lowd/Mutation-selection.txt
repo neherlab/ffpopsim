@@ -8,7 +8,7 @@ and selection sets in and determines the spectrum of allele frequencies. The
 full script for this example can be found in the examples folder, in
 ``mutation_selection_balance_lowd.py``.
 
-Fist, after loading all necessary modules, we set the parameters as usual and
+First, after loading all necessary modules, we set the parameters as usual and
 create the population class::
 
    N = 500                             # population size
@@ -20,16 +20,21 @@ create the population class::
    pop = h.haploid_lowd(L)             # produce an instance of haploid_lowd with L loci
 
 Note that selection coefficients go from negative to positive across the L
-sites. We fix the carrying capacity and initialize the population with wildtypes
-only::
+sites. We set the fitness landscape of the population::
 
-   pop.carrying_capacity = N           # set the population size
-   pop.set_genotypes([0], [N])         # wildtype individuals, that is ----
+   pop.set_fitness_additive(0.5 * s) 
+
+.. note:: FFPopSim models fitness landscape in a +/- rather than 0/1 basis, hence the factor 0.5
 
 We set the mutation/recombination rates, using a full multiple-crossover model::
 
-   pop.set_recombination_rates(r)      # recombination rate (CROSSOVERS model by default)
    pop.set_mutation_rates(mu)          # mutation rate
+   pop.set_recombination_rates(r)      # recombination rate (CROSSOVERS model by default)
+
+We fix the carrying capacity and initialize the population with wildtypes only::
+
+   pop.carrying_capacity = N           # set the population size
+   pop.set_genotypes([0], [N])         # wildtype individuals, that is ----
 
 Now we can start to evolve the population. We first let it equilibrate towards
 the steady-state::
@@ -55,7 +60,7 @@ they have a different fitness coefficient::
 
 The result of the plot, compared to diffusion theory, is shown here below.
 
-.. image:: ../../figures/examples/mutation-selection.png
+.. image:: ../../figures/examples/mutation-selection_lowd.png
 
 It fits the simulations quite well indeed; note the accumulation of alleles
 close to the boundaries. Note also that :math:`rN \gg 1`, hence the sites are

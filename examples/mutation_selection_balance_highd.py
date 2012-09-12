@@ -23,18 +23,18 @@ r  = 50.0 / N / L                   # recombination rate for each interval betwe
 
 # set up population
 pop = h.haploid_highd(L)            # produce an instance of haploid_highd with L loci
-pop.carrying_capacity = N           # set the population size
 
 # set and additive fitness function. Note that FFPopSim models fitness landscape
 # in a +/- rather than 0/1 basis, hence the factor 1/2
 pop.set_fitness_additive(0.5 * s)
 
-pop.recombination_model = h.CROSSOVERS   # recombination model
-pop.outcrossing_rate = 1                 # outcrossing rate
-pop.crossover_rate = r                   # crossover rate
 pop.mutation_rate = mu                   # mutation rate
+pop.recombination_model = h.CROSSOVERS   # recombination model
+pop.outcrossing_rate = 1                 # obligate sexual
+pop.crossover_rate = r                   # crossover rate
 
 # initialize population in linkage equilibrium with frequencies 0.5 and size N
+pop.carrying_capacity = N           # set the population size
 pop.set_allele_frequencies(0.5 * np.ones(L), N)
 
 pop.evolve(10 * N)                      # evolve for 10N generations to equilibrate
@@ -72,7 +72,7 @@ for locus in range(L):
 plt.title('Comparison to diffusion theory for $rN='+str(r*N)+'$, $\mu N='+str(mu*N)+'$, $N='+str(N)+'$')
 plt.text(0.3,3,"Color indicates selection coefficient \nfrom Ns=-2..2")
 plt.xlabel(r'Allele frequency $\nu$')
-plt.ylabel('Allele frequency distribution $f(\nu)$')
+plt.ylabel(r'Allele frequency distribution $f(\nu)$')
 
 # compare explicitly to diffusion theory by normalizing to the diffusion theory prediction
 plt.figure()

@@ -23,17 +23,17 @@ r = 5.0 / N                         # recombination rate for each interval betwe
 
 # set up population
 pop = h.haploid_lowd(L)             # produce an instance of haploid_lowd with L loci
-pop.carrying_capacity = N           # set the population size
-
-# initialize the population with N wildtype individuals, that is ----
-pop.set_genotypes([0], [N])
-
-pop.set_recombination_rates(r)      # recombination rate (CROSSOVERS model by default)
-pop.set_mutation_rates(mu)          # mutation rate
 
 # set and additive fitness function. Note that FFPopSim models fitness landscape
 # in a +/- rather than 0/1 basis, hence the factor 1/2
 pop.set_fitness_additive(0.5 * s) 
+
+pop.set_mutation_rates(mu)          # mutation rate
+pop.set_recombination_rates(r)      # recombination rate (CROSSOVERS model by default)
+
+# initialize the population with N wildtype individuals, that is ----
+pop.carrying_capacity = N           # set the population size
+pop.set_genotypes([0], [N])
 
 pop.evolve(10 * N)                  # run for 10N generations to equilibrate
 

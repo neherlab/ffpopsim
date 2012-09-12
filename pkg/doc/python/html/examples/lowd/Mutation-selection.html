@@ -27,8 +27,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="FFPopSim 1.1 documentation" href="../../index.html" />
-    <link rel="next" title="Time complexity and scaling" href="Time complexity and scaling.html" />
-    <link rel="prev" title="Decay of linkage disequilibrium" href="Decay of linkage disequilibrium.html" /> 
+    <link rel="next" title="Time complexity and scaling" href="Time_complexity_and_scaling.html" />
+    <link rel="prev" title="Decay of linkage disequilibrium" href="Decay_of_linkage_disequilibrium.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="Time complexity and scaling.html" title="Time complexity and scaling"
+          <a href="Time_complexity_and_scaling.html" title="Time complexity and scaling"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
+          <a href="Decay_of_linkage_disequilibrium.html" title="Decay of linkage disequilibrium"
              accesskey="P">previous</a> |</li>
         <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
       </ul>
@@ -63,7 +63,7 @@ however, selection acts as well. In the steady state, a balance between drift
 and selection sets in and determines the spectrum of allele frequencies. The
 full script for this example can be found in the examples folder, in
 <tt class="docutils literal"><span class="pre">mutation_selection_balance_lowd.py</span></tt>.</p>
-<p>Fist, after loading all necessary modules, we set the parameters as usual and
+<p>First, after loading all necessary modules, we set the parameters as usual and
 create the population class:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">N</span> <span class="o">=</span> <span class="mi">500</span>                             <span class="c"># population size</span>
 <span class="n">L</span> <span class="o">=</span> <span class="mi">4</span>                               <span class="c"># number of loci</span>
@@ -75,15 +75,22 @@ create the population class:</p>
 </pre></div>
 </div>
 <p>Note that selection coefficients go from negative to positive across the L
-sites. We fix the carrying capacity and initialize the population with wildtypes
-only:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="n">N</span>           <span class="c"># set the population size</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">N</span><span class="p">])</span>         <span class="c"># wildtype individuals, that is ----</span>
+sites. We set the fitness landscape of the population:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">set_fitness_additive</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">FFPopSim models fitness landscape in a +/- rather than 0/1 basis, hence the factor 0.5</p>
+</div>
 <p>We set the mutation/recombination rates, using a full multiple-crossover model:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">set_recombination_rates</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>      <span class="c"># recombination rate (CROSSOVERS model by default)</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">set_mutation_rates</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>          <span class="c"># mutation rate</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">set_mutation_rates</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>          <span class="c"># mutation rate</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_recombination_rates</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>      <span class="c"># recombination rate (CROSSOVERS model by default)</span>
+</pre></div>
+</div>
+<p>We fix the carrying capacity and initialize the population with wildtypes only:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pop</span><span class="o">.</span><span class="n">carrying_capacity</span> <span class="o">=</span> <span class="n">N</span>           <span class="c"># set the population size</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_genotypes</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">N</span><span class="p">])</span>         <span class="c"># wildtype individuals, that is ----</span>
 </pre></div>
 </div>
 <p>Now we can start to evolve the population. We first let it equilibrate towards
@@ -109,7 +116,7 @@ they have a different fitness coefficient:</p>
 </pre></div>
 </div>
 <p>The result of the plot, compared to diffusion theory, is shown here below.</p>
-<img alt="../../_images/mutation-selection.png" src="../../_images/mutation-selection.png" />
+<img alt="../../_images/mutation-selection_lowd.png" src="../../_images/mutation-selection_lowd.png" />
 <p>It fits the simulations quite well indeed; note the accumulation of alleles
 close to the boundaries. Note also that <span class="math">\(rN \gg 1\)</span>, hence the sites are
 essentially uncoupled.</p>
@@ -122,10 +129,10 @@ essentially uncoupled.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="Decay of linkage disequilibrium.html"
+  <p class="topless"><a href="Decay_of_linkage_disequilibrium.html"
                         title="previous chapter">Decay of linkage disequilibrium</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="Time complexity and scaling.html"
+  <p class="topless"><a href="Time_complexity_and_scaling.html"
                         title="next chapter">Time complexity and scaling</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
@@ -159,10 +166,10 @@ essentially uncoupled.</p>
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="Time complexity and scaling.html" title="Time complexity and scaling"
+          <a href="Time_complexity_and_scaling.html" title="Time complexity and scaling"
              >next</a> |</li>
         <li class="right" >
-          <a href="Decay of linkage disequilibrium.html" title="Decay of linkage disequilibrium"
+          <a href="Decay_of_linkage_disequilibrium.html" title="Decay of linkage disequilibrium"
              >previous</a> |</li>
         <li><a href="../../index.html">FFPopSim 1.1 documentation</a> &raquo;</li> 
       </ul>
