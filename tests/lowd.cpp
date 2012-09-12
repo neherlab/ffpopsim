@@ -170,7 +170,7 @@ int pop_observables() {
 }
 
 /* MAIN */
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
 	int status;
 	if (argc > 1) {
 		cout<<"Usage: "<<argv[0]<<endl;

@@ -2,13 +2,31 @@
 
 Requirements
 ============
-FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX. The basic library is written in C++ and can be used and extended independently of the Python bindings. This page will focus on the Python interface.
+
+FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX.
+The basic library is written in C++ and can be used and extended independently
+of the Python bindings.
+
+.. note:: The Enthought Python Distribution (EPD_) is a widely used and
+          well-maintained Python environment that provides all necessary
+          Python packages for running FFPopSim (other than GSL_ and BOOST_).
+          A basic EPD version is available for free at the following website:
+          http://www.enthought.com/products/epd_free.php 
 
 Runtime Requirements
 --------------------
-- Python_ 2.7+ (no Python 3 support yet) are the only supported Python versions. Older Python versions will *never* be supported, but Python 3 might become so in the future.
-- NumPy_ is used extensively in this library. We suggest to import numpy explicitely before using the library (but it will work in any case).
-- matplotlib_ is used in the plot functions. As long as you do not call those, you can live without it. However, we suggest to import it explicitely before using the library.
+
+- Python_ 2.7+ (no Python 3 support yet) are the only supported Python versions.
+  Older Python versions will *never* be supported, but Python 3 might become so
+  in the future.
+
+- NumPy_ is used extensively in this library. We suggest to import numpy
+  explicitely before using the library (but it will work in any case).
+
+- matplotlib_ is used in the plot functions. As long as you do not call those,
+  you can live without it. However, we suggest to import it explicitely before
+  using the library.
+
 - GSL_ shared libraries, from the GNU Scientific library
 
 Building Requirements
@@ -46,3 +64,4 @@ created with Sphinx 1.1.
 .. _Sphinx: http://sphinx.pocoo.org/
 .. _GNU Make: http://www.gnu.org/software/make/
 .. _distutils: http://docs.python.org/library/distutils.html
+.. _EPD: http://www.enthought.com/products/epd.php

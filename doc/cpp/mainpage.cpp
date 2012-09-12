@@ -7,7 +7,9 @@
  *
  * @mainpage FFPopSim Documentation
  *
- * FFPopSim is a C++ library used to simulate evolution of genome populations.
+ * @image html quote.png
+ *
+ * FFPopSim is a C++/Python library used to simulate evolution of genome populations. This is the home page of the C++ documentation.
  *
  * Two kinds of simulations are supported, depending on their genome size:
  * - few loci (up to ~20): the *lowd classes and functions, mainly `haploid_lowd` and `hypercube_lowd`.

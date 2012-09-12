@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="247.66966"
+   height="137.56944"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="quote.svg"
+   inkscape:export-filename="/home/fabio/university/phd/papers/FFPopSim/FFPopSim/doc/cpp/figures/quote.png"
+   inkscape:export-xdpi="300.01572"
+   inkscape:export-ydpi="300.01572">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.9044927"
+     inkscape:cx="10.926352"
+     inkscape:cy="125.47618"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1916"
+     inkscape:window-height="1161"
+     inkscape:window-x="0"
+     inkscape:window-y="18"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-305.29541,-176.51077)">
+    <g
+       id="g3925">
+      <rect
+         y="176.51077"
+         x="305.29541"
+         height="137.56944"
+         width="247.66966"
+         id="rect3130"
+         style="color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2985"
+         y="211.94942"
+         x="344.36737"
+         style="font-size:6.92870951px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           y="211.94942"
+           x="344.36737"
+           id="tspan2987"
+           sodipodi:role="line"><tspan
+             id="tspan3007"
+             style="fill:#800080">#include</tspan><tspan
+             id="tspan3011"
+             style="fill:#d45500"> &quot;ffpopsim_lowd.h&quot;</tspan></tspan><tspan
+           id="tspan3900"
+           y="220.61031"
+           x="344.36737"
+           sodipodi:role="line"><tspan
+   id="tspan3033"
+   style="fill:#008000">int</tspan> main() {</tspan><tspan
+           id="tspan2991"
+           y="229.27119"
+           x="344.36737"
+           sodipodi:role="line">   haploid_lowd pop(<tspan
+   id="tspan3017"
+   style="fill:#d45500">4</tspan>);</tspan><tspan
+           id="tspan2993"
+           y="237.93208"
+           x="344.36737"
+           sodipodi:role="line">   pop.set_wildtype(<tspan
+   id="tspan3019"
+   style="fill:#d45500">1e10</tspan>);</tspan><tspan
+           id="tspan2995"
+           y="246.59297"
+           x="344.36737"
+           sodipodi:role="line">   pop.set_mutation_rates(<tspan
+   id="tspan3021"
+   style="fill:#d45500">1e-2</tspan>);</tspan><tspan
+           id="tspan2997"
+           y="255.25385"
+           x="344.36737"
+           sodipodi:role="line">   pop.evolve(<tspan
+   id="tspan3023"
+   style="fill:#d45500">1000</tspan>);</tspan><tspan
+           id="tspan2999"
+           y="263.91473"
+           x="344.36737"
+           sodipodi:role="line"><tspan
+   id="tspan3037"
+   style="fill:#ff0000">   for</tspan> (<tspan
+   id="tspan3035"
+   style="fill:#008000">int</tspan> i=<tspan
+   id="tspan3027"
+   style="fill:#d45500">0</tspan>; i&lt;(<tspan
+   id="tspan3025"
+   style="fill:#d45500">1</tspan>&lt;&lt;<tspan
+   id="tspan3029"
+   style="fill:#d45500">4</tspan>); i++)</tspan><tspan
+           id="tspan3001"
+           y="272.57562"
+           x="344.36737"
+           sodipodi:role="line">      cout&lt;&lt;pop.get_genotype_frequency(i)&lt;&lt;endl;</tspan><tspan
+           id="tspan3003"
+           y="281.23651"
+           x="344.36737"
+           sodipodi:role="line"><tspan
+   id="tspan3039"
+   style="fill:#ff0000">   return</tspan><tspan
+   id="tspan3031"
+   style="fill:#d45500"> 0</tspan>;</tspan><tspan
+           id="tspan3005"
+           y="289.8974"
+           x="344.36737"
+           sodipodi:role="line">}</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3266"
+         y="233.23492"
+         x="306.26212"
+         style="font-size:79.98017883px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           style="font-family:Times New Roman;-inkscape-font-specification:Times New Roman"
+           y="233.23492"
+           x="306.26212"
+           id="tspan3268"
+           sodipodi:role="line">“</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3270"
+         y="344.24597"
+         x="519.07666"
+         style="font-size:79.98017883px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           style="font-family:Times New Roman;-inkscape-font-specification:Times New Roman"
+           y="344.24597"
+           x="519.07666"
+           id="tspan3272"
+           sodipodi:role="line">”</tspan></text>
+    </g>
+  </g>
+</svg>

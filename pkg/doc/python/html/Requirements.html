@@ -57,13 +57,28 @@
             
   <div class="section" id="requirements">
 <span id="id1"></span><h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
-<p>FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX. The basic library is written in C++ and can be used and extended independently of the Python bindings. This page will focus on the Python interface.</p>
+<p>FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX.
+The basic library is written in C++ and can be used and extended independently
+of the Python bindings.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Enthought Python Distribution (<a class="reference external" href="http://www.enthought.com/products/epd.php">EPD</a>) is a widely used and
+well-maintained Python environment that provides all necessary
+Python packages for running FFPopSim (other than <a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a> and <a class="reference external" href="http://www.boost.org/">BOOST</a>).
+A basic EPD version is available for free at the following website:
+<a class="reference external" href="http://www.enthought.com/products/epd_free.php">http://www.enthought.com/products/epd_free.php</a></p>
+</div>
 <div class="section" id="runtime-requirements">
 <h2>Runtime Requirements<a class="headerlink" href="#runtime-requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet) are the only supported Python versions. Older Python versions will <em>never</em> be supported, but Python 3 might become so in the future.</li>
-<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> is used extensively in this library. We suggest to import numpy explicitely before using the library (but it will work in any case).</li>
-<li><a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> is used in the plot functions. As long as you do not call those, you can live without it. However, we suggest to import it explicitely before using the library.</li>
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet) are the only supported Python versions.
+Older Python versions will <em>never</em> be supported, but Python 3 might become so
+in the future.</li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> is used extensively in this library. We suggest to import numpy
+explicitely before using the library (but it will work in any case).</li>
+<li><a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> is used in the plot functions. As long as you do not call those,
+you can live without it. However, we suggest to import it explicitely before
+using the library.</li>
 <li><a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a> shared libraries, from the GNU Scientific library</li>
 </ul>
 </div>
