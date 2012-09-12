@@ -2,96 +2,121 @@
 '''
 author:     Richard Neher, Fabio Zanini
 date:       24/08/12
-content:    Example of haploid_lowd on the algorithm complexity
+content:    Example of haploid_lowd on the algorithm runtime complexity.
+            The same series of simulations are performed:
+                - with multiple crossovers, O(3^L),
+                - with at most one crossover, O(L 2^L),
+                - without recombination, O(L 2^L),
+            in this order.
 '''
-# Import module
+# Import modules (setting the path should not be necessary when the module is
+# installed in the PYTHONPATH)
 import sys
-sys.path.append('../pkg/python')
+sys.path.insert(0, '../pkg/python')
 
 import numpy as np
 import matplotlib.pyplot as plt
 import FFPopSim as h
 import time
 
-# specify parameters
-N = 1e12                        # Population size
-Lmax_general = 13               # Maximal number of loci
-Lmax_single_xo = 17             # Maximal number of loci
-r = 0.01                        # Recombination rate
-mu = 0.001                      # Mutation rate
-G = 1000                         # Generations
 
-# Repeat the same simulation for various numbers of loci, and see how the
-# algorithm scales. It should be O(3^L) with recombination, and O(L 2^L) with
-# single crossovers only or skipping recombination altogether.
+# specify parameters
+N = 1e12                        # population size
+Lmax_general = 13               # maximal number of loci
+Lmax_single_xo = 17             # maximal number of loci
+r = 0.01                        # recombination rate
+mu = 0.001                      # mutation rate
+G = 1000                        # generations
+
+# 1. multiple crossovers
 print "general"
 exec_time = []
 for L in range(2,Lmax_general+1):
-    t1=time.time()
-    ### set up
+
+    # set up population
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.carrying_capacity = N   # set the population size
 
     # set and additive fitness function with random coefficients. 
     # Note that FFPopSim models fitness landscapes in the -1/+1 basis
-    pop.set_fitness_additive(0.01*np.random.randn(L))
+    pop.set_fitness_additive(0.01 * np.random.randn(L))
 
-    pop.set_recombination_rates(r)  # assign the recombination rates
-    pop.set_mutation_rates(mu)  # assign the mutation rate
+    pop.set_recombination_rates(r)  # recombination rates
+    pop.set_mutation_rates(mu)      # mutation rate
     
-    #initialize the population with N individuals in linkage equilibrium
-    pop.set_allele_frequencies(0.2*np.ones(L), N)
+    # initialize the population with N individuals in linkage equilibrium
+    pop.set_allele_frequencies(0.2 * np.ones(L), N)
 
-    pop.evolve(G)                   # run for G generations to measure execution time
-    
+    # run for G generations to measure execution time
+    t1=time.time()
+    pop.evolve(G)
     t2=time.time()
 
-    exec_time.append([L, t2-t1])    # store the execution time
+    exec_time.append([L, t2-t1])            # store the execution time
     
 exec_time=np.array(exec_time)
 
-# repeat with single crossover recombination
+
+# 2. single crossover recombination
 print "single crossover"
 exec_time_single_xo = []
 for L in range(2,Lmax_single_xo+1):
-    t1=time.time()
-    ### set up
+
+    # set up population
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.carrying_capacity = N   # set the population size
-    pop.set_fitness_additive(0.01*np.random.randn(L))
+
+    # set and additive fitness function with random coefficients. 
+    pop.set_fitness_additive(0.01 * np.random.randn(L))
+    
     # assign the recombination rates, assume SINGLE CROSSOVER (otherwise everything is the same)
     pop.set_recombination_rates(r, h.SINGLE_CROSSOVER)  
-    pop.set_mutation_rates(mu)  # assign the mutation rate
-    pop.set_allele_frequencies(0.2*np.ones(L), N)
+    pop.set_mutation_rates(mu)      # mutation rate
 
-    pop.evolve(G)               # run for G generations to measure execution time
-    
+    # initialize the population with N individuals in linkage equilibrium
+    pop.set_allele_frequencies(0.2 * np.ones(L), N)
+
+    # run for G generations to measure execution time
+    t1=time.time()
+    pop.evolve(G)
     t2=time.time()
 
-    exec_time_single_xo.append([L, t2-t1])    # store the execution time
+    exec_time_single_xo.append([L, t2-t1])  # store the execution time
     
 exec_time_single_xo=np.array(exec_time_single_xo)
 
 
-# repeat without recombination
+# 3. without recombination
 print "no recombination"
 exec_time_norec = []
 for L in range(2,Lmax_single_xo+1):
+
+    # set up population
+    pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
+    pop.carrying_capacity = N   # set the population size
+
+    # set and additive fitness function with random coefficients. 
+    pop.set_fitness_additive(0.01 * np.random.randn(L))
+    
+    pop.set_mutation_rates(mu)      # mutation rate
+
+    # initialize the population with N individuals in linkage equilibrium
+    pop.set_allele_frequencies(0.2 * np.ones(L), N)
+
+    # evolve for G generation skipping the recombination step
     t1=time.time()
-    ### set up
-    pop = h.haploid_lowd(L)
-    pop.carrying_capacity = N
-    pop.set_fitness_additive(0.01*np.random.randn(L)) 
-    pop.set_mutation_rates(mu)
-    pop.set_allele_frequencies(0.2*np.ones(L), N)
-    pop.evolve_norec(G)         #evolve for G generation skipping the recombination step
+    pop.evolve_norec(G)
     t2=time.time()
-    exec_time_norec.append([L, t2-t1])
+
+    exec_time_norec.append([L, t2-t1])      # store the execution time
 
 exec_time_norec=np.array(exec_time_norec)
 
-# Plot the execution times and lines indicating the expected computational complexity
+
+# Plot the execution times of all three cases and
+# lines indicating the expected computational complexity
 plt.figure()
+
 #general recombination
 plt.plot(exec_time[:,0], exec_time[:,1],label='with recombination', linestyle='None', marker = 'o')
 plt.plot(exec_time[:,0], exec_time[-1,1]/3.0**(Lmax_general-exec_time[:,0]),label=r'$\propto 3^L$')
@@ -116,7 +141,6 @@ plt.ylabel('seconds for '+str(G)+' generations')
 plt.legend(loc=4)
 plt.xlim([1,Lmax_single_xo+2])
 plt.ylim([0.5*np.min(exec_time_norec[:,1]),3*np.max(exec_time[:,1])])
-
 
 plt.ion()
 plt.show()
