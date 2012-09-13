@@ -182,16 +182,18 @@ double hypercube_lowd::valuemax()
 
 /******* HC_FUNCTIONS THAT INITIALIZE OR INCREMENT THE HC_FUNCTION ON 2^L*******/
 
-//init with constant spectrum, gaussian random numbers
+//initialize or increment the function with gaussian random numbers
 int hypercube_lowd::init_rand_gauss(double sigma, bool add)
 {
 	if (add and state==HC_COEFF) fft_coeff_to_func();
 	if (add)  {for (int i=0; i<(1<<dim); i++){ func[i]+=gsl_ran_gaussian(rng,sigma);}}
 	else {for (int i=0; i<(1<<dim); i++){ func[i]=gsl_ran_gaussian(rng,sigma);}}
 
+	//perform FFT
 	return fft_func_to_coeff();
 }
 
+//initialize of increment the function with a list of values
 int hypercube_lowd::init_list(vector <index_value_pair_t> iv, bool add){
 	if (add==false){
 		reset();
@@ -204,6 +206,7 @@ int hypercube_lowd::init_list(vector <index_value_pair_t> iv, bool add){
 }
 
 
+//initialize of increment the coefficients with a list of values
 int hypercube_lowd::init_coeff_list(vector <index_value_pair_t> iv, bool add){
 	if (add==false){
 		reset();
@@ -212,10 +215,12 @@ int hypercube_lowd::init_coeff_list(vector <index_value_pair_t> iv, bool add){
 	for (unsigned int pair=0; pair < iv.size(); pair++){
 		coeff[iv[pair].index] = iv[pair].val;
 	}
+	//calculate the function from the coefficients
 	return fft_coeff_to_func();
 }
 
 
+//for each index, calculate how many bits are set in the index
 void hypercube_lowd::calc_order()
 {
 	int spin;
@@ -442,7 +447,8 @@ int hypercube_lowd::write_func(ostream &out)
 
 }
 
-//read coefficients from a stream
+//read coefficients from a stream. This assumes a stream that delivers 2^L values in
+//the canocical bit order
 int hypercube_lowd::read_func(istream &in)
 {
 	int i;
@@ -465,7 +471,9 @@ int hypercube_lowd::read_func(istream &in)
 	return 0;
 }
 
-//read coefficients from a stream
+//read coefficients from a stream. This assumes pairs of bitstring and values, e.g.
+//010100 1.232
+//101011 65.432
 int hypercube_lowd::read_func_labeled(istream &in)
 {
 	int i, count;
@@ -495,7 +503,7 @@ int hypercube_lowd::read_func_labeled(istream &in)
 }
 
 
-//write coeff to a stream
+//write coeff to a stream. This will write pairs of bistrings and values to the stream
 int hypercube_lowd::write_coeff(ostream &out, bool label)
 {
 	int i,k;
@@ -531,7 +539,7 @@ int hypercube_lowd::write_coeff(ostream &out, bool label)
 /********* END OF INPUT OUTPUT OF HC_FUNCTION AND HC_COEFFICIENTS **********/
 
 
-//function to test the fourer transform, output is written to the error stream
+//function to test the fourier transform, output is written to the error stream
 int hypercube_lowd::test()
 {
 	int tp, sign;
