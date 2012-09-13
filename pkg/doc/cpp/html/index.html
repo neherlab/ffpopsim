@@ -118,6 +118,13 @@ $(document).ready(function(){initNavTree('index.html','');});
 <h1><a class="anchor" id="tests-examples"></a>
 Tests and Examples</h1>
 <p>Examples and tests are found in the <code>tests</code> folder. They include a few functions that show that the Fast Fourier Transform-based algorithm for recombination yields the same result as the more expensive naive algorithm.</p>
+<h1><a class="anchor" id="compiling"></a>
+Compiling and Linking against FFPopSim</h1>
+<p>To build the C++ part of FFPopSim, refer to the INSTALL file. Building your own programs using FFPopSim is then a two-step process, <em>compiling</em> <em>and</em> <em>linking</em> <em></em>. For the compile step, you need to import the header(s) you are using, like in the example above in this page. The FFPopSim headers include recursively all sublibraries such as GSL. Moreover, the compiler must be told where those headers are located; a typical compile call using g++ is the following: </p>
+<pre class="fragment">g++ -c -I../pkg/include/ -o example_lowd.o example_lowd.cpp
+</pre><p>For the link step, the following libraries must be used: FFPopSim, gsl, gslcblas. The linker must be told where to find them. Since FFPopSim is compiled statically, its archive must be included in the list of target files. A typical link call using g++ is the following: </p>
+<pre class="fragment">g++ example_lowd.o ../pkg/lib/libFFPopSim.a -L../pkg/lib/ -lFFPopSim -lgsl -lgslcblas -o example_lowd
+</pre><p>Of course, compile and link options such as optimization levels can be normally used with FFPopSim.</p>
 <h1><a class="anchor" id="python"></a>
 Python Interface</h1>
 <p>FFPopSim also includes bindings to Python 2.7. If you are starting using the library and have Python and all other requirements installed, it is easiest to start out there. Once you are feeling confident with the interface of FFPopSim, the C++ documentation can enlighten you on the internals and details. </p>
@@ -126,7 +133,7 @@ Python Interface</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Sep 12 2012 12:03:10 for FFPopSim by
+    <li class="footer">Generated on Thu Sep 13 2012 10:16:53 for FFPopSim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>
