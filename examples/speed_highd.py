@@ -151,3 +151,6 @@ ax.set_xscale('log')
 plt.legend(loc=4)
 plt.xlabel('Population size')
 plt.ylabel('seconds for '+str(G)+' generations')
+
+plt.ion()
+plt.show()

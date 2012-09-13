@@ -52,4 +52,6 @@ plt.title('Genetic Drift')
 plt.xlabel('Time [generations]')
 plt.ylabel('Allele frequencies')
 
+plt.ion()
+plt.show()
 

@@ -66,3 +66,6 @@ plt.plot(ld_points-L/2, np.mean(rsq,axis=0))
 plt.xlabel('Distance on genome')
 plt.ylabel(r'$\langle r^2 \rangle$')
 plt.title("".join(map(str,[r'$N=',N,r',\,\rho=',r,r',\,\mu=',mu,'$'])))
+
+plt.ion()
+plt.show()
