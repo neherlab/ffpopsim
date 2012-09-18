@@ -34,6 +34,7 @@ Attributes
    haploid_highd.crossover_rate
    haploid_highd.recombination_model
    haploid_highd.mutation_rate
+   haploid_highd.trait_weights
 
 Status
 ^^^^^^
@@ -57,6 +58,7 @@ Set phenotypes and fitness function
 .. autosummary::
    :nosignatures:
 
+   haploid_highd.trait_weights
    haploid_highd.set_trait_additive
    haploid_highd.add_trait_coefficient
    haploid_highd.set_random_trait_epistasis

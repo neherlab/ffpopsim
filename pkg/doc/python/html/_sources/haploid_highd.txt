@@ -12,6 +12,7 @@ haploid_highd Class Reference
              generation,
              circular,
              carrying_capacity,
+             trait_weights,
              recombination_model,
              outcrossing_rate,
              crossover_rate,

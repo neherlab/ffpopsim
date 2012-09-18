@@ -289,6 +289,8 @@ public:
 	double get_moment(int locus1, int locus2){return 4 * get_pair_frequency(locus1, locus2) + 1 - 2 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
 
 	// fitness/phenotype readout
+	void set_trait_weights(double *weights){for(int t=0; t<number_of_traits; t++) trait_weights[t] = weights[t];}
+        double get_trait_weight(int t){return trait_weights[t];}
 	double get_fitness(int n) {calc_individual_fitness(population[n]); return population[n].fitness;}
 	int get_clone_size(int n) {return population[n].clone_size;}
 	double get_trait(int n, int t=0) {calc_individual_traits(population[n]); return population[n].trait[t];}
@@ -336,13 +338,16 @@ protected:
 	
 	unsigned int flip_single_locus(unsigned int clonenum, int locus);
 	void shuffle_genotypes();
-	int swap_populations();
 	int new_generation();
 
 	// clone structure
+	double participation_ratio;
 	int partition_cumulative(vector <unsigned int> &partition_cum);
+	int provide_at_least(int n);
+	int last_clone;
 
 	// allele_frequencies
+	bool allele_frequencies_up_to_date;
 	double *allele_frequencies;
 	double *gamete_allele_frequencies;
 	double *chi1;				//symmetric allele frequencies
@@ -362,7 +367,6 @@ protected:
 
 	// fitness and traits
 	double fitness_max;
-	double participation_ratio;
 	stat_t fitness_stat;
 	stat_t *trait_stat;
 	double **trait_covariance;
@@ -370,25 +374,25 @@ protected:
 	void calc_trait_stat();
 	void calc_individual_traits(clone_t &tempgt);
 	void calc_individual_fitness(clone_t &tempgt);
-	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);	// this must be virtual, because the fitness landscape on the (genotype x phenotype) space can be wild (here fitness IS the only trait)
 	void calc_individual_traits(int clonenum){calc_individual_traits(population[clonenum]);}
 	void calc_individual_fitness(int clonenum){calc_individual_fitness(population[clonenum]);}
-	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
 	void check_individual_maximal_fitness(clone_t &tempgt){fitness_max = fmax(fitness_max, tempgt.fitness);}
 	double get_trait_difference(clone_t &tempgt1, clone_t &tempgt2, vector<int>& diffpos, int traitnum);
+
+	// phenotype-fitness map. By default, a linear map with equal weights is set, but weights can be reset
+	double *trait_weights;
+	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
+	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
+
 
 private:
 	// Memory management is private, subclasses must take care only of their own memory
 	bool mem;
 	bool cumulants_mem;
-	bool allele_frequencies_up_to_date;
 	int allocate_mem();
 	int free_mem();
-	int provide_at_least(int n);
-	int last_clone;
-	// These two vectors are referenced by subclasses and programs using their pointers,
-	// current_pop and new_pop, which are public. In fact, these vectors are created only
-	// to ensure their memory is released upon destruction of the class.
+
+	// These two vectors are used to recycle dead clones
 	vector <int> available_clones;
 	vector <int> clones_needed_for_recombination;
 

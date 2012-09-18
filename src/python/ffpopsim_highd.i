@@ -616,6 +616,46 @@ def get_trait_additive(self, t=0):
 %rename (_update_traits) update_traits;
 %rename (_update_fitness) update_fitness;
 
+/* set trait weights */
+%ignore set_trait_weights;
+void _set_trait_weights(double* IN_ARRAY1, int DIM1) {
+        /* check trait number */
+        if(DIM1 != $self->get_number_of_traits())
+                throw HP_BADARG; 
+
+        /* call the C++ method */
+        $self->set_trait_weights(IN_ARRAY1);
+}
+
+void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
+        /* check trait number */
+        if(DIM1 != $self->get_number_of_traits())
+                throw HP_BADARG; 
+
+        /* set the output array */
+        for(size_t t=0; t < DIM1; t++)
+                ARGOUT_ARRAY1[t] = $self->get_trait_weight(t);
+}
+
+%pythoncode {
+@property
+def trait_weights(self):
+   '''weight of each trait on fitness
+
+   .. note:: Fitness is updated automatically when the weights are changed.
+   '''
+
+   return self._get_trait_weights(self.number_of_traits)
+
+
+@trait_weights.setter
+def trait_weights(self, weights):
+    if len(weights) != self.number_of_traits:
+        raise ValueError('The weights must be a sequence of length equal to the number of traits.')
+    self._set_trait_weights(weights)
+    self._update_fitness()
+}
+
 /* set single locus effects */
 %feature("autodoc",
 "Set the additive part of a trait

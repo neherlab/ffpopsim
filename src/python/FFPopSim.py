@@ -1486,6 +1486,10 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_get_moment(self, *args, **kwargs)
 
+    def get_trait_weight(self, *args, **kwargs):
+        """get_trait_weight(haploid_highd self, int t) -> double"""
+        return _FFPopSim.haploid_highd_get_trait_weight(self, *args, **kwargs)
+
     def get_fitness(self, *args, **kwargs):
         """
         Get the fitness of an individual
@@ -1742,6 +1746,31 @@ class haploid_highd(object):
         '''
 
         return self._get_trait_additive(self.L, t)
+
+    def _set_trait_weights(self, *args, **kwargs):
+        """_set_trait_weights(haploid_highd self, double * IN_ARRAY1)"""
+        return _FFPopSim.haploid_highd__set_trait_weights(self, *args, **kwargs)
+
+    def _get_trait_weights(self, *args, **kwargs):
+        """_get_trait_weights(haploid_highd self, double * ARGOUT_ARRAY1)"""
+        return _FFPopSim.haploid_highd__get_trait_weights(self, *args, **kwargs)
+
+    @property
+    def trait_weights(self):
+       '''weight of each trait on fitness
+
+       .. note:: Fitness is updated automatically when the weights are changed.
+       '''
+
+       return self._get_trait_weights(self.number_of_traits)
+
+
+    @trait_weights.setter
+    def trait_weights(self, weights):
+        if len(weights) != self.number_of_traits:
+            raise ValueError('The weights must be a sequence of length equal to the number of traits.')
+        self._set_trait_weights(weights)
+        self._update_fitness()
 
     def set_trait_additive(self, *args, **kwargs):
         """
@@ -2042,6 +2071,7 @@ haploid_highd.get_chi = new_instancemethod(_FFPopSim.haploid_highd_get_chi,None,
 haploid_highd.get_chi2 = new_instancemethod(_FFPopSim.haploid_highd_get_chi2,None,haploid_highd)
 haploid_highd.get_LD = new_instancemethod(_FFPopSim.haploid_highd_get_LD,None,haploid_highd)
 haploid_highd.get_moment = new_instancemethod(_FFPopSim.haploid_highd_get_moment,None,haploid_highd)
+haploid_highd.get_trait_weight = new_instancemethod(_FFPopSim.haploid_highd_get_trait_weight,None,haploid_highd)
 haploid_highd.get_fitness = new_instancemethod(_FFPopSim.haploid_highd_get_fitness,None,haploid_highd)
 haploid_highd.get_clone_size = new_instancemethod(_FFPopSim.haploid_highd_get_clone_size,None,haploid_highd)
 haploid_highd.get_trait = new_instancemethod(_FFPopSim.haploid_highd_get_trait,None,haploid_highd)
@@ -2058,6 +2088,8 @@ haploid_highd._set_genotypes = new_instancemethod(_FFPopSim.haploid_highd__set_g
 haploid_highd._get_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__get_allele_frequencies,None,haploid_highd)
 haploid_highd._get_genotype = new_instancemethod(_FFPopSim.haploid_highd__get_genotype,None,haploid_highd)
 haploid_highd._get_trait_additive = new_instancemethod(_FFPopSim.haploid_highd__get_trait_additive,None,haploid_highd)
+haploid_highd._set_trait_weights = new_instancemethod(_FFPopSim.haploid_highd__set_trait_weights,None,haploid_highd)
+haploid_highd._get_trait_weights = new_instancemethod(_FFPopSim.haploid_highd__get_trait_weights,None,haploid_highd)
 haploid_highd.set_trait_additive = new_instancemethod(_FFPopSim.haploid_highd_set_trait_additive,None,haploid_highd)
 haploid_highd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_highd_set_fitness_additive,None,haploid_highd)
 haploid_highd._get_fitnesses = new_instancemethod(_FFPopSim.haploid_highd__get_fitnesses,None,haploid_highd)

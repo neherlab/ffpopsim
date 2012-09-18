@@ -119,14 +119,17 @@ int haploid_highd::allocate_mem() {
 	allele_frequencies = new double [number_of_loci];
 	gamete_allele_frequencies = new double [number_of_loci];		//allele frequencies after selection
 
-	trait = new hypercube_highd [number_of_traits];			//genotype trait function
+	trait = new hypercube_highd [number_of_traits];				//genotype trait function
 	trait_stat = new stat_t [number_of_traits];				//structure holding trait statistics
 	trait_covariance = new double* [number_of_traits];
+	trait_weights = new double [number_of_traits];
 	//initialize trait functions
 	for (int t = 0; t < number_of_traits; t++){
 		trait[t].set_up(number_of_loci, gsl_rng_uniform_int(evo_generator, 1<<20));
 		trait_covariance[t] = new double [number_of_traits];
+		trait_weights[t] = 0;
 	}
+	trait_weights[0] = 1;							// only the first trait is not zero
 
 	mem = true;								//set memory flag to true
 	if (HP_VERBOSE) cerr <<"done.\n";
@@ -860,9 +863,14 @@ double haploid_highd::get_trait_difference(clone_t &tempgt1, clone_t &tempgt2, v
  * @brief Calculate fitness from traits of the chosen clone
  *
  * @param tempgt clone whose fitness is to be calculated
+ *
+ * This function is linear in the traits with weights equal to trait_weights.
+ * By default, only the first weight is different from zero.
  */
 void haploid_highd::calc_individual_fitness_from_traits(clone_t &tempgt) {
-	tempgt.fitness = tempgt.trait[0];
+	tempgt.fitness = trait_weights[0] * tempgt.trait[0];
+	for (int t = 1; t < number_of_traits; t++)
+		tempgt.fitness += trait_weights[t] * tempgt.trait[t];
 }
 
 /**
