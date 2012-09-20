@@ -56,7 +56,7 @@
           <div class="body">
             
   <div class="section" id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">If you have not browsed the <a class="reference internal" href="Requirements.html"><em>Requirements</em></a> section already, please
@@ -64,24 +64,56 @@ do so, to make sure you have installed all the requirements for
 FFPopSim.</p>
 </div>
 <p>The installation of the FFPopSim Python module is done via the programs Make and
-<a href="#id1"><span class="problematic" id="id2">distutils_</span></a>. To build the module locally, call in your shell:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make python
-</pre></div>
-</div>
-<p>This command creates the files <tt class="docutils literal"><span class="pre">FFPopSim.py</span></tt> and <tt class="docutils literal"><span class="pre">_FFPopSim.so</span></tt> in the
-folder <tt class="docutils literal"><span class="pre">pkg/python</span></tt>. Those file contain the whole FFPopSim package and must
-always be located in the same folder.</p>
-<p>To install FFPopSim on the whole system and include it in your <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt>
-(which is needed to import the library from arbitrary locations), call the
-following command <strong>as a superuser</strong>:</p>
+<a class="reference external" href="http://docs.python.org/library/distutils.html">distutils</a>. Please refer also to the <cite>INSTALL</cite> file if the instructions below do
+not satisfy your needs (or generate errors!).</p>
+<div class="section" id="using-the-binaries">
+<h2>Using the binaries<a class="headerlink" href="#using-the-binaries" title="Permalink to this headline">¶</a></h2>
+<p>The simplest way to install FFPopSim is using the binaries provided for 32 and
+64 bit Linux and Mac OSX (10.6+) systems. You can choose either way:</p>
+<ol class="arabic simple">
+<li>copy manually the files from <tt class="docutils literal"><span class="pre">build/&lt;your</span> <span class="pre">arch&gt;</span></tt> into a folder included in
+your <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt>, where <tt class="docutils literal"><span class="pre">&lt;your</span> <span class="pre">arch&gt;</span></tt> is your architecture, i.e. Linux
+or Mac and 32 or 64 bit, or</li>
+<li>if you have <a class="reference external" href="http://docs.python.org/library/distutils.html">distutils</a>, install it system-wide, calling the following command
+<em>as a superuser</em>:</li>
+</ol>
 <div class="highlight-bash"><div class="highlight"><pre>make python-install
 </pre></div>
 </div>
-<p>If FFPopSim has been installed correctly, you can proceed to the <a class="reference internal" href="First steps with FFPopSim.html"><em>First steps with FFPopSim</em></a> section.</p>
+<p>Neither of these strategies will involve any building, hence you do not need
+<a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a> nor <a class="reference external" href="http://www.boost.org/">BOOST</a> to install the binaries.</p>
+<p>If you want to install FFPopSim using <a class="reference external" href="http://docs.python.org/library/distutils.html">distutils</a>, but into a different location
+than the standard third-party Python packages directory, you can call directly
+(if needed, as superuser):</p>
+<div class="highlight-bash"><div class="highlight"><pre>python2.7 setup.py install --skip-build --install-lib<span class="o">=</span>&lt;target_dir&gt;
+</pre></div>
+</div>
+<p>where <cite>&lt;target_dir&gt;</cite> is the target installation directory.</p>
+</div>
+<div class="section" id="building-ffpopsim-locally">
+<h2>Building FFPopSim locally<a class="headerlink" href="#building-ffpopsim-locally" title="Permalink to this headline">¶</a></h2>
+<p>To build the module locally, call in your shell:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make python
+</pre></div>
+</div>
+<p>This call creates the binaries for your system. You can follow the instructions
+above from this point on.</p>
+</div>
+<div class="section" id="testing-ffpopsim">
+<h2>Testing FFPopSim<a class="headerlink" href="#testing-ffpopsim" title="Permalink to this headline">¶</a></h2>
+<p>To test whether FFPopSim is installed correctly (and inserted into your
+<tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt>), you can open Python2.7 in a new shell and call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">FFPopSim</span>
+</pre></div>
+</div>
+<p>If you do not get any errors, the installation is successful. You can proceed to
+the <a class="reference internal" href="First steps with FFPopSim.html"><em>First steps with FFPopSim</em></a> section.</p>
+</div>
 <div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
-<p>Please consult the file <tt class="docutils literal"><span class="pre">INSTALL</span></tt> in the main package folder for help in case
-of problems.</p>
+<p>In case of problems with the installation, please check in the <a class="reference internal" href="Requirements.html"><em>Requirements</em></a>
+section that you have all necessary run-time packages.</p>
+<p>Please consult the file <tt class="docutils literal"><span class="pre">INSTALL</span></tt> in the main package folder for further help.</p>
 </div>
 </div>
 
@@ -94,6 +126,9 @@ of problems.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Install</a><ul>
+<li><a class="reference internal" href="#using-the-binaries">Using the binaries</a></li>
+<li><a class="reference internal" href="#building-ffpopsim-locally">Building FFPopSim locally</a></li>
+<li><a class="reference internal" href="#testing-ffpopsim">Testing FFPopSim</a></li>
 <li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>

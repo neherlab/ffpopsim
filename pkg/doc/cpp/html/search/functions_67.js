@@ -42,5 +42,6 @@ var searchData=
   ['get_5ftrait_5fcovariance',['get_trait_covariance',['../classhaploid__highd.html#a5c6adc6e23625ec7eda23253074b564c',1,'haploid_highd']]],
   ['get_5ftrait_5fdifference',['get_trait_difference',['../classhaploid__highd.html#aae22b4b9ae415c0616996351e76f5c04',1,'haploid_highd']]],
   ['get_5ftrait_5fstatistics',['get_trait_statistics',['../classhaploid__highd.html#a3554acf03e30ec4df69de98c29e1b2a8',1,'haploid_highd']]],
+  ['get_5ftrait_5fweight',['get_trait_weight',['../classhaploid__highd.html#ac5c1757760ad2392f1d4171e227b0676',1,'haploid_highd']]],
   ['get_5ftreatment',['get_treatment',['../classhivpopulation.html#a51ac449397891ab8b251ca20f97aeaf1',1,'hivpopulation']]]
 ];

@@ -1,5 +1,6 @@
 <map id="haploid_highd::mutate" name="haploid_highd::mutate">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="579,5,733,46"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="379,34,531,75"/>
-<area shape="rect" id="node8" href="$classhaploid__highd.html#a793692551c51067de6319c14703d8261" title="Flip a spin at a specific locus in random individual." alt="" coords="203,85,330,126"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="579,27,733,68"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#ae35e36373a32707e19836661513b1e1f" title=": allocates memory for a sufficient number of clones" alt="" coords="379,23,530,64"/>
+<area shape="rect" id="node7" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="379,88,531,130"/>
+<area shape="rect" id="node10" href="$classhaploid__highd.html#a793692551c51067de6319c14703d8261" title="Flip a spin at a specific locus in random individual." alt="" coords="203,74,330,115"/>
 </map>

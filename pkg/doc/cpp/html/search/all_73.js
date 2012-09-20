@@ -22,6 +22,7 @@ var searchData=
   ['set_5frecombination_5frates_5fgeneral',['set_recombination_rates_general',['../classhaploid__lowd.html#a1e5d90e6421e2523a9a1d6880b116526',1,'haploid_lowd']]],
   ['set_5frecombination_5frates_5fsingle_5fcrossover',['set_recombination_rates_single_crossover',['../classhaploid__lowd.html#ac9238fef89702bcced8c5d0c1d26bc12',1,'haploid_lowd']]],
   ['set_5fstate',['set_state',['../classhypercube__lowd.html#a64b71d45a02e6f64456bb063b76cee0d',1,'hypercube_lowd']]],
+  ['set_5ftrait_5fweights',['set_trait_weights',['../classhaploid__highd.html#abbb79f0fb77b461b234a91cafcb8b935',1,'haploid_highd']]],
   ['set_5ftreatment',['set_treatment',['../classhivpopulation.html#a0f5bd29413e44f8a075afe164c05853e',1,'hivpopulation']]],
   ['set_5fup',['set_up',['../classsample.html#ab972d3a3c39876d80be1e9cc658eb792',1,'sample::set_up()'],['../classhypercube__highd.html#a8b2642cdc017434e33328c5d022f1339',1,'hypercube_highd::set_up()'],['../classhypercube__lowd.html#ae556c40dbb28835fc1daa585aff6ba67',1,'hypercube_lowd::set_up()']]],
   ['set_5fwildtype',['set_wildtype',['../classhaploid__highd.html#a9418c16f238aacab3be2dbffb62246c4',1,'haploid_highd::set_wildtype()'],['../classhaploid__lowd.html#a23d53dd12a8b7788d6d12b358567f468',1,'haploid_lowd::set_wildtype()']]],
@@ -32,6 +33,5 @@ var searchData=
   ['single_5fcrossover',['SINGLE_CROSSOVER',['../ffpopsim__generic_8h.html#aa30424233f9330942db1f69f8155902d',1,'ffpopsim_generic.h']]],
   ['start',['start',['../structhivgene.html#a666626ac2e8c122cd2c96179b9d5e778',1,'hivgene']]],
   ['stat_5ft',['stat_t',['../structstat__t.html',1,'stat_t'],['../structstat__t.html#aa1bc75b0f0bcf278f04b072f08be6d4b',1,'stat_t::stat_t()']]],
-  ['state',['state',['../classhypercube__lowd.html#a80060076ba3f14d0e332851805eaa3c4',1,'hypercube_lowd']]],
-  ['swap_5fpopulations',['swap_populations',['../classhaploid__highd.html#a6fa4ffe295eef314642dec0208f81b7d',1,'haploid_highd']]]
+  ['state',['state',['../classhypercube__lowd.html#a80060076ba3f14d0e332851805eaa3c4',1,'hypercube_lowd']]]
 ];

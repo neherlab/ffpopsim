@@ -1,13 +1,14 @@
 <map id="haploid_highd::set_genotypes" name="haploid_highd::set_genotypes">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="401,70,532,111"/>
-<area shape="rect" id="node13" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="181,188,344,215"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#ae9137cf2555811e415d2a6ae04e00471" title="Calculate traits of the chosen clone." alt="" coords="616,38,749,79"/>
-<area shape="rect" id="node9" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="616,132,749,188"/>
-<area shape="rect" id="node11" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="590,270,775,311"/>
-<area shape="rect" id="node7" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="824,45,1003,72"/>
-<area shape="rect" id="node15" href="$classhaploid__highd.html#ad5eee5bc7f757e20fb3119bb01c59b1e" title="For each clone, recalculate its traits." alt="" coords="393,5,541,46"/>
-<area shape="rect" id="node18" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="393,331,541,373"/>
-<area shape="rect" id="node22" href="$classhaploid__highd.html#afb3de45e613ffe03eadcc10f81c13448" title="Calculate and store trait population statistics and covariances." alt="" coords="400,135,533,177"/>
-<area shape="rect" id="node24" href="$classhaploid__highd.html#a6dd67288b3fc216d2b83d7e4861966af" title="Calculate and store fitness population statistics." alt="" coords="400,201,533,242"/>
-<area shape="rect" id="node26" href="$classhaploid__highd.html#a93cb185958cc78ce66c909d8df532a57" title="calculate and store allele frequencies" alt="" coords="400,266,533,307"/>
+<area shape="rect" id="node3" href="$classhaploid__highd.html#ae35e36373a32707e19836661513b1e1f" title=": allocates memory for a sufficient number of clones" alt="" coords="607,6,758,47"/>
+<area shape="rect" id="node5" href="$classhaploid__highd.html#a44235ff9f17f4e81f290611d7829818a" title="Add the genotype specified by a bitset to the current population in in n copies." alt="" coords="401,50,532,91"/>
+<area shape="rect" id="node16" href="$classhaploid__highd.html#af40993ccd48558777ab65ab88bc590b3" title="Calculate trait and fitness statistics and allele frequences." alt="" coords="181,220,344,247"/>
+<area shape="rect" id="node8" href="$classhaploid__highd.html#ae9137cf2555811e415d2a6ae04e00471" title="Calculate traits of the chosen clone." alt="" coords="616,101,749,142"/>
+<area shape="rect" id="node12" href="$classhaploid__highd.html#a3bd66159865bc89daeccd92b00345496" title="Calculate fitness from traits of the chosen clone." alt="" coords="616,179,749,235"/>
+<area shape="rect" id="node14" href="$classhaploid__highd.html#a9ab1014943121ca19f070d873f90d3d0" title="haploid_highd::check\l_individual_maximal_fitness" alt="" coords="590,283,775,325"/>
+<area shape="rect" id="node10" href="$classhypercube__highd.html#ab53deaa3338c2e2c597bd2b4431cd7b2" title="Get single value on the hypercube." alt="" coords="824,108,1003,135"/>
+<area shape="rect" id="node18" href="$classhaploid__highd.html#ad5eee5bc7f757e20fb3119bb01c59b1e" title="For each clone, recalculate its traits." alt="" coords="393,115,541,157"/>
+<area shape="rect" id="node21" href="$classhaploid__highd.html#a9b8ada9362e3108ee8994634231541be" title="For each clone, update fitness assuming traits are already up to date." alt="" coords="393,311,541,353"/>
+<area shape="rect" id="node25" href="$classhaploid__highd.html#afb3de45e613ffe03eadcc10f81c13448" title="Calculate and store trait population statistics and covariances." alt="" coords="400,246,533,287"/>
+<area shape="rect" id="node27" href="$classhaploid__highd.html#a6dd67288b3fc216d2b83d7e4861966af" title="Calculate and store fitness population statistics." alt="" coords="400,377,533,418"/>
+<area shape="rect" id="node29" href="$classhaploid__highd.html#a93cb185958cc78ce66c909d8df532a57" title="calculate and store allele frequencies" alt="" coords="400,181,533,222"/>
 </map>

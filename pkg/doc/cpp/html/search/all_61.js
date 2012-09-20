@@ -8,5 +8,6 @@ var searchData=
   ['additive',['additive',['../classhypercube__lowd.html#a0b0f30face6950933a4b4eaae73acc00',1,'hypercube_lowd']]],
   ['allele_5fentropy',['allele_entropy',['../classhaploid__lowd.html#ad92128c8283b77e99e65d96a8bc3e3fe',1,'haploid_lowd']]],
   ['allele_5ffrequencies',['allele_frequencies',['../classhaploid__highd.html#a2929fa585f451eff209d5766e280d0b6',1,'haploid_highd']]],
+  ['allele_5ffrequencies_5fup_5fto_5fdate',['allele_frequencies_up_to_date',['../classhaploid__highd.html#aeffd9e3d943c2cf906223ff8dcf57fdc',1,'haploid_highd']]],
   ['argmax',['argmax',['../classhypercube__lowd.html#aff3614e858e9b7a29b7197846e832468',1,'hypercube_lowd']]]
 ];

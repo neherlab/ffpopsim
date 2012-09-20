@@ -22,11 +22,21 @@ requires:
 - the GNU Scientific Library (http://www.gnu.org/software/gsl/)
 - BOOST (http://www.boost.org/)
 
-The python wrapper requires, *in addition the the aforementioned*:
+The python wrapper comes in two flavours. First, binaries are provided, for
+which the requirements are only:
 
 - Python 2.7
+- NumPy 1.6 and MatPlotLib (http://www.scipy.org)
+
+Second, you can build the Python bindings yourself. This requires both the
+C++ and Python programs, plus the following:
+
 - Distutils (http://docs.python.org/library/distutils.html)
-- NumPy, SciPy, and MatPlotLib (http://www.scipy.org)
+
+Note for Python-only users: the Enthought Python Distribution
+(http://www.enthought.com/products/epd.php) includes all the packages to run
+FFPopSim *from the binaries*. It also includes Distutils. You still need the
+C++ required programs, however, to build the Python wrapper yourself.
 
 Optional dependencies
 -------------------------------------------------------------------
@@ -45,11 +55,23 @@ The Python documentation, in case you want to rebuild it, requires:
 -------------------------------------------------------------------
 2. INSTALLATION INSTRUCTIONS
 -------------------------------------------------------------------
-For the impatient ones, call
+For Python-only users, binaries are provided for Linux and Mac OSX 10.6+,
+for both 32 bit and 64 bit architectures, in the 'build' folder. Copy them
+into a folder included in your PYTHONPATH or call, as a superuser,
+
+	make python-install
+
+to install them. This involves no compiling/linking at all, just plain file
+copying: the binaries are essentially copied into you Python third-party
+packages folder (e.g. /usr/local/lib/python2.7/site-packages/).
+
+For all users, to build FFPopSim, a call
 
 	make
 
-and have a look in the pkg folder.
+should take care of everything (both C++ and Python parts are being built).
+Have a look in the pkg folder for the results.
+
 
 Full instructions
 -------------------------------------------------------------------
@@ -134,6 +156,7 @@ A. BOOST is probably installed in a folder where your compiler cannot
    possible.
 
 
+
 Q. I cannot compile the Python bindings. The compiler complains that
    a number of gsl-related or boost-related files are not found!
 
@@ -141,6 +164,7 @@ A. Try opening the setup.py file and extend the lists 'includes' and
    'library_dirs'. In particular, add the paths of the header files 
    for GSL and BOOST on your system to 'includes', and the shared
    library files for GSL to 'library_dirs'.
+
 
 
 Q. The examples work, but when I try to import FFPopSim from another
@@ -160,3 +184,34 @@ A. In order for Python to find FFPopSim, both FFPopsim.py and
    make python-install
 
    Note that you will be asked root priviledges for this operation.
+
+
+
+Q. I am trying to use the Mac OSX binaries on OSX 10.5 or earlier, and
+   I get an error like:
+
+	unknown required load command 0x80000022
+
+   What shall I do?
+
+A. The shipped binaries do not work on such an old OSX version, but you can
+   try to build FFPopSim youself. Install the most recent EPD Python
+   distribution for your Mac OSX and all other building requirements (GSL,
+   BOOST) and follow the instructions. Indeed, this is expected to work out
+   just fine.
+
+
+
+Q. I am trying to use the binaries but get the following error:
+
+	ImportError: numpy.core.multiarray failed to import
+
+   What shall I do?
+
+A. Your version of NumPy differs from the one used to compile the shipped
+   binaries, which is 1.6. Probably, you have an older version. You can
+   choose between three options: (1) update your system; (2) download and
+   use the most recent EPD Python distribution; (3) try to build FFPopSim
+   yourself, downloading the building requirements (GSL, BOOST, etc.) and
+   follow the instructions.
+

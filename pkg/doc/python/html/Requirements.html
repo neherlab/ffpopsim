@@ -60,27 +60,40 @@
 <p>FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX.
 The basic library is written in C++ and can be used and extended independently
 of the Python bindings.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The Enthought Python Distribution (<a class="reference external" href="http://www.enthought.com/products/epd.php">EPD</a>) is a widely used and
-well-maintained Python environment that provides all necessary
-Python packages for running FFPopSim (other than <a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a> and <a class="reference external" href="http://www.boost.org/">BOOST</a>).
-A basic EPD version is available for free at the following website:
-<a class="reference external" href="http://www.enthought.com/products/epd_free.php">http://www.enthought.com/products/epd_free.php</a></p>
-</div>
+<p>The Python bindings are also distributed as ready-to-use binary files (see
+<a class="reference internal" href="Install.html"><em>Install</em></a>); you can still build the library yourself though, if you prefer
+to do so.</p>
+<ul class="simple">
+<li>On Linux, FFPopSim is expected to be compatible with all distributions, provided
+they are up to date (glibc 2.14 recommended).</li>
+<li>On Mac OSX, only Intel CPUs are expected to work, and only <strong>Mac OSX 10.6 or
+later</strong>. If you have an earlier Mac computer, you can still try to build the
+library yourself (see <a class="reference internal" href="Install.html"><em>Install</em></a>), but that might fail.</li>
+</ul>
 <div class="section" id="runtime-requirements">
 <h2>Runtime Requirements<a class="headerlink" href="#runtime-requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7+ (no Python 3 support yet) are the only supported Python versions.
-Older Python versions will <em>never</em> be supported, but Python 3 might become so
-in the future.</li>
-<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> is used extensively in this library. We suggest to import numpy
-explicitely before using the library (but it will work in any case).</li>
-<li><a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> is used in the plot functions. As long as you do not call those,
-you can live without it. However, we suggest to import it explicitely before
-using the library.</li>
-<li><a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a> shared libraries, from the GNU Scientific library</li>
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.7 (no Python 3 support yet): older Python versions will <em>never</em> be
+supported, but Python 3 might become so in the future. If you have only Python
+2.6 or earlier, consider using the <a class="reference external" href="http://www.enthought.com/products/epd.php">EPD</a> Python distribution or updating your
+system.</li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> 1.6: if your Python distribution has only NumPy 1.5 or earlier,
+consider using the <a class="reference external" href="http://www.enthought.com/products/epd.php">EPD</a> Python distribution, building FFPopSim from source, or
+updating your system. It is recommended to import numpy explicitely before
+using the library, as shown in the examples.</li>
+<li><a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> is used in the plot functions. As long as you do not call those
+functions, you can live without it. However, it is recommended to import it
+explicitely before using the library, as shown in the examples.</li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The Enthought Python Distribution (<a class="reference external" href="http://www.enthought.com/products/epd.php">EPD</a>) is a widely used and
+well-maintained Python environment that provides all necessary
+Python packages for running FFPopSim, including a recent NumPy
+version (but no <a class="reference external" href="http://www.gnu.org/software/gsl/">GSL</a> and <a class="reference external" href="http://www.boost.org/">BOOST</a>). A basic EPD version is available
+for free at the following website:</p>
+<p class="last"><a class="reference external" href="http://www.enthought.com/products/epd_free.php">http://www.enthought.com/products/epd_free.php</a></p>
+</div>
 </div>
 <div class="section" id="building-requirements">
 <h2>Building Requirements<a class="headerlink" href="#building-requirements" title="Permalink to this headline">¶</a></h2>

@@ -7,30 +7,47 @@ FFpopSim is developed to work on 32 or 64 bit machines running Linux or Mac OSX.
 The basic library is written in C++ and can be used and extended independently
 of the Python bindings.
 
-.. note:: The Enthought Python Distribution (EPD_) is a widely used and
-          well-maintained Python environment that provides all necessary
-          Python packages for running FFPopSim (other than GSL_ and BOOST_).
-          A basic EPD version is available for free at the following website:
-          http://www.enthought.com/products/epd_free.php 
+The Python bindings are also distributed as ready-to-use binary files (see
+:doc:`Install`); you can still build the library yourself though, if you prefer
+to do so.
+
+- On Linux, FFPopSim is expected to be compatible with all distributions, provided
+  they are up to date (glibc 2.14 recommended).
+
+- On Mac OSX, only Intel CPUs are expected to work, and only **Mac OSX 10.6 or
+  later**. If you have an earlier Mac computer, you can still try to build the
+  library yourself (see :doc:`Install`), but that might fail.
+
 
 Runtime Requirements
 --------------------
 
-- Python_ 2.7+ (no Python 3 support yet) are the only supported Python versions.
-  Older Python versions will *never* be supported, but Python 3 might become so
-  in the future.
+- Python_ 2.7 (no Python 3 support yet): older Python versions will *never* be
+  supported, but Python 3 might become so in the future. If you have only Python
+  2.6 or earlier, consider using the EPD_ Python distribution or updating your
+  system.
 
-- NumPy_ is used extensively in this library. We suggest to import numpy
-  explicitely before using the library (but it will work in any case).
+- NumPy_ 1.6: if your Python distribution has only NumPy 1.5 or earlier,
+  consider using the EPD_ Python distribution, building FFPopSim from source, or
+  updating your system. It is recommended to import numpy explicitely before
+  using the library, as shown in the examples.
 
-- matplotlib_ is used in the plot functions. As long as you do not call those,
-  you can live without it. However, we suggest to import it explicitely before
-  using the library.
+- matplotlib_ is used in the plot functions. As long as you do not call those
+  functions, you can live without it. However, it is recommended to import it
+  explicitely before using the library, as shown in the examples.
 
-- GSL_ shared libraries, from the GNU Scientific library
+.. note:: The Enthought Python Distribution (EPD_) is a widely used and
+          well-maintained Python environment that provides all necessary
+          Python packages for running FFPopSim, including a recent NumPy
+          version (but no GSL_ and BOOST_). A basic EPD version is available
+          for free at the following website:
+
+          http://www.enthought.com/products/epd_free.php
+
 
 Building Requirements
 ---------------------
+
 In order to build the Python bindings to FFPopSim, you need the following programs:
 
    - a C++ compiler, e.g. GCC_

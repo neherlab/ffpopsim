@@ -258,6 +258,7 @@ SOMODULE := $(SWIG_MODULE:%.i=_%.so)
 # Recipes
 python: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%) $(DISTUTILS_SETUP)
 	mkdir -p $(PKGDIR)/python
+	$(PYTHON) setup.py clean --all
 	$(PYTHON) setup.py install --install-lib=$(PKGDIR)/python
 	$(PYTHON) setup.py clean
 
@@ -265,11 +266,11 @@ python-install:
 	$(PYTHON) setup.py install --skip-build
 
 clean-python:
-	cd $(PKGDIR)/python; rm -rf *
+	cd $(PKGDIR); rm -rf python
 	$(PYTHON) setup.py clean
 
 clean-python-all:
-	cd $(PKGDIR)/python; rm -rf *
+	cd $(PKGDIR); rm -rf python
 	$(PYTHON) setup.py clean --all
 
 ##==========================================================================
