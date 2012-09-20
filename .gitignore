@@ -10,6 +10,7 @@ pkg/lib/*
 # Documentation
 doc/latex/*
 doc/html/*
+doc/python/build
 
 # Executables/ test files
 tests/lowd
@@ -42,7 +43,6 @@ tests/_FFPopSim.so
 *.egg
 *.egg-info
 dist
-build
 eggs
 parts
 bin
@@ -70,3 +70,6 @@ Session.vim
 .pydevproject
 Debug
 Release
+
+# Keep the binaries
+!build/*/*.so
