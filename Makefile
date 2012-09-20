@@ -110,11 +110,11 @@ ifdef PYTHON
 endif
 
 # List all explicit recipes
-.PHONY : default all src tests doc python python-doc python-install profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig
+.PHONY : default all src tests doc python python-doc python-install profile swig clean clean-all clean-src clean-doc clean-tests clean-python clean-python-doc clean-profile clean-swig clean-python-all
 default: src tests $(python)
 all: src tests python doc python-doc
 clean: clean-src clean-tests clean-python clean-profile
-clean-all: clean clean-doc clean-python-doc clean-swig
+clean-all: clean clean-doc clean-python-doc clean-swig clean-python-all
 
 # Profile flag to enable profiling with gprof.
 # (Un)Comment the next line to switch off (on) profiling.
@@ -256,23 +256,21 @@ PYCMODULE := $(SWIG_MODULE:%.i=%.pyc)
 SOMODULE := $(SWIG_MODULE:%.i=_%.so)
 
 # Recipes
-python: $(PYBDIR)/$(PYMODULE) $(PYBDIR)/$(SOMODULE) $(DISTUTILS_SETUP)
+python: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%) $(DISTUTILS_SETUP)
+	mkdir -p $(PKGDIR)/python
+	$(PYTHON) setup.py install --install-lib=$(PKGDIR)/python
+	$(PYTHON) setup.py clean
 
 python-install:
-	rm -rf build
-	$(PYTHON) setup.py install
-
-$(PYBDIR)/$(SOMODULE): $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%)
-	rm -rf build
-	$(PYTHON) setup.py build_ext --inplace
-	mkdir -p $(PKGDIR)/python
-	cp -f $(PYBDIR)/$(PYMODULE) $(PKGDIR)/python/
-	cp -f $(PYBDIR)/$(SOMODULE) $(PKGDIR)/python/
+	$(PYTHON) setup.py install --skip-build
 
 clean-python:
-	rm -rf build
-	cd $(PYBDIR); rm -rf $(SOMODULE) $(PYCMODULE)
-	cd $(PKGDIR)/python; rm -rf $(SOMODULE) $(PYMODULE) $(PYCMODULE)
+	cd $(PKGDIR)/python; rm -rf *
+	$(PYTHON) setup.py clean
+
+clean-python-all:
+	cd $(PKGDIR)/python; rm -rf *
+	$(PYTHON) setup.py clean --all
 
 ##==========================================================================
 # SWIG (USED FOR PYTHON BINDINGS)
