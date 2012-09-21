@@ -130,13 +130,13 @@ Parameters:
 /* string representations */
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"haploid_lowd: L = %d, N = %f", (long)$self->L(), $self->N());
+        sprintf(buffer,"haploid_lowd: L = %d, N = %f", (int)$self->L(), $self->N());
         return &buffer[0];
 }
 
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"<haploid_lowd(%d, %g)>", (long)$self->L(), $self->N());
+        sprintf(buffer,"<haploid_lowd(%d, %g)>", (int)$self->L(), $self->N());
         return &buffer[0];
 }
 
@@ -249,7 +249,7 @@ def set_allele_frequencies(self, frequencies, N):
 int _set_genotypes(int len1, double* indices, int len2, double* vals) {
         vector<index_value_pair_t> gt;
         index_value_pair_t temp;
-        for(size_t i = 0; i != len1; i++) {
+        for(size_t i = 0; i != (size_t)len1; i++) {
                 temp.index = (int)indices[i];
                 temp.val = vals[i];
                 gt.push_back(temp);
@@ -298,7 +298,7 @@ Parameters:
 
         /* Get circular and L properties from the class (we are in the Python world here) */
         bool circular = (bool)PyInt_AsLong(PyObject_GetAttrString($self, "circular"));
-        long Lint = PyInt_AsLong(PyObject_GetAttrString($self, "L"));
+        unsigned long Lint = PyInt_AsLong(PyObject_GetAttrString($self, "L"));
 
         /* Check lengths */
         if((!(circular)) && (L != Lint - 1)) {
@@ -604,7 +604,7 @@ def random_genomes(self, n_sample):
 
 /* get fitnesses of all individuals */
 void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = $self->get_fitness(i);
 }
 %pythoncode {
@@ -837,7 +837,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
 int _set_fitness_func(int len1, double* indices, int len2, double* vals) {
         vector<index_value_pair_t> iv;
         index_value_pair_t temp;
-        for(size_t i = 0; i != len1; i++) {
+        for(size_t i = 0; i != (size_t)len1; i++) {
                 temp.index = (int)indices[i];
                 temp.val = vals[i];
                 iv.push_back(temp);

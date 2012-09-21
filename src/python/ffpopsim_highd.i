@@ -53,7 +53,7 @@
 /* string representations */
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"clone: %d traits, genome size = %d", ($self->trait).size(), ($self->genotype).size());
+        sprintf(buffer,"clone: %u traits, genome size = %u", (unsigned int)($self->trait).size(), (unsigned int)($self->genotype).size());
         return &buffer[0];
 }
 
@@ -78,7 +78,7 @@ number_of_traits = property(_get_number_of_traits)
 }
 
 void _get_trait(int DIM1, double* ARGOUT_ARRAY1) {
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = ($self->trait)[i];
 }
 %pythoncode {
@@ -317,9 +317,9 @@ int _set_genotypes(int len1, double* genotypes, int len2, double* vals) {
         len1 /= len2;
         vector<genotype_value_pair_t> gt;
         genotype_value_pair_t temp;
-        for(size_t i = 0; i != len2; i++) {
+        for(size_t i = 0; i != (size_t)len2; i++) {
                 temp.genotype = boost::dynamic_bitset<>(len1);
-                for(size_t j=0; j < len1; j++)
+                for(size_t j=0; j < (size_t)len1; j++)
                         temp.genotype[j] = (bool)genotypes[i * len1 + j];
                 temp.val = vals[i];
                 gt.push_back(temp);
@@ -447,7 +447,7 @@ Returns:
 
 /* get allele frequencies */
 void _get_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = $self->get_allele_frequency(i);
 }
 %pythoncode {
@@ -523,7 +523,7 @@ Returns:
 /* get genotypes */
 void _get_genotype(unsigned int n, short* ARGOUT_ARRAY1, int DIM1) {
         boost::dynamic_bitset<> newgt = ($self->population)[n].genotype;
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = newgt[i];
 }
 %pythoncode {
@@ -587,7 +587,7 @@ void _get_trait_additive(double* ARGOUT_ARRAY1, int DIM1, int t) {
                 throw HP_BADARG;
 
         /* Initialize to zero */
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = 0;
 
         /* Add any coefficient you found */
@@ -633,7 +633,7 @@ void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
                 throw HP_BADARG; 
 
         /* set the output array */
-        for(size_t t=0; t < DIM1; t++)
+        for(size_t t=0; t < (size_t)DIM1; t++)
                 ARGOUT_ARRAY1[t] = $self->get_trait_weight(t);
 }
 
@@ -677,7 +677,7 @@ void set_trait_additive(int DIM1, double* IN_ARRAY1, int t=0) {
         
         /* set the new coefficients */
         vector <int> loci(1,0);
-        for(size_t i = 0; i < DIM1; i++) {
+        for(size_t i = 0; i < (size_t)DIM1; i++) {
                 if(abs(IN_ARRAY1[i]) > HP_NOTHING) {
                         loci[0] = i;
                         $self->add_trait_coefficient(IN_ARRAY1[i], loci, t);
@@ -703,7 +703,7 @@ void set_fitness_additive(int DIM1, double *IN_ARRAY1) {
         
         /* set the new coefficients */
         vector <int> loci(1,0);
-        for(size_t i = 0; i < DIM1; i++) {
+        for(size_t i = 0; i < (size_t)DIM1; i++) {
                 if(abs(IN_ARRAY1[i]) > HP_NOTHING) {
                         loci[0] = i;
                         $self->add_trait_coefficient(IN_ARRAY1[i], loci, 0);
@@ -774,7 +774,7 @@ Parameters:
 
 /* fitness/traits of clones */
 void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = $self->get_fitness(i);
 }
 %pythoncode {
@@ -897,7 +897,7 @@ void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {
         vector <int> sample = vector <int>(0);
         int err = $self->random_clones(DIM1, &sample);
         if(!err)
-                for(size_t i=0; i < DIM1; i++)
+                for(size_t i=0; i < (size_t)DIM1; i++)
                         ARGOUT_ARRAY1[i] = sample[i];
 }
 

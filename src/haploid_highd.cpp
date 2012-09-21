@@ -40,7 +40,7 @@ size_t haploid_highd::number_of_instances = 0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of_loci(L_in), number_of_traits(n_o_traits), population_size(0), mem(false), cumulants_mem(false), generation(0), circular(false), carrying_capacity(0), mutation_rate(0), outcrossing_rate(0), crossover_rate(0), recombination_model(CROSSOVERS), fitness_max(HP_VERY_NEGATIVE) {
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
 	if (L_in < 1 or n_o_traits < 1) {
 		cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
 		throw HP_BADARG;
@@ -52,6 +52,21 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) : number_of
 		cerr <<"haploid_highd::haploid_highd(): haploid_highd requires sizeof(long int) to be equal to bits_per_block of boost::dynamic_bitset";
 		throw HP_MEMERR;
 	}
+
+	// Set attributes
+	number_of_loci = L_in;
+	number_of_traits = n_o_traits;
+	population_size = 0;
+	mem = false;
+	cumulants_mem = false;
+	generation = 0;
+	circular = false;
+	carrying_capacity = 0;
+	mutation_rate = 0;
+	outcrossing_rate = 0;
+	crossover_rate = 0;
+	recombination_model = CROSSOVERS;
+	fitness_max = HP_VERY_NEGATIVE;
 
 	//In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
@@ -162,7 +177,7 @@ int haploid_highd::free_mem() {
 int haploid_highd::provide_at_least(int n) {
 	//calculate the number of clones that need to be newly allocated. Allow for some slack
 	//to avoid calling this too often
-	int needed_gts = (n-available_clones.size()) + 100 + 0.1*population.size();
+	size_t needed_gts = (n-available_clones.size()) + 100 + 0.1*population.size();
 
 	//allocate at the necessary memory
 	if (needed_gts > 50) {
@@ -217,7 +232,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	boost::dynamic_bitset<> tempgt(number_of_loci);
 	random_sample.clear();	//and the random sample
 	if (HP_VERBOSE) cerr <<"add "<<N_in<<" genotypes of length "<<number_of_loci<<"..."<<endl;
-	for (int i = 0; i < N_in; i++) {
+	for (size_t i = 0; i < N_in; i++) {
 		tempgt.reset();
 		// set all loci for this genotype
 		for(int locus = 0; locus < number_of_loci; locus++) {
@@ -470,7 +485,7 @@ int haploid_highd::select_gametes() {
 
 	//draw gametes according to parental fitness
 	double delta_fitness;
-	int os,o, nrec;
+	int os,o, nrec=0;
 	int err = 0;
 	population_size = 0;
 	
@@ -488,7 +503,7 @@ int haploid_highd::select_gametes() {
 	number_of_clones = 0;
 	fitness_max = HP_VERY_NEGATIVE;
 	unsigned int clone_index = 0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) && (clone_index < last_clone+1); pop_iter++, clone_index++){
+	for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) && (clone_index < (unsigned int)(last_clone + 1)); pop_iter++, clone_index++){
 		//poisson distributed random numbers -- mean exp(f)/bar{exp(f)})
 		if (pop_iter->clone_size > 0) {
 			//the number of asex offspring of clone[i] is poisson distributed around e^F / <e^F> * (1-r)
@@ -537,12 +552,11 @@ int haploid_highd::select_gametes() {
  * a Poisson random number around the new population size times the clone frequency. This function should
  * therefore almost conserve genotype frequencies, except for rare genotypes that are lost.
  *
- * TODO: this function should accept a gsl random distribution as optional argument for choosing how sharp
- * the bottleneck should be (i.e., how large fluctuations around the expected frequency may be). However,
- * this requires function pointers or templates or lambda functions, and might be a nightmare to code.
- * TODO: this does not keep fitness maximum up to date
  */
 int haploid_highd::bottleneck(int size_of_bottleneck) {
+// TODO: this function should accept a gsl random distribution as optional argument for choosing how sharp
+// the bottleneck should be (i.e., how large fluctuations around the expected frequency may be). However,
+// this requires function pointers or templates or lambda functions, and might be a nightmare to code.
 	double ostmp;
 	unsigned int os;
 	int err = 0;
@@ -552,14 +566,17 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
 
 	population_size = 0;
 
-	//resample each clone according to Poisson with a expected size reduced by bottleneck/N_old
+	// resample each clone according to Poisson with a expected size reduced by bottleneck/N_old
+	// eep track of the maximal fitness
+	fitness_max = HP_VERY_NEGATIVE;
 	unsigned int clone_index = 0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() and (clone_index<last_clone+1); pop_iter++, clone_index++) {
+	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() and (clone_index < (unsigned int)(last_clone + 1)); pop_iter++, clone_index++) {
 		ostmp = pop_iter->clone_size * size_of_bottleneck / double(old_size);
 		os = gsl_ran_poisson(evo_generator, ostmp);
 		if(os > 0) {
 			pop_iter->clone_size = os;
 			population_size += os;
+			check_individual_maximal_fitness(*pop_iter);
 		} else {
 			pop_iter->clone_size = 0;
 			available_clones.push_back(clone_index);
@@ -804,7 +821,7 @@ void haploid_highd::update_fitness() {
 	if(population.size() > 0) {
 		fitness_max = HP_VERY_NEGATIVE;
 		unsigned int i = 0;
-		for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) and (i<last_clone+1); pop_iter++, i++)
+		for(vector<clone_t>::iterator pop_iter = population.begin(); (pop_iter != population.end()) and (i < (unsigned int)(last_clone + 1)); pop_iter++, i++)
 			if (pop_iter->clone_size > 0) {
 				calc_individual_fitness_from_traits(*pop_iter);
 				check_individual_maximal_fitness(*pop_iter);
@@ -916,13 +933,13 @@ void haploid_highd::crossover_pattern() {
 		//choose xovers at random from the genome label list
 		//choose is expensive. could be replaced by simply random number followed by sorting
 		gsl_ran_choose(evo_generator,(void*) &crossover_points[0],n_o_c,genome,number_of_loci,sizeof(int));
-		for (int c = 0; c < crossover_points.size(); c++)
-			crossover_points[c]++; //increase all points by since crossover is after the selected locus
+		for(vector<int>::iterator cp_iter = crossover_points.begin(); cp_iter != crossover_points.end(); cp_iter++)
+			(*cp_iter)++; //increase all points by since crossover is after the selected locus
 	} else {
 		n_o_c = (n_o_c < number_of_loci)?n_o_c:(number_of_loci - 1);
 		crossover_points.resize(n_o_c);
-		for (int c = 0; c < n_o_c; c++)
-			crossover_points[c] = gsl_rng_uniform_int(evo_generator,number_of_loci - 1) + 1;
+		for(vector<int>::iterator cp_iter = crossover_points.begin(); cp_iter != crossover_points.end(); cp_iter++)
+			(*cp_iter) = gsl_rng_uniform_int(evo_generator,number_of_loci - 1) + 1;
 		sort(crossover_points.begin(), crossover_points.end());
 	}
 
@@ -930,12 +947,12 @@ void haploid_highd::crossover_pattern() {
 	rec_pattern.clear();
 	//start with an empty bitset and extend to crossovers[c] with origing =0,1
 	if (HP_VERBOSE>2) cerr<<" n_o_c: "<<n_o_c<<" origin "<<origin<<endl;
-	for (int c = 0; c < crossover_points.size(); c++){
+	for(vector<int>::iterator cp_iter = crossover_points.begin(); cp_iter != crossover_points.end(); cp_iter++) {
 		if (HP_VERBOSE>2) {
-			cerr<<" xo: "<<crossover_points[c]<<" origin "<<origin<<endl;
+			cerr<<" xo: "<<(*cp_iter)<<" origin "<<origin<<endl;
 			cerr<<rec_pattern<<endl;
 		}
-		rec_pattern.resize(crossover_points[c], origin);
+		rec_pattern.resize((*cp_iter), origin);
 		origin = !origin; //toggle origin
 	}
 	//extend to full length
@@ -961,7 +978,7 @@ void haploid_highd::reassortment_pattern() {
 	//the blocks of the bitset are to long for the rng, hence divide them by 4
 	//TODO: this looks quite suspicious
 	int bpblock = rec_pattern.bits_per_block / 4;
-	long unsigned int temp_rec_pattern;
+	long unsigned int temp_rec_pattern=0;
 	int bits_left = number_of_loci, still_to_append;
 
 	//set the random bitset with bpblock at a time
@@ -1023,7 +1040,7 @@ void haploid_highd::produce_random_sample(int size) {
 	double frac = 1.1*(size+50)/population_size;
 	//loop over all clones and choose a poisson distributed number of genoytpes
 	unsigned int i = 0, cs;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i<last_clone+1); pop_iter++, i++) {
+	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < (unsigned int)(last_clone + 1)); pop_iter++, i++) {
 		cs= pop_iter->clone_size;
 		if (cs > 0) {
 			thechosen = gsl_ran_poisson(evo_generator, frac*cs);
@@ -1142,14 +1159,14 @@ double haploid_highd::relaxation_value() {
 void haploid_highd::calc_fitness_stat() {
 	if (HP_VERBOSE) {cerr <<"haploid_highd::calc_fitness_stat()...";}
 
-	double temp,temp1;
-	int t,t1, csize;
+	double temp;
+	int csize;
 	fitness_stat.mean = 0;
 	fitness_stat.variance = 0;
 	population_size = 0;
 	//loop over clones and add stuff up
 	unsigned int i = 0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < last_clone + 1); pop_iter++, i++) {
+	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < (unsigned int)(last_clone + 1)); pop_iter++, i++) {
 		csize = pop_iter->clone_size;
 		if (csize > 0) {
 			temp = pop_iter->fitness;
@@ -1186,7 +1203,7 @@ double haploid_highd::get_logmean_expfitness() {
 	double logmean_expfitness = 0;
 	//loop over clones and add stuff up
 	unsigned int i=0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < last_clone + 1); pop_iter++,i++)
+	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < (unsigned int)(last_clone + 1)); pop_iter++,i++)
 		if (pop_iter->clone_size > 0)
 			logmean_expfitness += pop_iter->clone_size * exp(pop_iter->fitness - fitness_max);
 	logmean_expfitness /= population_size;
@@ -1219,7 +1236,7 @@ void haploid_highd::calc_trait_stat() {
 
 	//loop over clones and add stuff up
 	unsigned int i=0;
-	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < last_clone + 1); pop_iter++,i++) {
+	for(vector<clone_t>::iterator pop_iter = population.begin(); pop_iter != population.end() && (i < (unsigned int)(last_clone + 1)); pop_iter++,i++) {
 		csize = pop_iter->clone_size;
 		if (csize>0) {
 			for(t = 0; t < number_of_traits; t++) {
@@ -1480,15 +1497,14 @@ int haploid_highd::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
 	unsigned int pos;
 
 	// check that the chunks make sense
-	if((every<1) or (every>=number_of_loci)) return HP_BADARG;
-	for(int i = 0; i < chunks->size(); i++) {
-		if((*chunks)[i][1] <= (*chunks)[i][0]) return HP_BADARG;
-		if((*chunks)[i][1] >= number_of_loci) return HP_BADARG;
-		if((*chunks)[i][0] >= number_of_loci) return HP_BADARG;
+	if((every < 1) or (every >= (unsigned int)number_of_loci)) return HP_BADARG;
+	for(vector<unsigned int *>::iterator ck_iter = chunks->begin(); ck_iter != chunks->end(); ck_iter++) {
+		if((*ck_iter)[1] < (*ck_iter)[0]) return HP_BADARG;
+		if((*ck_iter)[1] >= (unsigned int)number_of_loci) return HP_BADARG;
+		if((*ck_iter)[0] >= (unsigned int)number_of_loci) return HP_BADARG;
 		
-		for(pos = (*chunks)[i][0]; pos < (*chunks)[i][1]; pos += every) {
+		for(pos = (*ck_iter)[0]; pos < (*ck_iter)[1]; pos += every)
 			d += (unsigned int)(gt1[pos] != gt2[pos]);
-		}
 	}
 	return d;
 }
@@ -1508,10 +1524,14 @@ int haploid_highd::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
  * *Note*: the vector is taken in input by reference for performance reasons, since it can get huge.
  */
 int haploid_highd::partition_cumulative(vector <unsigned int> &partition_cum) {	
+	if(population.size() == 0)
+		return HP_EXTINCTERR;
+
+	partition_cum.clear();
 	partition_cum.push_back(population[0].clone_size);
-	for (size_t i = 1; i < get_number_of_clones(); i++) {
-		partition_cum.push_back(population[i].clone_size + partition_cum[i-1]);
-	}
+	if(population.size() > 1) 
+		for(vector<clone_t>::iterator pop_iter = population.begin() + 1; pop_iter != population.end(); pop_iter++)
+			partition_cum.push_back(pop_iter->clone_size + partition_cum.back());
 	return 0;
 }
 
@@ -1687,7 +1707,7 @@ int haploid_highd::get_divergence_histogram(gsl_histogram **hist, unsigned int b
 	unsigned long dmin = *min_element(divs, divs + n_sample);
 
 	// Antialiasing
-	int width, binsnew;
+	unsigned int width, binsnew;
 	if (dmin == dmax)
 		width = 1;
 	else {
@@ -1761,7 +1781,7 @@ int haploid_highd::get_diversity_histogram(gsl_histogram **hist, unsigned int bi
 	unsigned long dmin = *min_element(divs, divs + n_sample);
 
 	// Aliasing
-	int width, binsnew;
+	unsigned int width, binsnew;
 	if (dmin == dmax)
 		width = 1;
 	else {
@@ -1819,7 +1839,7 @@ void haploid_highd::unique_clones() {
 		population_size += pop_iter->clone_size;
 		pop_iter++;
 		i++;
-		for(; pop_iter != population.end() && (i < last_clone + 1); pop_iter++,i++) {
+		for(; pop_iter != population.end() && (i < (unsigned int)(last_clone + 1)); pop_iter++,i++) {
 		//for(; pop_iter != population.end(); pop_iter++,i++) {
 			if (pop_iter->clone_size > 0){
 				if((*pop_iter) == (*current_last_clone)) {

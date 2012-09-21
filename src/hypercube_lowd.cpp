@@ -36,7 +36,7 @@ hypercube_lowd::hypercube_lowd(int dim_in, int s) {
 
 //check consistency of input dimension and call allocation routine, seed for the rng is provided (s)
 int hypercube_lowd::set_up(int dim_in, int s) {
-	if (dim_in<=8*sizeof(int) && dim_in>0) {
+	if (dim_in>0 && (unsigned int)dim_in <= 8*sizeof(int)) {
 		if (HC_VERBOSE) cerr<<"hypercube_lowd::set_up(): setting up...!";
 		dim=dim_in;
 		mem=false;
@@ -107,9 +107,6 @@ int hypercube_lowd::free_mem()
 //initialize the coefficients such that terms of order k contribute a variance var[k]
 //coefficients are gaussian random numbers.
 int hypercube_lowd::gaussian_coefficients(double* var, bool add) {
-	int temp;
-	double sigma;
-
 	if (add and state==HC_FUNC) fft_func_to_coeff();
 
 	coeff[0]=0;		//constant coefficient is set to zero
@@ -118,8 +115,7 @@ int hypercube_lowd::gaussian_coefficients(double* var, bool add) {
 	//loop over all coefficients
 	for (int k=1; k<(1<<dim); k++)
 	{
-		sigma=sqrt(var[k]);
-		temp=order[k];
+		int temp=order[k];
 		if (var[temp]>0)
 		{
 			//init with gaussian random number of zero mean and unit  variance
@@ -171,11 +167,10 @@ int hypercube_lowd::argmax()
 double hypercube_lowd::valuemax()
 {
 	if (state==HC_COEFF) fft_coeff_to_func();
-	int max_index=0;
 	double max_value=func[0];
-	for (int i=0; i<(1<<dim); i++){
-		if (func[i]>max_value) {max_index=i; max_value=func[i];}
-	}
+	for (int i=0; i<(1<<dim); i++)
+		if (func[i]>max_value)
+			max_value=func[i];
 	return max_value;
 }
 
@@ -476,7 +471,7 @@ int hypercube_lowd::read_func(istream &in)
 //101011 65.432
 int hypercube_lowd::read_func_labeled(istream &in)
 {
-	int i, count;
+	int i=0, count;
 	char gt[dim+2];
 	if (in.bad())
 	{

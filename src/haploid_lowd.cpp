@@ -34,11 +34,21 @@ size_t haploid_lowd::number_of_instances=0;
  * @param L_in number of loci (at least 1)
  * @param rngseed seed for the random number generator. If this is zero, time(NULL)+getpid() is used.
  */
-haploid_lowd::haploid_lowd(int L_in, int rng_seed) : number_of_loci(L_in), population_size(0), mem(false), recombination_model(FREE_RECOMBINATION), outcrossing_rate(1.0), circular(false), generation(0), long_time_generation(0) {
+haploid_lowd::haploid_lowd(int L_in, int rng_seed) {
 	if (L_in <1) {
 		cerr <<"haploid_lowd::haploid_lowd(): Bad Arguments! L must be larger or equal one."<<endl;
 		throw HG_BADARG;
 	}
+
+	// Set attributes
+	number_of_loci = L_in;
+	population_size = 0;
+	recombination_model = FREE_RECOMBINATION;
+	mem = false;
+	outcrossing_rate = 1.0;
+	circular = false;
+	generation = 0;
+	long_time_generation = 0;
 
 	//In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
@@ -411,9 +421,6 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 int haploid_lowd::set_recombination_rates_single_crossover(double *rec_rates) {
 	if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates_single_crossover()...";
 
-	int marg_locus, higher_order_subset, higher_order_rec_pattern;
-	double *rptemp;
-
 	// recombination_patterns[0][locus] is the probability of the pattern with the crossover immediately AFTER locus
 	double sum = 0;
 	for (int locus = 0; locus != number_of_loci - 1; locus++) {
@@ -441,7 +448,6 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 	// 1. calculate the patterns with all L loci;
 	// 2. find patterns with k < L loci via successive marginalizations;
 	double * patterns_order_L = recombination_patterns[(1<<number_of_loci) - 1];
-	int marg_locus, higher_order_subset, higher_order_rec_pattern;
 
 	// 1. calculate the probabilities of different crossover realizations
 	int strand = 0, newstrand, strandswitches;
@@ -513,7 +519,7 @@ int haploid_lowd::set_recombination_patterns(vector<index_value_pair_t> iv){
 	// set the specified recombination patterns
 	vector<index_value_pair_t>::iterator pair;
 	for (pair=iv.begin();pair!=iv.end(); pair++)
-		if((pair->index < (1<<number_of_loci)) and (pair->val > 0)) {
+		if((pair->index < (unsigned int)(1<<number_of_loci)) and (pair->val > 0)) {
 			//parents are symmetric, hence assign the complementary pattern the same value
 			patterns_order_L[pair->index] = pair->val;
 			patterns_order_L[~(int)(pair->index)] = pair->val;
@@ -929,7 +935,7 @@ int haploid_lowd::calculate_recombinants_free() {
 int haploid_lowd::calculate_recombinants_single() {
 	if (HG_VERBOSE) cerr<<"haploid_lowd::calculate_recombinants_single()...";
 
-	int i,j,k, maternal_alleles, paternal_alleles, count, rec_pattern, crossover_point, set_size, l;
+	int maternal_alleles, paternal_alleles, rec_pattern, crossover_point;
 
 	// prepare hypercubes
 	population.fft_func_to_coeff();
@@ -942,7 +948,7 @@ int haploid_lowd::calculate_recombinants_single() {
 	double *RP = recombination_patterns[0];
 
 	//loop of all coefficients of the distribution of recombinants
-	for (i=1; i<(1<<number_of_loci); i++) {
+	for (int i=1; i<(1<<number_of_loci); i++) {
 		// two things can happen:
 		// 1. everything is contributed by the same parent i
 		recombinants.coeff[i] = 2*RP[number_of_loci-1] * population.coeff[i] * population.coeff[0];

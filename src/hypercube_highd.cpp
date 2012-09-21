@@ -262,6 +262,7 @@ int hypercube_highd::add_coefficient(double value, vector <int> loci)
  * Note: it requires the index of the coefficient and the locus it is supposed to refer to.
  */
 int hypercube_highd::set_additive_coefficient(double value, int lindex, int expected_locus)
+// TODO: do we need this function at all?
 {
 	//check whether the locus is what was expected
 	if (coefficients_single_locus[lindex].locus==expected_locus){
@@ -271,6 +272,7 @@ int hypercube_highd::set_additive_coefficient(double value, int lindex, int expe
 		cerr <<"hypercube_highd::set_additive_coefficient: coefficient[locus] does not match locus: "<<coefficients_single_locus[lindex].locus<<"  "<<expected_locus<<endl;
 		return HCF_BADARG;
 	}
+	return 0;
 }
 
 /**

@@ -3331,7 +3331,7 @@ SWIG_AsVal_int (PyObject * obj, int *val)
 
 SWIGINTERN char const *index_value_pair_t___str__(index_value_pair_t *self){
         static char buffer[255];
-        sprintf(buffer,"index: %u, val: %.2e", self->index, self->val);
+        sprintf(buffer,"index: %u, val: %.2e", (unsigned int)self->index, self->val);
         return &buffer[0];
 }
 
@@ -3377,7 +3377,7 @@ SWIG_FromCharPtr(const char *cptr)
 
 SWIGINTERN char const *index_value_pair_t___repr__(index_value_pair_t *self){
         static char buffer[255];
-        sprintf(buffer,"(%u, %.2e)", self->index, self->val);
+        sprintf(buffer,"(%u, %.2e)", (unsigned int)self->index, self->val);
         return &buffer[0];
 }
 SWIGINTERN char const *genotype_value_pair_t___str__(genotype_value_pair_t *self){
@@ -3868,19 +3868,19 @@ SWIGINTERNINLINE PyObject*
 
 SWIGINTERN char const *haploid_lowd___str__(haploid_lowd *self){
         static char buffer[255];
-        sprintf(buffer,"haploid_lowd: L = %d, N = %f", (long)self->L(), self->N());
+        sprintf(buffer,"haploid_lowd: L = %d, N = %f", (int)self->L(), self->N());
         return &buffer[0];
 }
 SWIGINTERN char const *haploid_lowd___repr__(haploid_lowd *self){
         static char buffer[255];
-        sprintf(buffer,"<haploid_lowd(%d, %g)>", (long)self->L(), self->N());
+        sprintf(buffer,"<haploid_lowd(%d, %g)>", (int)self->L(), self->N());
         return &buffer[0];
 }
 SWIGINTERN int haploid_lowd__set_allele_frequencies(haploid_lowd *self,int DIM1,double *IN_ARRAY1,unsigned long N){return self->set_allele_frequencies(IN_ARRAY1, N);}
 SWIGINTERN int haploid_lowd__set_genotypes(haploid_lowd *self,int len1,double *indices,int len2,double *vals){
         vector<index_value_pair_t> gt;
         index_value_pair_t temp;
-        for(size_t i = 0; i != len1; i++) {
+        for(size_t i = 0; i != (size_t)len1; i++) {
                 temp.index = (int)indices[i];
                 temp.val = vals[i];
                 gt.push_back(temp);
@@ -3896,13 +3896,13 @@ SWIGINTERN int haploid_lowd__set_mutation_rates(haploid_lowd *self,double *IN_AR
         return result;
 }
 SWIGINTERN void haploid_lowd__get_fitnesses(haploid_lowd *self,int DIM1,double *ARGOUT_ARRAY1){
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = self->get_fitness(i);
 }
 SWIGINTERN int haploid_lowd__set_fitness_func(haploid_lowd *self,int len1,double *indices,int len2,double *vals){
         vector<index_value_pair_t> iv;
         index_value_pair_t temp;
-        for(size_t i = 0; i != len1; i++) {
+        for(size_t i = 0; i != (size_t)len1; i++) {
                 temp.index = (int)indices[i];
                 temp.val = vals[i];
                 iv.push_back(temp);
@@ -3917,7 +3917,7 @@ SWIGINTERN void haploid_lowd_set_fitness_additive(haploid_lowd *self,int DIM1,do
 }
 SWIGINTERN char const *clone_t___str__(clone_t *self){
         static char buffer[255];
-        sprintf(buffer,"clone: %d traits, genome size = %d", (self->trait).size(), (self->genotype).size());
+        sprintf(buffer,"clone: %u traits, genome size = %u", (unsigned int)(self->trait).size(), (unsigned int)(self->genotype).size());
         return &buffer[0];
 }
 SWIGINTERN char const *clone_t___repr__(clone_t *self){
@@ -3929,7 +3929,7 @@ SWIGINTERN int clone_t__get_number_of_traits(clone_t *self){
         return (self->trait).size();
 }
 SWIGINTERN void clone_t__get_trait(clone_t *self,int DIM1,double *ARGOUT_ARRAY1){
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = (self->trait)[i];
 }
 SWIGINTERN int clone_t__get_genotype_length(clone_t *self){return (self->genotype).size();}
@@ -3976,9 +3976,9 @@ SWIGINTERN int haploid_highd__set_genotypes(haploid_highd *self,int len1,double 
         len1 /= len2;
         vector<genotype_value_pair_t> gt;
         genotype_value_pair_t temp;
-        for(size_t i = 0; i != len2; i++) {
+        for(size_t i = 0; i != (size_t)len2; i++) {
                 temp.genotype = boost::dynamic_bitset<>(len1);
-                for(size_t j=0; j < len1; j++)
+                for(size_t j=0; j < (size_t)len1; j++)
                         temp.genotype[j] = (bool)genotypes[i * len1 + j];
                 temp.val = vals[i];
                 gt.push_back(temp);
@@ -3986,12 +3986,12 @@ SWIGINTERN int haploid_highd__set_genotypes(haploid_highd *self,int len1,double 
         return self->set_genotypes(gt);
 }
 SWIGINTERN void haploid_highd__get_allele_frequencies(haploid_highd *self,double *ARGOUT_ARRAY1,int DIM1){
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = self->get_allele_frequency(i);
 }
 SWIGINTERN void haploid_highd__get_genotype(haploid_highd *self,unsigned int n,short *ARGOUT_ARRAY1,int DIM1){
         boost::dynamic_bitset<> newgt = (self->population)[n].genotype;
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = newgt[i];
 }
 SWIGINTERN void haploid_highd__get_trait_additive(haploid_highd *self,double *ARGOUT_ARRAY1,int DIM1,int t){
@@ -4000,7 +4000,7 @@ SWIGINTERN void haploid_highd__get_trait_additive(haploid_highd *self,double *AR
                 throw HP_BADARG;
 
         /* Initialize to zero */
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = 0;
 
         /* Add any coefficient you found */
@@ -4025,7 +4025,7 @@ SWIGINTERN void haploid_highd__get_trait_weights(haploid_highd *self,double *ARG
                 throw HP_BADARG; 
 
         /* set the output array */
-        for(size_t t=0; t < DIM1; t++)
+        for(size_t t=0; t < (size_t)DIM1; t++)
                 ARGOUT_ARRAY1[t] = self->get_trait_weight(t);
 }
 SWIGINTERN void haploid_highd_set_trait_additive(haploid_highd *self,int DIM1,double *IN_ARRAY1,int t=0){
@@ -4041,7 +4041,7 @@ SWIGINTERN void haploid_highd_set_trait_additive(haploid_highd *self,int DIM1,do
         
         /* set the new coefficients */
         vector <int> loci(1,0);
-        for(size_t i = 0; i < DIM1; i++) {
+        for(size_t i = 0; i < (size_t)DIM1; i++) {
                 if(abs(IN_ARRAY1[i]) > HP_NOTHING) {
                         loci[0] = i;
                         self->add_trait_coefficient(IN_ARRAY1[i], loci, t);
@@ -4065,7 +4065,7 @@ SWIGINTERN void haploid_highd_set_fitness_additive(haploid_highd *self,int DIM1,
         
         /* set the new coefficients */
         vector <int> loci(1,0);
-        for(size_t i = 0; i < DIM1; i++) {
+        for(size_t i = 0; i < (size_t)DIM1; i++) {
                 if(abs(IN_ARRAY1[i]) > HP_NOTHING) {
                         loci[0] = i;
                         self->add_trait_coefficient(IN_ARRAY1[i], loci, 0);
@@ -4077,14 +4077,14 @@ SWIGINTERN void haploid_highd_set_fitness_additive(haploid_highd *self,int DIM1,
         self->update_fitness();
 }
 SWIGINTERN void haploid_highd__get_fitnesses(haploid_highd *self,int DIM1,double *ARGOUT_ARRAY1){
-        for(size_t i=0; i < DIM1; i++)
+        for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = self->get_fitness(i);
 }
 SWIGINTERN void haploid_highd_random_clones(haploid_highd *self,int DIM1,unsigned int *ARGOUT_ARRAY1){
         vector <int> sample = vector <int>(0);
         int err = self->random_clones(DIM1, &sample);
         if(!err)
-                for(size_t i=0; i < DIM1; i++)
+                for(size_t i=0; i < (size_t)DIM1; i++)
                         ARGOUT_ARRAY1[i] = sample[i];
 }
 SWIGINTERN char const *hivgene___str__(hivgene *self){
@@ -5304,7 +5304,7 @@ SWIGINTERN PyObject *_wrap_haploid_lowd__set_recombination_rates(PyObject *SWIGU
     
     /* Get circular and L properties from the class (we are in the Python world here) */
     bool circular = (bool)PyInt_AsLong(PyObject_GetAttrString(obj0, "circular"));
-    long Lint = PyInt_AsLong(PyObject_GetAttrString(obj0, "L"));
+    unsigned long Lint = PyInt_AsLong(PyObject_GetAttrString(obj0, "L"));
     
     /* Check lengths */
     if((!(circular)) && (L != Lint - 1)) {
