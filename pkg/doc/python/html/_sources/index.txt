@@ -21,6 +21,8 @@ In addition, the underlying C++ library is documented `here
 <../../cpp/html/index.html>`_. Note that some objects and functions have
 slightly different names in C++ and Python.
 
+.. _examples_main:
+
 Examples
 ---------------------
 Usage examples of FFPopSim can be found at the following pages.

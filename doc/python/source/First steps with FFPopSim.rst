@@ -42,7 +42,7 @@ are untested.
 
 Examples
 --------
-See the main page for examples.
+See the main page for :ref:`examples <examples_main>`.
 
 
 .. _iPython: http://ipython.org/
