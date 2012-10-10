@@ -8,6 +8,8 @@
 #ifndef GENEALOGY_H_
 #define GENEALOGY_H_
 #define GEN_VERBOSE 1
+#define GEN_VERYLARGE 10000000
+#define GEN_CHILDNOTFOUND -35343
 #include <map>
 #include <vector>
 #include <iostream>
@@ -21,7 +23,7 @@ struct key_t {
 	int age;
 	bool operator==(const key_t &other)  {return (age == other.age) && (index == other.index);}
 	bool operator!=(const key_t &other)  {return (age != other.age) || (index != other.index);}
-	bool operator<(const key_t &other)  {
+	bool operator<(const key_t &other) const {
                 if(age < other.age) return true;
                 else if (age > other.age) return false;
                 else { return (index<other.index); }
@@ -39,6 +41,7 @@ struct node_t{
 	double fitness;
 	key_t own_key;
 	int number_of_offspring;
+	int clone_size;
 	int crossover[2];
 };
 
@@ -55,17 +58,25 @@ class genealogy{
 	map < key_t , edge_t > edges;
 	map < key_t , node_t > nodes;
 	vector <key_t> leafs;
+	key_t root;
+	key_t MRCA;
 
 public:
 	genealogy();
 	~genealogy();
 
-	void add_generation(vector <node_t> &new_generation);
+	void reset();
+	void add_generation(vector <node_t> &new_generation, double mean_fitness);
 	key_t erase_edge_node(key_t to_be_erased);
 	key_t bridge_edge_node(key_t to_be_bridged);
 	int external_branch_length();
 	int total_branch_length();
 	void clear_tree();
+	void update_leaf_to_root(key_t leaf_key);
+	void update_tree();
+	void SFS(gsl_histogram *sfs);
+	key_t get_MRCA(){return MRCA;};
+	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
 };
 
 #endif /* GENEALOGY_H_ */

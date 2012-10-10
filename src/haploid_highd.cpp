@@ -224,6 +224,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	// reset the current population
 	population.clear();
 	available_clones.clear();
+	clear_genealogies();
 	population_size = 0;
 	number_of_clones = 0;
 	last_clone = 0;
@@ -245,6 +246,13 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 
 	// Calculate all statistics to be sure
 	calc_stat();
+	//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
+	for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+		if (HP_VERBOSE) cerr<<"haploid_highd::set_allele_frequencies()... adding generation to genealogy, locus = "<<genealogy_loci[locus];
+		genealogies[locus].reset();
+		genealogies[locus].add_generation(current_locus_population[locus],fitness_max);
+		if (HP_VERBOSE) cerr<<"...done\n";
+	}
 
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
@@ -267,6 +275,8 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	// Clear population
 	population.clear();
 	available_clones.clear();
+	clear_genealogies();
+
 	population_size = 0;
 	random_sample.clear();
 
@@ -287,6 +297,15 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 
 	// Calculate all statistics to be sure
 	calc_stat();
+
+	//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
+	for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+		if (HP_VERBOSE) cerr<<"haploid_highd::set_genotypes()... adding generation to genealogy, locus = "<<genealogy_loci[locus];
+		genealogies[locus].reset();
+		genealogies[locus].add_generation(current_locus_population[locus],fitness_max);
+		if (HP_VERBOSE) cerr<<"...done\n";
+	}
+
 
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
@@ -313,6 +332,8 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 	// Clear population
 	population.clear();
 	available_clones.clear();
+	clear_genealogies();
+
 	population_size = 0;
 	number_of_clones = 0;
 	last_clone = 0;
@@ -329,10 +350,41 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 
 	// Calculate all statistics to be sure
 	calc_stat();
+	//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
+	for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+		if (HP_VERBOSE) cerr<<"haploid_highd::set_wildtype()... adding generation to genealogy, locus = "<<genealogy_loci[locus];
+		genealogies[locus].reset();
+		genealogies[locus].add_generation(current_locus_population[locus],fitness_max);
+		if (HP_VERBOSE) cerr<<"...done\n";
+	}
 
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
+
+/**
+
+ * @brief Designates as set of loci to have their genealogy tracked
+ *
+ * @params locus to be tracked
+ */
+int haploid_highd::track_locus_genealogy(vector <int> loci)
+{
+	if(HP_VERBOSE){cerr <<"haploid_highd::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
+	genealogy_loci.clear();
+	genealogies.reserve(loci.size());
+	for (unsigned int i=0; i<loci.size(); i++){
+		genealogy temp_gen;
+		vector <node_t> temp;
+		genealogies.push_back(temp_gen);
+		genealogy_loci.push_back(loci[i]);
+		current_locus_population.push_back(temp);
+	}
+
+	if (HP_VERBOSE){cerr<<"done\n";}
+	return 0;
+}
+
 
 /**
  * @brief calculate and store allele frequencies
@@ -444,6 +496,21 @@ int haploid_highd::evolve(int gen) {
 
 	// evolve cycle
 	while((err == 0) && (g < gen)) {
+		if (current_locus_population.size()){
+			node_t temp_ancestor;
+			temp_ancestor.own_key.age=generation+1; temp_ancestor.own_key.index=-1;
+			temp_ancestor.parent_edge.age=generation; temp_ancestor.own_key.index=-1;
+			temp_ancestor.fitness = 0;
+			temp_ancestor.number_of_offspring = 0;
+			temp_ancestor.clone_size = 0;
+			temp_ancestor.crossover[0] = 0;
+			temp_ancestor.crossover[1] = number_of_loci;
+			for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+				current_locus_population[locus].clear();
+				current_locus_population[locus].resize(population.size(), temp_ancestor);
+			}
+		}
+
 		if (HP_VERBOSE) cerr<<"generation "<<generation<<endl;
 		random_sample.clear();			//discard the old random sample
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
@@ -456,6 +523,13 @@ int haploid_highd::evolve(int gen) {
 		random_sample.clear();			//discard the old random sample
 		g++;
 		generation++;
+
+		//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
+		for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+			if (HP_VERBOSE) cerr<<"haploid_highd::evolve(int gen)... adding generation to genealogy, locus = "<<genealogy_loci[locus];
+			genealogies[locus].add_generation(current_locus_population[locus],fitness_max);
+		}
+
 	}
 	if (HP_VERBOSE) {
 		if(err==0) cerr<<"done."<<endl;
@@ -523,6 +597,18 @@ int haploid_highd::select_gametes() {
 				fitness_max = fmax(fitness_max, pop_iter->fitness);
 				new_last_clone = clone_index;
 				number_of_clones++;
+
+				if (current_locus_population.size()){
+					for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+						current_locus_population[locus][clone_index].own_key.index=clone_index;
+						current_locus_population[locus][clone_index].parent_edge.index=clone_index;
+						current_locus_population[locus][clone_index].own_key.age=generation;
+						current_locus_population[locus][clone_index].parent_edge.age=generation-1;
+						current_locus_population[locus][clone_index].number_of_offspring=1;
+						current_locus_population[locus][clone_index].clone_size=os;
+						current_locus_population[locus][clone_index].fitness=pop_iter->fitness;
+					}
+				}
 			} else {
 				pop_iter->clone_size = 0;
 				if (nrec == 0)
@@ -697,6 +783,16 @@ unsigned int haploid_highd::flip_single_locus(unsigned int clonenum, int locus) 
 	else
 		number_of_clones++;
 
+	for (unsigned int genlocus=0; genlocus<genealogy_loci.size(); genlocus++){
+		current_locus_population[genlocus][new_clone] =current_locus_population[genlocus][clonenum];
+		current_locus_population[genlocus][new_clone] =current_locus_population[genlocus][clonenum];
+		current_locus_population[genlocus][new_clone].own_key.index=new_clone;
+		current_locus_population[genlocus][new_clone].number_of_offspring=1;
+		current_locus_population[genlocus][new_clone].clone_size=1;
+		current_locus_population[genlocus][clonenum].clone_size--;
+	}
+
+
 	if (HP_VERBOSE >= 2) cerr <<"subpop::flip_single_spin(): mutated individual in clone "<<clonenum<<" at locus "<<locus<<endl;
 	return new_clone;
 }
@@ -799,6 +895,20 @@ int haploid_highd::recombine(int parent1, int parent2) {
 	}
 
 	population_size+=2;
+
+	for (unsigned int genlocus=0; genlocus<genealogy_loci.size(); genlocus++){
+		int brleft=genealogy_loci[genlocus], brright=genealogy_loci[genlocus];
+		bool state = rec_pattern[genealogy_loci[genlocus]];
+		while (rec_pattern[brleft]==state and brleft>0){brleft--;}
+		while (rec_pattern[brright]==state and brright<number_of_loci){brright++;}
+		if (state==1){
+			current_locus_population[genlocus][offspring_num1].parent_edge.index=parent1;
+			current_locus_population[genlocus][offspring_num2].parent_edge.index=parent2;
+		}else{
+			current_locus_population[genlocus][offspring_num1].parent_edge.index=parent2;
+			current_locus_population[genlocus][offspring_num2].parent_edge.index=parent1;
+		}
+	}
 
 	if(HP_VERBOSE >= 2) cerr<<"done."<<endl;
 	return 0;
@@ -1130,6 +1240,20 @@ void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
 		population_size += n;
 		last_clone = (new_gt < last_clone)?last_clone:new_gt;
 		number_of_clones++;
+
+		if (current_locus_population.size()){
+			node_t leaf;
+			leaf.fitness = population[new_gt].fitness;
+			leaf.own_key.age=generation;
+			leaf.own_key.index=new_gt;
+			leaf.number_of_offspring = 1;
+			leaf.crossover[0]=0;
+			leaf.crossover[1]=number_of_loci;
+			for (unsigned int genlocus=0; genlocus<genealogy_loci.size(); genlocus++){
+				leaf.parent_edge = genealogies[genlocus].get_MRCA();
+				current_locus_population[genlocus].push_back(leaf);
+			}
+		}
 	}
 }
 

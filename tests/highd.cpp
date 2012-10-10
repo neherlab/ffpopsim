@@ -143,6 +143,59 @@ int pop_evolve() {
 	return 0;	
 }
 
+
+/* Test evolution */
+int genealogy() {
+	int L = 1000;
+	int N = 20;
+
+	haploid_highd pop(L);
+
+	pop.mutation_rate = 1e-3;
+	pop.outcrossing_rate = 0;
+	pop.crossover_rate = 1e-2;
+	pop.recombination_model = CROSSOVERS;
+	pop.set_wildtype(N);		// start with a population of the right size
+
+	vector <int> loci;
+	for(int i=0; i< L; i++) {
+		loci.assign(1, i);
+		pop.add_fitness_coefficient(0.01, loci);
+		loci.clear();
+	}
+
+	vector <int> gen_loci;
+	gen_loci.push_back(100);
+	pop.track_locus_genealogy(gen_loci);
+
+	stat_t fitstat;
+	for (int i=0; i< 10; i++) {
+		pop.evolve();
+		pop.calc_stat();
+		fitstat = pop.get_fitness_statistics();
+		cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+	}
+	pop.calc_stat();
+
+	stat_t fitness = pop.get_fitness_statistics();
+
+	if(HIGHD_VERBOSE) {
+		double af = 0;
+		double tmp;
+		for(int i=0; i< L; i++) {
+			tmp = pop.get_allele_frequency(i);
+			af = MAX(af, tmp);
+		}
+
+		cerr<<"Generation: "<<pop.get_generation()<<endl;
+		cerr<<"Max allele freq: "<<af<<endl;
+		cerr<<"Fitness mean and variance: "<<fitness.mean<<", "<<fitness.variance<<endl;
+	}
+
+	return 0;
+}
+
+
 /* Test random sampling */
 int pop_sampling() {
 	int L = 100;
@@ -417,7 +470,8 @@ int main(int argc, char **argv){
 //		status += hc_initialize();
 //		status += hc_setting();
 //		status += pop_initialize();
-		status += pop_evolve();
+//		status += pop_evolve();
+		status += genealogy();
 //		status += pop_sampling();
 //		status += pop_Hamming();
 //		status += pop_divdiv();

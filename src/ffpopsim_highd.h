@@ -31,6 +31,7 @@
 #ifndef FFPOPSIM_HIGHD_H_
 #define FFPOPSIM_HIGHD_H_
 #include "ffpopsim_generic.h"
+#include "genealogy.h"
 
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
@@ -239,6 +240,8 @@ public:
 	int set_allele_frequencies(double *freq, unsigned long N);
 	int set_genotypes(vector <genotype_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
+	int track_locus_genealogy(vector <int> loci);
+	int clear_genealogies() {genealogy_loci.clear(); genealogies.clear(); current_locus_population.clear(); return 0;}
 
 	// modify population
 	void add_genotype(boost::dynamic_bitset<> genotype, int n=1);
@@ -312,6 +315,7 @@ public:
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 
 	vector <clone_t> population;
+	vector <genealogy> genealogies;
 
 protected:
 	// random number generator
@@ -321,6 +325,10 @@ protected:
 	int get_random_seed();
 	vector <int> random_sample;
 	void produce_random_sample(int size=1000);
+
+	//genealogy
+	vector <int> genealogy_loci;
+	vector < vector < node_t > > current_locus_population;
 
 	// population parameters
 	int number_of_loci;
