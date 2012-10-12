@@ -71,7 +71,6 @@ void genealogy::add_generation(vector <node_t> &new_generation, double mean_fitn
 			nodes[new_leaf->parent_edge].child_edges.push_back(new_key);
 			edges.insert(pair<key_t,edge_t>(new_key, new_edge));
 			nodes.insert(pair<key_t,node_t>(new_key, *new_leaf));
-			cerr <<new_key.age<<"  "<<new_key.index<<"  "<<new_leaf->number_of_offspring<<"  "<<new_leaf->clone_size<<endl;
 		}
 	}
 
@@ -86,13 +85,12 @@ void genealogy::add_generation(vector <node_t> &new_generation, double mean_fitn
 	key_t parent_key;
 	for(vector <key_t>::iterator old_leaf_key=leafs.begin(); old_leaf_key!=leafs.end(); old_leaf_key++){
 		node_pos = nodes.find(*old_leaf_key);
-		cerr <<node_pos->second.child_edges.size()<<endl;
 		if (node_pos->second.child_edges.size()==0){
 			parent_key = erase_edge_node(*old_leaf_key);
 			while (nodes[parent_key].child_edges.size()==0){
 				parent_key = erase_edge_node(parent_key);
 			}
-			while (nodes[parent_key].child_edges.size()==1 and parent_key!=MRCA){
+			while (nodes[parent_key].child_edges.size()==1 and parent_key!=root){
 				parent_key = bridge_edge_node(parent_key);
 			}
 		}else if (node_pos->second.child_edges.size()==1){
@@ -118,9 +116,7 @@ void genealogy::add_generation(vector <node_t> &new_generation, double mean_fitn
 		cerr <<"genealogy::add_generation(). genealogy size: "<<edges.size()<<" edges, "<<nodes.size()<<" nodes "<<endl;
 	}
 	clear_tree();
-	cerr <<"genealogy::add_generation(): total of "<< nodes.find(MRCA)->second.number_of_offspring<<" offspring"<<endl;
 	update_tree();
-	cerr <<"genealogy::add_generation(): total of "<< nodes.find(MRCA)->second.number_of_offspring<<" offspring"<<endl;
 	return;
 }
 
@@ -144,17 +140,13 @@ key_t genealogy::erase_edge_node(key_t to_be_erased){
 	Pnode->second.number_of_offspring-=Eedge->second.number_of_offspring;
 	Pedge->second.number_of_offspring-=Eedge->second.number_of_offspring;
 
-	cerr <<"genealogy::erase_edge_node(): removed number of offspring"<<endl;
 
 	if (erase_child(Pnode, to_be_erased)==GEN_CHILDNOTFOUND){
 		cerr <<"genealogy::erase_edge_node(): child not found"<<endl;
 	}
 
-	cerr <<"genealogy::erase_edge_node(): erased child"<<endl;
-
 	nodes.erase(to_be_erased);
 	edges.erase(to_be_erased);
-	cerr <<"genealogy::erase_edge_node(): erased node and edge"<<endl;
 
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::erase_edge_node(). done"<<endl;
@@ -197,6 +189,7 @@ key_t genealogy::bridge_edge_node(key_t to_be_bridged){
 	}
 	nodes.erase(to_be_bridged);
 	edges.erase(to_be_bridged);
+	if (to_be_bridged == MRCA){MRCA = Pedge->first;}
 
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::bridge_edge_node(). done"<<endl;
@@ -230,6 +223,10 @@ void genealogy::update_leaf_to_root(key_t leaf_key){
 		leaf_edge = parent_edge;
 		parent_node = nodes.find(leaf_edge->second.parent_node);
 		parent_edge = edges.find(leaf_edge->second.parent_node);
+		if (parent_node==nodes.end()){
+			cerr <<"genealogy::update_leaf_to_root(): key not found: "<<leaf_edge->second.parent_node.index<<" "<<leaf_edge->second.parent_node.age<<" root: "<<root.index<<" "<<root.age <<endl;
+			break;
+		}
 	}
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::update_leaf_to_root(). done"<<endl;
@@ -280,6 +277,10 @@ void genealogy::clear_tree(){
 
 	for (vector<key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
 		node = nodes.find(*leaf);
+		if (node==nodes.end()){
+			cerr <<"genealogy::clear_tree(). key note found"<<endl;
+			break;
+		}
 		node->second.number_of_offspring=1;
 	}
 	if (GEN_VERBOSE){
@@ -287,4 +288,25 @@ void genealogy::clear_tree(){
 	}
 }
 
+string genealogy::print_newick(){
+	return subtree_newick(MRCA)+";";
+}
+
+string genealogy::subtree_newick(key_t root){
+	stringstream tree_str;
+	map <key_t,node_t>::iterator root_node = nodes.find(root);
+	map <key_t,edge_t>::iterator edge = edges.find(root);
+	if (root_node->second.child_edges.size()>0){
+		list <key_t>::iterator child = root_node->second.child_edges.begin();
+		tree_str.str();
+		tree_str <<"("<< subtree_newick(*child);
+		child++;
+		for (;child!=root_node->second.child_edges.end(); child++){
+			tree_str<<","+subtree_newick(*child);
+		}
+		tree_str<<")";
+	}
+	tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+	return tree_str.str();
+}
 

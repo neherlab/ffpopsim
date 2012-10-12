@@ -193,6 +193,19 @@ int haploid_highd::provide_at_least(int n) {
 		}
 		available_clones.reserve(population.size());
 		sort(available_clones.begin(), available_clones.end(), std::greater<int>());
+		if (current_locus_population.size()){
+			node_t temp_ancestor;
+			temp_ancestor.own_key.age=generation; temp_ancestor.own_key.index=0;
+			temp_ancestor.parent_edge.age=generation-1; temp_ancestor.parent_edge.index=0;
+			temp_ancestor.fitness = 0;
+			temp_ancestor.number_of_offspring = 0;
+			temp_ancestor.clone_size = 0;
+			temp_ancestor.crossover[0] = 0;
+			temp_ancestor.crossover[1] = number_of_loci;
+			for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+				current_locus_population[locus].resize(population.size(), temp_ancestor);
+			}
+		}
 		if (HP_VERBOSE) cerr <<" total number of clones new:: "<<population.size()<< " number of clones available: "<<available_clones.size()<<endl;
 	}
 	return 0;
@@ -373,12 +386,24 @@ int haploid_highd::track_locus_genealogy(vector <int> loci)
 	if(HP_VERBOSE){cerr <<"haploid_highd::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
 	genealogy_loci.clear();
 	genealogies.reserve(loci.size());
+	node_t temp_ancestor;
+	temp_ancestor.own_key.age=generation; temp_ancestor.own_key.index=0;
+	temp_ancestor.parent_edge.age=generation-1; temp_ancestor.parent_edge.index=0;
+	temp_ancestor.fitness = 0;
+	temp_ancestor.number_of_offspring = 0;
+	temp_ancestor.clone_size = 0;
+	temp_ancestor.crossover[0] = 0;
+	temp_ancestor.crossover[1] = number_of_loci;
 	for (unsigned int i=0; i<loci.size(); i++){
 		genealogy temp_gen;
 		vector <node_t> temp;
 		genealogies.push_back(temp_gen);
 		genealogy_loci.push_back(loci[i]);
 		current_locus_population.push_back(temp);
+		for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+			current_locus_population[locus].clear();
+			current_locus_population[locus].resize(population.size(), temp_ancestor);
+		}
 	}
 
 	if (HP_VERBOSE){cerr<<"done\n";}
@@ -496,21 +521,6 @@ int haploid_highd::evolve(int gen) {
 
 	// evolve cycle
 	while((err == 0) && (g < gen)) {
-		if (current_locus_population.size()){
-			node_t temp_ancestor;
-			temp_ancestor.own_key.age=generation+1; temp_ancestor.own_key.index=-1;
-			temp_ancestor.parent_edge.age=generation; temp_ancestor.own_key.index=-1;
-			temp_ancestor.fitness = 0;
-			temp_ancestor.number_of_offspring = 0;
-			temp_ancestor.clone_size = 0;
-			temp_ancestor.crossover[0] = 0;
-			temp_ancestor.crossover[1] = number_of_loci;
-			for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
-				current_locus_population[locus].clear();
-				current_locus_population[locus].resize(population.size(), temp_ancestor);
-			}
-		}
-
 		if (HP_VERBOSE) cerr<<"generation "<<generation<<endl;
 		random_sample.clear();			//discard the old random sample
 		if(err==0) err=select_gametes();	//select a new set of gametes (partitioned into sex and asex)
@@ -598,23 +608,23 @@ int haploid_highd::select_gametes() {
 				new_last_clone = clone_index;
 				number_of_clones++;
 
-				if (current_locus_population.size()){
-					for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
-						current_locus_population[locus][clone_index].own_key.index=clone_index;
-						current_locus_population[locus][clone_index].parent_edge.index=clone_index;
-						current_locus_population[locus][clone_index].own_key.age=generation;
-						current_locus_population[locus][clone_index].parent_edge.age=generation-1;
-						current_locus_population[locus][clone_index].number_of_offspring=1;
-						current_locus_population[locus][clone_index].clone_size=os;
-						current_locus_population[locus][clone_index].fitness=pop_iter->fitness;
-					}
-				}
 			} else {
 				pop_iter->clone_size = 0;
 				if (nrec == 0)
 					available_clones.push_back(clone_index);
 				else
 					clones_needed_for_recombination.push_back(clone_index);
+			}
+			if (current_locus_population.size()){
+				for (unsigned int locus=0; locus<genealogy_loci.size(); locus++){
+					current_locus_population[locus][clone_index].own_key.index=clone_index;
+					current_locus_population[locus][clone_index].parent_edge.index=clone_index;
+					current_locus_population[locus][clone_index].own_key.age=generation;
+					current_locus_population[locus][clone_index].parent_edge.age=generation-1;
+					current_locus_population[locus][clone_index].number_of_offspring=(os>0);
+					current_locus_population[locus][clone_index].clone_size=os;
+					current_locus_population[locus][clone_index].fitness=pop_iter->fitness;
+				}
 			}
 		}
 	}
@@ -785,7 +795,6 @@ unsigned int haploid_highd::flip_single_locus(unsigned int clonenum, int locus) 
 
 	for (unsigned int genlocus=0; genlocus<genealogy_loci.size(); genlocus++){
 		current_locus_population[genlocus][new_clone] =current_locus_population[genlocus][clonenum];
-		current_locus_population[genlocus][new_clone] =current_locus_population[genlocus][clonenum];
 		current_locus_population[genlocus][new_clone].own_key.index=new_clone;
 		current_locus_population[genlocus][new_clone].number_of_offspring=1;
 		current_locus_population[genlocus][new_clone].clone_size=1;
@@ -908,6 +917,18 @@ int haploid_highd::recombine(int parent1, int parent2) {
 			current_locus_population[genlocus][offspring_num1].parent_edge.index=parent2;
 			current_locus_population[genlocus][offspring_num2].parent_edge.index=parent1;
 		}
+		current_locus_population[genlocus][offspring_num1].parent_edge.age=generation-1;
+		current_locus_population[genlocus][offspring_num2].parent_edge.age=generation-1;
+		current_locus_population[genlocus][offspring_num1].own_key.age=generation;
+		current_locus_population[genlocus][offspring_num2].own_key.age=generation;
+		current_locus_population[genlocus][offspring_num1].own_key.index=offspring_num1;
+		current_locus_population[genlocus][offspring_num2].own_key.index=offspring_num2;
+		current_locus_population[genlocus][offspring_num1].fitness= population[offspring_num1].fitness;
+		current_locus_population[genlocus][offspring_num2].fitness= population[offspring_num2].fitness;
+		current_locus_population[genlocus][offspring_num1].number_of_offspring=1;
+		current_locus_population[genlocus][offspring_num2].number_of_offspring=1;
+		current_locus_population[genlocus][offspring_num1].clone_size=1;
+		current_locus_population[genlocus][offspring_num2].clone_size=1;
 	}
 
 	if(HP_VERBOSE >= 2) cerr<<"done."<<endl;

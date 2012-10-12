@@ -7,14 +7,18 @@
 
 #ifndef GENEALOGY_H_
 #define GENEALOGY_H_
-#define GEN_VERBOSE 1
+#define GEN_VERBOSE 0
 #define GEN_VERYLARGE 10000000
 #define GEN_CHILDNOTFOUND -35343
+
 #include <map>
 #include <vector>
 #include <iostream>
+#include <string>
+#include <sstream>
 #include <list>
 #include <gsl/gsl_histogram.h>
+
 
 using namespace std;
 
@@ -77,6 +81,8 @@ public:
 	void SFS(gsl_histogram *sfs);
 	key_t get_MRCA(){return MRCA;};
 	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
+	string print_newick();
+	string subtree_newick(key_t root);
 };
 
 #endif /* GENEALOGY_H_ */
