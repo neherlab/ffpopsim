@@ -40,7 +40,7 @@ struct key_t {
 };
 
 struct node_t{
-	key_t parent_edge;
+	key_t parent_node;
 	list < key_t > child_edges;
 	double fitness;
 	key_t own_key;
@@ -51,7 +51,6 @@ struct node_t{
 
 struct edge_t{
 	key_t parent_node;
-	key_t child_node;
 	key_t own_key;
 	int segment[2];
 	int length;
@@ -80,6 +79,7 @@ public:
 	void update_tree();
 	void SFS(gsl_histogram *sfs);
 	key_t get_MRCA(){return MRCA;};
+	bool check_node(key_t node);
 	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
 	string print_newick();
 	string subtree_newick(key_t root);

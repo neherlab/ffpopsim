@@ -352,6 +352,7 @@ protected:
 	double participation_ratio;
 	int partition_cumulative(vector <unsigned int> &partition_cum);
 	int provide_at_least(int n);
+	int extend_genealogy_storage(int n);
 	int last_clone;
 
 	// allele_frequencies
@@ -391,7 +392,7 @@ protected:
 	double *trait_weights;
 	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
 	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
-
+	void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n);
 
 private:
 	// Memory management is private, subclasses must take care only of their own memory
