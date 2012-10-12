@@ -295,6 +295,49 @@ void genealogy::clear_tree(){
 	}
 }
 
+int genealogy::construct_subtree(vector <key_t> subtree_leafs){
+	vector <key_t>::iterator leaf=subtree_leafs.begin();
+	set <key_t> new_nodes;
+	map <key_t,node_t>::iterator node = nodes.find(*leaf);
+	map <key_t,edge_t>::iterator edge = edges.find(*leaf);
+	int oldest_node_age = node->second.age;
+	subtree_nodes.insert(node);
+	subtree_edges.insert(edge);
+	leaf++;
+	new_nodes.clear();
+	for (; leaf!=subtree_leafs.end(); leaf++){
+		node = nodes.find(*leaf);
+		edge = edges.find(*leaf);
+		if (node->second.age<oldest_node_age) oldest_node_age = node->second.age;
+		subtree_nodes.insert(node);
+		subtree_edges.insert(edge);
+		new_nodes.insert(node->second.parent_node);
+	}
+
+	while(new_nodes.size()>1){
+		set <key_t> temp = new_nodes;
+		new_nodes.clear();
+		for (set <key_t>::iterator node_key=temp.begin(); node_key!=temp.end(); node_key++){
+			node = nodes.find(*node_key);
+			edge = edges.find(*node_key);
+			if (node->second.age<oldest_node_age){
+				if (node->second.parent_node.age<oldest_node_age) oldest_node_age = node->second.parent_node.age;
+				subtree_nodes.insert(node);
+				subtree_edges.insert(edge);
+				new_nodes.insert(node->second.parent_node);
+			}
+		}
+	}
+	subtree_MRCA = *new_nodes.begin();
+	node = nodes.find(subtree_MRCA);
+	edge = edges.find(subtree_MRCA);
+	subtree_nodes.insert(node);
+
+	delete_extra_children_in_subtree(subtree_MRCA);
+
+	return 0;
+}
+
 string genealogy::print_newick(){
 	return subtree_newick(MRCA)+";";
 }

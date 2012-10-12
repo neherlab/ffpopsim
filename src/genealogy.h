@@ -12,6 +12,7 @@
 #define GEN_CHILDNOTFOUND -35343
 
 #include <map>
+#include <set>
 #include <vector>
 #include <iostream>
 #include <string>
@@ -60,9 +61,12 @@ struct edge_t{
 class genealogy{
 	map < key_t , edge_t > edges;
 	map < key_t , node_t > nodes;
+	map < key_t , edge_t > subtree_edges;
+	map < key_t , node_t > subtree_nodes;
 	vector <key_t> leafs;
 	key_t root;
 	key_t MRCA;
+	key_t subtree_MRCA;
 
 public:
 	genealogy();
@@ -81,6 +85,8 @@ public:
 	key_t get_MRCA(){return MRCA;};
 	bool check_node(key_t node);
 	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
+	int construct_subtree(vector <key_t> subtree_leafs);
+	void delete_extra_children_in_subtree(key_t);
 	string print_newick();
 	string subtree_newick(key_t root);
 };
