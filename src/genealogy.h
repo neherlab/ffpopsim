@@ -10,6 +10,7 @@
 #define GEN_VERBOSE 0
 #define GEN_VERYLARGE 10000000
 #define GEN_CHILDNOTFOUND -35343
+#define GEN_NODENOTFOUND -35765
 
 #include <map>
 #include <set>
@@ -74,21 +75,23 @@ public:
 
 	void reset();
 	void add_generation(vector <node_t> &new_generation, double mean_fitness);
-	key_t erase_edge_node(key_t to_be_erased);
-	key_t bridge_edge_node(key_t to_be_bridged);
+	key_t erase_edge_node(key_t to_be_erased, map <key_t,node_t> &N, map <key_t,edge_t> &E);
+	key_t bridge_edge_node(key_t to_be_bridged, map <key_t,node_t> &N, map <key_t,edge_t> &E, key_t &mrca_key);
 	int external_branch_length();
 	int total_branch_length();
-	void clear_tree();
-	void update_leaf_to_root(key_t leaf_key);
-	void update_tree();
+	void clear_tree(vector <key_t> current_leafs, map <key_t,node_t> &N, map <key_t,edge_t> &E);
+	void update_leaf_to_root(key_t leaf_key, map <key_t,node_t> &N, map <key_t,edge_t> &E);
+	void update_tree(vector <key_t>  current_leafs,map <key_t,node_t> &N, map <key_t,edge_t> &E);
 	void SFS(gsl_histogram *sfs);
 	key_t get_MRCA(){return MRCA;};
+	key_t get_subtree_MRCA(){return subtree_MRCA;};
 	bool check_node(key_t node);
 	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
 	int construct_subtree(vector <key_t> subtree_leafs);
-	void delete_extra_children_in_subtree(key_t);
+	int delete_extra_children_in_subtree(key_t subtree_root);
 	string print_newick();
-	string subtree_newick(key_t root);
+	string print_subtree_newick();
+	string subtree_newick(key_t root,map <key_t,node_t> &N, map <key_t,edge_t> &E);
 };
 
 #endif /* GENEALOGY_H_ */

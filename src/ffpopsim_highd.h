@@ -31,7 +31,6 @@
 #ifndef FFPOPSIM_HIGHD_H_
 #define FFPOPSIM_HIGHD_H_
 #include "ffpopsim_generic.h"
-#include "genealogy.h"
 
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
@@ -196,6 +195,128 @@ struct clone_t {
         }
 };
 
+
+/*
+ * rootedTree.h
+ *
+ *  Created on: Oct 14, 2012
+ *      Author: richard
+ */
+
+#ifndef rootedTree_H_
+#define rootedTree_H_
+#define RT_VERBOSE 0
+#define RT_VERYLARGE 10000000
+#define RT_CHILDNOTFOUND -35343
+#define RT_NODENOTFOUND -35765
+
+#include <map>
+#include <set>
+#include <vector>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <list>
+#include <gsl/gsl_histogram.h>
+
+using namespace std;
+
+struct key_t {
+	int index;
+	int age;
+	bool operator==(const key_t &other)  {return (age == other.age) && (index == other.index);}
+	bool operator!=(const key_t &other)  {return (age != other.age) || (index != other.index);}
+	bool operator<(const key_t &other) const {
+                if(age < other.age) return true;
+                else if (age > other.age) return false;
+                else { return (index<other.index); }
+        }
+	bool operator>(const key_t &other) const {
+                if(age > other.age) return true;
+                else if (age < other.age) return false;
+                else { return (index>other.index); }
+        }
+};
+
+
+struct node_t{
+	key_t parent_node;
+	list < key_t > child_edges;
+	double fitness;
+	key_t own_key;
+	int number_of_offspring;
+	int clone_size;
+	int crossover[2];
+};
+
+struct edge_t{
+	key_t parent_node;
+	key_t own_key;
+	int segment[2];
+	int length;
+	int number_of_offspring;
+};
+
+class rootedTree {
+public:
+	map < key_t , edge_t > edges;
+	map < key_t , node_t > nodes;
+	vector <key_t> leafs;
+	key_t root;
+	key_t MRCA;
+
+	rootedTree();
+	virtual ~rootedTree();
+	void reset();
+	void add_generation(vector <node_t> &new_generation, double mean_fitness);
+	int add_terminal_node(node_t &newNode);
+	key_t erase_edge_node(key_t to_be_erased);
+	key_t bridge_edge_node(key_t to_be_bridged);
+	int external_branch_length();
+	int total_branch_length();
+	void clear_tree();
+	int update_leaf_to_root(key_t leaf);
+	void update_tree();
+	void SFS(gsl_histogram *sfs);
+	key_t get_MRCA(){return MRCA;};
+	bool check_node(key_t node);
+	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
+	int construct_subtree(vector <key_t> subtree_leafs, rootedTree &superTree);
+	int delete_extra_children(key_t subtree_root);
+	int delete_one_child_nodes(key_t subtree_root);
+	string print_newick();
+	string subtree_newick(key_t root);
+	int check_tree_integrity();
+};
+
+#endif /* rootedTree_H_ */
+
+/*
+ * multiLocusGenealogy.h
+ *
+ *  Created on: Oct 14, 2012
+ *      Author: richard
+ */
+
+#ifndef MULTILOCUSGENEALOGY_H_
+#define MULTILOCUSGENEALOGY_H_
+class multiLocusGenealogy {
+public:
+	vector <int> loci;
+	vector <rootedTree> trees;
+	rootedTree subtree;
+	vector < vector < node_t > > newGenerations;
+
+	multiLocusGenealogy();
+	virtual ~multiLocusGenealogy();
+	void track_locus(int newLocus);
+	void reset(){loci.clear(); subtree.reset();trees.clear();newGenerations.clear();}
+	void add_generation(double baseline);
+	int extend_storage(int n);
+};
+#endif /* MULTILOCUSGENEALOGY_H_ */
+
+
 /**
  * @brief Population class for high-dimensional simulations.
  *
@@ -241,7 +362,6 @@ public:
 	int set_genotypes(vector <genotype_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
 	int track_locus_genealogy(vector <int> loci);
-	int clear_genealogies() {genealogy_loci.clear(); genealogies.clear(); current_locus_population.clear(); return 0;}
 
 	// modify population
 	void add_genotype(boost::dynamic_bitset<> genotype, int n=1);
@@ -315,7 +435,7 @@ public:
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 
 	vector <clone_t> population;
-	vector <genealogy> genealogies;
+	multiLocusGenealogy genealogy;
 
 protected:
 	// random number generator
@@ -325,10 +445,6 @@ protected:
 	int get_random_seed();
 	vector <int> random_sample;
 	void produce_random_sample(int size=1000);
-
-	//genealogy
-	vector <int> genealogy_loci;
-	vector < vector < node_t > > current_locus_population;
 
 	// population parameters
 	int number_of_loci;
@@ -352,7 +468,6 @@ protected:
 	double participation_ratio;
 	int partition_cumulative(vector <unsigned int> &partition_cum);
 	int provide_at_least(int n);
-	int extend_genealogy_storage(int n);
 	int last_clone;
 
 	// allele_frequencies
@@ -393,6 +508,7 @@ protected:
 	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
 	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
 	void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n);
+	bool track_genealogy;
 
 private:
 	// Memory management is private, subclasses must take care only of their own memory
@@ -410,6 +526,8 @@ private:
 	// counting reference
 	static size_t number_of_instances;
 };
+
+
 
 
 #endif /* FFPOPSIM_HIGHD_H_ */

@@ -87,17 +87,17 @@ void genealogy::add_generation(vector <node_t> &new_generation, double mean_fitn
 		node_pos = nodes.find(*old_leaf_key);
 		if (node_pos!=nodes.end()){
 			if (node_pos->second.child_edges.size()==0){
-				parent_key = erase_edge_node(*old_leaf_key);
+				parent_key = erase_edge_node(*old_leaf_key,nodes,edges);
 				while (nodes[parent_key].child_edges.size()==0){
-					parent_key = erase_edge_node(parent_key);
+					parent_key = erase_edge_node(parent_key,nodes,edges);
 				}
 				while (nodes[parent_key].child_edges.size()==1 and parent_key!=root){
-					parent_key = bridge_edge_node(parent_key);
+					parent_key = bridge_edge_node(parent_key,nodes,edges,MRCA);
 				}
 			}else if (node_pos->second.child_edges.size()==1){
-				parent_key = bridge_edge_node(*old_leaf_key);
-				while (nodes[parent_key].child_edges.size()==1){
-					parent_key = bridge_edge_node(parent_key);
+				parent_key = bridge_edge_node(*old_leaf_key,nodes,edges,MRCA);
+				while (subtree_nodes[parent_key].child_edges.size()==1){
+					parent_key = bridge_edge_node(parent_key,nodes,edges,MRCA);
 				}
 			}
 		}else{
@@ -120,28 +120,27 @@ void genealogy::add_generation(vector <node_t> &new_generation, double mean_fitn
 		cerr <<"genealogy::add_generation(). genealogy size: "<<edges.size()<<" edges, "<<nodes.size()<<" nodes "<<endl;
 	}
 
-	clear_tree();
-	update_tree();
+	update_tree(leafs, nodes, edges);
 	return;
 }
 
 
 
-key_t genealogy::erase_edge_node(key_t to_be_erased){
+key_t genealogy::erase_edge_node(key_t to_be_erased, map <key_t,node_t> &N, map <key_t,edge_t> &E){
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::erase_edge_node(). ..."<<to_be_erased.age<<" "<<to_be_erased.index<<endl;
 	}
 
-	map <key_t,node_t>::iterator Enode = nodes.find(to_be_erased);
-	map <key_t,edge_t>::iterator Eedge = edges.find(to_be_erased);
+	map <key_t,node_t>::iterator Enode = N.find(to_be_erased);
+	map <key_t,edge_t>::iterator Eedge = E.find(to_be_erased);
 
 	if (Enode->second.child_edges.size()>0){
 		cerr <<"genealogy::erase_edge_node(): attempting to erase non-terminal node"<<endl;
 	}
 
 	key_t parent_key = Eedge->second.parent_node;
-	map <key_t,edge_t>::iterator Pedge = edges.find(parent_key);
-	map <key_t,node_t>::iterator Pnode = nodes.find(parent_key);
+	map <key_t,edge_t>::iterator Pedge = E.find(parent_key);
+	map <key_t,node_t>::iterator Pnode = N.find(parent_key);
 
 	Pnode->second.number_of_offspring-=Eedge->second.number_of_offspring;
 	Pedge->second.number_of_offspring-=Eedge->second.number_of_offspring;
@@ -151,8 +150,8 @@ key_t genealogy::erase_edge_node(key_t to_be_erased){
 		cerr <<"genealogy::erase_edge_node(): child not found"<<endl;
 	}
 
-	nodes.erase(to_be_erased);
-	edges.erase(to_be_erased);
+	N.erase(to_be_erased);
+	E.erase(to_be_erased);
 
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::erase_edge_node(). done"<<endl;
@@ -162,40 +161,41 @@ key_t genealogy::erase_edge_node(key_t to_be_erased){
 }
 
 int genealogy::erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased){
-	list <key_t>::iterator child = Pnode->second.child_edges.begin();
-	for (;child!=Pnode->second.child_edges.end(); child++){
+	for (list <key_t>::iterator child = Pnode->second.child_edges.begin();child!=Pnode->second.child_edges.end(); child++){
 		if (*child == to_be_erased){Pnode->second.child_edges.erase(child); return 0;}
 	}
 	return GEN_CHILDNOTFOUND;
 }
 
-key_t genealogy::bridge_edge_node(key_t to_be_bridged){
+key_t genealogy::bridge_edge_node(key_t to_be_bridged, map <key_t,node_t> &N, map <key_t,edge_t> &E, key_t &mrca_key){
 	if (GEN_VERBOSE){
-		cerr <<"genealogy::erase_bridged_node(). ..."<<to_be_bridged.age<<" "<<to_be_bridged.index<<endl;
+		cerr <<"genealogy::bridge_edge_node(). ..."<<to_be_bridged.age<<" "<<to_be_bridged.index<<endl;
 	}
-	map <key_t,node_t>::iterator Enode = nodes.find(to_be_bridged);
-	map <key_t,edge_t>::iterator Eedge = edges.find(to_be_bridged);
+	map <key_t,node_t>::iterator Enode = N.find(to_be_bridged);
+	map <key_t,edge_t>::iterator Eedge = E.find(to_be_bridged);
 
-	if (Enode->second.child_edges.size()!=1){
-		cerr <<"genealogy::erase_bridged_node(): attempting to bridge branched node"<<endl;
+	if (Enode->second.child_edges.size()!=1 or to_be_bridged==root){
+		cerr <<"genealogy::bridge_edge_node(): attempting to bridge branched node or bridge root"<<endl;
 	}
 
 	key_t parent_key = Eedge->second.parent_node;
-	map <key_t,edge_t>::iterator Pedge = edges.find(Enode->second.child_edges.front());
+	map <key_t,edge_t>::iterator Pedge = E.find(Enode->second.child_edges.front());
+	map <key_t,node_t>::iterator ChildNode = N.find(Enode->second.child_edges.front());
 	Pedge->second.parent_node = Eedge->second.parent_node;
+	ChildNode->second.parent_node = Eedge->second.parent_node;
 	Pedge->second.segment[0]=(Pedge->second.segment[0]<Eedge->second.segment[0])?(Eedge->second.segment[0]):(Pedge->second.segment[0]);
 	Pedge->second.segment[1]=(Pedge->second.segment[1]>Eedge->second.segment[0])?(Eedge->second.segment[1]):(Pedge->second.segment[1]);
 	Pedge->second.length+=Eedge->second.length;
 	Pedge->second.parent_node = Eedge->second.parent_node;
 
-	map <key_t,node_t>::iterator Pnode = nodes.find(Eedge->second.parent_node);
+	map <key_t,node_t>::iterator Pnode = N.find(Eedge->second.parent_node);
 	Pnode->second.child_edges.push_back(Pedge->first);
 	if (erase_child(Pnode, to_be_bridged)==GEN_CHILDNOTFOUND){
-		cerr <<"genealogy::erase_bridged_node(). child not found"<<endl;
+		cerr <<"genealogy::bridge_edge_node(). child not found. index "<<to_be_bridged.index<<" age "<<to_be_bridged.age<<endl;
 	}
-	nodes.erase(to_be_bridged);
-	edges.erase(to_be_bridged);
-	if (to_be_bridged == MRCA){MRCA = Pedge->first;}
+	N.erase(to_be_bridged);
+	E.erase(to_be_bridged);
+	if (to_be_bridged == mrca_key){mrca_key = Pedge->first;}
 
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::bridge_edge_node(). done"<<endl;
@@ -204,39 +204,40 @@ key_t genealogy::bridge_edge_node(key_t to_be_bridged){
 	return parent_key;
 }
 
-void genealogy::update_tree(){
-	clear_tree();
-	for (vector <key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
-		update_leaf_to_root(*leaf);
+void genealogy::update_tree(vector <key_t> current_leafs,map <key_t,node_t> &N, map <key_t,edge_t> &E){
+	clear_tree(current_leafs,N,E);
+	for (vector <key_t>::iterator leaf=current_leafs.begin(); leaf!=current_leafs.end(); leaf++){
+		update_leaf_to_root(*leaf, N, E);
 	}
 }
 
-void genealogy::update_leaf_to_root(key_t leaf_key){
+void genealogy::update_leaf_to_root(key_t leaf_key, map <key_t,node_t> &N, map <key_t,edge_t> &E){
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::update_leaf_to_root(). key:"<<leaf_key.index<<" "<<leaf_key.age<<endl;
 	}
-	map <key_t,node_t>::iterator leaf_node = nodes.find(leaf_key);
-	map <key_t,edge_t>::iterator leaf_edge = edges.find(leaf_key);
+	map <key_t,node_t>::iterator leaf_node = N.find(leaf_key);
+	map <key_t,edge_t>::iterator leaf_edge = E.find(leaf_key);
 	int increment = leaf_node->second.number_of_offspring;
 	leaf_edge->second.number_of_offspring = increment;
-	map <key_t,node_t>::iterator parent_node = nodes.find(leaf_edge->second.parent_node);
-	map <key_t,edge_t>::iterator parent_edge = edges.find(leaf_edge->second.parent_node);
+	map <key_t,node_t>::iterator parent_node = N.find(leaf_edge->second.parent_node);
+	map <key_t,edge_t>::iterator parent_edge = E.find(leaf_edge->second.parent_node);
 	while (root != parent_node->first){
 		parent_node->second.number_of_offspring+=increment;
 		parent_edge->second.number_of_offspring+=increment;
 
 		leaf_node = parent_node;
 		leaf_edge = parent_edge;
-		parent_node = nodes.find(leaf_edge->second.parent_node);
-		parent_edge = edges.find(leaf_edge->second.parent_node);
-		if (parent_node==nodes.end()){
+		parent_node = N.find(leaf_edge->second.parent_node);
+		parent_edge = E.find(leaf_edge->second.parent_node);
+		if (parent_node==N.end()){
+			cerr <<"genealogy::update_leaf_to_root(). key:"<<leaf_key.index<<" "<<leaf_key.age<<endl;
 			cerr <<"genealogy::update_leaf_to_root(): key not found: "<<leaf_edge->second.parent_node.index<<" "<<leaf_edge->second.parent_node.age<<" root: "<<root.index<<" "<<root.age <<endl;
 			break;
 		}
 	}
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::update_leaf_to_root(). done"<<endl;
-		cerr <<"genealogy::update_leaf_to_root(): total of "<< nodes.find(MRCA)->second.number_of_offspring<<" offspring "<<increment<<endl;
+		cerr <<"genealogy::update_leaf_to_root(): total of "<< N.find(MRCA)->second.number_of_offspring<<" offspring "<<increment<<endl;
 	}
 }
 
@@ -267,24 +268,24 @@ int genealogy::total_branch_length(){
 }
 
 
-void genealogy::clear_tree(){
+void genealogy::clear_tree(vector <key_t> current_leafs, map <key_t,node_t> &N, map <key_t,edge_t> &E){
 	if (GEN_VERBOSE){
 		cerr <<"genealogy::clear_tree()..."<<endl;
 	}
-	map <key_t,node_t>::iterator node = nodes.begin();
-	map <key_t,edge_t>::iterator edge = edges.begin();
+	map <key_t,node_t>::iterator node = N.begin();
+	map <key_t,edge_t>::iterator edge = E.begin();
 
-	for (; node!=nodes.end(); node++){
+	for (; node!=N.end(); node++){
 		node->second.number_of_offspring=0;
 	}
-	for (; edge!=edges.end(); edge++){
+	for (; edge!=E.end(); edge++){
 		edge->second.number_of_offspring=0;
 	}
 
 
-	for (vector<key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
-		node = nodes.find(*leaf);
-		if (node==nodes.end()){
+	for (vector<key_t>::iterator leaf=current_leafs.begin(); leaf!=current_leafs.end(); leaf++){
+		node = N.find(*leaf);
+		if (node==N.end()){
 			cerr <<"genealogy::clear_tree(). key note found"<<endl;
 			break;
 		}
@@ -296,22 +297,33 @@ void genealogy::clear_tree(){
 }
 
 int genealogy::construct_subtree(vector <key_t> subtree_leafs){
-	vector <key_t>::iterator leaf=subtree_leafs.begin();
+	if (GEN_VERBOSE){
+		cerr <<"genealogy::construct_subtree()..."<<endl;
+	}
+	subtree_nodes.clear();
+	subtree_edges.clear();
+
 	set <key_t> new_nodes;
-	map <key_t,node_t>::iterator node = nodes.find(*leaf);
-	map <key_t,edge_t>::iterator edge = edges.find(*leaf);
-	int oldest_node_age = node->second.age;
-	subtree_nodes.insert(node);
-	subtree_edges.insert(edge);
-	leaf++;
+	map <key_t,node_t>::iterator node;
+	map <key_t,edge_t>::iterator edge;
+	if (node==nodes.end()){
+		cerr <<"genealogy::construct_subtree(). leaf does not exist"<<endl;
+		return GEN_NODENOTFOUND;
+	}
 	new_nodes.clear();
-	for (; leaf!=subtree_leafs.end(); leaf++){
+	for (vector <key_t>::iterator leaf=subtree_leafs.begin(); leaf!=subtree_leafs.end(); leaf++){
 		node = nodes.find(*leaf);
 		edge = edges.find(*leaf);
-		if (node->second.age<oldest_node_age) oldest_node_age = node->second.age;
-		subtree_nodes.insert(node);
-		subtree_edges.insert(edge);
+		if (node==nodes.end()){
+			cerr <<"genealogy::construct_subtree(). leaf does not exist"<<endl;
+			return GEN_NODENOTFOUND;
+		}
+		subtree_nodes.insert(*node);
+		subtree_edges.insert(*edge);
 		new_nodes.insert(node->second.parent_node);
+	}
+	if (GEN_VERBOSE){
+		cerr <<"genealogy::construct_subtree(). added leafs"<<endl;
 	}
 
 	while(new_nodes.size()>1){
@@ -320,43 +332,117 @@ int genealogy::construct_subtree(vector <key_t> subtree_leafs){
 		for (set <key_t>::iterator node_key=temp.begin(); node_key!=temp.end(); node_key++){
 			node = nodes.find(*node_key);
 			edge = edges.find(*node_key);
-			if (node->second.age<oldest_node_age){
-				if (node->second.parent_node.age<oldest_node_age) oldest_node_age = node->second.parent_node.age;
-				subtree_nodes.insert(node);
-				subtree_edges.insert(edge);
+			if (node==nodes.end()){
+				cerr <<"genealogy::construct_subtree(). interal node did not exist: age "<<node_key->age<<" index "<<node_key->index<<endl;
+			}else{
+				subtree_nodes.insert(*node);
+				subtree_edges.insert(*edge);
 				new_nodes.insert(node->second.parent_node);
 			}
 		}
 	}
+	if (GEN_VERBOSE){
+		cerr <<"genealogy::construct_subtree(). added internal nodes"<<endl;
+	}
+
 	subtree_MRCA = *new_nodes.begin();
+	if (subtree_MRCA==root){subtree_MRCA=MRCA;}
 	node = nodes.find(subtree_MRCA);
 	edge = edges.find(subtree_MRCA);
-	subtree_nodes.insert(node);
+	node->second.parent_node=root;
+	edge->second.parent_node=root;
+	subtree_nodes.insert(*node);
+	subtree_edges.insert(*edge);
+	subtree_nodes.insert(*nodes.find(root));
+	subtree_edges.insert(*edges.find(root));
 
 	delete_extra_children_in_subtree(subtree_MRCA);
+
+	for(vector <key_t>::iterator leaf=subtree_leafs.begin(); leaf!=subtree_leafs.end(); leaf++){
+		map <key_t,node_t>::iterator node = subtree_nodes.find(*leaf);
+		if (node==subtree_nodes.end()){
+			cerr <<"genealogy::construct_subtree(). did not find leaf "<<leaf->age<<" "<<leaf->index<<endl;
+		}else{
+			key_t parent_key = node->second.parent_node;
+			map <key_t,node_t>::iterator parent_node = subtree_nodes.find(parent_key);
+			if (parent_node==subtree_nodes.end()){
+				cerr <<"genealogy::construct_subtree(). did not find parent leaf "<<parent_key.age<<" "<<parent_key.index<< " child leaf "<<leaf->age<<" "<<leaf->index<<endl;
+			}else{
+				while(parent_key!=subtree_MRCA and parent_key!=root){
+					if (subtree_nodes[parent_key].child_edges.size()==1){
+						parent_key = bridge_edge_node(parent_key,subtree_nodes,subtree_edges, subtree_MRCA);
+					}else{
+						parent_key = subtree_nodes[parent_key].parent_node;
+					}
+				}
+			}
+		}
+	}
+
+	if (subtree_nodes[subtree_MRCA].child_edges.size()==1){
+		bridge_edge_node(subtree_MRCA,subtree_nodes,subtree_edges, subtree_MRCA);
+	}
+
+	update_tree(subtree_leafs,subtree_nodes,subtree_edges);
+
+	if (GEN_VERBOSE){
+		cerr <<"genealogy::construct_subtree(). done"<<endl;
+	}
 
 	return 0;
 }
 
-string genealogy::print_newick(){
-	return subtree_newick(MRCA)+";";
+int genealogy::delete_extra_children_in_subtree(key_t subtree_root){
+	if (GEN_VERBOSE){
+		cerr <<"genealogy::delete_extra_children_in_subtree(). node age "<<subtree_root.age<<" index "<<subtree_root.index<<endl;
+	}
+
+	map <key_t,node_t>::iterator node = subtree_nodes.find(subtree_root);
+	if (node == subtree_nodes.end()){
+		cerr <<"genealogy::delete_extra_children_in_subtree(): subtree root not found! age: "<<subtree_root.age<<" index: "<<subtree_root.index<<endl;
+		return GEN_NODENOTFOUND;
+	}
+	list <key_t>::iterator child = node->second.child_edges.begin();
+	while(child!=node->second.child_edges.end()){
+		map <key_t,node_t>::iterator child_node = subtree_nodes.find(*child);
+		if (child_node==subtree_nodes.end()){
+			child = node->second.child_edges.erase(child);
+		}else{
+			delete_extra_children_in_subtree(*child);
+			child++;
+		}
+	}
+	if (GEN_VERBOSE){
+		cerr <<"genealogy::delete_extra_children_in_subtree(). done"<<endl;
+	}
+	return 0;
 }
 
-string genealogy::subtree_newick(key_t root){
+string genealogy::print_newick(){
+	return subtree_newick(MRCA,nodes, edges)+";";
+}
+
+string genealogy::print_subtree_newick(){
+	return subtree_newick(subtree_MRCA, subtree_nodes,subtree_edges)+";";
+}
+
+
+string genealogy::subtree_newick(key_t root, map <key_t,node_t> &N, map <key_t,edge_t> &E){
 	stringstream tree_str;
-	map <key_t,node_t>::iterator root_node = nodes.find(root);
-	map <key_t,edge_t>::iterator edge = edges.find(root);
+	map <key_t,node_t>::iterator root_node = N.find(root);
+	map <key_t,edge_t>::iterator edge = E.find(root);
 	if (root_node->second.child_edges.size()>0){
 		list <key_t>::iterator child = root_node->second.child_edges.begin();
 		tree_str.str();
-		tree_str <<"("<< subtree_newick(*child);
+		tree_str <<"("<< subtree_newick(*child,N,E);
 		child++;
 		for (;child!=root_node->second.child_edges.end(); child++){
-			tree_str<<","+subtree_newick(*child);
+			tree_str<<","+subtree_newick(*child,N,E);
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+	//tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
 
