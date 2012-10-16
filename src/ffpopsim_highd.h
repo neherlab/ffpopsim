@@ -197,14 +197,17 @@ struct clone_t {
 
 
 /*
- * rootedTree.h
+ *	@brief a class that implements a rooted tree to store genealogies
  *
+ *	Nodes and edges are stored as maps with a key that holds the age (rather the time) when the node lived
+ *	and the index in the population at that time. The nodes themselves are sufficient to reconstruct the tree
+ *	since they contain keys of parents and children
  *  Created on: Oct 14, 2012
  *      Author: richard
  */
 
-#ifndef rootedTree_H_
-#define rootedTree_H_
+#ifndef rooted_tree_H_
+#define rooted_tree_H_
 #define RT_VERBOSE 0
 #define RT_VERYLARGE 10000000
 #define RT_CHILDNOTFOUND -35343
@@ -257,7 +260,7 @@ struct edge_t{
 	int number_of_offspring;
 };
 
-class rootedTree {
+class rooted_tree {
 public:
 	map < key_t , edge_t > edges;
 	map < key_t , node_t > nodes;
@@ -265,8 +268,8 @@ public:
 	key_t root;
 	key_t MRCA;
 
-	rootedTree();
-	virtual ~rootedTree();
+	rooted_tree();
+	virtual ~rooted_tree();
 	void reset();
 	void add_generation(vector <node_t> &new_generation, double mean_fitness);
 	int add_terminal_node(node_t &newNode);
@@ -281,7 +284,7 @@ public:
 	key_t get_MRCA(){return MRCA;};
 	bool check_node(key_t node);
 	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
-	int construct_subtree(vector <key_t> subtree_leafs, rootedTree &superTree);
+	int construct_subtree(vector <key_t> subtree_leafs, rooted_tree &superTree);
 	int delete_extra_children(key_t subtree_root);
 	int delete_one_child_nodes(key_t subtree_root);
 	string print_newick();
@@ -289,10 +292,14 @@ public:
 	int check_tree_integrity();
 };
 
-#endif /* rootedTree_H_ */
+#endif /* rooted_tree_H_ */
 
 /*
- * multiLocusGenealogy.h
+ * @brief short wrapper class that handles trees at different places in the genome
+ *
+ * the class contains a vector of rooted_tree instances that hold the genealogy
+ *  in different places. In addition, there is a rooted_tree called subtree
+ *  that is used on demand
  *
  *  Created on: Oct 14, 2012
  *      Author: richard
@@ -300,15 +307,15 @@ public:
 
 #ifndef MULTILOCUSGENEALOGY_H_
 #define MULTILOCUSGENEALOGY_H_
-class multiLocusGenealogy {
+class multi_locus_genealogy {
 public:
-	vector <int> loci;
-	vector <rootedTree> trees;
-	rootedTree subtree;
-	vector < vector < node_t > > newGenerations;
+	vector <int> loci;				//vector of loci (positions on a genome) whose genealogy is to be tracked
+	vector <rooted_tree> trees;
+	rooted_tree subtree;
+	vector < vector < node_t > > newGenerations;	//used by the evolving class to store the new generation
 
-	multiLocusGenealogy();
-	virtual ~multiLocusGenealogy();
+	multi_locus_genealogy();
+	virtual ~multi_locus_genealogy();
 	void track_locus(int newLocus);
 	void reset(){loci.clear(); subtree.reset();trees.clear();newGenerations.clear();}
 	void add_generation(double baseline);
@@ -435,7 +442,7 @@ public:
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 
 	vector <clone_t> population;
-	multiLocusGenealogy genealogy;
+	multi_locus_genealogy genealogy;
 
 protected:
 	// random number generator

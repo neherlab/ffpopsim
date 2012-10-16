@@ -1,5 +1,5 @@
 /*
- * multiLocusGenealogy.cpp
+ * multi_locus_genealogy.cpp
  *
  *  Created on: Oct 14, 2012
  *      Author: richard
@@ -7,27 +7,27 @@
 
 #include "ffpopsim_highd.h"
 
-multiLocusGenealogy::multiLocusGenealogy() {
+multi_locus_genealogy::multi_locus_genealogy() {
 	// TODO Auto-generated constructor stub
 
 }
 
-multiLocusGenealogy::~multiLocusGenealogy() {
+multi_locus_genealogy::~multi_locus_genealogy() {
 	// TODO Auto-generated destructor stub
 }
 
-void multiLocusGenealogy::add_generation(double baseline){
+void multi_locus_genealogy::add_generation(double baseline){
 	for (unsigned int locusIndex = 0; locusIndex<trees.size(); locusIndex++){
 		trees[locusIndex].add_generation(newGenerations[locusIndex], baseline);
 	}
 }
 
-void multiLocusGenealogy::track_locus(int newLocus){
-	loci.push_back(newLocus);
-	rootedTree tempTree;
-	trees.push_back(tempTree);
-	vector <node_t> tempGeneration;
-	newGenerations.push_back(tempGeneration);
+void multi_locus_genealogy::track_locus(int new_locus){
+	loci.push_back(new_locus);
+	rooted_tree temp_tree;
+	trees.push_back(temp_tree);
+	vector <node_t> temp_generation;
+	newGenerations.push_back(temp_generation);
 }
 
 /**
@@ -35,7 +35,7 @@ void multiLocusGenealogy::track_locus(int newLocus){
  *
  * @params: the total number of slots required (should be population.size() in most cases)
  */
-int multiLocusGenealogy::extend_storage(int n) {
+int multi_locus_genealogy::extend_storage(int n) {
 	node_t temp_ancestor;
 	temp_ancestor.own_key.age=0; temp_ancestor.own_key.index=-1;
 	temp_ancestor.fitness = 0;
