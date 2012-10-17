@@ -143,20 +143,20 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
  * @brief basic operation that attached a node to the tree
  * @params node_t reference to the newly added node
  */
-int rooted_tree::add_terminal_node(node_t &newNode){
-	edge_t newEdge;
-	key_t newKey;
-	newKey = newNode.own_key;
-	newNode.child_edges.clear();	//no kids
-	newEdge.own_key=newKey;			//reset the associated edge (has key of child node)
-	newEdge.parent_node=newNode.parent_node;
-	newEdge.number_of_offspring=1;
-	newEdge.segment[0]=newNode.crossover[0];
-	newEdge.segment[1]=newNode.crossover[1];
-	newEdge.length=newKey.age-newNode.parent_node.age;
-	nodes[newNode.parent_node].child_edges.push_back(newKey);	//add node as child of parent
-	edges.insert(pair<key_t,edge_t>(newKey, newEdge));			//insert node and edge
-	nodes.insert(pair<key_t,node_t>(newKey, newNode));
+int rooted_tree::add_terminal_node(node_t &new_node){
+	edge_t new_edge;
+	key_t new_key;
+	new_key = new_node.own_key;
+	new_node.child_edges.clear();	//no kids
+	new_edge.own_key=new_key;			//reset the associated edge (has key of child node)
+	new_edge.parent_node=new_node.parent_node;
+	new_edge.number_of_offspring=1;
+	new_edge.segment[0]=new_node.crossover[0];
+	new_edge.segment[1]=new_node.crossover[1];
+	new_edge.length=new_key.age-new_node.parent_node.age;
+	nodes[new_node.parent_node].child_edges.push_back(new_key);	//add node as child of parent
+	edges.insert(pair<key_t,edge_t>(new_key, new_edge));			//insert node and edge
+	nodes.insert(pair<key_t,node_t>(new_key, new_node));
 	return 0;
 }
 
@@ -236,9 +236,11 @@ key_t rooted_tree::bridge_edge_node(key_t to_be_bridged){
 	child_edge->second.parent_node = Eedge->second.parent_node;	//rewire
 	child_node->second.parent_node = Eedge->second.parent_node;
 	//update the part of the chromosome transmitted along this edge to the minmum of the two edges
+	//cerr  <<child_edge->second.segment[0]<<" "<<Eedge->second.segment[0]<<"  "<<child_edge->second.segment[1]<<" "<<Eedge->second.segment[1]<<endl;
 	child_edge->second.segment[0]=(child_edge->second.segment[0]<Eedge->second.segment[0])?(Eedge->second.segment[0]):(child_edge->second.segment[0]);
-	child_edge->second.segment[1]=(child_edge->second.segment[1]>Eedge->second.segment[0])?(Eedge->second.segment[1]):(child_edge->second.segment[1]);
+	child_edge->second.segment[1]=(child_edge->second.segment[1]>Eedge->second.segment[1])?(Eedge->second.segment[1]):(child_edge->second.segment[1]);
 	child_edge->second.length+=Eedge->second.length;	//add length of edges
+	//cerr  <<child_edge->second.segment[0]<<"  "<<child_edge->second.segment[1]<<endl;
 
 	//parent node: add new child, delete old
 	map <key_t,node_t>::iterator Pnode = nodes.find(Eedge->second.parent_node);
@@ -400,8 +402,8 @@ string rooted_tree::subtree_newick(key_t root){
 		}
 		tree_str<<")";
 	}
-	//tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
-	tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
 
@@ -651,3 +653,113 @@ int rooted_tree::check_tree_integrity(){
 	}
 	return err;
 }
+
+
+/*
+ * @brief recursive function that calculates what chunks of the genome are inherited by what number of individuals
+ * @params key of the node whose descendants are to be investigated
+ */
+int rooted_tree::calc_weight_distribution(key_t subtree_root){
+	map <key_t,node_t>::iterator node = nodes.find(subtree_root);
+	if (RT_VERBOSE){
+		cerr <<"rooted_tree::calc_weight_distribution(): of  "<<subtree_root<<endl;
+	}
+	if (node == nodes.end()){
+		cerr <<"rooted_tree::calc_weight_distribution(): node "<<subtree_root<<" does not exist!"<<endl;
+		return RT_NODENOTFOUND;
+	}else{
+		node->second.weight_distribution.clear();
+		if (node->second.child_edges.size()==0){
+			step_t temp_step;
+			temp_step.pos = node->second.crossover[0];
+			temp_step.step = node->second.clone_size;
+			node->second.weight_distribution.push_back(temp_step);
+			temp_step.pos = node->second.crossover[1];
+			temp_step.step = -node->second.clone_size;
+			node->second.weight_distribution.push_back(temp_step);
+		}else{
+			map <key_t,node_t>::iterator child_node;
+			map <key_t,edge_t>::iterator child_edge;
+			step_t temp_step,cumulative_step;
+			for (list <key_t>::iterator child=node->second.child_edges.begin(); child!=node->second.child_edges.end();child++)
+			{
+				calc_weight_distribution(*child);
+				child_node=nodes.find(*child);
+				child_edge=edges.find(*child);
+				cumulative_step.pos=0; cumulative_step.step=0;
+				for (vector <step_t>::iterator child_step = child_node->second.weight_distribution.begin();
+						child_step != child_node->second.weight_distribution.end();child_step++)
+				{
+					temp_step = *child_step;
+					if (temp_step.step>0){
+						if(temp_step.pos<child_edge->second.segment[0]){
+							temp_step.pos = child_edge->second.segment[0];
+						}
+					}else if (temp_step.step<0){
+						if(temp_step.pos>child_edge->second.segment[1]){
+							temp_step.pos = child_edge->second.segment[1];
+						}
+					}
+					if (cumulative_step.pos!=temp_step.pos){
+						node->second.weight_distribution.push_back(cumulative_step);
+						cumulative_step = temp_step;
+					}else{
+						cumulative_step.step +=temp_step.step;
+					}
+				}
+				node->second.weight_distribution.push_back(cumulative_step);
+			}
+			sort(node->second.weight_distribution.begin(), node->second.weight_distribution.end());
+		}
+		if (RT_VERBOSE){
+			cerr <<"rooted_tree::calc_weight_distribution(): done"<<endl;
+		}
+		return 0;
+	}
+}
+
+/*
+ * @brief return a string (table, in fact) representation of the weight distribution that can be plotted
+ * @params key of node whose weight distribution is to be returned.
+ */
+string rooted_tree::print_weight_distribution(key_t node_key){
+	map <key_t,node_t>::iterator node = nodes.find(node_key);
+	stringstream WD_str;
+	if (node == nodes.end()){
+		cerr <<"rooted_tree::print_weight_distribution(): node "<<node_key<<" does not exist!"<<endl;
+		return "bad node";
+	}else{
+		int cumulative = 0;
+		for (vector <step_t>::iterator step=node->second.weight_distribution.begin();
+				step!=node->second.weight_distribution.end();step++){
+			WD_str<<step->pos<<'\t'<<0<<'\t'<<cumulative<<'\n';
+			cumulative+=step->step;
+			WD_str<<step->pos<<'\t'<<step->step<<'\t'<<cumulative<<'\n';
+		}
+	}
+	return WD_str.str();
+}
+
+/*
+ * @brief find all nodes in a subtree that are younger than age, append them to the provided vector reference
+ * @params int age (the time at which the tree is to be slcied)
+ * @params key_t subtree_root the root of the subtree that is to be examined
+ * @params reference to key_t vector. vector into which the found ancestors are pushed
+ */
+int rooted_tree::ancestors_at_age(int age, key_t subtree_root, vector <key_t> &ancestors){
+	if (RT_VERBOSE){
+		cerr <<"rooted_tree::ancestors_at_age(): looking for ancestors in subtree with root "<<subtree_root<<endl;
+	}
+	int nanc=0;
+	if (subtree_root.age>age){
+		ancestors.push_back(subtree_root);
+		return 1;
+	}else{
+		map <key_t,node_t>::iterator node = nodes.find(subtree_root);
+		for (list <key_t>::iterator child = node->second.child_edges.begin(); child!=node->second.child_edges.end(); child++){
+			nanc+=ancestors_at_age(age, *child, ancestors);
+		}
+	}
+	return nanc;
+}
+

@@ -177,7 +177,7 @@ int haploid_highd::free_mem() {
 int haploid_highd::provide_at_least(int n) {
 	//calculate the number of clones that need to be newly allocated. Allow for some slack
 	//to avoid calling this too often
-	size_t needed_gts = (n-available_clones.size()) + 100 + 0.1*population.size();
+	int needed_gts = n-available_clones.size() + 100 + 0.1*population.size();
 
 	//allocate at the necessary memory
 	if (needed_gts > 50) {
@@ -187,7 +187,8 @@ int haploid_highd::provide_at_least(int n) {
 		//dummy clone used to push into the population
 		clone_t tempgt(number_of_traits);
 		tempgt.genotype.resize(number_of_loci,0);
-		for (size_t ii = 0; ii < needed_gts; ii++) {
+		tempgt.clone_size=0;
+		for (int ii = 0; ii < needed_gts; ii++) {
 			available_clones.push_back(population.size());
 			population.push_back(tempgt);
 		}
@@ -771,7 +772,7 @@ int haploid_highd::add_recombinants() {
 	//construct new generation
 	int n_sex_gam = sex_gametes.size();
 	int parent1, parent2, err;
-	if (HP_VERBOSE) cerr <<"haploid_highd::add_recombinants(): add "<<n_sex_gam<<"recombinants!\n";
+	if (HP_VERBOSE) cerr <<"haploid_highd::add_recombinants(): add "<<n_sex_gam<<" recombinants!\n";
 
 	if (n_sex_gam > 1) {
 		//sexual offspring -- shuffle the set of gametes to ensure random mating
@@ -866,6 +867,7 @@ int haploid_highd::recombine(int parent1, int parent2) {
 			bool state = rec_pattern[locus];
 			while (rec_pattern[brleft]==state and brleft>0){brleft--;}
 			while (rec_pattern[brright]==state and brright<number_of_loci){brright++;}
+			brright--;
 			if (state==1){
 				add_clone_to_genealogy(genlocus, offspring_num1,parent1, brleft, brright, 1, 1);
 				add_clone_to_genealogy(genlocus, offspring_num2,parent2, brleft, brright, 1, 1);

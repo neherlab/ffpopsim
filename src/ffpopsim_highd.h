@@ -241,12 +241,29 @@ struct key_t {
         }
 };
 
+struct step_t{
+	int pos;
+	int step;
+	bool operator<(const step_t &other) const {
+                if(pos < other.pos) return true;
+                else return false;
+        }
+	bool operator>(const step_t &other) const {
+                if(pos > other.pos) return true;
+                else return false;
+        }
+	bool operator==(const step_t &other) const {
+                if(pos == other.pos) return true;
+                else return false;
+        }
+};
 
 struct node_t{
 	key_t parent_node;
 	list < key_t > child_edges;
 	double fitness;
 	key_t own_key;
+	vector <step_t> weight_distribution;
 	int number_of_offspring;
 	int clone_size;
 	int crossover[2];
@@ -259,6 +276,8 @@ struct edge_t{
 	int length;
 	int number_of_offspring;
 };
+
+
 
 class rooted_tree {
 public:
@@ -277,9 +296,11 @@ public:
 	key_t bridge_edge_node(key_t to_be_bridged);
 	int external_branch_length();
 	int total_branch_length();
+	int ancestors_at_age(int age, key_t subtree_root, vector <key_t> &ancestors);
 	void clear_tree();
 	int update_leaf_to_root(key_t leaf);
 	void update_tree();
+	int calc_weight_distribution(key_t subtree_root);
 	void SFS(gsl_histogram *sfs);
 	key_t get_MRCA(){return MRCA;};
 	bool check_node(key_t node);
@@ -290,6 +311,7 @@ public:
 	string print_newick();
 	string subtree_newick(key_t root);
 	int check_tree_integrity();
+	string print_weight_distribution(key_t node_key);
 };
 
 #endif /* rooted_tree_H_ */

@@ -141,8 +141,8 @@ HEADER_LOWD := $(HEADER_GENERIC) ffpopsim_lowd.h
 SOURCE_LOWD := hypercube_lowd.cpp haploid_lowd.cpp
 OBJECT_LOWD := $(SOURCE_LOWD:%.cpp=%.o)
 
-HEADER_HIGHD := $(HEADER_GENERIC) ffpopsim_highd.h
-SOURCE_HIGHD := hypercube_highd.cpp haploid_highd.cpp
+HEADER_HIGHD := $(HEADER_GENERIC) ffpopsim_highd.h 
+SOURCE_HIGHD := hypercube_highd.cpp haploid_highd.cpp multiLocusGenealogy.cpp rootedTree.cpp
 OBJECT_HIGHD := $(SOURCE_HIGHD:%.cpp=%.o)
 
 HEADER_HIV := hivpopulation.h

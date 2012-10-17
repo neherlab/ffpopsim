@@ -7,7 +7,7 @@
  */
 
 /* Include directives */
-#include "hivpopulation.h"
+#include "ffpopsim_highd.h"
 #define HIGHD_BADARG -1354341
 #define NOTHING 1e-10
 
@@ -147,34 +147,75 @@ int pop_evolve() {
 /* Test evolution */
 int genealogy() {
 	int L = 1000;
-	int N = 500;
+	int N = 1300;
 
 	haploid_highd pop(L);
 
 	pop.mutation_rate = 1e-3;
-	pop.outcrossing_rate = 1e-1;
+	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
 	pop.set_wildtype(N);		// start with a population of the right size
-
+	ofstream wt("wt.txt");
 	vector <int> loci;
 	for(int i=0; i< L; i++) {
 		loci.assign(1, i);
-		pop.add_fitness_coefficient(1e-10, loci);
+		pop.add_fitness_coefficient(1e-2, loci);
 		loci.clear();
 	}
 
 	vector <int> gen_loci;
-	gen_loci.push_back(100);
-	gen_loci.push_back(500);
-	pop.track_locus_genealogy(gen_loci);
+	//gen_loci.push_back(100);
+	//gen_loci.push_back(500);
+	//gen_loci.push_back(900);
+	//pop.track_locus_genealogy(gen_loci);
 
 	stat_t fitstat;
-	for (int i=0; i< 1000; i++) {
-		pop.evolve();
-		pop.calc_stat();
-		fitstat = pop.get_fitness_statistics();
-		//cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+	gsl_histogram *SFS = gsl_histogram_alloc(20);
+	gsl_histogram_set_ranges_uniform(SFS,0,1);
+	for (int n=0; n<5; n++){
+		cout <<n<<" out of "<<500<<endl;
+		for (int i=0; i< 500; i++) {
+			pop.evolve();
+			pop.calc_stat();
+			fitstat = pop.get_fitness_statistics();
+			//cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+		}
+		vector <int> clones;
+		vector <key_t> clone_keys;
+		key_t temp;
+		for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
+			cerr <<pop.get_generation() - pop.genealogy.trees[genlocus].get_MRCA().age-1;
+			//cerr <<pop.genealogy.trees[genlocus].print_newick()<<endl;
+			pop.genealogy.trees[genlocus].SFS(SFS);
+			for (int cs = 2; cs<5; cs++){
+				clones.clear();
+				clone_keys.clear();
+				pop.random_clones(cs,&clones);
+				for (vector <int>::iterator clone=clones.begin(); clone!=clones.end(); clone++){
+					temp.age=pop.get_generation()-1;
+					temp.index = *clone;
+					clone_keys.push_back(temp);
+					//cout<<" "<<*clone<<" ";
+				}
+				pop.genealogy.subtree.construct_subtree(clone_keys, pop.genealogy.trees[genlocus]);
+				//cerr <<pop.genealogy.trees[genlocus].print_newick()<<endl;
+				/*for (vector <key_t>::iterator clone_key=clone_keys.begin(); clone_key!=clone_keys.end(); clone_key++){
+					cout<<clone_key->index<<" "<<pop.genealogy.subtree.nodes[*clone_key].parent_node.index<<" "<<pop.genealogy.subtree.nodes[*clone_key].parent_node.age<<endl;
+				}*/
+				cerr <<'\t'<<pop.get_generation() - pop.genealogy.subtree.get_MRCA().age-1;
+				//cerr<<'\n'<<pop.genealogy.subtree.print_newick()<<endl;
+			}
+			cerr <<'\n';
+
+		}
+		for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
+			pop.genealogy.trees[genlocus].calc_weight_distribution(pop.genealogy.trees[genlocus].get_MRCA());
+			wt <<pop.genealogy.trees[genlocus].print_weight_distribution(pop.genealogy.trees[genlocus].get_MRCA())<<endl;
+		}
+	}
+	for (int i=0; i<20; i++){
+		cerr<<gsl_histogram_get(SFS,i)<<endl;
 	}
 	pop.calc_stat();
 
@@ -193,11 +234,9 @@ int genealogy() {
 		cerr<<"Fitness mean and variance: "<<fitness.mean<<", "<<fitness.variance<<endl;
 	}
 
-	for (int genlocus=0; genlocus<gen_loci.size(); genlocus++){
-		cerr<<pop.genealogies[genlocus].print_newick()<<endl;
-	}
-
-
+	//for (int genlocus=0; genlocus<gen_loci.size(); genlocus++){
+	//	cerr<<pop.genealogies[genlocus].print_newick()<<endl;
+	//}
 	return 0;
 }
 
