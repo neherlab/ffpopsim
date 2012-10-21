@@ -373,6 +373,7 @@ public:
 	double mutation_rate;			// rate of mutation per locus per generation
 	double outcrossing_rate;		// probability of having sex
 	double crossover_rate;			// rate of crossover during sex
+	bool all_polymorphic;			// switch that makes sure every locus is polymorphic in an infinite alleles model when mutation rate is 0
 	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
 
@@ -433,16 +434,19 @@ public:
 
 	// allele frequencies
 	double get_allele_frequency(int l) {if (!allele_frequencies_up_to_date){calc_allele_freqs();} return allele_frequencies[l];}
+	double get_derived_allele_frequency(int l) {if (ancestral_state[l]) {return get_allele_frequency(l);} else {return 1.0-get_allele_frequency(l);}}
+
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_chi(int l) {return 2 * get_allele_frequency(l) - 1;}
+	double get_derived_chi(int l) {return 2 * get_derived_allele_frequency(l) - 1;}
 	double get_chi2(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
 	double get_LD(int locus1, int locus2){return 0.25 * get_chi2(locus1, locus2);}
 	double get_moment(int locus1, int locus2){return 4 * get_pair_frequency(locus1, locus2) + 1 - 2 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
 
 	// fitness/phenotype readout
 	void set_trait_weights(double *weights){for(int t=0; t<number_of_traits; t++) trait_weights[t] = weights[t];}
-        double get_trait_weight(int t){return trait_weights[t];}
+	double get_trait_weight(int t){return trait_weights[t];}
 	double get_fitness(int n) {calc_individual_fitness(population[n]); return population[n].fitness;}
 	int get_clone_size(int n) {return population[n].clone_size;}
 	double get_trait(int n, int t=0) {calc_individual_traits(population[n]); return population[n].trait[t];}
@@ -505,6 +509,8 @@ protected:
 	double *gamete_allele_frequencies;
 	double *chi1;				//symmetric allele frequencies
 	double **chi2;				//symmetric two locus correlations
+	vector <int> ancestral_state;	//vector, that for each locus keeps track of the ancestral state. by default, all zero
+	vector <int> birth_of_allele;	//vector, that keeps track when an allele was introduced. Only needed in an infinite alleles model
 	void calc_allele_freqs();
 
 	// recombination details

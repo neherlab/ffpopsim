@@ -267,6 +267,7 @@ int hypercube_highd::set_additive_coefficient(double value, int lindex, int expe
 	//check whether the locus is what was expected
 	if (coefficients_single_locus[lindex].locus==expected_locus){
 		coefficients_single_locus[lindex].value=value;
+		coefficients_single_locus_static[expected_locus]=value;
 		return 0;
 	}else if (expected_locus>-1){
 		cerr <<"hypercube_highd::set_additive_coefficient: coefficient[locus] does not match locus: "<<coefficients_single_locus[lindex].locus<<"  "<<expected_locus<<endl;
