@@ -913,7 +913,7 @@ int haploid_highd::recombine(int parent1, int parent2) {
 void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent, int left, int right, int cs, int n){
 	if (HP_VERBOSE){
 		cerr <<"haploid_highd::add_clone_to_genealogy(): dest:  "<<dest<<" parent: "<<parent<<"  "<<genealogy.newGenerations[locusIndex].size()<<endl;
-		key_t temp;
+		tree_key_t temp;
 		temp.age=generation-1;
 		temp.index=parent;
 		if (genealogy.trees[locusIndex].check_node(temp)){

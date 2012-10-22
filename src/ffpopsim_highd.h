@@ -224,17 +224,17 @@ struct clone_t {
 
 using namespace std;
 
-struct key_t {
+struct tree_key_t {
 	int index;
 	int age;
-	bool operator==(const key_t &other)  {return (age == other.age) && (index == other.index);}
-	bool operator!=(const key_t &other)  {return (age != other.age) || (index != other.index);}
-	bool operator<(const key_t &other) const {
+	bool operator==(const tree_key_t &other)  {return (age == other.age) && (index == other.index);}
+	bool operator!=(const tree_key_t &other)  {return (age != other.age) || (index != other.index);}
+	bool operator<(const tree_key_t &other) const {
                 if(age < other.age) return true;
                 else if (age > other.age) return false;
                 else { return (index<other.index); }
         }
-	bool operator>(const key_t &other) const {
+	bool operator>(const tree_key_t &other) const {
                 if(age > other.age) return true;
                 else if (age < other.age) return false;
                 else { return (index>other.index); }
@@ -259,10 +259,10 @@ struct step_t{
 };
 
 struct node_t{
-	key_t parent_node;
-	list < key_t > child_edges;
+	tree_key_t parent_node;
+	list < tree_key_t > child_edges;
 	double fitness;
-	key_t own_key;
+	tree_key_t own_key;
 	vector <step_t> weight_distribution;
 	int number_of_offspring;
 	int clone_size;
@@ -270,8 +270,8 @@ struct node_t{
 };
 
 struct edge_t{
-	key_t parent_node;
-	key_t own_key;
+	tree_key_t parent_node;
+	tree_key_t own_key;
 	int segment[2];
 	int length;
 	int number_of_offspring;
@@ -281,37 +281,37 @@ struct edge_t{
 
 class rooted_tree {
 public:
-	map < key_t , edge_t > edges;
-	map < key_t , node_t > nodes;
-	vector <key_t> leafs;
-	key_t root;
-	key_t MRCA;
+	map < tree_key_t , edge_t > edges;
+	map < tree_key_t , node_t > nodes;
+	vector <tree_key_t> leafs;
+	tree_key_t root;
+	tree_key_t MRCA;
 
 	rooted_tree();
 	virtual ~rooted_tree();
 	void reset();
 	void add_generation(vector <node_t> &new_generation, double mean_fitness);
 	int add_terminal_node(node_t &newNode);
-	key_t erase_edge_node(key_t to_be_erased);
-	key_t bridge_edge_node(key_t to_be_bridged);
+	tree_key_t erase_edge_node(tree_key_t to_be_erased);
+	tree_key_t bridge_edge_node(tree_key_t to_be_bridged);
 	int external_branch_length();
 	int total_branch_length();
-	int ancestors_at_age(int age, key_t subtree_root, vector <key_t> &ancestors);
+	int ancestors_at_age(int age, tree_key_t subtree_root, vector <tree_key_t> &ancestors);
 	void clear_tree();
-	int update_leaf_to_root(key_t leaf);
+	int update_leaf_to_root(tree_key_t leaf);
 	void update_tree();
-	int calc_weight_distribution(key_t subtree_root);
+	int calc_weight_distribution(tree_key_t subtree_root);
 	void SFS(gsl_histogram *sfs);
-	key_t get_MRCA(){return MRCA;};
-	bool check_node(key_t node);
-	int erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased);
-	int construct_subtree(vector <key_t> subtree_leafs, rooted_tree &superTree);
-	int delete_extra_children(key_t subtree_root);
-	int delete_one_child_nodes(key_t subtree_root);
+	tree_key_t get_MRCA(){return MRCA;};
+	bool check_node(tree_key_t node);
+	int erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t to_be_erased);
+	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &superTree);
+	int delete_extra_children(tree_key_t subtree_root);
+	int delete_one_child_nodes(tree_key_t subtree_root);
 	string print_newick();
-	string subtree_newick(key_t root);
+	string subtree_newick(tree_key_t root);
 	int check_tree_integrity();
-	string print_weight_distribution(key_t node_key);
+	string print_weight_distribution(tree_key_t node_key);
 };
 
 #endif /* rooted_tree_H_ */

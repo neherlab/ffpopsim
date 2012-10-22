@@ -9,7 +9,7 @@
 /*
  * this overloads the ostream operator to output keys of nodes and edges
  */
-std::ostream& operator<< ( std::ostream& os, const key_t& key )
+std::ostream& operator<< ( std::ostream& os, const tree_key_t& key )
   {
     os <<"age: "<< key.age << " index "
       << key.index;
@@ -65,9 +65,9 @@ void rooted_tree::reset(){
 	to_root.number_of_offspring=-1;
 	to_root.parent_node = root;
 
-	nodes.insert(pair<key_t,node_t>(root,root_node));
-	nodes.insert(pair<key_t,node_t>(MRCA,mrca_node));
-	edges.insert(pair<key_t,edge_t>(to_root.own_key,to_root));
+	nodes.insert(pair<tree_key_t,node_t>(root,root_node));
+	nodes.insert(pair<tree_key_t,node_t>(MRCA,mrca_node));
+	edges.insert(pair<tree_key_t,edge_t>(to_root.own_key,to_root));
 }
 
 /*
@@ -81,7 +81,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 	}
 
 	vector<node_t>::iterator new_leaf = new_generation.begin();
-	vector <key_t> new_leafs;
+	vector <tree_key_t> new_leafs;
 	new_leafs.reserve(new_generation.size());
 	//add new leafs to a temporary vector and to the tree
 	for (; new_leaf!=new_generation.end(); new_leaf++){
@@ -97,10 +97,10 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 	}
 
 	//go over the previous leafs and delete those that leave no offspring, bridge those with one
-	map <key_t,edge_t>::iterator edge_pos = edges.end();
-	map <key_t,node_t>::iterator node_pos = nodes.end();
-	key_t parent_key;
-	for(vector <key_t>::iterator old_leaf_key=leafs.begin(); old_leaf_key!=leafs.end(); old_leaf_key++){
+	map <tree_key_t,edge_t>::iterator edge_pos = edges.end();
+	map <tree_key_t,node_t>::iterator node_pos = nodes.end();
+	tree_key_t parent_key;
+	for(vector <tree_key_t>::iterator old_leaf_key=leafs.begin(); old_leaf_key!=leafs.end(); old_leaf_key++){
 		node_pos = nodes.find(*old_leaf_key);
 		if (node_pos!=nodes.end()){
 			if (node_pos->second.child_edges.size()==0){			//no offspring -> delete
@@ -145,7 +145,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
  */
 int rooted_tree::add_terminal_node(node_t &new_node){
 	edge_t new_edge;
-	key_t new_key;
+	tree_key_t new_key;
 	new_key = new_node.own_key;
 	new_node.child_edges.clear();	//no kids
 	new_edge.own_key=new_key;			//reset the associated edge (has key of child node)
@@ -155,31 +155,31 @@ int rooted_tree::add_terminal_node(node_t &new_node){
 	new_edge.segment[1]=new_node.crossover[1];
 	new_edge.length=new_key.age-new_node.parent_node.age;
 	nodes[new_node.parent_node].child_edges.push_back(new_key);	//add node as child of parent
-	edges.insert(pair<key_t,edge_t>(new_key, new_edge));			//insert node and edge
-	nodes.insert(pair<key_t,node_t>(new_key, new_node));
+	edges.insert(pair<tree_key_t,edge_t>(new_key, new_edge));			//insert node and edge
+	nodes.insert(pair<tree_key_t,node_t>(new_key, new_node));
 	return 0;
 }
 
 
 /*
  * @brief basic operation that deletes a node that leafs no offspring
- * @params key_t the key of the one to be erased
+ * @params tree_key_t the key of the one to be erased
  */
-key_t rooted_tree::erase_edge_node(key_t to_be_erased){
+tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::erase_edge_node(). ..."<<to_be_erased<<endl;
 	}
 
-	map <key_t,node_t>::iterator Enode = nodes.find(to_be_erased);
-	map <key_t,edge_t>::iterator Eedge = edges.find(to_be_erased);
+	map <tree_key_t,node_t>::iterator Enode = nodes.find(to_be_erased);
+	map <tree_key_t,edge_t>::iterator Eedge = edges.find(to_be_erased);
 
 	if (Enode->second.child_edges.size()>0){
 		cerr <<"rooted_tree::erase_edge_node(): attempting to erase non-terminal node"<<endl;
 	}
 
-	key_t parent_key = Eedge->second.parent_node;
-	map <key_t,edge_t>::iterator Pedge = edges.find(parent_key);
-	map <key_t,node_t>::iterator Pnode = nodes.find(parent_key);
+	tree_key_t parent_key = Eedge->second.parent_node;
+	map <tree_key_t,edge_t>::iterator Pedge = edges.find(parent_key);
+	map <tree_key_t,node_t>::iterator Pnode = nodes.find(parent_key);
 
 	Pnode->second.number_of_offspring-=Eedge->second.number_of_offspring;
 	Pedge->second.number_of_offspring-=Eedge->second.number_of_offspring;
@@ -202,11 +202,11 @@ key_t rooted_tree::erase_edge_node(key_t to_be_erased){
 
 /*
  * @brief erases a child from the list of children of a node
- * @params <key_t,node_t>::iterator Pnode parent node
- * @params key_t to_be_erased
+ * @params <tree_key_t,node_t>::iterator Pnode parent node
+ * @params tree_key_t to_be_erased
  */
-int rooted_tree::erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_erased){
-	for (list <key_t>::iterator child = Pnode->second.child_edges.begin();child!=Pnode->second.child_edges.end(); child++){
+int rooted_tree::erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t to_be_erased){
+	for (list <tree_key_t>::iterator child = Pnode->second.child_edges.begin();child!=Pnode->second.child_edges.end(); child++){
 		if (*child == to_be_erased){Pnode->second.child_edges.erase(child); return 0;}
 	}
 	return RT_CHILDNOTFOUND;
@@ -214,25 +214,25 @@ int rooted_tree::erase_child(map <key_t,node_t>::iterator Pnode, key_t to_be_era
 
 /*
  * @brief erases a node that has one offspring. wires that nodes child to that node parent
- * @params key_t of node to be deleted
+ * @params tree_key_t of node to be deleted
  */
-key_t rooted_tree::bridge_edge_node(key_t to_be_bridged){
+tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::bridge_edge_node(). ..."<<to_be_bridged<<endl;
 	}
 
 	//node and edge to be erased
-	map <key_t,node_t>::iterator Enode = nodes.find(to_be_bridged);
-	map <key_t,edge_t>::iterator Eedge = edges.find(to_be_bridged);
+	map <tree_key_t,node_t>::iterator Enode = nodes.find(to_be_bridged);
+	map <tree_key_t,edge_t>::iterator Eedge = edges.find(to_be_bridged);
 
 	if (Enode->second.child_edges.size()!=1 or to_be_bridged==root){
 		cerr <<"rooted_tree::bridge_edge_node(): attempting to bridge branched node or bridge root"<<endl;
 	}
 
 	//child edge and node
-	key_t parent_key = Eedge->second.parent_node;
-	map <key_t,edge_t>::iterator child_edge = edges.find(Enode->second.child_edges.front());
-	map <key_t,node_t>::iterator child_node = nodes.find(Enode->second.child_edges.front());
+	tree_key_t parent_key = Eedge->second.parent_node;
+	map <tree_key_t,edge_t>::iterator child_edge = edges.find(Enode->second.child_edges.front());
+	map <tree_key_t,node_t>::iterator child_node = nodes.find(Enode->second.child_edges.front());
 	child_edge->second.parent_node = Eedge->second.parent_node;	//rewire
 	child_node->second.parent_node = Eedge->second.parent_node;
 	//update the part of the chromosome transmitted along this edge to the minmum of the two edges
@@ -243,7 +243,7 @@ key_t rooted_tree::bridge_edge_node(key_t to_be_bridged){
 	//cerr  <<child_edge->second.segment[0]<<"  "<<child_edge->second.segment[1]<<endl;
 
 	//parent node: add new child, delete old
-	map <key_t,node_t>::iterator Pnode = nodes.find(Eedge->second.parent_node);
+	map <tree_key_t,node_t>::iterator Pnode = nodes.find(Eedge->second.parent_node);
 	Pnode->second.child_edges.push_back(child_edge->first);
 	if (erase_child(Pnode, to_be_bridged)==RT_CHILDNOTFOUND){
 		cerr <<"rooted_tree::bridge_edge_node(). child not found. index "<<to_be_bridged<<endl;
@@ -265,21 +265,21 @@ key_t rooted_tree::bridge_edge_node(key_t to_be_bridged){
  */
 void rooted_tree::update_tree(){
 	clear_tree();
-	for (vector <key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
+	for (vector <tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
 		update_leaf_to_root(*leaf);
 	}
 }
 
 /*
  * @brief start at a leaf and add its population to all nodes in its lineage to the MRCA
- * @params key_t to the leaf at which this is supposed to start
+ * @params tree_key_t to the leaf at which this is supposed to start
  */
-int rooted_tree::update_leaf_to_root(key_t leaf_key){
+int rooted_tree::update_leaf_to_root(tree_key_t leaf_key){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::update_leaf_to_root(). key:"<<leaf_key<<endl;
 	}
-	map <key_t,node_t>::iterator leaf_node = nodes.find(leaf_key);
-	map <key_t,edge_t>::iterator leaf_edge = edges.find(leaf_key);
+	map <tree_key_t,node_t>::iterator leaf_node = nodes.find(leaf_key);
+	map <tree_key_t,edge_t>::iterator leaf_edge = edges.find(leaf_key);
 	if (leaf_node == nodes.end() or leaf_edge == edges.end()){
 		cerr <<"rooted_tree::update_leaf_to_root(). leaf not found"<<endl;
 		return RT_NODENOTFOUND;
@@ -287,8 +287,8 @@ int rooted_tree::update_leaf_to_root(key_t leaf_key){
 
 	int increment = leaf_node->second.clone_size;
 	leaf_edge->second.number_of_offspring = increment;
-	map <key_t,node_t>::iterator parent_node = nodes.find(leaf_edge->second.parent_node);
-	map <key_t,edge_t>::iterator parent_edge = edges.find(leaf_edge->second.parent_node);
+	map <tree_key_t,node_t>::iterator parent_node = nodes.find(leaf_edge->second.parent_node);
+	map <tree_key_t,edge_t>::iterator parent_edge = edges.find(leaf_edge->second.parent_node);
 	while (root != parent_node->first){
 		parent_node->second.number_of_offspring+=increment;
 		parent_edge->second.number_of_offspring+=increment;
@@ -315,7 +315,7 @@ int rooted_tree::update_leaf_to_root(key_t leaf_key){
  * @params gsl_histogram* the histogram is accumulated and assumed to have bins between 0 and 1
  */
 void rooted_tree::SFS(gsl_histogram *sfs){
-	map <key_t,edge_t>::iterator edge = edges.begin();
+	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 	int total_pop = nodes[MRCA].number_of_offspring;
 	for (; edge!=edges.end(); edge++){
 		gsl_histogram_accumulate(sfs, 1.0*edge->second.number_of_offspring/total_pop, edge->second.length);
@@ -326,9 +326,9 @@ void rooted_tree::SFS(gsl_histogram *sfs){
  * @brief calculate external branch length
  */
 int rooted_tree::external_branch_length(){
-	map <key_t,edge_t>::iterator edge = edges.begin();
+	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 	int branchlength = 0;
-	for (vector <key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end();leaf++){
+	for (vector <tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end();leaf++){
 		branchlength+=edges[*leaf].length;
 	}
 	return branchlength;
@@ -338,7 +338,7 @@ int rooted_tree::external_branch_length(){
  * @brief calculate total branch length
  */
 int rooted_tree::total_branch_length(){
-	map <key_t,edge_t>::iterator edge = edges.begin();
+	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 	int branchlength = 0;
 	for (; edge!=edges.end(); edge++){
 		branchlength+=edge->second.length;
@@ -353,8 +353,8 @@ void rooted_tree::clear_tree(){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::clear_tree()..."<<endl;
 	}
-	map <key_t,node_t>::iterator node = nodes.begin();
-	map <key_t,edge_t>::iterator edge = edges.begin();
+	map <tree_key_t,node_t>::iterator node = nodes.begin();
+	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 
 	for (; node!=nodes.end(); node++){
 		node->second.number_of_offspring=0;
@@ -364,7 +364,7 @@ void rooted_tree::clear_tree(){
 	}
 
 
-	for (vector<key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
+	for (vector<tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
 		node = nodes.find(*leaf);
 		if (node==nodes.end()){
 			cerr <<"rooted_tree::clear_tree(). key of leaf not found"<<endl;
@@ -386,14 +386,14 @@ string rooted_tree::print_newick(){
 
 /*
  * @brief return newick string of a subtree.
- * @params key_t root of the subtree that is to be returned.
+ * @params tree_key_t root of the subtree that is to be returned.
  */
-string rooted_tree::subtree_newick(key_t root){
+string rooted_tree::subtree_newick(tree_key_t root){
 	stringstream tree_str;
-	map <key_t,node_t>::iterator root_node = nodes.find(root);
-	map <key_t,edge_t>::iterator edge = edges.find(root);
+	map <tree_key_t,node_t>::iterator root_node = nodes.find(root);
+	map <tree_key_t,edge_t>::iterator edge = edges.find(root);
 	if (root_node->second.child_edges.size()>0){
-		list <key_t>::iterator child = root_node->second.child_edges.begin();
+		list <tree_key_t>::iterator child = root_node->second.child_edges.begin();
 		tree_str.str();
 		tree_str <<"("<< subtree_newick(*child);
 		child++;
@@ -408,10 +408,10 @@ string rooted_tree::subtree_newick(key_t root){
 }
 
 /*
- * @brief returns true of the key_t node_key is part of the tree, false otherwise
+ * @brief returns true of the tree_key_t node_key is part of the tree, false otherwise
  */
-bool rooted_tree::check_node(key_t node_key){
-	map <key_t,node_t>::iterator node = nodes.find(node_key);
+bool rooted_tree::check_node(tree_key_t node_key){
+	map <tree_key_t,node_t>::iterator node = nodes.find(node_key);
 	if (node == nodes.end()){
 		return false;
 	}else { return true;}
@@ -419,12 +419,12 @@ bool rooted_tree::check_node(key_t node_key){
 
 /*
  * @brief prune a tree such that only a subset of its nodes remain
- * @params vector <key_t> subtree_leafs the leaf to retain
+ * @params vector <tree_key_t> subtree_leafs the leaf to retain
  * @params rooted_tree reference to tree that is to be pruned
  *
  * note that instead of pruning, this functions builds up a new tree from scratch by walking through the super tree
  */
-int rooted_tree::construct_subtree(vector <key_t> subtree_leafs, rooted_tree &superTree){
+int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &superTree){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::construct_subtree()..."<<endl;
 	}
@@ -432,11 +432,11 @@ int rooted_tree::construct_subtree(vector <key_t> subtree_leafs, rooted_tree &su
 	reset();nodes.erase(MRCA);edges.erase(MRCA);
 
 	//add all new leafs and make a set of leaves to be added next round. (set has unique elements)
-	set <key_t> new_nodes;
+	set <tree_key_t> new_nodes;
 	new_nodes.clear();
-	map <key_t,node_t>::iterator node;
-	map <key_t,edge_t>::iterator edge;
-	for (vector <key_t>::iterator leaf=subtree_leafs.begin(); leaf!=subtree_leafs.end(); leaf++){
+	map <tree_key_t,node_t>::iterator node;
+	map <tree_key_t,edge_t>::iterator edge;
+	for (vector <tree_key_t>::iterator leaf=subtree_leafs.begin(); leaf!=subtree_leafs.end(); leaf++){
 		if (superTree.check_node(*leaf)){
 			node = superTree.nodes.find(*leaf);
 			nodes.insert(*node);
@@ -458,9 +458,9 @@ int rooted_tree::construct_subtree(vector <key_t> subtree_leafs, rooted_tree &su
 	//repeatedly add parents of all nodes until nothing else is added, or one node
 	//is added and that one is the MRCA (set within the loop)
 	while((new_nodes.size()>1 or MRCA!= *new_nodes.begin()) and new_nodes.size()>0){
-		set <key_t> temp = new_nodes;
+		set <tree_key_t> temp = new_nodes;
 		new_nodes.clear();
-		for (set <key_t>::iterator node_key=temp.begin(); node_key!=temp.end(); node_key++){
+		for (set <tree_key_t>::iterator node_key=temp.begin(); node_key!=temp.end(); node_key++){
 			if (superTree.check_node(*node_key)){
 				node = superTree.nodes.find(*node_key);
 				nodes.insert(*node);
@@ -511,19 +511,19 @@ int rooted_tree::construct_subtree(vector <key_t> subtree_leafs, rooted_tree &su
  * @brief function that recursively deletes all children that no longer exist
  * @params takes as an argument the key of the root of the subtree that is to be handled
  */
-int rooted_tree::delete_extra_children(key_t subtree_root){
+int rooted_tree::delete_extra_children(tree_key_t subtree_root){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::delete_extra_children(). node age "<<subtree_root<<endl;
 	}
 
-	map <key_t,node_t>::iterator node = nodes.find(subtree_root);
+	map <tree_key_t,node_t>::iterator node = nodes.find(subtree_root);
 	if (node == nodes.end()){
 		cerr <<"rooted_tree::delete_extra_children(): subtree root not found! age: "<<subtree_root<<endl;
 		return RT_NODENOTFOUND;
 	}
 
 	//loop over children.
-	list <key_t>::iterator child = node->second.child_edges.begin();
+	list <tree_key_t>::iterator child = node->second.child_edges.begin();
 	while(child!=node->second.child_edges.end()){
 		if (check_node(*child)){	//of child exists, apply function to child
 			delete_extra_children(*child);
@@ -542,20 +542,20 @@ int rooted_tree::delete_extra_children(key_t subtree_root){
  * @brief function that recursively deletes all nodes that have only one child.
  * @params key of subtree root
  */
-int rooted_tree::delete_one_child_nodes(key_t subtree_root){
+int rooted_tree::delete_one_child_nodes(tree_key_t subtree_root){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::delete_one_child_nodes(). node age "<<subtree_root<<endl;
 	}
 
-	map <key_t,node_t>::iterator node = nodes.find(subtree_root);
+	map <tree_key_t,node_t>::iterator node = nodes.find(subtree_root);
 	if (node == nodes.end()){
 		cerr <<"rooted_tree::delete_one_child_nodes(): subtree root not found! age: "<<subtree_root<<endl;
 		return RT_NODENOTFOUND;
 	}
 	//make a copy of the children (they are modified by the recursive call)
 	//loop over copy of children
-	list <key_t> tempchildren = node->second.child_edges;
-	for (list <key_t>::iterator child = tempchildren.begin(); child!=tempchildren.end(); child++){
+	list <tree_key_t> tempchildren = node->second.child_edges;
+	for (list <tree_key_t>::iterator child = tempchildren.begin(); child!=tempchildren.end(); child++){
 		delete_one_child_nodes(*child);	//apply function to children
 	}
 	//if only one child, bridge this node
@@ -578,10 +578,10 @@ int rooted_tree::check_tree_integrity(){
 	}
 
 	int err=0;
-	map <key_t,node_t>::iterator node;
-	map <key_t,edge_t>::iterator edge;
+	map <tree_key_t,node_t>::iterator node;
+	map <tree_key_t,edge_t>::iterator edge;
 	//make sure all leafs do not have any children
-	for (vector <key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
+	for (vector <tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
 		if (check_node(*leaf)){
 			node = nodes.find(*leaf);
 			if (node->second.child_edges.size()==0){
@@ -659,8 +659,8 @@ int rooted_tree::check_tree_integrity(){
  * @brief recursive function that calculates what chunks of the genome are inherited by what number of individuals
  * @params key of the node whose descendants are to be investigated
  */
-int rooted_tree::calc_weight_distribution(key_t subtree_root){
-	map <key_t,node_t>::iterator node = nodes.find(subtree_root);
+int rooted_tree::calc_weight_distribution(tree_key_t subtree_root){
+	map <tree_key_t,node_t>::iterator node = nodes.find(subtree_root);
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::calc_weight_distribution(): of  "<<subtree_root<<endl;
 	}
@@ -678,10 +678,10 @@ int rooted_tree::calc_weight_distribution(key_t subtree_root){
 			temp_step.step = -node->second.clone_size;
 			node->second.weight_distribution.push_back(temp_step);
 		}else{
-			map <key_t,node_t>::iterator child_node;
-			map <key_t,edge_t>::iterator child_edge;
+			map <tree_key_t,node_t>::iterator child_node;
+			map <tree_key_t,edge_t>::iterator child_edge;
 			step_t temp_step,cumulative_step;
-			for (list <key_t>::iterator child=node->second.child_edges.begin(); child!=node->second.child_edges.end();child++)
+			for (list <tree_key_t>::iterator child=node->second.child_edges.begin(); child!=node->second.child_edges.end();child++)
 			{
 				calc_weight_distribution(*child);
 				child_node=nodes.find(*child);
@@ -722,8 +722,8 @@ int rooted_tree::calc_weight_distribution(key_t subtree_root){
  * @brief return a string (table, in fact) representation of the weight distribution that can be plotted
  * @params key of node whose weight distribution is to be returned.
  */
-string rooted_tree::print_weight_distribution(key_t node_key){
-	map <key_t,node_t>::iterator node = nodes.find(node_key);
+string rooted_tree::print_weight_distribution(tree_key_t node_key){
+	map <tree_key_t,node_t>::iterator node = nodes.find(node_key);
 	stringstream WD_str;
 	if (node == nodes.end()){
 		cerr <<"rooted_tree::print_weight_distribution(): node "<<node_key<<" does not exist!"<<endl;
@@ -743,10 +743,10 @@ string rooted_tree::print_weight_distribution(key_t node_key){
 /*
  * @brief find all nodes in a subtree that are younger than age, append them to the provided vector reference
  * @params int age (the time at which the tree is to be slcied)
- * @params key_t subtree_root the root of the subtree that is to be examined
- * @params reference to key_t vector. vector into which the found ancestors are pushed
+ * @params tree_key_t subtree_root the root of the subtree that is to be examined
+ * @params reference to tree_key_t vector. vector into which the found ancestors are pushed
  */
-int rooted_tree::ancestors_at_age(int age, key_t subtree_root, vector <key_t> &ancestors){
+int rooted_tree::ancestors_at_age(int age, tree_key_t subtree_root, vector <tree_key_t> &ancestors){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::ancestors_at_age(): looking for ancestors in subtree with root "<<subtree_root<<endl;
 	}
@@ -755,8 +755,8 @@ int rooted_tree::ancestors_at_age(int age, key_t subtree_root, vector <key_t> &a
 		ancestors.push_back(subtree_root);
 		return 1;
 	}else{
-		map <key_t,node_t>::iterator node = nodes.find(subtree_root);
-		for (list <key_t>::iterator child = node->second.child_edges.begin(); child!=node->second.child_edges.end(); child++){
+		map <tree_key_t,node_t>::iterator node = nodes.find(subtree_root);
+		for (list <tree_key_t>::iterator child = node->second.child_edges.begin(); child!=node->second.child_edges.end(); child++){
 			nanc+=ancestors_at_age(age, *child, ancestors);
 		}
 	}
