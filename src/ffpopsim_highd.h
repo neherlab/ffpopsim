@@ -43,7 +43,8 @@ using namespace std;
 /**
  * @brief Trait coefficient for a set of loci.
  *
- * This struct is used in the hypercube_highd class for saving trait coefficients. See also hypercube_highd::add_coefficient.
+ * This struct is used in the hypercube_highd class for saving trait coefficients.
+ * See also hypercube_highd::add_coefficient.
  *
  * Note: words and bits are deprecated.
  */
@@ -241,7 +242,7 @@ struct tree_key_t {
         }
 };
 
-struct step_t{
+struct step_t {
 	int pos;
 	int step;
 	bool operator<(const step_t &other) const {
@@ -258,7 +259,7 @@ struct step_t{
         }
 };
 
-struct node_t{
+struct node_t {
 	tree_key_t parent_node;
 	list < tree_key_t > child_edges;
 	double fitness;
@@ -269,14 +270,13 @@ struct node_t{
 	int crossover[2];
 };
 
-struct edge_t{
+struct edge_t {
 	tree_key_t parent_node;
 	tree_key_t own_key;
 	int segment[2];
 	int length;
 	int number_of_offspring;
 };
-
 
 
 class rooted_tree {
@@ -332,16 +332,17 @@ public:
 class multi_locus_genealogy {
 public:
 	vector <int> loci;				//vector of loci (positions on a genome) whose genealogy is to be tracked
-	vector <rooted_tree> trees;
-	rooted_tree subtree;
+	vector <rooted_tree> trees;                     //vector of rooted trees (one per locus)
 	vector < vector < node_t > > newGenerations;	//used by the evolving class to store the new generation
 
 	multi_locus_genealogy();
 	virtual ~multi_locus_genealogy();
-	void track_locus(int newLocus);
-	void reset(){loci.clear(); subtree.reset();trees.clear();newGenerations.clear();}
+	void track_locus(int new_locus);
+	void reset(){loci.clear(); trees.clear();newGenerations.clear();}
 	void add_generation(double baseline);
 	int extend_storage(int n);
+        // TODO: write a function that creates a subtree from keys/indices, such as:
+        // rooted_tree create_subtree_from_keys(keys);
 };
 #endif /* MULTILOCUSGENEALOGY_H_ */
 

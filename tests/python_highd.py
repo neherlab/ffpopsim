@@ -50,9 +50,12 @@ print 'Time for evolving population for 30 generations: {:1.1f} s'.format(t1-t0)
 #pop.write_genotypes('test.txt', 100)
 #pop.write_genotypes_compressed('test.npz', 100)
 
-# Plot histograms
-plt.ion()
-pop.plot_fitness_histogram()
-pop.plot_divergence_histogram(color='r')
-pop.plot_diversity_histogram(color='g')
+## Plot histograms
+#plt.ion()
+#pop.plot_fitness_histogram()
+#pop.plot_divergence_histogram(color='r')
+#pop.plot_diversity_histogram(color='g')
 
+# Look at the genealogy
+pop.track_locus_genealogy([3,6])
+print pop.genealogy

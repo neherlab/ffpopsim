@@ -370,8 +370,7 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
  *
  * @params locus to be tracked
  */
-int haploid_highd::track_locus_genealogy(vector <int> loci)
-{
+int haploid_highd::track_locus_genealogy(vector <int> loci) {
 	track_genealogy=true;
 	if(HP_VERBOSE){cerr <<"haploid_highd::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
 	genealogy.reset();

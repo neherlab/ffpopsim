@@ -22,6 +22,10 @@
 %ignore coeff_t;
 %ignore coeff_single_locus_t;
 %ignore hypercube_highd;
+%ignore tree_key_t;
+%ignore step_t;
+%ignore node_t;
+%ignore edge_t;
 
 /* general typemaps */
 /* convert a Python bool array into a boost::dynamic_bitset */
@@ -110,6 +114,145 @@ def genotype(self, genotype):
     self._set_genotype(genotype)
 }
 } /* extend clone_t */
+
+/**** MULTI_LOCUS_GENEALOGY ****/
+%feature("autodoc", "Genealogy for multiple loci") multi_locus_genealogy;
+
+%extend multi_locus_genealogy {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"multi_locus_genealogy for %u loci", (unsigned int)($self->loci).size());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<multi_locus_genealogy(%u)>", (unsigned int)($self->loci).size());
+        return &buffer[0];
+}
+
+/* hide weird stuff */
+%ignore newGenerations;
+%ignore add_generation;
+%ignore extend_storage;
+
+/* document functions */
+%feature("autodoc", "Default constructor") multi_locus_genealogy;
+%feature("autodoc",
+"Start tracking a new locus.
+
+Parameters:
+   - new_locus: locus to be tracked
+
+.. note:: the locus gets appended to the 'loci' array.
+") track_locus;
+%feature("autodoc", "Reset (empty) the genealogy.") reset;
+
+/* loci */
+%ignore loci;
+int _get_number_of_loci() {
+        return ($self->loci).size();
+}
+void _get_loci(int DIM1, int* ARGOUT_ARRAY1) {
+        for(size_t i = 0; i < ($self->loci).size(); i++)
+                ARGOUT_ARRAY1[i] = ($self->loci)[i];
+}
+%pythoncode {
+@property
+def loci(self):
+    '''The loci that are being tracked'''
+    return self._get_loci(self._get_number_of_loci())
+}
+
+/* trees */
+%ignore trees;
+%feature("autodoc",
+"Get the genealogy tree for a certain locus.
+
+Parameters:
+   - locus: site whose tree is being returned
+
+.. note:: if you want to know what loci are being tracked, look into the 'loci'
+          attribute.
+") get_tree;
+%exception get_tree {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+rooted_tree get_tree(int locus) {
+        vector<int>::iterator index;
+        index = std::find(($self->loci).begin(), ($self->loci).end(), locus);
+        if(index == ($self->loci).end()) {
+                throw (int)1;
+        } else
+                return ($self->trees)[(int)(index - ($self->loci).begin())];
+}
+
+} /* extend multi_locus_genealogy */
+
+/**** ROOTED_TREE ****/
+%extend rooted_tree {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"genealogy tree with %u nodes", (unsigned int)($self->nodes).size());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)($self->nodes).size());
+        return &buffer[0];
+}
+
+/* ignore weird stuff */
+%ignore edges;
+
+/* TODO: ask Richard about mysterious number of nodes! */
+%ignore nodes;
+%ignore leafs;
+%ignore add_generation;
+%ignore SFS;
+%ignore add_terminal_node;
+%ignore erase_edge_node;
+%ignore bridge_edge_node;
+%ignore check_node;
+%ignore erase_child;
+%ignore construct_subtree;
+%ignore delete_extra_children;
+%ignore delete_one_child_nodes;
+%ignore clear_tree;
+%ignore update_leaf_to_root;
+%ignore update_tree;
+
+/* implement tree_key_t first */
+%ignore root;
+%ignore MRCA;
+
+/* TODO: implement interface */
+%ignore ancestors_at_age;
+
+/* TODO: ask Richard about this stuff */
+%ignore calc_weight_distribution;
+
+/* TODO: implement interface */
+%ignore get_MRCA;
+
+/* TODO: implement this */
+%ignore subtree_newick;
+
+/* TODO: check */
+%ignore print_newick;
+%ignore print_weight_distribution;
+
+} /* extend rooted_tree */
 
 /**** HAPLOID_HIGHD ****/
 %define DOCSTRING_HAPLOID_HIGHD
@@ -217,7 +360,6 @@ Available values:
    - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus
 ") recombination_model;
 
-
 /* read only parameters */
 %ignore L;
 %ignore N;
@@ -246,6 +388,30 @@ participation_ratio = property(_get_participation_ratio)
 %feature("autodoc", "Current generation (read-only)") get_generation;
 %feature("autodoc", "Maximal fitness in the population (read-only)") get_max_fitness;
 %feature("autodoc", "Participation ratio (read-only)") get_participation_ratio;
+
+/* conversion from a Python vector of loci to std::vector of int */
+%typemap(in) vector<int> loci (std::vector<int> temp) {
+        /* Ensure input is a Python sequence */
+        if(!PySequence_Check($input)) {
+                PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
+                SWIG_fail;
+        }
+        PyObject *tmplist = PySequence_Tuple($input);
+        unsigned long L = PySequence_Length(tmplist);
+
+        /* Create std::vector from Python list */
+        temp.reserve(L);
+        long tmplong;
+        for(size_t i=0; i < L; i++) {
+                tmplong = PyInt_AsLong(PySequence_ITEM(tmplist, i));
+                if(tmplong < 0) {
+                        PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
+                        SWIG_fail;
+                }
+                temp.push_back((int)tmplong); 
+        }      
+        $1 = temp;
+}
 
 /* status function */
 %pythoncode {
@@ -354,8 +520,6 @@ def set_genotypes(self, genotypes, counts):
         raise RuntimeError('Error in the C++ function.')
 }
 
-
-
 /* evolve */
 %rename (_evolve) evolve;
 %pythoncode{
@@ -391,6 +555,27 @@ Parameters:
 Returns:
    - index: index of the new clone with the flipped locus
 ") flip_single_locus;
+
+/* genealogy */
+%feature("autodoc",
+"
+Track the genealogy of some loci.
+
+Parameters:
+   - loci: sites whose genealogy is being stored
+
+Returns:
+   - zero if successful
+") track_locus_genealogy;
+
+/* implement multi_locus_genealogy as a read-only property */
+%ignore genealogy;
+multi_locus_genealogy _get_genealogy() {
+        return $self->genealogy;
+}
+%pythoncode {
+genealogy = property(_get_genealogy)
+}
 
 /* statistics */
 %feature("autodoc", "Calculate trait and fitness statistics for the population") calc_stat;
@@ -443,8 +628,6 @@ Returns:
    - cov: the covariance of the two traits
 ") get_trait_covariance;
 
-
-
 /* get allele frequencies */
 void _get_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
         for(size_t i=0; i < (size_t)DIM1; i++)
@@ -467,6 +650,16 @@ Returns:
 ") get_allele_frequency;
 
 %feature("autodoc",
+"Get the frequency of the derived allele at the selected locus
+
+Parameters:
+   - locus: locus whose frequency of the derived allele is to be returned
+
+Returns:
+   - frequency: allele frequency in the population
+") get_derived_allele_frequency;
+
+%feature("autodoc",
 "Get the joint frequency of two + alleles
 
 Parameters:
@@ -486,6 +679,16 @@ Parameters:
 Returns:
     - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \{\\pm1\}`.
 ") get_chi;
+
+%feature("autodoc",
+"Get :math:`\\chi_i` of a derived allele
+
+Parameters:
+    - locus: locus whose chi is to be computed
+
+Returns:
+    - the chi of that derived allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \{\\pm1\}`.
+") get_derived_chi;
 
 %feature("autodoc",
 "Get :math:`\\chi_{ij}`
@@ -715,25 +918,7 @@ void set_fitness_additive(int DIM1, double *IN_ARRAY1) {
         $self->update_fitness();
 }
 
-/* add_trait_coefficient: this is implemented as a conversion from a Python vector of loci to std::vector */
-%typemap(in) vector<int> loci (std::vector<int> temp) {
-        /* Ensure input is a Python sequence */
-        PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
-        unsigned long L = PySequence_Length(tmplist);
-
-        /* Create std::vector from Python list */
-        temp.reserve(L);
-        long tmplong;
-        for(size_t i=0; i < L; i++) {
-                tmplong = PyInt_AsLong(PySequence_Fast_GET_ITEM(tmplist, i));
-                if(tmplong < 0) {
-                        PyErr_SetString(PyExc_ValueError, "Expecting an array of positive integers (the loci).");
-                        SWIG_fail;
-                }
-                temp.push_back((int)tmplong); 
-        }      
-        $1 = temp;
-}
+/* add_trait_coefficient */
 %feature("autodoc",
 "Add a coefficient to the trait landscape.
  

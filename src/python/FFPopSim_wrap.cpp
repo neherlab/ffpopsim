@@ -2969,17 +2969,20 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_hivgene swig_types[7]
 #define SWIGTYPE_p_hivpopulation swig_types[8]
 #define SWIGTYPE_p_index_value_pair_t swig_types[9]
-#define SWIGTYPE_p_istream swig_types[10]
-#define SWIGTYPE_p_ostream swig_types[11]
-#define SWIGTYPE_p_short swig_types[12]
-#define SWIGTYPE_p_stat_t swig_types[13]
-#define SWIGTYPE_p_string swig_types[14]
-#define SWIGTYPE_p_unsigned_int swig_types[15]
-#define SWIGTYPE_p_vectorT_clone_t_t swig_types[16]
-#define SWIGTYPE_p_vectorT_double_t swig_types[17]
-#define SWIGTYPE_p_vectorT_int_t swig_types[18]
-static swig_type_info *swig_types[20];
-static swig_module_info swig_module = {swig_types, 19, 0, 0, 0, 0};
+#define SWIGTYPE_p_int swig_types[10]
+#define SWIGTYPE_p_istream swig_types[11]
+#define SWIGTYPE_p_multi_locus_genealogy swig_types[12]
+#define SWIGTYPE_p_ostream swig_types[13]
+#define SWIGTYPE_p_rooted_tree swig_types[14]
+#define SWIGTYPE_p_short swig_types[15]
+#define SWIGTYPE_p_stat_t swig_types[16]
+#define SWIGTYPE_p_string swig_types[17]
+#define SWIGTYPE_p_unsigned_int swig_types[18]
+#define SWIGTYPE_p_vectorT_clone_t_t swig_types[19]
+#define SWIGTYPE_p_vectorT_double_t swig_types[20]
+#define SWIGTYPE_p_vectorT_int_t swig_types[21]
+static swig_type_info *swig_types[23];
+static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3937,6 +3940,41 @@ SWIGINTERN void clone_t__get_genotype(clone_t *self,int DIM1,short *ARGOUT_ARRAY
         for(size_t i=0; i < (self->genotype).size(); i++) ARGOUT_ARRAY1[i] = (self->genotype)[i];
 }
 SWIGINTERN void clone_t__set_genotype(clone_t *self,boost::dynamic_bitset< > genotype_in){self->genotype = genotype_in;}
+SWIGINTERN char const *rooted_tree___str__(rooted_tree *self){
+        static char buffer[255];
+        sprintf(buffer,"genealogy tree with %u nodes", (unsigned int)(self->nodes).size());
+        return &buffer[0];
+}
+SWIGINTERN char const *rooted_tree___repr__(rooted_tree *self){
+        static char buffer[255];
+        sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)(self->nodes).size());
+        return &buffer[0];
+}
+SWIGINTERN char const *multi_locus_genealogy___str__(multi_locus_genealogy *self){
+        static char buffer[255];
+        sprintf(buffer,"multi_locus_genealogy for %u loci", (unsigned int)(self->loci).size());
+        return &buffer[0];
+}
+SWIGINTERN char const *multi_locus_genealogy___repr__(multi_locus_genealogy *self){
+        static char buffer[255];
+        sprintf(buffer,"<multi_locus_genealogy(%u)>", (unsigned int)(self->loci).size());
+        return &buffer[0];
+}
+SWIGINTERN int multi_locus_genealogy__get_number_of_loci(multi_locus_genealogy *self){
+        return (self->loci).size();
+}
+SWIGINTERN void multi_locus_genealogy__get_loci(multi_locus_genealogy *self,int DIM1,int *ARGOUT_ARRAY1){
+        for(size_t i = 0; i < (self->loci).size(); i++)
+                ARGOUT_ARRAY1[i] = (self->loci)[i];
+}
+SWIGINTERN rooted_tree multi_locus_genealogy_get_tree(multi_locus_genealogy *self,int locus){
+        vector<int>::iterator index;
+        index = std::find((self->loci).begin(), (self->loci).end(), locus);
+        if(index == (self->loci).end()) {
+                throw (int)1;
+        } else
+                return (self->trees)[(int)(index - (self->loci).begin())];
+}
 
 SWIGINTERNINLINE PyObject*
   SWIG_From_unsigned_SS_int  (unsigned int value)
@@ -3984,6 +4022,9 @@ SWIGINTERN int haploid_highd__set_genotypes(haploid_highd *self,int len1,double 
                 gt.push_back(temp);
         }
         return self->set_genotypes(gt);
+}
+SWIGINTERN multi_locus_genealogy haploid_highd__get_genealogy(haploid_highd *self){
+        return self->genealogy;
 }
 SWIGINTERN void haploid_highd__get_allele_frequencies(haploid_highd *self,double *ARGOUT_ARRAY1,int DIM1){
         for(size_t i=0; i < (size_t)DIM1; i++)
@@ -6875,6 +6916,447 @@ SWIGINTERN PyObject *clone_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   return SWIG_Python_InitShadowInstance(args);
 }
 
+SWIGINTERN PyObject *_wrap_new_rooted_tree(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"new_rooted_tree",0,0,0)) SWIG_fail;
+  result = (rooted_tree *)new rooted_tree();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_rooted_tree, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_rooted_tree(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_rooted_tree" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_reset(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_reset" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  (arg1)->reset();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_external_branch_length(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_external_branch_length" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (int)(arg1)->external_branch_length();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_total_branch_length(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_total_branch_length" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (int)(arg1)->total_branch_length();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_check_tree_integrity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_check_tree_integrity" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (int)(arg1)->check_tree_integrity();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree___str__" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (char *)rooted_tree___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree___repr__" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (char *)rooted_tree___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *rooted_tree_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_rooted_tree, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *rooted_tree_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_multi_locus_genealogy(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"new_multi_locus_genealogy",0,0,0)) SWIG_fail;
+  result = (multi_locus_genealogy *)new multi_locus_genealogy();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_multi_locus_genealogy, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_multi_locus_genealogy(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_multi_locus_genealogy, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_multi_locus_genealogy" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy_track_locus(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "new_locus", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:multi_locus_genealogy_track_locus",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy_track_locus" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "multi_locus_genealogy_track_locus" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  (arg1)->track_locus(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy_reset(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy_reset" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  (arg1)->reset();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy___str__" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  result = (char *)multi_locus_genealogy___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy___repr__" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  result = (char *)multi_locus_genealogy___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy__get_number_of_loci(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy__get_number_of_loci" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  result = (int)multi_locus_genealogy__get_number_of_loci(arg1);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy__get_loci(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  int arg2 ;
+  int *arg3 = (int *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *array2 = NULL ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "DIM1", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:multi_locus_genealogy__get_loci",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy__get_loci" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  {
+    npy_intp dims[1];
+    if (!PyInt_Check(obj1))
+    {
+      const char* typestring = pytype_string(obj1);
+      PyErr_Format(PyExc_TypeError,
+        "Int dimension expected.  '%s' given.",
+        typestring);
+      SWIG_fail;
+    }
+    arg2 = (int) PyInt_AsLong(obj1);
+    dims[0] = (npy_intp) arg2;
+    array2 = PyArray_SimpleNew(1, dims, NPY_INT);
+    if (!array2) SWIG_fail;
+    arg3 = (int*) array_data(array2);
+  }
+  multi_locus_genealogy__get_loci(arg1,arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  {
+    resultobj = SWIG_Python_AppendOutput(resultobj,array2);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy_get_tree(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "locus", NULL 
+  };
+  rooted_tree result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:multi_locus_genealogy_get_tree",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy_get_tree" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "multi_locus_genealogy_get_tree" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  {
+    try {
+      result = multi_locus_genealogy_get_tree(arg1,arg2);
+    } catch (int err) {
+      PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+      SWIG_fail;
+    }
+  }
+  resultobj = SWIG_NewPointerObj((new rooted_tree(static_cast< const rooted_tree& >(result))), SWIGTYPE_p_rooted_tree, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *multi_locus_genealogy_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_multi_locus_genealogy, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *multi_locus_genealogy_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
 SWIGINTERN PyObject *_wrap_new_haploid_highd(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   int arg1 = (int) 0 ;
@@ -7161,6 +7643,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd_all_polymorphic_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"haploid_highd_all_polymorphic_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_all_polymorphic_set" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_all_polymorphic_set" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  if (arg1) (arg1)->all_polymorphic = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd_all_polymorphic_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_all_polymorphic_get" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = (bool) ((arg1)->all_polymorphic);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd_recombination_model_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -7437,6 +7971,56 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd_track_locus_genealogy(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  vector< int > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::vector< int > temp2 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "loci", NULL 
+  };
+  int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd_track_locus_genealogy",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_track_locus_genealogy" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  {
+    /* Ensure input is a Python sequence */
+    if(!PySequence_Check(obj1)) {
+      PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
+      SWIG_fail;
+    }
+    PyObject *tmplist = PySequence_Tuple(obj1);
+    unsigned long L = PySequence_Length(tmplist);
+    
+    /* Create std::vector from Python list */
+    temp2.reserve(L);
+    long tmplong;
+    for(size_t i=0; i < L; i++) {
+      tmplong = PyInt_AsLong(PySequence_ITEM(tmplist, i));
+      if(tmplong < 0) {
+        PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
+        SWIG_fail;
+      }
+      temp2.push_back((int)tmplong); 
+    }      
+    arg2 = temp2;
+  }
+  result = (int)(arg1)->track_locus_genealogy(arg2);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd_add_genotype(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -7524,16 +8108,20 @@ SWIGINTERN PyObject *_wrap_haploid_highd_add_trait_coefficient(PyObject *SWIGUNU
   arg2 = static_cast< double >(val2);
   {
     /* Ensure input is a Python sequence */
-    PyObject *tmplist = PySequence_Fast(obj2, "I expected a sequence");
+    if(!PySequence_Check(obj2)) {
+      PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
+      SWIG_fail;
+    }
+    PyObject *tmplist = PySequence_Tuple(obj2);
     unsigned long L = PySequence_Length(tmplist);
     
     /* Create std::vector from Python list */
     temp3.reserve(L);
     long tmplong;
     for(size_t i=0; i < L; i++) {
-      tmplong = PyInt_AsLong(PySequence_Fast_GET_ITEM(tmplist, i));
+      tmplong = PyInt_AsLong(PySequence_ITEM(tmplist, i));
       if(tmplong < 0) {
-        PyErr_SetString(PyExc_ValueError, "Expecting an array of positive integers (the loci).");
+        PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
         SWIG_fail;
       }
       temp3.push_back((int)tmplong); 
@@ -7687,16 +8275,20 @@ SWIGINTERN PyObject *_wrap_haploid_highd_add_fitness_coefficient(PyObject *SWIGU
   arg2 = static_cast< double >(val2);
   {
     /* Ensure input is a Python sequence */
-    PyObject *tmplist = PySequence_Fast(obj2, "I expected a sequence");
+    if(!PySequence_Check(obj2)) {
+      PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
+      SWIG_fail;
+    }
+    PyObject *tmplist = PySequence_Tuple(obj2);
     unsigned long L = PySequence_Length(tmplist);
     
     /* Create std::vector from Python list */
     temp3.reserve(L);
     long tmplong;
     for(size_t i=0; i < L; i++) {
-      tmplong = PyInt_AsLong(PySequence_Fast_GET_ITEM(tmplist, i));
+      tmplong = PyInt_AsLong(PySequence_ITEM(tmplist, i));
       if(tmplong < 0) {
-        PyErr_SetString(PyExc_ValueError, "Expecting an array of positive integers (the loci).");
+        PyErr_SetString(PyExc_TypeError, "Expecting an array of nonnegative integers (the loci).");
         SWIG_fail;
       }
       temp3.push_back((int)tmplong); 
@@ -8050,6 +8642,40 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd_get_derived_allele_frequency(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "l", NULL 
+  };
+  double result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd_get_derived_allele_frequency",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_get_derived_allele_frequency" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_get_derived_allele_frequency" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (double)(arg1)->get_derived_allele_frequency(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd_get_pair_frequency(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -8120,6 +8746,40 @@ SWIGINTERN PyObject *_wrap_haploid_highd_get_chi(PyObject *SWIGUNUSEDPARM(self),
   } 
   arg2 = static_cast< int >(val2);
   result = (double)(arg1)->get_chi(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd_get_derived_chi(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "l", NULL 
+  };
+  double result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd_get_derived_chi",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_get_derived_chi" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_get_derived_chi" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (double)(arg1)->get_derived_chi(arg2);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -8809,6 +9469,29 @@ fail:
       Py_DECREF(array4); 
     }
   }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd__get_genealogy(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  multi_locus_genealogy result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd__get_genealogy" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = haploid_highd__get_genealogy(arg1);
+  resultobj = SWIG_NewPointerObj((new multi_locus_genealogy(static_cast< const multi_locus_genealogy& >(result))), SWIGTYPE_p_multi_locus_genealogy, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
   return NULL;
 }
 
@@ -10154,6 +10837,44 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_clone", (PyCFunction)_wrap_delete_clone, METH_O, (char *)"delete_clone(clone self)"},
 	 { (char *)"clone_swigregister", clone_swigregister, METH_VARARGS, NULL},
 	 { (char *)"clone_swiginit", clone_swiginit, METH_VARARGS, NULL},
+	 { (char *)"new_rooted_tree", (PyCFunction)_wrap_new_rooted_tree, METH_NOARGS, (char *)"new_rooted_tree() -> rooted_tree"},
+	 { (char *)"delete_rooted_tree", (PyCFunction)_wrap_delete_rooted_tree, METH_O, (char *)"delete_rooted_tree(rooted_tree self)"},
+	 { (char *)"rooted_tree_reset", (PyCFunction)_wrap_rooted_tree_reset, METH_O, (char *)"rooted_tree_reset(rooted_tree self)"},
+	 { (char *)"rooted_tree_external_branch_length", (PyCFunction)_wrap_rooted_tree_external_branch_length, METH_O, (char *)"rooted_tree_external_branch_length(rooted_tree self) -> int"},
+	 { (char *)"rooted_tree_total_branch_length", (PyCFunction)_wrap_rooted_tree_total_branch_length, METH_O, (char *)"rooted_tree_total_branch_length(rooted_tree self) -> int"},
+	 { (char *)"rooted_tree_check_tree_integrity", (PyCFunction)_wrap_rooted_tree_check_tree_integrity, METH_O, (char *)"rooted_tree_check_tree_integrity(rooted_tree self) -> int"},
+	 { (char *)"rooted_tree___str__", (PyCFunction)_wrap_rooted_tree___str__, METH_O, (char *)"rooted_tree___str__(rooted_tree self) -> char const *"},
+	 { (char *)"rooted_tree___repr__", (PyCFunction)_wrap_rooted_tree___repr__, METH_O, (char *)"rooted_tree___repr__(rooted_tree self) -> char const *"},
+	 { (char *)"rooted_tree_swigregister", rooted_tree_swigregister, METH_VARARGS, NULL},
+	 { (char *)"rooted_tree_swiginit", rooted_tree_swiginit, METH_VARARGS, NULL},
+	 { (char *)"new_multi_locus_genealogy", (PyCFunction)_wrap_new_multi_locus_genealogy, METH_NOARGS, (char *)"Default constructor"},
+	 { (char *)"delete_multi_locus_genealogy", (PyCFunction)_wrap_delete_multi_locus_genealogy, METH_O, (char *)"delete_multi_locus_genealogy(multi_locus_genealogy self)"},
+	 { (char *)"multi_locus_genealogy_track_locus", (PyCFunction) _wrap_multi_locus_genealogy_track_locus, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Start tracking a new locus.\n"
+		"\n"
+		"Parameters:\n"
+		"   - new_locus: locus to be tracked\n"
+		"\n"
+		".. note:: the locus gets appended to the 'loci' array.\n"
+		"\n"
+		""},
+	 { (char *)"multi_locus_genealogy_reset", (PyCFunction)_wrap_multi_locus_genealogy_reset, METH_O, (char *)"Reset (empty) the genealogy."},
+	 { (char *)"multi_locus_genealogy___str__", (PyCFunction)_wrap_multi_locus_genealogy___str__, METH_O, (char *)"multi_locus_genealogy___str__(multi_locus_genealogy self) -> char const *"},
+	 { (char *)"multi_locus_genealogy___repr__", (PyCFunction)_wrap_multi_locus_genealogy___repr__, METH_O, (char *)"multi_locus_genealogy___repr__(multi_locus_genealogy self) -> char const *"},
+	 { (char *)"multi_locus_genealogy__get_number_of_loci", (PyCFunction)_wrap_multi_locus_genealogy__get_number_of_loci, METH_O, (char *)"multi_locus_genealogy__get_number_of_loci(multi_locus_genealogy self) -> int"},
+	 { (char *)"multi_locus_genealogy__get_loci", (PyCFunction) _wrap_multi_locus_genealogy__get_loci, METH_VARARGS | METH_KEYWORDS, (char *)"multi_locus_genealogy__get_loci(multi_locus_genealogy self, int DIM1)"},
+	 { (char *)"multi_locus_genealogy_get_tree", (PyCFunction) _wrap_multi_locus_genealogy_get_tree, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get the genealogy tree for a certain locus.\n"
+		"\n"
+		"Parameters:\n"
+		"   - locus: site whose tree is being returned\n"
+		"\n"
+		".. note:: if you want to know what loci are being tracked, look into the 'loci'\n"
+		"          attribute.\n"
+		"\n"
+		""},
+	 { (char *)"multi_locus_genealogy_swigregister", multi_locus_genealogy_swigregister, METH_VARARGS, NULL},
+	 { (char *)"multi_locus_genealogy_swiginit", multi_locus_genealogy_swiginit, METH_VARARGS, NULL},
 	 { (char *)"new_haploid_highd", (PyCFunction) _wrap_new_haploid_highd, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Construct a high-dimensional population with certain parameters.\n"
 		"\n"
@@ -10172,6 +10893,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd_outcrossing_rate_get", (PyCFunction)_wrap_haploid_highd_outcrossing_rate_get, METH_O, (char *)"outcrossing rate (probability of sexual reproduction per generation)"},
 	 { (char *)"haploid_highd_crossover_rate_set", _wrap_haploid_highd_crossover_rate_set, METH_VARARGS, (char *)"crossover rate (probability of crossover per site per generation)"},
 	 { (char *)"haploid_highd_crossover_rate_get", (PyCFunction)_wrap_haploid_highd_crossover_rate_get, METH_O, (char *)"crossover rate (probability of crossover per site per generation)"},
+	 { (char *)"haploid_highd_all_polymorphic_set", _wrap_haploid_highd_all_polymorphic_set, METH_VARARGS, (char *)"haploid_highd_all_polymorphic_set(haploid_highd self, bool all_polymorphic)"},
+	 { (char *)"haploid_highd_all_polymorphic_get", (PyCFunction)_wrap_haploid_highd_all_polymorphic_get, METH_O, (char *)"haploid_highd_all_polymorphic_get(haploid_highd self) -> bool"},
 	 { (char *)"haploid_highd_recombination_model_set", _wrap_haploid_highd_recombination_model_set, METH_VARARGS, (char *)"\n"
 		"model of recombination to use\n"
 		"\n"
@@ -10203,6 +10926,16 @@ static PyMethodDef SwigMethods[] = {
 		"   - N: the number of individuals\n"
 		"\n"
 		".. note:: the carrying capacity is set to the same value if still unset.\n"
+		"\n"
+		""},
+	 { (char *)"haploid_highd_track_locus_genealogy", (PyCFunction) _wrap_haploid_highd_track_locus_genealogy, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Track the genealogy of some loci.\n"
+		"\n"
+		"Parameters:\n"
+		"   - loci: sites whose genealogy is being stored\n"
+		"\n"
+		"Returns:\n"
+		"   - zero if successful\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_add_genotype", (PyCFunction) _wrap_haploid_highd_add_genotype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -10311,6 +11044,16 @@ static PyMethodDef SwigMethods[] = {
 		"   - frequency: allele frequency in the population\n"
 		"\n"
 		""},
+	 { (char *)"haploid_highd_get_derived_allele_frequency", (PyCFunction) _wrap_haploid_highd_get_derived_allele_frequency, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get the frequency of the derived allele at the selected locus\n"
+		"\n"
+		"Parameters:\n"
+		"   - locus: locus whose frequency of the derived allele is to be returned\n"
+		"\n"
+		"Returns:\n"
+		"   - frequency: allele frequency in the population\n"
+		"\n"
+		""},
 	 { (char *)"haploid_highd_get_pair_frequency", (PyCFunction) _wrap_haploid_highd_get_pair_frequency, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Get the joint frequency of two + alleles\n"
 		"\n"
@@ -10330,6 +11073,16 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		"Returns:\n"
 		"    - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \\{\\pm1\\}`.\n"
+		"\n"
+		""},
+	 { (char *)"haploid_highd_get_derived_chi", (PyCFunction) _wrap_haploid_highd_get_derived_chi, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get :math:`\\chi_i` of a derived allele\n"
+		"\n"
+		"Parameters:\n"
+		"    - locus: locus whose chi is to be computed\n"
+		"\n"
+		"Returns:\n"
+		"    - the chi of that derived allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \\{\\pm1\\}`.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_get_chi2", (PyCFunction) _wrap_haploid_highd_get_chi2, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -10434,6 +11187,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd___repr__", (PyCFunction)_wrap_haploid_highd___repr__, METH_O, (char *)"haploid_highd___repr__(haploid_highd self) -> char const *"},
 	 { (char *)"haploid_highd__set_allele_frequencies", (PyCFunction) _wrap_haploid_highd__set_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_allele_frequencies(haploid_highd self, double * IN_ARRAY1, int n_o_genotypes) -> int"},
 	 { (char *)"haploid_highd__set_genotypes", (PyCFunction) _wrap_haploid_highd__set_genotypes, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_genotypes(haploid_highd self, int len1, int len2) -> int"},
+	 { (char *)"haploid_highd__get_genealogy", (PyCFunction)_wrap_haploid_highd__get_genealogy, METH_O, (char *)"haploid_highd__get_genealogy(haploid_highd self) -> multi_locus_genealogy"},
 	 { (char *)"haploid_highd__get_allele_frequencies", (PyCFunction) _wrap_haploid_highd__get_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__get_allele_frequencies(haploid_highd self, double * ARGOUT_ARRAY1)"},
 	 { (char *)"haploid_highd__get_genotype", (PyCFunction) _wrap_haploid_highd__get_genotype, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__get_genotype(haploid_highd self, unsigned int n, short * ARGOUT_ARRAY1)"},
 	 { (char *)"haploid_highd__get_trait_additive", (PyCFunction) _wrap_haploid_highd__get_trait_additive, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__get_trait_additive(haploid_highd self, double * ARGOUT_ARRAY1, int t)"},
@@ -10545,8 +11299,11 @@ static swig_type_info _swigt__p_haploid_lowd = {"_p_haploid_lowd", "haploid_lowd
 static swig_type_info _swigt__p_hivgene = {"_p_hivgene", "hivgene *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_hivpopulation = {"_p_hivpopulation", "hivpopulation *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_index_value_pair_t = {"_p_index_value_pair_t", "index_value_pair_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_istream = {"_p_istream", "istream *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_multi_locus_genealogy = {"_p_multi_locus_genealogy", "multi_locus_genealogy *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ostream = {"_p_ostream", "ostream *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_rooted_tree = {"_p_rooted_tree", "rooted_tree *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_stat_t = {"_p_stat_t", "stat_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_string = {"_p_string", "string *", 0, 0, (void*)0, 0};
@@ -10566,8 +11323,11 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_hivgene,
   &_swigt__p_hivpopulation,
   &_swigt__p_index_value_pair_t,
+  &_swigt__p_int,
   &_swigt__p_istream,
+  &_swigt__p_multi_locus_genealogy,
   &_swigt__p_ostream,
+  &_swigt__p_rooted_tree,
   &_swigt__p_short,
   &_swigt__p_stat_t,
   &_swigt__p_string,
@@ -10587,8 +11347,11 @@ static swig_cast_info _swigc__p_haploid_lowd[] = {  {&_swigt__p_haploid_lowd, 0,
 static swig_cast_info _swigc__p_hivgene[] = {  {&_swigt__p_hivgene, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_hivpopulation[] = {  {&_swigt__p_hivpopulation, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_index_value_pair_t[] = {  {&_swigt__p_index_value_pair_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_istream[] = {  {&_swigt__p_istream, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_multi_locus_genealogy[] = {  {&_swigt__p_multi_locus_genealogy, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ostream[] = {  {&_swigt__p_ostream, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_rooted_tree[] = {  {&_swigt__p_rooted_tree, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_stat_t[] = {  {&_swigt__p_stat_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_string[] = {  {&_swigt__p_string, 0, 0, 0},{0, 0, 0, 0}};
@@ -10608,8 +11371,11 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_hivgene,
   _swigc__p_hivpopulation,
   _swigc__p_index_value_pair_t,
+  _swigc__p_int,
   _swigc__p_istream,
+  _swigc__p_multi_locus_genealogy,
   _swigc__p_ostream,
+  _swigc__p_rooted_tree,
   _swigc__p_short,
   _swigc__p_stat_t,
   _swigc__p_string,
@@ -11340,6 +12106,10 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "HP_NOBINSERR",SWIG_From_int(static_cast< int >(6)));
   SWIG_Python_SetConstant(d, "HP_WRONGBINSERR",SWIG_From_int(static_cast< int >(7)));
   SWIG_Python_SetConstant(d, "HP_RUNTIMEERR",SWIG_From_int(static_cast< int >(8)));
+  SWIG_Python_SetConstant(d, "RT_VERBOSE",SWIG_From_int(static_cast< int >(0)));
+  SWIG_Python_SetConstant(d, "RT_VERYLARGE",SWIG_From_int(static_cast< int >(10000000)));
+  SWIG_Python_SetConstant(d, "RT_CHILDNOTFOUND",SWIG_From_int(static_cast< int >(-35343)));
+  SWIG_Python_SetConstant(d, "RT_NODENOTFOUND",SWIG_From_int(static_cast< int >(-35765)));
   SWIG_Python_SetConstant(d, "HIVPOP_VERBOSE",SWIG_From_int(static_cast< int >(0)));
   SWIG_Python_SetConstant(d, "HIVPOP_BADARG",SWIG_From_int(static_cast< int >(-1354341)));
   SWIG_Python_SetConstant(d, "NOTHING",SWIG_From_double(static_cast< double >(1e-10)));

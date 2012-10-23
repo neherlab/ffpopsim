@@ -216,7 +216,7 @@ int rooted_tree::erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t
  * @brief erases a node that has one offspring. wires that nodes child to that node parent
  * @params tree_key_t of node to be deleted
  */
-tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged){
+tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged) {
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::bridge_edge_node(). ..."<<to_be_bridged<<endl;
 	}
@@ -263,7 +263,7 @@ tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged){
 /*
  * @brief walk over all leafs and rebuild the number of ancestors leaf to root
  */
-void rooted_tree::update_tree(){
+void rooted_tree::update_tree() {
 	clear_tree();
 	for (vector <tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
 		update_leaf_to_root(*leaf);
@@ -274,7 +274,7 @@ void rooted_tree::update_tree(){
  * @brief start at a leaf and add its population to all nodes in its lineage to the MRCA
  * @params tree_key_t to the leaf at which this is supposed to start
  */
-int rooted_tree::update_leaf_to_root(tree_key_t leaf_key){
+int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::update_leaf_to_root(). key:"<<leaf_key<<endl;
 	}
@@ -314,12 +314,11 @@ int rooted_tree::update_leaf_to_root(tree_key_t leaf_key){
  * @brief loop over all edges and calculate the site frequency spectrum of all derived neutral mutations
  * @params gsl_histogram* the histogram is accumulated and assumed to have bins between 0 and 1
  */
-void rooted_tree::SFS(gsl_histogram *sfs){
+void rooted_tree::SFS(gsl_histogram *sfs) {
 	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 	int total_pop = nodes[MRCA].number_of_offspring;
-	for (; edge!=edges.end(); edge++){
+	for (; edge!=edges.end(); edge++)
 		gsl_histogram_accumulate(sfs, 1.0*edge->second.number_of_offspring/total_pop, edge->second.length);
-	}
 }
 
 /*
@@ -328,51 +327,47 @@ void rooted_tree::SFS(gsl_histogram *sfs){
 int rooted_tree::external_branch_length(){
 	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 	int branchlength = 0;
-	for (vector <tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end();leaf++){
+	for (vector <tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end();leaf++)
 		branchlength+=edges[*leaf].length;
-	}
 	return branchlength;
 }
 
 /*
  * @brief calculate total branch length
  */
-int rooted_tree::total_branch_length(){
+int rooted_tree::total_branch_length() {
 	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 	int branchlength = 0;
-	for (; edge!=edges.end(); edge++){
+	for (; edge!=edges.end(); edge++)
 		branchlength+=edge->second.length;
-	}
 	return branchlength;
 }
 
 /*
  * @brief delete all number of offspring values and set the leafs to clone size
  */
-void rooted_tree::clear_tree(){
-	if (RT_VERBOSE){
+void rooted_tree::clear_tree() {
+	if (RT_VERBOSE)
 		cerr <<"rooted_tree::clear_tree()..."<<endl;
-	}
+
 	map <tree_key_t,node_t>::iterator node = nodes.begin();
 	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 
-	for (; node!=nodes.end(); node++){
+	for (; node!=nodes.end(); node++)
 		node->second.number_of_offspring=0;
-	}
-	for (; edge!=edges.end(); edge++){
+	for (; edge!=edges.end(); edge++)
 		edge->second.number_of_offspring=0;
-	}
 
 
-	for (vector<tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++){
+	for (vector<tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++) {
 		node = nodes.find(*leaf);
-		if (node==nodes.end()){
+		if (node==nodes.end()) {
 			cerr <<"rooted_tree::clear_tree(). key of leaf not found"<<endl;
 			break;
 		}
 		node->second.number_of_offspring=node->second.clone_size;
 	}
-	if (RT_VERBOSE){
+	if (RT_VERBOSE) {
 		cerr <<"rooted_tree::clear_tree(). done"<<endl;
 	}
 }
@@ -380,7 +375,7 @@ void rooted_tree::clear_tree(){
 /*
  * @brief return tree in newick format as string
  */
-string rooted_tree::print_newick(){
+string rooted_tree::print_newick() {
 	return subtree_newick(MRCA)+";";
 }
 
@@ -656,7 +651,8 @@ int rooted_tree::check_tree_integrity(){
 
 
 /*
- * @brief recursive function that calculates what chunks of the genome are inherited by what number of individuals
+ * @brief recursive function that calculates what chunks of the genome
+ *        are inherited by what number of individuals
  * @params key of the node whose descendants are to be investigated
  */
 int rooted_tree::calc_weight_distribution(tree_key_t subtree_root){

@@ -1167,6 +1167,117 @@ clone._set_genotype = new_instancemethod(_FFPopSim.clone__set_genotype,None,clon
 clone_swigregister = _FFPopSim.clone_swigregister
 clone_swigregister(clone)
 
+RT_VERBOSE = _FFPopSim.RT_VERBOSE
+RT_VERYLARGE = _FFPopSim.RT_VERYLARGE
+RT_CHILDNOTFOUND = _FFPopSim.RT_CHILDNOTFOUND
+RT_NODENOTFOUND = _FFPopSim.RT_NODENOTFOUND
+class rooted_tree(object):
+    """Proxy of C++ rooted_tree class"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): 
+        """__init__(rooted_tree self) -> rooted_tree"""
+        _FFPopSim.rooted_tree_swiginit(self,_FFPopSim.new_rooted_tree())
+    __swig_destroy__ = _FFPopSim.delete_rooted_tree
+    def reset(self):
+        """reset(rooted_tree self)"""
+        return _FFPopSim.rooted_tree_reset(self)
+
+    def external_branch_length(self):
+        """external_branch_length(rooted_tree self) -> int"""
+        return _FFPopSim.rooted_tree_external_branch_length(self)
+
+    def total_branch_length(self):
+        """total_branch_length(rooted_tree self) -> int"""
+        return _FFPopSim.rooted_tree_total_branch_length(self)
+
+    def check_tree_integrity(self):
+        """check_tree_integrity(rooted_tree self) -> int"""
+        return _FFPopSim.rooted_tree_check_tree_integrity(self)
+
+    def __str__(self):
+        """__str__(rooted_tree self) -> char const *"""
+        return _FFPopSim.rooted_tree___str__(self)
+
+    def __repr__(self):
+        """__repr__(rooted_tree self) -> char const *"""
+        return _FFPopSim.rooted_tree___repr__(self)
+
+rooted_tree.reset = new_instancemethod(_FFPopSim.rooted_tree_reset,None,rooted_tree)
+rooted_tree.external_branch_length = new_instancemethod(_FFPopSim.rooted_tree_external_branch_length,None,rooted_tree)
+rooted_tree.total_branch_length = new_instancemethod(_FFPopSim.rooted_tree_total_branch_length,None,rooted_tree)
+rooted_tree.check_tree_integrity = new_instancemethod(_FFPopSim.rooted_tree_check_tree_integrity,None,rooted_tree)
+rooted_tree.__str__ = new_instancemethod(_FFPopSim.rooted_tree___str__,None,rooted_tree)
+rooted_tree.__repr__ = new_instancemethod(_FFPopSim.rooted_tree___repr__,None,rooted_tree)
+rooted_tree_swigregister = _FFPopSim.rooted_tree_swigregister
+rooted_tree_swigregister(rooted_tree)
+
+class multi_locus_genealogy(object):
+    """Genealogy for multiple loci"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): 
+        """Default constructor"""
+        _FFPopSim.multi_locus_genealogy_swiginit(self,_FFPopSim.new_multi_locus_genealogy())
+    __swig_destroy__ = _FFPopSim.delete_multi_locus_genealogy
+    def track_locus(self, *args, **kwargs):
+        """
+        Start tracking a new locus.
+
+        Parameters:
+           - new_locus: locus to be tracked
+
+        .. note:: the locus gets appended to the 'loci' array.
+
+        """
+        return _FFPopSim.multi_locus_genealogy_track_locus(self, *args, **kwargs)
+
+    def reset(self):
+        """Reset (empty) the genealogy."""
+        return _FFPopSim.multi_locus_genealogy_reset(self)
+
+    def __str__(self):
+        """__str__(multi_locus_genealogy self) -> char const *"""
+        return _FFPopSim.multi_locus_genealogy___str__(self)
+
+    def __repr__(self):
+        """__repr__(multi_locus_genealogy self) -> char const *"""
+        return _FFPopSim.multi_locus_genealogy___repr__(self)
+
+    def _get_number_of_loci(self):
+        """_get_number_of_loci(multi_locus_genealogy self) -> int"""
+        return _FFPopSim.multi_locus_genealogy__get_number_of_loci(self)
+
+    def _get_loci(self, *args, **kwargs):
+        """_get_loci(multi_locus_genealogy self, int DIM1)"""
+        return _FFPopSim.multi_locus_genealogy__get_loci(self, *args, **kwargs)
+
+    @property
+    def loci(self):
+        '''The loci that are being tracked'''
+        return self._get_loci(self._get_number_of_loci())
+
+    def get_tree(self, *args, **kwargs):
+        """
+        Get the genealogy tree for a certain locus.
+
+        Parameters:
+           - locus: site whose tree is being returned
+
+        .. note:: if you want to know what loci are being tracked, look into the 'loci'
+                  attribute.
+
+        """
+        return _FFPopSim.multi_locus_genealogy_get_tree(self, *args, **kwargs)
+
+multi_locus_genealogy.track_locus = new_instancemethod(_FFPopSim.multi_locus_genealogy_track_locus,None,multi_locus_genealogy)
+multi_locus_genealogy.reset = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset,None,multi_locus_genealogy)
+multi_locus_genealogy.__str__ = new_instancemethod(_FFPopSim.multi_locus_genealogy___str__,None,multi_locus_genealogy)
+multi_locus_genealogy.__repr__ = new_instancemethod(_FFPopSim.multi_locus_genealogy___repr__,None,multi_locus_genealogy)
+multi_locus_genealogy._get_number_of_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_number_of_loci,None,multi_locus_genealogy)
+multi_locus_genealogy._get_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_loci,None,multi_locus_genealogy)
+multi_locus_genealogy.get_tree = new_instancemethod(_FFPopSim.multi_locus_genealogy_get_tree,None,multi_locus_genealogy)
+multi_locus_genealogy_swigregister = _FFPopSim.multi_locus_genealogy_swigregister
+multi_locus_genealogy_swigregister(multi_locus_genealogy)
+
 class haploid_highd(object):
     """
     Class for high-dimensional population genetics (genomes larger than ~20 loci).
@@ -1222,6 +1333,7 @@ class haploid_highd(object):
     mutation_rate = _swig_property(_FFPopSim.haploid_highd_mutation_rate_get, _FFPopSim.haploid_highd_mutation_rate_set)
     outcrossing_rate = _swig_property(_FFPopSim.haploid_highd_outcrossing_rate_get, _FFPopSim.haploid_highd_outcrossing_rate_set)
     crossover_rate = _swig_property(_FFPopSim.haploid_highd_crossover_rate_get, _FFPopSim.haploid_highd_crossover_rate_set)
+    all_polymorphic = _swig_property(_FFPopSim.haploid_highd_all_polymorphic_get, _FFPopSim.haploid_highd_all_polymorphic_set)
     recombination_model = _swig_property(_FFPopSim.haploid_highd_recombination_model_get, _FFPopSim.haploid_highd_recombination_model_set)
     circular = _swig_property(_FFPopSim.haploid_highd_circular_get, _FFPopSim.haploid_highd_circular_set)
     def _get_number_of_loci(self):
@@ -1259,6 +1371,19 @@ class haploid_highd(object):
 
         """
         return _FFPopSim.haploid_highd_set_wildtype(self, *args, **kwargs)
+
+    def track_locus_genealogy(self, *args, **kwargs):
+        """
+        Track the genealogy of some loci.
+
+        Parameters:
+           - loci: sites whose genealogy is being stored
+
+        Returns:
+           - zero if successful
+
+        """
+        return _FFPopSim.haploid_highd_track_locus_genealogy(self, *args, **kwargs)
 
     def add_genotype(self, *args, **kwargs):
         """
@@ -1417,6 +1542,19 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_get_allele_frequency(self, *args, **kwargs)
 
+    def get_derived_allele_frequency(self, *args, **kwargs):
+        """
+        Get the frequency of the derived allele at the selected locus
+
+        Parameters:
+           - locus: locus whose frequency of the derived allele is to be returned
+
+        Returns:
+           - frequency: allele frequency in the population
+
+        """
+        return _FFPopSim.haploid_highd_get_derived_allele_frequency(self, *args, **kwargs)
+
     def get_pair_frequency(self, *args, **kwargs):
         """
         Get the joint frequency of two + alleles
@@ -1443,6 +1581,19 @@ class haploid_highd(object):
 
         """
         return _FFPopSim.haploid_highd_get_chi(self, *args, **kwargs)
+
+    def get_derived_chi(self, *args, **kwargs):
+        """
+        Get :math:`\chi_i` of a derived allele
+
+        Parameters:
+            - locus: locus whose chi is to be computed
+
+        Returns:
+            - the chi of that derived allele, :math:`\chi_i := \left<s_i\right>`, where :math:`s_i \in \{\pm1\}`.
+
+        """
+        return _FFPopSim.haploid_highd_get_derived_chi(self, *args, **kwargs)
 
     def get_chi2(self, *args, **kwargs):
         """
@@ -1685,6 +1836,12 @@ class haploid_highd(object):
                     raise RuntimeError('Error in the C++ function.')
             else:
                     self.calc_stat()
+
+    def _get_genealogy(self):
+        """_get_genealogy(haploid_highd self) -> multi_locus_genealogy"""
+        return _FFPopSim.haploid_highd__get_genealogy(self)
+
+    genealogy = property(_get_genealogy)
 
     def _get_allele_frequencies(self, *args, **kwargs):
         """_get_allele_frequencies(haploid_highd self, double * ARGOUT_ARRAY1)"""
@@ -2049,6 +2206,7 @@ haploid_highd._get_number_of_clones = new_instancemethod(_FFPopSim.haploid_highd
 haploid_highd._get_number_of_traits = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_traits,None,haploid_highd)
 haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
 haploid_highd.set_wildtype = new_instancemethod(_FFPopSim.haploid_highd_set_wildtype,None,haploid_highd)
+haploid_highd.track_locus_genealogy = new_instancemethod(_FFPopSim.haploid_highd_track_locus_genealogy,None,haploid_highd)
 haploid_highd.add_genotype = new_instancemethod(_FFPopSim.haploid_highd_add_genotype,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
 haploid_highd.clear_trait = new_instancemethod(_FFPopSim.haploid_highd_clear_trait,None,haploid_highd)
@@ -2066,8 +2224,10 @@ haploid_highd.random_clone = new_instancemethod(_FFPopSim.haploid_highd_random_c
 haploid_highd.get_diversity_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_diversity_statistics,None,haploid_highd)
 haploid_highd.get_divergence_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_divergence_statistics,None,haploid_highd)
 haploid_highd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_allele_frequency,None,haploid_highd)
+haploid_highd.get_derived_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_derived_allele_frequency,None,haploid_highd)
 haploid_highd.get_pair_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_pair_frequency,None,haploid_highd)
 haploid_highd.get_chi = new_instancemethod(_FFPopSim.haploid_highd_get_chi,None,haploid_highd)
+haploid_highd.get_derived_chi = new_instancemethod(_FFPopSim.haploid_highd_get_derived_chi,None,haploid_highd)
 haploid_highd.get_chi2 = new_instancemethod(_FFPopSim.haploid_highd_get_chi2,None,haploid_highd)
 haploid_highd.get_LD = new_instancemethod(_FFPopSim.haploid_highd_get_LD,None,haploid_highd)
 haploid_highd.get_moment = new_instancemethod(_FFPopSim.haploid_highd_get_moment,None,haploid_highd)
@@ -2085,6 +2245,7 @@ haploid_highd.__str__ = new_instancemethod(_FFPopSim.haploid_highd___str__,None,
 haploid_highd.__repr__ = new_instancemethod(_FFPopSim.haploid_highd___repr__,None,haploid_highd)
 haploid_highd._set_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__set_allele_frequencies,None,haploid_highd)
 haploid_highd._set_genotypes = new_instancemethod(_FFPopSim.haploid_highd__set_genotypes,None,haploid_highd)
+haploid_highd._get_genealogy = new_instancemethod(_FFPopSim.haploid_highd__get_genealogy,None,haploid_highd)
 haploid_highd._get_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__get_allele_frequencies,None,haploid_highd)
 haploid_highd._get_genotype = new_instancemethod(_FFPopSim.haploid_highd__get_genotype,None,haploid_highd)
 haploid_highd._get_trait_additive = new_instancemethod(_FFPopSim.haploid_highd__get_trait_additive,None,haploid_highd)
