@@ -240,6 +240,7 @@ struct tree_key_t {
                 else if (age < other.age) return false;
                 else { return (index>other.index); }
         }
+        tree_key_t(int index=0, int age=0) : index(index), age(age) {};
 };
 
 struct step_t {
@@ -257,6 +258,7 @@ struct step_t {
                 if(pos == other.pos) return true;
                 else return false;
         }
+        step_t(int pos=0, int step=0) : pos(pos), step(step) {};
 };
 
 struct node_t {
@@ -297,21 +299,27 @@ public:
 	int external_branch_length();
 	int total_branch_length();
 	int ancestors_at_age(int age, tree_key_t subtree_root, vector <tree_key_t> &ancestors);
-	void clear_tree();
 	int update_leaf_to_root(tree_key_t leaf);
 	void update_tree();
 	int calc_weight_distribution(tree_key_t subtree_root);
 	void SFS(gsl_histogram *sfs);
 	tree_key_t get_MRCA(){return MRCA;};
-	bool check_node(tree_key_t node);
 	int erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t to_be_erased);
-	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &superTree);
 	int delete_extra_children(tree_key_t subtree_root);
 	int delete_one_child_nodes(tree_key_t subtree_root);
+	bool check_node(tree_key_t node);
+	int check_tree_integrity();
+	void clear_tree();
+
+        // print tree or subtrees
 	string print_newick();
 	string subtree_newick(tree_key_t root);
-	int check_tree_integrity();
 	string print_weight_distribution(tree_key_t node_key);
+
+        // construct subtrees
+	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
+
+
 };
 
 #endif /* rooted_tree_H_ */
@@ -339,10 +347,9 @@ public:
 	virtual ~multi_locus_genealogy();
 	void track_locus(int new_locus);
 	void reset(){loci.clear(); trees.clear();newGenerations.clear();}
+	void reset_but_loci(){for(int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
 	void add_generation(double baseline);
 	int extend_storage(int n);
-        // TODO: write a function that creates a subtree from keys/indices, such as:
-        // rooted_tree create_subtree_from_keys(keys);
 };
 #endif /* MULTILOCUSGENEALOGY_H_ */
 

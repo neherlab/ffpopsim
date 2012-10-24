@@ -166,14 +166,14 @@ int rooted_tree::add_terminal_node(node_t &new_node){
  * @params tree_key_t the key of the one to be erased
  */
 tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
-	if (RT_VERBOSE){
+	if (RT_VERBOSE) {
 		cerr <<"rooted_tree::erase_edge_node(). ..."<<to_be_erased<<endl;
 	}
 
 	map <tree_key_t,node_t>::iterator Enode = nodes.find(to_be_erased);
 	map <tree_key_t,edge_t>::iterator Eedge = edges.find(to_be_erased);
 
-	if (Enode->second.child_edges.size()>0){
+	if (Enode->second.child_edges.size()>0) {
 		cerr <<"rooted_tree::erase_edge_node(): attempting to erase non-terminal node"<<endl;
 	}
 
@@ -185,14 +185,14 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 	Pedge->second.number_of_offspring-=Eedge->second.number_of_offspring;
 
 
-	if (erase_child(Pnode, to_be_erased)==RT_CHILDNOTFOUND){
+	if (RT_VERBOSE and (erase_child(Pnode, to_be_erased)==RT_CHILDNOTFOUND)) {
 		cerr <<"rooted_tree::erase_edge_node(): child not found"<<endl;
 	}
 
 	nodes.erase(to_be_erased);
 	edges.erase(to_be_erased);
 
-	if (RT_VERBOSE){
+	if (RT_VERBOSE) {
 		cerr <<"rooted_tree::erase_edge_node(). done"<<endl;
 	}
 
@@ -419,12 +419,14 @@ bool rooted_tree::check_node(tree_key_t node_key){
  *
  * note that instead of pruning, this functions builds up a new tree from scratch by walking through the super tree
  */
-int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &superTree){
+int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other){
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::construct_subtree()..."<<endl;
 	}
 	//the MRCA needs to go since we will rediscover it later. the tree does contain a root
-	reset();nodes.erase(MRCA);edges.erase(MRCA);
+	other.reset();
+        other.nodes.erase(other.MRCA);
+        other.edges.erase(other.MRCA);
 
 	//add all new leafs and make a set of leaves to be added next round. (set has unique elements)
 	set <tree_key_t> new_nodes;
@@ -432,11 +434,11 @@ int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tre
 	map <tree_key_t,node_t>::iterator node;
 	map <tree_key_t,edge_t>::iterator edge;
 	for (vector <tree_key_t>::iterator leaf=subtree_leafs.begin(); leaf!=subtree_leafs.end(); leaf++){
-		if (superTree.check_node(*leaf)){
-			node = superTree.nodes.find(*leaf);
-			nodes.insert(*node);
-			edges.insert(*superTree.edges.find(*leaf));
-			leafs.push_back(*leaf);
+		if (check_node(*leaf)) {
+			node = nodes.find(*leaf);
+			other.nodes.insert(*node);
+			other.edges.insert(*edges.find(*leaf));
+			other.leafs.push_back(*leaf);
 			new_nodes.insert(node->second.parent_node);
 		}else{
 			cerr <<"rooted_tree::construct_subtree(). leaf does not exist"<<endl;
@@ -449,21 +451,21 @@ int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tre
 	}
 
 
-	MRCA=root; //set MRCA to some definite value, doesn't matter
+	other.MRCA = other.root; //set MRCA to some definite value, doesn't matter
 	//repeatedly add parents of all nodes until nothing else is added, or one node
 	//is added and that one is the MRCA (set within the loop)
-	while((new_nodes.size()>1 or MRCA!= *new_nodes.begin()) and new_nodes.size()>0){
+	while((new_nodes.size() > 1 or other.MRCA != *new_nodes.begin()) and new_nodes.size() > 0) {
 		set <tree_key_t> temp = new_nodes;
 		new_nodes.clear();
 		for (set <tree_key_t>::iterator node_key=temp.begin(); node_key!=temp.end(); node_key++){
-			if (superTree.check_node(*node_key)){
-				node = superTree.nodes.find(*node_key);
-				nodes.insert(*node);
-				edges.insert(*superTree.edges.find(*node_key));
+			if (check_node(*node_key)){
+				node = nodes.find(*node_key);
+				other.nodes.insert(*node);
+				other.edges.insert(*edges.find(*node_key));
 				if (node->second.parent_node!=root) {
 					new_nodes.insert(node->second.parent_node);
 				} else {	//of the parent is the root, that node is the MRCA
-					MRCA = *node_key;
+					other.MRCA = *node_key;
 				}
 			}
 			else{
@@ -476,24 +478,24 @@ int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tre
 	}
 
 	//wire the root and the MRCA together
-	if (superTree.check_node(MRCA)){
-		node = nodes.insert(*superTree.nodes.find(MRCA)).first;
-		edge = edges.insert(*superTree.edges.find(MRCA)).first;
-		edge->second.length = MRCA.age - root.age;
-		node->second.parent_node=root;
-		edge->second.parent_node=root;
-		node = nodes.find(root);
+	if (check_node(other.MRCA)){
+		node = other.nodes.insert(*nodes.find(MRCA)).first;
+		edge = other.edges.insert(*edges.find(MRCA)).first;
+		edge->second.length = other.MRCA.age - other.root.age;
+		node->second.parent_node = other.root;
+		edge->second.parent_node = other.root;
+		node = other.nodes.find(other.root);
 		node->second.child_edges.clear();
-		node->second.child_edges.push_back(MRCA);
+		node->second.child_edges.push_back(other.MRCA);
 	}
 
 	//we have copied nodes from the superTree, whcih probably have more children than necessary
 	//delete those
-	delete_extra_children(MRCA);
+	other.delete_extra_children(other.MRCA);
 	//bridge all nodes with a single child
-	delete_one_child_nodes(MRCA);
+	other.delete_one_child_nodes(other.MRCA);
 	//
-	update_tree();
+	other.update_tree();
 
 	if (RT_VERBOSE){
 		cerr <<"genealogy::construct_subtree(). done"<<endl;
@@ -737,7 +739,7 @@ string rooted_tree::print_weight_distribution(tree_key_t node_key){
 }
 
 /*
- * @brief find all nodes in a subtree that are younger than age, append them to the provided vector reference
+ * @brief find nodes in a subtree younger than age
  * @params int age (the time at which the tree is to be slcied)
  * @params tree_key_t subtree_root the root of the subtree that is to be examined
  * @params reference to tree_key_t vector. vector into which the found ancestors are pushed

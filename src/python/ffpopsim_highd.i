@@ -18,14 +18,19 @@
  * along with FFPopSim. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* STL specializations */
+%template(vector_tree_step) std::vector<step_t>;
+%template(vector_tree_key) std::vector<tree_key_t>;
+%template(list_tree_key) std::list<tree_key_t>;
+%template(map_key_edge) std::map<tree_key_t, edge_t>;
+%template(map_key_node) std::map<tree_key_t, node_t>;
+
 /* renames and ignores */
 %ignore coeff_t;
 %ignore coeff_single_locus_t;
 %ignore hypercube_highd;
-%ignore tree_key_t;
 %ignore step_t;
 %ignore node_t;
-%ignore edge_t;
 
 /* general typemaps */
 /* convert a Python bool array into a boost::dynamic_bitset */
@@ -115,6 +120,306 @@ def genotype(self, genotype):
 }
 } /* extend clone_t */
 
+/**** TREE_KEY_T ****/
+%feature("autodoc", "Key for a phylogenetic tree, with index and age.") tree_key_t;
+%rename (tree_key) tree_key_t;
+%extend tree_key_t {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree key: index = %d, age = %d", (int)($self->index), (int)($self->age));
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_key(%d, %d)", (int)($self->index), (int)($self->age));
+        return &buffer[0];
+}
+
+/* constructor */
+%feature("autodoc",
+"Initialize new tree_key.
+
+Parameters:
+   - index: index of the key
+   - age: age of the key
+") tree_key_t;
+
+} /* extend tree_key_t */
+
+/**** STEP_T ****/
+%feature("autodoc", "Step in a phylogenetic tree search") step_t;
+%rename (tree_step) step_t;
+%extend step_t {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_step: pos = %d, step = %d", (int)($self->pos), (int)($self->step));
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_step(%d, %d)", (int)($self->pos), (int)($self->step));
+        return &buffer[0];
+}
+
+/* constructor */
+%feature("autodoc",
+"Initialize new step.
+
+Parameters:
+   - pos: position
+   - step: length of step
+") step_t;
+
+} /* extend step_t */
+
+/**** NODE_T ****/
+%rename (tree_node) node_t;
+%feature("autodoc", "Node of a phylogenetic tree") node_t;
+%extend node_t {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_node");
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<tree_node>");
+        return &buffer[0];
+}
+
+/* cloak child_edges with a Pythonic flavour */
+%rename (_child_edges) child_edges;
+%pythoncode {
+@property
+def child_edges(self):
+    '''Child edges of the node'''
+    return list(self._child_edges)
+
+
+@child_edges.setter
+def child_edges(self, es):
+    self._child_edges = list_tree_key(es)
+}
+
+
+/* cloak crossover */
+%ignore crossover;
+int _get_crossover_chunk(int i) {return ($self->crossover)[i];}
+%pythoncode {
+@property
+def crossover(self):
+    '''Crossover of node'''
+    return [self._get_crossover_chunk(i) for i in xrange(2)]
+}
+
+/* cloak weight_distribution with a Pythonic flavour */
+%rename (_weight_distribution) weight_distribution;
+%pythoncode {
+@property
+def weight_distribution(self):
+    '''Distribution of weights of this node'''
+    return list(self._weight_distribution)
+
+@weight_distribution.setter
+def weight_distribution(self, distr):
+    self._weight_distribution = vector_tree_step(distr)
+}
+
+} /* extend node_t */
+
+/**** EDGE_T ****/
+%rename (tree_edge) edge_t;
+%feature("autodoc", "Edge of a phylogenetic tree") edge_t;
+%extend edge_t {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_edge");
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<tree_edge>");
+        return &buffer[0];
+}
+
+/* cloak segment */
+%ignore segment;
+int _get_segment_chunk(int i) {return ($self->segment)[i];}
+%pythoncode {
+@property
+def segment(self):
+    '''Segment of edge'''
+    return [self._get_segment_chunk(i) for i in xrange(2)]
+}
+
+} /* extend edge_t */
+
+/**** ROOTED_TREE ****/
+%feature("autodoc",
+"Rooted phylogenetic tree.
+
+This class is used to represent the phylogenetic tree of a single locus.
+It is possible to print the tree in Newick format, to get the subtree
+spanned by some of the leaves, and to look at the tree nodes and edges.
+") rooted_tree;
+
+%extend rooted_tree {
+
+/* string representations */
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"genealogy tree with %u nodes", (unsigned int)($self->nodes).size());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)($self->nodes).size());
+        return &buffer[0];
+}
+
+/* ignore weird stuff */
+%ignore SFS;
+
+/* redundant */
+%ignore get_MRCA;
+
+/* TODO: allow modifications of the tree */
+%ignore reset;
+%ignore add_generation;
+%ignore add_terminal_node;
+%ignore erase_edge_node;
+%ignore bridge_edge_node;
+%ignore update_leaf_to_root;
+%ignore update_tree;
+%ignore erase_child;
+%ignore delete_extra_children;
+%ignore delete_one_child_nodes;
+%ignore check_node;
+%ignore check_tree_integrity;
+%ignore clear_tree;
+
+%feature("autodoc",
+"Measure the length of the external branches.
+
+Returns:
+   - length: the sum of the lengths of the external branches.
+") external_branch_length;
+
+%feature("autodoc",
+"Measure the length of the branches.
+
+Returns:
+   - length: the sum of the lengths of all branches.
+") total_branch_length;
+
+%feature("autodoc",
+"Recalculate the weight of some internal nodes.
+
+Parameters:
+   - subtree_root: the node whose hanging subtree is recalculated
+
+Returns:
+   - error code: zero if successful
+") calc_weight_distribution;
+
+/* ancestors at age */
+/* TODO: crashes if given a root! */
+%ignore ancestors_at_age;
+vector <tree_key_t> _ancestors_at_age(int age, tree_key_t subtree_root) {
+        vector <tree_key_t> ancestors;
+        $self->ancestors_at_age(age, subtree_root, ancestors);
+        return ancestors;
+}
+%pythoncode {
+def ancestors_at_age(self, age, subtree):
+    '''Find nodes in subtree younger than a certain age
+    
+    Parameters:
+       - age: critical age to check
+       - subtree: subtree to look for nodes in
+    
+    Returns:
+       - ancestors: the ancestors at that age
+    '''
+    return list(self._ancestors_at_age(age, subtree))
+}
+
+/* construct subtree */
+%ignore construct_subtree;
+%feature("autodoc",
+"Create a subtree from a list of leaves.
+
+Parameters:
+   - leaves: the leaves used to contruct the subtree
+
+Returns:
+   - subtree: the subtree spanned by those leaves.
+
+.. note:: leaves can be a Python list or a numpy array of tree_key, or a vector_tree_key.
+") create_subtree_from_keys;
+rooted_tree create_subtree_from_keys(vector <tree_key_t> leaves) {
+        rooted_tree other;
+        $self->construct_subtree(leaves, other);
+        return other;
+}
+
+/* cloak edges with a Pythonic flavour */
+%rename (_edges) edges;
+%pythoncode {
+@property
+def edges(self):
+    '''Edges of the tree'''
+    return dict(self._edges)
+
+
+@edges.setter
+def edges(self, es):
+    self._edges = map_key_edge(es)
+}
+
+/* cloak nodes with a Pythonic flavour */
+%rename (_nodes) nodes;
+%pythoncode {
+@property
+def nodes(self):
+    '''Nodes of the tree'''
+    return dict(self._nodes)
+
+
+@nodes.setter
+def edges(self, ns):
+    self._nodes = map_key_node(ns)
+}
+
+/* cloak leafs with a Pythonic flavour */
+%rename (_leafs) leafs;
+%pythoncode {
+@property
+def leafs(self):
+    '''Leaves of the tree'''
+    return list(self._leafs)
+
+
+@leafs.setter
+def leafs(self, leaves):
+    self._leafs = vector_tree_key(leaves)
+}
+
+} /* extend rooted_tree */
+
 /**** MULTI_LOCUS_GENEALOGY ****/
 %feature("autodoc", "Genealogy for multiple loci") multi_locus_genealogy;
 
@@ -196,64 +501,6 @@ rooted_tree get_tree(int locus) {
 
 } /* extend multi_locus_genealogy */
 
-/**** ROOTED_TREE ****/
-%extend rooted_tree {
-
-/* string representations */
-const char* __str__() {
-        static char buffer[255];
-        sprintf(buffer,"genealogy tree with %u nodes", (unsigned int)($self->nodes).size());
-        return &buffer[0];
-}
-
-const char* __repr__() {
-        static char buffer[255];
-        sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)($self->nodes).size());
-        return &buffer[0];
-}
-
-/* ignore weird stuff */
-%ignore edges;
-
-/* TODO: ask Richard about mysterious number of nodes! */
-%ignore nodes;
-%ignore leafs;
-%ignore add_generation;
-%ignore SFS;
-%ignore add_terminal_node;
-%ignore erase_edge_node;
-%ignore bridge_edge_node;
-%ignore check_node;
-%ignore erase_child;
-%ignore construct_subtree;
-%ignore delete_extra_children;
-%ignore delete_one_child_nodes;
-%ignore clear_tree;
-%ignore update_leaf_to_root;
-%ignore update_tree;
-
-/* implement tree_key_t first */
-%ignore root;
-%ignore MRCA;
-
-/* TODO: implement interface */
-%ignore ancestors_at_age;
-
-/* TODO: ask Richard about this stuff */
-%ignore calc_weight_distribution;
-
-/* TODO: implement interface */
-%ignore get_MRCA;
-
-/* TODO: implement this */
-%ignore subtree_newick;
-
-/* TODO: check */
-%ignore print_newick;
-%ignore print_weight_distribution;
-
-} /* extend rooted_tree */
-
 /**** HAPLOID_HIGHD ****/
 %define DOCSTRING_HAPLOID_HIGHD
 "Class for high-dimensional population genetics (genomes larger than ~20 loci).
@@ -306,12 +553,8 @@ Parameters:
    - number_of_traits      number of phenotypic traits, defaults to one
 ") haploid_highd;
 
-/* TODO: ignore hypercubes for now */
+/* ignore hypercubes */
 %ignore trait;
-
-/* TODO: ignore pointers to the clones for now */
-%ignore current_pop;
-%ignore new_pop;
 
 /* ignore stream stuff we never need in Python */
 %ignore print_allele_frequencies;

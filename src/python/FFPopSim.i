@@ -62,6 +62,13 @@ For more usage examples, please consult the ``tests`` and ``examples`` folders.
 #include "../hivpopulation.h"
 %}
 
+/* STL typemaps */
+%include <typemaps.i>
+%include <std_string.i>
+%include <std_vector.i>
+%include <std_list.i>
+%include <std_map.i>
+
 /* Numpy magic to output arrays */
 /*%include "pyfragments.swg"*/
 %include "numpy.i";

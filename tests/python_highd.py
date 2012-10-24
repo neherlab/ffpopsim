@@ -22,6 +22,9 @@ N = 3000    # population size
 # Construct class
 pop = h.haploid_highd(L)
 
+# Start tracking genealogy
+pop.track_locus_genealogy([3,6])
+
 # Test fitness landscapes
 rep = np.zeros(L)
 rep[np.random.random(L) > 0.5] = -0.1
@@ -31,7 +34,9 @@ pop.set_trait_additive(rep)
 print pop.get_trait_additive()
 
 # Test population initialization
-pop.set_allele_frequencies([0.3] * L, N)
+pop.track_locus_genealogy([3,6])
+pop.set_wildtype(N)
+#pop.set_allele_frequencies([0.3] * L, N)
 pop.mutation_rate = 1e-5
 pop.outcrossing_rate = 1e-2
 pop.crossover_rate = 1e-3
@@ -57,5 +62,6 @@ print 'Time for evolving population for 30 generations: {:1.1f} s'.format(t1-t0)
 #pop.plot_diversity_histogram(color='g')
 
 # Look at the genealogy
-pop.track_locus_genealogy([3,6])
 print pop.genealogy
+tree = pop.genealogy.get_tree(3)
+subtree = tree.create_subtree_from_keys([tree.leafs[1], tree.leafs[2]])

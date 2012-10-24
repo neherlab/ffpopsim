@@ -339,7 +339,11 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 	// Clear population
 	population.clear();
 	available_clones.clear();
-	if (track_genealogy) genealogy.reset();
+	if (track_genealogy) {
+		genealogy.reset_but_loci();
+	}
+
+
 
 	population_size = 0;
 	number_of_clones = 0;
@@ -357,8 +361,10 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 
 	// Calculate all statistics to be sure
 	calc_stat();
-	//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
-	if (track_genealogy){ genealogy.add_generation(fitness_max);}
+	// add the current generation to the genealogies and prune,
+	// i.e. remove parts that do not contribute the present.
+	if (track_genealogy)
+		genealogy.add_generation(fitness_max);
 
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
@@ -1248,7 +1254,7 @@ void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
 	if(n > 0) {
 		allele_frequencies_up_to_date = false;
 		if (available_clones.size() == 0)
-			provide_at_least(10 + n);
+			provide_at_least(1);
 		int new_gt = available_clones.back();
 		available_clones.pop_back();
 

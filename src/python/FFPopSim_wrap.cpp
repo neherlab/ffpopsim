@@ -2957,32 +2957,57 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 
 
 
+  #define SWIG_exception(code, msg) do { SWIG_Error(code, msg); SWIG_fail;; } while(0) 
+
+
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_boost__dynamic_bitsetT_t swig_types[0]
-#define SWIGTYPE_p_char swig_types[1]
-#define SWIGTYPE_p_clone_t swig_types[2]
-#define SWIGTYPE_p_double swig_types[3]
-#define SWIGTYPE_p_genotype_value_pair_t swig_types[4]
-#define SWIGTYPE_p_haploid_highd swig_types[5]
-#define SWIGTYPE_p_haploid_lowd swig_types[6]
-#define SWIGTYPE_p_hivgene swig_types[7]
-#define SWIGTYPE_p_hivpopulation swig_types[8]
-#define SWIGTYPE_p_index_value_pair_t swig_types[9]
-#define SWIGTYPE_p_int swig_types[10]
-#define SWIGTYPE_p_istream swig_types[11]
-#define SWIGTYPE_p_multi_locus_genealogy swig_types[12]
-#define SWIGTYPE_p_ostream swig_types[13]
-#define SWIGTYPE_p_rooted_tree swig_types[14]
-#define SWIGTYPE_p_short swig_types[15]
-#define SWIGTYPE_p_stat_t swig_types[16]
-#define SWIGTYPE_p_string swig_types[17]
-#define SWIGTYPE_p_unsigned_int swig_types[18]
-#define SWIGTYPE_p_vectorT_clone_t_t swig_types[19]
-#define SWIGTYPE_p_vectorT_double_t swig_types[20]
-#define SWIGTYPE_p_vectorT_int_t swig_types[21]
-static swig_type_info *swig_types[23];
-static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
+#define SWIGTYPE_p_allocator_type swig_types[0]
+#define SWIGTYPE_p_boost__dynamic_bitsetT_t swig_types[1]
+#define SWIGTYPE_p_char swig_types[2]
+#define SWIGTYPE_p_clone_t swig_types[3]
+#define SWIGTYPE_p_difference_type swig_types[4]
+#define SWIGTYPE_p_double swig_types[5]
+#define SWIGTYPE_p_edge_t swig_types[6]
+#define SWIGTYPE_p_genotype_value_pair_t swig_types[7]
+#define SWIGTYPE_p_haploid_highd swig_types[8]
+#define SWIGTYPE_p_haploid_lowd swig_types[9]
+#define SWIGTYPE_p_hivgene swig_types[10]
+#define SWIGTYPE_p_hivpopulation swig_types[11]
+#define SWIGTYPE_p_index_value_pair_t swig_types[12]
+#define SWIGTYPE_p_int swig_types[13]
+#define SWIGTYPE_p_istream swig_types[14]
+#define SWIGTYPE_p_key_type swig_types[15]
+#define SWIGTYPE_p_mapped_type swig_types[16]
+#define SWIGTYPE_p_multi_locus_genealogy swig_types[17]
+#define SWIGTYPE_p_node_t swig_types[18]
+#define SWIGTYPE_p_ostream swig_types[19]
+#define SWIGTYPE_p_p_PyObject swig_types[20]
+#define SWIGTYPE_p_rooted_tree swig_types[21]
+#define SWIGTYPE_p_short swig_types[22]
+#define SWIGTYPE_p_size_type swig_types[23]
+#define SWIGTYPE_p_stat_t swig_types[24]
+#define SWIGTYPE_p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t swig_types[25]
+#define SWIGTYPE_p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t swig_types[26]
+#define SWIGTYPE_p_std__allocatorT_step_t_t swig_types[27]
+#define SWIGTYPE_p_std__allocatorT_tree_key_t_t swig_types[28]
+#define SWIGTYPE_p_std__invalid_argument swig_types[29]
+#define SWIGTYPE_p_std__lessT_tree_key_t_t swig_types[30]
+#define SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[31]
+#define SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t swig_types[32]
+#define SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t swig_types[33]
+#define SWIGTYPE_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t swig_types[34]
+#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[35]
+#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[36]
+#define SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t swig_types[37]
+#define SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[38]
+#define SWIGTYPE_p_step_t swig_types[39]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[40]
+#define SWIGTYPE_p_tree_key_t swig_types[41]
+#define SWIGTYPE_p_unsigned_int swig_types[42]
+#define SWIGTYPE_p_value_type swig_types[43]
+static swig_type_info *swig_types[45];
+static swig_module_info swig_module = {swig_types, 44, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3099,17 +3124,160 @@ namespace swig {
 #include "../hivpopulation.h"
 
 
-#ifndef SWIG_FILE_WITH_INIT
-#  define NO_IMPORT_ARRAY
+#include <string>
+
+
+#include <iostream>
+
+#if PY_VERSION_HEX >= 0x03020000
+# define SWIGPY_SLICE_ARG(obj) ((PyObject*) (obj))
+#else
+# define SWIGPY_SLICE_ARG(obj) ((PySliceObject*) (obj))
 #endif
-#include "stdio.h"
-#include <numpy/arrayobject.h>
 
 
-SWIGINTERNINLINE PyObject*
-  SWIG_From_int  (int value)
-{
-  return PyInt_FromLong((long) value);
+#include <stdexcept>
+
+
+#if defined(__GNUC__)
+#  if __GNUC__ == 2 && __GNUC_MINOR <= 96
+#     define SWIG_STD_NOMODERN_STL
+#  endif
+#endif
+
+
+#include <string>
+#include <stdexcept>
+#include <stddef.h>
+
+
+  #include <stddef.h>
+
+
+namespace swig {
+  struct stop_iteration {
+  };
+
+  struct SwigPyIterator {
+  private:
+    SwigPtr_PyObject _seq;
+
+  protected:
+    SwigPyIterator(PyObject *seq) : _seq(seq)
+    {
+    }
+      
+  public:
+    virtual ~SwigPyIterator() {}
+
+    // Access iterator method, required by Python
+    virtual PyObject *value() const = 0;
+
+    // Forward iterator method, required by Python
+    virtual SwigPyIterator *incr(size_t n = 1) = 0;
+    
+    // Backward iterator method, very common in C++, but not required in Python
+    virtual SwigPyIterator *decr(size_t /*n*/ = 1)
+    {
+      throw stop_iteration();
+    }
+
+    // Random access iterator methods, but not required in Python
+    virtual ptrdiff_t distance(const SwigPyIterator &/*x*/) const
+    {
+      throw std::invalid_argument("operation not supported");
+    }
+
+    virtual bool equal (const SwigPyIterator &/*x*/) const
+    {
+      throw std::invalid_argument("operation not supported");
+    }
+    
+    // C++ common/needed methods
+    virtual SwigPyIterator *copy() const = 0;
+
+    PyObject *next()     
+    {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK; // disable threads       
+      PyObject *obj = value();
+      incr();       
+      SWIG_PYTHON_THREAD_END_BLOCK; // re-enable threads
+      return obj;     
+    }
+
+    /* Make an alias for Python 3.x */
+    PyObject *__next__()
+    {
+      return next();
+    }
+
+    PyObject *previous()
+    {
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK; // disable threads       
+      decr();
+      PyObject *obj = value();
+      SWIG_PYTHON_THREAD_END_BLOCK; // re-enable threads       
+      return obj;
+    }
+
+    SwigPyIterator *advance(ptrdiff_t n)
+    {
+      return  (n > 0) ?  incr(n) : decr(-n);
+    }
+      
+    bool operator == (const SwigPyIterator& x)  const
+    {
+      return equal(x);
+    }
+      
+    bool operator != (const SwigPyIterator& x) const
+    {
+      return ! operator==(x);
+    }
+      
+    SwigPyIterator& operator += (ptrdiff_t n)
+    {
+      return *advance(n);
+    }
+
+    SwigPyIterator& operator -= (ptrdiff_t n)
+    {
+      return *advance(-n);
+    }
+      
+    SwigPyIterator* operator + (ptrdiff_t n) const
+    {
+      return copy()->advance(n);
+    }
+
+    SwigPyIterator* operator - (ptrdiff_t n) const
+    {
+      return copy()->advance(-n);
+    }
+      
+    ptrdiff_t operator - (const SwigPyIterator& x) const
+    {
+      return x.distance(*this);
+    }
+      
+    static swig_type_info* descriptor() {
+      static int init = 0;
+      static swig_type_info* desc = 0;
+      if (!init) {
+	desc = SWIG_TypeQuery("swig::SwigPyIterator *");
+	init = 1;
+      }	
+      return desc;
+    }    
+  };
+
+#if defined(SWIGPYTHON_BUILTIN)
+  inline PyObject* make_output_iterator_builtin (PyObject *pyself)
+  {
+    Py_INCREF(pyself);
+    return pyself;
+  }
+#endif
 }
 
 
@@ -3250,32 +3418,18 @@ SWIG_AsVal_size_t (PyObject * obj, size_t *val)
   #define SWIG_From_long   PyLong_FromLong 
 
 
-SWIGINTERNINLINE PyObject* 
-SWIG_From_unsigned_SS_long  (unsigned long value)
-{
-  return (value > LONG_MAX) ?
-    PyLong_FromUnsignedLong(value) : PyLong_FromLong(static_cast< long >(value)); 
-}
-
-
 SWIGINTERNINLINE PyObject *
-SWIG_From_size_t  (size_t value)
+SWIG_From_ptrdiff_t  (ptrdiff_t value)
 {    
-  return SWIG_From_unsigned_SS_long  (static_cast< unsigned long >(value));
+  return SWIG_From_long  (static_cast< long >(value));
 }
 
 
-  #define SWIG_From_double   PyFloat_FromDouble 
-
-
-#include <limits.h>
-#if !defined(SWIG_NO_LLONG_MAX)
-# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
-#   define LLONG_MAX __LONG_LONG_MAX__
-#   define LLONG_MIN (-LLONG_MAX - 1LL)
-#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
-# endif
-#endif
+SWIGINTERNINLINE PyObject*
+  SWIG_From_bool  (bool value)
+{
+  return PyBool_FromLong(value ? 1 : 0);
+}
 
 
 SWIGINTERN int
@@ -3315,6 +3469,78 @@ SWIG_AsVal_long (PyObject *obj, long* val)
 #endif
   return SWIG_TypeError;
 }
+
+
+SWIGINTERNINLINE int
+SWIG_AsVal_ptrdiff_t (PyObject * obj, ptrdiff_t *val)
+{
+  long v;
+  int res = SWIG_AsVal_long (obj, val ? &v : 0);
+  if (SWIG_IsOK(res) && val) *val = static_cast< ptrdiff_t >(v);
+  return res;
+}
+
+
+#include <stdexcept>
+
+
+#include <algorithm>
+
+
+#include <vector>
+
+
+#include <list>
+
+
+#include <utility>
+
+
+#include <map>
+#include <algorithm>
+#include <stdexcept>
+
+
+#ifndef SWIG_FILE_WITH_INIT
+#  define NO_IMPORT_ARRAY
+#endif
+#include "stdio.h"
+#include <numpy/arrayobject.h>
+
+
+SWIGINTERNINLINE PyObject*
+  SWIG_From_int  (int value)
+{
+  return PyInt_FromLong((long) value);
+}
+
+
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long  (unsigned long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLong(value) : PyLong_FromLong(static_cast< long >(value)); 
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_size_t  (size_t value)
+{    
+  return SWIG_From_unsigned_SS_long  (static_cast< unsigned long >(value));
+}
+
+
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
+#include <limits.h>
+#if !defined(SWIG_NO_LLONG_MAX)
+# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
+#   define LLONG_MAX __LONG_LONG_MAX__
+#   define LLONG_MIN (-LLONG_MAX - 1LL)
+#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
+# endif
+#endif
 
 
 SWIGINTERN int
@@ -3862,13 +4088,6 @@ SWIG_AsVal_bool (PyObject *obj, bool *val)
   return SWIG_OK;
 }
 
-
-SWIGINTERNINLINE PyObject*
-  SWIG_From_bool  (bool value)
-{
-  return PyBool_FromLong(value ? 1 : 0);
-}
-
 SWIGINTERN char const *haploid_lowd___str__(haploid_lowd *self){
         static char buffer[255];
         sprintf(buffer,"haploid_lowd: L = %d, N = %f", (int)self->L(), self->N());
@@ -3918,6 +4137,1979 @@ SWIGINTERN void haploid_lowd_set_fitness_additive(haploid_lowd *self,int DIM1,do
         if ((self->fitness).additive(IN_ARRAY1))
                 PyErr_Format(PyExc_RuntimeError, "Error in the C++ function.");
 }
+
+namespace swig {  
+  template <class Type>
+  struct noconst_traits {
+    typedef Type noconst_type;
+  };
+
+  template <class Type>
+  struct noconst_traits<const Type> {
+    typedef Type noconst_type;
+  };
+
+  /*
+    type categories
+  */
+  struct pointer_category { };  
+  struct value_category { };
+
+  /*
+    General traits that provides type_name and type_info
+  */
+  template <class Type> struct traits { };
+
+  template <class Type>
+  inline const char* type_name() {
+    return traits<typename noconst_traits<Type >::noconst_type >::type_name();
+  }
+
+  template <class Type> 
+  struct traits_info {
+    static swig_type_info *type_query(std::string name) {
+      name += " *";
+      return SWIG_TypeQuery(name.c_str());
+    }    
+    static swig_type_info *type_info() {
+      static swig_type_info *info = type_query(type_name<Type>());
+      return info;
+    }
+  };
+
+  template <class Type>
+  inline swig_type_info *type_info() {
+    return traits_info<Type>::type_info();
+  }
+
+  /*
+    Partial specialization for pointers
+  */
+  template <class Type> struct traits <Type *> {
+    typedef pointer_category category;
+    static std::string make_ptr_name(const char* name) {
+      std::string ptrname = name;
+      ptrname += " *";
+      return ptrname;
+    }    
+    static const char* type_name() {
+      static std::string name = make_ptr_name(swig::type_name<Type>());
+      return name.c_str();
+    }
+  };
+
+  template <class Type, class Category> 
+  struct traits_as { };
+ 
+  template <class Type, class Category> 
+  struct traits_check { };
+
+}
+
+
+namespace swig {  
+  /*
+    Traits that provides the from method
+  */
+  template <class Type> struct traits_from_ptr {
+    static PyObject *from(Type *val, int owner = 0) {
+      return SWIG_InternalNewPointerObj(val, type_info<Type>(), owner);
+    }
+  };
+
+  template <class Type> struct traits_from {
+    static PyObject *from(const Type& val) {
+      return traits_from_ptr<Type>::from(new Type(val), 1);
+    }
+  };
+
+  template <class Type> struct traits_from<Type *> {
+    static PyObject *from(Type* val) {
+      return traits_from_ptr<Type>::from(val, 0);
+    }
+  };
+
+  template <class Type> struct traits_from<const Type *> {
+    static PyObject *from(const Type* val) {
+      return traits_from_ptr<Type>::from(const_cast<Type*>(val), 0);
+    }
+  };
+
+
+  template <class Type>
+  inline PyObject *from(const Type& val) {
+    return traits_from<Type>::from(val);
+  }
+
+  template <class Type>
+  inline PyObject *from_ptr(Type* val, int owner) {
+    return traits_from_ptr<Type>::from(val, owner);
+  }
+
+  /*
+    Traits that provides the asval/as/check method
+  */
+  template <class Type>
+  struct traits_asptr {   
+    static int asptr(PyObject *obj, Type **val) {
+      Type *p;
+      int res = SWIG_ConvertPtr(obj, (void**)&p, type_info<Type>(), 0);
+      if (SWIG_IsOK(res)) {
+	if (val) *val = p;
+      }
+      return res;
+    }
+  }; 
+
+  template <class Type>
+  inline int asptr(PyObject *obj, Type **vptr) {
+    return traits_asptr<Type>::asptr(obj, vptr);
+  }
+
+  template <class Type> 
+  struct traits_asval {
+    static int asval(PyObject *obj, Type *val) {
+      if (val) {
+	Type *p = 0;
+	int res = traits_asptr<Type>::asptr(obj, &p);
+	if (!SWIG_IsOK(res)) return res;	
+	if (p) {
+	  typedef typename noconst_traits<Type>::noconst_type noconst_type;
+	  *(const_cast<noconst_type*>(val)) = *p;
+	  if (SWIG_IsNewObj(res)){
+	    delete p;
+	    res = SWIG_DelNewMask(res);
+	  }
+	  return res;
+	} else {
+	  return SWIG_ERROR;
+	}
+      } else {
+	return traits_asptr<Type>::asptr(obj, (Type **)(0));
+      }
+    }
+  };
+
+  template <class Type> struct traits_asval<Type*> {
+    static int asval(PyObject *obj, Type **val) {
+      if (val) {
+        typedef typename noconst_traits<Type>::noconst_type noconst_type;
+        noconst_type *p = 0;
+        int res = traits_asptr<noconst_type>::asptr(obj,  &p);
+        if (SWIG_IsOK(res)) {
+          *(const_cast<noconst_type**>(val)) = p;
+	}
+	return res;
+      } else {
+	return traits_asptr<Type>::asptr(obj, (Type **)(0));
+      }
+    }
+  };
+  
+  template <class Type>
+  inline int asval(PyObject *obj, Type *val) {
+    return traits_asval<Type>::asval(obj, val);
+  }
+
+  template <class Type> 
+  struct traits_as<Type, value_category> {
+    static Type as(PyObject *obj, bool throw_error) {
+      Type v;
+      int res = asval(obj, &v);
+      if (!obj || !SWIG_IsOK(res)) {
+	if (!PyErr_Occurred()) {
+	  ::SWIG_Error(SWIG_TypeError,  swig::type_name<Type>());
+	}
+	if (throw_error) throw std::invalid_argument("bad type");
+      }
+      return v;
+    }
+  };
+
+  template <class Type> 
+  struct traits_as<Type, pointer_category> {
+    static Type as(PyObject *obj, bool throw_error) {
+      Type *v = 0;      
+      int res = (obj ? traits_asptr<Type>::asptr(obj, &v) : SWIG_ERROR);
+      if (SWIG_IsOK(res) && v) {
+	if (SWIG_IsNewObj(res)) {
+	  Type r(*v);
+	  delete v;
+	  return r;
+	} else {
+	  return *v;
+	}
+      } else {
+	// Uninitialized return value, no Type() constructor required.
+	static Type *v_def = (Type*) malloc(sizeof(Type));
+	if (!PyErr_Occurred()) {
+	  SWIG_Error(SWIG_TypeError,  swig::type_name<Type>());
+	}
+	if (throw_error) throw std::invalid_argument("bad type");
+	memset(v_def,0,sizeof(Type));
+	return *v_def;
+      }
+    }
+  };
+
+  template <class Type> 
+  struct traits_as<Type*, pointer_category> {
+    static Type* as(PyObject *obj, bool throw_error) {
+      Type *v = 0;      
+      int res = (obj ? traits_asptr<Type>::asptr(obj, &v) : SWIG_ERROR);
+      if (SWIG_IsOK(res)) {
+	return v;
+      } else {
+	if (!PyErr_Occurred()) {
+	  SWIG_Error(SWIG_TypeError,  swig::type_name<Type>());
+	}
+	if (throw_error) throw std::invalid_argument("bad type");
+	return 0;
+      }
+    }
+  };
+    
+  template <class Type>
+  inline Type as(PyObject *obj, bool te = false) {
+    return traits_as<Type, typename traits<Type>::category>::as(obj, te);
+  }
+
+  template <class Type> 
+  struct traits_check<Type, value_category> {
+    static bool check(PyObject *obj) {
+      int res = obj ? asval(obj, (Type *)(0)) : SWIG_ERROR;
+      return SWIG_IsOK(res) ? true : false;
+    }
+  };
+
+  template <class Type> 
+  struct traits_check<Type, pointer_category> {
+    static bool check(PyObject *obj) {
+      int res = obj ? asptr(obj, (Type **)(0)) : SWIG_ERROR;
+      return SWIG_IsOK(res) ? true : false;
+    }
+  };
+
+  template <class Type>
+  inline bool check(PyObject *obj) {
+    return traits_check<Type, typename traits<Type>::category>::check(obj);
+  }
+}
+
+
+#include <functional>
+
+namespace std {
+  template <>
+  struct less <PyObject *>: public binary_function<PyObject *, PyObject *, bool>
+  {
+    bool
+    operator()(PyObject * v, PyObject *w) const
+    { 
+      bool res;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      res = PyObject_RichCompareBool(v, w, Py_LT) ? true : false;
+      /* This may fall into a case of inconsistent
+               eg. ObjA > ObjX > ObjB
+               but ObjA < ObjB
+      */
+      if( PyErr_Occurred() && PyErr_ExceptionMatches(PyExc_TypeError) )
+      {
+        /* Objects can't be compared, this mostly occurred in Python 3.0 */
+        /* Compare their ptr directly for a workaround */
+        res = (v < w);
+        PyErr_Clear();
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return res;
+    }
+  };
+
+  template <>
+  struct less <swig::SwigPtr_PyObject>: public binary_function<swig::SwigPtr_PyObject, swig::SwigPtr_PyObject, bool>
+  {
+    bool
+    operator()(const swig::SwigPtr_PyObject& v, const swig::SwigPtr_PyObject& w) const
+    {
+      return std::less<PyObject *>()(v, w);
+    }
+  };
+
+  template <>
+  struct less <swig::SwigVar_PyObject>: public binary_function<swig::SwigVar_PyObject, swig::SwigVar_PyObject, bool>
+  {
+    bool
+    operator()(const swig::SwigVar_PyObject& v, const swig::SwigVar_PyObject& w) const
+    {
+      return std::less<PyObject *>()(v, w);
+    }
+  };
+
+}
+
+namespace swig {
+  template <> struct traits<PyObject *> {
+    typedef value_category category;
+    static const char* type_name() { return "PyObject *"; }
+  };  
+
+  template <>  struct traits_asval<PyObject * > {   
+    typedef PyObject * value_type;
+    static int asval(PyObject *obj, value_type *val) {
+      if (val) *val = obj;
+      return SWIG_OK;
+    }
+  };
+
+  template <> 
+  struct traits_check<PyObject *, value_category> {
+    static bool check(PyObject *) {
+      return true;
+    }
+  };
+
+  template <>  struct traits_from<PyObject *> {
+    typedef PyObject * value_type;
+    static PyObject *from(const value_type& val) {
+      Py_XINCREF(val);
+      return val;
+    }
+  };
+  
+}
+
+namespace swig {
+  template <class Difference>
+  inline size_t
+  check_index(Difference i, size_t size, bool insert = false) {
+    if ( i < 0 ) {
+      if ((size_t) (-i) <= size)
+	return (size_t) (i + size);
+    } else if ( (size_t) i < size ) {
+      return (size_t) i;
+    } else if (insert && ((size_t) i == size)) {
+      return size;
+    }
+    throw std::out_of_range("index out of range");
+  }
+
+  template <class Difference>
+  void
+  slice_adjust(Difference i, Difference j, Py_ssize_t step, size_t size, Difference &ii, Difference &jj, bool insert = false) {
+    if (step == 0) {
+      throw std::invalid_argument("slice step cannot be zero");
+    } else if (step > 0) {
+      // Required range: 0 <= i < size, 0 <= j < size
+      if (i < 0) {
+        ii = 0;
+      } else if (i < (Difference)size) {
+        ii = i;
+      } else if (insert && (i >= (Difference)size)) {
+        ii = (Difference)size;
+      }
+      if ( j < 0 ) {
+        jj = 0;
+      } else {
+        jj = (j < (Difference)size) ? j : (Difference)size;
+      }
+    } else {
+      // Required range: -1 <= i < size-1, -1 <= j < size-1
+      if (i < -1) {
+        ii = -1;
+      } else if (i < (Difference) size) {
+        ii = i;
+      } else if (i >= (Difference)(size-1)) {
+        ii = (Difference)(size-1);
+      }
+      if (j < -1) {
+        jj = -1;
+      } else {
+        jj = (j < (Difference)size ) ? j : (Difference)(size-1);
+      }
+    }
+  }
+
+  template <class Sequence, class Difference>
+  inline typename Sequence::iterator
+  getpos(Sequence* self, Difference i)  {
+    typename Sequence::iterator pos = self->begin();
+    std::advance(pos, check_index(i,self->size()));
+    return pos;
+  }
+
+  template <class Sequence, class Difference>
+  inline typename Sequence::const_iterator
+  cgetpos(const Sequence* self, Difference i)  {
+    typename Sequence::const_iterator pos = self->begin();
+    std::advance(pos, check_index(i,self->size()));
+    return pos;
+  }
+
+  template <class Sequence, class Difference>
+  inline Sequence*
+  getslice(const Sequence* self, Difference i, Difference j, Py_ssize_t step) {
+    typename Sequence::size_type size = self->size();
+    Difference ii = 0;
+    Difference jj = 0;
+    swig::slice_adjust(i, j, step, size, ii, jj);
+
+    if (step > 0) {
+      typename Sequence::const_iterator sb = self->begin();
+      typename Sequence::const_iterator se = self->begin();
+      std::advance(sb,ii);
+      std::advance(se,jj);
+      if (step == 1) {
+        return new Sequence(sb, se);
+      } else {
+        Sequence *sequence = new Sequence();
+        typename Sequence::const_iterator it = sb;
+        while (it!=se) {
+          sequence->push_back(*it);
+          for (Py_ssize_t c=0; c<step && it!=se; ++c)
+            it++;
+        }
+        return sequence;
+      } 
+    } else {
+      Sequence *sequence = new Sequence();
+      if (ii > jj) {
+        typename Sequence::const_reverse_iterator sb = self->rbegin();
+        typename Sequence::const_reverse_iterator se = self->rbegin();
+        std::advance(sb,size-ii-1);
+        std::advance(se,size-jj-1);
+        typename Sequence::const_reverse_iterator it = sb;
+        while (it!=se) {
+          sequence->push_back(*it);
+          for (Py_ssize_t c=0; c<-step && it!=se; ++c)
+            it++;
+        }
+      }
+      return sequence;
+    }
+  }
+
+  template <class Sequence, class Difference, class InputSeq>
+  inline void
+  setslice(Sequence* self, Difference i, Difference j, Py_ssize_t step, const InputSeq& is = InputSeq()) {
+    typename Sequence::size_type size = self->size();
+    Difference ii = 0;
+    Difference jj = 0;
+    swig::slice_adjust(i, j, step, size, ii, jj, true);
+    if (step > 0) {
+      if (jj < ii)
+        jj = ii;
+      if (step == 1) {
+        size_t ssize = jj - ii;
+        if (ssize <= is.size()) {
+          // expanding/staying the same size
+          typename Sequence::iterator sb = self->begin();
+          typename InputSeq::const_iterator isit = is.begin();
+          std::advance(sb,ii);
+          std::advance(isit, jj - ii);
+          self->insert(std::copy(is.begin(), isit, sb), isit, is.end());
+        } else {
+          // shrinking
+          typename Sequence::iterator sb = self->begin();
+          typename Sequence::iterator se = self->begin();
+          std::advance(sb,ii);
+          std::advance(se,jj);
+          self->erase(sb,se);
+          sb = self->begin();
+          std::advance(sb,ii);
+          self->insert(sb, is.begin(), is.end());
+        }
+      } else {
+        size_t replacecount = (jj - ii + step - 1) / step;
+        if (is.size() != replacecount) {
+          char msg[1024];
+          sprintf(msg, "attempt to assign sequence of size %lu to extended slice of size %lu", (unsigned long)is.size(), (unsigned long)replacecount);
+          throw std::invalid_argument(msg);
+        }
+        typename Sequence::const_iterator isit = is.begin();
+        typename Sequence::iterator it = self->begin();
+        std::advance(it,ii);
+        for (size_t rc=0; rc<replacecount; ++rc) {
+          *it++ = *isit++;
+          for (Py_ssize_t c=0; c<(step-1); ++c)
+            it++;
+        }
+      }
+    } else {
+      if (jj > ii)
+        jj = ii;
+      size_t replacecount = (ii - jj - step - 1) / -step;
+      if (is.size() != replacecount) {
+        char msg[1024];
+        sprintf(msg, "attempt to assign sequence of size %lu to extended slice of size %lu", (unsigned long)is.size(), (unsigned long)replacecount);
+        throw std::invalid_argument(msg);
+      }
+      typename Sequence::const_iterator isit = is.begin();
+      typename Sequence::reverse_iterator it = self->rbegin();
+      std::advance(it,size-ii-1);
+      for (size_t rc=0; rc<replacecount; ++rc) {
+        *it++ = *isit++;
+        for (Py_ssize_t c=0; c<(-step-1); ++c)
+          it++;
+      }
+    }
+  }
+
+  template <class Sequence, class Difference>
+  inline void
+  delslice(Sequence* self, Difference i, Difference j, Py_ssize_t step) {
+    typename Sequence::size_type size = self->size();
+    Difference ii = 0;
+    Difference jj = 0;
+    swig::slice_adjust(i, j, step, size, ii, jj, true);
+    if (step > 0) {
+      if (jj > ii) {
+        typename Sequence::iterator sb = self->begin();
+        std::advance(sb,ii);
+        if (step == 1) {
+          typename Sequence::iterator se = self->begin();
+          std::advance(se,jj);
+          self->erase(sb,se);
+        } else {
+          typename Sequence::iterator it = sb;
+          size_t delcount = (jj - ii + step - 1) / step;
+          while (delcount) {
+            it = self->erase(it);
+            if (it==self->end())
+              break;
+            for (Py_ssize_t c=0; c<(step-1); ++c)
+              it++;
+            delcount--;
+          }
+        }
+      }
+    } else {
+      if (ii > jj) {
+        typename Sequence::reverse_iterator sb = self->rbegin();
+        std::advance(sb,size-ii-1);
+        typename Sequence::reverse_iterator it = sb;
+        size_t delcount = (ii - jj - step - 1) / -step;
+        while (delcount) {
+          self->erase((++it).base());
+          if (it==self->rend())
+            break;
+          for (Py_ssize_t c=0; c<(-step-1); ++c)
+            it++;
+          delcount--;
+        }
+      }
+    }
+  }
+}
+
+
+#if defined(__SUNPRO_CC) && defined(_RWSTD_VER)
+#  if !defined(SWIG_NO_STD_NOITERATOR_TRAITS_STL)
+#    define SWIG_STD_NOITERATOR_TRAITS_STL
+#  endif
+#endif
+
+#if !defined(SWIG_STD_NOITERATOR_TRAITS_STL)
+#include <iterator>
+#else
+namespace std {
+  template <class Iterator>
+  struct iterator_traits {
+    typedef ptrdiff_t difference_type;
+    typedef typename Iterator::value_type value_type;
+  };
+
+  template <class Iterator, class Category,class T, class Reference, class Pointer, class Distance>
+  struct iterator_traits<__reverse_bi_iterator<Iterator,Category,T,Reference,Pointer,Distance> > {
+    typedef Distance difference_type;
+    typedef T value_type;
+  };
+
+  template <class T>
+  struct iterator_traits<T*> {
+    typedef T value_type;
+    typedef ptrdiff_t difference_type;
+  };
+
+  template<typename _InputIterator>
+  inline typename iterator_traits<_InputIterator>::difference_type
+  distance(_InputIterator __first, _InputIterator __last)
+  {
+    typename iterator_traits<_InputIterator>::difference_type __n = 0;
+    while (__first != __last) {
+      ++__first; ++__n;
+    }
+    return __n;
+  }
+}
+#endif
+
+
+namespace swig {
+  template<typename OutIterator>
+  class SwigPyIterator_T :  public SwigPyIterator
+  {
+  public:
+    typedef OutIterator out_iterator;
+    typedef typename std::iterator_traits<out_iterator>::value_type value_type;    
+    typedef SwigPyIterator_T<out_iterator> self_type;
+
+    SwigPyIterator_T(out_iterator curr, PyObject *seq)
+      : SwigPyIterator(seq), current(curr)
+    {
+    }
+
+    const out_iterator& get_current() const
+    {
+      return current;
+    }
+
+    
+    bool equal (const SwigPyIterator &iter) const
+    {
+      const self_type *iters = dynamic_cast<const self_type *>(&iter);
+      if (iters) {
+	return (current == iters->get_current());
+      } else {
+	throw std::invalid_argument("bad iterator type");
+      }
+    }
+    
+    ptrdiff_t distance(const SwigPyIterator &iter) const
+    {
+      const self_type *iters = dynamic_cast<const self_type *>(&iter);
+      if (iters) {
+	return std::distance(current, iters->get_current());
+      } else {
+	throw std::invalid_argument("bad iterator type");
+      }
+    }    
+    
+  protected:
+    out_iterator current;
+  };
+  
+  template <class ValueType>
+  struct from_oper 
+  {
+    typedef const ValueType& argument_type;
+    typedef PyObject *result_type;
+    result_type operator()(argument_type v) const
+    {
+      return swig::from(v);
+    }
+  };
+
+  template<typename OutIterator, 
+	   typename ValueType = typename std::iterator_traits<OutIterator>::value_type,
+	   typename FromOper = from_oper<ValueType> >
+  class SwigPyIteratorOpen_T :  public SwigPyIterator_T<OutIterator>
+  {
+  public:
+    FromOper from;
+    typedef OutIterator out_iterator;
+    typedef ValueType value_type;
+    typedef SwigPyIterator_T<out_iterator>  base;
+    typedef SwigPyIteratorOpen_T<OutIterator, ValueType, FromOper> self_type;
+    
+    SwigPyIteratorOpen_T(out_iterator curr, PyObject *seq)
+      : SwigPyIterator_T<OutIterator>(curr, seq)
+    {
+    }
+    
+    PyObject *value() const {
+      return from(static_cast<const value_type&>(*(base::current)));
+    }
+    
+    SwigPyIterator *copy() const
+    {
+      return new self_type(*this);
+    }
+
+    SwigPyIterator *incr(size_t n = 1)
+    {
+      while (n--) {
+	++base::current;
+      }
+      return this;
+    }
+
+    SwigPyIterator *decr(size_t n = 1)
+    {
+      while (n--) {
+	--base::current;
+      }
+      return this;
+    }
+  };
+
+  template<typename OutIterator, 
+	   typename ValueType = typename std::iterator_traits<OutIterator>::value_type,
+	   typename FromOper = from_oper<ValueType> >
+  class SwigPyIteratorClosed_T :  public SwigPyIterator_T<OutIterator>
+  {
+  public:
+    FromOper from;
+    typedef OutIterator out_iterator;
+    typedef ValueType value_type;
+    typedef SwigPyIterator_T<out_iterator>  base;    
+    typedef SwigPyIteratorClosed_T<OutIterator, ValueType, FromOper> self_type;
+    
+    SwigPyIteratorClosed_T(out_iterator curr, out_iterator first, out_iterator last, PyObject *seq)
+      : SwigPyIterator_T<OutIterator>(curr, seq), begin(first), end(last)
+    {
+    }
+    
+    PyObject *value() const {
+      if (base::current == end) {
+	throw stop_iteration();
+      } else {
+	return from(static_cast<const value_type&>(*(base::current)));
+      }
+    }
+    
+    SwigPyIterator *copy() const
+    {
+      return new self_type(*this);
+    }
+
+    SwigPyIterator *incr(size_t n = 1)
+    {
+      while (n--) {
+	if (base::current == end) {
+	  throw stop_iteration();
+	} else {
+	  ++base::current;
+	}
+      }
+      return this;
+    }
+
+    SwigPyIterator *decr(size_t n = 1)
+    {
+      while (n--) {
+	if (base::current == begin) {
+	  throw stop_iteration();
+	} else {
+	  --base::current;
+	}
+      }
+      return this;
+    }
+
+  private:
+    out_iterator begin;
+    out_iterator end;
+  };
+
+  template<typename OutIter>
+  inline SwigPyIterator*
+  make_output_iterator(const OutIter& current, const OutIter& begin,const OutIter& end, PyObject *seq = 0)
+  {
+    return new SwigPyIteratorClosed_T<OutIter>(current, begin, end, seq);
+  }
+
+  template<typename OutIter>
+  inline SwigPyIterator*
+  make_output_iterator(const OutIter& current, PyObject *seq = 0)
+  {
+    return new SwigPyIteratorOpen_T<OutIter>(current, seq);
+  }
+
+}
+
+
+namespace swig
+{
+  template <class T>
+  struct SwigPySequence_Ref
+  {
+    SwigPySequence_Ref(PyObject* seq, int index)
+      : _seq(seq), _index(index)
+    {
+    }
+    
+    operator T () const
+    {
+      swig::SwigVar_PyObject item = PySequence_GetItem(_seq, _index);
+      try {
+	return swig::as<T>(item, true);
+      } catch (std::exception& e) {
+	char msg[1024];
+	sprintf(msg, "in sequence element %d ", _index);
+	if (!PyErr_Occurred()) {
+	  ::SWIG_Error(SWIG_TypeError,  swig::type_name<T>());
+	}
+	SWIG_Python_AddErrorMsg(msg);
+	SWIG_Python_AddErrorMsg(e.what());
+	throw;
+      }
+    }
+
+    SwigPySequence_Ref& operator=(const T& v)
+    {
+      PySequence_SetItem(_seq, _index, swig::from<T>(v));
+      return *this;
+    }
+
+  private:
+    PyObject* _seq;
+    int _index;
+  };
+
+  template <class T>
+  struct SwigPySequence_ArrowProxy
+  {
+    SwigPySequence_ArrowProxy(const T& x): m_value(x) {}
+    const T* operator->() const { return &m_value; }
+    operator const T*() const { return &m_value; }
+    T m_value;
+  };
+
+  template <class T, class Reference >
+  struct SwigPySequence_InputIterator
+  {
+    typedef SwigPySequence_InputIterator<T, Reference > self;
+
+    typedef std::random_access_iterator_tag iterator_category;
+    typedef Reference reference;
+    typedef T value_type;
+    typedef T* pointer;
+    typedef int difference_type;
+
+    SwigPySequence_InputIterator()
+    {
+    }
+
+    SwigPySequence_InputIterator(PyObject* seq, int index)
+      : _seq(seq), _index(index)
+    {
+    }
+
+    reference operator*() const
+    {
+      return reference(_seq, _index);
+    }
+
+    SwigPySequence_ArrowProxy<T>
+    operator->() const {
+      return SwigPySequence_ArrowProxy<T>(operator*());
+    }
+
+    bool operator==(const self& ri) const
+    {
+      return (_index == ri._index) && (_seq == ri._seq);
+    }
+
+    bool operator!=(const self& ri) const
+    {
+      return !(operator==(ri));
+    }
+
+    self& operator ++ ()
+    {
+      ++_index;
+      return *this;
+    }
+
+    self& operator -- ()
+    {
+      --_index;
+      return *this;
+    }
+
+    self& operator += (difference_type n)
+    {
+      _index += n;
+      return *this;
+    }
+
+    self operator +(difference_type n) const
+    {
+      return self(_seq, _index + n);
+    }
+
+    self& operator -= (difference_type n)
+    {
+      _index -= n;
+      return *this;
+    }
+
+    self operator -(difference_type n) const
+    {
+      return self(_seq, _index - n);
+    }
+
+    difference_type operator - (const self& ri) const
+    {
+      return _index - ri._index;
+    }
+
+    bool operator < (const self& ri) const
+    {
+      return _index < ri._index;
+    }
+
+    reference
+    operator[](difference_type n) const
+    {
+      return reference(_seq, _index + n);
+    }
+
+  private:
+    PyObject* _seq;
+    difference_type _index;
+  };
+
+  template <class T>
+  struct SwigPySequence_Cont
+  {
+    typedef SwigPySequence_Ref<T> reference;
+    typedef const SwigPySequence_Ref<T> const_reference;
+    typedef T value_type;
+    typedef T* pointer;
+    typedef int difference_type;
+    typedef int size_type;
+    typedef const pointer const_pointer;
+    typedef SwigPySequence_InputIterator<T, reference> iterator;
+    typedef SwigPySequence_InputIterator<T, const_reference> const_iterator;
+
+    SwigPySequence_Cont(PyObject* seq) : _seq(0)
+    {
+      if (!PySequence_Check(seq)) {
+	throw std::invalid_argument("a sequence is expected");
+      }
+      _seq = seq;
+      Py_INCREF(_seq);
+    }
+
+    ~SwigPySequence_Cont()
+    {
+      Py_XDECREF(_seq);
+    }
+
+    size_type size() const
+    {
+      return static_cast<size_type>(PySequence_Size(_seq));
+    }
+
+    bool empty() const
+    {
+      return size() == 0;
+    }
+
+    iterator begin()
+    {
+      return iterator(_seq, 0);
+    }
+
+    const_iterator begin() const
+    {
+      return const_iterator(_seq, 0);
+    }
+
+    iterator end()
+    {
+      return iterator(_seq, size());
+    }
+
+    const_iterator end() const
+    {
+      return const_iterator(_seq, size());
+    }
+
+    reference operator[](difference_type n)
+    {
+      return reference(_seq, n);
+    }
+
+    const_reference operator[](difference_type n)  const
+    {
+      return const_reference(_seq, n);
+    }
+
+    bool check(bool set_err = true) const
+    {
+      int s = size();
+      for (int i = 0; i < s; ++i) {
+	swig::SwigVar_PyObject item = PySequence_GetItem(_seq, i);
+	if (!swig::check<value_type>(item)) {
+	  if (set_err) {
+	    char msg[1024];
+	    sprintf(msg, "in sequence element %d", i);
+	    SWIG_Error(SWIG_RuntimeError, msg);
+	  }
+	  return false;
+	}
+      }
+      return true;
+    }
+
+  private:
+    PyObject* _seq;
+  };
+
+}
+
+
+  namespace swig {
+    template <>  struct traits<step_t > {
+      typedef pointer_category category;
+      static const char* type_name() { return"step_t"; }
+    };
+  }
+
+
+namespace swig {
+  template <class SwigPySeq, class Seq>
+  inline void
+  assign(const SwigPySeq& swigpyseq, Seq* seq) {
+    // seq->assign(swigpyseq.begin(), swigpyseq.end()); // not used as not always implemented
+    typedef typename SwigPySeq::value_type value_type;
+    typename SwigPySeq::const_iterator it = swigpyseq.begin();
+    for (;it != swigpyseq.end(); ++it) {
+      seq->insert(seq->end(),(value_type)(*it));
+    }
+  }
+
+  template <class Seq, class T = typename Seq::value_type >
+  struct traits_asptr_stdseq {
+    typedef Seq sequence;
+    typedef T value_type;
+
+    static int asptr(PyObject *obj, sequence **seq) {
+      if (obj == Py_None || SWIG_Python_GetSwigThis(obj)) {
+	sequence *p;
+	if (::SWIG_ConvertPtr(obj,(void**)&p,
+			      swig::type_info<sequence>(),0) == SWIG_OK) {
+	  if (seq) *seq = p;
+	  return SWIG_OLDOBJ;
+	}
+      } else if (PySequence_Check(obj)) {
+	try {
+	  SwigPySequence_Cont<value_type> swigpyseq(obj);
+	  if (seq) {
+	    sequence *pseq = new sequence();
+	    assign(swigpyseq, pseq);
+	    *seq = pseq;
+	    return SWIG_NEWOBJ;
+	  } else {
+	    return swigpyseq.check() ? SWIG_OK : SWIG_ERROR;
+	  }
+	} catch (std::exception& e) {
+	  if (seq) {
+	    if (!PyErr_Occurred()) {
+	      PyErr_SetString(PyExc_TypeError, e.what());
+	    }
+	  }
+	  return SWIG_ERROR;
+	}
+      }
+      return SWIG_ERROR;
+    }
+  };
+
+  template <class Seq, class T = typename Seq::value_type >
+  struct traits_from_stdseq {
+    typedef Seq sequence;
+    typedef T value_type;
+    typedef typename Seq::size_type size_type;
+    typedef typename sequence::const_iterator const_iterator;
+
+    static PyObject *from(const sequence& seq) {
+#ifdef SWIG_PYTHON_EXTRA_NATIVE_CONTAINERS
+      swig_type_info *desc = swig::type_info<sequence>();
+      if (desc && desc->clientdata) {
+	return SWIG_NewPointerObj(new sequence(seq), desc, SWIG_POINTER_OWN);
+      }
+#endif
+      size_type size = seq.size();
+      if (size <= (size_type)INT_MAX) {
+	PyObject *obj = PyTuple_New((int)size);
+	int i = 0;
+	for (const_iterator it = seq.begin();
+	     it != seq.end(); ++it, ++i) {
+	  PyTuple_SetItem(obj,i,swig::from<value_type>(*it));
+	}
+	return obj;
+      } else {
+	PyErr_SetString(PyExc_OverflowError,"sequence size not valid in python");
+	return NULL;
+      }
+    }
+  };
+}
+
+
+  namespace swig {
+    template <class T>
+    struct traits_asptr<std::vector<T> >  {
+      static int asptr(PyObject *obj, std::vector<T> **vec) {
+	return traits_asptr_stdseq<std::vector<T> >::asptr(obj, vec);
+      }
+    };
+    
+    template <class T>
+    struct traits_from<std::vector<T> > {
+      static PyObject *from(const std::vector<T>& vec) {
+	return traits_from_stdseq<std::vector<T> >::from(vec);
+      }
+    };
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::vector<step_t, std::allocator< step_t > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::vector<" "step_t" "," "std::allocator< step_t >" " >";
+	  }
+	};
+      }
+    
+SWIGINTERN swig::SwigPyIterator *std_vector_Sl_step_t_Sg__iterator(std::vector< step_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN bool std_vector_Sl_step_t_Sg____nonzero__(std::vector< step_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN bool std_vector_Sl_step_t_Sg____bool__(std::vector< step_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN std::vector< step_t >::size_type std_vector_Sl_step_t_Sg____len__(std::vector< step_t > const *self){
+      return self->size();
+    }
+SWIGINTERN std::vector< step_t >::value_type std_vector_Sl_step_t_Sg__pop(std::vector< step_t > *self){
+      if (self->size() == 0)
+	throw std::out_of_range("pop from empty container");
+      std::vector<step_t,std::allocator< step_t > >::value_type x = self->back();
+      self->pop_back();
+      return x;
+    }
+SWIGINTERN std::vector< step_t,std::allocator< step_t > > *std_vector_Sl_step_t_Sg____getslice__(std::vector< step_t > *self,std::vector< step_t >::difference_type i,std::vector< step_t >::difference_type j){
+      return swig::getslice(self, i, j, 1);
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____setslice__(std::vector< step_t > *self,std::vector< step_t >::difference_type i,std::vector< step_t >::difference_type j,std::vector< step_t,std::allocator< step_t > > const &v=std::vector< step_t,std::allocator< step_t > >()){
+      swig::setslice(self, i, j, 1, v);
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____delslice__(std::vector< step_t > *self,std::vector< step_t >::difference_type i,std::vector< step_t >::difference_type j){
+      swig::delslice(self, i, j, 1);
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____delitem____SWIG_0(std::vector< step_t > *self,std::vector< step_t >::difference_type i){
+      self->erase(swig::getpos(self,i));
+    }
+SWIGINTERN std::vector< step_t,std::allocator< step_t > > *std_vector_Sl_step_t_Sg____getitem____SWIG_0(std::vector< step_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return NULL;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<step_t,std::allocator< step_t > >::difference_type id = i;
+      std::vector<step_t,std::allocator< step_t > >::difference_type jd = j;
+      return swig::getslice(self, id, jd, step);
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____setitem____SWIG_0(std::vector< step_t > *self,PySliceObject *slice,std::vector< step_t,std::allocator< step_t > > const &v){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<step_t,std::allocator< step_t > >::difference_type id = i;
+      std::vector<step_t,std::allocator< step_t > >::difference_type jd = j;
+      swig::setslice(self, id, jd, step, v);
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____setitem____SWIG_1(std::vector< step_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<step_t,std::allocator< step_t > >::difference_type id = i;
+      std::vector<step_t,std::allocator< step_t > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____delitem____SWIG_1(std::vector< step_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<step_t,std::allocator< step_t > >::difference_type id = i;
+      std::vector<step_t,std::allocator< step_t > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN std::vector< step_t >::value_type const &std_vector_Sl_step_t_Sg____getitem____SWIG_1(std::vector< step_t > const *self,std::vector< step_t >::difference_type i){
+      return *(swig::cgetpos(self, i));
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg____setitem____SWIG_2(std::vector< step_t > *self,std::vector< step_t >::difference_type i,std::vector< step_t >::value_type const &x){
+      *(swig::getpos(self,i)) = x;
+    }
+SWIGINTERN void std_vector_Sl_step_t_Sg__append(std::vector< step_t > *self,std::vector< step_t >::value_type const &x){
+      self->push_back(x);
+    }
+
+  namespace swig {
+    template <>  struct traits<tree_key_t > {
+      typedef pointer_category category;
+      static const char* type_name() { return"tree_key_t"; }
+    };
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::vector<tree_key_t, std::allocator< tree_key_t > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::vector<" "tree_key_t" "," "std::allocator< tree_key_t >" " >";
+	  }
+	};
+      }
+    
+SWIGINTERN swig::SwigPyIterator *std_vector_Sl_tree_key_t_Sg__iterator(std::vector< tree_key_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN bool std_vector_Sl_tree_key_t_Sg____nonzero__(std::vector< tree_key_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN bool std_vector_Sl_tree_key_t_Sg____bool__(std::vector< tree_key_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN std::vector< tree_key_t >::size_type std_vector_Sl_tree_key_t_Sg____len__(std::vector< tree_key_t > const *self){
+      return self->size();
+    }
+SWIGINTERN std::vector< tree_key_t >::value_type std_vector_Sl_tree_key_t_Sg__pop(std::vector< tree_key_t > *self){
+      if (self->size() == 0)
+	throw std::out_of_range("pop from empty container");
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::value_type x = self->back();
+      self->pop_back();
+      return x;
+    }
+SWIGINTERN std::vector< tree_key_t,std::allocator< tree_key_t > > *std_vector_Sl_tree_key_t_Sg____getslice__(std::vector< tree_key_t > *self,std::vector< tree_key_t >::difference_type i,std::vector< tree_key_t >::difference_type j){
+      return swig::getslice(self, i, j, 1);
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____setslice__(std::vector< tree_key_t > *self,std::vector< tree_key_t >::difference_type i,std::vector< tree_key_t >::difference_type j,std::vector< tree_key_t,std::allocator< tree_key_t > > const &v=std::vector< tree_key_t,std::allocator< tree_key_t > >()){
+      swig::setslice(self, i, j, 1, v);
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____delslice__(std::vector< tree_key_t > *self,std::vector< tree_key_t >::difference_type i,std::vector< tree_key_t >::difference_type j){
+      swig::delslice(self, i, j, 1);
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____delitem____SWIG_0(std::vector< tree_key_t > *self,std::vector< tree_key_t >::difference_type i){
+      self->erase(swig::getpos(self,i));
+    }
+SWIGINTERN std::vector< tree_key_t,std::allocator< tree_key_t > > *std_vector_Sl_tree_key_t_Sg____getitem____SWIG_0(std::vector< tree_key_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return NULL;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      return swig::getslice(self, id, jd, step);
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____setitem____SWIG_0(std::vector< tree_key_t > *self,PySliceObject *slice,std::vector< tree_key_t,std::allocator< tree_key_t > > const &v){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      swig::setslice(self, id, jd, step, v);
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____setitem____SWIG_1(std::vector< tree_key_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____delitem____SWIG_1(std::vector< tree_key_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::vector<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN std::vector< tree_key_t >::value_type const &std_vector_Sl_tree_key_t_Sg____getitem____SWIG_1(std::vector< tree_key_t > const *self,std::vector< tree_key_t >::difference_type i){
+      return *(swig::cgetpos(self, i));
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg____setitem____SWIG_2(std::vector< tree_key_t > *self,std::vector< tree_key_t >::difference_type i,std::vector< tree_key_t >::value_type const &x){
+      *(swig::getpos(self,i)) = x;
+    }
+SWIGINTERN void std_vector_Sl_tree_key_t_Sg__append(std::vector< tree_key_t > *self,std::vector< tree_key_t >::value_type const &x){
+      self->push_back(x);
+    }
+
+  namespace swig {
+    template <class T >
+    struct traits_asptr<std::list<T> >  {
+      static int asptr(PyObject *obj, std::list<T> **lis) {
+	return traits_asptr_stdseq<std::list<T> >::asptr(obj, lis);
+      }
+    };
+
+    template <class T>
+    struct traits_from<std::list<T> > {
+      static PyObject *from(const std::list<T> & vec) {
+	return traits_from_stdseq<std::list<T> >::from(vec);
+      }
+    };
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::list<tree_key_t, std::allocator< tree_key_t > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::list<" "tree_key_t" ", " "std::allocator< tree_key_t >" " >";
+	  }
+	};
+      }
+    
+SWIGINTERN swig::SwigPyIterator *std_list_Sl_tree_key_t_Sg__iterator(std::list< tree_key_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN bool std_list_Sl_tree_key_t_Sg____nonzero__(std::list< tree_key_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN bool std_list_Sl_tree_key_t_Sg____bool__(std::list< tree_key_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN std::list< tree_key_t >::size_type std_list_Sl_tree_key_t_Sg____len__(std::list< tree_key_t > const *self){
+      return self->size();
+    }
+SWIGINTERN std::list< tree_key_t >::value_type std_list_Sl_tree_key_t_Sg__pop(std::list< tree_key_t > *self){
+      if (self->size() == 0)
+	throw std::out_of_range("pop from empty container");
+      std::list<tree_key_t,std::allocator< tree_key_t > >::value_type x = self->back();
+      self->pop_back();
+      return x;
+    }
+SWIGINTERN std::list< tree_key_t,std::allocator< tree_key_t > > *std_list_Sl_tree_key_t_Sg____getslice__(std::list< tree_key_t > *self,std::list< tree_key_t >::difference_type i,std::list< tree_key_t >::difference_type j){
+      return swig::getslice(self, i, j, 1);
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____setslice__(std::list< tree_key_t > *self,std::list< tree_key_t >::difference_type i,std::list< tree_key_t >::difference_type j,std::list< tree_key_t,std::allocator< tree_key_t > > const &v=std::list< tree_key_t,std::allocator< tree_key_t > >()){
+      swig::setslice(self, i, j, 1, v);
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____delslice__(std::list< tree_key_t > *self,std::list< tree_key_t >::difference_type i,std::list< tree_key_t >::difference_type j){
+      swig::delslice(self, i, j, 1);
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____delitem____SWIG_0(std::list< tree_key_t > *self,std::list< tree_key_t >::difference_type i){
+      self->erase(swig::getpos(self,i));
+    }
+SWIGINTERN std::list< tree_key_t,std::allocator< tree_key_t > > *std_list_Sl_tree_key_t_Sg____getitem____SWIG_0(std::list< tree_key_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return NULL;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      return swig::getslice(self, id, jd, step);
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____setitem____SWIG_0(std::list< tree_key_t > *self,PySliceObject *slice,std::list< tree_key_t,std::allocator< tree_key_t > > const &v){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      swig::setslice(self, id, jd, step, v);
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____setitem____SWIG_1(std::list< tree_key_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____delitem____SWIG_1(std::list< tree_key_t > *self,PySliceObject *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(SWIGPY_SLICE_ARG(slice), (Py_ssize_t)self->size(), &i, &j, &step);
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type id = i;
+      std::list<tree_key_t,std::allocator< tree_key_t > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN std::list< tree_key_t >::value_type const &std_list_Sl_tree_key_t_Sg____getitem____SWIG_1(std::list< tree_key_t > const *self,std::list< tree_key_t >::difference_type i){
+      return *(swig::cgetpos(self, i));
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg____setitem____SWIG_2(std::list< tree_key_t > *self,std::list< tree_key_t >::difference_type i,std::list< tree_key_t >::value_type const &x){
+      *(swig::getpos(self,i)) = x;
+    }
+SWIGINTERN void std_list_Sl_tree_key_t_Sg__append(std::list< tree_key_t > *self,std::list< tree_key_t >::value_type const &x){
+      self->push_back(x);
+    }
+
+  namespace swig {
+    template <>  struct traits<edge_t > {
+      typedef pointer_category category;
+      static const char* type_name() { return"edge_t"; }
+    };
+  }
+
+
+  namespace swig {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    template <class T, class U >
+    struct traits_asptr<std::pair<T,U> >  {
+      typedef std::pair<T,U> value_type;
+
+      static int get_pair(PyObject* first, PyObject* second,
+			  std::pair<T,U> **val) 
+      {
+	if (val) {
+	  value_type *vp = (new std::pair<T,U>);
+	  T *pfirst = &(vp->first);
+	  int res1 = swig::asval((PyObject*)first, pfirst);
+	  if (!SWIG_IsOK(res1)) return res1;
+	  U *psecond = &(vp->second);
+	  int res2 = swig::asval((PyObject*)second, psecond);
+	  if (!SWIG_IsOK(res2)) return res2;
+	  *val = vp;
+	  return SWIG_AddNewMask(res1 > res2 ? res1 : res2);
+	} else {
+	  T *pfirst = 0;
+	  int res1 = swig::asval((PyObject*)first, pfirst);
+	  if (!SWIG_IsOK(res1)) return res1;
+	  U *psecond = 0;
+	  int res2 = swig::asval((PyObject*)second, psecond);
+	  if (!SWIG_IsOK(res2)) return res2;
+	  return res1 > res2 ? res1 : res2;
+	}	
+      }
+
+      static int asptr(PyObject *obj, std::pair<T,U> **val) {
+	int res = SWIG_ERROR;
+	if (PyTuple_Check(obj)) {
+	  if (PyTuple_GET_SIZE(obj) == 2) {
+	    res = get_pair(PyTuple_GET_ITEM(obj,0),PyTuple_GET_ITEM(obj,1), val);
+	  }
+	} else if (PySequence_Check(obj)) {
+	  if (PySequence_Size(obj) == 2) {
+	    swig::SwigVar_PyObject first = PySequence_GetItem(obj,0);
+	    swig::SwigVar_PyObject second = PySequence_GetItem(obj,1);
+	    res = get_pair(first, second, val);
+	  }
+	} else {
+	  value_type *p;
+	  res = SWIG_ConvertPtr(obj,(void**)&p,swig::type_info<value_type>(),0);
+	  if (SWIG_IsOK(res) && val)  *val = p;
+	}
+	return res;
+      }
+    };
+
+
+    template <class T, class U >
+    struct traits_from<std::pair<T,U> >   {
+      static PyObject *from(const std::pair<T,U>& val) {
+	PyObject* obj = PyTuple_New(2);
+	PyTuple_SetItem(obj,0,swig::from(val.first));
+	PyTuple_SetItem(obj,1,swig::from(val.second));
+	return obj;
+      }
+    };
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      namespace swig {
+	template <>  struct traits<std::pair< tree_key_t, edge_t > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::pair<" "tree_key_t" "," "edge_t" " >";
+	  }
+	};
+      }
+    
+
+  namespace swig {
+    template <class SwigPySeq, class K, class T, class Compare, class Alloc >
+    inline void
+    assign(const SwigPySeq& swigpyseq, std::map<K,T,Compare,Alloc > *map) {
+      typedef typename std::map<K,T,Compare,Alloc >::value_type value_type;
+      typename SwigPySeq::const_iterator it = swigpyseq.begin();
+      for (;it != swigpyseq.end(); ++it) {
+	map->insert(value_type(it->first, it->second));
+      }
+    }
+
+    template <class K, class T, class Compare, class Alloc>
+    struct traits_asptr<std::map<K,T,Compare,Alloc > >  {
+      typedef std::map<K,T,Compare,Alloc > map_type;
+      static int asptr(PyObject *obj, map_type **val) {
+	int res = SWIG_ERROR;
+	SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+	if (PyDict_Check(obj)) {
+	  SwigVar_PyObject items = PyObject_CallMethod(obj,(char *)"items",NULL);
+#if PY_VERSION_HEX >= 0x03000000
+          /* In Python 3.x the ".items()" method returns a dict_items object */
+          items = PySequence_Fast(items, ".items() didn't return a sequence!");
+#endif
+	  res = traits_asptr_stdseq<map_type, std::pair<K, T> >::asptr(items, val);
+	} else {
+	  map_type *p;
+	  res = SWIG_ConvertPtr(obj,(void**)&p,swig::type_info<map_type>(),0);
+	  if (SWIG_IsOK(res) && val)  *val = p;
+	}
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return res;
+      }      
+    };
+      
+    template <class K, class T, class Compare, class Alloc >
+    struct traits_from<std::map<K,T,Compare,Alloc > >  {
+      typedef std::map<K,T,Compare,Alloc > map_type;
+      typedef typename map_type::const_iterator const_iterator;
+      typedef typename map_type::size_type size_type;
+
+      static PyObject *asdict(const map_type& map) {
+	SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+	size_type size = map.size();
+	int pysize = (size <= (size_type) INT_MAX) ? (int) size : -1;
+	if (pysize < 0) {
+	  PyErr_SetString(PyExc_OverflowError,
+			  "map size not valid in python");
+	  SWIG_PYTHON_THREAD_END_BLOCK;
+	  return NULL;
+	}
+	PyObject *obj = PyDict_New();
+	for (const_iterator i= map.begin(); i!= map.end(); ++i) {
+	  swig::SwigVar_PyObject key = swig::from(i->first);
+	  swig::SwigVar_PyObject val = swig::from(i->second);
+	  PyDict_SetItem(obj, key, val);
+	}
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return obj;
+      }
+                
+      static PyObject *from(const map_type& map) {
+	swig_type_info *desc = swig::type_info<map_type>();
+	if (desc && desc->clientdata) {
+	  return SWIG_InternalNewPointerObj(new map_type(map), desc, SWIG_POINTER_OWN);
+	} else {
+	  return asdict(map);
+	}
+      }
+    };
+
+    template <class ValueType>
+    struct from_key_oper 
+    {
+      typedef const ValueType& argument_type;
+      typedef  PyObject *result_type;
+      result_type operator()(argument_type v) const
+      {
+	return swig::from(v.first);
+      }
+    };
+
+    template <class ValueType>
+    struct from_value_oper 
+    {
+      typedef const ValueType& argument_type;
+      typedef  PyObject *result_type;
+      result_type operator()(argument_type v) const
+      {
+	return swig::from(v.second);
+      }
+    };
+
+    template<class OutIterator, class FromOper, class ValueType = typename OutIterator::value_type>
+    struct SwigPyMapIterator_T : SwigPyIteratorClosed_T<OutIterator, ValueType, FromOper>
+    {
+      SwigPyMapIterator_T(OutIterator curr, OutIterator first, OutIterator last, PyObject *seq)
+	: SwigPyIteratorClosed_T<OutIterator,ValueType,FromOper>(curr, first, last, seq)
+      {
+      }
+    };
+
+
+    template<class OutIterator,
+	     class FromOper = from_key_oper<typename OutIterator::value_type> >
+    struct SwigPyMapKeyIterator_T : SwigPyMapIterator_T<OutIterator, FromOper>
+    {
+      SwigPyMapKeyIterator_T(OutIterator curr, OutIterator first, OutIterator last, PyObject *seq)
+	: SwigPyMapIterator_T<OutIterator, FromOper>(curr, first, last, seq)
+      {
+      }
+    };
+
+    template<typename OutIter>
+    inline SwigPyIterator*
+    make_output_key_iterator(const OutIter& current, const OutIter& begin, const OutIter& end, PyObject *seq = 0)
+    {
+      return new SwigPyMapKeyIterator_T<OutIter>(current, begin, end, seq);
+    }
+
+    template<class OutIterator,
+	     class FromOper = from_value_oper<typename OutIterator::value_type> >
+    struct SwigPyMapValueITerator_T : SwigPyMapIterator_T<OutIterator, FromOper>
+    {
+      SwigPyMapValueITerator_T(OutIterator curr, OutIterator first, OutIterator last, PyObject *seq)
+	: SwigPyMapIterator_T<OutIterator, FromOper>(curr, first, last, seq)
+      {
+      }
+    };
+    
+
+    template<typename OutIter>
+    inline SwigPyIterator*
+    make_output_value_iterator(const OutIter& current, const OutIter& begin, const OutIter& end, PyObject *seq = 0)
+    {
+      return new SwigPyMapValueITerator_T<OutIter>(current, begin, end, seq);
+    }
+
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::map<tree_key_t, edge_t, std::less< tree_key_t >, std::allocator< std::pair< tree_key_t const,edge_t > > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::map<" "tree_key_t" "," "edge_t" "," "std::less< tree_key_t >" "," "std::allocator< std::pair< tree_key_t const,edge_t > >" " >";
+	  }
+	};
+      }
+    
+SWIGINTERN swig::SwigPyIterator *std_map_Sl_tree_key_t_Sc_edge_t_Sg__iterator(std::map< tree_key_t,edge_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_edge_t_Sg____nonzero__(std::map< tree_key_t,edge_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_edge_t_Sg____bool__(std::map< tree_key_t,edge_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN std::map< tree_key_t,edge_t >::size_type std_map_Sl_tree_key_t_Sc_edge_t_Sg____len__(std::map< tree_key_t,edge_t > const *self){
+      return self->size();
+    }
+SWIGINTERN std::map< tree_key_t,edge_t >::mapped_type const &std_map_Sl_tree_key_t_Sc_edge_t_Sg____getitem__(std::map< tree_key_t,edge_t > *self,std::map< tree_key_t,edge_t >::key_type const &key){
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::const_iterator i = self->find(key);
+      if (i != self->end())
+	return i->second;
+      else
+	throw std::out_of_range("key not found");
+    }
+SWIGINTERN void std_map_Sl_tree_key_t_Sc_edge_t_Sg____delitem__(std::map< tree_key_t,edge_t > *self,std::map< tree_key_t,edge_t >::key_type const &key){
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::iterator i = self->find(key);
+      if (i != self->end())
+	self->erase(i);
+      else
+	throw std::out_of_range("key not found");
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_edge_t_Sg__has_key(std::map< tree_key_t,edge_t > const *self,std::map< tree_key_t,edge_t >::key_type const &key){
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::const_iterator i = self->find(key);
+      return i != self->end();
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_edge_t_Sg__keys(std::map< tree_key_t,edge_t > *self){
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::size_type size = self->size();
+      int pysize = (size <= (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::size_type) INT_MAX) ? (int) size : -1;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      if (pysize < 0) {
+	PyErr_SetString(PyExc_OverflowError,
+			"map size not valid in python");
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return NULL;
+      }
+      PyObject* keyList = PyList_New(pysize);
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::const_iterator i = self->begin();
+      for (int j = 0; j < pysize; ++i, ++j) {
+	PyList_SET_ITEM(keyList, j, swig::from(i->first));
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return keyList;
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_edge_t_Sg__values(std::map< tree_key_t,edge_t > *self){
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::size_type size = self->size();
+      int pysize = (size <= (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::size_type) INT_MAX) ? (int) size : -1;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      if (pysize < 0) {
+	PyErr_SetString(PyExc_OverflowError,
+			"map size not valid in python");
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return NULL;
+      }
+      PyObject* valList = PyList_New(pysize);
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::const_iterator i = self->begin();
+      for (int j = 0; j < pysize; ++i, ++j) {
+	PyList_SET_ITEM(valList, j, swig::from(i->second));
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return valList;
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_edge_t_Sg__items(std::map< tree_key_t,edge_t > *self){
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::size_type size = self->size();
+      int pysize = (size <= (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::size_type) INT_MAX) ? (int) size : -1;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      if (pysize < 0) {
+	PyErr_SetString(PyExc_OverflowError,
+			"map size not valid in python");
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return NULL;
+      }    
+      PyObject* itemList = PyList_New(pysize);
+      std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >::const_iterator i = self->begin();
+      for (int j = 0; j < pysize; ++i, ++j) {
+	PyList_SET_ITEM(itemList, j, swig::from(*i));
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return itemList;
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_edge_t_Sg____contains__(std::map< tree_key_t,edge_t > *self,std::map< tree_key_t,edge_t >::key_type const &key){
+      return self->find(key) != self->end();
+    }
+SWIGINTERN swig::SwigPyIterator *std_map_Sl_tree_key_t_Sc_edge_t_Sg__key_iterator(std::map< tree_key_t,edge_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_key_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN swig::SwigPyIterator *std_map_Sl_tree_key_t_Sc_edge_t_Sg__value_iterator(std::map< tree_key_t,edge_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_value_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN void std_map_Sl_tree_key_t_Sc_edge_t_Sg____setitem____SWIG_0(std::map< tree_key_t,edge_t > *self,std::map< tree_key_t,edge_t >::key_type const &key){
+      self->erase(key);
+    }
+SWIGINTERN void std_map_Sl_tree_key_t_Sc_edge_t_Sg____setitem____SWIG_1(std::map< tree_key_t,edge_t > *self,std::map< tree_key_t,edge_t >::key_type const &key,std::map< tree_key_t,edge_t >::mapped_type const &x){
+      (*self)[key] = x;
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_edge_t_Sg__asdict(std::map< tree_key_t,edge_t > *self){
+      return swig::traits_from< std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > > >::asdict(*self);
+    }
+
+  namespace swig {
+    template <>  struct traits<node_t > {
+      typedef pointer_category category;
+      static const char* type_name() { return"node_t"; }
+    };
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::pair< tree_key_t, node_t > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::pair<" "tree_key_t" "," "node_t" " >";
+	  }
+	};
+      }
+    
+
+      namespace swig {
+	template <>  struct traits<std::map<tree_key_t, node_t, std::less< tree_key_t >, std::allocator< std::pair< tree_key_t const,node_t > > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::map<" "tree_key_t" "," "node_t" "," "std::less< tree_key_t >" "," "std::allocator< std::pair< tree_key_t const,node_t > >" " >";
+	  }
+	};
+      }
+    
+SWIGINTERN swig::SwigPyIterator *std_map_Sl_tree_key_t_Sc_node_t_Sg__iterator(std::map< tree_key_t,node_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_node_t_Sg____nonzero__(std::map< tree_key_t,node_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_node_t_Sg____bool__(std::map< tree_key_t,node_t > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN std::map< tree_key_t,node_t >::size_type std_map_Sl_tree_key_t_Sc_node_t_Sg____len__(std::map< tree_key_t,node_t > const *self){
+      return self->size();
+    }
+SWIGINTERN std::map< tree_key_t,node_t >::mapped_type const &std_map_Sl_tree_key_t_Sc_node_t_Sg____getitem__(std::map< tree_key_t,node_t > *self,std::map< tree_key_t,node_t >::key_type const &key){
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::const_iterator i = self->find(key);
+      if (i != self->end())
+	return i->second;
+      else
+	throw std::out_of_range("key not found");
+    }
+SWIGINTERN void std_map_Sl_tree_key_t_Sc_node_t_Sg____delitem__(std::map< tree_key_t,node_t > *self,std::map< tree_key_t,node_t >::key_type const &key){
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::iterator i = self->find(key);
+      if (i != self->end())
+	self->erase(i);
+      else
+	throw std::out_of_range("key not found");
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_node_t_Sg__has_key(std::map< tree_key_t,node_t > const *self,std::map< tree_key_t,node_t >::key_type const &key){
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::const_iterator i = self->find(key);
+      return i != self->end();
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_node_t_Sg__keys(std::map< tree_key_t,node_t > *self){
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::size_type size = self->size();
+      int pysize = (size <= (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::size_type) INT_MAX) ? (int) size : -1;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      if (pysize < 0) {
+	PyErr_SetString(PyExc_OverflowError,
+			"map size not valid in python");
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return NULL;
+      }
+      PyObject* keyList = PyList_New(pysize);
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::const_iterator i = self->begin();
+      for (int j = 0; j < pysize; ++i, ++j) {
+	PyList_SET_ITEM(keyList, j, swig::from(i->first));
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return keyList;
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_node_t_Sg__values(std::map< tree_key_t,node_t > *self){
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::size_type size = self->size();
+      int pysize = (size <= (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::size_type) INT_MAX) ? (int) size : -1;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      if (pysize < 0) {
+	PyErr_SetString(PyExc_OverflowError,
+			"map size not valid in python");
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return NULL;
+      }
+      PyObject* valList = PyList_New(pysize);
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::const_iterator i = self->begin();
+      for (int j = 0; j < pysize; ++i, ++j) {
+	PyList_SET_ITEM(valList, j, swig::from(i->second));
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return valList;
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_node_t_Sg__items(std::map< tree_key_t,node_t > *self){
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::size_type size = self->size();
+      int pysize = (size <= (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::size_type) INT_MAX) ? (int) size : -1;
+      SWIG_PYTHON_THREAD_BEGIN_BLOCK;
+      if (pysize < 0) {
+	PyErr_SetString(PyExc_OverflowError,
+			"map size not valid in python");
+	SWIG_PYTHON_THREAD_END_BLOCK;
+	return NULL;
+      }    
+      PyObject* itemList = PyList_New(pysize);
+      std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >::const_iterator i = self->begin();
+      for (int j = 0; j < pysize; ++i, ++j) {
+	PyList_SET_ITEM(itemList, j, swig::from(*i));
+      }
+      SWIG_PYTHON_THREAD_END_BLOCK;
+      return itemList;
+    }
+SWIGINTERN bool std_map_Sl_tree_key_t_Sc_node_t_Sg____contains__(std::map< tree_key_t,node_t > *self,std::map< tree_key_t,node_t >::key_type const &key){
+      return self->find(key) != self->end();
+    }
+SWIGINTERN swig::SwigPyIterator *std_map_Sl_tree_key_t_Sc_node_t_Sg__key_iterator(std::map< tree_key_t,node_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_key_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN swig::SwigPyIterator *std_map_Sl_tree_key_t_Sc_node_t_Sg__value_iterator(std::map< tree_key_t,node_t > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_value_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN void std_map_Sl_tree_key_t_Sc_node_t_Sg____setitem____SWIG_0(std::map< tree_key_t,node_t > *self,std::map< tree_key_t,node_t >::key_type const &key){
+      self->erase(key);
+    }
+SWIGINTERN void std_map_Sl_tree_key_t_Sc_node_t_Sg____setitem____SWIG_1(std::map< tree_key_t,node_t > *self,std::map< tree_key_t,node_t >::key_type const &key,std::map< tree_key_t,node_t >::mapped_type const &x){
+      (*self)[key] = x;
+    }
+SWIGINTERN PyObject *std_map_Sl_tree_key_t_Sc_node_t_Sg__asdict(std::map< tree_key_t,node_t > *self){
+      return swig::traits_from< std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > > >::asdict(*self);
+    }
 SWIGINTERN char const *clone_t___str__(clone_t *self){
         static char buffer[255];
         sprintf(buffer,"clone: %u traits, genome size = %u", (unsigned int)(self->trait).size(), (unsigned int)(self->genotype).size());
@@ -3940,6 +6132,55 @@ SWIGINTERN void clone_t__get_genotype(clone_t *self,int DIM1,short *ARGOUT_ARRAY
         for(size_t i=0; i < (self->genotype).size(); i++) ARGOUT_ARRAY1[i] = (self->genotype)[i];
 }
 SWIGINTERN void clone_t__set_genotype(clone_t *self,boost::dynamic_bitset< > genotype_in){self->genotype = genotype_in;}
+SWIGINTERN char const *tree_key_t___str__(tree_key_t *self){
+        static char buffer[255];
+        sprintf(buffer,"tree key: index = %d, age = %d", (int)(self->index), (int)(self->age));
+        return &buffer[0];
+}
+SWIGINTERN char const *tree_key_t___repr__(tree_key_t *self){
+        static char buffer[255];
+        sprintf(buffer,"tree_key(%d, %d)", (int)(self->index), (int)(self->age));
+        return &buffer[0];
+}
+SWIGINTERN char const *step_t___str__(step_t *self){
+        static char buffer[255];
+        sprintf(buffer,"tree_step: pos = %d, step = %d", (int)(self->pos), (int)(self->step));
+        return &buffer[0];
+}
+SWIGINTERN char const *step_t___repr__(step_t *self){
+        static char buffer[255];
+        sprintf(buffer,"tree_step(%d, %d)", (int)(self->pos), (int)(self->step));
+        return &buffer[0];
+}
+SWIGINTERN char const *node_t___str__(node_t *self){
+        static char buffer[255];
+        sprintf(buffer,"tree_node");
+        return &buffer[0];
+}
+SWIGINTERN char const *node_t___repr__(node_t *self){
+        static char buffer[255];
+        sprintf(buffer,"<tree_node>");
+        return &buffer[0];
+}
+SWIGINTERN int node_t__get_crossover_chunk(node_t *self,int i){return (self->crossover)[i];}
+SWIGINTERN char const *edge_t___str__(edge_t *self){
+        static char buffer[255];
+        sprintf(buffer,"tree_edge");
+        return &buffer[0];
+}
+SWIGINTERN char const *edge_t___repr__(edge_t *self){
+        static char buffer[255];
+        sprintf(buffer,"<tree_edge>");
+        return &buffer[0];
+}
+SWIGINTERN int edge_t__get_segment_chunk(edge_t *self,int i){return (self->segment)[i];}
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_std_string  (const std::string& s)
+{
+  return SWIG_FromCharPtrAndSize(s.data(), s.size());
+}
+
 SWIGINTERN char const *rooted_tree___str__(rooted_tree *self){
         static char buffer[255];
         sprintf(buffer,"genealogy tree with %u nodes", (unsigned int)(self->nodes).size());
@@ -3949,6 +6190,16 @@ SWIGINTERN char const *rooted_tree___repr__(rooted_tree *self){
         static char buffer[255];
         sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)(self->nodes).size());
         return &buffer[0];
+}
+SWIGINTERN std::vector< tree_key_t > rooted_tree__ancestors_at_age(rooted_tree *self,int age,tree_key_t subtree_root){
+        vector <tree_key_t> ancestors;
+        self->ancestors_at_age(age, subtree_root, ancestors);
+        return ancestors;
+}
+SWIGINTERN rooted_tree rooted_tree_create_subtree_from_keys(rooted_tree *self,std::vector< tree_key_t > leaves){
+        rooted_tree other;
+        self->construct_subtree(leaves, other);
+        return other;
 }
 SWIGINTERN char const *multi_locus_genealogy___str__(multi_locus_genealogy *self){
         static char buffer[255];
@@ -4138,6 +6389,113 @@ SWIGINTERN char const *hivgene___repr__(hivgene *self){
         sprintf(buffer,"hivgene(%d, %d)", self->start, self->end);
         return &buffer[0];
 }
+
+SWIGINTERN int
+SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
+{
+#if PY_VERSION_HEX>=0x03000000
+  if (PyUnicode_Check(obj))
+#else  
+  if (PyString_Check(obj))
+#endif
+  {
+    char *cstr; Py_ssize_t len;
+#if PY_VERSION_HEX>=0x03000000
+    if (!alloc && cptr) {
+        /* We can't allow converting without allocation, since the internal
+           representation of string in Python 3 is UCS-2/UCS-4 but we require
+           a UTF-8 representation.
+           TODO(bhy) More detailed explanation */
+        return SWIG_RuntimeError;
+    }
+    obj = PyUnicode_AsUTF8String(obj);
+    PyBytes_AsStringAndSize(obj, &cstr, &len);
+    if(alloc) *alloc = SWIG_NEWOBJ;
+#else
+    PyString_AsStringAndSize(obj, &cstr, &len);
+#endif
+    if (cptr) {
+      if (alloc) {
+	/* 
+	   In python the user should not be able to modify the inner
+	   string representation. To warranty that, if you define
+	   SWIG_PYTHON_SAFE_CSTRINGS, a new/copy of the python string
+	   buffer is always returned.
+
+	   The default behavior is just to return the pointer value,
+	   so, be careful.
+	*/ 
+#if defined(SWIG_PYTHON_SAFE_CSTRINGS)
+	if (*alloc != SWIG_OLDOBJ) 
+#else
+	if (*alloc == SWIG_NEWOBJ) 
+#endif
+	  {
+	    *cptr = reinterpret_cast< char* >(memcpy((new char[len + 1]), cstr, sizeof(char)*(len + 1)));
+	    *alloc = SWIG_NEWOBJ;
+	  }
+	else {
+	  *cptr = cstr;
+	  *alloc = SWIG_OLDOBJ;
+	}
+      } else {
+        #if PY_VERSION_HEX>=0x03000000
+        assert(0); /* Should never reach here in Python 3 */
+        #endif
+	*cptr = SWIG_Python_str_AsChar(obj);
+      }
+    }
+    if (psize) *psize = len + 1;
+#if PY_VERSION_HEX>=0x03000000
+    Py_XDECREF(obj);
+#endif
+    return SWIG_OK;
+  } else {
+    swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
+    if (pchar_descriptor) {
+      void* vptr = 0;
+      if (SWIG_ConvertPtr(obj, &vptr, pchar_descriptor, 0) == SWIG_OK) {
+	if (cptr) *cptr = (char *) vptr;
+	if (psize) *psize = vptr ? (strlen((char *)vptr) + 1) : 0;
+	if (alloc) *alloc = SWIG_OLDOBJ;
+	return SWIG_OK;
+      }
+    }
+  }
+  return SWIG_TypeError;
+}
+
+
+SWIGINTERN int
+SWIG_AsPtr_std_string (PyObject * obj, std::string **val) 
+{
+  char* buf = 0 ; size_t size = 0; int alloc = SWIG_OLDOBJ;
+  if (SWIG_IsOK((SWIG_AsCharPtrAndSize(obj, &buf, &size, &alloc)))) {
+    if (buf) {
+      if (val) *val = new std::string(buf, size - 1);
+      if (alloc == SWIG_NEWOBJ) delete[] buf;
+      return SWIG_NEWOBJ;
+    } else {
+      if (val) *val = 0;
+      return SWIG_OLDOBJ;
+    }
+  } else {
+    static int init = 0;
+    static swig_type_info* descriptor = 0;
+    if (!init) {
+      descriptor = SWIG_TypeQuery("std::string" " *");
+      init = 1;
+    }
+    if (descriptor) {
+      std::string *vptr;
+      int res = SWIG_ConvertPtr(obj, (void**)&vptr, descriptor, 0);
+      if (SWIG_IsOK(res) && val) *val = vptr;
+      return res;
+    }
+  }
+  return SWIG_ERROR;
+}
+
 SWIGINTERN char const *hivpopulation___str__(hivpopulation *self){
         static char buffer[255];
         sprintf(buffer,"hivpopulation: N = %d", self->N());
@@ -4151,6 +6509,773 @@ SWIGINTERN char const *hivpopulation___repr__(hivpopulation *self){
 #ifdef __cplusplus
 extern "C" {
 #endif
+SWIGINTERN PyObject *_wrap_delete_SwigPyIterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SwigPyIterator" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_value(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_value" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  try {
+    result = (PyObject *)((swig::SwigPyIterator const *)arg1)->value();
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_incr(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  size_t arg2 = (size_t) 1 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O|O:SwigPyIterator_incr",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_incr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  if (obj1) {
+    ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator_incr" "', argument " "2"" of type '" "size_t""'");
+    } 
+    arg2 = static_cast< size_t >(val2);
+  }
+  try {
+    result = (swig::SwigPyIterator *)(arg1)->incr(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_decr(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  size_t arg2 = (size_t) 1 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O|O:SwigPyIterator_decr",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_decr" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  if (obj1) {
+    ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator_decr" "', argument " "2"" of type '" "size_t""'");
+    } 
+    arg2 = static_cast< size_t >(val2);
+  }
+  try {
+    result = (swig::SwigPyIterator *)(arg1)->decr(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_distance(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  swig::SwigPyIterator *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  ptrdiff_t result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator_distance",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_distance" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator_distance" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator_distance" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
+  try {
+    result = ((swig::SwigPyIterator const *)arg1)->distance((swig::SwigPyIterator const &)*arg2);
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_Python_Raise(SWIG_NewPointerObj((new std::invalid_argument(static_cast< const std::invalid_argument& >(_e))),SWIGTYPE_p_std__invalid_argument,SWIG_POINTER_OWN), "std::invalid_argument", SWIGTYPE_p_std__invalid_argument); SWIG_fail;
+  }
+  
+  resultobj = SWIG_From_ptrdiff_t(static_cast< ptrdiff_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_equal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  swig::SwigPyIterator *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator_equal",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_equal" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator_equal" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator_equal" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
+  try {
+    result = (bool)((swig::SwigPyIterator const *)arg1)->equal((swig::SwigPyIterator const &)*arg2);
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_Python_Raise(SWIG_NewPointerObj((new std::invalid_argument(static_cast< const std::invalid_argument& >(_e))),SWIGTYPE_p_std__invalid_argument,SWIG_POINTER_OWN), "std::invalid_argument", SWIGTYPE_p_std__invalid_argument); SWIG_fail;
+  }
+  
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_copy(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_copy" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  result = (swig::SwigPyIterator *)((swig::SwigPyIterator const *)arg1)->copy();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_next(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_next" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  try {
+    result = (PyObject *)(arg1)->next();
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___next__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___next__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  try {
+    result = (PyObject *)(arg1)->__next__();
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_previous(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_previous" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  try {
+    result = (PyObject *)(arg1)->previous();
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator_advance(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  ptrdiff_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator_advance",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator_advance" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator_advance" "', argument " "2"" of type '" "ptrdiff_t""'");
+  } 
+  arg2 = static_cast< ptrdiff_t >(val2);
+  try {
+    result = (swig::SwigPyIterator *)(arg1)->advance(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___eq__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  swig::SwigPyIterator *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator___eq__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___eq__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___eq__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___eq__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
+  result = (bool)((swig::SwigPyIterator const *)arg1)->operator ==((swig::SwigPyIterator const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___ne__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  swig::SwigPyIterator *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator___ne__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___ne__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___ne__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___ne__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
+  result = (bool)((swig::SwigPyIterator const *)arg1)->operator !=((swig::SwigPyIterator const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___iadd__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  ptrdiff_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator___iadd__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___iadd__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___iadd__" "', argument " "2"" of type '" "ptrdiff_t""'");
+  } 
+  arg2 = static_cast< ptrdiff_t >(val2);
+  try {
+    result = (swig::SwigPyIterator *) &(arg1)->operator +=(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___isub__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  ptrdiff_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator___isub__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___isub__" "', argument " "1"" of type '" "swig::SwigPyIterator *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___isub__" "', argument " "2"" of type '" "ptrdiff_t""'");
+  } 
+  arg2 = static_cast< ptrdiff_t >(val2);
+  try {
+    result = (swig::SwigPyIterator *) &(arg1)->operator -=(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___add__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  ptrdiff_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  swig::SwigPyIterator *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:SwigPyIterator___add__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___add__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___add__" "', argument " "2"" of type '" "ptrdiff_t""'");
+  } 
+  arg2 = static_cast< ptrdiff_t >(val2);
+  try {
+    result = (swig::SwigPyIterator *)((swig::SwigPyIterator const *)arg1)->operator +(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___sub____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  ptrdiff_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___sub__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "ptrdiff_t""'");
+  } 
+  arg2 = static_cast< ptrdiff_t >(val2);
+  try {
+    result = (swig::SwigPyIterator *)((swig::SwigPyIterator const *)arg1)->operator -(arg2);
+  }
+  catch(swig::stop_iteration &_e) {
+    {
+      (void)_e;
+      SWIG_SetErrorObj(PyExc_StopIteration, SWIG_Py_Void());
+      SWIG_fail;
+    }
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___sub____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  swig::SwigPyIterator *arg1 = (swig::SwigPyIterator *) 0 ;
+  swig::SwigPyIterator *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  ptrdiff_t result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_swig__SwigPyIterator, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SwigPyIterator___sub__" "', argument " "1"" of type '" "swig::SwigPyIterator const *""'"); 
+  }
+  arg1 = reinterpret_cast< swig::SwigPyIterator * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_swig__SwigPyIterator,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "SwigPyIterator___sub__" "', argument " "2"" of type '" "swig::SwigPyIterator const &""'"); 
+  }
+  arg2 = reinterpret_cast< swig::SwigPyIterator * >(argp2);
+  result = ((swig::SwigPyIterator const *)arg1)->operator -((swig::SwigPyIterator const &)*arg2);
+  resultobj = SWIG_From_ptrdiff_t(static_cast< ptrdiff_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_SwigPyIterator___sub__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"SwigPyIterator___sub__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_swig__SwigPyIterator, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_swig__SwigPyIterator, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_swig__SwigPyIterator, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_SwigPyIterator___sub____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_SwigPyIterator___sub____SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  Py_INCREF(Py_NotImplemented);
+  return Py_NotImplemented;
+}
+
+
+SWIGINTERN PyObject *SwigPyIterator_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_swig__SwigPyIterator, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_index_value_pair_index_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   index_value_pair_t *arg1 = (index_value_pair_t *) 0 ;
@@ -6313,13 +9438,9144 @@ SWIGINTERN PyObject *haploid_lowd_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObj
   return SWIG_Python_InitShadowInstance(args);
 }
 
+SWIGINTERN PyObject *_wrap_vector_tree_step_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_iterator" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_vector_Sl_step_t_Sg__iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___nonzero__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___nonzero__" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (bool)std_vector_Sl_step_t_Sg____nonzero__((std::vector< step_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___bool__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___bool__" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (bool)std_vector_Sl_step_t_Sg____bool__((std::vector< step_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___len__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___len__" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = std_vector_Sl_step_t_Sg____len__((std::vector< step_t > const *)arg1);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_pop(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::value_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_pop" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  try {
+    result = std_vector_Sl_step_t_Sg__pop(arg1);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj((new std::vector< step_t >::value_type(static_cast< const std::vector< step_t >::value_type& >(result))), SWIGTYPE_p_step_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___getslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::difference_type arg2 ;
+  std::vector< step_t >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j", NULL 
+  };
+  std::vector< step_t,std::allocator< step_t > > *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:vector_tree_step___getslice__",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___getslice__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step___getslice__" "', argument " "2"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_step___getslice__" "', argument " "3"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< step_t >::difference_type >(val3);
+  try {
+    result = (std::vector< step_t,std::allocator< step_t > > *)std_vector_Sl_step_t_Sg____getslice__(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___setslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::difference_type arg2 ;
+  std::vector< step_t >::difference_type arg3 ;
+  std::vector< step_t,std::allocator< step_t > > const &arg4_defvalue = std::vector< step_t,std::allocator< step_t > >() ;
+  std::vector< step_t,std::allocator< step_t > > *arg4 = (std::vector< step_t,std::allocator< step_t > > *) &arg4_defvalue ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  int res4 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO|O:vector_tree_step___setslice__",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___setslice__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step___setslice__" "', argument " "2"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_step___setslice__" "', argument " "3"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< step_t >::difference_type >(val3);
+  if (obj3) {
+    {
+      std::vector<step_t,std::allocator< step_t > > *ptr = (std::vector<step_t,std::allocator< step_t > > *)0;
+      res4 = swig::asptr(obj3, &ptr);
+      if (!SWIG_IsOK(res4)) {
+        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "vector_tree_step___setslice__" "', argument " "4"" of type '" "std::vector< step_t,std::allocator< step_t > > const &""'"); 
+      }
+      if (!ptr) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step___setslice__" "', argument " "4"" of type '" "std::vector< step_t,std::allocator< step_t > > const &""'"); 
+      }
+      arg4 = ptr;
+    }
+  }
+  try {
+    std_vector_Sl_step_t_Sg____setslice__(arg1,arg2,arg3,(std::vector< step_t,std::allocator< step_t > > const &)*arg4);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___delslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::difference_type arg2 ;
+  std::vector< step_t >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:vector_tree_step___delslice__",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___delslice__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step___delslice__" "', argument " "2"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_step___delslice__" "', argument " "3"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< step_t >::difference_type >(val3);
+  try {
+    std_vector_Sl_step_t_Sg____delslice__(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___delitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___delitem__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step___delitem__" "', argument " "2"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::difference_type >(val2);
+  try {
+    std_vector_Sl_step_t_Sg____delitem____SWIG_0(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___getitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::vector< step_t,std::allocator< step_t > > *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___getitem__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step___getitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    result = (std::vector< step_t,std::allocator< step_t > > *)std_vector_Sl_step_t_Sg____getitem____SWIG_0(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___setitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  std::vector< step_t,std::allocator< step_t > > *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res3 = SWIG_OLDOBJ ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___setitem__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step___setitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  {
+    std::vector<step_t,std::allocator< step_t > > *ptr = (std::vector<step_t,std::allocator< step_t > > *)0;
+    res3 = swig::asptr(swig_obj[2], &ptr);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_step___setitem__" "', argument " "3"" of type '" "std::vector< step_t,std::allocator< step_t > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step___setitem__" "', argument " "3"" of type '" "std::vector< step_t,std::allocator< step_t > > const &""'"); 
+    }
+    arg3 = ptr;
+  }
+  try {
+    std_vector_Sl_step_t_Sg____setitem____SWIG_0(arg1,arg2,(std::vector< step_t,std::allocator< step_t > > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___setitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___setitem__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step___setitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    std_vector_Sl_step_t_Sg____setitem____SWIG_1(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___delitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___delitem__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step___delitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    std_vector_Sl_step_t_Sg____delitem____SWIG_1(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___delitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_step___delitem__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_step___delitem____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_step___delitem____SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_step___delitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::__delitem__(std::vector< step_t >::difference_type)\n"
+    "    std::vector< step_t >::__delitem__(PySliceObject *)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___getitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  std::vector< step_t >::value_type *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___getitem__" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step___getitem__" "', argument " "2"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::difference_type >(val2);
+  try {
+    result = (std::vector< step_t >::value_type *) &std_vector_Sl_step_t_Sg____getitem____SWIG_1((std::vector< step_t > const *)arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_step_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___getitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_step___getitem__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_step___getitem____SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_step___getitem____SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_step___getitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::__getitem__(PySliceObject *)\n"
+    "    std::vector< step_t >::__getitem__(std::vector< step_t >::difference_type) const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___setitem____SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::difference_type arg2 ;
+  std::vector< step_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step___setitem__" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step___setitem__" "', argument " "2"" of type '" "std::vector< step_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::difference_type >(val2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_step___setitem__" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step___setitem__" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< step_t >::value_type * >(argp3);
+  try {
+    std_vector_Sl_step_t_Sg____setitem____SWIG_2(arg1,arg2,(step_t const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step___setitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_step___setitem__",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = swig::asptr(argv[2], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_step_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_step___setitem____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_step___setitem____SWIG_0(self, argc, argv);
+    case 3:
+      return _wrap_vector_tree_step___setitem____SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_step___setitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::__setitem__(PySliceObject *,std::vector< step_t,std::allocator< step_t > > const &)\n"
+    "    std::vector< step_t >::__setitem__(PySliceObject *)\n"
+    "    std::vector< step_t >::__setitem__(std::vector< step_t >::difference_type,std::vector< step_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_append(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_step_append",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_append" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "vector_tree_step_append" "', argument " "2"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_append" "', argument " "2"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< step_t >::value_type * >(argp2);
+  std_vector_Sl_step_t_Sg__append(arg1,(step_t const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_step__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (std::vector< step_t > *)new std::vector< step_t >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_step__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  std::vector< step_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::vector<step_t,std::allocator< step_t > > *ptr = (std::vector<step_t,std::allocator< step_t > > *)0;
+    res1 = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_vector_tree_step" "', argument " "1"" of type '" "std::vector< step_t > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_vector_tree_step" "', argument " "1"" of type '" "std::vector< step_t > const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (std::vector< step_t > *)new std::vector< step_t >((std::vector< step_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_empty(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_empty" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (bool)((std::vector< step_t > const *)arg1)->empty();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_size" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = ((std::vector< step_t > const *)arg1)->size();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_clear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_clear" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  (arg1)->clear();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_step_swap",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_swap" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "vector_tree_step_swap" "', argument " "2"" of type '" "std::vector< step_t > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_swap" "', argument " "2"" of type '" "std::vector< step_t > &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< step_t > * >(argp2);
+  (arg1)->swap(*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_get_allocator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  SwigValueWrapper< std::allocator< step_t > > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_get_allocator" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = ((std::vector< step_t > const *)arg1)->get_allocator();
+  resultobj = SWIG_NewPointerObj((new std::vector< step_t >::allocator_type(static_cast< const std::vector< step_t >::allocator_type& >(result))), SWIGTYPE_p_std__allocatorT_step_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_begin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_begin" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (arg1)->begin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_end(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_end" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (arg1)->end();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_rbegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_rbegin" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (arg1)->rbegin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_rend(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_rend" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (arg1)->rend();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_step__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t >::size_type arg1 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  std::vector< step_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_vector_tree_step" "', argument " "1"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg1 = static_cast< std::vector< step_t >::size_type >(val1);
+  result = (std::vector< step_t > *)new std::vector< step_t >(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_pop_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_pop_back" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  (arg1)->pop_back();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_resize__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_resize" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step_resize" "', argument " "2"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::size_type >(val2);
+  (arg1)->resize(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_erase__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::iterator arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  std::vector< step_t >::iterator result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_erase" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_erase" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< step_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_erase" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+    }
+  }
+  result = (arg1)->erase(arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_erase__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::iterator arg2 ;
+  std::vector< step_t >::iterator arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  swig::SwigPyIterator *iter3 = 0 ;
+  int res3 ;
+  std::vector< step_t >::iterator result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_erase" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_erase" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< step_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_erase" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], SWIG_as_voidptrptr(&iter3), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res3) || !iter3) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_erase" "', argument " "3"" of type '" "std::vector< step_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< step_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter3);
+    if (iter_t) {
+      arg3 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_erase" "', argument " "3"" of type '" "std::vector< step_t >::iterator""'");
+    }
+  }
+  result = (arg1)->erase(arg2,arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_erase(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_step_erase",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[2], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_step_erase__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_step_erase__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_step_erase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::erase(std::vector< step_t >::iterator)\n"
+    "    std::vector< step_t >::erase(std::vector< step_t >::iterator,std::vector< step_t >::iterator)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_step__SWIG_3(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t >::size_type arg1 ;
+  std::vector< step_t >::value_type *arg2 = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  std::vector< step_t > *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_vector_tree_step" "', argument " "1"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg1 = static_cast< std::vector< step_t >::size_type >(val1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_vector_tree_step" "', argument " "2"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_vector_tree_step" "', argument " "2"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< step_t >::value_type * >(argp2);
+  result = (std::vector< step_t > *)new std::vector< step_t >(arg1,(std::vector< step_t >::value_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_step(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"new_vector_tree_step",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[0], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[0], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_4;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_step_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_4;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 4;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_4:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_new_vector_tree_step__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_new_vector_tree_step__SWIG_2(self, argc, argv);
+    case 3:
+      return _wrap_new_vector_tree_step__SWIG_1(self, argc, argv);
+    case 4:
+      return _wrap_new_vector_tree_step__SWIG_3(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_vector_tree_step'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::vector()\n"
+    "    std::vector< step_t >::vector(std::vector< step_t > const &)\n"
+    "    std::vector< step_t >::vector(std::vector< step_t >::size_type)\n"
+    "    std::vector< step_t >::vector(std::vector< step_t >::size_type,std::vector< step_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_push_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_step_push_back",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_push_back" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "vector_tree_step_push_back" "', argument " "2"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_push_back" "', argument " "2"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< step_t >::value_type * >(argp2);
+  (arg1)->push_back((std::vector< step_t >::value_type const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_front(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::value_type *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_front" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (std::vector< step_t >::value_type *) &((std::vector< step_t > const *)arg1)->front();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_step_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::value_type *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_back" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = (std::vector< step_t >::value_type *) &((std::vector< step_t > const *)arg1)->back();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_step_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_assign(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::size_type arg2 ;
+  std::vector< step_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:vector_tree_step_assign",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_assign" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step_assign" "', argument " "2"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::size_type >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_step_assign" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_assign" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< step_t >::value_type * >(argp3);
+  (arg1)->assign(arg2,(std::vector< step_t >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_resize__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::size_type arg2 ;
+  std::vector< step_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_resize" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step_resize" "', argument " "2"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::size_type >(val2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_step_resize" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_resize" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< step_t >::value_type * >(argp3);
+  (arg1)->resize(arg2,(std::vector< step_t >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_resize(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_step_resize",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_step_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_step_resize__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_step_resize__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_step_resize'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::resize(std::vector< step_t >::size_type)\n"
+    "    std::vector< step_t >::resize(std::vector< step_t >::size_type,std::vector< step_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_insert__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::iterator arg2 ;
+  std::vector< step_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  std::vector< step_t >::iterator result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_insert" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_insert" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< step_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_insert" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_step_insert" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_insert" "', argument " "3"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< step_t >::value_type * >(argp3);
+  result = (arg1)->insert(arg2,(std::vector< step_t >::value_type const &)*arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< step_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_insert__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::iterator arg2 ;
+  std::vector< step_t >::size_type arg3 ;
+  std::vector< step_t >::value_type *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  size_t val3 ;
+  int ecode3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_insert" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_insert" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< step_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_step_insert" "', argument " "2"" of type '" "std::vector< step_t >::iterator""'");
+    }
+  }
+  ecode3 = SWIG_AsVal_size_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_step_insert" "', argument " "3"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg3 = static_cast< std::vector< step_t >::size_type >(val3);
+  res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "vector_tree_step_insert" "', argument " "4"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  if (!argp4) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_step_insert" "', argument " "4"" of type '" "std::vector< step_t >::value_type const &""'"); 
+  }
+  arg4 = reinterpret_cast< std::vector< step_t >::value_type * >(argp4);
+  (arg1)->insert(arg2,arg3,(std::vector< step_t >::value_type const &)*arg4);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_insert(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[5];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_step_insert",0,4,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_step_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<step_t,std::allocator< step_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< step_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_step_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_step_insert__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_step_insert__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_step_insert'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< step_t >::insert(std::vector< step_t >::iterator,std::vector< step_t >::value_type const &)\n"
+    "    std::vector< step_t >::insert(std::vector< step_t >::iterator,std::vector< step_t >::size_type,std::vector< step_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_reserve(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  std::vector< step_t >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_step_reserve",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_reserve" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_step_reserve" "', argument " "2"" of type '" "std::vector< step_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< step_t >::size_type >(val2);
+  (arg1)->reserve(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_step_capacity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_step_capacity" "', argument " "1"" of type '" "std::vector< step_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  result = ((std::vector< step_t > const *)arg1)->capacity();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_vector_tree_step(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< step_t > *arg1 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_vector_tree_step" "', argument " "1"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< step_t > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *vector_tree_step_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *vector_tree_step_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_iterator" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_vector_Sl_tree_key_t_Sg__iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___nonzero__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___nonzero__" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (bool)std_vector_Sl_tree_key_t_Sg____nonzero__((std::vector< tree_key_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___bool__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___bool__" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (bool)std_vector_Sl_tree_key_t_Sg____bool__((std::vector< tree_key_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___len__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___len__" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = std_vector_Sl_tree_key_t_Sg____len__((std::vector< tree_key_t > const *)arg1);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_pop(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::value_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_pop" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  try {
+    result = std_vector_Sl_tree_key_t_Sg__pop(arg1);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj((new std::vector< tree_key_t >::value_type(static_cast< const std::vector< tree_key_t >::value_type& >(result))), SWIGTYPE_p_tree_key_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___getslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::difference_type arg2 ;
+  std::vector< tree_key_t >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j", NULL 
+  };
+  std::vector< tree_key_t,std::allocator< tree_key_t > > *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:vector_tree_key___getslice__",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___getslice__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key___getslice__" "', argument " "2"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_key___getslice__" "', argument " "3"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< tree_key_t >::difference_type >(val3);
+  try {
+    result = (std::vector< tree_key_t,std::allocator< tree_key_t > > *)std_vector_Sl_tree_key_t_Sg____getslice__(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___setslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::difference_type arg2 ;
+  std::vector< tree_key_t >::difference_type arg3 ;
+  std::vector< tree_key_t,std::allocator< tree_key_t > > const &arg4_defvalue = std::vector< tree_key_t,std::allocator< tree_key_t > >() ;
+  std::vector< tree_key_t,std::allocator< tree_key_t > > *arg4 = (std::vector< tree_key_t,std::allocator< tree_key_t > > *) &arg4_defvalue ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  int res4 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO|O:vector_tree_key___setslice__",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___setslice__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key___setslice__" "', argument " "2"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_key___setslice__" "', argument " "3"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< tree_key_t >::difference_type >(val3);
+  if (obj3) {
+    {
+      std::vector<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::vector<tree_key_t,std::allocator< tree_key_t > > *)0;
+      res4 = swig::asptr(obj3, &ptr);
+      if (!SWIG_IsOK(res4)) {
+        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "vector_tree_key___setslice__" "', argument " "4"" of type '" "std::vector< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+      }
+      if (!ptr) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key___setslice__" "', argument " "4"" of type '" "std::vector< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+      }
+      arg4 = ptr;
+    }
+  }
+  try {
+    std_vector_Sl_tree_key_t_Sg____setslice__(arg1,arg2,arg3,(std::vector< tree_key_t,std::allocator< tree_key_t > > const &)*arg4);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___delslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::difference_type arg2 ;
+  std::vector< tree_key_t >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:vector_tree_key___delslice__",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___delslice__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key___delslice__" "', argument " "2"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_key___delslice__" "', argument " "3"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< tree_key_t >::difference_type >(val3);
+  try {
+    std_vector_Sl_tree_key_t_Sg____delslice__(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___delitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___delitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key___delitem__" "', argument " "2"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::difference_type >(val2);
+  try {
+    std_vector_Sl_tree_key_t_Sg____delitem____SWIG_0(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___getitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::vector< tree_key_t,std::allocator< tree_key_t > > *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___getitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key___getitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    result = (std::vector< tree_key_t,std::allocator< tree_key_t > > *)std_vector_Sl_tree_key_t_Sg____getitem____SWIG_0(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___setitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  std::vector< tree_key_t,std::allocator< tree_key_t > > *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res3 = SWIG_OLDOBJ ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___setitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key___setitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  {
+    std::vector<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::vector<tree_key_t,std::allocator< tree_key_t > > *)0;
+    res3 = swig::asptr(swig_obj[2], &ptr);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_key___setitem__" "', argument " "3"" of type '" "std::vector< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key___setitem__" "', argument " "3"" of type '" "std::vector< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+    }
+    arg3 = ptr;
+  }
+  try {
+    std_vector_Sl_tree_key_t_Sg____setitem____SWIG_0(arg1,arg2,(std::vector< tree_key_t,std::allocator< tree_key_t > > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___setitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___setitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key___setitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    std_vector_Sl_tree_key_t_Sg____setitem____SWIG_1(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___delitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___delitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key___delitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    std_vector_Sl_tree_key_t_Sg____delitem____SWIG_1(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___delitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_key___delitem__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_key___delitem____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_key___delitem____SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_key___delitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::__delitem__(std::vector< tree_key_t >::difference_type)\n"
+    "    std::vector< tree_key_t >::__delitem__(PySliceObject *)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___getitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  std::vector< tree_key_t >::value_type *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___getitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key___getitem__" "', argument " "2"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::difference_type >(val2);
+  try {
+    result = (std::vector< tree_key_t >::value_type *) &std_vector_Sl_tree_key_t_Sg____getitem____SWIG_1((std::vector< tree_key_t > const *)arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___getitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_key___getitem__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_key___getitem____SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_key___getitem____SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_key___getitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::__getitem__(PySliceObject *)\n"
+    "    std::vector< tree_key_t >::__getitem__(std::vector< tree_key_t >::difference_type) const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___setitem____SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::difference_type arg2 ;
+  std::vector< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key___setitem__" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key___setitem__" "', argument " "2"" of type '" "std::vector< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::difference_type >(val2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_key___setitem__" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key___setitem__" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp3);
+  try {
+    std_vector_Sl_tree_key_t_Sg____setitem____SWIG_2(arg1,arg2,(tree_key_t const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key___setitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_key___setitem__",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = swig::asptr(argv[2], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_key___setitem____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_key___setitem____SWIG_0(self, argc, argv);
+    case 3:
+      return _wrap_vector_tree_key___setitem____SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_key___setitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::__setitem__(PySliceObject *,std::vector< tree_key_t,std::allocator< tree_key_t > > const &)\n"
+    "    std::vector< tree_key_t >::__setitem__(PySliceObject *)\n"
+    "    std::vector< tree_key_t >::__setitem__(std::vector< tree_key_t >::difference_type,std::vector< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_append(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_key_append",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_append" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "vector_tree_key_append" "', argument " "2"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_append" "', argument " "2"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp2);
+  std_vector_Sl_tree_key_t_Sg__append(arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_key__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (std::vector< tree_key_t > *)new std::vector< tree_key_t >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_key__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  std::vector< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::vector<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::vector<tree_key_t,std::allocator< tree_key_t > > *)0;
+    res1 = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_vector_tree_key" "', argument " "1"" of type '" "std::vector< tree_key_t > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_vector_tree_key" "', argument " "1"" of type '" "std::vector< tree_key_t > const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (std::vector< tree_key_t > *)new std::vector< tree_key_t >((std::vector< tree_key_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_empty(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_empty" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (bool)((std::vector< tree_key_t > const *)arg1)->empty();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_size" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = ((std::vector< tree_key_t > const *)arg1)->size();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_clear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_clear" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  (arg1)->clear();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_key_swap",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_swap" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "vector_tree_key_swap" "', argument " "2"" of type '" "std::vector< tree_key_t > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_swap" "', argument " "2"" of type '" "std::vector< tree_key_t > &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< tree_key_t > * >(argp2);
+  (arg1)->swap(*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_get_allocator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  SwigValueWrapper< std::allocator< tree_key_t > > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_get_allocator" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = ((std::vector< tree_key_t > const *)arg1)->get_allocator();
+  resultobj = SWIG_NewPointerObj((new std::vector< tree_key_t >::allocator_type(static_cast< const std::vector< tree_key_t >::allocator_type& >(result))), SWIGTYPE_p_std__allocatorT_tree_key_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_begin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_begin" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (arg1)->begin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_end(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_end" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (arg1)->end();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_rbegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_rbegin" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (arg1)->rbegin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_rend(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_rend" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (arg1)->rend();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_key__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t >::size_type arg1 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  std::vector< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_vector_tree_key" "', argument " "1"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg1 = static_cast< std::vector< tree_key_t >::size_type >(val1);
+  result = (std::vector< tree_key_t > *)new std::vector< tree_key_t >(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_pop_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_pop_back" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  (arg1)->pop_back();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_resize__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_resize" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key_resize" "', argument " "2"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::size_type >(val2);
+  (arg1)->resize(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_erase__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::iterator arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  std::vector< tree_key_t >::iterator result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_erase" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_erase" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_erase" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+    }
+  }
+  result = (arg1)->erase(arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_erase__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::iterator arg2 ;
+  std::vector< tree_key_t >::iterator arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  swig::SwigPyIterator *iter3 = 0 ;
+  int res3 ;
+  std::vector< tree_key_t >::iterator result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_erase" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_erase" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_erase" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], SWIG_as_voidptrptr(&iter3), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res3) || !iter3) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_erase" "', argument " "3"" of type '" "std::vector< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter3);
+    if (iter_t) {
+      arg3 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_erase" "', argument " "3"" of type '" "std::vector< tree_key_t >::iterator""'");
+    }
+  }
+  result = (arg1)->erase(arg2,arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_erase(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_key_erase",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[2], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_key_erase__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_key_erase__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_key_erase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::erase(std::vector< tree_key_t >::iterator)\n"
+    "    std::vector< tree_key_t >::erase(std::vector< tree_key_t >::iterator,std::vector< tree_key_t >::iterator)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_key__SWIG_3(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t >::size_type arg1 ;
+  std::vector< tree_key_t >::value_type *arg2 = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  std::vector< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_vector_tree_key" "', argument " "1"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg1 = static_cast< std::vector< tree_key_t >::size_type >(val1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_vector_tree_key" "', argument " "2"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_vector_tree_key" "', argument " "2"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp2);
+  result = (std::vector< tree_key_t > *)new std::vector< tree_key_t >(arg1,(std::vector< tree_key_t >::value_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_vector_tree_key(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"new_vector_tree_key",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[0], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[0], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_4;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_4;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 4;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_4:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_new_vector_tree_key__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_new_vector_tree_key__SWIG_2(self, argc, argv);
+    case 3:
+      return _wrap_new_vector_tree_key__SWIG_1(self, argc, argv);
+    case 4:
+      return _wrap_new_vector_tree_key__SWIG_3(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_vector_tree_key'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::vector()\n"
+    "    std::vector< tree_key_t >::vector(std::vector< tree_key_t > const &)\n"
+    "    std::vector< tree_key_t >::vector(std::vector< tree_key_t >::size_type)\n"
+    "    std::vector< tree_key_t >::vector(std::vector< tree_key_t >::size_type,std::vector< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_push_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_key_push_back",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_push_back" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "vector_tree_key_push_back" "', argument " "2"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_push_back" "', argument " "2"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp2);
+  (arg1)->push_back((std::vector< tree_key_t >::value_type const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_front(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::value_type *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_front" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (std::vector< tree_key_t >::value_type *) &((std::vector< tree_key_t > const *)arg1)->front();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::value_type *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_back" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = (std::vector< tree_key_t >::value_type *) &((std::vector< tree_key_t > const *)arg1)->back();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_assign(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::size_type arg2 ;
+  std::vector< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:vector_tree_key_assign",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_assign" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key_assign" "', argument " "2"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::size_type >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_key_assign" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_assign" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp3);
+  (arg1)->assign(arg2,(std::vector< tree_key_t >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_resize__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::size_type arg2 ;
+  std::vector< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_resize" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key_resize" "', argument " "2"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::size_type >(val2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_key_resize" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_resize" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp3);
+  (arg1)->resize(arg2,(std::vector< tree_key_t >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_resize(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_key_resize",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_key_resize__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_key_resize__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_key_resize'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::resize(std::vector< tree_key_t >::size_type)\n"
+    "    std::vector< tree_key_t >::resize(std::vector< tree_key_t >::size_type,std::vector< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_insert__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::iterator arg2 ;
+  std::vector< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  std::vector< tree_key_t >::iterator result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_insert" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_insert" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_insert" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "vector_tree_key_insert" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_insert" "', argument " "3"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp3);
+  result = (arg1)->insert(arg2,(std::vector< tree_key_t >::value_type const &)*arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_insert__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::iterator arg2 ;
+  std::vector< tree_key_t >::size_type arg3 ;
+  std::vector< tree_key_t >::value_type *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  size_t val3 ;
+  int ecode3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_insert" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_insert" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "vector_tree_key_insert" "', argument " "2"" of type '" "std::vector< tree_key_t >::iterator""'");
+    }
+  }
+  ecode3 = SWIG_AsVal_size_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "vector_tree_key_insert" "', argument " "3"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg3 = static_cast< std::vector< tree_key_t >::size_type >(val3);
+  res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "vector_tree_key_insert" "', argument " "4"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp4) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "vector_tree_key_insert" "', argument " "4"" of type '" "std::vector< tree_key_t >::value_type const &""'"); 
+  }
+  arg4 = reinterpret_cast< std::vector< tree_key_t >::value_type * >(argp4);
+  (arg1)->insert(arg2,arg3,(std::vector< tree_key_t >::value_type const &)*arg4);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_insert(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[5];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"vector_tree_key_insert",0,4,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::vector<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_vector_tree_key_insert__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_vector_tree_key_insert__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'vector_tree_key_insert'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< tree_key_t >::insert(std::vector< tree_key_t >::iterator,std::vector< tree_key_t >::value_type const &)\n"
+    "    std::vector< tree_key_t >::insert(std::vector< tree_key_t >::iterator,std::vector< tree_key_t >::size_type,std::vector< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_reserve(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  std::vector< tree_key_t >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:vector_tree_key_reserve",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_reserve" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "vector_tree_key_reserve" "', argument " "2"" of type '" "std::vector< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< tree_key_t >::size_type >(val2);
+  (arg1)->reserve(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_vector_tree_key_capacity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "vector_tree_key_capacity" "', argument " "1"" of type '" "std::vector< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  result = ((std::vector< tree_key_t > const *)arg1)->capacity();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_vector_tree_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< tree_key_t > *arg1 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_vector_tree_key" "', argument " "1"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< tree_key_t > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *vector_tree_key_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *vector_tree_key_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_list_tree_key_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_iterator" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_list_Sl_tree_key_t_Sg__iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___nonzero__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___nonzero__" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (bool)std_list_Sl_tree_key_t_Sg____nonzero__((std::list< tree_key_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___bool__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___bool__" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (bool)std_list_Sl_tree_key_t_Sg____bool__((std::list< tree_key_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___len__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___len__" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = std_list_Sl_tree_key_t_Sg____len__((std::list< tree_key_t > const *)arg1);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_pop(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::value_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_pop" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  try {
+    result = std_list_Sl_tree_key_t_Sg__pop(arg1);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj((new std::list< tree_key_t >::value_type(static_cast< const std::list< tree_key_t >::value_type& >(result))), SWIGTYPE_p_tree_key_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___getslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::difference_type arg2 ;
+  std::list< tree_key_t >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j", NULL 
+  };
+  std::list< tree_key_t,std::allocator< tree_key_t > > *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:list_tree_key___getslice__",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___getslice__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key___getslice__" "', argument " "2"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "list_tree_key___getslice__" "', argument " "3"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::list< tree_key_t >::difference_type >(val3);
+  try {
+    result = (std::list< tree_key_t,std::allocator< tree_key_t > > *)std_list_Sl_tree_key_t_Sg____getslice__(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___setslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::difference_type arg2 ;
+  std::list< tree_key_t >::difference_type arg3 ;
+  std::list< tree_key_t,std::allocator< tree_key_t > > const &arg4_defvalue = std::list< tree_key_t,std::allocator< tree_key_t > >() ;
+  std::list< tree_key_t,std::allocator< tree_key_t > > *arg4 = (std::list< tree_key_t,std::allocator< tree_key_t > > *) &arg4_defvalue ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  int res4 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO|O:list_tree_key___setslice__",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___setslice__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key___setslice__" "', argument " "2"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "list_tree_key___setslice__" "', argument " "3"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::list< tree_key_t >::difference_type >(val3);
+  if (obj3) {
+    {
+      std::list<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::list<tree_key_t,std::allocator< tree_key_t > > *)0;
+      res4 = swig::asptr(obj3, &ptr);
+      if (!SWIG_IsOK(res4)) {
+        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "list_tree_key___setslice__" "', argument " "4"" of type '" "std::list< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+      }
+      if (!ptr) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key___setslice__" "', argument " "4"" of type '" "std::list< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+      }
+      arg4 = ptr;
+    }
+  }
+  try {
+    std_list_Sl_tree_key_t_Sg____setslice__(arg1,arg2,arg3,(std::list< tree_key_t,std::allocator< tree_key_t > > const &)*arg4);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___delslice__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::difference_type arg2 ;
+  std::list< tree_key_t >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i",(char *) "j", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:list_tree_key___delslice__",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___delslice__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key___delslice__" "', argument " "2"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "list_tree_key___delslice__" "', argument " "3"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg3 = static_cast< std::list< tree_key_t >::difference_type >(val3);
+  try {
+    std_list_Sl_tree_key_t_Sg____delslice__(arg1,arg2,arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___delitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___delitem__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key___delitem__" "', argument " "2"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::difference_type >(val2);
+  try {
+    std_list_Sl_tree_key_t_Sg____delitem____SWIG_0(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___getitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::list< tree_key_t,std::allocator< tree_key_t > > *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___getitem__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key___getitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    result = (std::list< tree_key_t,std::allocator< tree_key_t > > *)std_list_Sl_tree_key_t_Sg____getitem____SWIG_0(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___setitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  std::list< tree_key_t,std::allocator< tree_key_t > > *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res3 = SWIG_OLDOBJ ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___setitem__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key___setitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  {
+    std::list<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::list<tree_key_t,std::allocator< tree_key_t > > *)0;
+    res3 = swig::asptr(swig_obj[2], &ptr);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "list_tree_key___setitem__" "', argument " "3"" of type '" "std::list< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key___setitem__" "', argument " "3"" of type '" "std::list< tree_key_t,std::allocator< tree_key_t > > const &""'"); 
+    }
+    arg3 = ptr;
+  }
+  try {
+    std_list_Sl_tree_key_t_Sg____setitem____SWIG_0(arg1,arg2,(std::list< tree_key_t,std::allocator< tree_key_t > > const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___setitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___setitem__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key___setitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    std_list_Sl_tree_key_t_Sg____setitem____SWIG_1(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___delitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  PySliceObject *arg2 = (PySliceObject *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___delitem__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key___delitem__" "', argument " "2"" of type '" "PySliceObject *""'");
+    }
+    arg2 = (PySliceObject *) swig_obj[1];
+  }
+  try {
+    std_list_Sl_tree_key_t_Sg____delitem____SWIG_1(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___delitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"list_tree_key___delitem__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_list_tree_key___delitem____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_list_tree_key___delitem____SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'list_tree_key___delitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::__delitem__(std::list< tree_key_t >::difference_type)\n"
+    "    std::list< tree_key_t >::__delitem__(PySliceObject *)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___getitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  std::list< tree_key_t >::value_type *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___getitem__" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key___getitem__" "', argument " "2"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::difference_type >(val2);
+  try {
+    result = (std::list< tree_key_t >::value_type *) &std_list_Sl_tree_key_t_Sg____getitem____SWIG_1((std::list< tree_key_t > const *)arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___getitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"list_tree_key___getitem__",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_list_tree_key___getitem____SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_list_tree_key___getitem____SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'list_tree_key___getitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::__getitem__(PySliceObject *)\n"
+    "    std::list< tree_key_t >::__getitem__(std::list< tree_key_t >::difference_type) const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___setitem____SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::difference_type arg2 ;
+  std::list< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key___setitem__" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key___setitem__" "', argument " "2"" of type '" "std::list< tree_key_t >::difference_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::difference_type >(val2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "list_tree_key___setitem__" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key___setitem__" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp3);
+  try {
+    std_list_Sl_tree_key_t_Sg____setitem____SWIG_2(arg1,arg2,(tree_key_t const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key___setitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"list_tree_key___setitem__",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          _v = PySlice_Check(argv[1]);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = swig::asptr(argv[2], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_list_tree_key___setitem____SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_list_tree_key___setitem____SWIG_0(self, argc, argv);
+    case 3:
+      return _wrap_list_tree_key___setitem____SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'list_tree_key___setitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::__setitem__(PySliceObject *,std::list< tree_key_t,std::allocator< tree_key_t > > const &)\n"
+    "    std::list< tree_key_t >::__setitem__(PySliceObject *)\n"
+    "    std::list< tree_key_t >::__setitem__(std::list< tree_key_t >::difference_type,std::list< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_append(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:list_tree_key_append",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_append" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "list_tree_key_append" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_append" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp2);
+  std_list_Sl_tree_key_t_Sg__append(arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_list_tree_key__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (std::list< tree_key_t > *)new std::list< tree_key_t >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_list_tree_key__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  std::list< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::list<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::list<tree_key_t,std::allocator< tree_key_t > > *)0;
+    res1 = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_list_tree_key" "', argument " "1"" of type '" "std::list< tree_key_t > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_list_tree_key" "', argument " "1"" of type '" "std::list< tree_key_t > const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (std::list< tree_key_t > *)new std::list< tree_key_t >((std::list< tree_key_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_empty(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_empty" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (bool)((std::list< tree_key_t > const *)arg1)->empty();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_size" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = ((std::list< tree_key_t > const *)arg1)->size();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_clear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_clear" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  (arg1)->clear();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:list_tree_key_swap",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_swap" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "list_tree_key_swap" "', argument " "2"" of type '" "std::list< tree_key_t > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_swap" "', argument " "2"" of type '" "std::list< tree_key_t > &""'"); 
+  }
+  arg2 = reinterpret_cast< std::list< tree_key_t > * >(argp2);
+  (arg1)->swap(*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_get_allocator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  SwigValueWrapper< std::allocator< tree_key_t > > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_get_allocator" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = ((std::list< tree_key_t > const *)arg1)->get_allocator();
+  resultobj = SWIG_NewPointerObj((new std::list< tree_key_t >::allocator_type(static_cast< const std::list< tree_key_t >::allocator_type& >(result))), SWIGTYPE_p_std__allocatorT_tree_key_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_begin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_begin" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (arg1)->begin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_end(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_end" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (arg1)->end();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_rbegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_rbegin" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (arg1)->rbegin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_rend(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_rend" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (arg1)->rend();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_list_tree_key__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t >::size_type arg1 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  std::list< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_list_tree_key" "', argument " "1"" of type '" "std::list< tree_key_t >::size_type""'");
+  } 
+  arg1 = static_cast< std::list< tree_key_t >::size_type >(val1);
+  result = (std::list< tree_key_t > *)new std::list< tree_key_t >(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_pop_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_pop_back" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  (arg1)->pop_back();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_resize__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_resize" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key_resize" "', argument " "2"" of type '" "std::list< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::size_type >(val2);
+  (arg1)->resize(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_erase__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::iterator arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  std::list< tree_key_t >::iterator result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_erase" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_erase" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_erase" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+    }
+  }
+  result = (arg1)->erase(arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_erase__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::iterator arg2 ;
+  std::list< tree_key_t >::iterator arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  swig::SwigPyIterator *iter3 = 0 ;
+  int res3 ;
+  std::list< tree_key_t >::iterator result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_erase" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_erase" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_erase" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], SWIG_as_voidptrptr(&iter3), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res3) || !iter3) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_erase" "', argument " "3"" of type '" "std::list< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter3);
+    if (iter_t) {
+      arg3 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_erase" "', argument " "3"" of type '" "std::list< tree_key_t >::iterator""'");
+    }
+  }
+  result = (arg1)->erase(arg2,arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_erase(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"list_tree_key_erase",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[2], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_list_tree_key_erase__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_list_tree_key_erase__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'list_tree_key_erase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::erase(std::list< tree_key_t >::iterator)\n"
+    "    std::list< tree_key_t >::erase(std::list< tree_key_t >::iterator,std::list< tree_key_t >::iterator)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_list_tree_key__SWIG_3(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t >::size_type arg1 ;
+  std::list< tree_key_t >::value_type *arg2 = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  std::list< tree_key_t > *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_list_tree_key" "', argument " "1"" of type '" "std::list< tree_key_t >::size_type""'");
+  } 
+  arg1 = static_cast< std::list< tree_key_t >::size_type >(val1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_list_tree_key" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_list_tree_key" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp2);
+  result = (std::list< tree_key_t > *)new std::list< tree_key_t >(arg1,(std::list< tree_key_t >::value_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_list_tree_key(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"new_list_tree_key",0,2,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[0], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[0], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_4;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_4;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 4;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_4:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_new_list_tree_key__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_new_list_tree_key__SWIG_2(self, argc, argv);
+    case 3:
+      return _wrap_new_list_tree_key__SWIG_1(self, argc, argv);
+    case 4:
+      return _wrap_new_list_tree_key__SWIG_3(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_list_tree_key'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::list()\n"
+    "    std::list< tree_key_t >::list(std::list< tree_key_t > const &)\n"
+    "    std::list< tree_key_t >::list(std::list< tree_key_t >::size_type)\n"
+    "    std::list< tree_key_t >::list(std::list< tree_key_t >::size_type,std::list< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_push_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:list_tree_key_push_back",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_push_back" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "list_tree_key_push_back" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_push_back" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp2);
+  (arg1)->push_back((std::list< tree_key_t >::value_type const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_front(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::value_type *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_front" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (std::list< tree_key_t >::value_type *) &((std::list< tree_key_t > const *)arg1)->front();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_back(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t >::value_type *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_back" "', argument " "1"" of type '" "std::list< tree_key_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  result = (std::list< tree_key_t >::value_type *) &((std::list< tree_key_t > const *)arg1)->back();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_assign(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::size_type arg2 ;
+  std::list< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:list_tree_key_assign",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_assign" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key_assign" "', argument " "2"" of type '" "std::list< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::size_type >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "list_tree_key_assign" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_assign" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp3);
+  (arg1)->assign(arg2,(std::list< tree_key_t >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_resize__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::size_type arg2 ;
+  std::list< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_resize" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "list_tree_key_resize" "', argument " "2"" of type '" "std::list< tree_key_t >::size_type""'");
+  } 
+  arg2 = static_cast< std::list< tree_key_t >::size_type >(val2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "list_tree_key_resize" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_resize" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp3);
+  (arg1)->resize(arg2,(std::list< tree_key_t >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_resize(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"list_tree_key_resize",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[1], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_list_tree_key_resize__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_list_tree_key_resize__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'list_tree_key_resize'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::resize(std::list< tree_key_t >::size_type)\n"
+    "    std::list< tree_key_t >::resize(std::list< tree_key_t >::size_type,std::list< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_insert__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::iterator arg2 ;
+  std::list< tree_key_t >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  std::list< tree_key_t >::iterator result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_insert" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_insert" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_insert" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "list_tree_key_insert" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_insert" "', argument " "3"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp3);
+  result = (arg1)->insert(arg2,(std::list< tree_key_t >::value_type const &)*arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::list< tree_key_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_insert__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::iterator arg2 ;
+  std::list< tree_key_t >::size_type arg3 ;
+  std::list< tree_key_t >::value_type *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  size_t val3 ;
+  int ecode3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_insert" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_insert" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "list_tree_key_insert" "', argument " "2"" of type '" "std::list< tree_key_t >::iterator""'");
+    }
+  }
+  ecode3 = SWIG_AsVal_size_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "list_tree_key_insert" "', argument " "3"" of type '" "std::list< tree_key_t >::size_type""'");
+  } 
+  arg3 = static_cast< std::list< tree_key_t >::size_type >(val3);
+  res4 = SWIG_ConvertPtr(swig_obj[3], &argp4, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "list_tree_key_insert" "', argument " "4"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp4) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_insert" "', argument " "4"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg4 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp4);
+  (arg1)->insert(arg2,arg3,(std::list< tree_key_t >::value_type const &)*arg4);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_insert(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[5];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"list_tree_key_insert",0,4,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::list<tree_key_t,std::allocator< tree_key_t > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::list< tree_key_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_size_t(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_list_tree_key_insert__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_list_tree_key_insert__SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'list_tree_key_insert'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::list< tree_key_t >::insert(std::list< tree_key_t >::iterator,std::list< tree_key_t >::value_type const &)\n"
+    "    std::list< tree_key_t >::insert(std::list< tree_key_t >::iterator,std::list< tree_key_t >::size_type,std::list< tree_key_t >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_pop_front(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_pop_front" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  (arg1)->pop_front();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_push_front(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  std::list< tree_key_t >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:list_tree_key_push_front",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_push_front" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "list_tree_key_push_front" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "list_tree_key_push_front" "', argument " "2"" of type '" "std::list< tree_key_t >::value_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::list< tree_key_t >::value_type * >(argp2);
+  (arg1)->push_front((std::list< tree_key_t >::value_type const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_list_tree_key_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "list_tree_key_reverse" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  (arg1)->reverse();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_list_tree_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::list< tree_key_t > *arg1 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_list_tree_key" "', argument " "1"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::list< tree_key_t > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *list_tree_key_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *list_tree_key_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_map_key_edge__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::less< tree_key_t > *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::map< tree_key_t,edge_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_std__lessT_tree_key_t_t,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_map_key_edge" "', argument " "1"" of type '" "std::less< tree_key_t > const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_map_key_edge" "', argument " "1"" of type '" "std::less< tree_key_t > const &""'"); 
+  }
+  arg1 = reinterpret_cast< std::less< tree_key_t > * >(argp1);
+  result = (std::map< tree_key_t,edge_t > *)new std::map< tree_key_t,edge_t >((std::less< tree_key_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_iterator" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___nonzero__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___nonzero__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (bool)std_map_Sl_tree_key_t_Sc_edge_t_Sg____nonzero__((std::map< tree_key_t,edge_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___bool__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___bool__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (bool)std_map_Sl_tree_key_t_Sc_edge_t_Sg____bool__((std::map< tree_key_t,edge_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___len__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___len__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = std_map_Sl_tree_key_t_Sc_edge_t_Sg____len__((std::map< tree_key_t,edge_t > const *)arg1);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___getitem__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  std::map< tree_key_t,edge_t >::mapped_type *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge___getitem__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___getitem__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge___getitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge___getitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  try {
+    result = (std::map< tree_key_t,edge_t >::mapped_type *) &std_map_Sl_tree_key_t_Sc_edge_t_Sg____getitem__(arg1,(tree_key_t const &)*arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_edge_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___delitem__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge___delitem__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___delitem__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge___delitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge___delitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  try {
+    std_map_Sl_tree_key_t_Sc_edge_t_Sg____delitem__(arg1,(tree_key_t const &)*arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_has_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge_has_key",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_has_key" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_has_key" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_has_key" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = (bool)std_map_Sl_tree_key_t_Sc_edge_t_Sg__has_key((std::map< tree_key_t,edge_t > const *)arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_keys(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_keys" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__keys(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_values(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_values" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__values(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_items(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_items" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__items(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___contains__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge___contains__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___contains__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge___contains__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge___contains__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = (bool)std_map_Sl_tree_key_t_Sc_edge_t_Sg____contains__(arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_key_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_key_iterator" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__key_iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_value_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_value_iterator" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__value_iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___setitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___setitem__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  std_map_Sl_tree_key_t_Sc_edge_t_Sg____setitem____SWIG_0(arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___setitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  std::map< tree_key_t,edge_t >::mapped_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge___setitem__" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_edge_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "map_key_edge___setitem__" "', argument " "3"" of type '" "std::map< tree_key_t,edge_t >::mapped_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge___setitem__" "', argument " "3"" of type '" "std::map< tree_key_t,edge_t >::mapped_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::map< tree_key_t,edge_t >::mapped_type * >(argp3);
+  try {
+    std_map_Sl_tree_key_t_Sc_edge_t_Sg____setitem____SWIG_1(arg1,(tree_key_t const &)*arg2,(edge_t const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge___setitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"map_key_edge___setitem__",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_edge_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_map_key_edge___setitem____SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_map_key_edge___setitem____SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'map_key_edge___setitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::map< tree_key_t,edge_t >::__setitem__(std::map< tree_key_t,edge_t >::key_type const &)\n"
+    "    std::map< tree_key_t,edge_t >::__setitem__(std::map< tree_key_t,edge_t >::key_type const &,std::map< tree_key_t,edge_t >::mapped_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_asdict(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_asdict" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_edge_t_Sg__asdict(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_map_key_edge__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (std::map< tree_key_t,edge_t > *)new std::map< tree_key_t,edge_t >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_map_key_edge__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  std::map< tree_key_t,edge_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > > *ptr = (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > > *)0;
+    res1 = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_map_key_edge" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_map_key_edge" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (std::map< tree_key_t,edge_t > *)new std::map< tree_key_t,edge_t >((std::map< tree_key_t,edge_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_map_key_edge(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"new_map_key_edge",0,1,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__lessT_tree_key_t_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_new_map_key_edge__SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_new_map_key_edge__SWIG_0(self, argc, argv);
+    case 3:
+      return _wrap_new_map_key_edge__SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_map_key_edge'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::map< tree_key_t,edge_t >::map(std::less< tree_key_t > const &)\n"
+    "    std::map< tree_key_t,edge_t >::map()\n"
+    "    std::map< tree_key_t,edge_t >::map(std::map< tree_key_t,edge_t > const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_empty(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_empty" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (bool)((std::map< tree_key_t,edge_t > const *)arg1)->empty();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_size" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = ((std::map< tree_key_t,edge_t > const *)arg1)->size();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_clear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_clear" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  (arg1)->clear();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge_swap",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_swap" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_swap" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_swap" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t > &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp2);
+  (arg1)->swap(*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_get_allocator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  SwigValueWrapper< std::allocator< std::pair< tree_key_t const,edge_t > > > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_get_allocator" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = ((std::map< tree_key_t,edge_t > const *)arg1)->get_allocator();
+  resultobj = SWIG_NewPointerObj((new std::map< tree_key_t,edge_t >::allocator_type(static_cast< const std::map< tree_key_t,edge_t >::allocator_type& >(result))), SWIGTYPE_p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_begin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_begin" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (arg1)->begin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_end(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_end" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (arg1)->end();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_rbegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_rbegin" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (arg1)->rbegin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_rend(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_rend" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  result = (arg1)->rend();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_erase__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  std::map< tree_key_t,edge_t >::size_type result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_erase" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_erase" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_erase" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = (arg1)->erase((std::map< tree_key_t,edge_t >::key_type const &)*arg2);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_count(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,edge_t >::size_type result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge_count",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_count" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_count" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_count" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = ((std::map< tree_key_t,edge_t > const *)arg1)->count((std::map< tree_key_t,edge_t >::key_type const &)*arg2);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_erase__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::iterator arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_erase" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_edge_erase" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_edge_erase" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::iterator""'");
+    }
+  }
+  (arg1)->erase(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_erase__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::iterator arg2 ;
+  std::map< tree_key_t,edge_t >::iterator arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  swig::SwigPyIterator *iter3 = 0 ;
+  int res3 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_erase" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_edge_erase" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_edge_erase" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], SWIG_as_voidptrptr(&iter3), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res3) || !iter3) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_edge_erase" "', argument " "3"" of type '" "std::map< tree_key_t,edge_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *>(iter3);
+    if (iter_t) {
+      arg3 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_edge_erase" "', argument " "3"" of type '" "std::map< tree_key_t,edge_t >::iterator""'");
+    }
+  }
+  (arg1)->erase(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_erase(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"map_key_edge_erase",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[2], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,edge_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_map_key_edge_erase__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_map_key_edge_erase__SWIG_1(self, argc, argv);
+    case 3:
+      return _wrap_map_key_edge_erase__SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'map_key_edge_erase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::map< tree_key_t,edge_t >::erase(std::map< tree_key_t,edge_t >::key_type const &)\n"
+    "    std::map< tree_key_t,edge_t >::erase(std::map< tree_key_t,edge_t >::iterator)\n"
+    "    std::map< tree_key_t,edge_t >::erase(std::map< tree_key_t,edge_t >::iterator,std::map< tree_key_t,edge_t >::iterator)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_find(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,edge_t >::iterator result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge_find",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_find" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_find" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_find" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = (arg1)->find((std::map< tree_key_t,edge_t >::key_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_lower_bound(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,edge_t >::iterator result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge_lower_bound",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_lower_bound" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_lower_bound" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_lower_bound" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = (arg1)->lower_bound((std::map< tree_key_t,edge_t >::key_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_edge_upper_bound(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  std::map< tree_key_t,edge_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,edge_t >::iterator result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_edge_upper_bound",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_edge_upper_bound" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_edge_upper_bound" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_edge_upper_bound" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t >::key_type * >(argp2);
+  result = (arg1)->upper_bound((std::map< tree_key_t,edge_t >::key_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,edge_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_map_key_edge(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,edge_t > *arg1 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_map_key_edge" "', argument " "1"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *map_key_edge_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *map_key_edge_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_map_key_node__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::less< tree_key_t > *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::map< tree_key_t,node_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_std__lessT_tree_key_t_t,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_map_key_node" "', argument " "1"" of type '" "std::less< tree_key_t > const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_map_key_node" "', argument " "1"" of type '" "std::less< tree_key_t > const &""'"); 
+  }
+  arg1 = reinterpret_cast< std::less< tree_key_t > * >(argp1);
+  result = (std::map< tree_key_t,node_t > *)new std::map< tree_key_t,node_t >((std::less< tree_key_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_iterator" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_map_Sl_tree_key_t_Sc_node_t_Sg__iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___nonzero__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___nonzero__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (bool)std_map_Sl_tree_key_t_Sc_node_t_Sg____nonzero__((std::map< tree_key_t,node_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___bool__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___bool__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (bool)std_map_Sl_tree_key_t_Sc_node_t_Sg____bool__((std::map< tree_key_t,node_t > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___len__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___len__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = std_map_Sl_tree_key_t_Sc_node_t_Sg____len__((std::map< tree_key_t,node_t > const *)arg1);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___getitem__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  std::map< tree_key_t,node_t >::mapped_type *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node___getitem__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___getitem__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node___getitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node___getitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  try {
+    result = (std::map< tree_key_t,node_t >::mapped_type *) &std_map_Sl_tree_key_t_Sc_node_t_Sg____getitem__(arg1,(tree_key_t const &)*arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_node_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___delitem__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node___delitem__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___delitem__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node___delitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node___delitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  try {
+    std_map_Sl_tree_key_t_Sc_node_t_Sg____delitem__(arg1,(tree_key_t const &)*arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_has_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node_has_key",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_has_key" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_has_key" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_has_key" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = (bool)std_map_Sl_tree_key_t_Sc_node_t_Sg__has_key((std::map< tree_key_t,node_t > const *)arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_keys(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_keys" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_node_t_Sg__keys(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_values(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_values" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_node_t_Sg__values(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_items(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_items" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_node_t_Sg__items(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___contains__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "key", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node___contains__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___contains__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node___contains__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node___contains__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = (bool)std_map_Sl_tree_key_t_Sc_node_t_Sg____contains__(arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_key_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_key_iterator" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_map_Sl_tree_key_t_Sc_node_t_Sg__key_iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_value_iterator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_value_iterator" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (swig::SwigPyIterator *)std_map_Sl_tree_key_t_Sc_node_t_Sg__value_iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___setitem____SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___setitem__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  std_map_Sl_tree_key_t_Sc_node_t_Sg____setitem____SWIG_0(arg1,(tree_key_t const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___setitem____SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  std::map< tree_key_t,node_t >::mapped_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node___setitem__" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node___setitem__" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_node_t,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "map_key_node___setitem__" "', argument " "3"" of type '" "std::map< tree_key_t,node_t >::mapped_type const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node___setitem__" "', argument " "3"" of type '" "std::map< tree_key_t,node_t >::mapped_type const &""'"); 
+  }
+  arg3 = reinterpret_cast< std::map< tree_key_t,node_t >::mapped_type * >(argp3);
+  try {
+    std_map_Sl_tree_key_t_Sc_node_t_Sg____setitem____SWIG_1(arg1,(tree_key_t const &)*arg2,(node_t const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node___setitem__(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"map_key_node___setitem__",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_node_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_map_key_node___setitem____SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_map_key_node___setitem____SWIG_1(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'map_key_node___setitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::map< tree_key_t,node_t >::__setitem__(std::map< tree_key_t,node_t >::key_type const &)\n"
+    "    std::map< tree_key_t,node_t >::__setitem__(std::map< tree_key_t,node_t >::key_type const &,std::map< tree_key_t,node_t >::mapped_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_asdict(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  PyObject *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_asdict" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (PyObject *)std_map_Sl_tree_key_t_Sc_node_t_Sg__asdict(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_map_key_node__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (std::map< tree_key_t,node_t > *)new std::map< tree_key_t,node_t >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_map_key_node__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  std::map< tree_key_t,node_t > *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > > *ptr = (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > > *)0;
+    res1 = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_map_key_node" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_map_key_node" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (std::map< tree_key_t,node_t > *)new std::map< tree_key_t,node_t >((std::map< tree_key_t,node_t > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_map_key_node(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"new_map_key_node",0,1,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__lessT_tree_key_t_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_new_map_key_node__SWIG_1(self, argc, argv);
+    case 2:
+      return _wrap_new_map_key_node__SWIG_0(self, argc, argv);
+    case 3:
+      return _wrap_new_map_key_node__SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_map_key_node'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::map< tree_key_t,node_t >::map(std::less< tree_key_t > const &)\n"
+    "    std::map< tree_key_t,node_t >::map()\n"
+    "    std::map< tree_key_t,node_t >::map(std::map< tree_key_t,node_t > const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_empty(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_empty" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (bool)((std::map< tree_key_t,node_t > const *)arg1)->empty();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t >::size_type result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_size" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = ((std::map< tree_key_t,node_t > const *)arg1)->size();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_clear(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_clear" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  (arg1)->clear();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "v", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node_swap",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_swap" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_swap" "', argument " "2"" of type '" "std::map< tree_key_t,node_t > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_swap" "', argument " "2"" of type '" "std::map< tree_key_t,node_t > &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp2);
+  (arg1)->swap(*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_get_allocator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  SwigValueWrapper< std::allocator< std::pair< tree_key_t const,node_t > > > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_get_allocator" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = ((std::map< tree_key_t,node_t > const *)arg1)->get_allocator();
+  resultobj = SWIG_NewPointerObj((new std::map< tree_key_t,node_t >::allocator_type(static_cast< const std::map< tree_key_t,node_t >::allocator_type& >(result))), SWIGTYPE_p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_begin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_begin" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (arg1)->begin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_end(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t >::iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_end" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (arg1)->end();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_rbegin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_rbegin" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (arg1)->rbegin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_rend(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t >::reverse_iterator result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_rend" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  result = (arg1)->rend();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_erase__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  std::map< tree_key_t,node_t >::size_type result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_erase" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_erase" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_erase" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = (arg1)->erase((std::map< tree_key_t,node_t >::key_type const &)*arg2);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_count(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,node_t >::size_type result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node_count",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_count" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_count" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_count" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = ((std::map< tree_key_t,node_t > const *)arg1)->count((std::map< tree_key_t,node_t >::key_type const &)*arg2);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_erase__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::iterator arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_erase" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_node_erase" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_node_erase" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::iterator""'");
+    }
+  }
+  (arg1)->erase(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_erase__SWIG_2(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::iterator arg2 ;
+  std::map< tree_key_t,node_t >::iterator arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  swig::SwigPyIterator *iter3 = 0 ;
+  int res3 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_erase" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_node_erase" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_node_erase" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], SWIG_as_voidptrptr(&iter3), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res3) || !iter3) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_node_erase" "', argument " "3"" of type '" "std::map< tree_key_t,node_t >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *>(iter3);
+    if (iter_t) {
+      arg3 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "map_key_node_erase" "', argument " "3"" of type '" "std::map< tree_key_t,node_t >::iterator""'");
+    }
+  }
+  (arg1)->erase(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_erase(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args,"map_key_node_erase",0,3,argv))) SWIG_fail;
+  --argc;
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_tree_key_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (argc == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (argc == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        int res = swig::asptr(argv[0], (std::map<tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > >**)(0));
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[2], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::map< tree_key_t,node_t >::iterator > *>(iter) != 0));
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      return _wrap_map_key_node_erase__SWIG_0(self, argc, argv);
+    case 2:
+      return _wrap_map_key_node_erase__SWIG_1(self, argc, argv);
+    case 3:
+      return _wrap_map_key_node_erase__SWIG_2(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'map_key_node_erase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::map< tree_key_t,node_t >::erase(std::map< tree_key_t,node_t >::key_type const &)\n"
+    "    std::map< tree_key_t,node_t >::erase(std::map< tree_key_t,node_t >::iterator)\n"
+    "    std::map< tree_key_t,node_t >::erase(std::map< tree_key_t,node_t >::iterator,std::map< tree_key_t,node_t >::iterator)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_find(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,node_t >::iterator result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node_find",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_find" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_find" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_find" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = (arg1)->find((std::map< tree_key_t,node_t >::key_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_lower_bound(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,node_t >::iterator result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node_lower_bound",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_lower_bound" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_lower_bound" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_lower_bound" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = (arg1)->lower_bound((std::map< tree_key_t,node_t >::key_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_map_key_node_upper_bound(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  std::map< tree_key_t,node_t >::key_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x", NULL 
+  };
+  std::map< tree_key_t,node_t >::iterator result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:map_key_node_upper_bound",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "map_key_node_upper_bound" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "map_key_node_upper_bound" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "map_key_node_upper_bound" "', argument " "2"" of type '" "std::map< tree_key_t,node_t >::key_type const &""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t >::key_type * >(argp2);
+  result = (arg1)->upper_bound((std::map< tree_key_t,node_t >::key_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::map< tree_key_t,node_t >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_map_key_node(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::map< tree_key_t,node_t > *arg1 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_map_key_node" "', argument " "1"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *map_key_node_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *map_key_node_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
 SWIGINTERN PyObject *_wrap_clone__trait_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   clone_t *arg1 = (clone_t *) 0 ;
-  vector< double > arg2 ;
+  std::vector< double > *arg2 = (std::vector< double > *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
+  void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   
@@ -6329,20 +18585,12 @@ SWIGINTERN PyObject *_wrap_clone__trait_set(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone__trait_set" "', argument " "1"" of type '" "clone_t *""'"); 
   }
   arg1 = reinterpret_cast< clone_t * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_vectorT_double_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "clone__trait_set" "', argument " "2"" of type '" "vector< double >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clone__trait_set" "', argument " "2"" of type '" "vector< double >""'");
-    } else {
-      vector< double > * temp = reinterpret_cast< vector< double > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "clone__trait_set" "', argument " "2"" of type '" "std::vector< double > *""'"); 
   }
-  if (arg1) (arg1)->trait = arg2;
+  arg2 = reinterpret_cast< std::vector< double > * >(argp2);
+  if (arg1) (arg1)->trait = *arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -6356,7 +18604,7 @@ SWIGINTERN PyObject *_wrap_clone__trait_get(PyObject *SWIGUNUSEDPARM(self), PyOb
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  vector< double > result;
+  std::vector< double > *result = 0 ;
   
   if (!args) SWIG_fail;
   swig_obj[0] = args;
@@ -6365,8 +18613,8 @@ SWIGINTERN PyObject *_wrap_clone__trait_get(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clone__trait_get" "', argument " "1"" of type '" "clone_t *""'"); 
   }
   arg1 = reinterpret_cast< clone_t * >(argp1);
-  result =  ((arg1)->trait);
-  resultobj = SWIG_NewPointerObj((new vector< double >(static_cast< const vector< double >& >(result))), SWIGTYPE_p_vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  result = (std::vector< double > *)& ((arg1)->trait);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -6916,6 +19164,1791 @@ SWIGINTERN PyObject *clone_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *ar
   return SWIG_Python_InitShadowInstance(args);
 }
 
+SWIGINTERN PyObject *_wrap_tree_key_index_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_key_index_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key_index_set" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_key_index_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->index = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key_index_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key_index_get" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  result = (int) ((arg1)->index);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key_age_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_key_age_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key_age_set" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_key_age_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->age = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key_age_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key_age_get" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  result = (int) ((arg1)->age);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key___eq__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  tree_key_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_key___eq__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___eq__" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_key___eq__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_key___eq__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  result = (bool)(arg1)->operator ==((tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key___ne__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  tree_key_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_key___ne__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___ne__" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_key___ne__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_key___ne__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  result = (bool)(arg1)->operator !=((tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key___lt__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  tree_key_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_key___lt__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___lt__" "', argument " "1"" of type '" "tree_key_t const *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_key___lt__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_key___lt__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  result = (bool)((tree_key_t const *)arg1)->operator <((tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key___gt__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  tree_key_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_key___gt__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___gt__" "', argument " "1"" of type '" "tree_key_t const *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_key___gt__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_key___gt__" "', argument " "2"" of type '" "tree_key_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  result = (bool)((tree_key_t const *)arg1)->operator >((tree_key_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_tree_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  int arg1 = (int) 0 ;
+  int arg2 = (int) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "index",(char *) "age", NULL 
+  };
+  tree_key_t *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"|OO:new_tree_key",kwnames,&obj0,&obj1)) SWIG_fail;
+  if (obj0) {
+    ecode1 = SWIG_AsVal_int(obj0, &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_tree_key" "', argument " "1"" of type '" "int""'");
+    } 
+    arg1 = static_cast< int >(val1);
+  }
+  if (obj1) {
+    ecode2 = SWIG_AsVal_int(obj1, &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_tree_key" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+  }
+  result = (tree_key_t *)new tree_key_t(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___str__" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  result = (char *)tree_key_t___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_key___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___repr__" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  result = (char *)tree_key_t___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_tree_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tree_key" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *tree_key_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_tree_key_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *tree_key_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_tree_step_pos_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_step_pos_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step_pos_set" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_step_pos_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->pos = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step_pos_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step_pos_get" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  result = (int) ((arg1)->pos);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step_step_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_step_step_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step_step_set" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_step_step_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->step = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step_step_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step_step_get" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  result = (int) ((arg1)->step);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step___lt__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  step_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_step___lt__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step___lt__" "', argument " "1"" of type '" "step_t const *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_step___lt__" "', argument " "2"" of type '" "step_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_step___lt__" "', argument " "2"" of type '" "step_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< step_t * >(argp2);
+  result = (bool)((step_t const *)arg1)->operator <((step_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step___gt__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  step_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_step___gt__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step___gt__" "', argument " "1"" of type '" "step_t const *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_step___gt__" "', argument " "2"" of type '" "step_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_step___gt__" "', argument " "2"" of type '" "step_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< step_t * >(argp2);
+  result = (bool)((step_t const *)arg1)->operator >((step_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step___eq__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  step_t *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "other", NULL 
+  };
+  bool result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_step___eq__",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step___eq__" "', argument " "1"" of type '" "step_t const *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_step_t,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_step___eq__" "', argument " "2"" of type '" "step_t const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tree_step___eq__" "', argument " "2"" of type '" "step_t const &""'"); 
+  }
+  arg2 = reinterpret_cast< step_t * >(argp2);
+  result = (bool)((step_t const *)arg1)->operator ==((step_t const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_tree_step(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  int arg1 = (int) 0 ;
+  int arg2 = (int) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "pos",(char *) "step", NULL 
+  };
+  step_t *result = 0 ;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"|OO:new_tree_step",kwnames,&obj0,&obj1)) SWIG_fail;
+  if (obj0) {
+    ecode1 = SWIG_AsVal_int(obj0, &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_tree_step" "', argument " "1"" of type '" "int""'");
+    } 
+    arg1 = static_cast< int >(val1);
+  }
+  if (obj1) {
+    ecode2 = SWIG_AsVal_int(obj1, &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_tree_step" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+  }
+  result = (step_t *)new step_t(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_step_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step___str__" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  result = (char *)step_t___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step___repr__" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  result = (char *)step_t___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_tree_step(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tree_step" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *tree_step_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_step_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *tree_step_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_tree_node_parent_node_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node_parent_node_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_parent_node_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_node_parent_node_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->parent_node = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_parent_node_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_parent_node_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (tree_key_t *)& ((arg1)->parent_node);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node__child_edges_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  std::list< tree_key_t > *arg2 = (std::list< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node__child_edges_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node__child_edges_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_node__child_edges_set" "', argument " "2"" of type '" "std::list< tree_key_t > *""'"); 
+  }
+  arg2 = reinterpret_cast< std::list< tree_key_t > * >(argp2);
+  if (arg1) (arg1)->child_edges = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node__child_edges_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::list< tree_key_t > *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node__child_edges_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (std::list< tree_key_t > *)& ((arg1)->child_edges);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_fitness_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node_fitness_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_fitness_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  ecode2 = SWIG_AsVal_double(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_node_fitness_set" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  if (arg1) (arg1)->fitness = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_fitness_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  double result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_fitness_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (double) ((arg1)->fitness);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_own_key_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node_own_key_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_own_key_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_node_own_key_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->own_key = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_own_key_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_own_key_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (tree_key_t *)& ((arg1)->own_key);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node__weight_distribution_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  std::vector< step_t > *arg2 = (std::vector< step_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node__weight_distribution_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node__weight_distribution_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_node__weight_distribution_set" "', argument " "2"" of type '" "std::vector< step_t > *""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< step_t > * >(argp2);
+  if (arg1) (arg1)->weight_distribution = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node__weight_distribution_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< step_t > *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node__weight_distribution_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (std::vector< step_t > *)& ((arg1)->weight_distribution);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_number_of_offspring_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node_number_of_offspring_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_number_of_offspring_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_node_number_of_offspring_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->number_of_offspring = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_number_of_offspring_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_number_of_offspring_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (int) ((arg1)->number_of_offspring);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_clone_size_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node_clone_size_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_clone_size_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_node_clone_size_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->clone_size = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_clone_size_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_clone_size_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (int) ((arg1)->clone_size);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node___str__" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (char *)node_t___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node___repr__" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (char *)node_t___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node__get_crossover_chunk(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i", NULL 
+  };
+  int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_node__get_crossover_chunk",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node__get_crossover_chunk" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_node__get_crossover_chunk" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (int)node_t__get_crossover_chunk(arg1,arg2);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_tree_node(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"new_tree_node",0,0,0)) SWIG_fail;
+  result = (node_t *)new node_t();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_node_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_tree_node(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tree_node" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *tree_node_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_node_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *tree_node_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_tree_edge_parent_node_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_edge_parent_node_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_parent_node_set" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_edge_parent_node_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->parent_node = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_parent_node_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_parent_node_get" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  result = (tree_key_t *)& ((arg1)->parent_node);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_own_key_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_edge_own_key_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_own_key_set" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_edge_own_key_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->own_key = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_own_key_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_own_key_get" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  result = (tree_key_t *)& ((arg1)->own_key);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_length_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_edge_length_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_length_set" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_edge_length_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->length = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_length_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_length_get" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  result = (int) ((arg1)->length);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_number_of_offspring_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_edge_number_of_offspring_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_number_of_offspring_set" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_edge_number_of_offspring_set" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  if (arg1) (arg1)->number_of_offspring = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge_number_of_offspring_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge_number_of_offspring_get" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  result = (int) ((arg1)->number_of_offspring);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge___str__" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  result = (char *)edge_t___str__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge___repr__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  char *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge___repr__" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  result = (char *)edge_t___repr__(arg1);
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_edge__get_segment_chunk(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "i", NULL 
+  };
+  int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:tree_edge__get_segment_chunk",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_edge_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_edge__get_segment_chunk" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tree_edge__get_segment_chunk" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (int)edge_t__get_segment_chunk(arg1,arg2);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_tree_edge(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"new_tree_edge",0,0,0)) SWIG_fail;
+  result = (edge_t *)new edge_t();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_edge_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_tree_edge(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  edge_t *arg1 = (edge_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_edge_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tree_edge" "', argument " "1"" of type '" "edge_t *""'"); 
+  }
+  arg1 = reinterpret_cast< edge_t * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *tree_edge_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args,(char*)"swigregister", 1, 1,&obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_edge_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *tree_edge_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_rooted_tree__edges_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  std::map< tree_key_t,edge_t > *arg2 = (std::map< tree_key_t,edge_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"rooted_tree__edges_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__edges_set" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree__edges_set" "', argument " "2"" of type '" "std::map< tree_key_t,edge_t > *""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,edge_t > * >(argp2);
+  if (arg1) (arg1)->edges = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree__edges_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,edge_t > *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__edges_get" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (std::map< tree_key_t,edge_t > *)& ((arg1)->edges);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree__nodes_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  std::map< tree_key_t,node_t > *arg2 = (std::map< tree_key_t,node_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"rooted_tree__nodes_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__nodes_set" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree__nodes_set" "', argument " "2"" of type '" "std::map< tree_key_t,node_t > *""'"); 
+  }
+  arg2 = reinterpret_cast< std::map< tree_key_t,node_t > * >(argp2);
+  if (arg1) (arg1)->nodes = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree__nodes_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::map< tree_key_t,node_t > *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__nodes_get" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (std::map< tree_key_t,node_t > *)& ((arg1)->nodes);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree__leafs_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  std::vector< tree_key_t > *arg2 = (std::vector< tree_key_t > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"rooted_tree__leafs_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__leafs_set" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree__leafs_set" "', argument " "2"" of type '" "std::vector< tree_key_t > *""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< tree_key_t > * >(argp2);
+  if (arg1) (arg1)->leafs = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree__leafs_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< tree_key_t > *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__leafs_get" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (std::vector< tree_key_t > *)& ((arg1)->leafs);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_root_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"rooted_tree_root_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_root_set" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree_root_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->root = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_root_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_root_get" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (tree_key_t *)& ((arg1)->root);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_MRCA_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"rooted_tree_MRCA_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_MRCA_set" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree_MRCA_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->MRCA = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_MRCA_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_MRCA_get" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  result = (tree_key_t *)& ((arg1)->MRCA);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_new_rooted_tree(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   rooted_tree *result = 0 ;
@@ -6944,28 +20977,6 @@ SWIGINTERN PyObject *_wrap_delete_rooted_tree(PyObject *SWIGUNUSEDPARM(self), Py
   }
   arg1 = reinterpret_cast< rooted_tree * >(argp1);
   delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_rooted_tree_reset(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  rooted_tree *arg1 = (rooted_tree *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_reset" "', argument " "1"" of type '" "rooted_tree *""'"); 
-  }
-  arg1 = reinterpret_cast< rooted_tree * >(argp1);
-  (arg1)->reset();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7019,23 +21030,149 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_rooted_tree_check_tree_integrity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_rooted_tree_calc_weight_distribution(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  tree_key_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "subtree_root", NULL 
+  };
+  int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:rooted_tree_calc_weight_distribution",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_calc_weight_distribution" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree_calc_weight_distribution" "', argument " "2"" of type '" "tree_key_t""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "rooted_tree_calc_weight_distribution" "', argument " "2"" of type '" "tree_key_t""'");
+    } else {
+      tree_key_t * temp = reinterpret_cast< tree_key_t * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (int)(arg1)->calc_weight_distribution(arg2);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_print_newick(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   rooted_tree *arg1 = (rooted_tree *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  int result;
+  std::string result;
   
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_check_tree_integrity" "', argument " "1"" of type '" "rooted_tree *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_print_newick" "', argument " "1"" of type '" "rooted_tree *""'"); 
   }
   arg1 = reinterpret_cast< rooted_tree * >(argp1);
-  result = (int)(arg1)->check_tree_integrity();
-  resultobj = SWIG_From_int(static_cast< int >(result));
+  result = (arg1)->print_newick();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_subtree_newick(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  tree_key_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "root", NULL 
+  };
+  std::string result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:rooted_tree_subtree_newick",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_subtree_newick" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree_subtree_newick" "', argument " "2"" of type '" "tree_key_t""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "rooted_tree_subtree_newick" "', argument " "2"" of type '" "tree_key_t""'");
+    } else {
+      tree_key_t * temp = reinterpret_cast< tree_key_t * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (arg1)->subtree_newick(arg2);
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_print_weight_distribution(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  tree_key_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "node_key", NULL 
+  };
+  std::string result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:rooted_tree_print_weight_distribution",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_print_weight_distribution" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_tree_key_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rooted_tree_print_weight_distribution" "', argument " "2"" of type '" "tree_key_t""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "rooted_tree_print_weight_distribution" "', argument " "2"" of type '" "tree_key_t""'");
+    } else {
+      tree_key_t * temp = reinterpret_cast< tree_key_t * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (arg1)->print_weight_distribution(arg2);
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
   return NULL;
@@ -7082,6 +21219,93 @@ SWIGINTERN PyObject *_wrap_rooted_tree___repr__(PyObject *SWIGUNUSEDPARM(self), 
   arg1 = reinterpret_cast< rooted_tree * >(argp1);
   result = (char *)rooted_tree___repr__(arg1);
   resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree__ancestors_at_age(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  int arg2 ;
+  tree_key_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "age",(char *) "subtree_root", NULL 
+  };
+  std::vector< tree_key_t > result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:rooted_tree__ancestors_at_age",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree__ancestors_at_age" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "rooted_tree__ancestors_at_age" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  {
+    res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_tree_key_t,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "rooted_tree__ancestors_at_age" "', argument " "3"" of type '" "tree_key_t""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "rooted_tree__ancestors_at_age" "', argument " "3"" of type '" "tree_key_t""'");
+    } else {
+      tree_key_t * temp = reinterpret_cast< tree_key_t * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  result = rooted_tree__ancestors_at_age(arg1,arg2,arg3);
+  resultobj = swig::from(static_cast< std::vector<tree_key_t,std::allocator< tree_key_t > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_rooted_tree_create_subtree_from_keys(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  rooted_tree *arg1 = (rooted_tree *) 0 ;
+  std::vector< tree_key_t > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "leaves", NULL 
+  };
+  rooted_tree result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:rooted_tree_create_subtree_from_keys",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_rooted_tree, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rooted_tree_create_subtree_from_keys" "', argument " "1"" of type '" "rooted_tree *""'"); 
+  }
+  arg1 = reinterpret_cast< rooted_tree * >(argp1);
+  {
+    std::vector<tree_key_t,std::allocator< tree_key_t > > *ptr = (std::vector<tree_key_t,std::allocator< tree_key_t > > *)0;
+    int res = swig::asptr(obj1, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "rooted_tree_create_subtree_from_keys" "', argument " "2"" of type '" "std::vector< tree_key_t >""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = rooted_tree_create_subtree_from_keys(arg1,arg2);
+  resultobj = SWIG_NewPointerObj((new rooted_tree(static_cast< const rooted_tree& >(result))), SWIGTYPE_p_rooted_tree, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -7182,6 +21406,28 @@ SWIGINTERN PyObject *_wrap_multi_locus_genealogy_reset(PyObject *SWIGUNUSEDPARM(
   }
   arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
   (arg1)->reset();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_multi_locus_genealogy_reset_but_loci(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  multi_locus_genealogy *arg1 = (multi_locus_genealogy *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_multi_locus_genealogy, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "multi_locus_genealogy_reset_but_loci" "', argument " "1"" of type '" "multi_locus_genealogy *""'"); 
+  }
+  arg1 = reinterpret_cast< multi_locus_genealogy * >(argp1);
+  (arg1)->reset_but_loci();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7974,10 +22220,10 @@ fail:
 SWIGINTERN PyObject *_wrap_haploid_highd_track_locus_genealogy(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
-  vector< int > arg2 ;
+  SwigValueWrapper< std::vector< int > > arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  std::vector< int > temp2 ;
+  std::vector< int,std::allocator< int > > temp2 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   char *  kwnames[] = {
@@ -8077,13 +22323,13 @@ SWIGINTERN PyObject *_wrap_haploid_highd_add_trait_coefficient(PyObject *SWIGUNU
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
   double arg2 ;
-  vector< int > arg3 ;
+  SwigValueWrapper< std::vector< int > > arg3 ;
   int arg4 = (int) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  std::vector< int > temp3 ;
+  std::vector< int,std::allocator< int > > temp3 ;
   int val4 ;
   int ecode4 = 0 ;
   PyObject * obj0 = 0 ;
@@ -8248,12 +22494,12 @@ SWIGINTERN PyObject *_wrap_haploid_highd_add_fitness_coefficient(PyObject *SWIGU
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
   double arg2 ;
-  vector< int > arg3 ;
+  SwigValueWrapper< std::vector< int > > arg3 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  std::vector< int > temp3 ;
+  std::vector< int,std::allocator< int > > temp3 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -9235,7 +23481,7 @@ fail:
 SWIGINTERN PyObject *_wrap_haploid_highd_population_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
-  vector< clone_t > *arg2 = (vector< clone_t > *) 0 ;
+  std::vector< clone_t > *arg2 = (std::vector< clone_t > *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -9248,11 +23494,11 @@ SWIGINTERN PyObject *_wrap_haploid_highd_population_set(PyObject *SWIGUNUSEDPARM
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_population_set" "', argument " "1"" of type '" "haploid_highd *""'"); 
   }
   arg1 = reinterpret_cast< haploid_highd * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_vectorT_clone_t_t, 0 |  0 );
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "haploid_highd_population_set" "', argument " "2"" of type '" "vector< clone_t > *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "haploid_highd_population_set" "', argument " "2"" of type '" "std::vector< clone_t > *""'"); 
   }
-  arg2 = reinterpret_cast< vector< clone_t > * >(argp2);
+  arg2 = reinterpret_cast< std::vector< clone_t > * >(argp2);
   if (arg1) (arg1)->population = *arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -9267,7 +23513,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_population_get(PyObject *SWIGUNUSEDPARM
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  vector< clone_t > *result = 0 ;
+  std::vector< clone_t > *result = 0 ;
   
   if (!args) SWIG_fail;
   swig_obj[0] = args;
@@ -9276,8 +23522,8 @@ SWIGINTERN PyObject *_wrap_haploid_highd_population_get(PyObject *SWIGUNUSEDPARM
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_population_get" "', argument " "1"" of type '" "haploid_highd *""'"); 
   }
   arg1 = reinterpret_cast< haploid_highd * >(argp1);
-  result = (vector< clone_t > *)& ((arg1)->population);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_vectorT_clone_t_t, 0 |  0 );
+  result = (std::vector< clone_t > *)& ((arg1)->population);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -10480,7 +24726,7 @@ SWIGINTERN PyObject *_wrap_hivpopulation_write_genotypes(PyObject *SWIGUNUSEDPAR
   hivpopulation *arg1 = (hivpopulation *) 0 ;
   ostream *arg2 = 0 ;
   int arg3 ;
-  string arg4 = (string) "" ;
+  std::string arg4 = (std::string) "" ;
   int arg5 = (int) 0 ;
   int arg6 = (int) 0 ;
   void *argp1 = 0 ;
@@ -10488,8 +24734,6 @@ SWIGINTERN PyObject *_wrap_hivpopulation_write_genotypes(PyObject *SWIGUNUSEDPAR
   std::ofstream temp2 ;
   int val3 ;
   int ecode3 = 0 ;
-  void *argp4 ;
-  int res4 = 0 ;
   int val5 ;
   int ecode5 = 0 ;
   int val6 ;
@@ -10526,17 +24770,13 @@ SWIGINTERN PyObject *_wrap_hivpopulation_write_genotypes(PyObject *SWIGUNUSEDPAR
   arg3 = static_cast< int >(val3);
   if (obj3) {
     {
-      res4 = SWIG_ConvertPtr(obj3, &argp4, SWIGTYPE_p_string,  0  | 0);
-      if (!SWIG_IsOK(res4)) {
-        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "hivpopulation_write_genotypes" "', argument " "4"" of type '" "string""'"); 
-      }  
-      if (!argp4) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "hivpopulation_write_genotypes" "', argument " "4"" of type '" "string""'");
-      } else {
-        string * temp = reinterpret_cast< string * >(argp4);
-        arg4 = *temp;
-        if (SWIG_IsNewObj(res4)) delete temp;
+      std::string *ptr = (std::string *)0;
+      int res = SWIG_AsPtr_std_string(obj3, &ptr);
+      if (!SWIG_IsOK(res) || !ptr) {
+        SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "hivpopulation_write_genotypes" "', argument " "4"" of type '" "std::string""'"); 
       }
+      arg4 = *ptr;
+      if (SWIG_IsNewObj(res)) delete ptr;
     }
   }
   if (obj4) {
@@ -10620,6 +24860,24 @@ SWIGINTERN PyObject *hivpopulation_swiginit(PyObject *SWIGUNUSEDPARM(self), PyOb
 
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
+	 { (char *)"delete_SwigPyIterator", (PyCFunction)_wrap_delete_SwigPyIterator, METH_O, NULL},
+	 { (char *)"SwigPyIterator_value", (PyCFunction)_wrap_SwigPyIterator_value, METH_O, NULL},
+	 { (char *)"SwigPyIterator_incr", (PyCFunction) _wrap_SwigPyIterator_incr, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator_decr", (PyCFunction) _wrap_SwigPyIterator_decr, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator_distance", (PyCFunction) _wrap_SwigPyIterator_distance, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator_equal", (PyCFunction) _wrap_SwigPyIterator_equal, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator_copy", (PyCFunction)_wrap_SwigPyIterator_copy, METH_O, NULL},
+	 { (char *)"SwigPyIterator_next", (PyCFunction)_wrap_SwigPyIterator_next, METH_O, NULL},
+	 { (char *)"SwigPyIterator___next__", (PyCFunction)_wrap_SwigPyIterator___next__, METH_O, NULL},
+	 { (char *)"SwigPyIterator_previous", (PyCFunction)_wrap_SwigPyIterator_previous, METH_O, NULL},
+	 { (char *)"SwigPyIterator_advance", (PyCFunction) _wrap_SwigPyIterator_advance, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator___eq__", (PyCFunction) _wrap_SwigPyIterator___eq__, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator___ne__", (PyCFunction) _wrap_SwigPyIterator___ne__, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator___iadd__", (PyCFunction) _wrap_SwigPyIterator___iadd__, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator___isub__", (PyCFunction) _wrap_SwigPyIterator___isub__, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator___add__", (PyCFunction) _wrap_SwigPyIterator___add__, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"SwigPyIterator___sub__", _wrap_SwigPyIterator___sub__, METH_VARARGS, NULL},
+	 { (char *)"SwigPyIterator_swigregister", SwigPyIterator_swigregister, METH_VARARGS, NULL},
 	 { (char *)"index_value_pair_index_set", _wrap_index_value_pair_index_set, METH_VARARGS, (char *)"Index"},
 	 { (char *)"index_value_pair_index_get", (PyCFunction)_wrap_index_value_pair_index_get, METH_O, (char *)"Index"},
 	 { (char *)"index_value_pair_val_set", _wrap_index_value_pair_val_set, METH_VARARGS, (char *)"Value"},
@@ -10816,8 +25074,286 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"haploid_lowd_swigregister", haploid_lowd_swigregister, METH_VARARGS, NULL},
 	 { (char *)"haploid_lowd_swiginit", haploid_lowd_swiginit, METH_VARARGS, NULL},
-	 { (char *)"clone__trait_set", _wrap_clone__trait_set, METH_VARARGS, (char *)"clone__trait_set(clone self, vector< double > trait)"},
-	 { (char *)"clone__trait_get", (PyCFunction)_wrap_clone__trait_get, METH_O, (char *)"clone__trait_get(clone self) -> vector< double >"},
+	 { (char *)"vector_tree_step_iterator", (PyCFunction)_wrap_vector_tree_step_iterator, METH_O, (char *)"vector_tree_step_iterator(vector_tree_step self) -> SwigPyIterator"},
+	 { (char *)"vector_tree_step___nonzero__", (PyCFunction)_wrap_vector_tree_step___nonzero__, METH_O, (char *)"vector_tree_step___nonzero__(vector_tree_step self) -> bool"},
+	 { (char *)"vector_tree_step___bool__", (PyCFunction)_wrap_vector_tree_step___bool__, METH_O, (char *)"vector_tree_step___bool__(vector_tree_step self) -> bool"},
+	 { (char *)"vector_tree_step___len__", (PyCFunction)_wrap_vector_tree_step___len__, METH_O, (char *)"vector_tree_step___len__(vector_tree_step self) -> std::vector< step_t >::size_type"},
+	 { (char *)"vector_tree_step_pop", (PyCFunction)_wrap_vector_tree_step_pop, METH_O, (char *)"vector_tree_step_pop(vector_tree_step self) -> tree_step"},
+	 { (char *)"vector_tree_step___getslice__", (PyCFunction) _wrap_vector_tree_step___getslice__, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step___getslice__(vector_tree_step self, std::vector< step_t >::difference_type i, std::vector< step_t >::difference_type j) -> vector_tree_step"},
+	 { (char *)"vector_tree_step___setslice__", (PyCFunction) _wrap_vector_tree_step___setslice__, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"vector_tree_step___setslice__(vector_tree_step self, std::vector< step_t >::difference_type i, std::vector< step_t >::difference_type j, \n"
+		"    vector_tree_step v=std::vector< step_t,std::allocator< step_t > >())\n"
+		""},
+	 { (char *)"vector_tree_step___delslice__", (PyCFunction) _wrap_vector_tree_step___delslice__, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step___delslice__(vector_tree_step self, std::vector< step_t >::difference_type i, std::vector< step_t >::difference_type j)"},
+	 { (char *)"vector_tree_step___delitem__", _wrap_vector_tree_step___delitem__, METH_VARARGS, (char *)"\n"
+		"__delitem__(std::vector< step_t >::difference_type i)\n"
+		"vector_tree_step___delitem__(vector_tree_step self, PySliceObject * slice)\n"
+		""},
+	 { (char *)"vector_tree_step___getitem__", _wrap_vector_tree_step___getitem__, METH_VARARGS, (char *)"\n"
+		"__getitem__(PySliceObject * slice) -> vector_tree_step\n"
+		"vector_tree_step___getitem__(vector_tree_step self, std::vector< step_t >::difference_type i) -> tree_step\n"
+		""},
+	 { (char *)"vector_tree_step___setitem__", _wrap_vector_tree_step___setitem__, METH_VARARGS, (char *)"\n"
+		"__setitem__(PySliceObject * slice, vector_tree_step v)\n"
+		"__setitem__(PySliceObject * slice)\n"
+		"vector_tree_step___setitem__(vector_tree_step self, std::vector< step_t >::difference_type i, tree_step x)\n"
+		""},
+	 { (char *)"vector_tree_step_append", (PyCFunction) _wrap_vector_tree_step_append, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step_append(vector_tree_step self, tree_step x)"},
+	 { (char *)"vector_tree_step_empty", (PyCFunction)_wrap_vector_tree_step_empty, METH_O, (char *)"vector_tree_step_empty(vector_tree_step self) -> bool"},
+	 { (char *)"vector_tree_step_size", (PyCFunction)_wrap_vector_tree_step_size, METH_O, (char *)"vector_tree_step_size(vector_tree_step self) -> std::vector< step_t >::size_type"},
+	 { (char *)"vector_tree_step_clear", (PyCFunction)_wrap_vector_tree_step_clear, METH_O, (char *)"vector_tree_step_clear(vector_tree_step self)"},
+	 { (char *)"vector_tree_step_swap", (PyCFunction) _wrap_vector_tree_step_swap, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step_swap(vector_tree_step self, vector_tree_step v)"},
+	 { (char *)"vector_tree_step_get_allocator", (PyCFunction)_wrap_vector_tree_step_get_allocator, METH_O, (char *)"vector_tree_step_get_allocator(vector_tree_step self) -> std::vector< step_t >::allocator_type"},
+	 { (char *)"vector_tree_step_begin", (PyCFunction)_wrap_vector_tree_step_begin, METH_O, (char *)"vector_tree_step_begin(vector_tree_step self) -> std::vector< step_t >::iterator"},
+	 { (char *)"vector_tree_step_end", (PyCFunction)_wrap_vector_tree_step_end, METH_O, (char *)"vector_tree_step_end(vector_tree_step self) -> std::vector< step_t >::iterator"},
+	 { (char *)"vector_tree_step_rbegin", (PyCFunction)_wrap_vector_tree_step_rbegin, METH_O, (char *)"vector_tree_step_rbegin(vector_tree_step self) -> std::vector< step_t >::reverse_iterator"},
+	 { (char *)"vector_tree_step_rend", (PyCFunction)_wrap_vector_tree_step_rend, METH_O, (char *)"vector_tree_step_rend(vector_tree_step self) -> std::vector< step_t >::reverse_iterator"},
+	 { (char *)"vector_tree_step_pop_back", (PyCFunction)_wrap_vector_tree_step_pop_back, METH_O, (char *)"vector_tree_step_pop_back(vector_tree_step self)"},
+	 { (char *)"vector_tree_step_erase", _wrap_vector_tree_step_erase, METH_VARARGS, (char *)"\n"
+		"erase(std::vector< step_t >::iterator pos) -> std::vector< step_t >::iterator\n"
+		"vector_tree_step_erase(vector_tree_step self, std::vector< step_t >::iterator first, std::vector< step_t >::iterator last) -> std::vector< step_t >::iterator\n"
+		""},
+	 { (char *)"new_vector_tree_step", _wrap_new_vector_tree_step, METH_VARARGS, (char *)"\n"
+		"vector_tree_step()\n"
+		"vector_tree_step(vector_tree_step arg2)\n"
+		"vector_tree_step(std::vector< step_t >::size_type size)\n"
+		"new_vector_tree_step(std::vector< step_t >::size_type size, tree_step value) -> vector_tree_step\n"
+		""},
+	 { (char *)"vector_tree_step_push_back", (PyCFunction) _wrap_vector_tree_step_push_back, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step_push_back(vector_tree_step self, tree_step x)"},
+	 { (char *)"vector_tree_step_front", (PyCFunction)_wrap_vector_tree_step_front, METH_O, (char *)"vector_tree_step_front(vector_tree_step self) -> tree_step"},
+	 { (char *)"vector_tree_step_back", (PyCFunction)_wrap_vector_tree_step_back, METH_O, (char *)"vector_tree_step_back(vector_tree_step self) -> tree_step"},
+	 { (char *)"vector_tree_step_assign", (PyCFunction) _wrap_vector_tree_step_assign, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step_assign(vector_tree_step self, std::vector< step_t >::size_type n, tree_step x)"},
+	 { (char *)"vector_tree_step_resize", _wrap_vector_tree_step_resize, METH_VARARGS, (char *)"\n"
+		"resize(std::vector< step_t >::size_type new_size)\n"
+		"vector_tree_step_resize(vector_tree_step self, std::vector< step_t >::size_type new_size, tree_step x)\n"
+		""},
+	 { (char *)"vector_tree_step_insert", _wrap_vector_tree_step_insert, METH_VARARGS, (char *)"\n"
+		"insert(std::vector< step_t >::iterator pos, tree_step x) -> std::vector< step_t >::iterator\n"
+		"vector_tree_step_insert(vector_tree_step self, std::vector< step_t >::iterator pos, std::vector< step_t >::size_type n, \n"
+		"    tree_step x)\n"
+		""},
+	 { (char *)"vector_tree_step_reserve", (PyCFunction) _wrap_vector_tree_step_reserve, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_step_reserve(vector_tree_step self, std::vector< step_t >::size_type n)"},
+	 { (char *)"vector_tree_step_capacity", (PyCFunction)_wrap_vector_tree_step_capacity, METH_O, (char *)"vector_tree_step_capacity(vector_tree_step self) -> std::vector< step_t >::size_type"},
+	 { (char *)"delete_vector_tree_step", (PyCFunction)_wrap_delete_vector_tree_step, METH_O, (char *)"delete_vector_tree_step(vector_tree_step self)"},
+	 { (char *)"vector_tree_step_swigregister", vector_tree_step_swigregister, METH_VARARGS, NULL},
+	 { (char *)"vector_tree_step_swiginit", vector_tree_step_swiginit, METH_VARARGS, NULL},
+	 { (char *)"vector_tree_key_iterator", (PyCFunction)_wrap_vector_tree_key_iterator, METH_O, (char *)"vector_tree_key_iterator(vector_tree_key self) -> SwigPyIterator"},
+	 { (char *)"vector_tree_key___nonzero__", (PyCFunction)_wrap_vector_tree_key___nonzero__, METH_O, (char *)"vector_tree_key___nonzero__(vector_tree_key self) -> bool"},
+	 { (char *)"vector_tree_key___bool__", (PyCFunction)_wrap_vector_tree_key___bool__, METH_O, (char *)"vector_tree_key___bool__(vector_tree_key self) -> bool"},
+	 { (char *)"vector_tree_key___len__", (PyCFunction)_wrap_vector_tree_key___len__, METH_O, (char *)"vector_tree_key___len__(vector_tree_key self) -> std::vector< tree_key_t >::size_type"},
+	 { (char *)"vector_tree_key_pop", (PyCFunction)_wrap_vector_tree_key_pop, METH_O, (char *)"vector_tree_key_pop(vector_tree_key self) -> tree_key"},
+	 { (char *)"vector_tree_key___getslice__", (PyCFunction) _wrap_vector_tree_key___getslice__, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key___getslice__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, std::vector< tree_key_t >::difference_type j) -> vector_tree_key"},
+	 { (char *)"vector_tree_key___setslice__", (PyCFunction) _wrap_vector_tree_key___setslice__, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"vector_tree_key___setslice__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, std::vector< tree_key_t >::difference_type j, \n"
+		"    vector_tree_key v=std::vector< tree_key_t,std::allocator< tree_key_t > >())\n"
+		""},
+	 { (char *)"vector_tree_key___delslice__", (PyCFunction) _wrap_vector_tree_key___delslice__, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key___delslice__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, std::vector< tree_key_t >::difference_type j)"},
+	 { (char *)"vector_tree_key___delitem__", _wrap_vector_tree_key___delitem__, METH_VARARGS, (char *)"\n"
+		"__delitem__(std::vector< tree_key_t >::difference_type i)\n"
+		"vector_tree_key___delitem__(vector_tree_key self, PySliceObject * slice)\n"
+		""},
+	 { (char *)"vector_tree_key___getitem__", _wrap_vector_tree_key___getitem__, METH_VARARGS, (char *)"\n"
+		"__getitem__(PySliceObject * slice) -> vector_tree_key\n"
+		"vector_tree_key___getitem__(vector_tree_key self, std::vector< tree_key_t >::difference_type i) -> tree_key\n"
+		""},
+	 { (char *)"vector_tree_key___setitem__", _wrap_vector_tree_key___setitem__, METH_VARARGS, (char *)"\n"
+		"__setitem__(PySliceObject * slice, vector_tree_key v)\n"
+		"__setitem__(PySliceObject * slice)\n"
+		"vector_tree_key___setitem__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, tree_key x)\n"
+		""},
+	 { (char *)"vector_tree_key_append", (PyCFunction) _wrap_vector_tree_key_append, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key_append(vector_tree_key self, tree_key x)"},
+	 { (char *)"vector_tree_key_empty", (PyCFunction)_wrap_vector_tree_key_empty, METH_O, (char *)"vector_tree_key_empty(vector_tree_key self) -> bool"},
+	 { (char *)"vector_tree_key_size", (PyCFunction)_wrap_vector_tree_key_size, METH_O, (char *)"vector_tree_key_size(vector_tree_key self) -> std::vector< tree_key_t >::size_type"},
+	 { (char *)"vector_tree_key_clear", (PyCFunction)_wrap_vector_tree_key_clear, METH_O, (char *)"vector_tree_key_clear(vector_tree_key self)"},
+	 { (char *)"vector_tree_key_swap", (PyCFunction) _wrap_vector_tree_key_swap, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key_swap(vector_tree_key self, vector_tree_key v)"},
+	 { (char *)"vector_tree_key_get_allocator", (PyCFunction)_wrap_vector_tree_key_get_allocator, METH_O, (char *)"vector_tree_key_get_allocator(vector_tree_key self) -> std::vector< tree_key_t >::allocator_type"},
+	 { (char *)"vector_tree_key_begin", (PyCFunction)_wrap_vector_tree_key_begin, METH_O, (char *)"vector_tree_key_begin(vector_tree_key self) -> std::vector< tree_key_t >::iterator"},
+	 { (char *)"vector_tree_key_end", (PyCFunction)_wrap_vector_tree_key_end, METH_O, (char *)"vector_tree_key_end(vector_tree_key self) -> std::vector< tree_key_t >::iterator"},
+	 { (char *)"vector_tree_key_rbegin", (PyCFunction)_wrap_vector_tree_key_rbegin, METH_O, (char *)"vector_tree_key_rbegin(vector_tree_key self) -> std::vector< tree_key_t >::reverse_iterator"},
+	 { (char *)"vector_tree_key_rend", (PyCFunction)_wrap_vector_tree_key_rend, METH_O, (char *)"vector_tree_key_rend(vector_tree_key self) -> std::vector< tree_key_t >::reverse_iterator"},
+	 { (char *)"vector_tree_key_pop_back", (PyCFunction)_wrap_vector_tree_key_pop_back, METH_O, (char *)"vector_tree_key_pop_back(vector_tree_key self)"},
+	 { (char *)"vector_tree_key_erase", _wrap_vector_tree_key_erase, METH_VARARGS, (char *)"\n"
+		"erase(std::vector< tree_key_t >::iterator pos) -> std::vector< tree_key_t >::iterator\n"
+		"vector_tree_key_erase(vector_tree_key self, std::vector< tree_key_t >::iterator first, std::vector< tree_key_t >::iterator last) -> std::vector< tree_key_t >::iterator\n"
+		""},
+	 { (char *)"new_vector_tree_key", _wrap_new_vector_tree_key, METH_VARARGS, (char *)"\n"
+		"vector_tree_key()\n"
+		"vector_tree_key(vector_tree_key arg2)\n"
+		"vector_tree_key(std::vector< tree_key_t >::size_type size)\n"
+		"new_vector_tree_key(std::vector< tree_key_t >::size_type size, tree_key value) -> vector_tree_key\n"
+		""},
+	 { (char *)"vector_tree_key_push_back", (PyCFunction) _wrap_vector_tree_key_push_back, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key_push_back(vector_tree_key self, tree_key x)"},
+	 { (char *)"vector_tree_key_front", (PyCFunction)_wrap_vector_tree_key_front, METH_O, (char *)"vector_tree_key_front(vector_tree_key self) -> tree_key"},
+	 { (char *)"vector_tree_key_back", (PyCFunction)_wrap_vector_tree_key_back, METH_O, (char *)"vector_tree_key_back(vector_tree_key self) -> tree_key"},
+	 { (char *)"vector_tree_key_assign", (PyCFunction) _wrap_vector_tree_key_assign, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key_assign(vector_tree_key self, std::vector< tree_key_t >::size_type n, tree_key x)"},
+	 { (char *)"vector_tree_key_resize", _wrap_vector_tree_key_resize, METH_VARARGS, (char *)"\n"
+		"resize(std::vector< tree_key_t >::size_type new_size)\n"
+		"vector_tree_key_resize(vector_tree_key self, std::vector< tree_key_t >::size_type new_size, tree_key x)\n"
+		""},
+	 { (char *)"vector_tree_key_insert", _wrap_vector_tree_key_insert, METH_VARARGS, (char *)"\n"
+		"insert(std::vector< tree_key_t >::iterator pos, tree_key x) -> std::vector< tree_key_t >::iterator\n"
+		"vector_tree_key_insert(vector_tree_key self, std::vector< tree_key_t >::iterator pos, std::vector< tree_key_t >::size_type n, \n"
+		"    tree_key x)\n"
+		""},
+	 { (char *)"vector_tree_key_reserve", (PyCFunction) _wrap_vector_tree_key_reserve, METH_VARARGS | METH_KEYWORDS, (char *)"vector_tree_key_reserve(vector_tree_key self, std::vector< tree_key_t >::size_type n)"},
+	 { (char *)"vector_tree_key_capacity", (PyCFunction)_wrap_vector_tree_key_capacity, METH_O, (char *)"vector_tree_key_capacity(vector_tree_key self) -> std::vector< tree_key_t >::size_type"},
+	 { (char *)"delete_vector_tree_key", (PyCFunction)_wrap_delete_vector_tree_key, METH_O, (char *)"delete_vector_tree_key(vector_tree_key self)"},
+	 { (char *)"vector_tree_key_swigregister", vector_tree_key_swigregister, METH_VARARGS, NULL},
+	 { (char *)"vector_tree_key_swiginit", vector_tree_key_swiginit, METH_VARARGS, NULL},
+	 { (char *)"list_tree_key_iterator", (PyCFunction)_wrap_list_tree_key_iterator, METH_O, (char *)"list_tree_key_iterator(list_tree_key self) -> SwigPyIterator"},
+	 { (char *)"list_tree_key___nonzero__", (PyCFunction)_wrap_list_tree_key___nonzero__, METH_O, (char *)"list_tree_key___nonzero__(list_tree_key self) -> bool"},
+	 { (char *)"list_tree_key___bool__", (PyCFunction)_wrap_list_tree_key___bool__, METH_O, (char *)"list_tree_key___bool__(list_tree_key self) -> bool"},
+	 { (char *)"list_tree_key___len__", (PyCFunction)_wrap_list_tree_key___len__, METH_O, (char *)"list_tree_key___len__(list_tree_key self) -> std::list< tree_key_t >::size_type"},
+	 { (char *)"list_tree_key_pop", (PyCFunction)_wrap_list_tree_key_pop, METH_O, (char *)"list_tree_key_pop(list_tree_key self) -> tree_key"},
+	 { (char *)"list_tree_key___getslice__", (PyCFunction) _wrap_list_tree_key___getslice__, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key___getslice__(list_tree_key self, std::list< tree_key_t >::difference_type i, std::list< tree_key_t >::difference_type j) -> list_tree_key"},
+	 { (char *)"list_tree_key___setslice__", (PyCFunction) _wrap_list_tree_key___setslice__, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"list_tree_key___setslice__(list_tree_key self, std::list< tree_key_t >::difference_type i, std::list< tree_key_t >::difference_type j, \n"
+		"    list_tree_key v=std::list< tree_key_t,std::allocator< tree_key_t > >())\n"
+		""},
+	 { (char *)"list_tree_key___delslice__", (PyCFunction) _wrap_list_tree_key___delslice__, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key___delslice__(list_tree_key self, std::list< tree_key_t >::difference_type i, std::list< tree_key_t >::difference_type j)"},
+	 { (char *)"list_tree_key___delitem__", _wrap_list_tree_key___delitem__, METH_VARARGS, (char *)"\n"
+		"__delitem__(std::list< tree_key_t >::difference_type i)\n"
+		"list_tree_key___delitem__(list_tree_key self, PySliceObject * slice)\n"
+		""},
+	 { (char *)"list_tree_key___getitem__", _wrap_list_tree_key___getitem__, METH_VARARGS, (char *)"\n"
+		"__getitem__(PySliceObject * slice) -> list_tree_key\n"
+		"list_tree_key___getitem__(list_tree_key self, std::list< tree_key_t >::difference_type i) -> tree_key\n"
+		""},
+	 { (char *)"list_tree_key___setitem__", _wrap_list_tree_key___setitem__, METH_VARARGS, (char *)"\n"
+		"__setitem__(PySliceObject * slice, list_tree_key v)\n"
+		"__setitem__(PySliceObject * slice)\n"
+		"list_tree_key___setitem__(list_tree_key self, std::list< tree_key_t >::difference_type i, tree_key x)\n"
+		""},
+	 { (char *)"list_tree_key_append", (PyCFunction) _wrap_list_tree_key_append, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key_append(list_tree_key self, tree_key x)"},
+	 { (char *)"list_tree_key_empty", (PyCFunction)_wrap_list_tree_key_empty, METH_O, (char *)"list_tree_key_empty(list_tree_key self) -> bool"},
+	 { (char *)"list_tree_key_size", (PyCFunction)_wrap_list_tree_key_size, METH_O, (char *)"list_tree_key_size(list_tree_key self) -> std::list< tree_key_t >::size_type"},
+	 { (char *)"list_tree_key_clear", (PyCFunction)_wrap_list_tree_key_clear, METH_O, (char *)"list_tree_key_clear(list_tree_key self)"},
+	 { (char *)"list_tree_key_swap", (PyCFunction) _wrap_list_tree_key_swap, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key_swap(list_tree_key self, list_tree_key v)"},
+	 { (char *)"list_tree_key_get_allocator", (PyCFunction)_wrap_list_tree_key_get_allocator, METH_O, (char *)"list_tree_key_get_allocator(list_tree_key self) -> std::list< tree_key_t >::allocator_type"},
+	 { (char *)"list_tree_key_begin", (PyCFunction)_wrap_list_tree_key_begin, METH_O, (char *)"list_tree_key_begin(list_tree_key self) -> std::list< tree_key_t >::iterator"},
+	 { (char *)"list_tree_key_end", (PyCFunction)_wrap_list_tree_key_end, METH_O, (char *)"list_tree_key_end(list_tree_key self) -> std::list< tree_key_t >::iterator"},
+	 { (char *)"list_tree_key_rbegin", (PyCFunction)_wrap_list_tree_key_rbegin, METH_O, (char *)"list_tree_key_rbegin(list_tree_key self) -> std::list< tree_key_t >::reverse_iterator"},
+	 { (char *)"list_tree_key_rend", (PyCFunction)_wrap_list_tree_key_rend, METH_O, (char *)"list_tree_key_rend(list_tree_key self) -> std::list< tree_key_t >::reverse_iterator"},
+	 { (char *)"list_tree_key_pop_back", (PyCFunction)_wrap_list_tree_key_pop_back, METH_O, (char *)"list_tree_key_pop_back(list_tree_key self)"},
+	 { (char *)"list_tree_key_erase", _wrap_list_tree_key_erase, METH_VARARGS, (char *)"\n"
+		"erase(std::list< tree_key_t >::iterator pos) -> std::list< tree_key_t >::iterator\n"
+		"list_tree_key_erase(list_tree_key self, std::list< tree_key_t >::iterator first, std::list< tree_key_t >::iterator last) -> std::list< tree_key_t >::iterator\n"
+		""},
+	 { (char *)"new_list_tree_key", _wrap_new_list_tree_key, METH_VARARGS, (char *)"\n"
+		"list_tree_key()\n"
+		"list_tree_key(list_tree_key arg2)\n"
+		"list_tree_key(std::list< tree_key_t >::size_type size)\n"
+		"new_list_tree_key(std::list< tree_key_t >::size_type size, tree_key value) -> list_tree_key\n"
+		""},
+	 { (char *)"list_tree_key_push_back", (PyCFunction) _wrap_list_tree_key_push_back, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key_push_back(list_tree_key self, tree_key x)"},
+	 { (char *)"list_tree_key_front", (PyCFunction)_wrap_list_tree_key_front, METH_O, (char *)"list_tree_key_front(list_tree_key self) -> tree_key"},
+	 { (char *)"list_tree_key_back", (PyCFunction)_wrap_list_tree_key_back, METH_O, (char *)"list_tree_key_back(list_tree_key self) -> tree_key"},
+	 { (char *)"list_tree_key_assign", (PyCFunction) _wrap_list_tree_key_assign, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key_assign(list_tree_key self, std::list< tree_key_t >::size_type n, tree_key x)"},
+	 { (char *)"list_tree_key_resize", _wrap_list_tree_key_resize, METH_VARARGS, (char *)"\n"
+		"resize(std::list< tree_key_t >::size_type new_size)\n"
+		"list_tree_key_resize(list_tree_key self, std::list< tree_key_t >::size_type new_size, tree_key x)\n"
+		""},
+	 { (char *)"list_tree_key_insert", _wrap_list_tree_key_insert, METH_VARARGS, (char *)"\n"
+		"insert(std::list< tree_key_t >::iterator pos, tree_key x) -> std::list< tree_key_t >::iterator\n"
+		"list_tree_key_insert(list_tree_key self, std::list< tree_key_t >::iterator pos, std::list< tree_key_t >::size_type n, \n"
+		"    tree_key x)\n"
+		""},
+	 { (char *)"list_tree_key_pop_front", (PyCFunction)_wrap_list_tree_key_pop_front, METH_O, (char *)"list_tree_key_pop_front(list_tree_key self)"},
+	 { (char *)"list_tree_key_push_front", (PyCFunction) _wrap_list_tree_key_push_front, METH_VARARGS | METH_KEYWORDS, (char *)"list_tree_key_push_front(list_tree_key self, tree_key x)"},
+	 { (char *)"list_tree_key_reverse", (PyCFunction)_wrap_list_tree_key_reverse, METH_O, (char *)"list_tree_key_reverse(list_tree_key self)"},
+	 { (char *)"delete_list_tree_key", (PyCFunction)_wrap_delete_list_tree_key, METH_O, (char *)"delete_list_tree_key(list_tree_key self)"},
+	 { (char *)"list_tree_key_swigregister", list_tree_key_swigregister, METH_VARARGS, NULL},
+	 { (char *)"list_tree_key_swiginit", list_tree_key_swiginit, METH_VARARGS, NULL},
+	 { (char *)"map_key_edge_iterator", (PyCFunction)_wrap_map_key_edge_iterator, METH_O, (char *)"map_key_edge_iterator(map_key_edge self) -> SwigPyIterator"},
+	 { (char *)"map_key_edge___nonzero__", (PyCFunction)_wrap_map_key_edge___nonzero__, METH_O, (char *)"map_key_edge___nonzero__(map_key_edge self) -> bool"},
+	 { (char *)"map_key_edge___bool__", (PyCFunction)_wrap_map_key_edge___bool__, METH_O, (char *)"map_key_edge___bool__(map_key_edge self) -> bool"},
+	 { (char *)"map_key_edge___len__", (PyCFunction)_wrap_map_key_edge___len__, METH_O, (char *)"map_key_edge___len__(map_key_edge self) -> std::map< tree_key_t,edge_t >::size_type"},
+	 { (char *)"map_key_edge___getitem__", (PyCFunction) _wrap_map_key_edge___getitem__, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge___getitem__(map_key_edge self, tree_key key) -> tree_edge"},
+	 { (char *)"map_key_edge___delitem__", (PyCFunction) _wrap_map_key_edge___delitem__, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge___delitem__(map_key_edge self, tree_key key)"},
+	 { (char *)"map_key_edge_has_key", (PyCFunction) _wrap_map_key_edge_has_key, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge_has_key(map_key_edge self, tree_key key) -> bool"},
+	 { (char *)"map_key_edge_keys", (PyCFunction)_wrap_map_key_edge_keys, METH_O, (char *)"map_key_edge_keys(map_key_edge self) -> PyObject *"},
+	 { (char *)"map_key_edge_values", (PyCFunction)_wrap_map_key_edge_values, METH_O, (char *)"map_key_edge_values(map_key_edge self) -> PyObject *"},
+	 { (char *)"map_key_edge_items", (PyCFunction)_wrap_map_key_edge_items, METH_O, (char *)"map_key_edge_items(map_key_edge self) -> PyObject *"},
+	 { (char *)"map_key_edge___contains__", (PyCFunction) _wrap_map_key_edge___contains__, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge___contains__(map_key_edge self, tree_key key) -> bool"},
+	 { (char *)"map_key_edge_key_iterator", (PyCFunction)_wrap_map_key_edge_key_iterator, METH_O, (char *)"map_key_edge_key_iterator(map_key_edge self) -> SwigPyIterator"},
+	 { (char *)"map_key_edge_value_iterator", (PyCFunction)_wrap_map_key_edge_value_iterator, METH_O, (char *)"map_key_edge_value_iterator(map_key_edge self) -> SwigPyIterator"},
+	 { (char *)"map_key_edge___setitem__", _wrap_map_key_edge___setitem__, METH_VARARGS, (char *)"\n"
+		"__setitem__(tree_key key)\n"
+		"map_key_edge___setitem__(map_key_edge self, tree_key key, tree_edge x)\n"
+		""},
+	 { (char *)"map_key_edge_asdict", (PyCFunction)_wrap_map_key_edge_asdict, METH_O, (char *)"map_key_edge_asdict(map_key_edge self) -> PyObject *"},
+	 { (char *)"new_map_key_edge", _wrap_new_map_key_edge, METH_VARARGS, (char *)"\n"
+		"map_key_edge(std::less< tree_key_t > const & arg2)\n"
+		"map_key_edge()\n"
+		"new_map_key_edge(map_key_edge arg1) -> map_key_edge\n"
+		""},
+	 { (char *)"map_key_edge_empty", (PyCFunction)_wrap_map_key_edge_empty, METH_O, (char *)"map_key_edge_empty(map_key_edge self) -> bool"},
+	 { (char *)"map_key_edge_size", (PyCFunction)_wrap_map_key_edge_size, METH_O, (char *)"map_key_edge_size(map_key_edge self) -> std::map< tree_key_t,edge_t >::size_type"},
+	 { (char *)"map_key_edge_clear", (PyCFunction)_wrap_map_key_edge_clear, METH_O, (char *)"map_key_edge_clear(map_key_edge self)"},
+	 { (char *)"map_key_edge_swap", (PyCFunction) _wrap_map_key_edge_swap, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge_swap(map_key_edge self, map_key_edge v)"},
+	 { (char *)"map_key_edge_get_allocator", (PyCFunction)_wrap_map_key_edge_get_allocator, METH_O, (char *)"map_key_edge_get_allocator(map_key_edge self) -> std::map< tree_key_t,edge_t >::allocator_type"},
+	 { (char *)"map_key_edge_begin", (PyCFunction)_wrap_map_key_edge_begin, METH_O, (char *)"map_key_edge_begin(map_key_edge self) -> std::map< tree_key_t,edge_t >::iterator"},
+	 { (char *)"map_key_edge_end", (PyCFunction)_wrap_map_key_edge_end, METH_O, (char *)"map_key_edge_end(map_key_edge self) -> std::map< tree_key_t,edge_t >::iterator"},
+	 { (char *)"map_key_edge_rbegin", (PyCFunction)_wrap_map_key_edge_rbegin, METH_O, (char *)"map_key_edge_rbegin(map_key_edge self) -> std::map< tree_key_t,edge_t >::reverse_iterator"},
+	 { (char *)"map_key_edge_rend", (PyCFunction)_wrap_map_key_edge_rend, METH_O, (char *)"map_key_edge_rend(map_key_edge self) -> std::map< tree_key_t,edge_t >::reverse_iterator"},
+	 { (char *)"map_key_edge_count", (PyCFunction) _wrap_map_key_edge_count, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge_count(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::size_type"},
+	 { (char *)"map_key_edge_erase", _wrap_map_key_edge_erase, METH_VARARGS, (char *)"\n"
+		"erase(tree_key x) -> std::map< tree_key_t,edge_t >::size_type\n"
+		"erase(std::map< tree_key_t,edge_t >::iterator position)\n"
+		"map_key_edge_erase(map_key_edge self, std::map< tree_key_t,edge_t >::iterator first, std::map< tree_key_t,edge_t >::iterator last)\n"
+		""},
+	 { (char *)"map_key_edge_find", (PyCFunction) _wrap_map_key_edge_find, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge_find(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::iterator"},
+	 { (char *)"map_key_edge_lower_bound", (PyCFunction) _wrap_map_key_edge_lower_bound, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge_lower_bound(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::iterator"},
+	 { (char *)"map_key_edge_upper_bound", (PyCFunction) _wrap_map_key_edge_upper_bound, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_edge_upper_bound(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::iterator"},
+	 { (char *)"delete_map_key_edge", (PyCFunction)_wrap_delete_map_key_edge, METH_O, (char *)"delete_map_key_edge(map_key_edge self)"},
+	 { (char *)"map_key_edge_swigregister", map_key_edge_swigregister, METH_VARARGS, NULL},
+	 { (char *)"map_key_edge_swiginit", map_key_edge_swiginit, METH_VARARGS, NULL},
+	 { (char *)"map_key_node_iterator", (PyCFunction)_wrap_map_key_node_iterator, METH_O, (char *)"map_key_node_iterator(map_key_node self) -> SwigPyIterator"},
+	 { (char *)"map_key_node___nonzero__", (PyCFunction)_wrap_map_key_node___nonzero__, METH_O, (char *)"map_key_node___nonzero__(map_key_node self) -> bool"},
+	 { (char *)"map_key_node___bool__", (PyCFunction)_wrap_map_key_node___bool__, METH_O, (char *)"map_key_node___bool__(map_key_node self) -> bool"},
+	 { (char *)"map_key_node___len__", (PyCFunction)_wrap_map_key_node___len__, METH_O, (char *)"map_key_node___len__(map_key_node self) -> std::map< tree_key_t,node_t >::size_type"},
+	 { (char *)"map_key_node___getitem__", (PyCFunction) _wrap_map_key_node___getitem__, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node___getitem__(map_key_node self, tree_key key) -> tree_node"},
+	 { (char *)"map_key_node___delitem__", (PyCFunction) _wrap_map_key_node___delitem__, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node___delitem__(map_key_node self, tree_key key)"},
+	 { (char *)"map_key_node_has_key", (PyCFunction) _wrap_map_key_node_has_key, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node_has_key(map_key_node self, tree_key key) -> bool"},
+	 { (char *)"map_key_node_keys", (PyCFunction)_wrap_map_key_node_keys, METH_O, (char *)"map_key_node_keys(map_key_node self) -> PyObject *"},
+	 { (char *)"map_key_node_values", (PyCFunction)_wrap_map_key_node_values, METH_O, (char *)"map_key_node_values(map_key_node self) -> PyObject *"},
+	 { (char *)"map_key_node_items", (PyCFunction)_wrap_map_key_node_items, METH_O, (char *)"map_key_node_items(map_key_node self) -> PyObject *"},
+	 { (char *)"map_key_node___contains__", (PyCFunction) _wrap_map_key_node___contains__, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node___contains__(map_key_node self, tree_key key) -> bool"},
+	 { (char *)"map_key_node_key_iterator", (PyCFunction)_wrap_map_key_node_key_iterator, METH_O, (char *)"map_key_node_key_iterator(map_key_node self) -> SwigPyIterator"},
+	 { (char *)"map_key_node_value_iterator", (PyCFunction)_wrap_map_key_node_value_iterator, METH_O, (char *)"map_key_node_value_iterator(map_key_node self) -> SwigPyIterator"},
+	 { (char *)"map_key_node___setitem__", _wrap_map_key_node___setitem__, METH_VARARGS, (char *)"\n"
+		"__setitem__(tree_key key)\n"
+		"map_key_node___setitem__(map_key_node self, tree_key key, tree_node x)\n"
+		""},
+	 { (char *)"map_key_node_asdict", (PyCFunction)_wrap_map_key_node_asdict, METH_O, (char *)"map_key_node_asdict(map_key_node self) -> PyObject *"},
+	 { (char *)"new_map_key_node", _wrap_new_map_key_node, METH_VARARGS, (char *)"\n"
+		"map_key_node(std::less< tree_key_t > const & arg2)\n"
+		"map_key_node()\n"
+		"new_map_key_node(map_key_node arg1) -> map_key_node\n"
+		""},
+	 { (char *)"map_key_node_empty", (PyCFunction)_wrap_map_key_node_empty, METH_O, (char *)"map_key_node_empty(map_key_node self) -> bool"},
+	 { (char *)"map_key_node_size", (PyCFunction)_wrap_map_key_node_size, METH_O, (char *)"map_key_node_size(map_key_node self) -> std::map< tree_key_t,node_t >::size_type"},
+	 { (char *)"map_key_node_clear", (PyCFunction)_wrap_map_key_node_clear, METH_O, (char *)"map_key_node_clear(map_key_node self)"},
+	 { (char *)"map_key_node_swap", (PyCFunction) _wrap_map_key_node_swap, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node_swap(map_key_node self, map_key_node v)"},
+	 { (char *)"map_key_node_get_allocator", (PyCFunction)_wrap_map_key_node_get_allocator, METH_O, (char *)"map_key_node_get_allocator(map_key_node self) -> std::map< tree_key_t,node_t >::allocator_type"},
+	 { (char *)"map_key_node_begin", (PyCFunction)_wrap_map_key_node_begin, METH_O, (char *)"map_key_node_begin(map_key_node self) -> std::map< tree_key_t,node_t >::iterator"},
+	 { (char *)"map_key_node_end", (PyCFunction)_wrap_map_key_node_end, METH_O, (char *)"map_key_node_end(map_key_node self) -> std::map< tree_key_t,node_t >::iterator"},
+	 { (char *)"map_key_node_rbegin", (PyCFunction)_wrap_map_key_node_rbegin, METH_O, (char *)"map_key_node_rbegin(map_key_node self) -> std::map< tree_key_t,node_t >::reverse_iterator"},
+	 { (char *)"map_key_node_rend", (PyCFunction)_wrap_map_key_node_rend, METH_O, (char *)"map_key_node_rend(map_key_node self) -> std::map< tree_key_t,node_t >::reverse_iterator"},
+	 { (char *)"map_key_node_count", (PyCFunction) _wrap_map_key_node_count, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node_count(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::size_type"},
+	 { (char *)"map_key_node_erase", _wrap_map_key_node_erase, METH_VARARGS, (char *)"\n"
+		"erase(tree_key x) -> std::map< tree_key_t,node_t >::size_type\n"
+		"erase(std::map< tree_key_t,node_t >::iterator position)\n"
+		"map_key_node_erase(map_key_node self, std::map< tree_key_t,node_t >::iterator first, std::map< tree_key_t,node_t >::iterator last)\n"
+		""},
+	 { (char *)"map_key_node_find", (PyCFunction) _wrap_map_key_node_find, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node_find(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::iterator"},
+	 { (char *)"map_key_node_lower_bound", (PyCFunction) _wrap_map_key_node_lower_bound, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node_lower_bound(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::iterator"},
+	 { (char *)"map_key_node_upper_bound", (PyCFunction) _wrap_map_key_node_upper_bound, METH_VARARGS | METH_KEYWORDS, (char *)"map_key_node_upper_bound(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::iterator"},
+	 { (char *)"delete_map_key_node", (PyCFunction)_wrap_delete_map_key_node, METH_O, (char *)"delete_map_key_node(map_key_node self)"},
+	 { (char *)"map_key_node_swigregister", map_key_node_swigregister, METH_VARARGS, NULL},
+	 { (char *)"map_key_node_swiginit", map_key_node_swiginit, METH_VARARGS, NULL},
+	 { (char *)"clone__trait_set", _wrap_clone__trait_set, METH_VARARGS, (char *)"clone__trait_set(clone self, std::vector< double > * trait)"},
+	 { (char *)"clone__trait_get", (PyCFunction)_wrap_clone__trait_get, METH_O, (char *)"clone__trait_get(clone self) -> std::vector< double > *"},
 	 { (char *)"clone_fitness_set", _wrap_clone_fitness_set, METH_VARARGS, (char *)"Fitness of the clone"},
 	 { (char *)"clone_fitness_get", (PyCFunction)_wrap_clone_fitness_get, METH_O, (char *)"Fitness of the clone"},
 	 { (char *)"clone_clone_size_set", _wrap_clone_clone_size_set, METH_VARARGS, (char *)"Number of individuals in this clone"},
@@ -10837,14 +25373,144 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_clone", (PyCFunction)_wrap_delete_clone, METH_O, (char *)"delete_clone(clone self)"},
 	 { (char *)"clone_swigregister", clone_swigregister, METH_VARARGS, NULL},
 	 { (char *)"clone_swiginit", clone_swiginit, METH_VARARGS, NULL},
-	 { (char *)"new_rooted_tree", (PyCFunction)_wrap_new_rooted_tree, METH_NOARGS, (char *)"new_rooted_tree() -> rooted_tree"},
+	 { (char *)"tree_key_index_set", _wrap_tree_key_index_set, METH_VARARGS, (char *)"tree_key_index_set(tree_key self, int index)"},
+	 { (char *)"tree_key_index_get", (PyCFunction)_wrap_tree_key_index_get, METH_O, (char *)"tree_key_index_get(tree_key self) -> int"},
+	 { (char *)"tree_key_age_set", _wrap_tree_key_age_set, METH_VARARGS, (char *)"tree_key_age_set(tree_key self, int age)"},
+	 { (char *)"tree_key_age_get", (PyCFunction)_wrap_tree_key_age_get, METH_O, (char *)"tree_key_age_get(tree_key self) -> int"},
+	 { (char *)"tree_key___eq__", (PyCFunction) _wrap_tree_key___eq__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___eq__(tree_key self, tree_key other) -> bool"},
+	 { (char *)"tree_key___ne__", (PyCFunction) _wrap_tree_key___ne__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___ne__(tree_key self, tree_key other) -> bool"},
+	 { (char *)"tree_key___lt__", (PyCFunction) _wrap_tree_key___lt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___lt__(tree_key self, tree_key other) -> bool"},
+	 { (char *)"tree_key___gt__", (PyCFunction) _wrap_tree_key___gt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___gt__(tree_key self, tree_key other) -> bool"},
+	 { (char *)"new_tree_key", (PyCFunction) _wrap_new_tree_key, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Initialize new tree_key.\n"
+		"\n"
+		"Parameters:\n"
+		"   - index: index of the key\n"
+		"   - age: age of the key\n"
+		"\n"
+		""},
+	 { (char *)"tree_key___str__", (PyCFunction)_wrap_tree_key___str__, METH_O, (char *)"tree_key___str__(tree_key self) -> char const *"},
+	 { (char *)"tree_key___repr__", (PyCFunction)_wrap_tree_key___repr__, METH_O, (char *)"tree_key___repr__(tree_key self) -> char const *"},
+	 { (char *)"delete_tree_key", (PyCFunction)_wrap_delete_tree_key, METH_O, (char *)"delete_tree_key(tree_key self)"},
+	 { (char *)"tree_key_swigregister", tree_key_swigregister, METH_VARARGS, NULL},
+	 { (char *)"tree_key_swiginit", tree_key_swiginit, METH_VARARGS, NULL},
+	 { (char *)"tree_step_pos_set", _wrap_tree_step_pos_set, METH_VARARGS, (char *)"tree_step_pos_set(tree_step self, int pos)"},
+	 { (char *)"tree_step_pos_get", (PyCFunction)_wrap_tree_step_pos_get, METH_O, (char *)"tree_step_pos_get(tree_step self) -> int"},
+	 { (char *)"tree_step_step_set", _wrap_tree_step_step_set, METH_VARARGS, (char *)"tree_step_step_set(tree_step self, int step)"},
+	 { (char *)"tree_step_step_get", (PyCFunction)_wrap_tree_step_step_get, METH_O, (char *)"tree_step_step_get(tree_step self) -> int"},
+	 { (char *)"tree_step___lt__", (PyCFunction) _wrap_tree_step___lt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_step___lt__(tree_step self, tree_step other) -> bool"},
+	 { (char *)"tree_step___gt__", (PyCFunction) _wrap_tree_step___gt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_step___gt__(tree_step self, tree_step other) -> bool"},
+	 { (char *)"tree_step___eq__", (PyCFunction) _wrap_tree_step___eq__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_step___eq__(tree_step self, tree_step other) -> bool"},
+	 { (char *)"new_tree_step", (PyCFunction) _wrap_new_tree_step, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Initialize new step.\n"
+		"\n"
+		"Parameters:\n"
+		"   - pos: position\n"
+		"   - step: length of step\n"
+		"\n"
+		""},
+	 { (char *)"tree_step___str__", (PyCFunction)_wrap_tree_step___str__, METH_O, (char *)"tree_step___str__(tree_step self) -> char const *"},
+	 { (char *)"tree_step___repr__", (PyCFunction)_wrap_tree_step___repr__, METH_O, (char *)"tree_step___repr__(tree_step self) -> char const *"},
+	 { (char *)"delete_tree_step", (PyCFunction)_wrap_delete_tree_step, METH_O, (char *)"delete_tree_step(tree_step self)"},
+	 { (char *)"tree_step_swigregister", tree_step_swigregister, METH_VARARGS, NULL},
+	 { (char *)"tree_step_swiginit", tree_step_swiginit, METH_VARARGS, NULL},
+	 { (char *)"tree_node_parent_node_set", _wrap_tree_node_parent_node_set, METH_VARARGS, (char *)"tree_node_parent_node_set(tree_node self, tree_key parent_node)"},
+	 { (char *)"tree_node_parent_node_get", (PyCFunction)_wrap_tree_node_parent_node_get, METH_O, (char *)"tree_node_parent_node_get(tree_node self) -> tree_key"},
+	 { (char *)"tree_node__child_edges_set", _wrap_tree_node__child_edges_set, METH_VARARGS, (char *)"tree_node__child_edges_set(tree_node self, list_tree_key child_edges)"},
+	 { (char *)"tree_node__child_edges_get", (PyCFunction)_wrap_tree_node__child_edges_get, METH_O, (char *)"tree_node__child_edges_get(tree_node self) -> list_tree_key"},
+	 { (char *)"tree_node_fitness_set", _wrap_tree_node_fitness_set, METH_VARARGS, (char *)"tree_node_fitness_set(tree_node self, double fitness)"},
+	 { (char *)"tree_node_fitness_get", (PyCFunction)_wrap_tree_node_fitness_get, METH_O, (char *)"tree_node_fitness_get(tree_node self) -> double"},
+	 { (char *)"tree_node_own_key_set", _wrap_tree_node_own_key_set, METH_VARARGS, (char *)"tree_node_own_key_set(tree_node self, tree_key own_key)"},
+	 { (char *)"tree_node_own_key_get", (PyCFunction)_wrap_tree_node_own_key_get, METH_O, (char *)"tree_node_own_key_get(tree_node self) -> tree_key"},
+	 { (char *)"tree_node__weight_distribution_set", _wrap_tree_node__weight_distribution_set, METH_VARARGS, (char *)"tree_node__weight_distribution_set(tree_node self, vector_tree_step weight_distribution)"},
+	 { (char *)"tree_node__weight_distribution_get", (PyCFunction)_wrap_tree_node__weight_distribution_get, METH_O, (char *)"tree_node__weight_distribution_get(tree_node self) -> vector_tree_step"},
+	 { (char *)"tree_node_number_of_offspring_set", _wrap_tree_node_number_of_offspring_set, METH_VARARGS, (char *)"tree_node_number_of_offspring_set(tree_node self, int number_of_offspring)"},
+	 { (char *)"tree_node_number_of_offspring_get", (PyCFunction)_wrap_tree_node_number_of_offspring_get, METH_O, (char *)"tree_node_number_of_offspring_get(tree_node self) -> int"},
+	 { (char *)"tree_node_clone_size_set", _wrap_tree_node_clone_size_set, METH_VARARGS, (char *)"tree_node_clone_size_set(tree_node self, int clone_size)"},
+	 { (char *)"tree_node_clone_size_get", (PyCFunction)_wrap_tree_node_clone_size_get, METH_O, (char *)"tree_node_clone_size_get(tree_node self) -> int"},
+	 { (char *)"tree_node___str__", (PyCFunction)_wrap_tree_node___str__, METH_O, (char *)"tree_node___str__(tree_node self) -> char const *"},
+	 { (char *)"tree_node___repr__", (PyCFunction)_wrap_tree_node___repr__, METH_O, (char *)"tree_node___repr__(tree_node self) -> char const *"},
+	 { (char *)"tree_node__get_crossover_chunk", (PyCFunction) _wrap_tree_node__get_crossover_chunk, METH_VARARGS | METH_KEYWORDS, (char *)"tree_node__get_crossover_chunk(tree_node self, int i) -> int"},
+	 { (char *)"new_tree_node", (PyCFunction)_wrap_new_tree_node, METH_NOARGS, (char *)"new_tree_node() -> tree_node"},
+	 { (char *)"delete_tree_node", (PyCFunction)_wrap_delete_tree_node, METH_O, (char *)"delete_tree_node(tree_node self)"},
+	 { (char *)"tree_node_swigregister", tree_node_swigregister, METH_VARARGS, NULL},
+	 { (char *)"tree_node_swiginit", tree_node_swiginit, METH_VARARGS, NULL},
+	 { (char *)"tree_edge_parent_node_set", _wrap_tree_edge_parent_node_set, METH_VARARGS, (char *)"tree_edge_parent_node_set(tree_edge self, tree_key parent_node)"},
+	 { (char *)"tree_edge_parent_node_get", (PyCFunction)_wrap_tree_edge_parent_node_get, METH_O, (char *)"tree_edge_parent_node_get(tree_edge self) -> tree_key"},
+	 { (char *)"tree_edge_own_key_set", _wrap_tree_edge_own_key_set, METH_VARARGS, (char *)"tree_edge_own_key_set(tree_edge self, tree_key own_key)"},
+	 { (char *)"tree_edge_own_key_get", (PyCFunction)_wrap_tree_edge_own_key_get, METH_O, (char *)"tree_edge_own_key_get(tree_edge self) -> tree_key"},
+	 { (char *)"tree_edge_length_set", _wrap_tree_edge_length_set, METH_VARARGS, (char *)"tree_edge_length_set(tree_edge self, int length)"},
+	 { (char *)"tree_edge_length_get", (PyCFunction)_wrap_tree_edge_length_get, METH_O, (char *)"tree_edge_length_get(tree_edge self) -> int"},
+	 { (char *)"tree_edge_number_of_offspring_set", _wrap_tree_edge_number_of_offspring_set, METH_VARARGS, (char *)"tree_edge_number_of_offspring_set(tree_edge self, int number_of_offspring)"},
+	 { (char *)"tree_edge_number_of_offspring_get", (PyCFunction)_wrap_tree_edge_number_of_offspring_get, METH_O, (char *)"tree_edge_number_of_offspring_get(tree_edge self) -> int"},
+	 { (char *)"tree_edge___str__", (PyCFunction)_wrap_tree_edge___str__, METH_O, (char *)"tree_edge___str__(tree_edge self) -> char const *"},
+	 { (char *)"tree_edge___repr__", (PyCFunction)_wrap_tree_edge___repr__, METH_O, (char *)"tree_edge___repr__(tree_edge self) -> char const *"},
+	 { (char *)"tree_edge__get_segment_chunk", (PyCFunction) _wrap_tree_edge__get_segment_chunk, METH_VARARGS | METH_KEYWORDS, (char *)"tree_edge__get_segment_chunk(tree_edge self, int i) -> int"},
+	 { (char *)"new_tree_edge", (PyCFunction)_wrap_new_tree_edge, METH_NOARGS, (char *)"new_tree_edge() -> tree_edge"},
+	 { (char *)"delete_tree_edge", (PyCFunction)_wrap_delete_tree_edge, METH_O, (char *)"delete_tree_edge(tree_edge self)"},
+	 { (char *)"tree_edge_swigregister", tree_edge_swigregister, METH_VARARGS, NULL},
+	 { (char *)"tree_edge_swiginit", tree_edge_swiginit, METH_VARARGS, NULL},
+	 { (char *)"rooted_tree__edges_set", _wrap_rooted_tree__edges_set, METH_VARARGS, (char *)"rooted_tree__edges_set(rooted_tree self, map_key_edge edges)"},
+	 { (char *)"rooted_tree__edges_get", (PyCFunction)_wrap_rooted_tree__edges_get, METH_O, (char *)"rooted_tree__edges_get(rooted_tree self) -> map_key_edge"},
+	 { (char *)"rooted_tree__nodes_set", _wrap_rooted_tree__nodes_set, METH_VARARGS, (char *)"rooted_tree__nodes_set(rooted_tree self, map_key_node nodes)"},
+	 { (char *)"rooted_tree__nodes_get", (PyCFunction)_wrap_rooted_tree__nodes_get, METH_O, (char *)"rooted_tree__nodes_get(rooted_tree self) -> map_key_node"},
+	 { (char *)"rooted_tree__leafs_set", _wrap_rooted_tree__leafs_set, METH_VARARGS, (char *)"rooted_tree__leafs_set(rooted_tree self, vector_tree_key leafs)"},
+	 { (char *)"rooted_tree__leafs_get", (PyCFunction)_wrap_rooted_tree__leafs_get, METH_O, (char *)"rooted_tree__leafs_get(rooted_tree self) -> vector_tree_key"},
+	 { (char *)"rooted_tree_root_set", _wrap_rooted_tree_root_set, METH_VARARGS, (char *)"rooted_tree_root_set(rooted_tree self, tree_key root)"},
+	 { (char *)"rooted_tree_root_get", (PyCFunction)_wrap_rooted_tree_root_get, METH_O, (char *)"rooted_tree_root_get(rooted_tree self) -> tree_key"},
+	 { (char *)"rooted_tree_MRCA_set", _wrap_rooted_tree_MRCA_set, METH_VARARGS, (char *)"rooted_tree_MRCA_set(rooted_tree self, tree_key MRCA)"},
+	 { (char *)"rooted_tree_MRCA_get", (PyCFunction)_wrap_rooted_tree_MRCA_get, METH_O, (char *)"rooted_tree_MRCA_get(rooted_tree self) -> tree_key"},
+	 { (char *)"new_rooted_tree", (PyCFunction)_wrap_new_rooted_tree, METH_NOARGS, (char *)"\n"
+		"Rooted phylogenetic tree.\n"
+		"\n"
+		"This class is used to represent the phylogenetic tree of a single locus.\n"
+		"It is possible to print the tree in Newick format, to get the subtree\n"
+		"spanned by some of the leaves, and to look at the tree nodes and edges.\n"
+		"\n"
+		""},
 	 { (char *)"delete_rooted_tree", (PyCFunction)_wrap_delete_rooted_tree, METH_O, (char *)"delete_rooted_tree(rooted_tree self)"},
-	 { (char *)"rooted_tree_reset", (PyCFunction)_wrap_rooted_tree_reset, METH_O, (char *)"rooted_tree_reset(rooted_tree self)"},
-	 { (char *)"rooted_tree_external_branch_length", (PyCFunction)_wrap_rooted_tree_external_branch_length, METH_O, (char *)"rooted_tree_external_branch_length(rooted_tree self) -> int"},
-	 { (char *)"rooted_tree_total_branch_length", (PyCFunction)_wrap_rooted_tree_total_branch_length, METH_O, (char *)"rooted_tree_total_branch_length(rooted_tree self) -> int"},
-	 { (char *)"rooted_tree_check_tree_integrity", (PyCFunction)_wrap_rooted_tree_check_tree_integrity, METH_O, (char *)"rooted_tree_check_tree_integrity(rooted_tree self) -> int"},
+	 { (char *)"rooted_tree_external_branch_length", (PyCFunction)_wrap_rooted_tree_external_branch_length, METH_O, (char *)"\n"
+		"Measure the length of the external branches.\n"
+		"\n"
+		"Returns:\n"
+		"   - length: the sum of the lengths of the external branches.\n"
+		"\n"
+		""},
+	 { (char *)"rooted_tree_total_branch_length", (PyCFunction)_wrap_rooted_tree_total_branch_length, METH_O, (char *)"\n"
+		"Measure the length of the branches.\n"
+		"\n"
+		"Returns:\n"
+		"   - length: the sum of the lengths of all branches.\n"
+		"\n"
+		""},
+	 { (char *)"rooted_tree_calc_weight_distribution", (PyCFunction) _wrap_rooted_tree_calc_weight_distribution, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Recalculate the weight of some internal nodes.\n"
+		"\n"
+		"Parameters:\n"
+		"   - subtree_root: the node whose hanging subtree is recalculated\n"
+		"\n"
+		"Returns:\n"
+		"   - error code: zero if successful\n"
+		"\n"
+		""},
+	 { (char *)"rooted_tree_print_newick", (PyCFunction)_wrap_rooted_tree_print_newick, METH_O, (char *)"rooted_tree_print_newick(rooted_tree self) -> std::string"},
+	 { (char *)"rooted_tree_subtree_newick", (PyCFunction) _wrap_rooted_tree_subtree_newick, METH_VARARGS | METH_KEYWORDS, (char *)"rooted_tree_subtree_newick(rooted_tree self, tree_key root) -> std::string"},
+	 { (char *)"rooted_tree_print_weight_distribution", (PyCFunction) _wrap_rooted_tree_print_weight_distribution, METH_VARARGS | METH_KEYWORDS, (char *)"rooted_tree_print_weight_distribution(rooted_tree self, tree_key node_key) -> std::string"},
 	 { (char *)"rooted_tree___str__", (PyCFunction)_wrap_rooted_tree___str__, METH_O, (char *)"rooted_tree___str__(rooted_tree self) -> char const *"},
 	 { (char *)"rooted_tree___repr__", (PyCFunction)_wrap_rooted_tree___repr__, METH_O, (char *)"rooted_tree___repr__(rooted_tree self) -> char const *"},
+	 { (char *)"rooted_tree__ancestors_at_age", (PyCFunction) _wrap_rooted_tree__ancestors_at_age, METH_VARARGS | METH_KEYWORDS, (char *)"rooted_tree__ancestors_at_age(rooted_tree self, int age, tree_key subtree_root) -> vector_tree_key"},
+	 { (char *)"rooted_tree_create_subtree_from_keys", (PyCFunction) _wrap_rooted_tree_create_subtree_from_keys, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Create a subtree from a list of leaves.\n"
+		"\n"
+		"Parameters:\n"
+		"   - leaves: the leaves used to contruct the subtree\n"
+		"\n"
+		"Returns:\n"
+		"   - subtree: the subtree spanned by those leaves.\n"
+		"\n"
+		".. note:: leaves can be a Python list or a numpy array of tree_key, or a vector_tree_key.\n"
+		"\n"
+		""},
 	 { (char *)"rooted_tree_swigregister", rooted_tree_swigregister, METH_VARARGS, NULL},
 	 { (char *)"rooted_tree_swiginit", rooted_tree_swiginit, METH_VARARGS, NULL},
 	 { (char *)"new_multi_locus_genealogy", (PyCFunction)_wrap_new_multi_locus_genealogy, METH_NOARGS, (char *)"Default constructor"},
@@ -10859,6 +25525,7 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		""},
 	 { (char *)"multi_locus_genealogy_reset", (PyCFunction)_wrap_multi_locus_genealogy_reset, METH_O, (char *)"Reset (empty) the genealogy."},
+	 { (char *)"multi_locus_genealogy_reset_but_loci", (PyCFunction)_wrap_multi_locus_genealogy_reset_but_loci, METH_O, (char *)"multi_locus_genealogy_reset_but_loci(multi_locus_genealogy self)"},
 	 { (char *)"multi_locus_genealogy___str__", (PyCFunction)_wrap_multi_locus_genealogy___str__, METH_O, (char *)"multi_locus_genealogy___str__(multi_locus_genealogy self) -> char const *"},
 	 { (char *)"multi_locus_genealogy___repr__", (PyCFunction)_wrap_multi_locus_genealogy___repr__, METH_O, (char *)"multi_locus_genealogy___repr__(multi_locus_genealogy self) -> char const *"},
 	 { (char *)"multi_locus_genealogy__get_number_of_loci", (PyCFunction)_wrap_multi_locus_genealogy__get_number_of_loci, METH_O, (char *)"multi_locus_genealogy__get_number_of_loci(multi_locus_genealogy self) -> int"},
@@ -11181,8 +25848,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_max_fitness", (PyCFunction)_wrap_haploid_highd__get_max_fitness, METH_O, (char *)"Maximal fitness in the population (read-only)"},
 	 { (char *)"haploid_highd__update_traits", (PyCFunction)_wrap_haploid_highd__update_traits, METH_O, (char *)"haploid_highd__update_traits(haploid_highd self)"},
 	 { (char *)"haploid_highd__update_fitness", (PyCFunction)_wrap_haploid_highd__update_fitness, METH_O, (char *)"haploid_highd__update_fitness(haploid_highd self)"},
-	 { (char *)"haploid_highd_population_set", _wrap_haploid_highd_population_set, METH_VARARGS, (char *)"haploid_highd_population_set(haploid_highd self, vector< clone_t > * population)"},
-	 { (char *)"haploid_highd_population_get", (PyCFunction)_wrap_haploid_highd_population_get, METH_O, (char *)"haploid_highd_population_get(haploid_highd self) -> vector< clone_t > *"},
+	 { (char *)"haploid_highd_population_set", _wrap_haploid_highd_population_set, METH_VARARGS, (char *)"haploid_highd_population_set(haploid_highd self, std::vector< clone_t > * population)"},
+	 { (char *)"haploid_highd_population_get", (PyCFunction)_wrap_haploid_highd_population_get, METH_O, (char *)"haploid_highd_population_get(haploid_highd self) -> std::vector< clone_t > *"},
 	 { (char *)"haploid_highd___str__", (PyCFunction)_wrap_haploid_highd___str__, METH_O, (char *)"haploid_highd___str__(haploid_highd self) -> char const *"},
 	 { (char *)"haploid_highd___repr__", (PyCFunction)_wrap_haploid_highd___repr__, METH_O, (char *)"haploid_highd___repr__(haploid_highd self) -> char const *"},
 	 { (char *)"haploid_highd__set_allele_frequencies", (PyCFunction) _wrap_haploid_highd__set_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_allele_frequencies(haploid_highd self, double * IN_ARRAY1, int n_o_genotypes) -> int"},
@@ -11289,10 +25956,13 @@ static PyMethodDef SwigMethods[] = {
 static void *_p_hivpopulationTo_p_haploid_highd(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((haploid_highd *)  ((hivpopulation *) x));
 }
+static swig_type_info _swigt__p_allocator_type = {"_p_allocator_type", "allocator_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_boost__dynamic_bitsetT_t = {"_p_boost__dynamic_bitsetT_t", "boost::dynamic_bitset< > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_clone_t = {"_p_clone_t", "clone_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_difference_type = {"_p_difference_type", "difference_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_edge_t = {"_p_edge_t", "std::map< tree_key_t,edge_t >::mapped_type *|edge_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_genotype_value_pair_t = {"_p_genotype_value_pair_t", "genotype_value_pair_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_haploid_highd = {"_p_haploid_highd", "haploid_highd *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_haploid_lowd = {"_p_haploid_lowd", "haploid_lowd *", 0, 0, (void*)0, 0};
@@ -11301,22 +25971,44 @@ static swig_type_info _swigt__p_hivpopulation = {"_p_hivpopulation", "hivpopulat
 static swig_type_info _swigt__p_index_value_pair_t = {"_p_index_value_pair_t", "index_value_pair_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_istream = {"_p_istream", "istream *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_key_type = {"_p_key_type", "key_type *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mapped_type = {"_p_mapped_type", "mapped_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_multi_locus_genealogy = {"_p_multi_locus_genealogy", "multi_locus_genealogy *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_node_t = {"_p_node_t", "std::map< tree_key_t,node_t >::mapped_type *|node_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ostream = {"_p_ostream", "ostream *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_p_PyObject = {"_p_p_PyObject", "PyObject **", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_rooted_tree = {"_p_rooted_tree", "rooted_tree *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_stat_t = {"_p_stat_t", "stat_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_string = {"_p_string", "string *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t = {"_p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t", "std::map< tree_key_t,edge_t >::allocator_type *|std::allocator< std::pair< tree_key_t const,edge_t > > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t = {"_p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t", "std::map< tree_key_t,node_t >::allocator_type *|std::allocator< std::pair< tree_key_t const,node_t > > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__allocatorT_step_t_t = {"_p_std__allocatorT_step_t_t", "std::vector< step_t >::allocator_type *|std::allocator< step_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__allocatorT_tree_key_t_t = {"_p_std__allocatorT_tree_key_t_t", "std::vector< tree_key_t >::allocator_type *|std::list< tree_key_t >::allocator_type *|std::allocator< tree_key_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__invalid_argument = {"_p_std__invalid_argument", "std::invalid_argument *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__lessT_tree_key_t_t = {"_p_std__lessT_tree_key_t_t", "std::less< tree_key_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t = {"_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t", "std::list< tree_key_t,std::allocator< tree_key_t > > *|std::list< tree_key_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t = {"_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t", "std::map< tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > > *|std::map< tree_key_t,edge_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t = {"_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t", "std::map< tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > > *|std::map< tree_key_t,node_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t = {"_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t", "std::vector< clone_t,std::allocator< clone_t > > *|std::vector< clone_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_double_std__allocatorT_double_t_t = {"_p_std__vectorT_double_std__allocatorT_double_t_t", "std::vector< double,std::allocator< double > > *|std::vector< double > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_int_std__allocatorT_int_t_t = {"_p_std__vectorT_int_std__allocatorT_int_t_t", "std::vector< int,std::allocator< int > > *|std::vector< int > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t = {"_p_std__vectorT_step_t_std__allocatorT_step_t_t_t", "std::vector< step_t,std::allocator< step_t > > *|std::vector< step_t > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t = {"_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t", "std::vector< tree_key_t > *|std::vector< tree_key_t,std::allocator< tree_key_t > > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_step_t = {"_p_step_t", "std::vector< step_t >::value_type *|step_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_swig__SwigPyIterator = {"_p_swig__SwigPyIterator", "swig::SwigPyIterator *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_tree_key_t = {"_p_tree_key_t", "std::map< tree_key_t,edge_t >::key_type *|std::map< tree_key_t,node_t >::key_type *|std::vector< tree_key_t >::value_type *|std::list< tree_key_t >::value_type *|tree_key_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "unsigned int *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_vectorT_clone_t_t = {"_p_vectorT_clone_t_t", "vector< clone_t > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_vectorT_double_t = {"_p_vectorT_double_t", "vector< double > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_vectorT_int_t = {"_p_vectorT_int_t", "vector< int > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_allocator_type,
   &_swigt__p_boost__dynamic_bitsetT_t,
   &_swigt__p_char,
   &_swigt__p_clone_t,
+  &_swigt__p_difference_type,
   &_swigt__p_double,
+  &_swigt__p_edge_t,
   &_swigt__p_genotype_value_pair_t,
   &_swigt__p_haploid_highd,
   &_swigt__p_haploid_lowd,
@@ -11325,22 +26017,44 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_index_value_pair_t,
   &_swigt__p_int,
   &_swigt__p_istream,
+  &_swigt__p_key_type,
+  &_swigt__p_mapped_type,
   &_swigt__p_multi_locus_genealogy,
+  &_swigt__p_node_t,
   &_swigt__p_ostream,
+  &_swigt__p_p_PyObject,
   &_swigt__p_rooted_tree,
   &_swigt__p_short,
+  &_swigt__p_size_type,
   &_swigt__p_stat_t,
-  &_swigt__p_string,
+  &_swigt__p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t,
+  &_swigt__p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t,
+  &_swigt__p_std__allocatorT_step_t_t,
+  &_swigt__p_std__allocatorT_tree_key_t_t,
+  &_swigt__p_std__invalid_argument,
+  &_swigt__p_std__lessT_tree_key_t_t,
+  &_swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,
+  &_swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,
+  &_swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,
+  &_swigt__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t,
+  &_swigt__p_std__vectorT_double_std__allocatorT_double_t_t,
+  &_swigt__p_std__vectorT_int_std__allocatorT_int_t_t,
+  &_swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t,
+  &_swigt__p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t,
+  &_swigt__p_step_t,
+  &_swigt__p_swig__SwigPyIterator,
+  &_swigt__p_tree_key_t,
   &_swigt__p_unsigned_int,
-  &_swigt__p_vectorT_clone_t_t,
-  &_swigt__p_vectorT_double_t,
-  &_swigt__p_vectorT_int_t,
+  &_swigt__p_value_type,
 };
 
+static swig_cast_info _swigc__p_allocator_type[] = {  {&_swigt__p_allocator_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_boost__dynamic_bitsetT_t[] = {  {&_swigt__p_boost__dynamic_bitsetT_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_clone_t[] = {  {&_swigt__p_clone_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_difference_type[] = {  {&_swigt__p_difference_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_edge_t[] = {  {&_swigt__p_edge_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_genotype_value_pair_t[] = {  {&_swigt__p_genotype_value_pair_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_haploid_highd[] = {  {&_swigt__p_haploid_highd, 0, 0, 0},  {&_swigt__p_hivpopulation, _p_hivpopulationTo_p_haploid_highd, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_haploid_lowd[] = {  {&_swigt__p_haploid_lowd, 0, 0, 0},{0, 0, 0, 0}};
@@ -11349,22 +26063,44 @@ static swig_cast_info _swigc__p_hivpopulation[] = {  {&_swigt__p_hivpopulation, 
 static swig_cast_info _swigc__p_index_value_pair_t[] = {  {&_swigt__p_index_value_pair_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_istream[] = {  {&_swigt__p_istream, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_key_type[] = {  {&_swigt__p_key_type, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mapped_type[] = {  {&_swigt__p_mapped_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_multi_locus_genealogy[] = {  {&_swigt__p_multi_locus_genealogy, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_node_t[] = {  {&_swigt__p_node_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ostream[] = {  {&_swigt__p_ostream, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_p_PyObject[] = {  {&_swigt__p_p_PyObject, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_rooted_tree[] = {  {&_swigt__p_rooted_tree, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_stat_t[] = {  {&_swigt__p_stat_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_string[] = {  {&_swigt__p_string, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t[] = {  {&_swigt__p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t[] = {  {&_swigt__p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__allocatorT_step_t_t[] = {  {&_swigt__p_std__allocatorT_step_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__allocatorT_tree_key_t_t[] = {  {&_swigt__p_std__allocatorT_tree_key_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__invalid_argument[] = {  {&_swigt__p_std__invalid_argument, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__lessT_tree_key_t_t[] = {  {&_swigt__p_std__lessT_tree_key_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t[] = {  {&_swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t[] = {  {&_swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t[] = {  {&_swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t[] = {  {&_swigt__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_double_std__allocatorT_double_t_t[] = {  {&_swigt__p_std__vectorT_double_std__allocatorT_double_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_int_std__allocatorT_int_t_t[] = {  {&_swigt__p_std__vectorT_int_std__allocatorT_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_step_t_std__allocatorT_step_t_t_t[] = {  {&_swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t[] = {  {&_swigt__p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_step_t[] = {  {&_swigt__p_step_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_tree_key_t[] = {  {&_swigt__p_tree_key_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_vectorT_clone_t_t[] = {  {&_swigt__p_vectorT_clone_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_vectorT_double_t[] = {  {&_swigt__p_vectorT_double_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_vectorT_int_t[] = {  {&_swigt__p_vectorT_int_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_allocator_type,
   _swigc__p_boost__dynamic_bitsetT_t,
   _swigc__p_char,
   _swigc__p_clone_t,
+  _swigc__p_difference_type,
   _swigc__p_double,
+  _swigc__p_edge_t,
   _swigc__p_genotype_value_pair_t,
   _swigc__p_haploid_highd,
   _swigc__p_haploid_lowd,
@@ -11373,16 +26109,35 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_index_value_pair_t,
   _swigc__p_int,
   _swigc__p_istream,
+  _swigc__p_key_type,
+  _swigc__p_mapped_type,
   _swigc__p_multi_locus_genealogy,
+  _swigc__p_node_t,
   _swigc__p_ostream,
+  _swigc__p_p_PyObject,
   _swigc__p_rooted_tree,
   _swigc__p_short,
+  _swigc__p_size_type,
   _swigc__p_stat_t,
-  _swigc__p_string,
+  _swigc__p_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t,
+  _swigc__p_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t,
+  _swigc__p_std__allocatorT_step_t_t,
+  _swigc__p_std__allocatorT_tree_key_t_t,
+  _swigc__p_std__invalid_argument,
+  _swigc__p_std__lessT_tree_key_t_t,
+  _swigc__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,
+  _swigc__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,
+  _swigc__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,
+  _swigc__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t,
+  _swigc__p_std__vectorT_double_std__allocatorT_double_t_t,
+  _swigc__p_std__vectorT_int_std__allocatorT_int_t_t,
+  _swigc__p_std__vectorT_step_t_std__allocatorT_step_t_t_t,
+  _swigc__p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t,
+  _swigc__p_step_t,
+  _swigc__p_swig__SwigPyIterator,
+  _swigc__p_tree_key_t,
   _swigc__p_unsigned_int,
-  _swigc__p_vectorT_clone_t_t,
-  _swigc__p_vectorT_double_t,
-  _swigc__p_vectorT_int_t,
+  _swigc__p_value_type,
 };
 
 

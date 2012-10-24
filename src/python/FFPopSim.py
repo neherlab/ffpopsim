@@ -116,6 +116,31 @@ def _swig_setattr_nondynamic_method(set):
     return set_attr
 
 
+class SwigPyIterator(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _FFPopSim.delete_SwigPyIterator
+    def __iter__(self): return self
+SwigPyIterator.value = new_instancemethod(_FFPopSim.SwigPyIterator_value,None,SwigPyIterator)
+SwigPyIterator.incr = new_instancemethod(_FFPopSim.SwigPyIterator_incr,None,SwigPyIterator)
+SwigPyIterator.decr = new_instancemethod(_FFPopSim.SwigPyIterator_decr,None,SwigPyIterator)
+SwigPyIterator.distance = new_instancemethod(_FFPopSim.SwigPyIterator_distance,None,SwigPyIterator)
+SwigPyIterator.equal = new_instancemethod(_FFPopSim.SwigPyIterator_equal,None,SwigPyIterator)
+SwigPyIterator.copy = new_instancemethod(_FFPopSim.SwigPyIterator_copy,None,SwigPyIterator)
+SwigPyIterator.next = new_instancemethod(_FFPopSim.SwigPyIterator_next,None,SwigPyIterator)
+SwigPyIterator.__next__ = new_instancemethod(_FFPopSim.SwigPyIterator___next__,None,SwigPyIterator)
+SwigPyIterator.previous = new_instancemethod(_FFPopSim.SwigPyIterator_previous,None,SwigPyIterator)
+SwigPyIterator.advance = new_instancemethod(_FFPopSim.SwigPyIterator_advance,None,SwigPyIterator)
+SwigPyIterator.__eq__ = new_instancemethod(_FFPopSim.SwigPyIterator___eq__,None,SwigPyIterator)
+SwigPyIterator.__ne__ = new_instancemethod(_FFPopSim.SwigPyIterator___ne__,None,SwigPyIterator)
+SwigPyIterator.__iadd__ = new_instancemethod(_FFPopSim.SwigPyIterator___iadd__,None,SwigPyIterator)
+SwigPyIterator.__isub__ = new_instancemethod(_FFPopSim.SwigPyIterator___isub__,None,SwigPyIterator)
+SwigPyIterator.__add__ = new_instancemethod(_FFPopSim.SwigPyIterator___add__,None,SwigPyIterator)
+SwigPyIterator.__sub__ = new_instancemethod(_FFPopSim.SwigPyIterator___sub__,None,SwigPyIterator)
+SwigPyIterator_swigregister = _FFPopSim.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
+
 LICENSE = '''FFPopSim is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. FFPopSim is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with FFPopSim. If not, see <http://www.gnu.org/licenses/>.'''
 
 FREE_RECOMBINATION = _FFPopSim.FREE_RECOMBINATION
@@ -1062,6 +1087,938 @@ haploid_lowd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_lowd_se
 haploid_lowd_swigregister = _FFPopSim.haploid_lowd_swigregister
 haploid_lowd_swigregister(haploid_lowd)
 
+class vector_tree_step(object):
+    """Proxy of C++ std::vector<(step_t)> class"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def iterator(self):
+        """iterator(vector_tree_step self) -> SwigPyIterator"""
+        return _FFPopSim.vector_tree_step_iterator(self)
+
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self):
+        """__nonzero__(vector_tree_step self) -> bool"""
+        return _FFPopSim.vector_tree_step___nonzero__(self)
+
+    def __bool__(self):
+        """__bool__(vector_tree_step self) -> bool"""
+        return _FFPopSim.vector_tree_step___bool__(self)
+
+    def __len__(self):
+        """__len__(vector_tree_step self) -> std::vector< step_t >::size_type"""
+        return _FFPopSim.vector_tree_step___len__(self)
+
+    def pop(self):
+        """pop(vector_tree_step self) -> tree_step"""
+        return _FFPopSim.vector_tree_step_pop(self)
+
+    def __getslice__(self, *args, **kwargs):
+        """__getslice__(vector_tree_step self, std::vector< step_t >::difference_type i, std::vector< step_t >::difference_type j) -> vector_tree_step"""
+        return _FFPopSim.vector_tree_step___getslice__(self, *args, **kwargs)
+
+    def __setslice__(self, *args, **kwargs):
+        """
+        __setslice__(vector_tree_step self, std::vector< step_t >::difference_type i, std::vector< step_t >::difference_type j, 
+            vector_tree_step v=std::vector< step_t,std::allocator< step_t > >())
+        """
+        return _FFPopSim.vector_tree_step___setslice__(self, *args, **kwargs)
+
+    def __delslice__(self, *args, **kwargs):
+        """__delslice__(vector_tree_step self, std::vector< step_t >::difference_type i, std::vector< step_t >::difference_type j)"""
+        return _FFPopSim.vector_tree_step___delslice__(self, *args, **kwargs)
+
+    def __delitem__(self, *args):
+        """
+        __delitem__(vector_tree_step self, std::vector< step_t >::difference_type i)
+        __delitem__(vector_tree_step self, PySliceObject * slice)
+        """
+        return _FFPopSim.vector_tree_step___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        """
+        __getitem__(vector_tree_step self, PySliceObject * slice) -> vector_tree_step
+        __getitem__(vector_tree_step self, std::vector< step_t >::difference_type i) -> tree_step
+        """
+        return _FFPopSim.vector_tree_step___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        """
+        __setitem__(vector_tree_step self, PySliceObject * slice, vector_tree_step v)
+        __setitem__(vector_tree_step self, PySliceObject * slice)
+        __setitem__(vector_tree_step self, std::vector< step_t >::difference_type i, tree_step x)
+        """
+        return _FFPopSim.vector_tree_step___setitem__(self, *args)
+
+    def append(self, *args, **kwargs):
+        """append(vector_tree_step self, tree_step x)"""
+        return _FFPopSim.vector_tree_step_append(self, *args, **kwargs)
+
+    def empty(self):
+        """empty(vector_tree_step self) -> bool"""
+        return _FFPopSim.vector_tree_step_empty(self)
+
+    def size(self):
+        """size(vector_tree_step self) -> std::vector< step_t >::size_type"""
+        return _FFPopSim.vector_tree_step_size(self)
+
+    def clear(self):
+        """clear(vector_tree_step self)"""
+        return _FFPopSim.vector_tree_step_clear(self)
+
+    def swap(self, *args, **kwargs):
+        """swap(vector_tree_step self, vector_tree_step v)"""
+        return _FFPopSim.vector_tree_step_swap(self, *args, **kwargs)
+
+    def get_allocator(self):
+        """get_allocator(vector_tree_step self) -> std::vector< step_t >::allocator_type"""
+        return _FFPopSim.vector_tree_step_get_allocator(self)
+
+    def begin(self):
+        """begin(vector_tree_step self) -> std::vector< step_t >::iterator"""
+        return _FFPopSim.vector_tree_step_begin(self)
+
+    def end(self):
+        """end(vector_tree_step self) -> std::vector< step_t >::iterator"""
+        return _FFPopSim.vector_tree_step_end(self)
+
+    def rbegin(self):
+        """rbegin(vector_tree_step self) -> std::vector< step_t >::reverse_iterator"""
+        return _FFPopSim.vector_tree_step_rbegin(self)
+
+    def rend(self):
+        """rend(vector_tree_step self) -> std::vector< step_t >::reverse_iterator"""
+        return _FFPopSim.vector_tree_step_rend(self)
+
+    def pop_back(self):
+        """pop_back(vector_tree_step self)"""
+        return _FFPopSim.vector_tree_step_pop_back(self)
+
+    def erase(self, *args):
+        """
+        erase(vector_tree_step self, std::vector< step_t >::iterator pos) -> std::vector< step_t >::iterator
+        erase(vector_tree_step self, std::vector< step_t >::iterator first, std::vector< step_t >::iterator last) -> std::vector< step_t >::iterator
+        """
+        return _FFPopSim.vector_tree_step_erase(self, *args)
+
+    def __init__(self, *args): 
+        """
+        __init__(std::vector<(step_t)> self) -> vector_tree_step
+        __init__(std::vector<(step_t)> self, vector_tree_step arg2) -> vector_tree_step
+        __init__(std::vector<(step_t)> self, std::vector< step_t >::size_type size) -> vector_tree_step
+        __init__(std::vector<(step_t)> self, std::vector< step_t >::size_type size, tree_step value) -> vector_tree_step
+        """
+        _FFPopSim.vector_tree_step_swiginit(self,_FFPopSim.new_vector_tree_step(*args))
+    def push_back(self, *args, **kwargs):
+        """push_back(vector_tree_step self, tree_step x)"""
+        return _FFPopSim.vector_tree_step_push_back(self, *args, **kwargs)
+
+    def front(self):
+        """front(vector_tree_step self) -> tree_step"""
+        return _FFPopSim.vector_tree_step_front(self)
+
+    def back(self):
+        """back(vector_tree_step self) -> tree_step"""
+        return _FFPopSim.vector_tree_step_back(self)
+
+    def assign(self, *args, **kwargs):
+        """assign(vector_tree_step self, std::vector< step_t >::size_type n, tree_step x)"""
+        return _FFPopSim.vector_tree_step_assign(self, *args, **kwargs)
+
+    def resize(self, *args):
+        """
+        resize(vector_tree_step self, std::vector< step_t >::size_type new_size)
+        resize(vector_tree_step self, std::vector< step_t >::size_type new_size, tree_step x)
+        """
+        return _FFPopSim.vector_tree_step_resize(self, *args)
+
+    def insert(self, *args):
+        """
+        insert(vector_tree_step self, std::vector< step_t >::iterator pos, tree_step x) -> std::vector< step_t >::iterator
+        insert(vector_tree_step self, std::vector< step_t >::iterator pos, std::vector< step_t >::size_type n, tree_step x)
+        """
+        return _FFPopSim.vector_tree_step_insert(self, *args)
+
+    def reserve(self, *args, **kwargs):
+        """reserve(vector_tree_step self, std::vector< step_t >::size_type n)"""
+        return _FFPopSim.vector_tree_step_reserve(self, *args, **kwargs)
+
+    def capacity(self):
+        """capacity(vector_tree_step self) -> std::vector< step_t >::size_type"""
+        return _FFPopSim.vector_tree_step_capacity(self)
+
+    __swig_destroy__ = _FFPopSim.delete_vector_tree_step
+vector_tree_step.iterator = new_instancemethod(_FFPopSim.vector_tree_step_iterator,None,vector_tree_step)
+vector_tree_step.__nonzero__ = new_instancemethod(_FFPopSim.vector_tree_step___nonzero__,None,vector_tree_step)
+vector_tree_step.__bool__ = new_instancemethod(_FFPopSim.vector_tree_step___bool__,None,vector_tree_step)
+vector_tree_step.__len__ = new_instancemethod(_FFPopSim.vector_tree_step___len__,None,vector_tree_step)
+vector_tree_step.pop = new_instancemethod(_FFPopSim.vector_tree_step_pop,None,vector_tree_step)
+vector_tree_step.__getslice__ = new_instancemethod(_FFPopSim.vector_tree_step___getslice__,None,vector_tree_step)
+vector_tree_step.__setslice__ = new_instancemethod(_FFPopSim.vector_tree_step___setslice__,None,vector_tree_step)
+vector_tree_step.__delslice__ = new_instancemethod(_FFPopSim.vector_tree_step___delslice__,None,vector_tree_step)
+vector_tree_step.__delitem__ = new_instancemethod(_FFPopSim.vector_tree_step___delitem__,None,vector_tree_step)
+vector_tree_step.__getitem__ = new_instancemethod(_FFPopSim.vector_tree_step___getitem__,None,vector_tree_step)
+vector_tree_step.__setitem__ = new_instancemethod(_FFPopSim.vector_tree_step___setitem__,None,vector_tree_step)
+vector_tree_step.append = new_instancemethod(_FFPopSim.vector_tree_step_append,None,vector_tree_step)
+vector_tree_step.empty = new_instancemethod(_FFPopSim.vector_tree_step_empty,None,vector_tree_step)
+vector_tree_step.size = new_instancemethod(_FFPopSim.vector_tree_step_size,None,vector_tree_step)
+vector_tree_step.clear = new_instancemethod(_FFPopSim.vector_tree_step_clear,None,vector_tree_step)
+vector_tree_step.swap = new_instancemethod(_FFPopSim.vector_tree_step_swap,None,vector_tree_step)
+vector_tree_step.get_allocator = new_instancemethod(_FFPopSim.vector_tree_step_get_allocator,None,vector_tree_step)
+vector_tree_step.begin = new_instancemethod(_FFPopSim.vector_tree_step_begin,None,vector_tree_step)
+vector_tree_step.end = new_instancemethod(_FFPopSim.vector_tree_step_end,None,vector_tree_step)
+vector_tree_step.rbegin = new_instancemethod(_FFPopSim.vector_tree_step_rbegin,None,vector_tree_step)
+vector_tree_step.rend = new_instancemethod(_FFPopSim.vector_tree_step_rend,None,vector_tree_step)
+vector_tree_step.pop_back = new_instancemethod(_FFPopSim.vector_tree_step_pop_back,None,vector_tree_step)
+vector_tree_step.erase = new_instancemethod(_FFPopSim.vector_tree_step_erase,None,vector_tree_step)
+vector_tree_step.push_back = new_instancemethod(_FFPopSim.vector_tree_step_push_back,None,vector_tree_step)
+vector_tree_step.front = new_instancemethod(_FFPopSim.vector_tree_step_front,None,vector_tree_step)
+vector_tree_step.back = new_instancemethod(_FFPopSim.vector_tree_step_back,None,vector_tree_step)
+vector_tree_step.assign = new_instancemethod(_FFPopSim.vector_tree_step_assign,None,vector_tree_step)
+vector_tree_step.resize = new_instancemethod(_FFPopSim.vector_tree_step_resize,None,vector_tree_step)
+vector_tree_step.insert = new_instancemethod(_FFPopSim.vector_tree_step_insert,None,vector_tree_step)
+vector_tree_step.reserve = new_instancemethod(_FFPopSim.vector_tree_step_reserve,None,vector_tree_step)
+vector_tree_step.capacity = new_instancemethod(_FFPopSim.vector_tree_step_capacity,None,vector_tree_step)
+vector_tree_step_swigregister = _FFPopSim.vector_tree_step_swigregister
+vector_tree_step_swigregister(vector_tree_step)
+
+class vector_tree_key(object):
+    """Proxy of C++ std::vector<(tree_key_t)> class"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def iterator(self):
+        """iterator(vector_tree_key self) -> SwigPyIterator"""
+        return _FFPopSim.vector_tree_key_iterator(self)
+
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self):
+        """__nonzero__(vector_tree_key self) -> bool"""
+        return _FFPopSim.vector_tree_key___nonzero__(self)
+
+    def __bool__(self):
+        """__bool__(vector_tree_key self) -> bool"""
+        return _FFPopSim.vector_tree_key___bool__(self)
+
+    def __len__(self):
+        """__len__(vector_tree_key self) -> std::vector< tree_key_t >::size_type"""
+        return _FFPopSim.vector_tree_key___len__(self)
+
+    def pop(self):
+        """pop(vector_tree_key self) -> tree_key"""
+        return _FFPopSim.vector_tree_key_pop(self)
+
+    def __getslice__(self, *args, **kwargs):
+        """__getslice__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, std::vector< tree_key_t >::difference_type j) -> vector_tree_key"""
+        return _FFPopSim.vector_tree_key___getslice__(self, *args, **kwargs)
+
+    def __setslice__(self, *args, **kwargs):
+        """
+        __setslice__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, std::vector< tree_key_t >::difference_type j, 
+            vector_tree_key v=std::vector< tree_key_t,std::allocator< tree_key_t > >())
+        """
+        return _FFPopSim.vector_tree_key___setslice__(self, *args, **kwargs)
+
+    def __delslice__(self, *args, **kwargs):
+        """__delslice__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, std::vector< tree_key_t >::difference_type j)"""
+        return _FFPopSim.vector_tree_key___delslice__(self, *args, **kwargs)
+
+    def __delitem__(self, *args):
+        """
+        __delitem__(vector_tree_key self, std::vector< tree_key_t >::difference_type i)
+        __delitem__(vector_tree_key self, PySliceObject * slice)
+        """
+        return _FFPopSim.vector_tree_key___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        """
+        __getitem__(vector_tree_key self, PySliceObject * slice) -> vector_tree_key
+        __getitem__(vector_tree_key self, std::vector< tree_key_t >::difference_type i) -> tree_key
+        """
+        return _FFPopSim.vector_tree_key___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        """
+        __setitem__(vector_tree_key self, PySliceObject * slice, vector_tree_key v)
+        __setitem__(vector_tree_key self, PySliceObject * slice)
+        __setitem__(vector_tree_key self, std::vector< tree_key_t >::difference_type i, tree_key x)
+        """
+        return _FFPopSim.vector_tree_key___setitem__(self, *args)
+
+    def append(self, *args, **kwargs):
+        """append(vector_tree_key self, tree_key x)"""
+        return _FFPopSim.vector_tree_key_append(self, *args, **kwargs)
+
+    def empty(self):
+        """empty(vector_tree_key self) -> bool"""
+        return _FFPopSim.vector_tree_key_empty(self)
+
+    def size(self):
+        """size(vector_tree_key self) -> std::vector< tree_key_t >::size_type"""
+        return _FFPopSim.vector_tree_key_size(self)
+
+    def clear(self):
+        """clear(vector_tree_key self)"""
+        return _FFPopSim.vector_tree_key_clear(self)
+
+    def swap(self, *args, **kwargs):
+        """swap(vector_tree_key self, vector_tree_key v)"""
+        return _FFPopSim.vector_tree_key_swap(self, *args, **kwargs)
+
+    def get_allocator(self):
+        """get_allocator(vector_tree_key self) -> std::vector< tree_key_t >::allocator_type"""
+        return _FFPopSim.vector_tree_key_get_allocator(self)
+
+    def begin(self):
+        """begin(vector_tree_key self) -> std::vector< tree_key_t >::iterator"""
+        return _FFPopSim.vector_tree_key_begin(self)
+
+    def end(self):
+        """end(vector_tree_key self) -> std::vector< tree_key_t >::iterator"""
+        return _FFPopSim.vector_tree_key_end(self)
+
+    def rbegin(self):
+        """rbegin(vector_tree_key self) -> std::vector< tree_key_t >::reverse_iterator"""
+        return _FFPopSim.vector_tree_key_rbegin(self)
+
+    def rend(self):
+        """rend(vector_tree_key self) -> std::vector< tree_key_t >::reverse_iterator"""
+        return _FFPopSim.vector_tree_key_rend(self)
+
+    def pop_back(self):
+        """pop_back(vector_tree_key self)"""
+        return _FFPopSim.vector_tree_key_pop_back(self)
+
+    def erase(self, *args):
+        """
+        erase(vector_tree_key self, std::vector< tree_key_t >::iterator pos) -> std::vector< tree_key_t >::iterator
+        erase(vector_tree_key self, std::vector< tree_key_t >::iterator first, std::vector< tree_key_t >::iterator last) -> std::vector< tree_key_t >::iterator
+        """
+        return _FFPopSim.vector_tree_key_erase(self, *args)
+
+    def __init__(self, *args): 
+        """
+        __init__(std::vector<(tree_key_t)> self) -> vector_tree_key
+        __init__(std::vector<(tree_key_t)> self, vector_tree_key arg2) -> vector_tree_key
+        __init__(std::vector<(tree_key_t)> self, std::vector< tree_key_t >::size_type size) -> vector_tree_key
+        __init__(std::vector<(tree_key_t)> self, std::vector< tree_key_t >::size_type size, tree_key value) -> vector_tree_key
+        """
+        _FFPopSim.vector_tree_key_swiginit(self,_FFPopSim.new_vector_tree_key(*args))
+    def push_back(self, *args, **kwargs):
+        """push_back(vector_tree_key self, tree_key x)"""
+        return _FFPopSim.vector_tree_key_push_back(self, *args, **kwargs)
+
+    def front(self):
+        """front(vector_tree_key self) -> tree_key"""
+        return _FFPopSim.vector_tree_key_front(self)
+
+    def back(self):
+        """back(vector_tree_key self) -> tree_key"""
+        return _FFPopSim.vector_tree_key_back(self)
+
+    def assign(self, *args, **kwargs):
+        """assign(vector_tree_key self, std::vector< tree_key_t >::size_type n, tree_key x)"""
+        return _FFPopSim.vector_tree_key_assign(self, *args, **kwargs)
+
+    def resize(self, *args):
+        """
+        resize(vector_tree_key self, std::vector< tree_key_t >::size_type new_size)
+        resize(vector_tree_key self, std::vector< tree_key_t >::size_type new_size, tree_key x)
+        """
+        return _FFPopSim.vector_tree_key_resize(self, *args)
+
+    def insert(self, *args):
+        """
+        insert(vector_tree_key self, std::vector< tree_key_t >::iterator pos, tree_key x) -> std::vector< tree_key_t >::iterator
+        insert(vector_tree_key self, std::vector< tree_key_t >::iterator pos, std::vector< tree_key_t >::size_type n, 
+            tree_key x)
+        """
+        return _FFPopSim.vector_tree_key_insert(self, *args)
+
+    def reserve(self, *args, **kwargs):
+        """reserve(vector_tree_key self, std::vector< tree_key_t >::size_type n)"""
+        return _FFPopSim.vector_tree_key_reserve(self, *args, **kwargs)
+
+    def capacity(self):
+        """capacity(vector_tree_key self) -> std::vector< tree_key_t >::size_type"""
+        return _FFPopSim.vector_tree_key_capacity(self)
+
+    __swig_destroy__ = _FFPopSim.delete_vector_tree_key
+vector_tree_key.iterator = new_instancemethod(_FFPopSim.vector_tree_key_iterator,None,vector_tree_key)
+vector_tree_key.__nonzero__ = new_instancemethod(_FFPopSim.vector_tree_key___nonzero__,None,vector_tree_key)
+vector_tree_key.__bool__ = new_instancemethod(_FFPopSim.vector_tree_key___bool__,None,vector_tree_key)
+vector_tree_key.__len__ = new_instancemethod(_FFPopSim.vector_tree_key___len__,None,vector_tree_key)
+vector_tree_key.pop = new_instancemethod(_FFPopSim.vector_tree_key_pop,None,vector_tree_key)
+vector_tree_key.__getslice__ = new_instancemethod(_FFPopSim.vector_tree_key___getslice__,None,vector_tree_key)
+vector_tree_key.__setslice__ = new_instancemethod(_FFPopSim.vector_tree_key___setslice__,None,vector_tree_key)
+vector_tree_key.__delslice__ = new_instancemethod(_FFPopSim.vector_tree_key___delslice__,None,vector_tree_key)
+vector_tree_key.__delitem__ = new_instancemethod(_FFPopSim.vector_tree_key___delitem__,None,vector_tree_key)
+vector_tree_key.__getitem__ = new_instancemethod(_FFPopSim.vector_tree_key___getitem__,None,vector_tree_key)
+vector_tree_key.__setitem__ = new_instancemethod(_FFPopSim.vector_tree_key___setitem__,None,vector_tree_key)
+vector_tree_key.append = new_instancemethod(_FFPopSim.vector_tree_key_append,None,vector_tree_key)
+vector_tree_key.empty = new_instancemethod(_FFPopSim.vector_tree_key_empty,None,vector_tree_key)
+vector_tree_key.size = new_instancemethod(_FFPopSim.vector_tree_key_size,None,vector_tree_key)
+vector_tree_key.clear = new_instancemethod(_FFPopSim.vector_tree_key_clear,None,vector_tree_key)
+vector_tree_key.swap = new_instancemethod(_FFPopSim.vector_tree_key_swap,None,vector_tree_key)
+vector_tree_key.get_allocator = new_instancemethod(_FFPopSim.vector_tree_key_get_allocator,None,vector_tree_key)
+vector_tree_key.begin = new_instancemethod(_FFPopSim.vector_tree_key_begin,None,vector_tree_key)
+vector_tree_key.end = new_instancemethod(_FFPopSim.vector_tree_key_end,None,vector_tree_key)
+vector_tree_key.rbegin = new_instancemethod(_FFPopSim.vector_tree_key_rbegin,None,vector_tree_key)
+vector_tree_key.rend = new_instancemethod(_FFPopSim.vector_tree_key_rend,None,vector_tree_key)
+vector_tree_key.pop_back = new_instancemethod(_FFPopSim.vector_tree_key_pop_back,None,vector_tree_key)
+vector_tree_key.erase = new_instancemethod(_FFPopSim.vector_tree_key_erase,None,vector_tree_key)
+vector_tree_key.push_back = new_instancemethod(_FFPopSim.vector_tree_key_push_back,None,vector_tree_key)
+vector_tree_key.front = new_instancemethod(_FFPopSim.vector_tree_key_front,None,vector_tree_key)
+vector_tree_key.back = new_instancemethod(_FFPopSim.vector_tree_key_back,None,vector_tree_key)
+vector_tree_key.assign = new_instancemethod(_FFPopSim.vector_tree_key_assign,None,vector_tree_key)
+vector_tree_key.resize = new_instancemethod(_FFPopSim.vector_tree_key_resize,None,vector_tree_key)
+vector_tree_key.insert = new_instancemethod(_FFPopSim.vector_tree_key_insert,None,vector_tree_key)
+vector_tree_key.reserve = new_instancemethod(_FFPopSim.vector_tree_key_reserve,None,vector_tree_key)
+vector_tree_key.capacity = new_instancemethod(_FFPopSim.vector_tree_key_capacity,None,vector_tree_key)
+vector_tree_key_swigregister = _FFPopSim.vector_tree_key_swigregister
+vector_tree_key_swigregister(vector_tree_key)
+
+class list_tree_key(object):
+    """Proxy of C++ std::list<(tree_key_t)> class"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def iterator(self):
+        """iterator(list_tree_key self) -> SwigPyIterator"""
+        return _FFPopSim.list_tree_key_iterator(self)
+
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self):
+        """__nonzero__(list_tree_key self) -> bool"""
+        return _FFPopSim.list_tree_key___nonzero__(self)
+
+    def __bool__(self):
+        """__bool__(list_tree_key self) -> bool"""
+        return _FFPopSim.list_tree_key___bool__(self)
+
+    def __len__(self):
+        """__len__(list_tree_key self) -> std::list< tree_key_t >::size_type"""
+        return _FFPopSim.list_tree_key___len__(self)
+
+    def pop(self):
+        """pop(list_tree_key self) -> tree_key"""
+        return _FFPopSim.list_tree_key_pop(self)
+
+    def __getslice__(self, *args, **kwargs):
+        """__getslice__(list_tree_key self, std::list< tree_key_t >::difference_type i, std::list< tree_key_t >::difference_type j) -> list_tree_key"""
+        return _FFPopSim.list_tree_key___getslice__(self, *args, **kwargs)
+
+    def __setslice__(self, *args, **kwargs):
+        """
+        __setslice__(list_tree_key self, std::list< tree_key_t >::difference_type i, std::list< tree_key_t >::difference_type j, 
+            list_tree_key v=std::list< tree_key_t,std::allocator< tree_key_t > >())
+        """
+        return _FFPopSim.list_tree_key___setslice__(self, *args, **kwargs)
+
+    def __delslice__(self, *args, **kwargs):
+        """__delslice__(list_tree_key self, std::list< tree_key_t >::difference_type i, std::list< tree_key_t >::difference_type j)"""
+        return _FFPopSim.list_tree_key___delslice__(self, *args, **kwargs)
+
+    def __delitem__(self, *args):
+        """
+        __delitem__(list_tree_key self, std::list< tree_key_t >::difference_type i)
+        __delitem__(list_tree_key self, PySliceObject * slice)
+        """
+        return _FFPopSim.list_tree_key___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        """
+        __getitem__(list_tree_key self, PySliceObject * slice) -> list_tree_key
+        __getitem__(list_tree_key self, std::list< tree_key_t >::difference_type i) -> tree_key
+        """
+        return _FFPopSim.list_tree_key___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        """
+        __setitem__(list_tree_key self, PySliceObject * slice, list_tree_key v)
+        __setitem__(list_tree_key self, PySliceObject * slice)
+        __setitem__(list_tree_key self, std::list< tree_key_t >::difference_type i, tree_key x)
+        """
+        return _FFPopSim.list_tree_key___setitem__(self, *args)
+
+    def append(self, *args, **kwargs):
+        """append(list_tree_key self, tree_key x)"""
+        return _FFPopSim.list_tree_key_append(self, *args, **kwargs)
+
+    def empty(self):
+        """empty(list_tree_key self) -> bool"""
+        return _FFPopSim.list_tree_key_empty(self)
+
+    def size(self):
+        """size(list_tree_key self) -> std::list< tree_key_t >::size_type"""
+        return _FFPopSim.list_tree_key_size(self)
+
+    def clear(self):
+        """clear(list_tree_key self)"""
+        return _FFPopSim.list_tree_key_clear(self)
+
+    def swap(self, *args, **kwargs):
+        """swap(list_tree_key self, list_tree_key v)"""
+        return _FFPopSim.list_tree_key_swap(self, *args, **kwargs)
+
+    def get_allocator(self):
+        """get_allocator(list_tree_key self) -> std::list< tree_key_t >::allocator_type"""
+        return _FFPopSim.list_tree_key_get_allocator(self)
+
+    def begin(self):
+        """begin(list_tree_key self) -> std::list< tree_key_t >::iterator"""
+        return _FFPopSim.list_tree_key_begin(self)
+
+    def end(self):
+        """end(list_tree_key self) -> std::list< tree_key_t >::iterator"""
+        return _FFPopSim.list_tree_key_end(self)
+
+    def rbegin(self):
+        """rbegin(list_tree_key self) -> std::list< tree_key_t >::reverse_iterator"""
+        return _FFPopSim.list_tree_key_rbegin(self)
+
+    def rend(self):
+        """rend(list_tree_key self) -> std::list< tree_key_t >::reverse_iterator"""
+        return _FFPopSim.list_tree_key_rend(self)
+
+    def pop_back(self):
+        """pop_back(list_tree_key self)"""
+        return _FFPopSim.list_tree_key_pop_back(self)
+
+    def erase(self, *args):
+        """
+        erase(list_tree_key self, std::list< tree_key_t >::iterator pos) -> std::list< tree_key_t >::iterator
+        erase(list_tree_key self, std::list< tree_key_t >::iterator first, std::list< tree_key_t >::iterator last) -> std::list< tree_key_t >::iterator
+        """
+        return _FFPopSim.list_tree_key_erase(self, *args)
+
+    def __init__(self, *args): 
+        """
+        __init__(std::list<(tree_key_t)> self) -> list_tree_key
+        __init__(std::list<(tree_key_t)> self, list_tree_key arg2) -> list_tree_key
+        __init__(std::list<(tree_key_t)> self, std::list< tree_key_t >::size_type size) -> list_tree_key
+        __init__(std::list<(tree_key_t)> self, std::list< tree_key_t >::size_type size, tree_key value) -> list_tree_key
+        """
+        _FFPopSim.list_tree_key_swiginit(self,_FFPopSim.new_list_tree_key(*args))
+    def push_back(self, *args, **kwargs):
+        """push_back(list_tree_key self, tree_key x)"""
+        return _FFPopSim.list_tree_key_push_back(self, *args, **kwargs)
+
+    def front(self):
+        """front(list_tree_key self) -> tree_key"""
+        return _FFPopSim.list_tree_key_front(self)
+
+    def back(self):
+        """back(list_tree_key self) -> tree_key"""
+        return _FFPopSim.list_tree_key_back(self)
+
+    def assign(self, *args, **kwargs):
+        """assign(list_tree_key self, std::list< tree_key_t >::size_type n, tree_key x)"""
+        return _FFPopSim.list_tree_key_assign(self, *args, **kwargs)
+
+    def resize(self, *args):
+        """
+        resize(list_tree_key self, std::list< tree_key_t >::size_type new_size)
+        resize(list_tree_key self, std::list< tree_key_t >::size_type new_size, tree_key x)
+        """
+        return _FFPopSim.list_tree_key_resize(self, *args)
+
+    def insert(self, *args):
+        """
+        insert(list_tree_key self, std::list< tree_key_t >::iterator pos, tree_key x) -> std::list< tree_key_t >::iterator
+        insert(list_tree_key self, std::list< tree_key_t >::iterator pos, std::list< tree_key_t >::size_type n, tree_key x)
+        """
+        return _FFPopSim.list_tree_key_insert(self, *args)
+
+    def pop_front(self):
+        """pop_front(list_tree_key self)"""
+        return _FFPopSim.list_tree_key_pop_front(self)
+
+    def push_front(self, *args, **kwargs):
+        """push_front(list_tree_key self, tree_key x)"""
+        return _FFPopSim.list_tree_key_push_front(self, *args, **kwargs)
+
+    def reverse(self):
+        """reverse(list_tree_key self)"""
+        return _FFPopSim.list_tree_key_reverse(self)
+
+    __swig_destroy__ = _FFPopSim.delete_list_tree_key
+list_tree_key.iterator = new_instancemethod(_FFPopSim.list_tree_key_iterator,None,list_tree_key)
+list_tree_key.__nonzero__ = new_instancemethod(_FFPopSim.list_tree_key___nonzero__,None,list_tree_key)
+list_tree_key.__bool__ = new_instancemethod(_FFPopSim.list_tree_key___bool__,None,list_tree_key)
+list_tree_key.__len__ = new_instancemethod(_FFPopSim.list_tree_key___len__,None,list_tree_key)
+list_tree_key.pop = new_instancemethod(_FFPopSim.list_tree_key_pop,None,list_tree_key)
+list_tree_key.__getslice__ = new_instancemethod(_FFPopSim.list_tree_key___getslice__,None,list_tree_key)
+list_tree_key.__setslice__ = new_instancemethod(_FFPopSim.list_tree_key___setslice__,None,list_tree_key)
+list_tree_key.__delslice__ = new_instancemethod(_FFPopSim.list_tree_key___delslice__,None,list_tree_key)
+list_tree_key.__delitem__ = new_instancemethod(_FFPopSim.list_tree_key___delitem__,None,list_tree_key)
+list_tree_key.__getitem__ = new_instancemethod(_FFPopSim.list_tree_key___getitem__,None,list_tree_key)
+list_tree_key.__setitem__ = new_instancemethod(_FFPopSim.list_tree_key___setitem__,None,list_tree_key)
+list_tree_key.append = new_instancemethod(_FFPopSim.list_tree_key_append,None,list_tree_key)
+list_tree_key.empty = new_instancemethod(_FFPopSim.list_tree_key_empty,None,list_tree_key)
+list_tree_key.size = new_instancemethod(_FFPopSim.list_tree_key_size,None,list_tree_key)
+list_tree_key.clear = new_instancemethod(_FFPopSim.list_tree_key_clear,None,list_tree_key)
+list_tree_key.swap = new_instancemethod(_FFPopSim.list_tree_key_swap,None,list_tree_key)
+list_tree_key.get_allocator = new_instancemethod(_FFPopSim.list_tree_key_get_allocator,None,list_tree_key)
+list_tree_key.begin = new_instancemethod(_FFPopSim.list_tree_key_begin,None,list_tree_key)
+list_tree_key.end = new_instancemethod(_FFPopSim.list_tree_key_end,None,list_tree_key)
+list_tree_key.rbegin = new_instancemethod(_FFPopSim.list_tree_key_rbegin,None,list_tree_key)
+list_tree_key.rend = new_instancemethod(_FFPopSim.list_tree_key_rend,None,list_tree_key)
+list_tree_key.pop_back = new_instancemethod(_FFPopSim.list_tree_key_pop_back,None,list_tree_key)
+list_tree_key.erase = new_instancemethod(_FFPopSim.list_tree_key_erase,None,list_tree_key)
+list_tree_key.push_back = new_instancemethod(_FFPopSim.list_tree_key_push_back,None,list_tree_key)
+list_tree_key.front = new_instancemethod(_FFPopSim.list_tree_key_front,None,list_tree_key)
+list_tree_key.back = new_instancemethod(_FFPopSim.list_tree_key_back,None,list_tree_key)
+list_tree_key.assign = new_instancemethod(_FFPopSim.list_tree_key_assign,None,list_tree_key)
+list_tree_key.resize = new_instancemethod(_FFPopSim.list_tree_key_resize,None,list_tree_key)
+list_tree_key.insert = new_instancemethod(_FFPopSim.list_tree_key_insert,None,list_tree_key)
+list_tree_key.pop_front = new_instancemethod(_FFPopSim.list_tree_key_pop_front,None,list_tree_key)
+list_tree_key.push_front = new_instancemethod(_FFPopSim.list_tree_key_push_front,None,list_tree_key)
+list_tree_key.reverse = new_instancemethod(_FFPopSim.list_tree_key_reverse,None,list_tree_key)
+list_tree_key_swigregister = _FFPopSim.list_tree_key_swigregister
+list_tree_key_swigregister(list_tree_key)
+
+class map_key_edge(object):
+    """Proxy of C++ std::map<(tree_key_t,edge_t)> class"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def iterator(self):
+        """iterator(map_key_edge self) -> SwigPyIterator"""
+        return _FFPopSim.map_key_edge_iterator(self)
+
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self):
+        """__nonzero__(map_key_edge self) -> bool"""
+        return _FFPopSim.map_key_edge___nonzero__(self)
+
+    def __bool__(self):
+        """__bool__(map_key_edge self) -> bool"""
+        return _FFPopSim.map_key_edge___bool__(self)
+
+    def __len__(self):
+        """__len__(map_key_edge self) -> std::map< tree_key_t,edge_t >::size_type"""
+        return _FFPopSim.map_key_edge___len__(self)
+
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args, **kwargs):
+        """__getitem__(map_key_edge self, tree_key key) -> tree_edge"""
+        return _FFPopSim.map_key_edge___getitem__(self, *args, **kwargs)
+
+    def __delitem__(self, *args, **kwargs):
+        """__delitem__(map_key_edge self, tree_key key)"""
+        return _FFPopSim.map_key_edge___delitem__(self, *args, **kwargs)
+
+    def has_key(self, *args, **kwargs):
+        """has_key(map_key_edge self, tree_key key) -> bool"""
+        return _FFPopSim.map_key_edge_has_key(self, *args, **kwargs)
+
+    def keys(self):
+        """keys(map_key_edge self) -> PyObject *"""
+        return _FFPopSim.map_key_edge_keys(self)
+
+    def values(self):
+        """values(map_key_edge self) -> PyObject *"""
+        return _FFPopSim.map_key_edge_values(self)
+
+    def items(self):
+        """items(map_key_edge self) -> PyObject *"""
+        return _FFPopSim.map_key_edge_items(self)
+
+    def __contains__(self, *args, **kwargs):
+        """__contains__(map_key_edge self, tree_key key) -> bool"""
+        return _FFPopSim.map_key_edge___contains__(self, *args, **kwargs)
+
+    def key_iterator(self):
+        """key_iterator(map_key_edge self) -> SwigPyIterator"""
+        return _FFPopSim.map_key_edge_key_iterator(self)
+
+    def value_iterator(self):
+        """value_iterator(map_key_edge self) -> SwigPyIterator"""
+        return _FFPopSim.map_key_edge_value_iterator(self)
+
+    def __setitem__(self, *args):
+        """
+        __setitem__(map_key_edge self, tree_key key)
+        __setitem__(map_key_edge self, tree_key key, tree_edge x)
+        """
+        return _FFPopSim.map_key_edge___setitem__(self, *args)
+
+    def asdict(self):
+        """asdict(map_key_edge self) -> PyObject *"""
+        return _FFPopSim.map_key_edge_asdict(self)
+
+    def __init__(self, *args): 
+        """
+        __init__(std::map<(tree_key_t,edge_t)> self, std::less< tree_key_t > const & arg2) -> map_key_edge
+        __init__(std::map<(tree_key_t,edge_t)> self) -> map_key_edge
+        __init__(std::map<(tree_key_t,edge_t)> self, map_key_edge arg2) -> map_key_edge
+        """
+        _FFPopSim.map_key_edge_swiginit(self,_FFPopSim.new_map_key_edge(*args))
+    def empty(self):
+        """empty(map_key_edge self) -> bool"""
+        return _FFPopSim.map_key_edge_empty(self)
+
+    def size(self):
+        """size(map_key_edge self) -> std::map< tree_key_t,edge_t >::size_type"""
+        return _FFPopSim.map_key_edge_size(self)
+
+    def clear(self):
+        """clear(map_key_edge self)"""
+        return _FFPopSim.map_key_edge_clear(self)
+
+    def swap(self, *args, **kwargs):
+        """swap(map_key_edge self, map_key_edge v)"""
+        return _FFPopSim.map_key_edge_swap(self, *args, **kwargs)
+
+    def get_allocator(self):
+        """get_allocator(map_key_edge self) -> std::map< tree_key_t,edge_t >::allocator_type"""
+        return _FFPopSim.map_key_edge_get_allocator(self)
+
+    def begin(self):
+        """begin(map_key_edge self) -> std::map< tree_key_t,edge_t >::iterator"""
+        return _FFPopSim.map_key_edge_begin(self)
+
+    def end(self):
+        """end(map_key_edge self) -> std::map< tree_key_t,edge_t >::iterator"""
+        return _FFPopSim.map_key_edge_end(self)
+
+    def rbegin(self):
+        """rbegin(map_key_edge self) -> std::map< tree_key_t,edge_t >::reverse_iterator"""
+        return _FFPopSim.map_key_edge_rbegin(self)
+
+    def rend(self):
+        """rend(map_key_edge self) -> std::map< tree_key_t,edge_t >::reverse_iterator"""
+        return _FFPopSim.map_key_edge_rend(self)
+
+    def count(self, *args, **kwargs):
+        """count(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::size_type"""
+        return _FFPopSim.map_key_edge_count(self, *args, **kwargs)
+
+    def erase(self, *args):
+        """
+        erase(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::size_type
+        erase(map_key_edge self, std::map< tree_key_t,edge_t >::iterator position)
+        erase(map_key_edge self, std::map< tree_key_t,edge_t >::iterator first, std::map< tree_key_t,edge_t >::iterator last)
+        """
+        return _FFPopSim.map_key_edge_erase(self, *args)
+
+    def find(self, *args, **kwargs):
+        """find(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::iterator"""
+        return _FFPopSim.map_key_edge_find(self, *args, **kwargs)
+
+    def lower_bound(self, *args, **kwargs):
+        """lower_bound(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::iterator"""
+        return _FFPopSim.map_key_edge_lower_bound(self, *args, **kwargs)
+
+    def upper_bound(self, *args, **kwargs):
+        """upper_bound(map_key_edge self, tree_key x) -> std::map< tree_key_t,edge_t >::iterator"""
+        return _FFPopSim.map_key_edge_upper_bound(self, *args, **kwargs)
+
+    __swig_destroy__ = _FFPopSim.delete_map_key_edge
+map_key_edge.iterator = new_instancemethod(_FFPopSim.map_key_edge_iterator,None,map_key_edge)
+map_key_edge.__nonzero__ = new_instancemethod(_FFPopSim.map_key_edge___nonzero__,None,map_key_edge)
+map_key_edge.__bool__ = new_instancemethod(_FFPopSim.map_key_edge___bool__,None,map_key_edge)
+map_key_edge.__len__ = new_instancemethod(_FFPopSim.map_key_edge___len__,None,map_key_edge)
+map_key_edge.__getitem__ = new_instancemethod(_FFPopSim.map_key_edge___getitem__,None,map_key_edge)
+map_key_edge.__delitem__ = new_instancemethod(_FFPopSim.map_key_edge___delitem__,None,map_key_edge)
+map_key_edge.has_key = new_instancemethod(_FFPopSim.map_key_edge_has_key,None,map_key_edge)
+map_key_edge.keys = new_instancemethod(_FFPopSim.map_key_edge_keys,None,map_key_edge)
+map_key_edge.values = new_instancemethod(_FFPopSim.map_key_edge_values,None,map_key_edge)
+map_key_edge.items = new_instancemethod(_FFPopSim.map_key_edge_items,None,map_key_edge)
+map_key_edge.__contains__ = new_instancemethod(_FFPopSim.map_key_edge___contains__,None,map_key_edge)
+map_key_edge.key_iterator = new_instancemethod(_FFPopSim.map_key_edge_key_iterator,None,map_key_edge)
+map_key_edge.value_iterator = new_instancemethod(_FFPopSim.map_key_edge_value_iterator,None,map_key_edge)
+map_key_edge.__setitem__ = new_instancemethod(_FFPopSim.map_key_edge___setitem__,None,map_key_edge)
+map_key_edge.asdict = new_instancemethod(_FFPopSim.map_key_edge_asdict,None,map_key_edge)
+map_key_edge.empty = new_instancemethod(_FFPopSim.map_key_edge_empty,None,map_key_edge)
+map_key_edge.size = new_instancemethod(_FFPopSim.map_key_edge_size,None,map_key_edge)
+map_key_edge.clear = new_instancemethod(_FFPopSim.map_key_edge_clear,None,map_key_edge)
+map_key_edge.swap = new_instancemethod(_FFPopSim.map_key_edge_swap,None,map_key_edge)
+map_key_edge.get_allocator = new_instancemethod(_FFPopSim.map_key_edge_get_allocator,None,map_key_edge)
+map_key_edge.begin = new_instancemethod(_FFPopSim.map_key_edge_begin,None,map_key_edge)
+map_key_edge.end = new_instancemethod(_FFPopSim.map_key_edge_end,None,map_key_edge)
+map_key_edge.rbegin = new_instancemethod(_FFPopSim.map_key_edge_rbegin,None,map_key_edge)
+map_key_edge.rend = new_instancemethod(_FFPopSim.map_key_edge_rend,None,map_key_edge)
+map_key_edge.count = new_instancemethod(_FFPopSim.map_key_edge_count,None,map_key_edge)
+map_key_edge.erase = new_instancemethod(_FFPopSim.map_key_edge_erase,None,map_key_edge)
+map_key_edge.find = new_instancemethod(_FFPopSim.map_key_edge_find,None,map_key_edge)
+map_key_edge.lower_bound = new_instancemethod(_FFPopSim.map_key_edge_lower_bound,None,map_key_edge)
+map_key_edge.upper_bound = new_instancemethod(_FFPopSim.map_key_edge_upper_bound,None,map_key_edge)
+map_key_edge_swigregister = _FFPopSim.map_key_edge_swigregister
+map_key_edge_swigregister(map_key_edge)
+
+class map_key_node(object):
+    """Proxy of C++ std::map<(tree_key_t,node_t)> class"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def iterator(self):
+        """iterator(map_key_node self) -> SwigPyIterator"""
+        return _FFPopSim.map_key_node_iterator(self)
+
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self):
+        """__nonzero__(map_key_node self) -> bool"""
+        return _FFPopSim.map_key_node___nonzero__(self)
+
+    def __bool__(self):
+        """__bool__(map_key_node self) -> bool"""
+        return _FFPopSim.map_key_node___bool__(self)
+
+    def __len__(self):
+        """__len__(map_key_node self) -> std::map< tree_key_t,node_t >::size_type"""
+        return _FFPopSim.map_key_node___len__(self)
+
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args, **kwargs):
+        """__getitem__(map_key_node self, tree_key key) -> tree_node"""
+        return _FFPopSim.map_key_node___getitem__(self, *args, **kwargs)
+
+    def __delitem__(self, *args, **kwargs):
+        """__delitem__(map_key_node self, tree_key key)"""
+        return _FFPopSim.map_key_node___delitem__(self, *args, **kwargs)
+
+    def has_key(self, *args, **kwargs):
+        """has_key(map_key_node self, tree_key key) -> bool"""
+        return _FFPopSim.map_key_node_has_key(self, *args, **kwargs)
+
+    def keys(self):
+        """keys(map_key_node self) -> PyObject *"""
+        return _FFPopSim.map_key_node_keys(self)
+
+    def values(self):
+        """values(map_key_node self) -> PyObject *"""
+        return _FFPopSim.map_key_node_values(self)
+
+    def items(self):
+        """items(map_key_node self) -> PyObject *"""
+        return _FFPopSim.map_key_node_items(self)
+
+    def __contains__(self, *args, **kwargs):
+        """__contains__(map_key_node self, tree_key key) -> bool"""
+        return _FFPopSim.map_key_node___contains__(self, *args, **kwargs)
+
+    def key_iterator(self):
+        """key_iterator(map_key_node self) -> SwigPyIterator"""
+        return _FFPopSim.map_key_node_key_iterator(self)
+
+    def value_iterator(self):
+        """value_iterator(map_key_node self) -> SwigPyIterator"""
+        return _FFPopSim.map_key_node_value_iterator(self)
+
+    def __setitem__(self, *args):
+        """
+        __setitem__(map_key_node self, tree_key key)
+        __setitem__(map_key_node self, tree_key key, tree_node x)
+        """
+        return _FFPopSim.map_key_node___setitem__(self, *args)
+
+    def asdict(self):
+        """asdict(map_key_node self) -> PyObject *"""
+        return _FFPopSim.map_key_node_asdict(self)
+
+    def __init__(self, *args): 
+        """
+        __init__(std::map<(tree_key_t,node_t)> self, std::less< tree_key_t > const & arg2) -> map_key_node
+        __init__(std::map<(tree_key_t,node_t)> self) -> map_key_node
+        __init__(std::map<(tree_key_t,node_t)> self, map_key_node arg2) -> map_key_node
+        """
+        _FFPopSim.map_key_node_swiginit(self,_FFPopSim.new_map_key_node(*args))
+    def empty(self):
+        """empty(map_key_node self) -> bool"""
+        return _FFPopSim.map_key_node_empty(self)
+
+    def size(self):
+        """size(map_key_node self) -> std::map< tree_key_t,node_t >::size_type"""
+        return _FFPopSim.map_key_node_size(self)
+
+    def clear(self):
+        """clear(map_key_node self)"""
+        return _FFPopSim.map_key_node_clear(self)
+
+    def swap(self, *args, **kwargs):
+        """swap(map_key_node self, map_key_node v)"""
+        return _FFPopSim.map_key_node_swap(self, *args, **kwargs)
+
+    def get_allocator(self):
+        """get_allocator(map_key_node self) -> std::map< tree_key_t,node_t >::allocator_type"""
+        return _FFPopSim.map_key_node_get_allocator(self)
+
+    def begin(self):
+        """begin(map_key_node self) -> std::map< tree_key_t,node_t >::iterator"""
+        return _FFPopSim.map_key_node_begin(self)
+
+    def end(self):
+        """end(map_key_node self) -> std::map< tree_key_t,node_t >::iterator"""
+        return _FFPopSim.map_key_node_end(self)
+
+    def rbegin(self):
+        """rbegin(map_key_node self) -> std::map< tree_key_t,node_t >::reverse_iterator"""
+        return _FFPopSim.map_key_node_rbegin(self)
+
+    def rend(self):
+        """rend(map_key_node self) -> std::map< tree_key_t,node_t >::reverse_iterator"""
+        return _FFPopSim.map_key_node_rend(self)
+
+    def count(self, *args, **kwargs):
+        """count(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::size_type"""
+        return _FFPopSim.map_key_node_count(self, *args, **kwargs)
+
+    def erase(self, *args):
+        """
+        erase(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::size_type
+        erase(map_key_node self, std::map< tree_key_t,node_t >::iterator position)
+        erase(map_key_node self, std::map< tree_key_t,node_t >::iterator first, std::map< tree_key_t,node_t >::iterator last)
+        """
+        return _FFPopSim.map_key_node_erase(self, *args)
+
+    def find(self, *args, **kwargs):
+        """find(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::iterator"""
+        return _FFPopSim.map_key_node_find(self, *args, **kwargs)
+
+    def lower_bound(self, *args, **kwargs):
+        """lower_bound(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::iterator"""
+        return _FFPopSim.map_key_node_lower_bound(self, *args, **kwargs)
+
+    def upper_bound(self, *args, **kwargs):
+        """upper_bound(map_key_node self, tree_key x) -> std::map< tree_key_t,node_t >::iterator"""
+        return _FFPopSim.map_key_node_upper_bound(self, *args, **kwargs)
+
+    __swig_destroy__ = _FFPopSim.delete_map_key_node
+map_key_node.iterator = new_instancemethod(_FFPopSim.map_key_node_iterator,None,map_key_node)
+map_key_node.__nonzero__ = new_instancemethod(_FFPopSim.map_key_node___nonzero__,None,map_key_node)
+map_key_node.__bool__ = new_instancemethod(_FFPopSim.map_key_node___bool__,None,map_key_node)
+map_key_node.__len__ = new_instancemethod(_FFPopSim.map_key_node___len__,None,map_key_node)
+map_key_node.__getitem__ = new_instancemethod(_FFPopSim.map_key_node___getitem__,None,map_key_node)
+map_key_node.__delitem__ = new_instancemethod(_FFPopSim.map_key_node___delitem__,None,map_key_node)
+map_key_node.has_key = new_instancemethod(_FFPopSim.map_key_node_has_key,None,map_key_node)
+map_key_node.keys = new_instancemethod(_FFPopSim.map_key_node_keys,None,map_key_node)
+map_key_node.values = new_instancemethod(_FFPopSim.map_key_node_values,None,map_key_node)
+map_key_node.items = new_instancemethod(_FFPopSim.map_key_node_items,None,map_key_node)
+map_key_node.__contains__ = new_instancemethod(_FFPopSim.map_key_node___contains__,None,map_key_node)
+map_key_node.key_iterator = new_instancemethod(_FFPopSim.map_key_node_key_iterator,None,map_key_node)
+map_key_node.value_iterator = new_instancemethod(_FFPopSim.map_key_node_value_iterator,None,map_key_node)
+map_key_node.__setitem__ = new_instancemethod(_FFPopSim.map_key_node___setitem__,None,map_key_node)
+map_key_node.asdict = new_instancemethod(_FFPopSim.map_key_node_asdict,None,map_key_node)
+map_key_node.empty = new_instancemethod(_FFPopSim.map_key_node_empty,None,map_key_node)
+map_key_node.size = new_instancemethod(_FFPopSim.map_key_node_size,None,map_key_node)
+map_key_node.clear = new_instancemethod(_FFPopSim.map_key_node_clear,None,map_key_node)
+map_key_node.swap = new_instancemethod(_FFPopSim.map_key_node_swap,None,map_key_node)
+map_key_node.get_allocator = new_instancemethod(_FFPopSim.map_key_node_get_allocator,None,map_key_node)
+map_key_node.begin = new_instancemethod(_FFPopSim.map_key_node_begin,None,map_key_node)
+map_key_node.end = new_instancemethod(_FFPopSim.map_key_node_end,None,map_key_node)
+map_key_node.rbegin = new_instancemethod(_FFPopSim.map_key_node_rbegin,None,map_key_node)
+map_key_node.rend = new_instancemethod(_FFPopSim.map_key_node_rend,None,map_key_node)
+map_key_node.count = new_instancemethod(_FFPopSim.map_key_node_count,None,map_key_node)
+map_key_node.erase = new_instancemethod(_FFPopSim.map_key_node_erase,None,map_key_node)
+map_key_node.find = new_instancemethod(_FFPopSim.map_key_node_find,None,map_key_node)
+map_key_node.lower_bound = new_instancemethod(_FFPopSim.map_key_node_lower_bound,None,map_key_node)
+map_key_node.upper_bound = new_instancemethod(_FFPopSim.map_key_node_upper_bound,None,map_key_node)
+map_key_node_swigregister = _FFPopSim.map_key_node_swigregister
+map_key_node_swigregister(map_key_node)
+
 HCF_MEMERR = _FFPopSim.HCF_MEMERR
 HCF_BADARG = _FFPopSim.HCF_BADARG
 HCF_VERBOSE = _FFPopSim.HCF_VERBOSE
@@ -1171,28 +2128,259 @@ RT_VERBOSE = _FFPopSim.RT_VERBOSE
 RT_VERYLARGE = _FFPopSim.RT_VERYLARGE
 RT_CHILDNOTFOUND = _FFPopSim.RT_CHILDNOTFOUND
 RT_NODENOTFOUND = _FFPopSim.RT_NODENOTFOUND
-class rooted_tree(object):
-    """Proxy of C++ rooted_tree class"""
+class tree_key(object):
+    """Key for a phylogenetic tree, with index and age."""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    index = _swig_property(_FFPopSim.tree_key_index_get, _FFPopSim.tree_key_index_set)
+    age = _swig_property(_FFPopSim.tree_key_age_get, _FFPopSim.tree_key_age_set)
+    def __eq__(self, *args, **kwargs):
+        """__eq__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___eq__(self, *args, **kwargs)
+
+    def __ne__(self, *args, **kwargs):
+        """__ne__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___ne__(self, *args, **kwargs)
+
+    def __lt__(self, *args, **kwargs):
+        """__lt__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___lt__(self, *args, **kwargs)
+
+    def __gt__(self, *args, **kwargs):
+        """__gt__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___gt__(self, *args, **kwargs)
+
+    def __init__(self, index=0, age=0): 
+        """
+        Initialize new tree_key.
+
+        Parameters:
+           - index: index of the key
+           - age: age of the key
+
+        """
+        _FFPopSim.tree_key_swiginit(self,_FFPopSim.new_tree_key(index, age))
+    def __str__(self):
+        """__str__(tree_key self) -> char const *"""
+        return _FFPopSim.tree_key___str__(self)
+
+    def __repr__(self):
+        """__repr__(tree_key self) -> char const *"""
+        return _FFPopSim.tree_key___repr__(self)
+
+    __swig_destroy__ = _FFPopSim.delete_tree_key
+tree_key.__eq__ = new_instancemethod(_FFPopSim.tree_key___eq__,None,tree_key)
+tree_key.__ne__ = new_instancemethod(_FFPopSim.tree_key___ne__,None,tree_key)
+tree_key.__lt__ = new_instancemethod(_FFPopSim.tree_key___lt__,None,tree_key)
+tree_key.__gt__ = new_instancemethod(_FFPopSim.tree_key___gt__,None,tree_key)
+tree_key.__str__ = new_instancemethod(_FFPopSim.tree_key___str__,None,tree_key)
+tree_key.__repr__ = new_instancemethod(_FFPopSim.tree_key___repr__,None,tree_key)
+tree_key_swigregister = _FFPopSim.tree_key_swigregister
+tree_key_swigregister(tree_key)
+
+class tree_step(object):
+    """Step in a phylogenetic tree search"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    pos = _swig_property(_FFPopSim.tree_step_pos_get, _FFPopSim.tree_step_pos_set)
+    step = _swig_property(_FFPopSim.tree_step_step_get, _FFPopSim.tree_step_step_set)
+    def __lt__(self, *args, **kwargs):
+        """__lt__(tree_step self, tree_step other) -> bool"""
+        return _FFPopSim.tree_step___lt__(self, *args, **kwargs)
+
+    def __gt__(self, *args, **kwargs):
+        """__gt__(tree_step self, tree_step other) -> bool"""
+        return _FFPopSim.tree_step___gt__(self, *args, **kwargs)
+
+    def __eq__(self, *args, **kwargs):
+        """__eq__(tree_step self, tree_step other) -> bool"""
+        return _FFPopSim.tree_step___eq__(self, *args, **kwargs)
+
+    def __init__(self, pos=0, step=0): 
+        """
+        Initialize new step.
+
+        Parameters:
+           - pos: position
+           - step: length of step
+
+        """
+        _FFPopSim.tree_step_swiginit(self,_FFPopSim.new_tree_step(pos, step))
+    def __str__(self):
+        """__str__(tree_step self) -> char const *"""
+        return _FFPopSim.tree_step___str__(self)
+
+    def __repr__(self):
+        """__repr__(tree_step self) -> char const *"""
+        return _FFPopSim.tree_step___repr__(self)
+
+    __swig_destroy__ = _FFPopSim.delete_tree_step
+tree_step.__lt__ = new_instancemethod(_FFPopSim.tree_step___lt__,None,tree_step)
+tree_step.__gt__ = new_instancemethod(_FFPopSim.tree_step___gt__,None,tree_step)
+tree_step.__eq__ = new_instancemethod(_FFPopSim.tree_step___eq__,None,tree_step)
+tree_step.__str__ = new_instancemethod(_FFPopSim.tree_step___str__,None,tree_step)
+tree_step.__repr__ = new_instancemethod(_FFPopSim.tree_step___repr__,None,tree_step)
+tree_step_swigregister = _FFPopSim.tree_step_swigregister
+tree_step_swigregister(tree_step)
+
+class tree_node(object):
+    """Node of a phylogenetic tree"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    parent_node = _swig_property(_FFPopSim.tree_node_parent_node_get, _FFPopSim.tree_node_parent_node_set)
+    _child_edges = _swig_property(_FFPopSim.tree_node__child_edges_get, _FFPopSim.tree_node__child_edges_set)
+    fitness = _swig_property(_FFPopSim.tree_node_fitness_get, _FFPopSim.tree_node_fitness_set)
+    own_key = _swig_property(_FFPopSim.tree_node_own_key_get, _FFPopSim.tree_node_own_key_set)
+    _weight_distribution = _swig_property(_FFPopSim.tree_node__weight_distribution_get, _FFPopSim.tree_node__weight_distribution_set)
+    number_of_offspring = _swig_property(_FFPopSim.tree_node_number_of_offspring_get, _FFPopSim.tree_node_number_of_offspring_set)
+    clone_size = _swig_property(_FFPopSim.tree_node_clone_size_get, _FFPopSim.tree_node_clone_size_set)
+    def __str__(self):
+        """__str__(tree_node self) -> char const *"""
+        return _FFPopSim.tree_node___str__(self)
+
+    def __repr__(self):
+        """__repr__(tree_node self) -> char const *"""
+        return _FFPopSim.tree_node___repr__(self)
+
+    @property
+    def child_edges(self):
+        '''Child edges of the node'''
+        return list(self._child_edges)
+
+
+    @child_edges.setter
+    def child_edges(self, es):
+        self._child_edges = list_tree_key(es)
+
+    def _get_crossover_chunk(self, *args, **kwargs):
+        """_get_crossover_chunk(tree_node self, int i) -> int"""
+        return _FFPopSim.tree_node__get_crossover_chunk(self, *args, **kwargs)
+
+    @property
+    def crossover(self):
+        '''Crossover of node'''
+        return [self._get_crossover_chunk(i) for i in xrange(2)]
+
+    @property
+    def weight_distribution(self):
+        '''Distribution of weights of this node'''
+        return list(self._weight_distribution)
+
+    @weight_distribution.setter
+    def weight_distribution(self, distr):
+        self._weight_distribution = vector_tree_step(distr)
+
     def __init__(self): 
-        """__init__(rooted_tree self) -> rooted_tree"""
+        """__init__(node_t self) -> tree_node"""
+        _FFPopSim.tree_node_swiginit(self,_FFPopSim.new_tree_node())
+    __swig_destroy__ = _FFPopSim.delete_tree_node
+tree_node.__str__ = new_instancemethod(_FFPopSim.tree_node___str__,None,tree_node)
+tree_node.__repr__ = new_instancemethod(_FFPopSim.tree_node___repr__,None,tree_node)
+tree_node._get_crossover_chunk = new_instancemethod(_FFPopSim.tree_node__get_crossover_chunk,None,tree_node)
+tree_node_swigregister = _FFPopSim.tree_node_swigregister
+tree_node_swigregister(tree_node)
+
+class tree_edge(object):
+    """Edge of a phylogenetic tree"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    parent_node = _swig_property(_FFPopSim.tree_edge_parent_node_get, _FFPopSim.tree_edge_parent_node_set)
+    own_key = _swig_property(_FFPopSim.tree_edge_own_key_get, _FFPopSim.tree_edge_own_key_set)
+    length = _swig_property(_FFPopSim.tree_edge_length_get, _FFPopSim.tree_edge_length_set)
+    number_of_offspring = _swig_property(_FFPopSim.tree_edge_number_of_offspring_get, _FFPopSim.tree_edge_number_of_offspring_set)
+    def __str__(self):
+        """__str__(tree_edge self) -> char const *"""
+        return _FFPopSim.tree_edge___str__(self)
+
+    def __repr__(self):
+        """__repr__(tree_edge self) -> char const *"""
+        return _FFPopSim.tree_edge___repr__(self)
+
+    def _get_segment_chunk(self, *args, **kwargs):
+        """_get_segment_chunk(tree_edge self, int i) -> int"""
+        return _FFPopSim.tree_edge__get_segment_chunk(self, *args, **kwargs)
+
+    @property
+    def segment(self):
+        '''Segment of edge'''
+        return [self._get_segment_chunk(i) for i in xrange(2)]
+
+    def __init__(self): 
+        """__init__(edge_t self) -> tree_edge"""
+        _FFPopSim.tree_edge_swiginit(self,_FFPopSim.new_tree_edge())
+    __swig_destroy__ = _FFPopSim.delete_tree_edge
+tree_edge.__str__ = new_instancemethod(_FFPopSim.tree_edge___str__,None,tree_edge)
+tree_edge.__repr__ = new_instancemethod(_FFPopSim.tree_edge___repr__,None,tree_edge)
+tree_edge._get_segment_chunk = new_instancemethod(_FFPopSim.tree_edge__get_segment_chunk,None,tree_edge)
+tree_edge_swigregister = _FFPopSim.tree_edge_swigregister
+tree_edge_swigregister(tree_edge)
+
+class rooted_tree(object):
+    """
+    Rooted phylogenetic tree.
+
+    This class is used to represent the phylogenetic tree of a single locus.
+    It is possible to print the tree in Newick format, to get the subtree
+    spanned by some of the leaves, and to look at the tree nodes and edges.
+
+    """
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    _edges = _swig_property(_FFPopSim.rooted_tree__edges_get, _FFPopSim.rooted_tree__edges_set)
+    _nodes = _swig_property(_FFPopSim.rooted_tree__nodes_get, _FFPopSim.rooted_tree__nodes_set)
+    _leafs = _swig_property(_FFPopSim.rooted_tree__leafs_get, _FFPopSim.rooted_tree__leafs_set)
+    root = _swig_property(_FFPopSim.rooted_tree_root_get, _FFPopSim.rooted_tree_root_set)
+    MRCA = _swig_property(_FFPopSim.rooted_tree_MRCA_get, _FFPopSim.rooted_tree_MRCA_set)
+    def __init__(self): 
+        """
+        Rooted phylogenetic tree.
+
+        This class is used to represent the phylogenetic tree of a single locus.
+        It is possible to print the tree in Newick format, to get the subtree
+        spanned by some of the leaves, and to look at the tree nodes and edges.
+
+        """
         _FFPopSim.rooted_tree_swiginit(self,_FFPopSim.new_rooted_tree())
     __swig_destroy__ = _FFPopSim.delete_rooted_tree
-    def reset(self):
-        """reset(rooted_tree self)"""
-        return _FFPopSim.rooted_tree_reset(self)
-
     def external_branch_length(self):
-        """external_branch_length(rooted_tree self) -> int"""
+        """
+        Measure the length of the external branches.
+
+        Returns:
+           - length: the sum of the lengths of the external branches.
+
+        """
         return _FFPopSim.rooted_tree_external_branch_length(self)
 
     def total_branch_length(self):
-        """total_branch_length(rooted_tree self) -> int"""
+        """
+        Measure the length of the branches.
+
+        Returns:
+           - length: the sum of the lengths of all branches.
+
+        """
         return _FFPopSim.rooted_tree_total_branch_length(self)
 
-    def check_tree_integrity(self):
-        """check_tree_integrity(rooted_tree self) -> int"""
-        return _FFPopSim.rooted_tree_check_tree_integrity(self)
+    def calc_weight_distribution(self, *args, **kwargs):
+        """
+        Recalculate the weight of some internal nodes.
+
+        Parameters:
+           - subtree_root: the node whose hanging subtree is recalculated
+
+        Returns:
+           - error code: zero if successful
+
+        """
+        return _FFPopSim.rooted_tree_calc_weight_distribution(self, *args, **kwargs)
+
+    def print_newick(self):
+        """print_newick(rooted_tree self) -> std::string"""
+        return _FFPopSim.rooted_tree_print_newick(self)
+
+    def subtree_newick(self, *args, **kwargs):
+        """subtree_newick(rooted_tree self, tree_key root) -> std::string"""
+        return _FFPopSim.rooted_tree_subtree_newick(self, *args, **kwargs)
+
+    def print_weight_distribution(self, *args, **kwargs):
+        """print_weight_distribution(rooted_tree self, tree_key node_key) -> std::string"""
+        return _FFPopSim.rooted_tree_print_weight_distribution(self, *args, **kwargs)
 
     def __str__(self):
         """__str__(rooted_tree self) -> char const *"""
@@ -1202,12 +2390,77 @@ class rooted_tree(object):
         """__repr__(rooted_tree self) -> char const *"""
         return _FFPopSim.rooted_tree___repr__(self)
 
-rooted_tree.reset = new_instancemethod(_FFPopSim.rooted_tree_reset,None,rooted_tree)
+    def _ancestors_at_age(self, *args, **kwargs):
+        """_ancestors_at_age(rooted_tree self, int age, tree_key subtree_root) -> vector_tree_key"""
+        return _FFPopSim.rooted_tree__ancestors_at_age(self, *args, **kwargs)
+
+    def ancestors_at_age(self, age, subtree):
+        '''Find nodes in subtree younger than a certain age
+        
+        Parameters:
+           - age: critical age to check
+           - subtree: subtree to look for nodes in
+        
+        Returns:
+           - ancestors: the ancestors at that age
+        '''
+        return list(self._ancestors_at_age(age, subtree))
+
+    def create_subtree_from_keys(self, *args, **kwargs):
+        """
+        Create a subtree from a list of leaves.
+
+        Parameters:
+           - leaves: the leaves used to contruct the subtree
+
+        Returns:
+           - subtree: the subtree spanned by those leaves.
+
+        .. note:: leaves can be a Python list or a numpy array of tree_key, or a vector_tree_key.
+
+        """
+        return _FFPopSim.rooted_tree_create_subtree_from_keys(self, *args, **kwargs)
+
+    @property
+    def edges(self):
+        '''Edges of the tree'''
+        return dict(self._edges)
+
+
+    @edges.setter
+    def edges(self, es):
+        self._edges = map_key_edge(es)
+
+    @property
+    def nodes(self):
+        '''Nodes of the tree'''
+        return dict(self._nodes)
+
+
+    @nodes.setter
+    def edges(self, ns):
+        self._nodes = map_key_node(ns)
+
+    @property
+    def leafs(self):
+        '''Leaves of the tree'''
+        return list(self._leafs)
+
+
+    @leafs.setter
+    def leafs(self, leaves):
+        self._leafs = vector_tree_key(leaves)
+
 rooted_tree.external_branch_length = new_instancemethod(_FFPopSim.rooted_tree_external_branch_length,None,rooted_tree)
 rooted_tree.total_branch_length = new_instancemethod(_FFPopSim.rooted_tree_total_branch_length,None,rooted_tree)
-rooted_tree.check_tree_integrity = new_instancemethod(_FFPopSim.rooted_tree_check_tree_integrity,None,rooted_tree)
+rooted_tree.calc_weight_distribution = new_instancemethod(_FFPopSim.rooted_tree_calc_weight_distribution,None,rooted_tree)
+rooted_tree.print_newick = new_instancemethod(_FFPopSim.rooted_tree_print_newick,None,rooted_tree)
+rooted_tree.subtree_newick = new_instancemethod(_FFPopSim.rooted_tree_subtree_newick,None,rooted_tree)
+rooted_tree.print_weight_distribution = new_instancemethod(_FFPopSim.rooted_tree_print_weight_distribution,None,rooted_tree)
 rooted_tree.__str__ = new_instancemethod(_FFPopSim.rooted_tree___str__,None,rooted_tree)
 rooted_tree.__repr__ = new_instancemethod(_FFPopSim.rooted_tree___repr__,None,rooted_tree)
+rooted_tree._ancestors_at_age = new_instancemethod(_FFPopSim.rooted_tree__ancestors_at_age,None,rooted_tree)
+rooted_tree.create_subtree_from_keys = new_instancemethod(_FFPopSim.rooted_tree_create_subtree_from_keys,None,rooted_tree)
 rooted_tree_swigregister = _FFPopSim.rooted_tree_swigregister
 rooted_tree_swigregister(rooted_tree)
 
@@ -1233,6 +2486,10 @@ class multi_locus_genealogy(object):
     def reset(self):
         """Reset (empty) the genealogy."""
         return _FFPopSim.multi_locus_genealogy_reset(self)
+
+    def reset_but_loci(self):
+        """reset_but_loci(multi_locus_genealogy self)"""
+        return _FFPopSim.multi_locus_genealogy_reset_but_loci(self)
 
     def __str__(self):
         """__str__(multi_locus_genealogy self) -> char const *"""
@@ -1270,6 +2527,7 @@ class multi_locus_genealogy(object):
 
 multi_locus_genealogy.track_locus = new_instancemethod(_FFPopSim.multi_locus_genealogy_track_locus,None,multi_locus_genealogy)
 multi_locus_genealogy.reset = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset,None,multi_locus_genealogy)
+multi_locus_genealogy.reset_but_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset_but_loci,None,multi_locus_genealogy)
 multi_locus_genealogy.__str__ = new_instancemethod(_FFPopSim.multi_locus_genealogy___str__,None,multi_locus_genealogy)
 multi_locus_genealogy.__repr__ = new_instancemethod(_FFPopSim.multi_locus_genealogy___repr__,None,multi_locus_genealogy)
 multi_locus_genealogy._get_number_of_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_number_of_loci,None,multi_locus_genealogy)
