@@ -36,9 +36,9 @@ void rooted_tree::reset(){
  	leafs.clear();
 
  	//the root node will never be touched, the MRCA moves up with the tree
-	root.age=-2;
+	root.age=-3;
 	root.index=0;
-	MRCA.age=-1;
+	MRCA.age=-2;
 	MRCA.index=0;
 
 	root_node.own_key = root;
@@ -64,7 +64,7 @@ void rooted_tree::reset(){
 	to_root.segment[1]=RT_VERYLARGE;
 	to_root.number_of_offspring=-1;
 	to_root.parent_node = root;
-
+	leafs.push_back(MRCA);
 	nodes.insert(pair<tree_key_t,node_t>(root,root_node));
 	nodes.insert(pair<tree_key_t,node_t>(MRCA,mrca_node));
 	edges.insert(pair<tree_key_t,edge_t>(to_root.own_key,to_root));
@@ -114,7 +114,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 				}
 			}else if (node_pos->second.child_edges.size()==1){		//bridge nodes that have exactly one offspring
 				parent_key = bridge_edge_node(*old_leaf_key);
-				while (nodes[parent_key].child_edges.size()==1){
+				while (nodes[parent_key].child_edges.size()==1 and root!=parent_key){
 					parent_key = bridge_edge_node(parent_key);
 				}
 			}
@@ -185,7 +185,7 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 	Pedge->second.number_of_offspring-=Eedge->second.number_of_offspring;
 
 
-	if (RT_VERBOSE and (erase_child(Pnode, to_be_erased)==RT_CHILDNOTFOUND)) {
+	if (erase_child(Pnode, to_be_erased)==RT_CHILDNOTFOUND) {
 		cerr <<"rooted_tree::erase_edge_node(): child not found"<<endl;
 	}
 
@@ -362,7 +362,7 @@ void rooted_tree::clear_tree() {
 	for (vector<tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++) {
 		node = nodes.find(*leaf);
 		if (node==nodes.end()) {
-			cerr <<"rooted_tree::clear_tree(). key of leaf not found"<<endl;
+			cerr <<"rooted_tree::clear_tree(). key of leaf not found: "<<*leaf<<endl;
 			break;
 		}
 		node->second.number_of_offspring=node->second.clone_size;
@@ -427,6 +427,7 @@ int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tre
 	other.reset();
         other.nodes.erase(other.MRCA);
         other.edges.erase(other.MRCA);
+        other.leafs.clear();
 
 	//add all new leafs and make a set of leaves to be added next round. (set has unique elements)
 	set <tree_key_t> new_nodes;
@@ -599,7 +600,7 @@ int rooted_tree::check_tree_integrity(){
 		if (node->second.child_edges.size()==1){
 			cerr <<"root "<<root<<" found and has one child OK"<<endl;
 			if (MRCA == (node->second.child_edges.front())){
-				cerr <<"child is MRCA, OK"<<endl;
+				cerr <<"child is MRCA, OK: "<<MRCA<<endl;
 			}else{
 				err++;
 				cerr <<"child not MRCA, ERROR"<<endl;
@@ -641,7 +642,7 @@ int rooted_tree::check_tree_integrity(){
 	}
 	if ( nedges!=edges.size() ){
 		err++;
-		cerr <<"number of edges encountered does not equal the size of edges."<<nedges<<" vs "<<edges.size()<<"  ERROR"<<endl;
+		cerr <<"number of edges encountered does not equal the size of edges. "<<nedges<<" vs "<<edges.size()<<"  ERROR"<<endl;
 	}
 	if (err==0){
 		cerr <<"Tree OK!"<<endl;

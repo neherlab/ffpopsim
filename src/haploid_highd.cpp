@@ -59,7 +59,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
 	population_size = 0;
 	mem = false;
 	cumulants_mem = false;
-	generation = 0;
+	generation = -1;
 	circular = false;
 	carrying_capacity = 0;
 	mutation_rate = 0;
@@ -255,6 +255,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	}
 
 	// Calculate all statistics to be sure
+	generation++;
 	calc_stat();
 
 	//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
@@ -306,6 +307,7 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
     	carrying_capacity = population_size;
 
 	// Calculate all statistics to be sure
+	generation++;
 	calc_stat();
 
 	//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
@@ -360,12 +362,13 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 			carrying_capacity = N_in;
 
 	// Calculate all statistics to be sure
+	generation++;
 	calc_stat();
 	// add the current generation to the genealogies and prune,
 	// i.e. remove parts that do not contribute the present.
-	if (track_genealogy)
+	if (track_genealogy){
 		genealogy.add_generation(fitness_max);
-
+	}
 	if (HP_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
@@ -1274,6 +1277,7 @@ void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
 			leaf.own_key.age=generation;
 			leaf.own_key.index=new_gt;
 			leaf.number_of_offspring = 1;
+			leaf.clone_size = n;
 			leaf.crossover[0]=0;
 			leaf.crossover[1]=number_of_loci;
 			for (unsigned int locusIndex=0; locusIndex<genealogy.loci.size(); locusIndex++){
