@@ -177,7 +177,7 @@ int haploid_highd::free_mem() {
 int haploid_highd::provide_at_least(int n) {
 	//calculate the number of clones that need to be newly allocated. Allow for some slack
 	//to avoid calling this too often
-	size_t needed_gts = (n-available_clones.size()) + 100 + 0.1*population.size();
+	int needed_gts = n - available_clones.size() + 100 + 0.1*population.size();
 
 	//allocate at the necessary memory
 	if (needed_gts > 50) {
@@ -187,7 +187,8 @@ int haploid_highd::provide_at_least(int n) {
 		//dummy clone used to push into the population
 		clone_t tempgt(number_of_traits);
 		tempgt.genotype.resize(number_of_loci,0);
-		for (size_t ii = 0; ii < needed_gts; ii++) {
+		tempgt.clone_size=0;
+		for (int ii = 0; ii < needed_gts; ii++) {
 			available_clones.push_back(population.size());
 			population.push_back(tempgt);
 		}
