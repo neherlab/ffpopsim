@@ -336,7 +336,6 @@ Returns:
 ") calc_weight_distribution;
 
 /* ancestors at age */
-/* TODO: crashes if given a root! */
 %ignore ancestors_at_age;
 vector <tree_key_t> _ancestors_at_age(int age, tree_key_t subtree_root) {
         vector <tree_key_t> ancestors;
@@ -416,6 +415,22 @@ def leafs(self):
 @leafs.setter
 def leafs(self, leaves):
     self._leafs = vector_tree_key(leaves)
+}
+
+%pythoncode {
+def to_Biopython_tree(self):
+    '''Convert the tree into Biopython format
+    
+    Returns:
+       - tree: Biopython.Phylo phylogenetic tree representation of self
+    '''
+    from cStringIO import StringIO
+    from Bio import Phylo
+     
+    treedata = self.print_newick()
+    handle = StringIO(treedata)
+    tree = Phylo.read(handle, "newick")
+    return tree
 }
 
 } /* extend rooted_tree */
