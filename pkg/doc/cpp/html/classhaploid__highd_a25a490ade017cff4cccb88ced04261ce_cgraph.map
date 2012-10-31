@@ -1,6 +1,0 @@
-<map id="haploid_highd::get_diversity_histogram" name="haploid_highd::get_diversity_histogram">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="605,5,760,46"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#aefe07878a3133687465c41804043779d" title="Sample random individuals from the population." alt="" coords="201,34,353,75"/>
-<area shape="rect" id="node10" href="$classhaploid__highd.html#a686aa6ae9c4d31f96dd6bb3d83d11188" title="haploid_highd::distance\l_Hamming" alt="" coords="198,123,357,165"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="405,34,557,75"/>
-</map>

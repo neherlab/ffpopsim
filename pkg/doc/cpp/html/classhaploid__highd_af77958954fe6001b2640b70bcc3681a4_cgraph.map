@@ -1,5 +1,0 @@
-<map id="haploid_highd::get_divergence_statistics" name="haploid_highd::get_divergence_statistics">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="605,6,760,47"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#aefe07878a3133687465c41804043779d" title="Sample random individuals from the population." alt="" coords="205,35,357,77"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="405,35,557,77"/>
-</map>

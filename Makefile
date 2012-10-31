@@ -141,7 +141,7 @@ HEADER_LOWD := $(HEADER_GENERIC) ffpopsim_lowd.h
 SOURCE_LOWD := hypercube_lowd.cpp haploid_lowd.cpp
 OBJECT_LOWD := $(SOURCE_LOWD:%.cpp=%.o)
 
-HEADER_HIGHD := $(HEADER_GENERIC) ffpopsim_highd.h 
+HEADER_HIGHD := $(HEADER_GENERIC) ffpopsim_highd.h
 SOURCE_HIGHD := hypercube_highd.cpp haploid_highd.cpp multiLocusGenealogy.cpp rootedTree.cpp
 OBJECT_HIGHD := $(SOURCE_HIGHD:%.cpp=%.o)
 
@@ -195,6 +195,7 @@ DOXYFILE   = $(DOCDIR)/cpp/Doxyfile
 # Recipes
 doc:
 	$(DOXY) $(DOXYFILE)
+	mkdir -p $(PKGDIR)/doc
 	cd $(PKGDIR)/doc; rm -rf cpp
 	mkdir -p $(PKGDIR)/doc/cpp
 	mv -f $(DOCDIR)/cpp/html $(PKGDIR)/doc/cpp/
@@ -299,6 +300,7 @@ clean-swig:
 ##==========================================================================
 python-doc:
 	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINX) html
+	mkdir -p $(PKGDIR)/doc
 	cd $(PKGDIR)/doc; rm -rf python
 	mkdir -p $(PKGDIR)/doc/python
 	mv -f $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/

@@ -1,8 +1,0 @@
-<map id="haploid_lowd::set_wildtype" name="haploid_lowd::set_wildtype">
-<area shape="rect" id="node3" href="$classhypercube__lowd.html#a92819cb35216cce7c38c86bcadb8aa4e" title="hypercube_lowd::init_list" alt="" coords="457,64,621,91"/>
-<area shape="rect" id="node11" href="$classhypercube__lowd.html#a37e9bbaaaffdcf9e6d16a3f35abb49a1" title="hypercube_lowd::normalize" alt="" coords="229,115,408,141"/>
-<area shape="rect" id="node5" href="$classhypercube__lowd.html#a34ee1f6613b7287d01894b4a422b37af" title="hypercube_lowd::reset" alt="" coords="669,5,821,32"/>
-<area shape="rect" id="node7" href="$classhypercube__lowd.html#a807dc040a416aa797938751423816a34" title="hypercube_lowd::fft\l_coeff_to_func" alt="" coords="678,122,813,163"/>
-<area shape="rect" id="node9" href="$classhypercube__lowd.html#a5282051c602c79002f68a6f77eefa7bd" title="hypercube_lowd::fft\l_func_to_coeff" alt="" coords="678,57,813,98"/>
-<area shape="rect" id="node13" href="$classhypercube__lowd.html#aa82280b75a9517a35a400a4f94f8f5e3" title="hypercube_lowd::scale" alt="" coords="461,115,616,141"/>
-</map>
