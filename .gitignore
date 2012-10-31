@@ -6,6 +6,7 @@ profile/profile
 pkg/python/*
 pkg/include/*
 pkg/lib/*
+pkg/doc/*
 
 # Documentation
 doc/latex/*
@@ -71,5 +72,5 @@ Session.vim
 Debug
 Release
 
-# Keep the binaries
-!build/*/*.so
+# Do not keep the binaries
+# (they are kept in the static_gsl branch)

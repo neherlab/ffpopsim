@@ -1,0 +1,15 @@
+2012-10-31 Fabio Zanini <fabio.zanini@tuebingen.mpg.de>
+
+   * 1.1.1: Bugfix release: fixed a bug in haploid_highd::provide_at_least
+
+2012-09-21 Fabio Zanini <fabio.zanini@tuebingen.mpg.de>
+
+   * 1.1RC3: Published release
+
+   * Single crossover implemented
+
+   * Python documentation expanded
+
+2012-07-17 Fabio Zanini <fabio.zanini@tuebingen.mpg.de>
+
+   * 1.0: First stable release

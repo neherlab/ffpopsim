@@ -1,6 +1,0 @@
-<map id="haploid_highd::get_fitness_histogram" name="haploid_highd::get_fitness_histogram">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ab3e442c79f83e603bc30892e2a36e329" title="Produce and store a random sample of the population for stochastic processes." alt="" coords="587,5,741,46"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#aefe07878a3133687465c41804043779d" title="Sample random individuals from the population." alt="" coords="187,34,339,75"/>
-<area shape="rect" id="node10" href="$classhaploid__highd.html#a6dd67288b3fc216d2b83d7e4861966af" title="Calculate and store fitness population statistics." alt="" coords="196,99,329,141"/>
-<area shape="rect" id="node7" href="$classhaploid__highd.html#ab64531c02f245f39d9446efb5fcabe01" title="Get a random clone from the population." alt="" coords="387,34,539,75"/>
-</map>

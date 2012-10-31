@@ -195,6 +195,7 @@ DOXYFILE   = $(DOCDIR)/cpp/Doxyfile
 # Recipes
 doc:
 	$(DOXY) $(DOXYFILE)
+	mkdir -p $(PKGDIR)/doc
 	cd $(PKGDIR)/doc; rm -rf cpp
 	mkdir -p $(PKGDIR)/doc/cpp
 	mv -f $(DOCDIR)/cpp/html $(PKGDIR)/doc/cpp/
@@ -299,6 +300,7 @@ clean-swig:
 ##==========================================================================
 python-doc:
 	cd $(PYDOCDIR); $(MAKE) SPHINXBUILD=$(SPHINX) html
+	mkdir -p $(PKGDIR)/doc
 	cd $(PKGDIR)/doc; rm -rf python
 	mkdir -p $(PKGDIR)/doc/python
 	mv -f $(PYDOCDIR)/build/html $(PKGDIR)/doc/python/

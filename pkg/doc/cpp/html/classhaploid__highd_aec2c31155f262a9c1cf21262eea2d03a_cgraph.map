@@ -1,4 +1,0 @@
-<map id="haploid_highd::select_gametes" name="haploid_highd::select_gametes">
-<area shape="rect" id="node3" href="$classhaploid__highd.html#ae64df329db764e98e77398a775a43600" title="Get the log of the exp&#45;average fitness plus relaxation term." alt="" coords="197,5,363,46"/>
-<area shape="rect" id="node5" href="$classhaploid__highd.html#a0aaa82167545768f814c7e28868eee77" title="Get the population exp&#45;average of fitness, used for keeping the population size fixed." alt="" coords="411,5,557,46"/>
-</map>
