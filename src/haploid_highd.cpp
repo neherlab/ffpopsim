@@ -671,6 +671,8 @@ int haploid_highd::bottleneck(int size_of_bottleneck) {
  *
  * Function is now rewritten to allow for multiple mutants.
  * TODO: Poisson conditional on at least one
+ * TODO: all_polymorphic assumes that all additive effects are set, i.e. that locus equals the index of the
+ * coefficient in the vector of additive effects
  */
 int haploid_highd::mutate() {
 	if (HP_VERBOSE)	cerr <<"haploid_highd::mutate() ..."<<endl;

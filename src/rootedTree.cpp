@@ -298,8 +298,8 @@ int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 		parent_node = nodes.find(leaf_edge->second.parent_node);
 		parent_edge = edges.find(leaf_edge->second.parent_node);
 		if (parent_node==nodes.end()){
-			cerr <<"rooted_tree::update_leaf_to_root(). key:"<<leaf_key.index<<" "<<leaf_key.age<<endl;
-			cerr <<"rooted_tree::update_leaf_to_root(): key not found: "<<leaf_edge->second.parent_node.index<<" "<<leaf_edge->second.parent_node.age<<" root: "<<root.index<<" "<<root.age <<endl;
+			cerr <<"rooted_tree::update_leaf_to_root(). key:"<<leaf_key<<endl;
+			cerr <<"rooted_tree::update_leaf_to_root(): key not found: "<<leaf_edge->second.parent_node<<" root: "<<root<<endl;
 			break;
 		}
 	}

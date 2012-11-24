@@ -220,6 +220,71 @@ int genealogy() {
 	return err;
 }
 
+/* Test evolution */
+int genealogy_infinite_sites() {
+	int L = 1000;
+	int N = 50;
+
+	haploid_highd pop(L);
+
+	pop.outcrossing_rate = 1e-2;
+	pop.crossover_rate = 1e-2;
+	pop.recombination_model = CROSSOVERS;
+	vector <int> gen_loci;
+	gen_loci.push_back(100);
+	gen_loci.push_back(500);
+	gen_loci.push_back(900);
+	pop.track_locus_genealogy(gen_loci);
+	pop.all_polymorphic=true;
+	pop.set_wildtype(N);		// start with a population of the right size
+	vector <int> loci;
+	for(int i=0; i< L; i++) {
+		loci.assign(1, i);
+		pop.add_fitness_coefficient(0, loci);
+		loci.clear();
+	}
+
+
+	stat_t fitstat;
+	int err;
+	gsl_histogram *SFS = gsl_histogram_alloc(20);
+	gsl_histogram_set_ranges_uniform(SFS,0,1);
+	for (int i=0; i< 500; i++) {
+		pop.evolve();
+		pop.calc_stat();
+		fitstat = pop.get_fitness_statistics();
+		cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+	}
+	for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
+		err =pop.genealogy.trees[genlocus].check_tree_integrity();
+	}
+	vector <int> clones;
+	vector <tree_key_t> clone_keys;
+	rooted_tree subtree;
+	tree_key_t temp;
+	for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
+		cerr <<"PRINT ENTIRE TREE"<<endl;
+		cerr <<pop.genealogy.trees[genlocus].print_newick()<<endl;
+		for (int cs = 2; cs<5; cs++){
+			clones.clear();
+			clone_keys.clear();
+			pop.random_clones(cs,&clones);
+			for (vector <int>::iterator clone=clones.begin(); clone!=clones.end(); clone++){
+				temp.age=pop.get_generation()-1;
+				temp.index = *clone;
+				clone_keys.push_back(temp);
+			}
+			pop.genealogy.trees[genlocus].construct_subtree(clone_keys, subtree);
+			cerr <<"PRINT SUB TREE WITH "<<cs<<" LEAFS"<<endl;
+			cerr<<subtree.print_newick()<<endl;
+		}
+		cerr <<'\n';
+
+	}
+	return err;
+}
+
+
 
 /* MAIN */
 int main(int argc, char **argv){
@@ -230,8 +295,9 @@ int main(int argc, char **argv){
 		status = 1;
 	} else {
 		//status += genealogy();
+		status += genealogy_infinite_sites();
 		//status += kingman_coalescent();
-		status += large_populations();
+		//status += large_populations();
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;
