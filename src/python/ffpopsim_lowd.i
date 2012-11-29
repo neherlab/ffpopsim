@@ -844,6 +844,17 @@ int _set_fitness_func(int len1, double* indices, int len2, double* vals) {
         }
         return ($self->fitness).init_list(iv);
 }
+
+int _set_fitness_coeff(int len1, double* indices, int len2, double* vals) {
+        vector<index_value_pair_t> iv;
+        index_value_pair_t temp;
+        for(size_t i = 0; i != (size_t)len1; i++) {
+                temp.index = (int)indices[i];
+                temp.val = vals[i];
+                iv.push_back(temp);
+        }
+        return ($self->fitness).init_coeff_list(iv);
+}
 %clear (int len1, double* indices);
 %clear (int len2, double* vals);
 %pythoncode {
@@ -855,7 +866,7 @@ def set_fitness_function(self, genotypes, values):
                     from 00...0 that is 0, up to 11...1 that is 2^L-1.
        - values: fitness values to assign
 
-    .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+    .. note:: you can use Python binary notation for the genotypes, e.g. 0b0110 is 6.
     '''
     import numpy as np
     genotypes = np.asarray(genotypes, float)
@@ -864,6 +875,26 @@ def set_fitness_function(self, genotypes, values):
         raise ValueError('Indices and values must have the same length')
     if self._set_fitness_func(genotypes, values):
         raise RuntimeError('Error in the C++ function.')
+
+
+def set_fitness_coefficients(self, coefficients, values):
+    '''Set the fitness landscape in Fourier space for individual Fourier coefficients.
+
+    Parameters:
+       - coefficients: Fourier coefficients to which the values will be assigned. They are specified
+                       as integers, from 00...0 that is 0, up to 11...1 that is 2^L-1.
+       - values: values to assign
+
+    .. note:: you can use Python binary notation for the coefficients, e.g. 0b0110 is 6.
+    '''
+    import numpy as np
+    coefficients = np.asarray(coefficients, float)
+    values = np.asarray(values, float)
+    if len(coefficients) != len(values):
+        raise ValueError('Indices and values must have the same length')
+    if self._set_fitness_coeff(coefficients, values):
+        raise RuntimeError('Error in the C++ function.')
+
 }
 
 /* set additive fitness component */

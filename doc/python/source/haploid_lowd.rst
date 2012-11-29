@@ -18,6 +18,7 @@ haploid_lowd Class Reference
              random_genomes,
              set_allele_frequencies,
              set_fitness_function,
+             set_fitness_coefficients,
              set_genotypes,
              set_recombination_rates,
              set_mutation_rates,

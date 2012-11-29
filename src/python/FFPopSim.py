@@ -1001,6 +1001,10 @@ class haploid_lowd(object):
         """_set_fitness_func(haploid_lowd self, int len1, int len2) -> int"""
         return _FFPopSim.haploid_lowd__set_fitness_func(self, *args, **kwargs)
 
+    def _set_fitness_coeff(self, *args, **kwargs):
+        """_set_fitness_coeff(haploid_lowd self, int len1, int len2) -> int"""
+        return _FFPopSim.haploid_lowd__set_fitness_coeff(self, *args, **kwargs)
+
     def set_fitness_function(self, genotypes, values):
         '''Set the fitness landscape for individual genotypes.
 
@@ -1009,7 +1013,7 @@ class haploid_lowd(object):
                         from 00...0 that is 0, up to 11...1 that is 2^L-1.
            - values: fitness values to assign
 
-        .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
+        .. note:: you can use Python binary notation for the genotypes, e.g. 0b0110 is 6.
         '''
         import numpy as np
         genotypes = np.asarray(genotypes, float)
@@ -1018,6 +1022,26 @@ class haploid_lowd(object):
             raise ValueError('Indices and values must have the same length')
         if self._set_fitness_func(genotypes, values):
             raise RuntimeError('Error in the C++ function.')
+
+
+    def set_fitness_coefficients(self, coefficients, values):
+        '''Set the fitness landscape in Fourier space for individual Fourier coefficients.
+
+        Parameters:
+           - coefficients: Fourier coefficients to which the values will be assigned. They are specified
+                           as integers, from 00...0 that is 0, up to 11...1 that is 2^L-1.
+           - values: values to assign
+
+        .. note:: you can use Python binary notation for the coefficients, e.g. 0b0110 is 6.
+        '''
+        import numpy as np
+        coefficients = np.asarray(coefficients, float)
+        values = np.asarray(values, float)
+        if len(coefficients) != len(values):
+            raise ValueError('Indices and values must have the same length')
+        if self._set_fitness_coeff(coefficients, values):
+            raise RuntimeError('Error in the C++ function.')
+
 
     def set_fitness_additive(self, *args, **kwargs):
         """
@@ -1058,6 +1082,7 @@ haploid_lowd._set_genotypes = new_instancemethod(_FFPopSim.haploid_lowd__set_gen
 haploid_lowd._set_mutation_rates = new_instancemethod(_FFPopSim.haploid_lowd__set_mutation_rates,None,haploid_lowd)
 haploid_lowd._get_fitnesses = new_instancemethod(_FFPopSim.haploid_lowd__get_fitnesses,None,haploid_lowd)
 haploid_lowd._set_fitness_func = new_instancemethod(_FFPopSim.haploid_lowd__set_fitness_func,None,haploid_lowd)
+haploid_lowd._set_fitness_coeff = new_instancemethod(_FFPopSim.haploid_lowd__set_fitness_coeff,None,haploid_lowd)
 haploid_lowd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_lowd_set_fitness_additive,None,haploid_lowd)
 haploid_lowd_swigregister = _FFPopSim.haploid_lowd_swigregister
 haploid_lowd_swigregister(haploid_lowd)

@@ -3909,6 +3909,16 @@ SWIGINTERN int haploid_lowd__set_fitness_func(haploid_lowd *self,int len1,double
         }
         return (self->fitness).init_list(iv);
 }
+SWIGINTERN int haploid_lowd__set_fitness_coeff(haploid_lowd *self,int len1,double *indices,int len2,double *vals){
+        vector<index_value_pair_t> iv;
+        index_value_pair_t temp;
+        for(size_t i = 0; i != (size_t)len1; i++) {
+                temp.index = (int)indices[i];
+                temp.val = vals[i];
+                iv.push_back(temp);
+        }
+        return (self->fitness).init_coeff_list(iv);
+}
 SWIGINTERN void haploid_lowd_set_fitness_additive(haploid_lowd *self,int DIM1,double *IN_ARRAY1){
         if(DIM1 != self->L())
                 PyErr_Format(PyExc_ValueError, "The array had a wrong length.");
@@ -6175,6 +6185,87 @@ SWIGINTERN PyObject *_wrap_haploid_lowd__set_fitness_func(PyObject *SWIGUNUSEDPA
     arg5 = (double*) array_data(array4);
   }
   result = (int)haploid_lowd__set_fitness_func(arg1,arg2,arg3,arg4,arg5);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  {
+    if (is_new_object2 && array2)
+    {
+      Py_DECREF(array2); 
+    }
+  }
+  {
+    if (is_new_object4 && array4)
+    {
+      Py_DECREF(array4); 
+    }
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2)
+    {
+      Py_DECREF(array2); 
+    }
+  }
+  {
+    if (is_new_object4 && array4)
+    {
+      Py_DECREF(array4); 
+    }
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_lowd__set_fitness_coeff(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  int arg2 ;
+  double *arg3 = (double *) 0 ;
+  int arg4 ;
+  double *arg5 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 = 0 ;
+  PyArrayObject *array4 = NULL ;
+  int is_new_object4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "len1",(char *) "len2", NULL 
+  };
+  int result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:haploid_lowd__set_fitness_coeff",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd__set_fitness_coeff" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  {
+    npy_intp size[1] = {
+      -1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, NPY_DOUBLE,
+      &is_new_object2);
+    if (!array2 || !require_dimensions(array2, 1) ||
+      !require_size(array2, size, 1)) SWIG_fail;
+    arg2 = (int) array_size(array2,0);
+    arg3 = (double*) array_data(array2);
+  }
+  {
+    npy_intp size[1] = {
+      -1
+    };
+    array4 = obj_to_array_contiguous_allow_conversion(obj2, NPY_DOUBLE,
+      &is_new_object4);
+    if (!array4 || !require_dimensions(array4, 1) ||
+      !require_size(array4, size, 1)) SWIG_fail;
+    arg4 = (int) array_size(array4,0);
+    arg5 = (double*) array_data(array4);
+  }
+  result = (int)haploid_lowd__set_fitness_coeff(arg1,arg2,arg3,arg4,arg5);
   resultobj = SWIG_From_int(static_cast< int >(result));
   {
     if (is_new_object2 && array2)
@@ -10124,6 +10215,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd__set_mutation_rates", (PyCFunction) _wrap_haploid_lowd__set_mutation_rates, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_mutation_rates(haploid_lowd self, double * IN_ARRAY2) -> int"},
 	 { (char *)"haploid_lowd__get_fitnesses", (PyCFunction) _wrap_haploid_lowd__get_fitnesses, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_fitnesses(haploid_lowd self, int DIM1)"},
 	 { (char *)"haploid_lowd__set_fitness_func", (PyCFunction) _wrap_haploid_lowd__set_fitness_func, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_fitness_func(haploid_lowd self, int len1, int len2) -> int"},
+	 { (char *)"haploid_lowd__set_fitness_coeff", (PyCFunction) _wrap_haploid_lowd__set_fitness_coeff, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_fitness_coeff(haploid_lowd self, int len1, int len2) -> int"},
 	 { (char *)"haploid_lowd_set_fitness_additive", (PyCFunction) _wrap_haploid_lowd_set_fitness_additive, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Set an additive fitness landscape. Coefficients obey +/- convention.\n"
 		"\n"

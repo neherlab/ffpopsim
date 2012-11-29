@@ -54,6 +54,7 @@ Set the fitness landscape
 
    haploid_lowd.set_fitness_additive
    haploid_lowd.set_fitness_function
+   haploid_lowd.set_fitness_coefficients
 
 
 Mutation and Recombination
