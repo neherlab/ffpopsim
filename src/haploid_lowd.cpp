@@ -42,7 +42,7 @@ haploid_lowd::haploid_lowd(int L_in, int rng_seed) {
 
 	// Set attributes
 	number_of_loci = L_in;
-	population_size = 0;
+	population_size = carrying_capacity = 0;
 	recombination_model = FREE_RECOMBINATION;
 	mem = false;
 	outcrossing_rate = 1.0;
@@ -865,8 +865,13 @@ int haploid_lowd::recombine() {
 	else
 		err=calculate_recombinants_general();
 
-	for (int i = 0; i < (1<<number_of_loci); i++)
+	for (int i = 0; i < (1<<number_of_loci); i++) {
 		population.func[i] += outcrossing_rate * (recombinants.func[i] - population.func[i]);
+		// check that genotype frequencies are positive, as
+		// negative ones could come from numerical errors in the FFT
+		if(population.func[i] < HG_NOTHING)
+			population.func[i] = 0;
+	}
 
 	return err;
 }
