@@ -706,7 +706,9 @@ int haploid_highd::mutate() {
 		calc_allele_freqs(); //calculate the allele frequencies
 		for (int locus=0; locus<L(); locus++){	//loop over all loci
 			if (fabs(2*allele_frequencies[locus]-1)>1-HP_NOTHING){	//spot fixed loci
-				if (ancestral_state[locus]==0 and (2*allele_frequencies[locus]-1)<0){	//if they are in the ancestral state
+				if ((ancestral_state[locus]==0 and (2*allele_frequencies[locus]-1)<0) or
+                    (ancestral_state[locus]==1 and (2*allele_frequencies[locus]-1)>0))                
+                {	//if they are in the ancestral state
 					flip_single_locus(locus);		//introduce new allele
 					birth_of_allele[locus]=get_generation();
 				}else{	//if locus is in derived state, flip coefficient of trait zero
