@@ -94,6 +94,36 @@ Parameters:
 .. note:: the genome length is 10000 (see HIVGENOME).
 ") hivpopulation;
 
+/* copy */
+%pythoncode{
+def copy(self, rng_seed=0):
+    '''Copy population into new instance.
+    
+    Parameters:
+       - rng_seed: random number to initialize the new population
+    '''
+    pop = hivpopulation(self.N,
+                        rng_seed=rng_seed,
+                        mutation_rate=self.mutation_rate,
+                        coinfection_rate=self.outcrossing_rate,
+                        crossover_rate=self.crossover_rate)
+
+    # Fitness
+    for i in xrange(self.number_of_traits):
+        pop.set_trait_additive(self.get_trait_additive(i), i)
+        for coeff in self.get_trait_epistasis(i):
+            pop.add_trait_coefficient(coeff[0], coeff[1], i)
+
+    # Population parameters
+    pop.carrying_capacity = self.carrying_capacity
+    pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())    
+
+    # Evolution
+    pop._set_generation(self.generation)
+    
+    return pop
+}
+
 /* we have two traits anyway */
 %ignore add_fitness_coefficient;
 %ignore clear_fitness;

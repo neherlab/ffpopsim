@@ -140,6 +140,36 @@ const char* __repr__() {
         return &buffer[0];
 }
 
+/* copy */
+%pythoncode{
+def copy(self, rng_seed=0):
+    '''Copy population into new instance.
+    
+    Parameters:
+       - rng_seed: random number to initialize the new population
+    '''
+    pop = haploid_lowd(self.L, rng_seed=rng_seed)
+
+    # Mutation and recombination
+    if self.recombination_model not in ['FREE_RECOMBINATION']:
+        pop.set_recombination_rates(self.get_recombination_rates(), self.recombination_model)
+    pop.set_mutation_rates(self.get_mutation_rates())
+    pop.circular = self.circular
+    pop.outcrossing_rate = self.outcrossing_rate
+
+    # Fitness
+    pop.set_fitness_function(range(1<<self.L), self.get_fitnesses())
+
+    # Population parameters
+    pop.carrying_capacity = self.carrying_capacity
+    pop.set_genotypes(range(1<<self.L), self.get_genotype_frequencies() * self.N)
+
+    # Evolution
+    pop._set_generation(self.generation)
+    
+    return pop
+}
+
 /* TODO: ignore hypercubes for now */
 %ignore fitness;
 %ignore population;
@@ -155,6 +185,7 @@ const char* __repr__() {
 %rename (_get_number_of_loci) get_number_of_loci;
 %rename (_get_population_size) get_population_size;
 %rename (_get_generation) get_generation;
+%rename (_set_generation) set_generation;
 %pythoncode {
 L = property(_get_number_of_loci)
 N = property(_get_population_size)
@@ -288,6 +319,34 @@ Parameters:
 
 .. note:: the carrying capacity is set to the same value if still unset.
 ") set_wildtype;
+
+
+/* get recombination rates */
+%rename (_get_recombination_rate) get_recombination_rate;
+%pythoncode {
+def get_recombination_rates(self):
+    '''Get recombination rates.
+
+Returns:
+    - the rates between neighboring loci, a list of float of length L-1
+
+.. note:: if the recombination model if FREE_RECOMBINATION, an error is raised.
+    '''
+    if self.L < 2:
+        raise ValueError('There is no recombination with less than 2 loci.')
+
+    rm = self.recombination_model
+    if rm == FREE_RECOMBINATION:
+        raise ValueError(('The current recombination model is free recombination,'+
+                          'hence recombination rates are not defined.'+
+                          ' Could you possibly mean outcrossing rate?'))
+    elif rm in [SINGLE_CROSSOVER, CROSSOVERS]:
+        import numpy as np
+        return np.array([self._get_recombination_rate(i) for i in xrange(self.L - 1)])
+    else:
+        raise RuntimeError('Recombination model not found')
+
+}
 
 /* set recombination rates */
 %rename (_set_recombination_rates) set_recombination_rates;

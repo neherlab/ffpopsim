@@ -224,6 +224,7 @@ Available values:
 %rename (_get_number_of_loci) get_number_of_loci;
 %rename (_get_population_size) get_population_size;
 %rename (_get_generation) get_generation;
+%rename (_set_generation) set_generation;
 %rename (_get_number_of_clones) get_number_of_clones;
 %rename (_get_number_of_traits) get_number_of_traits;
 %rename (_get_max_fitness) get_max_fitness;
@@ -246,6 +247,41 @@ participation_ratio = property(_get_participation_ratio)
 %feature("autodoc", "Current generation (read-only)") get_generation;
 %feature("autodoc", "Maximal fitness in the population (read-only)") get_max_fitness;
 %feature("autodoc", "Participation ratio (read-only)") get_participation_ratio;
+
+
+/* copy */
+%pythoncode{
+def copy(self, rng_seed=0):
+    '''Copy population into new instance.
+    
+    Parameters:
+       - rng_seed: random number to initialize the new population
+    '''
+    pop = haploid_highd(self.L, rng_seed=rng_seed, number_of_traits=self.number_of_traits)
+
+    # Mutation and recombination
+    pop.recombination_model =  self.recombination_model
+    pop.outcrossing_rate = self.outcrossing_rate
+    pop.crossover_rate = self.crossover_rate
+    pop.mutation_rate = self.mutation_rate
+    pop.circular = self.circular
+
+    # Fitness
+    for i in xrange(self.number_of_traits):
+        pop.set_trait_additive(self.get_trait_additive(i), i)
+        for coeff in self.get_trait_epistasis(i):
+            pop.add_trait_coefficient(coeff[0], coeff[1], i)
+
+    # Population parameters
+    pop.carrying_capacity = self.carrying_capacity
+    pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())    
+
+    # Evolution
+    pop._set_generation(self.generation)
+    
+    return pop
+}
+
 
 /* status function */
 %pythoncode {
@@ -546,6 +582,11 @@ def get_genotypes(self, ind=None):
     Parameters:
        - ind: if a scalar, a single genotype corresponding to clone ind is returned;
          otherwise, several genotypes are returned (default: all)
+
+    Return:
+       - genotypes: boolean vector or matrix corresponding to the chosen clones.
+
+    .. note:: this function does not return the sizes of each clone.
     '''
 
     import numpy as np
@@ -748,6 +789,47 @@ Parameters:
 ") add_trait_coefficient;
 
 %feature("autodoc", "Shortcut for add_trait_coefficient when there is only one trait") add_fitness_coefficient;
+
+/* get epistatic terms */
+/* the output is as compatible as possible with add_trait_coefficient, i.e. a tuple of (value, loci),
+   where loci is a tuple itself. */
+%typemap(out) vector<coeff_t> {
+        PyObject *tmpitem, *tmploci;
+        double tmpval;
+        int tmporder;
+        coeff_t *tmpcoeff;
+
+        PyObject *tmplist = PyList_New(0);
+        for(int i=0; i < $1.size(); i++) {
+                /* set the i-th coefficient */
+                tmpcoeff = &($1.at(i));
+                tmpval = tmpcoeff->value;
+                tmporder = tmpcoeff->order; 
+                tmpitem = PyTuple_New(2);
+                /* set the value */
+                PyTuple_SET_ITEM(tmpitem, 0, PyFloat_FromDouble(tmpval));
+                /* set the loci */
+                tmploci = PyTuple_New(tmporder);
+                for(int j=0; j < tmporder; j++)
+                        PyTuple_SET_ITEM(tmploci, j, PyInt_FromLong((long)(tmpcoeff->loci[j])));
+                PyTuple_SET_ITEM(tmpitem, 1, tmploci);
+                /* set the coeff */
+                PyList_Append(tmplist, tmpitem);
+        }
+        $result = tmplist;
+}
+%feature("autodoc",
+"Get the epistatic terms of the genotype/phenotype map of the chosen trait.
+
+Parameters:
+   - t: trait number
+
+Returns:
+   - coefficients: tuple of coefficients, with a value and a tuple of loci
+
+.. note:: This function is designed to work well in conjunction with add_trait_coefficient.
+") get_trait_epistasis;
+
 
 %feature("autodoc",
 "Clear a trait landscape.
