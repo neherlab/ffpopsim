@@ -166,10 +166,6 @@ Parameters:
 /* TODO: ignore hypercubes for now */
 %ignore trait;
 
-/* TODO: ignore pointers to the clones for now */
-%ignore current_pop;
-%ignore new_pop;
-
 /* ignore stream stuff we never need in Python */
 %ignore print_allele_frequencies;
 %ignore get_genotype_string;
@@ -217,6 +213,33 @@ Available values:
    - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus
 ") recombination_model;
 
+/* expose the population */
+%ignore population;
+clone_t get_clone(unsigned long n) {
+        if(n >= $self->population.size())
+                throw HP_BADARG;
+        return $self->population.at(n);
+
+}
+%feature("autodoc",
+"Get a single clone
+
+Parameters:
+   - n: index of the clone
+
+Returns:
+   - clone: the n-th clone in the population
+
+.. note:: this function also returns empty clones.
+") get_clone;
+
+/* number of clones including empty ones (used for iterators) */
+unsigned long _get_number_of_all_clones() {
+        return $self->population.size();
+}
+%pythoncode{
+_number_of_all_clones = property(_get_number_of_all_clones)
+}
 
 /* read only parameters */
 %ignore L;
@@ -241,7 +264,7 @@ participation_ratio = property(_get_participation_ratio)
 }
 %feature("autodoc", "Number of loci (read-only)") get_number_of_loci;
 %feature("autodoc", "Population size (read-only)") get_population_size;
-%feature("autodoc", "Number of clones (read-only)") get_number_of_clones;
+%feature("autodoc", "Number of non-empty clones (read-only)") get_number_of_clones;
 %feature("autodoc", "Number of traits (read-only)") get_number_of_traits;
 %feature("autodoc", "Current generation (read-only)") get_generation;
 %feature("autodoc", "Maximal fitness in the population (read-only)") get_max_fitness;
@@ -262,7 +285,7 @@ def status(self):
                   ('recombination model', 'recombination_model'),
                   ('mutation rate', 'mutation_rate'),
                   ('participation ratio', 'participation_ratio'),
-                  ('number of clones', 'number_of_clones'),
+                  ('number of non-empty clones', 'number_of_clones'),
                  )
     lenmax = max(map(lambda x: len(x[0]), parameters))
 
@@ -554,7 +577,7 @@ def get_genotypes(self, ind=None):
         return np.array(self._get_genotype(ind, L), bool)
 
     if ind is None:
-        ind = xrange(self.number_of_clones)
+        ind = xrange(self._number_of_all_clones)
     genotypes = np.zeros((len(ind), L), bool)
     for i, indi in enumerate(ind):
         genotypes[i] = self._get_genotype(indi, L)
@@ -780,7 +803,7 @@ void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
 %pythoncode {
 def get_fitnesses(self):
         '''Get the fitness of all clones.'''
-        return self._get_fitnesses(self.number_of_clones)
+        return self._get_fitnesses(self._number_of_all_clones)
 }
 
 %feature("autodoc",
@@ -809,7 +832,7 @@ Returns:
 def get_clone_sizes(self):
         '''Get the size of all clones.'''
         import numpy as np
-        return np.array(map(self.get_clone_size, xrange(self.number_of_clones)), int)
+        return np.array(map(self.get_clone_size, xrange(self._number_of_all_clones)), int)
 }
 
 %feature("autodoc",
