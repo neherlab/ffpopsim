@@ -463,7 +463,7 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 			newstrand=((i&(1<<locus))>0)?1:0;	//determine the parent of current locus
 	
 			// For circular genomes all rates are specified.
-			// for linear genomes the first rate  is set to a large number, e.g. 50
+			// for linear genomes the first rate is set to a large number, e.g. 50
 			rr = circular?rec_rates[locus]:(locus?rec_rates[locus - 1]:50);
 			if (strand==newstrand)
 				patterns_order_L[i] *= (0.5*(1.0 + exp(-2.0*rr)));	//probability of an even number of crossovers
@@ -588,6 +588,43 @@ int haploid_lowd::marginalize_recombination_patterns() {
 	if(HG_VERBOSE) cerr <<"done."<<endl;
 	return 0;
 }
+
+/**
+ * @brief Get the recombination rate between a locus and the next one.
+ *
+ * @param locus the locus AFTER which the recombination rate is seeked
+ *
+ * @returns the recombination rate, -1 for FREE_RECOMBINATION
+ *
+ * Note: for SINGLE_CROSSOVER, the recombination rate after the last locus is
+ *       the rate of no recombination at all.
+ */
+double haploid_lowd::get_recombination_rate(int locus) {
+	if(number_of_loci < 2) {
+		if(HG_VERBOSE) cerr<<"There is no recombination with less than 2 loci!"<<endl;
+		return HG_BADARG;
+	}
+
+	if(recombination_model == FREE_RECOMBINATION)
+		return -1;
+	else if(recombination_model == SINGLE_CROSSOVER)
+		return recombination_patterns[0][locus];
+	else if(recombination_model == CROSSOVERS) {
+		double *pat = recombination_patterns[(1<<number_of_loci) - 1];
+		double r = 0;
+		for (int i = 0; i < (1<<number_of_loci); i++)
+			if(bool(i&(1<<locus)) xor bool(i&(1<<(locus+1))))
+				r += pat[i];
+		// Invert the probability of odd crossovers
+		r = - 0.5 * log(1 - 2 * r);
+		return r;
+	}
+	else {
+		if(HG_VERBOSE) cerr<<"Recombination model not found!"<<endl;
+		return HG_BADARG;
+	}
+}
+
 
 /**
  * @brief Initialize population in linkage equilibrium.

@@ -217,6 +217,9 @@ public:
 	haploid_highd(int L=0, int rng_seed=0, int number_of_traits=1);
 	virtual ~haploid_highd();
 
+        // the population
+	vector <clone_t> population;
+
 	// population parameters (read/write)
 	int carrying_capacity;			// carrying capacity of the environment (pop size)
 	double mutation_rate;			// rate of mutation per locus per generation
@@ -231,6 +234,7 @@ public:
 	int N(){return population_size;}
 	int get_population_size() {return population_size;}
 	int get_generation(){return generation;}
+	void set_generation(int g){generation = g;}
 	int get_number_of_clones(){return number_of_clones;}
 	int get_number_of_traits(){return number_of_traits;}
 	double get_participation_ratio(){return participation_ratio;};
@@ -294,6 +298,7 @@ public:
 	double get_fitness(int n) {calc_individual_fitness(population[n]); return population[n].fitness;}
 	int get_clone_size(int n) {return population[n].clone_size;}
 	double get_trait(int n, int t=0) {calc_individual_traits(population[n]); return population[n].trait[t];}
+	vector<coeff_t> get_trait_epistasis(int t=0){return trait[t].coefficients_epistasis;}
 	stat_t get_fitness_statistics() {update_fitness(); calc_fitness_stat(); return fitness_stat;}
 	stat_t get_trait_statistics(int t=0) {calc_trait_stat(); return trait_stat[t];}
 	double get_trait_covariance(int t1, int t2) {calc_trait_stat(); return trait_covariance[t1][t2];}
@@ -310,8 +315,6 @@ public:
 	int print_allele_frequencies(ostream &out);
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
-
-	vector <clone_t> population;
 
 protected:
 	// random number generator

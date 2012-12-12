@@ -332,6 +332,10 @@ class haploid_lowd(object):
         """current generation (read-only)"""
         return _FFPopSim.haploid_lowd__get_generation(self)
 
+    def _set_generation(self, *args, **kwargs):
+        """_set_generation(haploid_lowd self, double g)"""
+        return _FFPopSim.haploid_lowd__set_generation(self, *args, **kwargs)
+
     def _get_mutation_rate(self, *args, **kwargs):
         """_get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"""
         return _FFPopSim.haploid_lowd__get_mutation_rate(self, *args, **kwargs)
@@ -339,6 +343,10 @@ class haploid_lowd(object):
     def _get_recombination_model(self):
         """_get_recombination_model(haploid_lowd self) -> int"""
         return _FFPopSim.haploid_lowd__get_recombination_model(self)
+
+    def _get_recombination_rate(self, *args, **kwargs):
+        """_get_recombination_rate(haploid_lowd self, int locus) -> double"""
+        return _FFPopSim.haploid_lowd__get_recombination_rate(self, *args, **kwargs)
 
     def set_wildtype(self, *args, **kwargs):
         """
@@ -528,6 +536,33 @@ class haploid_lowd(object):
         """__repr__(haploid_lowd self) -> char const *"""
         return _FFPopSim.haploid_lowd___repr__(self)
 
+    def copy(self, rng_seed=0):
+        '''Copy population into new instance.
+        
+        Parameters:
+           - rng_seed: random number to initialize the new population
+        '''
+        pop = haploid_lowd(self.L, rng_seed=rng_seed)
+
+        
+        if self.recombination_model not in ['FREE_RECOMBINATION']:
+            pop.set_recombination_rates(self.get_recombination_rates(), self.recombination_model)
+        pop.set_mutation_rates(self.get_mutation_rates())
+        pop.circular = self.circular
+        pop.outcrossing_rate = self.outcrossing_rate
+
+        
+        pop.set_fitness_function(range(1<<self.L), self.get_fitnesses())
+
+        
+        pop.carrying_capacity = self.carrying_capacity
+        pop.set_genotypes(range(1<<self.L), self.get_genotype_frequencies() * self.N)
+
+        
+        pop._set_generation(self.generation)
+        
+        return pop
+
     L = property(_get_number_of_loci)
     N = property(_get_population_size)
     number_of_loci = property(_get_number_of_loci)
@@ -624,6 +659,29 @@ class haploid_lowd(object):
             raise ValueError('Indices and counts must have the same length')
         if self._set_genotypes(genotypes, counts):
             raise RuntimeError('Error in the C++ function.')
+
+    def get_recombination_rates(self):
+        '''Get recombination rates.
+
+    Returns:
+        - the rates between neighboring loci, a list of float of length L-1
+
+    .. note:: if the recombination model if FREE_RECOMBINATION, an error is raised.
+        '''
+        if self.L < 2:
+            raise ValueError('There is no recombination with less than 2 loci.')
+
+        rm = self.recombination_model
+        if rm == 1:
+            raise ValueError(('The current recombination model is free recombination,'+
+                              'hence recombination rates are not defined.'+
+                              ' Could you possibly mean outcrossing rate?'))
+        elif rm in [3, 2]:
+            import numpy as np
+            return np.array([self._get_recombination_rate(i) for i in xrange(self.L - 1)])
+        else:
+            raise RuntimeError('Recombination model not found')
+
 
     def set_recombination_rates(self, rates, model=None):
         '''Set the recombination rate(s).
@@ -1056,8 +1114,10 @@ class haploid_lowd(object):
 haploid_lowd._get_number_of_loci = new_instancemethod(_FFPopSim.haploid_lowd__get_number_of_loci,None,haploid_lowd)
 haploid_lowd._get_population_size = new_instancemethod(_FFPopSim.haploid_lowd__get_population_size,None,haploid_lowd)
 haploid_lowd._get_generation = new_instancemethod(_FFPopSim.haploid_lowd__get_generation,None,haploid_lowd)
+haploid_lowd._set_generation = new_instancemethod(_FFPopSim.haploid_lowd__set_generation,None,haploid_lowd)
 haploid_lowd._get_mutation_rate = new_instancemethod(_FFPopSim.haploid_lowd__get_mutation_rate,None,haploid_lowd)
 haploid_lowd._get_recombination_model = new_instancemethod(_FFPopSim.haploid_lowd__get_recombination_model,None,haploid_lowd)
+haploid_lowd._get_recombination_rate = new_instancemethod(_FFPopSim.haploid_lowd__get_recombination_rate,None,haploid_lowd)
 haploid_lowd.set_wildtype = new_instancemethod(_FFPopSim.haploid_lowd_set_wildtype,None,haploid_lowd)
 haploid_lowd._set_recombination_model = new_instancemethod(_FFPopSim.haploid_lowd__set_recombination_model,None,haploid_lowd)
 haploid_lowd._set_recombination_rates = new_instancemethod(_FFPopSim.haploid_lowd__set_recombination_rates,None,haploid_lowd)
@@ -1260,6 +1320,10 @@ class haploid_highd(object):
     def _get_generation(self):
         """Current generation (read-only)"""
         return _FFPopSim.haploid_highd__get_generation(self)
+
+    def _set_generation(self, *args, **kwargs):
+        """_set_generation(haploid_highd self, int g)"""
+        return _FFPopSim.haploid_highd__set_generation(self, *args, **kwargs)
 
     def _get_number_of_clones(self):
         """Number of non-empty clones (read-only)"""
@@ -1555,6 +1619,21 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_get_trait(self, *args, **kwargs)
 
+    def get_trait_epistasis(self, t=0):
+        """
+        Get the epistatic terms of the genotype/phenotype map of the chosen trait.
+
+        Parameters:
+           - t: trait number
+
+        Returns:
+           - coefficients: tuple of coefficients, with a value and a tuple of loci
+
+        .. note:: This function is designed to work well in conjunction with add_trait_coefficient.
+
+        """
+        return _FFPopSim.haploid_highd_get_trait_epistasis(self, t)
+
     def get_fitness_statistics(self):
         """
         Get the mean and variance of the fitness in the population.
@@ -1631,6 +1710,36 @@ class haploid_highd(object):
     number_of_traits = property(_get_number_of_traits)
     max_fitness = property(_get_max_fitness)
     participation_ratio = property(_get_participation_ratio)
+
+    def copy(self, rng_seed=0):
+        '''Copy population into new instance.
+        
+        Parameters:
+           - rng_seed: random number to initialize the new population
+        '''
+        pop = haploid_highd(self.L, rng_seed=rng_seed, number_of_traits=self.number_of_traits)
+
+        
+        pop.recombination_model =  self.recombination_model
+        pop.outcrossing_rate = self.outcrossing_rate
+        pop.crossover_rate = self.crossover_rate
+        pop.mutation_rate = self.mutation_rate
+        pop.circular = self.circular
+
+        
+        for i in xrange(self.number_of_traits):
+            pop.set_trait_additive(self.get_trait_additive(i), i)
+            for coeff in self.get_trait_epistasis(i):
+                pop.add_trait_coefficient(coeff[0], coeff[1], i)
+
+        
+        pop.carrying_capacity = self.carrying_capacity
+        pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())    
+
+        
+        pop._set_generation(self.generation)
+        
+        return pop
 
     def status(self):
         '''Print a status list of the population parameters'''
@@ -1751,6 +1860,11 @@ class haploid_highd(object):
         Parameters:
            - ind: if a scalar, a single genotype corresponding to clone ind is returned;
              otherwise, several genotypes are returned (default: all)
+
+        Return:
+           - genotypes: boolean vector or matrix corresponding to the chosen clones.
+
+        .. note:: this function does not return the sizes of each clone.
         '''
 
         import numpy as np
@@ -2079,6 +2193,7 @@ class haploid_highd(object):
 haploid_highd._get_number_of_loci = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_loci,None,haploid_highd)
 haploid_highd._get_population_size = new_instancemethod(_FFPopSim.haploid_highd__get_population_size,None,haploid_highd)
 haploid_highd._get_generation = new_instancemethod(_FFPopSim.haploid_highd__get_generation,None,haploid_highd)
+haploid_highd._set_generation = new_instancemethod(_FFPopSim.haploid_highd__set_generation,None,haploid_highd)
 haploid_highd._get_number_of_clones = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_clones,None,haploid_highd)
 haploid_highd._get_number_of_traits = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_traits,None,haploid_highd)
 haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
@@ -2109,6 +2224,7 @@ haploid_highd.get_trait_weight = new_instancemethod(_FFPopSim.haploid_highd_get_
 haploid_highd.get_fitness = new_instancemethod(_FFPopSim.haploid_highd_get_fitness,None,haploid_highd)
 haploid_highd.get_clone_size = new_instancemethod(_FFPopSim.haploid_highd_get_clone_size,None,haploid_highd)
 haploid_highd.get_trait = new_instancemethod(_FFPopSim.haploid_highd_get_trait,None,haploid_highd)
+haploid_highd.get_trait_epistasis = new_instancemethod(_FFPopSim.haploid_highd_get_trait_epistasis,None,haploid_highd)
 haploid_highd.get_fitness_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_fitness_statistics,None,haploid_highd)
 haploid_highd.get_trait_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_trait_statistics,None,haploid_highd)
 haploid_highd.get_trait_covariance = new_instancemethod(_FFPopSim.haploid_highd_get_trait_covariance,None,haploid_highd)
@@ -2265,6 +2381,33 @@ class hivpopulation(haploid_highd):
 
         """
         return _FFPopSim.hivpopulation_write_genotypes(self, *args, **kwargs)
+
+    def copy(self, rng_seed=0):
+        '''Copy population into new instance.
+        
+        Parameters:
+           - rng_seed: random number to initialize the new population
+        '''
+        pop = hivpopulation(self.N,
+                            rng_seed=rng_seed,
+                            mutation_rate=self.mutation_rate,
+                            coinfection_rate=self.outcrossing_rate,
+                            crossover_rate=self.crossover_rate)
+
+        
+        for i in xrange(self.number_of_traits):
+            pop.set_trait_additive(self.get_trait_additive(i), i)
+            for coeff in self.get_trait_epistasis(i):
+                pop.add_trait_coefficient(coeff[0], coeff[1], i)
+
+        
+        pop.carrying_capacity = self.carrying_capacity
+        pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())    
+
+        
+        pop._set_generation(self.generation)
+        
+        return pop
 
     def __str__(self):
         """__str__(hivpopulation self) -> char const *"""

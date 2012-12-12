@@ -14,6 +14,7 @@ Initialization
    :nosignatures:
 
    haploid_lowd.__init__
+   haploid_lowd.copy
 
 Attributes
 ^^^^^^^^^^
@@ -67,6 +68,7 @@ Mutation and Recombination
    haploid_lowd.recombination_model
 
    haploid_lowd.set_recombination_rates
+   haploid_lowd.get_recombination_rates
    haploid_lowd.set_mutation_rates
    haploid_lowd.get_mutation_rates
 

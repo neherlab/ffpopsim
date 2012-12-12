@@ -128,6 +128,7 @@ Analyze fitness and trait distributions
 
    haploid_highd.calc_stat
    haploid_highd.get_trait_additive
+   haploid_highd.get_trait_epistasis
    haploid_highd.get_trait_statistics
    haploid_highd.get_trait_covariance
    haploid_highd.get_fitness

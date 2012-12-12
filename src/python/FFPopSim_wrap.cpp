@@ -5158,6 +5158,39 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_lowd__set_generation(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "g", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_lowd__set_generation",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd__set_generation" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd__set_generation" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->set_generation(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_lowd__get_mutation_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_lowd *arg1 = (haploid_lowd *) 0 ;
@@ -5218,6 +5251,40 @@ SWIGINTERN PyObject *_wrap_haploid_lowd__get_recombination_model(PyObject *SWIGU
   arg1 = reinterpret_cast< haploid_lowd * >(argp1);
   result = (int)(arg1)->get_recombination_model();
   resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_lowd__get_recombination_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_lowd *arg1 = (haploid_lowd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "locus", NULL 
+  };
+  double result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_lowd__get_recombination_rate",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_lowd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_lowd__get_recombination_rate" "', argument " "1"" of type '" "haploid_lowd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_lowd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_lowd__get_recombination_rate" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (double)(arg1)->get_recombination_rate(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -7433,6 +7500,39 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd__set_generation(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "g", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd__set_generation",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd__set_generation" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd__set_generation" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  (arg1)->set_generation(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd__get_number_of_clones(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -8496,6 +8596,66 @@ SWIGINTERN PyObject *_wrap_haploid_highd_get_trait(PyObject *SWIGUNUSEDPARM(self
   }
   result = (double)(arg1)->get_trait(arg2,arg3);
   resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd_get_trait_epistasis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  int arg2 = (int) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "t", NULL 
+  };
+  SwigValueWrapper< vector< coeff_t > > result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O|O:haploid_highd_get_trait_epistasis",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_get_trait_epistasis" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  if (obj1) {
+    ecode2 = SWIG_AsVal_int(obj1, &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_get_trait_epistasis" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+  }
+  result = (arg1)->get_trait_epistasis(arg2);
+  {
+    PyObject *tmpitem, *tmploci;
+    double tmpval;
+    int tmporder;
+    coeff_t *tmpcoeff;
+    
+    PyObject *tmplist = PyList_New(0);
+    for(int i=0; i < (&result)->size(); i++) {
+      /* set the i-th coefficient */
+      tmpcoeff = &((&result)->at(i));
+      tmpval = tmpcoeff->value;
+      tmporder = tmpcoeff->order; 
+      tmpitem = PyTuple_New(2);
+      /* set the value */
+      PyTuple_SET_ITEM(tmpitem, 0, PyFloat_FromDouble(tmpval));
+      /* set the loci */
+      tmploci = PyTuple_New(tmporder);
+      for(int j=0; j < tmporder; j++)
+      PyTuple_SET_ITEM(tmploci, j, PyInt_FromLong((long)(tmpcoeff->loci[j])));
+      PyTuple_SET_ITEM(tmpitem, 1, tmploci);
+      /* set the coeff */
+      PyList_Append(tmplist, tmpitem);
+    }
+    resultobj = tmplist;
+  }
   return resultobj;
 fail:
   return NULL;
@@ -10090,8 +10250,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_lowd__get_number_of_loci", (PyCFunction)_wrap_haploid_lowd__get_number_of_loci, METH_O, (char *)"number of loci (read-only)"},
 	 { (char *)"haploid_lowd__get_population_size", (PyCFunction)_wrap_haploid_lowd__get_population_size, METH_O, (char *)"population size (read-only)"},
 	 { (char *)"haploid_lowd__get_generation", (PyCFunction)_wrap_haploid_lowd__get_generation, METH_O, (char *)"current generation (read-only)"},
+	 { (char *)"haploid_lowd__set_generation", (PyCFunction) _wrap_haploid_lowd__set_generation, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__set_generation(haploid_lowd self, double g)"},
 	 { (char *)"haploid_lowd__get_mutation_rate", (PyCFunction) _wrap_haploid_lowd__get_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_mutation_rate(haploid_lowd self, int locus, int direction) -> double"},
 	 { (char *)"haploid_lowd__get_recombination_model", (PyCFunction)_wrap_haploid_lowd__get_recombination_model, METH_O, (char *)"haploid_lowd__get_recombination_model(haploid_lowd self) -> int"},
+	 { (char *)"haploid_lowd__get_recombination_rate", (PyCFunction) _wrap_haploid_lowd__get_recombination_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_lowd__get_recombination_rate(haploid_lowd self, int locus) -> double"},
 	 { (char *)"haploid_lowd_set_wildtype", (PyCFunction) _wrap_haploid_lowd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Initialize population of N individuals with the - allele at all loci (wildtype)\n"
 		"\n"
@@ -10298,6 +10460,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_number_of_loci", (PyCFunction)_wrap_haploid_highd__get_number_of_loci, METH_O, (char *)"Number of loci (read-only)"},
 	 { (char *)"haploid_highd__get_population_size", (PyCFunction)_wrap_haploid_highd__get_population_size, METH_O, (char *)"Population size (read-only)"},
 	 { (char *)"haploid_highd__get_generation", (PyCFunction)_wrap_haploid_highd__get_generation, METH_O, (char *)"Current generation (read-only)"},
+	 { (char *)"haploid_highd__set_generation", (PyCFunction) _wrap_haploid_highd__set_generation, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_generation(haploid_highd self, int g)"},
 	 { (char *)"haploid_highd__get_number_of_clones", (PyCFunction)_wrap_haploid_highd__get_number_of_clones, METH_O, (char *)"Number of non-empty clones (read-only)"},
 	 { (char *)"haploid_highd__get_number_of_traits", (PyCFunction)_wrap_haploid_highd__get_number_of_traits, METH_O, (char *)"Number of traits (read-only)"},
 	 { (char *)"haploid_highd__get_participation_ratio", (PyCFunction)_wrap_haploid_highd__get_participation_ratio, METH_O, (char *)"Participation ratio (read-only)"},
@@ -10500,6 +10663,18 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		"Returns:\n"
 		"   - trait: value of that trait for that clone\n"
+		"\n"
+		""},
+	 { (char *)"haploid_highd_get_trait_epistasis", (PyCFunction) _wrap_haploid_highd_get_trait_epistasis, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Get the epistatic terms of the genotype/phenotype map of the chosen trait.\n"
+		"\n"
+		"Parameters:\n"
+		"   - t: trait number\n"
+		"\n"
+		"Returns:\n"
+		"   - coefficients: tuple of coefficients, with a value and a tuple of loci\n"
+		"\n"
+		".. note:: This function is designed to work well in conjunction with add_trait_coefficient.\n"
 		"\n"
 		""},
 	 { (char *)"haploid_highd_get_fitness_statistics", (PyCFunction)_wrap_haploid_highd_get_fitness_statistics, METH_O, (char *)"\n"

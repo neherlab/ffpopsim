@@ -42,6 +42,7 @@ haploid_highd Class Reference
 
    .. automethod:: haploid_highd.__init__
    .. automethod:: haploid_highd.add_trait_coefficient(value, loci, t=0)
+   .. automethod:: haploid_highd.get_trait_epistasis(t=0)
    .. automethod:: haploid_highd.set_random_trait_epistasis(epistasis_std, t=0)
    .. automethod:: haploid_highd.add_fitness_coefficient(value, loci)
    .. automethod:: haploid_highd.set_random_epistasis(epistasis_std)
