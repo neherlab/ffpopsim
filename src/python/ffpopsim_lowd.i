@@ -148,12 +148,17 @@ def copy(self, rng_seed=0):
     Parameters:
        - rng_seed: random number to initialize the new population
     '''
+    import numpy as np
     pop = haploid_lowd(self.L, rng_seed=rng_seed)
 
     # Mutation and recombination
     if self.recombination_model not in ['FREE_RECOMBINATION']:
         pop.set_recombination_rates(self.get_recombination_rates(), self.recombination_model)
-    pop.set_mutation_rates(self.get_mutation_rates())
+    tmp = self.get_mutation_rates()
+    if np.isscalar(tmp) or tmp.ndim < 2:
+        pop.set_mutation_rates(tmp)
+    else:
+        pop.set_mutation_rates(*tmp)
     pop.circular = self.circular
     pop.outcrossing_rate = self.outcrossing_rate
 
