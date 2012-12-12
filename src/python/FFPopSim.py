@@ -2607,7 +2607,7 @@ class haploid_highd(object):
         return _FFPopSim.haploid_highd__get_generation(self)
 
     def _get_number_of_clones(self):
-        """Number of clones (read-only)"""
+        """Number of non-empty clones (read-only)"""
         return _FFPopSim.haploid_highd__get_number_of_clones(self)
 
     def _get_number_of_traits(self):
@@ -2988,7 +2988,6 @@ class haploid_highd(object):
         """_update_fitness(haploid_highd self)"""
         return _FFPopSim.haploid_highd__update_fitness(self)
 
-    population = _swig_property(_FFPopSim.haploid_highd_population_get, _FFPopSim.haploid_highd_population_set)
     def __str__(self):
         """__str__(haploid_highd self) -> char const *"""
         return _FFPopSim.haploid_highd___str__(self)
@@ -2996,6 +2995,16 @@ class haploid_highd(object):
     def __repr__(self):
         """__repr__(haploid_highd self) -> char const *"""
         return _FFPopSim.haploid_highd___repr__(self)
+
+    def get_clone(self, *args, **kwargs):
+        """get_clone(haploid_highd self, unsigned long n) -> clone"""
+        return _FFPopSim.haploid_highd_get_clone(self, *args, **kwargs)
+
+    def _get_number_of_all_clones(self):
+        """_get_number_of_all_clones(haploid_highd self) -> unsigned long"""
+        return _FFPopSim.haploid_highd__get_number_of_all_clones(self)
+
+    _number_of_all_clones = property(_get_number_of_all_clones)
 
     L = property(_get_number_of_loci)
     N = property(_get_population_size)
@@ -3020,7 +3029,7 @@ class haploid_highd(object):
                       ('recombination model', 'recombination_model'),
                       ('mutation rate', 'mutation_rate'),
                       ('participation ratio', 'participation_ratio'),
-                      ('number of clones', 'number_of_clones'),
+                      ('number of non-empty clones', 'number_of_clones'),
                      )
         lenmax = max(map(lambda x: len(x[0]), parameters))
 
@@ -3140,7 +3149,7 @@ class haploid_highd(object):
             return np.array(self._get_genotype(ind, L), bool)
 
         if ind is None:
-            ind = xrange(self.number_of_clones)
+            ind = xrange(self._number_of_all_clones)
         genotypes = np.zeros((len(ind), L), bool)
         for i, indi in enumerate(ind):
             genotypes[i] = self._get_genotype(indi, L)
@@ -3208,12 +3217,12 @@ class haploid_highd(object):
 
     def get_fitnesses(self):
             '''Get the fitness of all clones.'''
-            return self._get_fitnesses(self.number_of_clones)
+            return self._get_fitnesses(self._number_of_all_clones)
 
     def get_clone_sizes(self):
             '''Get the size of all clones.'''
             import numpy as np
-            return np.array(map(self.get_clone_size, xrange(self.number_of_clones)), int)
+            return np.array(map(self.get_clone_size, xrange(self._number_of_all_clones)), int)
 
     def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
         '''Calculate the Hamming distance between two genotypes
@@ -3501,6 +3510,8 @@ haploid_highd._update_traits = new_instancemethod(_FFPopSim.haploid_highd__updat
 haploid_highd._update_fitness = new_instancemethod(_FFPopSim.haploid_highd__update_fitness,None,haploid_highd)
 haploid_highd.__str__ = new_instancemethod(_FFPopSim.haploid_highd___str__,None,haploid_highd)
 haploid_highd.__repr__ = new_instancemethod(_FFPopSim.haploid_highd___repr__,None,haploid_highd)
+haploid_highd.get_clone = new_instancemethod(_FFPopSim.haploid_highd_get_clone,None,haploid_highd)
+haploid_highd._get_number_of_all_clones = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_all_clones,None,haploid_highd)
 haploid_highd._set_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__set_allele_frequencies,None,haploid_highd)
 haploid_highd._set_genotypes = new_instancemethod(_FFPopSim.haploid_highd__set_genotypes,None,haploid_highd)
 haploid_highd._get_genealogy = new_instancemethod(_FFPopSim.haploid_highd__get_genealogy,None,haploid_highd)

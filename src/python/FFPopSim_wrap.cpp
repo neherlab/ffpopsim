@@ -2996,18 +2996,17 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[31]
 #define SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t swig_types[32]
 #define SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t swig_types[33]
-#define SWIGTYPE_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t swig_types[34]
-#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[35]
-#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[36]
-#define SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t swig_types[37]
-#define SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[38]
-#define SWIGTYPE_p_step_t swig_types[39]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[40]
-#define SWIGTYPE_p_tree_key_t swig_types[41]
-#define SWIGTYPE_p_unsigned_int swig_types[42]
-#define SWIGTYPE_p_value_type swig_types[43]
-static swig_type_info *swig_types[45];
-static swig_module_info swig_module = {swig_types, 44, 0, 0, 0, 0};
+#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[34]
+#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[35]
+#define SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t swig_types[36]
+#define SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[37]
+#define SWIGTYPE_p_step_t swig_types[38]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[39]
+#define SWIGTYPE_p_tree_key_t swig_types[40]
+#define SWIGTYPE_p_unsigned_int swig_types[41]
+#define SWIGTYPE_p_value_type swig_types[42]
+static swig_type_info *swig_types[44];
+static swig_module_info swig_module = {swig_types, 43, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -6258,6 +6257,15 @@ SWIGINTERN char const *haploid_highd___repr__(haploid_highd *self){
         static char buffer[255];
         sprintf(buffer,"<haploid_highd(%d, %d)>", self->L(), self->N());
         return &buffer[0];
+}
+SWIGINTERN clone_t haploid_highd_get_clone(haploid_highd *self,unsigned long n){
+        if(n >= self->population.size())
+                throw HP_BADARG;
+        return self->population.at(n);
+
+}
+SWIGINTERN unsigned long haploid_highd__get_number_of_all_clones(haploid_highd *self){
+        return self->population.size();
 }
 SWIGINTERN int haploid_highd__set_allele_frequencies(haploid_highd *self,double *IN_ARRAY1,int DIM1,int n_o_genotypes){return self->set_allele_frequencies(IN_ARRAY1, n_o_genotypes);}
 SWIGINTERN int haploid_highd__set_genotypes(haploid_highd *self,int len1,double *genotypes,int len2,double *vals){
@@ -23478,58 +23486,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_highd_population_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  haploid_highd *arg1 = (haploid_highd *) 0 ;
-  std::vector< clone_t > *arg2 = (std::vector< clone_t > *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  if (!SWIG_Python_UnpackTuple(args,"haploid_highd_population_set",2,2,swig_obj)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_population_set" "', argument " "1"" of type '" "haploid_highd *""'"); 
-  }
-  arg1 = reinterpret_cast< haploid_highd * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "haploid_highd_population_set" "', argument " "2"" of type '" "std::vector< clone_t > *""'"); 
-  }
-  arg2 = reinterpret_cast< std::vector< clone_t > * >(argp2);
-  if (arg1) (arg1)->population = *arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_haploid_highd_population_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  haploid_highd *arg1 = (haploid_highd *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  std::vector< clone_t > *result = 0 ;
-  
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_population_get" "', argument " "1"" of type '" "haploid_highd *""'"); 
-  }
-  arg1 = reinterpret_cast< haploid_highd * >(argp1);
-  result = (std::vector< clone_t > *)& ((arg1)->population);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_haploid_highd___str__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -23570,6 +23526,63 @@ SWIGINTERN PyObject *_wrap_haploid_highd___repr__(PyObject *SWIGUNUSEDPARM(self)
   arg1 = reinterpret_cast< haploid_highd * >(argp1);
   result = (char *)haploid_highd___repr__(arg1);
   resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd_get_clone(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  unsigned long arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned long val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  clone_t result;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:haploid_highd_get_clone",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_get_clone" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_long(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_get_clone" "', argument " "2"" of type '" "unsigned long""'");
+  } 
+  arg2 = static_cast< unsigned long >(val2);
+  result = haploid_highd_get_clone(arg1,arg2);
+  resultobj = SWIG_NewPointerObj((new clone_t(static_cast< const clone_t& >(result))), SWIGTYPE_p_clone_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd__get_number_of_all_clones(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  unsigned long result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd__get_number_of_all_clones" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = (unsigned long)haploid_highd__get_number_of_all_clones(arg1);
+  resultobj = SWIG_From_unsigned_SS_long(static_cast< unsigned long >(result));
   return resultobj;
 fail:
   return NULL;
@@ -25583,7 +25596,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_number_of_loci", (PyCFunction)_wrap_haploid_highd__get_number_of_loci, METH_O, (char *)"Number of loci (read-only)"},
 	 { (char *)"haploid_highd__get_population_size", (PyCFunction)_wrap_haploid_highd__get_population_size, METH_O, (char *)"Population size (read-only)"},
 	 { (char *)"haploid_highd__get_generation", (PyCFunction)_wrap_haploid_highd__get_generation, METH_O, (char *)"Current generation (read-only)"},
-	 { (char *)"haploid_highd__get_number_of_clones", (PyCFunction)_wrap_haploid_highd__get_number_of_clones, METH_O, (char *)"Number of clones (read-only)"},
+	 { (char *)"haploid_highd__get_number_of_clones", (PyCFunction)_wrap_haploid_highd__get_number_of_clones, METH_O, (char *)"Number of non-empty clones (read-only)"},
 	 { (char *)"haploid_highd__get_number_of_traits", (PyCFunction)_wrap_haploid_highd__get_number_of_traits, METH_O, (char *)"Number of traits (read-only)"},
 	 { (char *)"haploid_highd__get_participation_ratio", (PyCFunction)_wrap_haploid_highd__get_participation_ratio, METH_O, (char *)"Participation ratio (read-only)"},
 	 { (char *)"haploid_highd_set_wildtype", (PyCFunction) _wrap_haploid_highd_set_wildtype, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
@@ -25848,10 +25861,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_max_fitness", (PyCFunction)_wrap_haploid_highd__get_max_fitness, METH_O, (char *)"Maximal fitness in the population (read-only)"},
 	 { (char *)"haploid_highd__update_traits", (PyCFunction)_wrap_haploid_highd__update_traits, METH_O, (char *)"haploid_highd__update_traits(haploid_highd self)"},
 	 { (char *)"haploid_highd__update_fitness", (PyCFunction)_wrap_haploid_highd__update_fitness, METH_O, (char *)"haploid_highd__update_fitness(haploid_highd self)"},
-	 { (char *)"haploid_highd_population_set", _wrap_haploid_highd_population_set, METH_VARARGS, (char *)"haploid_highd_population_set(haploid_highd self, std::vector< clone_t > * population)"},
-	 { (char *)"haploid_highd_population_get", (PyCFunction)_wrap_haploid_highd_population_get, METH_O, (char *)"haploid_highd_population_get(haploid_highd self) -> std::vector< clone_t > *"},
 	 { (char *)"haploid_highd___str__", (PyCFunction)_wrap_haploid_highd___str__, METH_O, (char *)"haploid_highd___str__(haploid_highd self) -> char const *"},
 	 { (char *)"haploid_highd___repr__", (PyCFunction)_wrap_haploid_highd___repr__, METH_O, (char *)"haploid_highd___repr__(haploid_highd self) -> char const *"},
+	 { (char *)"haploid_highd_get_clone", (PyCFunction) _wrap_haploid_highd_get_clone, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd_get_clone(haploid_highd self, unsigned long n) -> clone"},
+	 { (char *)"haploid_highd__get_number_of_all_clones", (PyCFunction)_wrap_haploid_highd__get_number_of_all_clones, METH_O, (char *)"haploid_highd__get_number_of_all_clones(haploid_highd self) -> unsigned long"},
 	 { (char *)"haploid_highd__set_allele_frequencies", (PyCFunction) _wrap_haploid_highd__set_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_allele_frequencies(haploid_highd self, double * IN_ARRAY1, int n_o_genotypes) -> int"},
 	 { (char *)"haploid_highd__set_genotypes", (PyCFunction) _wrap_haploid_highd__set_genotypes, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_genotypes(haploid_highd self, int len1, int len2) -> int"},
 	 { (char *)"haploid_highd__get_genealogy", (PyCFunction)_wrap_haploid_highd__get_genealogy, METH_O, (char *)"haploid_highd__get_genealogy(haploid_highd self) -> multi_locus_genealogy"},
@@ -25990,7 +26003,6 @@ static swig_type_info _swigt__p_std__lessT_tree_key_t_t = {"_p_std__lessT_tree_k
 static swig_type_info _swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t = {"_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t", "std::list< tree_key_t,std::allocator< tree_key_t > > *|std::list< tree_key_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t = {"_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t", "std::map< tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > > *|std::map< tree_key_t,edge_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t = {"_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t", "std::map< tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > > *|std::map< tree_key_t,node_t > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t = {"_p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t", "std::vector< clone_t,std::allocator< clone_t > > *|std::vector< clone_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_double_std__allocatorT_double_t_t = {"_p_std__vectorT_double_std__allocatorT_double_t_t", "std::vector< double,std::allocator< double > > *|std::vector< double > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_int_std__allocatorT_int_t_t = {"_p_std__vectorT_int_std__allocatorT_int_t_t", "std::vector< int,std::allocator< int > > *|std::vector< int > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t = {"_p_std__vectorT_step_t_std__allocatorT_step_t_t_t", "std::vector< step_t,std::allocator< step_t > > *|std::vector< step_t > *", 0, 0, (void*)0, 0};
@@ -26036,7 +26048,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,
   &_swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,
   &_swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,
-  &_swigt__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t,
   &_swigt__p_std__vectorT_double_std__allocatorT_double_t_t,
   &_swigt__p_std__vectorT_int_std__allocatorT_int_t_t,
   &_swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t,
@@ -26082,7 +26093,6 @@ static swig_cast_info _swigc__p_std__lessT_tree_key_t_t[] = {  {&_swigt__p_std__
 static swig_cast_info _swigc__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t[] = {  {&_swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t[] = {  {&_swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t[] = {  {&_swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t[] = {  {&_swigt__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_double_std__allocatorT_double_t_t[] = {  {&_swigt__p_std__vectorT_double_std__allocatorT_double_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_int_std__allocatorT_int_t_t[] = {  {&_swigt__p_std__vectorT_int_std__allocatorT_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_step_t_std__allocatorT_step_t_t_t[] = {  {&_swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -26128,7 +26138,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,
   _swigc__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,
   _swigc__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,
-  _swigc__p_std__vectorT_clone_t_std__allocatorT_clone_t_t_t,
   _swigc__p_std__vectorT_double_std__allocatorT_double_t_t,
   _swigc__p_std__vectorT_int_std__allocatorT_int_t_t,
   _swigc__p_std__vectorT_step_t_std__allocatorT_step_t_t_t,
