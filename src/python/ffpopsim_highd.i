@@ -174,7 +174,6 @@ Parameters:
 
 /* ignore weird functions using pointers */
 %ignore get_pair_frequencies(vector < vector <int> > *loci);
-%ignore random_clones(unsigned int n_o_individuals, vector <int> *sample);
 
 /* constructor */
 %exception haploid_highd {
@@ -215,23 +214,37 @@ Available values:
 
 /* expose the population */
 %ignore population;
-clone_t get_clone(unsigned long n) {
+clone_t _get_clone(unsigned long n) {
         if(n >= $self->population.size())
                 throw HP_BADARG;
         return $self->population.at(n);
 
 }
-%feature("autodoc",
-"Get a single clone
+%exception _get_clone {
+        try {
+                $action
+        } catch (int err) {
+                stringstream errmsg;
+                errmsg<<"The population has only "<<number_of_clones<<" clones.";
+                PyErr_SetString(PyExc_ValueError, errmsg.str().c_str());
+                SWIG_fail;
+        }
+}
 
-Parameters:
-   - n: index of the clone
-
-Returns:
-   - clone: the n-th clone in the population
-
-.. note:: this function also returns empty clones.
-") get_clone;
+%pythoncode{
+def get_clone(self, n):
+    '''Get a single clone
+    
+    Parameters:
+       - n: index of the clone
+    
+    Returns:
+       - clone: the n-th clone in the population
+    
+    .. note:: this function also returns empty clones.
+    '''
+    return self._get_clone(self._good_clones[n])
+}
 
 /* number of clones including empty ones (used for iterators) */
 unsigned long _get_number_of_all_clones() {
@@ -240,6 +253,9 @@ unsigned long _get_number_of_all_clones() {
 %pythoncode{
 _number_of_all_clones = property(_get_number_of_all_clones)
 }
+
+/* clone filter */
+%rename (_get_nonempty_clones) get_nonempty_clones;
 
 /* read only parameters */
 %ignore L;
@@ -340,14 +356,19 @@ def status(self):
 }
 
 /* initialize wildtype */
-%feature("autodoc",
-"Initialize a population of wildtype individuals
-
-Parameters:
-   - N: the number of individuals
-
-.. note:: the carrying capacity is set to the same value if still unset.
-") set_wildtype;
+%rename (_set_wildtype) set_wildtype;
+%pythoncode{
+def set_wildtype(self):
+    '''Initialize a population of wildtype individuals
+    
+    Parameters:
+       - N: the number of individuals
+    
+    .. note:: the carrying capacity is set to the same value if still unset.
+    '''
+    self._set_wildtype()
+    self._good_clones = np.array(self._get_nonempty_clones())
+}
 
 /* initalize frequencies */
 %ignore set_allele_frequencies;
@@ -366,6 +387,9 @@ def set_allele_frequencies(self, frequencies, N):
             raise ValueError('Please input an L dimensional list of allele frequencies.')
     if self._set_allele_frequencies(frequencies, N):
         raise RuntimeError('Error in the C++ function.')
+
+    import numpy as np
+    self._good_clones = np.array(self._get_nonempty_clones())
 }
 
 /* initialize genotypes */
@@ -411,6 +435,8 @@ def set_genotypes(self, genotypes, counts):
     # Call the C++ with the flattened array
     if self._set_genotypes(genotypes.flatten(), counts):
         raise RuntimeError('Error in the C++ function.')
+
+    self._good_clones = np.array(self._get_nonempty_clones())
 }
 
 
@@ -419,16 +445,17 @@ def set_genotypes(self, genotypes, counts):
 %rename (_evolve) evolve;
 %pythoncode{
 def evolve(self, gen=1):
-        '''Evolve for some generations.
+    '''Evolve for some generations.
 
-        Parameters:
-           - gen: number of generations, defaults to one
-        '''
-
-        if self._evolve(gen):
-                raise RuntimeError('Error in the C++ function.')
-        else:
-                self.calc_stat()
+    Parameters:
+       - gen: number of generations, defaults to one
+    '''
+    import numpy as np
+    if self._evolve(gen):
+        raise RuntimeError('Error in the C++ function.')
+    else:
+        self.calc_stat()
+        self._good_clones = np.array(self._get_nonempty_clones())
 }
 
 /* bottleneck */
@@ -579,60 +606,19 @@ Returns:
     - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
 ") get_moment;
 
-/* get genotypes */
-void _get_genotype(unsigned int n, short* ARGOUT_ARRAY1, int DIM1) {
-        boost::dynamic_bitset<> newgt = ($self->population)[n].genotype;
-        for(size_t i=0; i < (size_t)DIM1; i++)
-                ARGOUT_ARRAY1[i] = newgt[i];
-}
-%pythoncode {
-def get_genotype(self, n):
-    '''Get a genotype from the population
-
-    Parameters:
-       - n: index of the clone whose genotype is to be returned
-
-    Returns:
-       - genotype: Boolean array of the genotype
-    '''
-
-    return self._get_genotype(n, self.number_of_loci)
-
-
-def get_genotypes(self, ind=None):
-    '''Get genotypes of the population.
-
-    Parameters:
-       - ind: if a scalar, a single genotype corresponding to clone ind is returned;
-         otherwise, several genotypes are returned (default: all)
-
-    Return:
-       - genotypes: boolean vector or matrix corresponding to the chosen clones.
-
-    .. note:: this function does not return the sizes of each clone.
-    '''
-
-    import numpy as np
-    L = self.number_of_loci
-    if np.isscalar(ind):
-        return np.array(self._get_genotype(ind, L), bool)
-
-    if ind is None:
-        ind = xrange(self._number_of_all_clones)
-    genotypes = np.zeros((len(ind), L), bool)
-    for i, indi in enumerate(ind):
-        genotypes[i] = self._get_genotype(indi, L)
-    return genotypes
-}
-
 /* add genotypes */
-%feature("autodoc",
-"Add new individuals to the population with certain genotypes
-
-Parameters:
-   - genotype: genotype to add to the population (Boolean list)
-   - n: number of new individuals carrying that genotype
-") add_genotype;
+%rename (_add_genotype) add_genotype;
+%pythoncode{
+def add_genotype(self, genotype, n):
+    '''Add new individuals to the population with certain genotypes
+    
+    Parameters:
+       - genotype: genotype to add to the population (Boolean list)
+       - n: number of new individuals carrying that genotype
+    '''
+    self._add_genotype()
+    self._good_clones = np.array(self._get_nonempty_clones())
+}
 
 /* set trait/fitness coefficients */
 %exception clear_fitness {
@@ -877,55 +863,125 @@ Parameters:
 
 %feature("autodoc", "Shortcut for set_random_trait_epistasis when there is only one trait") set_random_epistasis;
 
-/* fitness/traits of clones */
-void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
-        for(size_t i=0; i < (size_t)DIM1; i++)
-                ARGOUT_ARRAY1[i] = $self->get_fitness(i);
-}
-%pythoncode {
+/* fitness of clones */
+%rename (_get_fitness) get_fitness;
+%pythoncode{
+def get_fitness(self, n):
+    '''Get the fitness of an individual
+    
+    Parameters:
+       - n: index of the clone whose fitness is to be computed
+    
+    Returns:
+       - fitness: fitness value of that clone
+    '''
+    if n >= self.number_of_clones:
+        raise ValueError('The population has only '+str(self.number_of_clones)+' clones.')
+    else:
+        return self._get_fitness(self._good_clones[n])
+
+
 def get_fitnesses(self):
-        '''Get the fitness of all clones.'''
-        return self._get_fitnesses(self._number_of_all_clones)
+    '''Get the fitness of all clones.'''
+    import numpy as np
+    f = np.zeros(self.number_of_clones)
+    for i, ii in enumerate(self._good_clones):
+        f[i] = self._get_fitness(ii)
+    return f
 }
 
-%feature("autodoc",
-"Get the fitness of an individual
+/* traits of clones */
+%rename (_get_trait) get_trait;
+%pythoncode{
+def get_trait(self, n, t):
+    '''Get a trait of an individual
+    
+    Parameters:
+       - n: index of the clone whose trait is to be computed
+       - t: trait to be computed
+    
+    Returns:
+       - trait: value of that trait for that clone
+    '''
+    if n >= self.number_of_clones:
+        raise ValueError('The population has only '+str(self.number_of_clones)+' clones.')
+    else:
+        return self._get_trait(self._good_clones[n], t)
 
-Parameters:
-   - n: index of the clone whose fitness is to be computed
 
-Returns:
-   - fitness: fitness value of that clone
-") get_fitness;
+def get_traits(self):
+    '''Get all traits from all clones'''
+    import numpy as np
+    t = np.zeros((self.number_of_clones, self.number_of_traits))
+    for i, ii in enumerate(self._good_clones):
+        for j in xrange(self.number_of_traits):
+            t[i, j] = self._get_trait(ii, j)
+    return t
+}
 
-%feature("autodoc",
-"Get a trait of an individual
+/* clone sizes */
+%rename (_get_clone_size) get_clone_size;
+%pythoncode{
+def get_clone_size(self, n):
+    '''Get the size of a clone
+    
+    Parameters:
+       - n: index of the clone
+    
+    Returns:
+       - size: size of the selected clone
+    '''
+    if n >= self.number_of_clones:
+        raise ValueError('The population has only '+str(self.number_of_clones)+' clones.')
+    else:
+        return self._get_clone_size(self._good_clones[n])
 
-Parameters:
-   - n: index of the clone whose trait is to be computed
-   - t: trait to be computed
 
-Returns:
-   - trait: value of that trait for that clone
-") get_trait;
-
-/* get sizes of all clones */
-%pythoncode {
 def get_clone_sizes(self):
-        '''Get the size of all clones.'''
-        import numpy as np
-        return np.array(map(self.get_clone_size, xrange(self._number_of_all_clones)), int)
+    '''Get the size of all clones.'''
+    import numpy as np
+    s = np.zeros(self.number_of_clones, int)
+    for i, ii in enumerate(self._good_clones):
+        s[i] = self._get_clone_size(ii)
+    return s
 }
 
-%feature("autodoc",
-"Get the size of a clone
+/* clone genotypes */
+void _get_genotype(unsigned int n, short* ARGOUT_ARRAY1, int DIM1) {
+        boost::dynamic_bitset<> newgt = ($self->population)[n].genotype;
+        for(size_t i=0; i < (size_t)DIM1; i++)
+                ARGOUT_ARRAY1[i] = newgt[i];
+}
+%pythoncode {
+def get_genotype(self, n):
+    '''Get a genotype from the population
 
-Parameters:
-   - n: index of the clone
+    Parameters:
+       - n: index of the clone whose genotype is to be returned
 
-Returns:
-   - size: size of the selected clone
-") get_clone_size;
+    Returns:
+       - genotype: Boolean array of the genotype
+    '''
+
+    return self._get_genotype(n, self.number_of_loci)
+
+
+def get_genotypes(self):
+    '''Get all genotypes of the population.
+
+    Return:
+       - genotypes: boolean 2D array with the genotypes
+
+    .. note:: this function does not return the sizes of each clone.
+    '''
+    import numpy as np
+    L = self.number_of_loci
+    genotypes = np.zeros((self.number_of_clones, L), bool)
+    for i, ii in enumerate(self._good_clones):
+        genotypes[i] = self._get_genotype(ii, L)
+    return genotypes
+}
+
 
 /* clone structure */
 %feature("autodoc",
@@ -989,29 +1045,31 @@ def random_genomes(self, n):
     return genotypes
 }
 
-%feature("autodoc",
-"Get random clones
+/* random clones*/
+%ignore random_clones;
+%rename (_random_clone) random_clone;
+%pythoncode{
+def random_clone(self):
+    '''Get a random clone
+    
+    Returns:
+       - clone: index of the random clone
+    '''
+    return (self._good_clones == self._random_clone()).nonzero()[0][0]
 
-Parameters:
-   - n: number of random clones to return
 
-Returns:
-   - clones: clone indices
-") random_clones;
-void random_clones(int DIM1, unsigned int * ARGOUT_ARRAY1) {
-        vector <int> sample = vector <int>(0);
-        int err = $self->random_clones(DIM1, &sample);
-        if(!err)
-                for(size_t i=0; i < (size_t)DIM1; i++)
-                        ARGOUT_ARRAY1[i] = sample[i];
+def random_clones(self, n):
+    '''Get random clones
+    
+    Parameters:
+       - n: number of random clones to return
+    
+    Returns:
+       - clones: clone indices
+    '''
+    import numpy as np
+    return np.array([self.random_clone() for i in xrange(n)], int)
 }
-
-%feature("autodoc",
-"Get a random clone
-
-Returns:
-   - clone: index of the random clone
-") random_clone;
 
 /* divergence/diversity/fitness distributions and plot */
 %ignore get_divergence_histogram;

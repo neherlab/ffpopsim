@@ -1052,8 +1052,6 @@ void haploid_highd::produce_random_sample(int size) {
 		}
 	}
 	gsl_ran_shuffle(evo_generator, &random_sample[0], random_sample.size(), sizeof(int));
-	//random_shuffle(random_sample.begin(), random_sample.end());
-
 	if (HP_VERBOSE) cerr<<"done"<<endl;
 }
 
@@ -1861,3 +1859,20 @@ void haploid_highd::unique_clones() {
 		last_clone=new_last_clone;
 	}
 }
+
+/**
+ * @brief Obtain a list of the good clones.
+ *
+ * @returns vector of clone indices
+ */
+vector <int> haploid_highd::get_nonempty_clones() {
+	vector <int> good;
+	good.reserve(population.size());
+	unsigned int i = 0;
+	vector<clone_t>::iterator pop_iter = population.begin();
+	for(; pop_iter != population.end() && (i < (unsigned int)(last_clone + 1)); pop_iter++,i++)
+		if(pop_iter->clone_size)
+			good.push_back(i);
+	return good;
+}
+

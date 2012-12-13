@@ -116,6 +116,72 @@ def _swig_setattr_nondynamic_method(set):
     return set_attr
 
 
+class SwigPyIterator(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _FFPopSim.delete_SwigPyIterator
+    def __iter__(self): return self
+SwigPyIterator.value = new_instancemethod(_FFPopSim.SwigPyIterator_value,None,SwigPyIterator)
+SwigPyIterator.incr = new_instancemethod(_FFPopSim.SwigPyIterator_incr,None,SwigPyIterator)
+SwigPyIterator.decr = new_instancemethod(_FFPopSim.SwigPyIterator_decr,None,SwigPyIterator)
+SwigPyIterator.distance = new_instancemethod(_FFPopSim.SwigPyIterator_distance,None,SwigPyIterator)
+SwigPyIterator.equal = new_instancemethod(_FFPopSim.SwigPyIterator_equal,None,SwigPyIterator)
+SwigPyIterator.copy = new_instancemethod(_FFPopSim.SwigPyIterator_copy,None,SwigPyIterator)
+SwigPyIterator.next = new_instancemethod(_FFPopSim.SwigPyIterator_next,None,SwigPyIterator)
+SwigPyIterator.__next__ = new_instancemethod(_FFPopSim.SwigPyIterator___next__,None,SwigPyIterator)
+SwigPyIterator.previous = new_instancemethod(_FFPopSim.SwigPyIterator_previous,None,SwigPyIterator)
+SwigPyIterator.advance = new_instancemethod(_FFPopSim.SwigPyIterator_advance,None,SwigPyIterator)
+SwigPyIterator.__eq__ = new_instancemethod(_FFPopSim.SwigPyIterator___eq__,None,SwigPyIterator)
+SwigPyIterator.__ne__ = new_instancemethod(_FFPopSim.SwigPyIterator___ne__,None,SwigPyIterator)
+SwigPyIterator.__iadd__ = new_instancemethod(_FFPopSim.SwigPyIterator___iadd__,None,SwigPyIterator)
+SwigPyIterator.__isub__ = new_instancemethod(_FFPopSim.SwigPyIterator___isub__,None,SwigPyIterator)
+SwigPyIterator.__add__ = new_instancemethod(_FFPopSim.SwigPyIterator___add__,None,SwigPyIterator)
+SwigPyIterator.__sub__ = new_instancemethod(_FFPopSim.SwigPyIterator___sub__,None,SwigPyIterator)
+SwigPyIterator_swigregister = _FFPopSim.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
+
+class _intVector(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim._intVector_swiginit(self,_FFPopSim.new__intVector(*args))
+    __swig_destroy__ = _FFPopSim.delete__intVector
+_intVector.iterator = new_instancemethod(_FFPopSim._intVector_iterator,None,_intVector)
+_intVector.__nonzero__ = new_instancemethod(_FFPopSim._intVector___nonzero__,None,_intVector)
+_intVector.__bool__ = new_instancemethod(_FFPopSim._intVector___bool__,None,_intVector)
+_intVector.__len__ = new_instancemethod(_FFPopSim._intVector___len__,None,_intVector)
+_intVector.pop = new_instancemethod(_FFPopSim._intVector_pop,None,_intVector)
+_intVector.__getslice__ = new_instancemethod(_FFPopSim._intVector___getslice__,None,_intVector)
+_intVector.__setslice__ = new_instancemethod(_FFPopSim._intVector___setslice__,None,_intVector)
+_intVector.__delslice__ = new_instancemethod(_FFPopSim._intVector___delslice__,None,_intVector)
+_intVector.__delitem__ = new_instancemethod(_FFPopSim._intVector___delitem__,None,_intVector)
+_intVector.__getitem__ = new_instancemethod(_FFPopSim._intVector___getitem__,None,_intVector)
+_intVector.__setitem__ = new_instancemethod(_FFPopSim._intVector___setitem__,None,_intVector)
+_intVector.append = new_instancemethod(_FFPopSim._intVector_append,None,_intVector)
+_intVector.empty = new_instancemethod(_FFPopSim._intVector_empty,None,_intVector)
+_intVector.size = new_instancemethod(_FFPopSim._intVector_size,None,_intVector)
+_intVector.clear = new_instancemethod(_FFPopSim._intVector_clear,None,_intVector)
+_intVector.swap = new_instancemethod(_FFPopSim._intVector_swap,None,_intVector)
+_intVector.get_allocator = new_instancemethod(_FFPopSim._intVector_get_allocator,None,_intVector)
+_intVector.begin = new_instancemethod(_FFPopSim._intVector_begin,None,_intVector)
+_intVector.end = new_instancemethod(_FFPopSim._intVector_end,None,_intVector)
+_intVector.rbegin = new_instancemethod(_FFPopSim._intVector_rbegin,None,_intVector)
+_intVector.rend = new_instancemethod(_FFPopSim._intVector_rend,None,_intVector)
+_intVector.pop_back = new_instancemethod(_FFPopSim._intVector_pop_back,None,_intVector)
+_intVector.erase = new_instancemethod(_FFPopSim._intVector_erase,None,_intVector)
+_intVector.push_back = new_instancemethod(_FFPopSim._intVector_push_back,None,_intVector)
+_intVector.front = new_instancemethod(_FFPopSim._intVector_front,None,_intVector)
+_intVector.back = new_instancemethod(_FFPopSim._intVector_back,None,_intVector)
+_intVector.assign = new_instancemethod(_FFPopSim._intVector_assign,None,_intVector)
+_intVector.resize = new_instancemethod(_FFPopSim._intVector_resize,None,_intVector)
+_intVector.insert = new_instancemethod(_FFPopSim._intVector_insert,None,_intVector)
+_intVector.reserve = new_instancemethod(_FFPopSim._intVector_reserve,None,_intVector)
+_intVector.capacity = new_instancemethod(_FFPopSim._intVector_capacity,None,_intVector)
+_intVector_swigregister = _FFPopSim._intVector_swigregister
+_intVector_swigregister(_intVector)
+
 LICENSE = '''FFPopSim is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. FFPopSim is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with FFPopSim. If not, see <http://www.gnu.org/licenses/>.'''
 
 FREE_RECOMBINATION = _FFPopSim.FREE_RECOMBINATION
@@ -1342,28 +1408,13 @@ class haploid_highd(object):
         """Participation ratio (read-only)"""
         return _FFPopSim.haploid_highd__get_participation_ratio(self)
 
-    def set_wildtype(self, *args, **kwargs):
-        """
-        Initialize a population of wildtype individuals
+    def _set_wildtype(self, *args, **kwargs):
+        """_set_wildtype(haploid_highd self, unsigned long N) -> int"""
+        return _FFPopSim.haploid_highd__set_wildtype(self, *args, **kwargs)
 
-        Parameters:
-           - N: the number of individuals
-
-        .. note:: the carrying capacity is set to the same value if still unset.
-
-        """
-        return _FFPopSim.haploid_highd_set_wildtype(self, *args, **kwargs)
-
-    def add_genotype(self, *args, **kwargs):
-        """
-        Add new individuals to the population with certain genotypes
-
-        Parameters:
-           - genotype: genotype to add to the population (Boolean list)
-           - n: number of new individuals carrying that genotype
-
-        """
-        return _FFPopSim.haploid_highd_add_genotype(self, *args, **kwargs)
+    def _add_genotype(self, *args, **kwargs):
+        """_add_genotype(haploid_highd self, boost::dynamic_bitset< > genotype, int n=1)"""
+        return _FFPopSim.haploid_highd__add_genotype(self, *args, **kwargs)
 
     def add_trait_coefficient(self, *args, **kwargs):
         """
@@ -1462,15 +1513,13 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_unique_clones(self)
 
-    def random_clone(self):
-        """
-        Get a random clone
+    def _get_nonempty_clones(self):
+        """_get_nonempty_clones(haploid_highd self) -> _intVector"""
+        return _FFPopSim.haploid_highd__get_nonempty_clones(self)
 
-        Returns:
-           - clone: index of the random clone
-
-        """
-        return _FFPopSim.haploid_highd_random_clone(self)
+    def _random_clone(self):
+        """_random_clone(haploid_highd self) -> int"""
+        return _FFPopSim.haploid_highd__random_clone(self)
 
     def get_diversity_statistics(self, n_sample=1000):
         """
@@ -1584,45 +1633,17 @@ class haploid_highd(object):
         """get_trait_weight(haploid_highd self, int t) -> double"""
         return _FFPopSim.haploid_highd_get_trait_weight(self, *args, **kwargs)
 
-    def get_fitness(self, *args, **kwargs):
-        """
-        Get the fitness of an individual
+    def _get_fitness(self, *args, **kwargs):
+        """_get_fitness(haploid_highd self, int n) -> double"""
+        return _FFPopSim.haploid_highd__get_fitness(self, *args, **kwargs)
 
-        Parameters:
-           - n: index of the clone whose fitness is to be computed
+    def _get_clone_size(self, *args, **kwargs):
+        """_get_clone_size(haploid_highd self, int n) -> int"""
+        return _FFPopSim.haploid_highd__get_clone_size(self, *args, **kwargs)
 
-        Returns:
-           - fitness: fitness value of that clone
-
-        """
-        return _FFPopSim.haploid_highd_get_fitness(self, *args, **kwargs)
-
-    def get_clone_size(self, *args, **kwargs):
-        """
-        Get the size of a clone
-
-        Parameters:
-           - n: index of the clone
-
-        Returns:
-           - size: size of the selected clone
-
-        """
-        return _FFPopSim.haploid_highd_get_clone_size(self, *args, **kwargs)
-
-    def get_trait(self, *args, **kwargs):
-        """
-        Get a trait of an individual
-
-        Parameters:
-           - n: index of the clone whose trait is to be computed
-           - t: trait to be computed
-
-        Returns:
-           - trait: value of that trait for that clone
-
-        """
-        return _FFPopSim.haploid_highd_get_trait(self, *args, **kwargs)
+    def _get_trait(self, *args, **kwargs):
+        """_get_trait(haploid_highd self, int n, int t=0) -> double"""
+        return _FFPopSim.haploid_highd__get_trait(self, *args, **kwargs)
 
     def get_trait_epistasis(self, t=0):
         """
@@ -1696,9 +1717,22 @@ class haploid_highd(object):
         """__repr__(haploid_highd self) -> char const *"""
         return _FFPopSim.haploid_highd___repr__(self)
 
-    def get_clone(self, *args, **kwargs):
-        """get_clone(haploid_highd self, unsigned long n) -> clone"""
-        return _FFPopSim.haploid_highd_get_clone(self, *args, **kwargs)
+    def _get_clone(self, *args, **kwargs):
+        """_get_clone(haploid_highd self, unsigned long n) -> clone"""
+        return _FFPopSim.haploid_highd__get_clone(self, *args, **kwargs)
+
+    def get_clone(self, n):
+        '''Get a single clone
+        
+        Parameters:
+           - n: index of the clone
+        
+        Returns:
+           - clone: the n-th clone in the population
+        
+        .. note:: this function also returns empty clones.
+        '''
+        return self._get_clone(self._good_clones[n])
 
     def _get_number_of_all_clones(self):
         """_get_number_of_all_clones(haploid_highd self) -> unsigned long"""
@@ -1776,6 +1810,17 @@ class haploid_highd(object):
                     par = 'CROSSOVERS'
             print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
 
+    def set_wildtype(self):
+        '''Initialize a population of wildtype individuals
+        
+        Parameters:
+           - N: the number of individuals
+        
+        .. note:: the carrying capacity is set to the same value if still unset.
+        '''
+        self._set_wildtype()
+        self._good_clones = np.array(self._get_nonempty_clones())
+
     def _set_allele_frequencies(self, *args, **kwargs):
         """_set_allele_frequencies(haploid_highd self, double * IN_ARRAY1, int n_o_genotypes) -> int"""
         return _FFPopSim.haploid_highd__set_allele_frequencies(self, *args, **kwargs)
@@ -1793,6 +1838,9 @@ class haploid_highd(object):
                 raise ValueError('Please input an L dimensional list of allele frequencies.')
         if self._set_allele_frequencies(frequencies, N):
             raise RuntimeError('Error in the C++ function.')
+
+        import numpy as np
+        self._good_clones = np.array(self._get_nonempty_clones())
 
     def _set_genotypes(self, *args, **kwargs):
         """_set_genotypes(haploid_highd self, int len1, int len2) -> int"""
@@ -1822,17 +1870,20 @@ class haploid_highd(object):
         if self._set_genotypes(genotypes.flatten(), counts):
             raise RuntimeError('Error in the C++ function.')
 
+        self._good_clones = np.array(self._get_nonempty_clones())
+
     def evolve(self, gen=1):
-            '''Evolve for some generations.
+        '''Evolve for some generations.
 
-            Parameters:
-               - gen: number of generations, defaults to one
-            '''
-
-            if self._evolve(gen):
-                    raise RuntimeError('Error in the C++ function.')
-            else:
-                    self.calc_stat()
+        Parameters:
+           - gen: number of generations, defaults to one
+        '''
+        import numpy as np
+        if self._evolve(gen):
+            raise RuntimeError('Error in the C++ function.')
+        else:
+            self.calc_stat()
+            self._good_clones = np.array(self._get_nonempty_clones())
 
     def _get_allele_frequencies(self, *args, **kwargs):
         """_get_allele_frequencies(haploid_highd self, double * ARGOUT_ARRAY1)"""
@@ -1842,47 +1893,15 @@ class haploid_highd(object):
         '''Get all allele frequencies'''
         return self._get_allele_frequencies(self.L)
 
-    def _get_genotype(self, *args, **kwargs):
-        """_get_genotype(haploid_highd self, unsigned int n, short * ARGOUT_ARRAY1)"""
-        return _FFPopSim.haploid_highd__get_genotype(self, *args, **kwargs)
-
-    def get_genotype(self, n):
-        '''Get a genotype from the population
-
+    def add_genotype(self, genotype, n):
+        '''Add new individuals to the population with certain genotypes
+        
         Parameters:
-           - n: index of the clone whose genotype is to be returned
-
-        Returns:
-           - genotype: Boolean array of the genotype
+           - genotype: genotype to add to the population (Boolean list)
+           - n: number of new individuals carrying that genotype
         '''
-
-        return self._get_genotype(n, self.number_of_loci)
-
-
-    def get_genotypes(self, ind=None):
-        '''Get genotypes of the population.
-
-        Parameters:
-           - ind: if a scalar, a single genotype corresponding to clone ind is returned;
-             otherwise, several genotypes are returned (default: all)
-
-        Return:
-           - genotypes: boolean vector or matrix corresponding to the chosen clones.
-
-        .. note:: this function does not return the sizes of each clone.
-        '''
-
-        import numpy as np
-        L = self.number_of_loci
-        if np.isscalar(ind):
-            return np.array(self._get_genotype(ind, L), bool)
-
-        if ind is None:
-            ind = xrange(self._number_of_all_clones)
-        genotypes = np.zeros((len(ind), L), bool)
-        for i, indi in enumerate(ind):
-            genotypes[i] = self._get_genotype(indi, L)
-        return genotypes
+        self._add_genotype()
+        self._good_clones = np.array(self._get_nonempty_clones())
 
     def _get_trait_additive(self, *args, **kwargs):
         """_get_trait_additive(haploid_highd self, double * ARGOUT_ARRAY1, int t)"""
@@ -1940,18 +1959,108 @@ class haploid_highd(object):
         """Shortcut for set_trait_additive when there is only one trait"""
         return _FFPopSim.haploid_highd_set_fitness_additive(self, *args, **kwargs)
 
-    def _get_fitnesses(self, *args, **kwargs):
-        """_get_fitnesses(haploid_highd self, int DIM1)"""
-        return _FFPopSim.haploid_highd__get_fitnesses(self, *args, **kwargs)
+    def get_fitness(self, n):
+        '''Get the fitness of an individual
+        
+        Parameters:
+           - n: index of the clone whose fitness is to be computed
+        
+        Returns:
+           - fitness: fitness value of that clone
+        '''
+        if n >= self.number_of_clones:
+            raise ValueError('The population has only '+str(self.number_of_clones)+' clones.')
+        else:
+            return self._get_fitness(self._good_clones[n])
+
 
     def get_fitnesses(self):
-            '''Get the fitness of all clones.'''
-            return self._get_fitnesses(self._number_of_all_clones)
+        '''Get the fitness of all clones.'''
+        import numpy as np
+        f = np.zeros(self.number_of_clones)
+        for i, ii in enumerate(self._good_clones):
+            f[i] = self._get_fitness(ii)
+        return f
+
+    def get_trait(self, n, t):
+        '''Get a trait of an individual
+        
+        Parameters:
+           - n: index of the clone whose trait is to be computed
+           - t: trait to be computed
+        
+        Returns:
+           - trait: value of that trait for that clone
+        '''
+        if n >= self.number_of_clones:
+            raise ValueError('The population has only '+str(self.number_of_clones)+' clones.')
+        else:
+            return self._get_trait(self._good_clones[n], t)
+
+
+    def get_traits(self):
+        '''Get all traits from all clones'''
+        import numpy as np
+        t = np.zeros((self.number_of_clones, self.number_of_traits))
+        for i, ii in enumerate(self._good_clones):
+            for j in xrange(self.number_of_traits):
+                t[i, j] = self._get_trait(ii, j)
+        return t
+
+    def get_clone_size(self, n):
+        '''Get the size of a clone
+        
+        Parameters:
+           - n: index of the clone
+        
+        Returns:
+           - size: size of the selected clone
+        '''
+        if n >= self.number_of_clones:
+            raise ValueError('The population has only '+str(self.number_of_clones)+' clones.')
+        else:
+            return self._get_clone_size(self._good_clones[n])
+
 
     def get_clone_sizes(self):
-            '''Get the size of all clones.'''
-            import numpy as np
-            return np.array(map(self.get_clone_size, xrange(self._number_of_all_clones)), int)
+        '''Get the size of all clones.'''
+        import numpy as np
+        s = np.zeros(self.number_of_clones, int)
+        for i, ii in enumerate(self._good_clones):
+            s[i] = self._get_clone_size(ii)
+        return s
+
+    def _get_genotype(self, *args, **kwargs):
+        """_get_genotype(haploid_highd self, unsigned int n, short * ARGOUT_ARRAY1)"""
+        return _FFPopSim.haploid_highd__get_genotype(self, *args, **kwargs)
+
+    def get_genotype(self, n):
+        '''Get a genotype from the population
+
+        Parameters:
+           - n: index of the clone whose genotype is to be returned
+
+        Returns:
+           - genotype: Boolean array of the genotype
+        '''
+
+        return self._get_genotype(n, self.number_of_loci)
+
+
+    def get_genotypes(self):
+        '''Get all genotypes of the population.
+
+        Return:
+           - genotypes: boolean 2D array with the genotypes
+
+        .. note:: this function does not return the sizes of each clone.
+        '''
+        import numpy as np
+        L = self.number_of_loci
+        genotypes = np.zeros((self.number_of_clones, L), bool)
+        for i, ii in enumerate(self._good_clones):
+            genotypes[i] = self._get_genotype(ii, L)
+        return genotypes
 
     def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
         '''Calculate the Hamming distance between two genotypes
@@ -1999,18 +2108,26 @@ class haploid_highd(object):
             genotypes[i] = self._get_genotype(self.random_clone(), L)
         return genotypes
 
-    def random_clones(self, *args, **kwargs):
-        """
-        Get random clones
+    def random_clone(self):
+        '''Get a random clone
+        
+        Returns:
+           - clone: index of the random clone
+        '''
+        return (self._good_clones == self._random_clone()).nonzero()[0][0]
 
+
+    def random_clones(self, n):
+        '''Get random clones
+        
         Parameters:
            - n: number of random clones to return
-
+        
         Returns:
            - clones: clone indices
-
-        """
-        return _FFPopSim.haploid_highd_random_clones(self, *args, **kwargs)
+        '''
+        import numpy as np
+        return np.array([self.random_clone() for i in xrange(n)], int)
 
     def get_fitness_histogram(self, n_sample=1000, **kwargs):
         '''Calculate the fitness histogram of a population sample.
@@ -2202,8 +2319,8 @@ haploid_highd._set_generation = new_instancemethod(_FFPopSim.haploid_highd__set_
 haploid_highd._get_number_of_clones = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_clones,None,haploid_highd)
 haploid_highd._get_number_of_traits = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_traits,None,haploid_highd)
 haploid_highd._get_participation_ratio = new_instancemethod(_FFPopSim.haploid_highd__get_participation_ratio,None,haploid_highd)
-haploid_highd.set_wildtype = new_instancemethod(_FFPopSim.haploid_highd_set_wildtype,None,haploid_highd)
-haploid_highd.add_genotype = new_instancemethod(_FFPopSim.haploid_highd_add_genotype,None,haploid_highd)
+haploid_highd._set_wildtype = new_instancemethod(_FFPopSim.haploid_highd__set_wildtype,None,haploid_highd)
+haploid_highd._add_genotype = new_instancemethod(_FFPopSim.haploid_highd__add_genotype,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
 haploid_highd.clear_trait = new_instancemethod(_FFPopSim.haploid_highd_clear_trait,None,haploid_highd)
 haploid_highd.clear_traits = new_instancemethod(_FFPopSim.haploid_highd_clear_traits,None,haploid_highd)
@@ -2216,7 +2333,8 @@ haploid_highd.bottleneck = new_instancemethod(_FFPopSim.haploid_highd_bottleneck
 haploid_highd.flip_single_locus = new_instancemethod(_FFPopSim.haploid_highd_flip_single_locus,None,haploid_highd)
 haploid_highd.calc_stat = new_instancemethod(_FFPopSim.haploid_highd_calc_stat,None,haploid_highd)
 haploid_highd.unique_clones = new_instancemethod(_FFPopSim.haploid_highd_unique_clones,None,haploid_highd)
-haploid_highd.random_clone = new_instancemethod(_FFPopSim.haploid_highd_random_clone,None,haploid_highd)
+haploid_highd._get_nonempty_clones = new_instancemethod(_FFPopSim.haploid_highd__get_nonempty_clones,None,haploid_highd)
+haploid_highd._random_clone = new_instancemethod(_FFPopSim.haploid_highd__random_clone,None,haploid_highd)
 haploid_highd.get_diversity_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_diversity_statistics,None,haploid_highd)
 haploid_highd.get_divergence_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_divergence_statistics,None,haploid_highd)
 haploid_highd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_allele_frequency,None,haploid_highd)
@@ -2226,9 +2344,9 @@ haploid_highd.get_chi2 = new_instancemethod(_FFPopSim.haploid_highd_get_chi2,Non
 haploid_highd.get_LD = new_instancemethod(_FFPopSim.haploid_highd_get_LD,None,haploid_highd)
 haploid_highd.get_moment = new_instancemethod(_FFPopSim.haploid_highd_get_moment,None,haploid_highd)
 haploid_highd.get_trait_weight = new_instancemethod(_FFPopSim.haploid_highd_get_trait_weight,None,haploid_highd)
-haploid_highd.get_fitness = new_instancemethod(_FFPopSim.haploid_highd_get_fitness,None,haploid_highd)
-haploid_highd.get_clone_size = new_instancemethod(_FFPopSim.haploid_highd_get_clone_size,None,haploid_highd)
-haploid_highd.get_trait = new_instancemethod(_FFPopSim.haploid_highd_get_trait,None,haploid_highd)
+haploid_highd._get_fitness = new_instancemethod(_FFPopSim.haploid_highd__get_fitness,None,haploid_highd)
+haploid_highd._get_clone_size = new_instancemethod(_FFPopSim.haploid_highd__get_clone_size,None,haploid_highd)
+haploid_highd._get_trait = new_instancemethod(_FFPopSim.haploid_highd__get_trait,None,haploid_highd)
 haploid_highd.get_trait_epistasis = new_instancemethod(_FFPopSim.haploid_highd_get_trait_epistasis,None,haploid_highd)
 haploid_highd.get_fitness_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_fitness_statistics,None,haploid_highd)
 haploid_highd.get_trait_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_trait_statistics,None,haploid_highd)
@@ -2238,19 +2356,17 @@ haploid_highd._update_traits = new_instancemethod(_FFPopSim.haploid_highd__updat
 haploid_highd._update_fitness = new_instancemethod(_FFPopSim.haploid_highd__update_fitness,None,haploid_highd)
 haploid_highd.__str__ = new_instancemethod(_FFPopSim.haploid_highd___str__,None,haploid_highd)
 haploid_highd.__repr__ = new_instancemethod(_FFPopSim.haploid_highd___repr__,None,haploid_highd)
-haploid_highd.get_clone = new_instancemethod(_FFPopSim.haploid_highd_get_clone,None,haploid_highd)
+haploid_highd._get_clone = new_instancemethod(_FFPopSim.haploid_highd__get_clone,None,haploid_highd)
 haploid_highd._get_number_of_all_clones = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_all_clones,None,haploid_highd)
 haploid_highd._set_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__set_allele_frequencies,None,haploid_highd)
 haploid_highd._set_genotypes = new_instancemethod(_FFPopSim.haploid_highd__set_genotypes,None,haploid_highd)
 haploid_highd._get_allele_frequencies = new_instancemethod(_FFPopSim.haploid_highd__get_allele_frequencies,None,haploid_highd)
-haploid_highd._get_genotype = new_instancemethod(_FFPopSim.haploid_highd__get_genotype,None,haploid_highd)
 haploid_highd._get_trait_additive = new_instancemethod(_FFPopSim.haploid_highd__get_trait_additive,None,haploid_highd)
 haploid_highd._set_trait_weights = new_instancemethod(_FFPopSim.haploid_highd__set_trait_weights,None,haploid_highd)
 haploid_highd._get_trait_weights = new_instancemethod(_FFPopSim.haploid_highd__get_trait_weights,None,haploid_highd)
 haploid_highd.set_trait_additive = new_instancemethod(_FFPopSim.haploid_highd_set_trait_additive,None,haploid_highd)
 haploid_highd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_highd_set_fitness_additive,None,haploid_highd)
-haploid_highd._get_fitnesses = new_instancemethod(_FFPopSim.haploid_highd__get_fitnesses,None,haploid_highd)
-haploid_highd.random_clones = new_instancemethod(_FFPopSim.haploid_highd_random_clones,None,haploid_highd)
+haploid_highd._get_genotype = new_instancemethod(_FFPopSim.haploid_highd__get_genotype,None,haploid_highd)
 haploid_highd_swigregister = _FFPopSim.haploid_highd_swigregister
 haploid_highd_swigregister(haploid_highd)
 

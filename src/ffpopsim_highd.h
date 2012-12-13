@@ -266,6 +266,7 @@ public:
 	// update traits and fitness and calculate statistics
 	void calc_stat();
 	void unique_clones();
+        vector <int> get_nonempty_clones();
 
 	// readout
 	// Note: these functions are for the general public and are not expected to be

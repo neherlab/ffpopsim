@@ -22,6 +22,7 @@ haploid_highd Class Reference
              number_of_traits,
              status,
              max_fitness,
+             set_wildtype,
              set_allele_frequencies,
              set_genotypes,
              distance_Hamming,
@@ -38,7 +39,9 @@ haploid_highd Class Reference
              plot_divergence_histogram,
              plot_diversity_histogram,
              plot_fitness_histogram,
-             random_genomes
+             random_genomes,
+             random_clone,
+             random_clones
 
    .. automethod:: haploid_highd.__init__
    .. automethod:: haploid_highd.add_trait_coefficient(value, loci, t=0)
@@ -49,7 +52,6 @@ haploid_highd Class Reference
    .. automethod:: haploid_highd.add_genotype(genotype, n=1)
    .. automethod:: haploid_highd.set_fitness_additive(coefficients)
    .. automethod:: haploid_highd.set_trait_additive(coefficients, t)
-   .. automethod:: haploid_highd.set_wildtype(N)
    .. automethod:: haploid_highd.flip_single_locus(locus)
    .. automethod:: haploid_highd.calc_stat()
    .. automethod:: haploid_highd.clear_trait(t=0)
@@ -70,6 +72,4 @@ haploid_highd Class Reference
    .. automethod:: haploid_highd.get_trait(n, t=0)
    .. automethod:: haploid_highd.get_trait_statistics(t=0)
    .. automethod:: haploid_highd.get_trait_covariance(t1, t2)
-   .. automethod:: haploid_highd.random_clone()
-   .. automethod:: haploid_highd.random_clones(n)
    .. automethod:: haploid_highd.unique_clones()
