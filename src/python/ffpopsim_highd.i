@@ -358,7 +358,7 @@ def status(self):
 /* initialize wildtype */
 %rename (_set_wildtype) set_wildtype;
 %pythoncode{
-def set_wildtype(self):
+def set_wildtype(self,N):
     '''Initialize a population of wildtype individuals
     
     Parameters:
@@ -366,7 +366,8 @@ def set_wildtype(self):
     
     .. note:: the carrying capacity is set to the same value if still unset.
     '''
-    self._set_wildtype()
+    self._set_wildtype(N)
+    import numpy as np
     self._good_clones = np.array(self._get_nonempty_clones())
 }
 
