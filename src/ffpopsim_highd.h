@@ -39,6 +39,8 @@
 
 using namespace std;
 
+//FIXME: for testing purposes only
+boost::dynamic_bitset<> bitset_output();
 
 /**
  * @brief Trait coefficient for a set of loci.
@@ -163,7 +165,7 @@ public:
  */
 struct clone_t {
 	boost::dynamic_bitset<> genotype;
-	vector <double> trait;
+	vector<double> trait;
 	double fitness;
 	int clone_size;
 	clone_t(int n_traits=0) : genotype(boost::dynamic_bitset<>(0)), trait(n_traits, 0), fitness(0), clone_size(0) {};
@@ -240,7 +242,7 @@ public:
 	double get_participation_ratio(){return participation_ratio;};
 
 	// initialization
-	int set_allele_frequencies(double *freq, unsigned long N);
+	int set_allele_frequencies(double* frequencies, unsigned long N);
 	int set_genotypes(vector <genotype_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
 

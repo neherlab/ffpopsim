@@ -165,7 +165,7 @@ public:
 	double get_recombination_rate(int locus);
 
 	//initialization
-	int set_allele_frequencies(double *freq, unsigned long N);
+	int set_allele_frequencies(double* frequencies, unsigned long N);
 	int set_genotypes(vector <index_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
 

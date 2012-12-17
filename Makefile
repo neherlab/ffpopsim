@@ -255,6 +255,7 @@ SWIG_GENERIC := ffpopsim_generic.i
 SWIG_LOWD := ffpopsim_lowd.i
 SWIG_HIGHD := ffpopsim_highd.i
 SWIG_HIV := hivpopulation.i
+SWIG_TYPEMAPS := ffpopsim_typemaps.i
 
 SWIG_WRAP := $(SWIG_MODULE:%.i=%_wrap.cpp)
 
@@ -289,7 +290,7 @@ SWIGFLAGS := -c++ -python -O -castmode -keyword
 
 swig: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE)
 
-$(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE): $(PYBDIR)/$(SWIG_MODULE) $(PYBDIR)/$(SWIG_GENERIC) $(PYBDIR)/$(SWIG_LOWD) $(PYBDIR)/$(SWIG_HIGHD) $(PYBDIR)/$(SWIG_HIV)
+$(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE): $(PYBDIR)/$(SWIG_MODULE) $(PYBDIR)/$(SWIG_GENERIC) $(PYBDIR)/$(SWIG_LOWD) $(PYBDIR)/$(SWIG_HIGHD) $(PYBDIR)/$(SWIG_HIV) $(PYBDIR)/$(SWIG_TYPEMAPS)
 	$(SWIG) $(SWIGFLAGS) -o $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(SWIG_MODULE)
 
 clean-swig:

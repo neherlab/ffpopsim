@@ -117,4 +117,3 @@ public:
 };
 
 #endif /* FFPOPGEN_GENERIC_H_ */
-

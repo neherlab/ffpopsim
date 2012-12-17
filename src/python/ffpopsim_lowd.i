@@ -22,7 +22,9 @@
 %ignore hypercube_lowd;
 %ignore haploid_lowd_test;
 
-/* additional helper functions */
+/*****************************************************************************/
+/* additional helper functions                                               */
+/*****************************************************************************/
 %pythoncode {
 def binarify(gt, L=0):
     '''Transform an integer into a binary sequence on the L hypercube.
@@ -44,12 +46,11 @@ def binarify(gt, L=0):
        In [2]: FFPopSim.binarify(0b11, 5)
        Out[2]: array([False, False, False,  True,  True], dtype=bool)       
     '''
-    import numpy as np
     if not L:
         L=1
         while gt > ((1<<L) - 1):
             L += 1
-    return np.array(map(lambda l: bool(gt&(1<<(L-l-1))),range(L)))
+    return _np.array(map(lambda l: bool(gt&(1<<(L-l-1))),range(L)))
 
 
 def integerify(b):
@@ -68,13 +69,15 @@ def integerify(b):
        In [1]: integerify([False, True, True])
        Out[1]: 3
     '''
-    import numpy as np
     L = len(b)
     a = [(1<<(L-l-1)) for l in xrange(L)]
-    return np.dot(b,a)
+    return _np.dot(b,a)
 }
+/*****************************************************************************/
 
-/**** HAPLOID_LOWD ****/
+/*****************************************************************************/
+/* HAPLOID_LOWD                                                              */
+/*****************************************************************************/
 %define DOCSTRING_HAPLOID_LOWD
 "Class for low-dimensional population genetics (short genomes ~20 loci).
 
@@ -107,7 +110,6 @@ The class offers a number of functions, but an example will explain the basic id
 %enddef
 %feature("autodoc", DOCSTRING_HAPLOID_LOWD) haploid_lowd;
 %extend haploid_lowd {
-
 /* constructor */
 %define DOCSTRING_HAPLOID_LOWD_INIT
 "Construct a low-dimensional population with certain parameters.
@@ -133,7 +135,6 @@ const char* __str__() {
         sprintf(buffer,"haploid_lowd: L = %d, N = %f", (int)$self->L(), $self->N());
         return &buffer[0];
 }
-
 const char* __repr__() {
         static char buffer[255];
         sprintf(buffer,"<haploid_lowd(%d, %g)>", (int)$self->L(), $self->N());
@@ -148,14 +149,13 @@ def copy(self, rng_seed=0):
     Parameters:
        - rng_seed: random number to initialize the new population
     '''
-    import numpy as np
     pop = haploid_lowd(self.L, rng_seed=rng_seed)
 
     # Mutation and recombination
     if self.recombination_model not in ['FREE_RECOMBINATION']:
         pop.set_recombination_rates(self.get_recombination_rates(), self.recombination_model)
     tmp = self.get_mutation_rates()
-    if np.isscalar(tmp) or tmp.ndim < 2:
+    if _np.isscalar(tmp) or tmp.ndim < 2:
         pop.set_mutation_rates(tmp)
     else:
         pop.set_mutation_rates(*tmp)
@@ -170,12 +170,12 @@ def copy(self, rng_seed=0):
     pop.set_genotypes(range(1<<self.L), self.get_genotype_frequencies() * self.N)
 
     # Evolution
-    pop._set_generation(self.generation)
+    pop.generation = self.generation
     
     return pop
 }
 
-/* TODO: ignore hypercubes for now */
+/* ignore hypercubes */
 %ignore fitness;
 %ignore population;
 
@@ -185,49 +185,47 @@ def copy(self, rng_seed=0):
 %feature("autodoc", "outcrossing rate (probability of sexual reproduction per generation)") outcrossing_rate;
 
 /* read only attributes */
-%ignore L;
-%ignore N;
-%rename (_get_number_of_loci) get_number_of_loci;
-%rename (_get_population_size) get_population_size;
-%rename (_get_generation) get_generation;
-%rename (_set_generation) set_generation;
-%pythoncode {
-L = property(_get_number_of_loci)
-N = property(_get_population_size)
-number_of_loci = property(_get_number_of_loci)
-population_size = property(_get_population_size)
-generation = property(_get_generation)
-}
-%feature("autodoc", "number of loci (read-only)") get_number_of_loci;
-%feature("autodoc", "population size (read-only)") get_population_size;
-%feature("autodoc", "current generation (read-only)") get_generation;
+%ignore get_number_of_loci;
+%feature("autodoc", "Number of loci (read-only)") L;
+%feature("autodoc", "Number of loci (read-only)") number_of_loci;
+const int L;
+const int number_of_loci;
+
+%ignore get_population_size;
+%feature("autodoc", "Population size (read-only)") N;
+%feature("autodoc", "Population size (read-only)") population_size;
+const int N;
+const int population_size;
+
+%ignore get_generation;
+%ignore set_generation;
+%feature("autodoc", "Current generation (read-only)") generation;
+int generation;
 
 /* recombination model */
 %rename (_get_recombination_model) get_recombination_model;
 %rename (_set_recombination_model) set_recombination_model;
+%feature("autodoc",
+"Model of recombination to use
+
+Available values:
+
+   - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
+   - FFPopSim.CROSSOVERS: block recombination with crossover probability
+   - FFPopSim.SINGLE_CROSSOVER: block recombination with crossover probability
+") get_recombination_model;
+%exception set_recombination_model {
+  $action
+  if (result == HG_BADARG) {
+     PyErr_SetString(PyExc_ValueError,"Recombination model nor recognized.");
+     SWIG_fail;
+  } else if (result == HG_MEMERR) {
+     PyErr_SetString(PyExc_ValueError,"Unable to allocate/release memory for the recombination patterns.");
+     SWIG_fail;
+  }
+}
 %pythoncode {
-@property
-def recombination_model(self):
-    '''Model of recombination to use
-
-    Available values:
-
-       - FFPopSim.FREE_RECOMBINATION: free shuffling between parents
-       - FFPopSim.CROSSOVERS: block recombination with crossover probability
-       - FFPopSim.SINGLE_CROSSOVER: block recombination with crossover probability
-    '''
-    return self._get_recombination_model()
-
-
-@recombination_model.setter
-def recombination_model(self, value):
-    err = self._set_recombination_model(value)
-    if err == HG_BADARG:
-        raise ValueError("Recombination model nor recognized.")
-    elif err == HG_MEMERR:
-        raise MemoryError("Unable to allocate/release memory for the recombination patterns.")
-
-
+recombination_model = property(_get_recombination_model, _set_recombination_model)
 }
 
 /* status function */
@@ -259,24 +257,30 @@ def status(self):
 }
 
 /* initialize frequencies */
-%ignore set_allele_frequencies;
-int _set_allele_frequencies(int DIM1, double *IN_ARRAY1, unsigned long N) {return $self->set_allele_frequencies(IN_ARRAY1, N);}
-%pythoncode {
-def set_allele_frequencies(self, frequencies, N):
-    '''Initialize the population in linkage equilibrium with specified allele frequencies.
+%feature("autodoc",
+"Initialize the population in linkage equilibrium with specified allele frequencies.
 
-    Parameters:
-       - frequencies: an array of length L with all allele frequencies
-       - N: set the population size and, if still unset, the carrying
-         capacity to this value
+Parameters:
+   - frequencies: an array of length L with all allele frequencies
+   - N: set the population size and, if still unset, the carrying
+     capacity to this value
 
-    .. note:: the population size is only used for resampling and has therefore
-              no effect on the speed of the simulation.
-    '''
-    if len(frequencies) != self.L:
-        raise ValueError('The input array of allele frequencies has the wrong length.')
-    if self._set_allele_frequencies(frequencies, N):
-        raise RuntimeError('Error in the C++ function.')
+.. note:: the population size is only used for resampling and has therefore
+          no effect on the speed of the simulation.
+") set_allele_frequencies;
+%pythonprepend set_allele_frequencies {
+if len(args) and (len(args[0]) != self.L):
+    raise ValueError('The input array of allele frequencies has the wrong length.')
+}
+%exception set_allele_frequencies {
+  $action
+  if (result) {
+     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
+     SWIG_fail;
+  }
+}
+%pythonappend set_allele_frequencies {
+return None
 }
 
 /* initialize genotypes */
@@ -306,9 +310,8 @@ def set_genotypes(self, genotypes, counts):
     .. note:: the population size and, if unset, the carrying capacity will be set as the sum of the counts.
     .. note:: you can use Python binary notation for the indices, e.g. 0b0110 is 6.
     '''
-    import numpy as np
-    genotypes = np.asarray(genotypes, float)
-    counts = np.asarray(counts, float)
+    genotypes = _np.asarray(genotypes, float)
+    counts = _np.asarray(counts, float)
     if len(genotypes) != len(counts):
         raise ValueError('Indices and counts must have the same length')
     if self._set_genotypes(genotypes, counts):
@@ -324,10 +327,26 @@ Parameters:
 
 .. note:: the carrying capacity is set to the same value if still unset.
 ") set_wildtype;
+%exception set_wildtype {
+  $action
+  if (result) {
+     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
+     SWIG_fail;
+  }
+}
+%pythonappend set_wildtype {
+return None
+}
 
+/* recombination rates */
+%feature("autodoc",
+"Get the recombination rate between the specified locus and the following one.
+") get_recombination_rate;
+%pythonprepend get_recombination_rate {
+if len(args) and (args[0] >= self.L - 1):
+    raise ValueError("Expecting a locus from 0 to L - 2.")
+}
 
-/* get recombination rates */
-%rename (_get_recombination_rate) get_recombination_rate;
 %pythoncode {
 def get_recombination_rates(self):
     '''Get recombination rates.
@@ -346,49 +365,12 @@ Returns:
                           'hence recombination rates are not defined.'+
                           ' Could you possibly mean outcrossing rate?'))
     elif rm in [SINGLE_CROSSOVER, CROSSOVERS]:
-        import numpy as np
-        return np.array([self._get_recombination_rate(i) for i in xrange(self.L - 1)])
+        return _np.array([self.get_recombination_rate(i) for i in xrange(self.L - 1)])
     else:
         raise RuntimeError('Recombination model not found')
-
 }
 
-/* set recombination rates */
 %rename (_set_recombination_rates) set_recombination_rates;
-%typemap(in) double *rec_rates {
-        /* Ensure input is a Python sequence */
-        PyObject *tmplist = PySequence_Fast($input, "I expected a sequence");
-        unsigned long L = PySequence_Length(tmplist);
-
-        /* Get circular and L properties from the class (we are in the Python world here) */
-        bool circular = (bool)PyInt_AsLong(PyObject_GetAttrString($self, "circular"));
-        unsigned long Lint = PyInt_AsLong(PyObject_GetAttrString($self, "L"));
-
-        /* Check lengths */
-        if((!(circular)) && (L != Lint - 1)) {
-                PyErr_SetString(PyExc_ValueError, "Expecting an array of length L-1.");
-                SWIG_fail;
-        }        
-        if((circular) && (L != Lint)) {
-                PyErr_SetString(PyExc_ValueError, "Expecting an array of length L.");
-                SWIG_fail;
-        } 
-
-        /* Create C array from Python list */
-        $1 = new double[L];
-        double tmpdouble;
-        for(size_t i=0; i < L; i++) {
-                tmpdouble = (double)PyFloat_AsDouble(PySequence_Fast_GET_ITEM(tmplist, i));
-                if (tmpdouble < 0) {
-                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of positive floats");
-                        SWIG_fail;
-                }
-                $1[i] = tmpdouble;
-        }
-}
-%typemap(freearg) double *rec_rates {
-  if($1) delete[] $1;
-}
 %pythoncode {
 def set_recombination_rates(self, rates, model=None):
     '''Set the recombination rate(s).
@@ -407,8 +389,6 @@ Parameters:
 .. note:: if the recombination model is not specified, the current model will be kept or,
           if the current model is FREE_RECOMBINATION, then CROSSOVERS will be set.
     '''
-
-    import numpy as np
 
     # Default recombination model
     if model is None:
@@ -432,7 +412,7 @@ Parameters:
         len_rates = self.L - 1
 
     # Check whether the input argument is a list or a scalar
-    if np.isscalar(rates):
+    if _np.isscalar(rates):
         self._set_recombination_rates([rates] * len_rates, model)
 
     elif len(rates) != len_rates:
@@ -462,9 +442,8 @@ In case of doubt, you will get a matrix (L x 2) with the full mutation rate
 landscape.
     '''
 
-    import numpy as np
     if locus is not None:
-        if not np.isscalar(locus):
+        if not _np.isscalar(locus):
             raise TypeError('Please select a *single* locus or no locus at all.')
         if direction is not None:
             return self._get_mutation_rate(locus, direction)
@@ -476,14 +455,14 @@ landscape.
                 return mrs
     else:
         if direction is not None:
-            mrs = np.array([self._get_mutation_rate(l, direction) for l in xrange(self.L)])
-            if len(np.unique(mrs)) == 1:
+            mrs = _np.array([self._get_mutation_rate(l, direction) for l in xrange(self.L)])
+            if len(_np.unique(mrs)) == 1:
                 return mrs[0]
             else:
                 return mrs
         else:
-            mrs = np.array([[self._get_mutation_rate(l, d) for l in xrange(self.L)] for d in [0,1]])
-            if len(np.unique(mrs)) == 1:
+            mrs = _np.array([[self._get_mutation_rate(l, d) for l in xrange(self.L)] for d in [0,1]])
+            if len(_np.unique(mrs)) == 1:
                 return mrs[0,0]
             else:
                 return mrs
@@ -514,20 +493,19 @@ Parameters:
       locus-specific)
     '''
 
-    import numpy as np
     L = self.L
-    if np.isscalar(rates):
+    if _np.isscalar(rates):
         if rates_back is None:
-            ratesm = np.repeat(rates, L * 2).reshape(2,L)
+            ratesm = _np.repeat(rates, L * 2).reshape(2,L)
         else:
-            ratesm = np.vstack([np.repeat(rates, L), np.repeat(rates_back, L)])
-    elif (np.rank(rates) != 1) or ((rates_back is not None) and (np.rank(rates_back) != 1)):
+            ratesm = _np.vstack([_np.repeat(rates, L), _np.repeat(rates_back, L)])
+    elif (_np.rank(rates) != 1) or ((rates_back is not None) and (_np.rank(rates_back) != 1)):
         raise ValueError('Please input one/two numbers or arrays.')
     else:
         if rates_back is None:
-            ratesm = np.vstack([rates, rates])
+            ratesm = _np.vstack([rates, rates])
         else:
-            ratesm = np.vstack([rates, rates_back])
+            ratesm = _np.vstack([rates, rates_back])
 
     if self._set_mutation_rates(ratesm):
         raise RuntimeError('Error in the C++ function.')
@@ -540,6 +518,16 @@ Parameters:
 Parameters:
     - gen: number of generations to evolve the population, defaults to one
 ") evolve;
+%exception evolve {
+  $action
+  if (result) {
+     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
+     SWIG_fail;
+  }
+}
+%pythonappend evolve {
+return None
+}
 
 %feature("autodoc",
 "Evolve for some generations deterministically (skips the resampling)
@@ -547,6 +535,16 @@ Parameters:
 Parameters:
     - gen: number of generations to evolve the population
 ") evolve_deterministic;
+%exception evolve_deterministic {
+  $action
+  if (result) {
+     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
+     SWIG_fail;
+  }
+}
+%pythonappend evolve_deterministic {
+return None
+}
 
 %feature("autodoc",
 "Evolve for some generations without recombination
@@ -554,16 +552,18 @@ Parameters:
 Parameters:
     - gen: number of generations to evolve the population
 ") evolve_norec;
-
-
-/* genotype frequencies */
-%pythoncode {
-def get_genotype_frequencies(self):
-    '''Get the frequency of each genotype.'''
-    import numpy as np
-    return np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
+%exception evolve_norec {
+  $action
+  if (result) {
+     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
+     SWIG_fail;
+  }
+}
+%pythonappend evolve_norec {
+return None
 }
 
+/* get genotype frequencies */
 %feature("autodoc",
 "Get the frequency of a genotype
 
@@ -573,15 +573,18 @@ Parameters:
 Returns:
     - the frequency of the genotype
 ") get_genotype_frequency;
-
-/* allele frequencies */
-%pythoncode {
-def get_allele_frequencies(self):
-    '''Get the frequencies of all + alleles'''
-    import numpy as np
-    return np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
+%pythonprepend get_genotype_frequency {
+if len(args) and (args[0] >= (1<<self.L)):
+    raise ValueError("Expecting an individual from 0 to 2^L - 1.")
 }
 
+%pythoncode {
+def get_genotype_frequencies(self):
+    '''Get the frequency of each genotype.'''
+    return _np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
+}
+
+/* get allele frequencies */
 %feature("autodoc",
 "Get the frequency of the + allele
 
@@ -591,6 +594,16 @@ Parameters:
 Returns:
     - the frequency of the + allele, :math:`\\nu_i := \\frac{1 + \\left<s_i\\right>}{2}`, where :math:`s_i \in \{-1, 1\}`.
 ") get_allele_frequency;
+%pythonprepend get_allele_frequency {
+if len(args) and (args[0] >= (self.L)):
+    raise ValueError("Expecting a locus from 0 to L - 1.")
+}
+
+%pythoncode {
+def get_allele_frequencies(self):
+    '''Get the frequencies of all + alleles'''
+    return _np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
+}
 
 %feature("autodoc",
 "Get the frequency of genotypes with the + allele at both loci.
@@ -602,6 +615,10 @@ Parameters:
 Returns:
     - the joint frequency of the + alleles
 ") get_pair_frequency;
+%pythonprepend get_pair_frequency {
+if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+    raise ValueError("Expecting loci from 0 to L - 1.")
+}
 
 %feature("autodoc",
 "Get chi of an allele in the -/+ basis
@@ -612,6 +629,10 @@ Parameters:
 Returns:
     - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \in \{-1, 1\}`.
 ") get_chi;
+%pythonprepend get_chi {
+if len(args) and (args[0] >= (self.L)):
+    raise ValueError("Expecting a locus from 0 to L - 1.")
+}
 
 %feature("autodoc",
 "Get :math:`\\chi_{ij}`
@@ -623,6 +644,10 @@ Parameters:
 Returns:
     - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
 ") get_chi2;
+%pythonprepend get_chi2 {
+if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+    raise ValueError("Expecting loci from 0 to L - 1.")
+}
 
 %feature("autodoc",
 "Get linkage disequilibrium
@@ -634,6 +659,10 @@ Parameters:
 Returns:
     - the linkage disequilibiurm between them, i.e. :math:`D_{ij} := 1 / 4 \\left[\\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j\\right]`.
 ") get_LD;
+%pythonprepend get_LD {
+if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+    raise ValueError("Expecting loci from 0 to L - 1.")
+}
 
 %feature("autodoc",
 "Get moment of two alleles in the -/+ basis
@@ -645,6 +674,10 @@ Parameters:
 Returns:
     - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
 ") get_moment;
+%pythonprepend get_moment {
+if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+    raise ValueError("Expecting loci from 0 to L - 1.")
+}
 
 /* random sampling */
 %pythoncode {
@@ -657,26 +690,15 @@ def random_genomes(self, n_sample):
     Returns:
         - integers corresponding to random genomes in the population.
     '''
-    import numpy as np
-    counts = np.random.multinomial(n_sample, self.get_genotype_frequencies())
+    counts = _np.random.multinomial(n_sample, self.get_genotype_frequencies())
     ind = counts.nonzero()[0]
     counts = counts[ind]
-    sample = np.concatenate([np.repeat(ind[i], counts[i]) for i in xrange(len(ind))])
-    np.random.shuffle(sample)
+    sample = _np.concatenate([_np.repeat(ind[i], counts[i]) for i in xrange(len(ind))])
+    _np.random.shuffle(sample)
     return sample
 }
 
-/* get fitnesses of all individuals */
-void _get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
-        for(size_t i=0; i < (size_t)DIM1; i++)
-                ARGOUT_ARRAY1[i] = $self->get_fitness(i);
-}
-%pythoncode {
-def get_fitnesses(self):
-    '''Get the fitness of all possible genotypes.'''
-    return self._get_fitnesses(1<<self.L)
-}
-
+/* get fitness */
 %feature("autodoc",
 "Get fitness values of a genotype
 
@@ -686,6 +708,19 @@ Parameters:
 Returns:
     - the fitness of that genotype.
 ") get_fitness;
+%pythonprepend get_fitness {
+if len(args) and (args[0] >= (1<<self.L)):
+    raise ValueError("Expecting an individual between 0 and 2^L - 1.")
+}
+
+%feature("autodoc", "Get the fitness of all possible genotypes.") get_fitnesses;
+%pythonprepend get_fitnesses {
+args = tuple([1<<self.L] + list(args))
+}
+void get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
+        for(size_t i=0; i < (size_t)DIM1; i++)
+                ARGOUT_ARRAY1[i] = $self->get_fitness(i);
+}
 
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
 %pythoncode {
@@ -698,15 +733,14 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
     Returns:
        - h: numpy.histogram of fitness in the population
     '''
-    import numpy as np
 
     # Random sample
     gt = self.random_genomes(n_sample)
 
     # Calculate fitness
-    fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
+    fit = _np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
 
-    return np.histogram(fit, **kwargs)
+    return _np.histogram(fit, **kwargs)
 
 
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
@@ -718,14 +752,13 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
         - kwargs: further optional keyword arguments to numpy.histograms
     '''
 
-    import numpy as np
     import matplotlib.pyplot as plt
 
     # Random sample
     gt = self.random_genomes(n_sample)
 
     # Calculate fitness
-    fit = np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
+    fit = _np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
 
     # Plot
     if axis is None:
@@ -746,14 +779,13 @@ def get_divergence_statistics(self, n_sample=1000):
         - stat: structure with mean and variance of divergence in the population
     '''
 
-    import numpy as np
     L = self.L
 
     # Random sample
     gt = self.random_genomes(n_sample)
 
     # Calculate divegence
-    div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
 
     return stat(div.mean(), div.var())
 
@@ -772,16 +804,13 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
     *Note*: to get a normalized histogram, use the *density* keyword.
     '''
 
-    import numpy as np
-    L = self.L
-
     # Random sample
     gt = self.random_genomes(n_sample)
 
     # Calculate divergence
-    div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt[i], self.L).sum() for i in xrange(n_sample)], int)
 
-    return np.histogram(div, bins=bins, **kwargs)
+    return _np.histogram(div, bins=bins, **kwargs)
 
 
 def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
@@ -792,7 +821,6 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
         - n_sample: number of individual to sample at random from the population, defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
     '''
-    import numpy as np
     import matplotlib.pyplot as plt
     L = self.L
 
@@ -800,7 +828,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     gt = self.random_genomes(n_sample)
 
     # Calculate divegence
-    div = np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
 
     # Plot
     if axis is None:
@@ -810,7 +838,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
         axis.set_xlabel('Divergence')
     
     if 'bins' not in kwargs:
-        kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
+        kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     axis.hist(div, **kwargs)
 
 
@@ -824,15 +852,12 @@ def get_diversity_statistics(self, n_sample=1000):
         - stat: structure with mean and variance of diversity in the population
     '''
 
-    import numpy as np
-    L = self.L
-
     # Random sample
     gt1 = self.random_genomes(n_sample)
     gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
-    div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in xrange(n_sample)], int)
 
     return stat(div.mean(), div.var())
 
@@ -851,18 +876,15 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
     *Note*: to get a normalized histogram, use the *density* keyword.
     '''
 
-    import numpy as np
-    L = self.L
-
     # Random sample
     gt1 = self.random_genomes(n_sample)
     gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
-    div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in xrange(n_sample)], int)
 
     # Calculate histogram
-    return np.histogram(div, bins=bins, **kwargs)
+    return _np.histogram(div, bins=bins, **kwargs)
 
 
 def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
@@ -873,16 +895,14 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
         - n_sample: number of individual to sample at random from the population, defaults to 1000.
         - kwargs: further optional keyword arguments to numpy.histograms
     '''
-    import numpy as np
     import matplotlib.pyplot as plt
-    L = self.L
 
     # Random sample
     gt1 = self.random_genomes(n_sample)
     gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
-    div = np.array([binarify(gt1[i] ^ gt2[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in xrange(n_sample)], int)
 
     # Plot
     if axis is None:
@@ -892,7 +912,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
         axis.set_xlabel('Diversity')
     
     if 'bins' not in kwargs:
-        kwargs['bins'] = np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
+        kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     axis.hist(div, **kwargs)
 }
 
@@ -932,9 +952,8 @@ def set_fitness_function(self, genotypes, values):
 
     .. note:: you can use Python binary notation for the genotypes, e.g. 0b0110 is 6.
     '''
-    import numpy as np
-    genotypes = np.asarray(genotypes, float)
-    values = np.asarray(values, float)
+    genotypes = _np.asarray(genotypes, float)
+    values = _np.asarray(values, float)
     if len(genotypes) != len(values):
         raise ValueError('Indices and values must have the same length')
     if self._set_fitness_func(genotypes, values):
@@ -951,9 +970,8 @@ def set_fitness_coefficients(self, coefficients, values):
 
     .. note:: you can use Python binary notation for the coefficients, e.g. 0b0110 is 6.
     '''
-    import numpy as np
-    coefficients = np.asarray(coefficients, float)
-    values = np.asarray(values, float)
+    coefficients = _np.asarray(coefficients, float)
+    values = _np.asarray(values, float)
     if len(coefficients) != len(values):
         raise ValueError('Indices and values must have the same length')
     if self._set_fitness_coeff(coefficients, values):
@@ -991,8 +1009,32 @@ void set_fitness_additive(int DIM1, double* IN_ARRAY1) {
 .. note:: the allele entropy is defined as :math:`-\\sum_{i=0}^{L} \\left[\\nu_i\log \\nu_i + (1-\\nu_i)\log(1-\\nu_i)\\right]`.
 ") allele_entropy;
 
-/* ignore tests (they work by now) */
+/* ignore tests */
 %ignore test_recombinant_distribution();
 %ignore test_recombination(double *rec_rates);
 %ignore mutation_drift_equilibrium(double** mutrates);
 } /* extend haploid_lowd */
+
+%{
+const int haploid_lowd_L_get(haploid_lowd *h) {
+  return (const int) h->get_number_of_loci();
+}
+const int haploid_lowd_number_of_loci_get(haploid_lowd *h) {
+  return (const int) h->get_number_of_loci();
+}
+
+const int haploid_lowd_N_get(haploid_lowd *h) {
+  return (const int) h->get_population_size();
+}
+const int haploid_lowd_population_size_get(haploid_lowd *h) {
+  return (const int) h->get_population_size();
+}
+
+int haploid_lowd_generation_get(haploid_lowd *h) {
+  return (const int) h->get_generation();
+}
+void haploid_lowd_generation_set(haploid_lowd *h, int g) {
+  h->set_generation(g);
+}
+%}
+/*****************************************************************************/

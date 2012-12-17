@@ -29,6 +29,15 @@
 #include <math.h>
 #include "ffpopsim_highd.h"
 
+//FIXME
+boost::dynamic_bitset<> bitset_output() {
+        boost::dynamic_bitset<> test;
+        test.resize(10);
+        test[3] = true;
+        test[7] = true;
+        return test;
+};
+
 /* Initialize the number of instances to zero */
 size_t haploid_highd::number_of_instances = 0;
 
