@@ -23,6 +23,8 @@
 /*****************************************************************************/
 %feature("autodoc", "Structure for an HIV gene.") hivgene;
 %extend hivgene {
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
 const char* __str__() {
         static char buffer[255];
         sprintf(buffer,"hivgene: start: %d, end: %d", $self->start, $self->end);
@@ -80,7 +82,6 @@ The gene structure of HIV is not modelled explicitely, except for a stub of
 %feature("autodoc", DOCSTRING_HIVPOPULATION) hivpopulation;
 
 %extend hivpopulation {
-
 %feature("autodoc",
 "Construct a HIV population with certain parameters.
 
@@ -94,6 +95,30 @@ Parameters:
 
 .. note:: the genome length is 10000 (see HIVGENOME).
 ") hivpopulation;
+/* constructor */
+%exception hivpopulation {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Construction impossible. Please check input args.");
+                SWIG_fail;
+        }
+}
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"hivpopulation: N = %d", $self->N());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<hivpopulation(%d)>", $self->N());
+        return &buffer[0];
+}
 
 /* copy */
 %pythoncode{
@@ -128,29 +153,6 @@ def copy(self, rng_seed=0):
 /* we have two traits anyway */
 %ignore add_fitness_coefficient;
 %ignore clear_fitness;
-
-/* constructor */
-%exception hivpopulation {
-        try {
-                $action
-        } catch (int err) {
-                PyErr_SetString(PyExc_ValueError,"Construction impossible. Please check input args.");
-                SWIG_fail;
-        }
-}
-
-/* string representations */
-const char* __str__() {
-        static char buffer[255];
-        sprintf(buffer,"hivpopulation: N = %d", $self->N());
-        return &buffer[0];
-}
-
-const char* __repr__() {
-        static char buffer[255];
-        sprintf(buffer,"<hivpopulation(%d)>", $self->N());
-        return &buffer[0];
-}
 
 /* treatment */
 %ignore set_treatment;

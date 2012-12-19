@@ -130,6 +130,8 @@ Parameters:
 }
 
 /* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
 const char* __str__() {
         static char buffer[255];
         sprintf(buffer,"haploid_lowd: L = %d, N = %f", (int)$self->L(), $self->N());
@@ -703,7 +705,7 @@ def random_genomes(self, n_sample):
 "Get fitness values of a genotype
 
 Parameters:
-    - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
+    - genotype: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
 
 Returns:
     - the fitness of that genotype.

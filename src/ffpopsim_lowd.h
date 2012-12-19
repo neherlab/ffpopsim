@@ -204,7 +204,7 @@ public:
 	double allele_entropy();
 
 	// fitness/phenotype readout
-	double get_fitness(int gt) {return fitness.get_func(gt);}
+	double get_fitness(int genotype) {return fitness.get_func(genotype);}
 	stat_t get_fitness_statistics();
 
 protected:

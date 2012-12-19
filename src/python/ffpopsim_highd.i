@@ -30,6 +30,8 @@
 %rename (clone) clone_t;
 %extend clone_t {
 /* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
 const char* __str__() {
         static char buffer[255];
         sprintf(buffer,"clone: %u traits, genome size = %u",
@@ -137,6 +139,8 @@ Parameters:
 }
 
 /* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
 const char* __str__() {
         static char buffer[255];
         sprintf(buffer,"haploid_highd: L = %d, N = %d", $self->L(), $self->N());
@@ -232,6 +236,38 @@ const double max_fitness;
 %ignore get_participation_ratio;
 %feature("autodoc", "Participation ratio (read-only)")participation_ratio;
 const double participation_ratio;
+
+/* trait weights */
+%ignore set_trait_weights;
+%pythonprepend _set_trait_weights {
+if len(args) and (len(args[0]) != self.number_of_traits):
+    raise ValueError('The weights must be a sequence of length equal to the number of traits.')
+}
+void _set_trait_weights(double* IN_ARRAY1, int DIM1) {
+        /* call the C++ method */
+        $self->set_trait_weights(IN_ARRAY1);
+        $self->update_fitness();
+}
+%feature("autodoc",
+"weight of each trait on fitness
+
+.. note:: Fitness is updated automatically when the weights are changed.
+") _get_trait_weights;
+%pythonprepend _get_trait_weights {
+args = tuple(list(args) + [self.number_of_traits])
+}
+void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
+        /* check trait number */
+        if(DIM1 != $self->get_number_of_traits())
+                throw HP_BADARG; 
+
+        /* set the output array */
+        for(size_t t=0; t < (size_t)DIM1; t++)
+                ARGOUT_ARRAY1[t] = $self->get_trait_weight(t);
+}
+%pythoncode {
+trait_weights = property(_get_trait_weights, _set_trait_weights)
+}
 
 /* copy */
 %pythoncode{
@@ -607,38 +643,6 @@ void get_trait_additive(double* ARGOUT_ARRAY1, int DIM1, int t=0) {
 %rename (_update_traits) update_traits;
 %rename (_update_fitness) update_fitness;
 
-/* trait weights */
-%ignore set_trait_weights;
-%pythonprepend _set_trait_weights {
-if len(args) and (len(args[0]) != self.number_of_traits):
-    raise ValueError('The weights must be a sequence of length equal to the number of traits.')
-}
-void _set_trait_weights(double* IN_ARRAY1, int DIM1) {
-        /* call the C++ method */
-        $self->set_trait_weights(IN_ARRAY1);
-        $self->update_fitness();
-}
-%feature("autodoc",
-"weight of each trait on fitness
-
-.. note:: Fitness is updated automatically when the weights are changed.
-") _get_trait_weights;
-%pythonprepend _get_trait_weights {
-args = tuple(list(args) + [self.number_of_traits])
-}
-void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
-        /* check trait number */
-        if(DIM1 != $self->get_number_of_traits())
-                throw HP_BADARG; 
-
-        /* set the output array */
-        for(size_t t=0; t < (size_t)DIM1; t++)
-                ARGOUT_ARRAY1[t] = $self->get_trait_weight(t);
-}
-%pythoncode {
-trait_weights = property(_get_trait_weights, _set_trait_weights)
-}
-
 /* clear trait/fitness coefficients */
 %feature("autodoc",
 "Clear a trait landscape.
@@ -809,9 +813,9 @@ Returns:
 def get_traits(self):
     '''Get all traits from all clones'''
     t = _np.zeros((self.number_of_clones, self.number_of_traits))
-    for i, ii in enumerate(self._nonempty_clones):
+    for i in xrange(self.number_of_clones):
         for j in xrange(self.number_of_traits):
-            t[i, j] = self.get_trait(ii, j)
+            t[i, j] = self.get_trait(i, j)
     return t
 }
 
@@ -838,8 +842,8 @@ Returns:
 def get_clone_sizes(self):
     '''Get the size of all clones.'''
     s = _np.zeros(self.number_of_clones, int)
-    for i, ii in enumerate(self._nonempty_clones):
-        s[i] = self.get_clone_size(ii)
+    for i in xrange(self.number_of_clones):
+        s[i] = self.get_clone_size(i)
     return s
 }
 

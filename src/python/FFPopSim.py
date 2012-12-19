@@ -624,7 +624,7 @@ class haploid_lowd(object):
         Get fitness values of a genotype
 
         Parameters:
-            - gt: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
+            - genotype: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
 
         Returns:
             - the fitness of that genotype.
@@ -641,11 +641,11 @@ class haploid_lowd(object):
         return _FFPopSim.haploid_lowd_get_fitness_statistics(self)
 
     def __str__(self):
-        """__str__(haploid_lowd self) -> char const *"""
+        """x.__str__() <==> str(x)"""
         return _FFPopSim.haploid_lowd___str__(self)
 
     def __repr__(self):
-        """__repr__(haploid_lowd self) -> char const *"""
+        """x.__repr__() <==> repr(x)"""
         return _FFPopSim.haploid_lowd___repr__(self)
 
     def copy(self, rng_seed=0):
@@ -1223,11 +1223,11 @@ class clone(object):
         return _FFPopSim.clone___gt__(self, *args, **kwargs)
 
     def __str__(self):
-        """__str__(clone self) -> char const *"""
+        """x.__str__() <==> str(x)"""
         return _FFPopSim.clone___str__(self)
 
     def __repr__(self):
-        """__repr__(clone self) -> char const *"""
+        """x.__repr__() <==> repr(x)"""
         return _FFPopSim.clone___repr__(self)
 
     number_of_traits = _swig_property(_FFPopSim.clone_number_of_traits_get)
@@ -1733,11 +1733,11 @@ class haploid_highd(object):
         return _FFPopSim.haploid_highd__update_fitness(self)
 
     def __str__(self):
-        """__str__(haploid_highd self) -> char const *"""
+        """x.__str__() <==> str(x)"""
         return _FFPopSim.haploid_highd___str__(self)
 
     def __repr__(self):
-        """__repr__(haploid_highd self) -> char const *"""
+        """x.__repr__() <==> repr(x)"""
         return _FFPopSim.haploid_highd___repr__(self)
 
     def get_clone(self, *args, **kwargs):
@@ -1762,6 +1762,28 @@ class haploid_highd(object):
     number_of_traits = _swig_property(_FFPopSim.haploid_highd_number_of_traits_get)
     max_fitness = _swig_property(_FFPopSim.haploid_highd_max_fitness_get)
     participation_ratio = _swig_property(_FFPopSim.haploid_highd_participation_ratio_get)
+    def _set_trait_weights(self, *args, **kwargs):
+        """_set_trait_weights(haploid_highd self, double * IN_ARRAY1)"""
+        if len(args) and (len(args[0]) != self.number_of_traits):
+            raise ValueError('The weights must be a sequence of length equal to the number of traits.')
+
+
+        return _FFPopSim.haploid_highd__set_trait_weights(self, *args, **kwargs)
+
+    def _get_trait_weights(self, *args, **kwargs):
+        """
+        weight of each trait on fitness
+
+        .. note:: Fitness is updated automatically when the weights are changed.
+
+        """
+        args = tuple(list(args) + [self.number_of_traits])
+
+
+        return _FFPopSim.haploid_highd__get_trait_weights(self, *args, **kwargs)
+
+    trait_weights = property(_get_trait_weights, _set_trait_weights)
+
     def copy(self, rng_seed=0):
         '''Copy population into new instance.
         
@@ -1879,28 +1901,6 @@ class haploid_highd(object):
 
         return _FFPopSim.haploid_highd_get_trait_additive(self, *args, **kwargs)
 
-    def _set_trait_weights(self, *args, **kwargs):
-        """_set_trait_weights(haploid_highd self, double * IN_ARRAY1)"""
-        if len(args) and (len(args[0]) != self.number_of_traits):
-            raise ValueError('The weights must be a sequence of length equal to the number of traits.')
-
-
-        return _FFPopSim.haploid_highd__set_trait_weights(self, *args, **kwargs)
-
-    def _get_trait_weights(self, *args, **kwargs):
-        """
-        weight of each trait on fitness
-
-        .. note:: Fitness is updated automatically when the weights are changed.
-
-        """
-        args = tuple(list(args) + [self.number_of_traits])
-
-
-        return _FFPopSim.haploid_highd__get_trait_weights(self, *args, **kwargs)
-
-    trait_weights = property(_get_trait_weights, _set_trait_weights)
-
     def set_trait_additive(self, *args, **kwargs):
         """
         Set the additive part of a trait
@@ -1936,16 +1936,16 @@ class haploid_highd(object):
     def get_traits(self):
         '''Get all traits from all clones'''
         t = _np.zeros((self.number_of_clones, self.number_of_traits))
-        for i, ii in enumerate(self._nonempty_clones):
+        for i in xrange(self.number_of_clones):
             for j in xrange(self.number_of_traits):
-                t[i, j] = self.get_trait(ii, j)
+                t[i, j] = self.get_trait(i, j)
         return t
 
     def get_clone_sizes(self):
         '''Get the size of all clones.'''
         s = _np.zeros(self.number_of_clones, int)
-        for i, ii in enumerate(self._nonempty_clones):
-            s[i] = self.get_clone_size(ii)
+        for i in xrange(self.number_of_clones):
+            s[i] = self.get_clone_size(i)
         return s
 
     def get_genotype(self, *args, **kwargs):
@@ -2251,11 +2251,11 @@ class hivgene(object):
         """Structure for an HIV gene."""
         _FFPopSim.hivgene_swiginit(self,_FFPopSim.new_hivgene(start_in, end_in))
     def __str__(self):
-        """__str__(hivgene self) -> char const *"""
+        """x.__str__() <==> str(x)"""
         return _FFPopSim.hivgene___str__(self)
 
     def __repr__(self):
-        """__repr__(hivgene self) -> char const *"""
+        """x.__repr__() <==> repr(x)"""
         return _FFPopSim.hivgene___repr__(self)
 
     __swig_destroy__ = _FFPopSim.delete_hivgene
@@ -2354,6 +2354,14 @@ class hivpopulation(haploid_highd):
         """
         return _FFPopSim.hivpopulation_write_genotypes(self, *args, **kwargs)
 
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.hivpopulation___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.hivpopulation___repr__(self)
+
     def copy(self, rng_seed=0):
         '''Copy population into new instance.
         
@@ -2380,14 +2388,6 @@ class hivpopulation(haploid_highd):
         pop._set_generation(self.generation)
         
         return pop
-
-    def __str__(self):
-        """__str__(hivpopulation self) -> char const *"""
-        return _FFPopSim.hivpopulation___str__(self)
-
-    def __repr__(self):
-        """__repr__(hivpopulation self) -> char const *"""
-        return _FFPopSim.hivpopulation___repr__(self)
 
     treatment = _swig_property(_FFPopSim.hivpopulation_treatment_get, _FFPopSim.hivpopulation_treatment_set)
     def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
