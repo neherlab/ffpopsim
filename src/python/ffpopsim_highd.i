@@ -782,8 +782,8 @@ Returns:
 def get_fitnesses(self):
     '''Get the fitness of all clones.'''
     f = _np.zeros(self.number_of_clones)
-    for i, ii in enumerate(self._nonempty_clones):
-        f[i] = self.get_fitness(ii)
+    for i in xrange(self.number_of_clones):
+        f[i] = self.get_fitness(i)
     return f
 }
 
@@ -879,8 +879,8 @@ def get_genotypes(self):
     .. note:: this function does not return the sizes of each clone.
     '''
     genotypes = _np.zeros((self.number_of_clones, self.number_of_loci), bool)
-    for i, ii in enumerate(self._nonempty_clones):
-        genotypes[i] = self.get_genotype(ii)
+    for i in xrange(self.number_of_clones):
+        genotypes[i] = self.get_genotype(i)
     return genotypes
 }
 
