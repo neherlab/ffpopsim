@@ -32,6 +32,10 @@ pop.set_mutation_rates(mu)          # assign the mutation rate
 pop.set_genotypes([0, 2**L - 1],
                   [N/2, N/2])
 
+print "\nTrack LD and compare to deterministic expectations\n"
+
+pop.status()
+
 # get initial LD
 LD_trajectories = [[pop.generation, pop.get_LD(0,1), pop.get_LD(0,2), pop.get_LD(0,3)]]
 

@@ -41,6 +41,9 @@ locus_pairs = [[0,10],
                [40,50],
                [10,60]]
 
+print "\nTrack LD and compare to deterministic expectations\n"
+pop.status()
+
 # get initial LD
 LD_trajectories = [[pop.get_LD(l1,l2) for l1,l2 in locus_pairs]]
 tp = [pop.generation]
