@@ -37,6 +37,8 @@ pop.crossover_rate = r                   # crossover rate
 pop.carrying_capacity = N           # set the population size
 pop.set_allele_frequencies(0.5 * np.ones(L), N)
 
+print "Evolve for >> N generations and compare allele frequency distributions \nto expectations from diffusion theory."
+pop.status()
 pop.evolve(10 * N)                      # evolve for 10N generations to equilibrate
 
 # evolve and sample allele_frequencies
@@ -47,7 +49,7 @@ for ii in range(nsamples):
 
     # print output every 100 generations
     if (ii % 100 == 0):
-        print ii, "out of", nsamples, "population size: ", pop.population_size, pop.number_of_clones
+        print ii, "out of", nsamples, ". Population size: ", pop.population_size, "Number of clones", pop.number_of_clones
 
     # get allele frequencies
     allele_frequencies[ii,:] = pop.get_allele_frequencies()

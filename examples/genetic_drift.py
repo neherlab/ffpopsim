@@ -33,7 +33,11 @@ pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
 maxgen = 2000
 allele_frequencies = [pop.get_allele_frequencies()] 
 tp = [pop.generation]
+
+print "Illustrate genetic drift on allele frequency trajectories."
+pop.status()    #print status message
 while pop.generation < maxgen:
+    if (pop.generation%(maxgen/10)==0): print pop.generation,"out of",maxgen, "generations"
     pop.evolve(10)
 
     # save allele frequencies and time

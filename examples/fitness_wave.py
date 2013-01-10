@@ -5,7 +5,7 @@ date:       07/09/12
 content:    Example of tracking the fitness distribution wave along the
             simulation.
             
-Note: This example also shows subclussing of FFPopSim classes. In this case, the
+Note: This example also shows subclassing of FFPopSim classes. In this case, the
 syntax construct if __name__ == '__main__' is actually useful to import the
 subclass in other scripts.
 '''
@@ -75,6 +75,9 @@ r = 0.01                            # recombination rate
 
 # script
 if __name__ == '__main__':
+    print "This script illustrates subclassing of FFPopSim."
+    print "In addition to FFPopSim, this class tracks the fitness \ndistribution and allows plotting of its history.\n"
+
 
     # set up population
     pop = haploid_lowd_track(L)                             # produce an instance of haploid_lowd with L loci
@@ -85,7 +88,8 @@ if __name__ == '__main__':
     pop.set_wildtype(N)                                     # initialize a wildtype population
 
     pop.set_fitness_additive(1e-3 * np.linspace(1, 4, L))   # set additive fitness landscape
-
+    pop.status()
+    
     # track fitness distribution withfive points and 200 generations between each other
     for i in xrange(5):
         pop.evolve(200)

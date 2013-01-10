@@ -112,7 +112,7 @@ for L in Llist_virus:
         t1=time.time()
         pop.evolve(G)
         t2=time.time()
-        print "Population size:", N, 
+        print "Population size:", N, "genome length:",L
         print "time required for", G, "generations:",
         print round(t2 - t1, 3), "seconds"
 

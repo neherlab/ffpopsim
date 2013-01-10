@@ -35,7 +35,7 @@ outcrossing_rates = np.linspace(0,.2, 6)        # outcrossing rates to be simula
 
 # loop over the outcrossing rates
 for r in outcrossing_rates:
-
+    print "\nEvolving a population with outcrossing rate",r
     pop.outcrossing_rate = r                    # set outcrossing rates
     pop.set_wildtype(params.pop)                # initialize a wildtype population of size params.pop
     
@@ -43,8 +43,9 @@ for r in outcrossing_rates:
     # fitness variance, participation ratio and the number of clones
     pfit = pop.get_fitness_statistics()
     popstat = []
+    pop.status()
     for gen in range(params.dt,params.Ttraj, params.dt):
-
+        if gen%100==0: print gen, "out of",params.Ttraj, "generations"
         # append current statistics to the list
         pfit = pop.get_fitness_statistics()
         popstat.append([gen,pfit.mean, pfit.variance, pop.participation_ratio, pop.number_of_clones])

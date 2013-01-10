@@ -78,7 +78,7 @@ int hypercube_lowd::allocate_mem() {
 	//allocate and seed the random number generator, RNG is the rng-type
 	rng=gsl_rng_alloc(RNG);
 	gsl_rng_set(rng, seed);
-	cerr <<"hypercube_lowd() random number seed: "<<seed<<endl;
+	if (HC_VERBOSE) cerr <<"hypercube_lowd() random number seed: "<<seed<<endl;
 	calc_order();
 	mem=true;
 	reset();				// the hypercube is reset before starting!

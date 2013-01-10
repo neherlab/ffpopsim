@@ -46,8 +46,11 @@ pop.set_allele_frequencies(np.ones(L) * 0.5, params.pop)
 # evolve and store statistics along the way
 popstat = []
 t1 = time.time()
+print "\nEvolve a population to illustrate the effect of epistasis on population structure"
+pop.status()
+print
 for gen in range(params.dt,params.Ttraj, params.dt):
-
+    if gen%(params.Ttraj/10)==0: print gen, "out of", params.Ttraj, "generations"
     # append current statistics to the list
     pfit = pop.get_fitness_statistics()
     popstat.append([gen,pfit.mean,
@@ -61,7 +64,7 @@ for gen in range(params.dt,params.Ttraj, params.dt):
     pop.calc_stat()
 
 popstat = np.array(popstat)
-print time.time() - t1
+print "Elapsed time:", round(time.time() - t1,2), 's'
 
 # plot quantities of interest
 plt.figure(1)
