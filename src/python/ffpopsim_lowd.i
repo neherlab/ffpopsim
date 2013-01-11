@@ -618,7 +618,7 @@ Returns:
     - the joint frequency of the + alleles
 ") get_pair_frequency;
 %pythonprepend get_pair_frequency {
-if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
     raise ValueError("Expecting loci from 0 to L - 1.")
 }
 
@@ -647,7 +647,7 @@ Returns:
     - the linkage disequilibiurm between them, i.e. :math:`\\chi_{ij} := \\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j`.
 ") get_chi2;
 %pythonprepend get_chi2 {
-if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
     raise ValueError("Expecting loci from 0 to L - 1.")
 }
 
@@ -662,7 +662,7 @@ Returns:
     - the linkage disequilibiurm between them, i.e. :math:`D_{ij} := 1 / 4 \\left[\\left<s_i s_j\\right> - \\chi_i \\cdot \\chi_j\\right]`.
 ") get_LD;
 %pythonprepend get_LD {
-if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
     raise ValueError("Expecting loci from 0 to L - 1.")
 }
 
@@ -677,7 +677,7 @@ Returns:
     - the second moment, i.e. :math:`\\left<s_i s_j\\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
 ") get_moment;
 %pythonprepend get_moment {
-if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
     raise ValueError("Expecting loci from 0 to L - 1.")
 }
 
