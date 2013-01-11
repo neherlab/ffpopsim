@@ -1,3 +1,11 @@
+2013-01-11 Fabio Zanini <fabio.zanini@tuebingen.mpg.de>
+
+   * 1.2.1: Bugfix release.
+
+2013-01-10 Fabio Zanini <fabio.zanini@tuebingen.mpg.de>
+
+   * 1.2: New functions, better interface files, more docs.
+
 2012-10-31 Fabio Zanini <fabio.zanini@tuebingen.mpg.de>
 
    * 1.1.1: Bugfix release: fixed a bug in haploid_highd::provide_at_least
