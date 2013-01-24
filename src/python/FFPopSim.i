@@ -62,6 +62,13 @@ For more usage examples, please consult the ``tests`` and ``examples`` folders.
 #include "../hivpopulation.h"
 %}
 
+/* STL typemaps */
+%include <typemaps.i>
+%include <std_string.i>
+%include <std_vector.i>
+%include <std_list.i>
+%include <std_map.i>
+
 /* Numpy magic to output arrays */
 /*%include "pyfragments.swg"*/
 %include "numpy.i";
@@ -74,6 +81,11 @@ import_array();
 %include <std_vector.i>
 %template(_intVector) std::vector<int>;
 /*%template(_doubleVector) std::vector<double>;*/
+%template(vector_tree_step) std::vector<step_t>;
+%template(vector_tree_key) std::vector<tree_key_t>;
+%template(list_tree_key) std::list<tree_key_t>;
+%template(map_key_edge) std::map<tree_key_t, edge_t>;
+%template(map_key_node) std::map<tree_key_t, node_t>;
 
 /* FFPopSim typemaps */
 %include "ffpopsim_typemaps.i";

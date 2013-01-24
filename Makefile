@@ -142,7 +142,7 @@ SOURCE_LOWD := hypercube_lowd.cpp haploid_lowd.cpp
 OBJECT_LOWD := $(SOURCE_LOWD:%.cpp=%.o)
 
 HEADER_HIGHD := $(HEADER_GENERIC) ffpopsim_highd.h
-SOURCE_HIGHD := hypercube_highd.cpp haploid_highd.cpp
+SOURCE_HIGHD := hypercube_highd.cpp haploid_highd.cpp multiLocusGenealogy.cpp rootedTree.cpp
 OBJECT_HIGHD := $(SOURCE_HIGHD:%.cpp=%.o)
 
 HEADER_HIV := hivpopulation.h
@@ -213,18 +213,21 @@ TESTS_LIBS = -lFFPopSim -lgsl -lgslcblas
 
 TESTS_LOWD = lowd
 TESTS_HIGHD = highd
+TESTS_GENEALOGY = test_genealogy
 TESTS_LOWD_REC = recombination_lowd
 
 TESTS_SOURCE_LOWD = $(TESTS_LOWD:%=%.cpp)
 TESTS_SOURCE_HIGHD = $(TESTS_HIGHD:%=%.cpp)
+TESTS_SOURCE_GENEALOGY = $(TESTS_GENEALOGY:%=%.cpp)
 TESTS_SOURCE_LOWD_REC = $(TESTS_LOWD_REC:%=%.cpp)
 
 TESTS_OBJECT_LOWD = $(TESTS_LOWD:%=%.o)
 TESTS_OBJECT_HIGHD = $(TESTS_HIGHD:%=%.o)
+TESTS_OBJECT_GENEALOGY = $(TESTS_GENEALOGY:%=%.o)
 TESTS_OBJECT_LOWD_REC = $(TESTS_LOWD_REC:%=%.o)
 
 # Recipes
-tests: $(SRCDIR)/$(LIBRARY) $(TESTSDIR)/$(TESTS_LOWD) $(TESTSDIR)/$(TESTS_HIGHD) $(TESTSDIR)/$(TESTS_LOWD_REC)
+tests: $(SRCDIR)/$(LIBRARY) $(TESTSDIR)/$(TESTS_LOWD) $(TESTSDIR)/$(TESTS_HIGHD) $(TESTSDIR)/$(TESTS_GENEALOGY)  $(TESTSDIR)/$(TESTS_LOWD_REC)
 
 $(TESTSDIR)/$(TESTS_LOWD_REC): $(TESTSDIR)/$(TESTS_OBJECT_LOWD_REC) $(SRCDIR)/$(LIBRARY)
 	$(CXX) $(TESTS_LDFLAGS) $^ $(TEST_LIBDIRS) $(TESTS_LIBS) -o $@
@@ -244,8 +247,15 @@ $(TESTSDIR)/$(TESTS_HIGHD): $(TESTSDIR)/$(TESTS_OBJECT_HIGHD) $(SRCDIR)/$(OBJECT
 $(TESTSDIR)/$(TESTS_OBJECT_HIGHD): $(TESTSDIR)/$(TESTS_SOURCE_HIGHD)
 	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
+$(TESTSDIR)/$(TESTS_GENEALOGY): $(TESTSDIR)/$(TESTS_OBJECT_GENEALOGY) $(SRCDIR)/$(OBJECT_HIV) $(SRCDIR)/$(LIBRARY)
+	$(CXX) $(TESTS_LDFLAGS) $^ $(TEST_LIBDIRS) $(TESTS_LIBS) -o $@
+
+$(TESTSDIR)/$(TESTS_OBJECT_GENEALOGY): $(TESTSDIR)/$(TESTS_SOURCE_GENEALOGY)
+	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
+
+
 clean-tests:
-	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD)
+	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD) $(TESTS_GENEALOGY) $(TESTS_LOWD_REC)
 
 ##==========================================================================
 # PYTHON BINDINGS

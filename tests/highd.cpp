@@ -7,7 +7,7 @@
  */
 
 /* Include directives */
-#include "hivpopulation.h"
+#include "ffpopsim_highd.h"
 #define HIGHD_BADARG -1354341
 #define NOTHING 1e-10
 
@@ -142,6 +142,10 @@ int pop_evolve() {
 
 	return 0;	
 }
+
+
+/* Test evolution */
+
 
 /* Test random sampling */
 int pop_sampling() {

@@ -39,13 +39,12 @@
 
 using namespace std;
 
-//FIXME: for testing purposes only
-boost::dynamic_bitset<> bitset_output();
 
 /**
  * @brief Trait coefficient for a set of loci.
  *
- * This struct is used in the hypercube_highd class for saving trait coefficients. See also hypercube_highd::add_coefficient.
+ * This struct is used in the hypercube_highd class for saving trait coefficients.
+ * See also hypercube_highd::add_coefficient.
  *
  * Note: words and bits are deprecated.
  */
@@ -197,6 +196,162 @@ struct clone_t {
         }
 };
 
+
+/*
+ *	@brief a class that implements a rooted tree to store genealogies
+ *
+ *	Nodes and edges are stored as maps with a key that holds the age (rather the time) when the node lived
+ *	and the index in the population at that time. The nodes themselves are sufficient to reconstruct the tree
+ *	since they contain keys of parents and children
+ */
+
+#ifndef rooted_tree_H_
+#define rooted_tree_H_
+#define RT_VERBOSE 0
+#define RT_VERYLARGE 10000000
+#define RT_CHILDNOTFOUND -35343
+#define RT_NODENOTFOUND -35765
+
+#include <map>
+#include <set>
+#include <vector>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <list>
+#include <gsl/gsl_histogram.h>
+
+using namespace std;
+
+struct tree_key_t {
+	int index;
+	int age;
+	bool operator==(const tree_key_t &other)  {return (age == other.age) && (index == other.index);}
+	bool operator!=(const tree_key_t &other)  {return (age != other.age) || (index != other.index);}
+	bool operator<(const tree_key_t &other) const {
+                if(age < other.age) return true;
+                else if (age > other.age) return false;
+                else { return (index<other.index); }
+        }
+	bool operator>(const tree_key_t &other) const {
+                if(age > other.age) return true;
+                else if (age < other.age) return false;
+                else { return (index>other.index); }
+        }
+        tree_key_t(int index=0, int age=0) : index(index), age(age) {};
+};
+
+struct step_t {
+	int pos;
+	int step;
+	bool operator<(const step_t &other) const {
+                if(pos < other.pos) return true;
+                else return false;
+        }
+	bool operator>(const step_t &other) const {
+                if(pos > other.pos) return true;
+                else return false;
+        }
+	bool operator==(const step_t &other) const {
+                if(pos == other.pos) return true;
+                else return false;
+        }
+        step_t(int pos=0, int step=0) : pos(pos), step(step) {};
+};
+
+struct node_t {
+	tree_key_t parent_node;
+	list < tree_key_t > child_edges;
+	double fitness;
+	tree_key_t own_key;
+	vector <step_t> weight_distribution;
+	int number_of_offspring;
+	int clone_size;
+	int crossover[2];
+};
+
+struct edge_t {
+	tree_key_t parent_node;
+	tree_key_t own_key;
+	int segment[2];
+	int length;
+	int number_of_offspring;
+};
+
+
+class rooted_tree {
+public:
+	map < tree_key_t , edge_t > edges;
+	map < tree_key_t , node_t > nodes;
+	vector <tree_key_t> leafs;
+	tree_key_t root;
+	tree_key_t MRCA;
+
+	rooted_tree();
+	virtual ~rooted_tree();
+	void reset();
+	void add_generation(vector <node_t> &new_generation, double mean_fitness);
+	int add_terminal_node(node_t &newNode);
+	tree_key_t erase_edge_node(tree_key_t to_be_erased);
+	tree_key_t bridge_edge_node(tree_key_t to_be_bridged);
+	int external_branch_length();
+	int total_branch_length();
+	int ancestors_at_age(int age, tree_key_t subtree_root, vector <tree_key_t> &ancestors);
+	int update_leaf_to_root(tree_key_t leaf);
+	void update_tree();
+	int calc_weight_distribution(tree_key_t subtree_root);
+	void SFS(gsl_histogram *sfs);
+	tree_key_t get_MRCA(){return MRCA;};
+	int erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t to_be_erased);
+	int delete_extra_children(tree_key_t subtree_root);
+	int delete_one_child_nodes(tree_key_t subtree_root);
+	bool check_node(tree_key_t node);
+	int check_tree_integrity();
+	void clear_tree();
+
+        // print tree or subtrees
+	string print_newick();
+	string subtree_newick(tree_key_t root);
+	string print_weight_distribution(tree_key_t node_key);
+
+        // construct subtrees
+	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
+
+
+};
+
+#endif /* rooted_tree_H_ */
+
+/*
+ * @brief short wrapper class that handles trees at different places in the genome
+ *
+ * the class contains a vector of rooted_tree instances that hold the genealogy
+ *  in different places. In addition, there is a rooted_tree called subtree
+ *  that is used on demand
+ *
+ *  Created on: Oct 14, 2012
+ *      Author: richard
+ */
+
+#ifndef MULTILOCUSGENEALOGY_H_
+#define MULTILOCUSGENEALOGY_H_
+class multi_locus_genealogy {
+public:
+	vector <int> loci;				//vector of loci (positions on a genome) whose genealogy is to be tracked
+	vector <rooted_tree> trees;                     //vector of rooted trees (one per locus)
+	vector < vector < node_t > > newGenerations;	//used by the evolving class to store the new generation
+
+	multi_locus_genealogy();
+	virtual ~multi_locus_genealogy();
+	void track_locus(int new_locus);
+	void reset(){loci.clear(); trees.clear();newGenerations.clear();}
+	void reset_but_loci(){for(int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
+	void add_generation(double baseline);
+	int extend_storage(int n);
+};
+#endif /* MULTILOCUSGENEALOGY_H_ */
+
+
 /**
  * @brief Population class for high-dimensional simulations.
  *
@@ -227,6 +382,7 @@ public:
 	double mutation_rate;			// rate of mutation per locus per generation
 	double outcrossing_rate;		// probability of having sex
 	double crossover_rate;			// rate of crossover during sex
+	bool all_polymorphic;			// switch that makes sure every locus is polymorphic in an infinite alleles model when mutation rate is 0
 	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
 
@@ -245,6 +401,7 @@ public:
 	int set_allele_frequencies(double* frequencies, unsigned long N);
 	int set_genotypes(vector <genotype_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
+	int track_locus_genealogy(vector <int> loci);
 
 	// modify population
 	void add_genotype(boost::dynamic_bitset<> genotype, int n=1);
@@ -288,16 +445,19 @@ public:
 
 	// allele frequencies
 	double get_allele_frequency(int l) {if (!allele_frequencies_up_to_date){calc_allele_freqs();} return allele_frequencies[l];}
+	double get_derived_allele_frequency(int l) {if (ancestral_state[l]) {return get_allele_frequency(l);} else {return 1.0-get_allele_frequency(l);}}
+
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
 	double get_chi(int l) {return 2 * get_allele_frequency(l) - 1;}
+	double get_derived_chi(int l) {return 2 * get_derived_allele_frequency(l) - 1;}
 	double get_chi2(int locus1, int locus2){return get_moment(locus1, locus2)-get_chi(locus1)*get_chi(locus2);}
 	double get_LD(int locus1, int locus2){return 0.25 * get_chi2(locus1, locus2);}
 	double get_moment(int locus1, int locus2){return 4 * get_pair_frequency(locus1, locus2) + 1 - 2 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
 
 	// fitness/phenotype readout
 	void set_trait_weights(double *weights){for(int t=0; t<number_of_traits; t++) trait_weights[t] = weights[t];}
-        double get_trait_weight(int t){return trait_weights[t];}
+	double get_trait_weight(int t){return trait_weights[t];}
 	double get_fitness(int n) {calc_individual_fitness(population[n]); return population[n].fitness;}
 	int get_clone_size(int n) {return population[n].clone_size;}
 	double get_trait(int n, int t=0) {calc_individual_traits(population[n]); return population[n].trait[t];}
@@ -318,6 +478,8 @@ public:
 	int print_allele_frequencies(ostream &out);
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
+
+	multi_locus_genealogy genealogy;
 
 protected:
 	// random number generator
@@ -358,6 +520,8 @@ protected:
 	double *gamete_allele_frequencies;
 	double *chi1;				//symmetric allele frequencies
 	double **chi2;				//symmetric two locus correlations
+	vector <int> ancestral_state;	//vector, that for each locus keeps track of the ancestral state. by default, all zero
+	vector <int> birth_of_allele;	//vector, that keeps track when an allele was introduced. Only needed in an infinite alleles model
 	void calc_allele_freqs();
 
 	// recombination details
@@ -389,7 +553,8 @@ protected:
 	double *trait_weights;
 	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
 	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
-
+	void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n);
+	bool track_genealogy;
 
 private:
 	// Memory management is private, subclasses must take care only of their own memory
@@ -407,6 +572,5 @@ private:
 	// counting reference
 	static size_t number_of_instances;
 };
-
 
 #endif /* FFPOPSIM_HIGHD_H_ */

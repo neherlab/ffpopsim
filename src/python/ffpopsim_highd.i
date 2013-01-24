@@ -22,6 +22,8 @@
 %ignore coeff_t;
 %ignore coeff_single_locus_t;
 %ignore hypercube_highd;
+%ignore step_t;
+%ignore node_t;
 
 /*****************************************************************************/
 /* CLONE_T                                                                   */
@@ -73,6 +75,422 @@ const int clone_t_number_of_traits_get(clone_t *c) {
 }
 %} /* attributes of clone_t */
 /*****************************************************************************/
+
+
+/*****************************************************************************/
+/* TREE_KEY_T                                                                */
+/*****************************************************************************/
+%feature("autodoc", "Key for a phylogenetic tree, with index and age.") tree_key_t;
+%rename (tree_key) tree_key_t;
+%extend tree_key_t {
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree key: index = %d, age = %d", (int)($self->index), (int)($self->age));
+        return &buffer[0];
+}
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_key(%d, %d)", (int)($self->index), (int)($self->age));
+        return &buffer[0];
+}
+
+/* constructor */
+%feature("autodoc",
+"Initialize new tree_key.
+
+Parameters:
+   - index: index of the key
+   - age: age of the key
+") tree_key_t;
+
+} /* extend tree_key_t */
+
+/*****************************************************************************/
+/* STEP_T                                                                    */
+/*****************************************************************************/
+%feature("autodoc", "Step in a phylogenetic tree search") step_t;
+%rename (tree_step) step_t;
+%extend step_t {
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_step: pos = %d, step = %d", (int)($self->pos), (int)($self->step));
+        return &buffer[0];
+}
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_step(%d, %d)", (int)($self->pos), (int)($self->step));
+        return &buffer[0];
+}
+
+/* constructor */
+%feature("autodoc",
+"Initialize new step.
+
+Parameters:
+   - pos: position
+   - step: length of step
+") step_t;
+
+} /* extend step_t */
+
+/*****************************************************************************/
+/* NODE_T                                                                    */
+/*****************************************************************************/
+%rename (tree_node) node_t;
+%feature("autodoc", "Node of a phylogenetic tree") node_t;
+%extend node_t {
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_node");
+        return &buffer[0];
+}
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<tree_node>");
+        return &buffer[0];
+}
+
+/* cloak child_edges with a Pythonic flavour */
+%rename (_child_edges) child_edges;
+%pythoncode {
+@property
+def child_edges(self):
+    '''Child edges of the node'''
+    return list(self._child_edges)
+
+
+@child_edges.setter
+def child_edges(self, es):
+    self._child_edges = list_tree_key(es)
+}
+
+
+/* cloak crossover */
+%ignore crossover;
+int _get_crossover_chunk(int i) {return ($self->crossover)[i];}
+%pythoncode {
+@property
+def crossover(self):
+    '''Crossover of node'''
+    return [self._get_crossover_chunk(i) for i in xrange(2)]
+}
+
+/* cloak weight_distribution with a Pythonic flavour */
+%rename (_weight_distribution) weight_distribution;
+%pythoncode {
+@property
+def weight_distribution(self):
+    '''Distribution of weights of this node'''
+    return list(self._weight_distribution)
+
+@weight_distribution.setter
+def weight_distribution(self, distr):
+    self._weight_distribution = vector_tree_step(distr)
+}
+
+} /* extend node_t */
+
+/*****************************************************************************/
+/* EDGE_T                                                                    */
+/*****************************************************************************/
+%rename (tree_edge) edge_t;
+%feature("autodoc", "Edge of a phylogenetic tree") edge_t;
+%extend edge_t {
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"tree_edge");
+        return &buffer[0];
+}
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<tree_edge>");
+        return &buffer[0];
+}
+
+/* cloak segment */
+%ignore segment;
+int _get_segment_chunk(int i) {return ($self->segment)[i];}
+%pythoncode {
+@property
+def segment(self):
+    '''Segment of edge'''
+    return [self._get_segment_chunk(i) for i in xrange(2)]
+}
+
+} /* extend edge_t */
+
+/*****************************************************************************/
+/* ROOTED_TREE                                                               */
+/*****************************************************************************/
+%feature("autodoc",
+"Rooted phylogenetic tree.
+
+This class is used to represent the phylogenetic tree of a single locus.
+It is possible to print the tree in Newick format, to get the subtree
+spanned by some of the leaves, and to look at the tree nodes and edges.
+") rooted_tree;
+
+%extend rooted_tree {
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"genealogy tree with %u nodes", (unsigned int)($self->nodes).size());
+        return &buffer[0];
+}
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)($self->nodes).size());
+        return &buffer[0];
+}
+
+/* ignore weird stuff */
+%ignore SFS;
+
+/* redundant */
+%ignore get_MRCA;
+
+/* TODO: allow modifications of the tree (?) */
+%ignore reset;
+%ignore add_generation;
+%ignore add_terminal_node;
+%ignore erase_edge_node;
+%ignore bridge_edge_node;
+%ignore update_leaf_to_root;
+%ignore update_tree;
+%ignore erase_child;
+%ignore delete_extra_children;
+%ignore delete_one_child_nodes;
+%ignore check_node;
+%ignore check_tree_integrity;
+%ignore clear_tree;
+
+%feature("autodoc",
+"Measure the length of the external branches.
+
+Returns:
+   - length: the sum of the lengths of the external branches.
+") external_branch_length;
+
+%feature("autodoc",
+"Measure the length of the branches.
+
+Returns:
+   - length: the sum of the lengths of all branches.
+") total_branch_length;
+
+%feature("autodoc",
+"Recalculate the weight of some internal nodes.
+
+Parameters:
+   - subtree_root: the node whose hanging subtree is recalculated
+
+Returns:
+   - error code: zero if successful
+") calc_weight_distribution;
+
+/* ancestors at age */
+%ignore ancestors_at_age;
+vector <tree_key_t> _ancestors_at_age(int age, tree_key_t subtree_root) {
+        vector <tree_key_t> ancestors;
+        $self->ancestors_at_age(age, subtree_root, ancestors);
+        return ancestors;
+}
+%pythoncode {
+def ancestors_at_age(self, age, subtree):
+    '''Find nodes in subtree younger than a certain age
+    
+    Parameters:
+       - age: critical age to check
+       - subtree: subtree to look for nodes in
+    
+    Returns:
+       - ancestors: the ancestors at that age
+    '''
+    return list(self._ancestors_at_age(age, subtree))
+}
+
+/* construct subtree */
+%ignore construct_subtree;
+%feature("autodoc",
+"Create a subtree from a list of leaves.
+
+Parameters:
+   - leaves: the leaves used to contruct the subtree
+
+Returns:
+   - subtree: the subtree spanned by those leaves.
+
+.. note:: leaves can be a Python list or a numpy array of tree_key, or a vector_tree_key.
+") create_subtree_from_keys;
+rooted_tree create_subtree_from_keys(vector <tree_key_t> leaves) {
+        rooted_tree other;
+        $self->construct_subtree(leaves, other);
+        return other;
+}
+
+/* cloak edges with a Pythonic flavour */
+%rename (_edges) edges;
+%pythoncode {
+@property
+def edges(self):
+    '''Edges of the tree'''
+    return dict(self._edges)
+
+
+@edges.setter
+def edges(self, es):
+    self._edges = map_key_edge(es)
+}
+
+/* cloak nodes with a Pythonic flavour */
+%rename (_nodes) nodes;
+%pythoncode {
+@property
+def nodes(self):
+    '''Nodes of the tree'''
+    return dict(self._nodes)
+
+
+@nodes.setter
+def edges(self, ns):
+    self._nodes = map_key_node(ns)
+}
+
+/* cloak leafs with a Pythonic flavour */
+%rename (_leafs) leafs;
+%pythoncode {
+@property
+def leafs(self):
+    '''Leaves of the tree'''
+    return list(self._leafs)
+
+
+@leafs.setter
+def leafs(self, leaves):
+    self._leafs = vector_tree_key(leaves)
+}
+
+%pythoncode {
+def to_Biopython_tree(self):
+    '''Convert the tree into Biopython format
+    
+    Returns:
+       - tree: Biopython.Phylo phylogenetic tree representation of self
+    '''
+    from cStringIO import StringIO
+    from Bio import Phylo
+     
+    treedata = self.print_newick()
+    handle = StringIO(treedata)
+    tree = Phylo.read(handle, "newick")
+    return tree
+}
+
+} /* extend rooted_tree */
+
+/*****************************************************************************/
+/* MULTI_LOCUS_GENEALOGY                                                     */
+/*****************************************************************************/
+%feature("autodoc", "Genealogy for multiple loci") multi_locus_genealogy;
+
+%extend multi_locus_genealogy {
+
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"multi_locus_genealogy for %u loci", (unsigned int)($self->loci).size());
+        return &buffer[0];
+}
+
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"<multi_locus_genealogy(%u)>", (unsigned int)($self->loci).size());
+        return &buffer[0];
+}
+
+/* hide weird stuff */
+%ignore newGenerations;
+%ignore add_generation;
+%ignore extend_storage;
+
+/* document functions */
+%feature("autodoc", "Default constructor") multi_locus_genealogy;
+%feature("autodoc",
+"Start tracking a new locus.
+
+Parameters:
+   - new_locus: locus to be tracked
+
+.. note:: the locus gets appended to the 'loci' array.
+") track_locus;
+%feature("autodoc", "Reset (empty) the genealogy.") reset;
+
+/* loci */
+%ignore loci;
+int _get_number_of_loci() {
+        return ($self->loci).size();
+}
+void _get_loci(int DIM1, int* ARGOUT_ARRAY1) {
+        for(size_t i = 0; i < ($self->loci).size(); i++)
+                ARGOUT_ARRAY1[i] = ($self->loci)[i];
+}
+%pythoncode {
+@property
+def loci(self):
+    '''The loci that are being tracked'''
+    return self._get_loci(self._get_number_of_loci())
+}
+
+/* trees */
+%ignore trees;
+%feature("autodoc",
+"Get the genealogy tree for a certain locus.
+
+Parameters:
+   - locus: site whose tree is being returned
+
+.. note:: if you want to know what loci are being tracked, look into the 'loci'
+          attribute.
+") get_tree;
+%exception get_tree {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+rooted_tree get_tree(int locus) {
+        vector<int>::iterator index;
+        index = std::find(($self->loci).begin(), ($self->loci).end(), locus);
+        if(index == ($self->loci).end()) {
+                throw (int)1;
+        } else
+                return ($self->trees)[(int)(index - ($self->loci).begin())];
+}
+
+} /* extend multi_locus_genealogy */
 
 /*****************************************************************************/
 /* HAPLOID_HIGHD                                                             */
@@ -473,6 +891,27 @@ Returns:
    - index: index of the new clone with the flipped locus
 ") flip_single_locus;
 
+/* genealogy */
+%feature("autodoc",
+"
+Track the genealogy of some loci.
+
+Parameters:
+   - loci: sites whose genealogy is being stored
+
+Returns:
+   - zero if successful
+") track_locus_genealogy;
+
+/* implement multi_locus_genealogy as a read-only property */
+%ignore genealogy;
+multi_locus_genealogy _get_genealogy() {
+        return $self->genealogy;
+}
+%pythoncode {
+genealogy = property(_get_genealogy)
+}
+
 /* statistics */
 %feature("autodoc", "Calculate trait and fitness statistics for the population") calc_stat;
 
@@ -545,6 +984,16 @@ Returns:
 ") get_allele_frequency;
 
 %feature("autodoc",
+"Get the frequency of the derived allele at the selected locus
+
+Parameters:
+   - locus: locus whose frequency of the derived allele is to be returned
+
+Returns:
+   - frequency: allele frequency in the population
+") get_derived_allele_frequency;
+
+%feature("autodoc",
 "Get the joint frequency of two + alleles
 
 Parameters:
@@ -564,6 +1013,16 @@ Parameters:
 Returns:
     - the chi of that allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \{\\pm1\}`.
 ") get_chi;
+
+%feature("autodoc",
+"Get :math:`\\chi_i` of a derived allele
+
+Parameters:
+    - locus: locus whose chi is to be computed
+
+Returns:
+    - the chi of that derived allele, :math:`\\chi_i := \\left<s_i\\right>`, where :math:`s_i \\in \{\\pm1\}`.
+") get_derived_chi;
 
 %feature("autodoc",
 "Get :math:`\\chi_{ij}`

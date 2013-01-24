@@ -182,6 +182,216 @@ _intVector.capacity = new_instancemethod(_FFPopSim._intVector_capacity,None,_int
 _intVector_swigregister = _FFPopSim._intVector_swigregister
 _intVector_swigregister(_intVector)
 
+class vector_tree_step(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim.vector_tree_step_swiginit(self,_FFPopSim.new_vector_tree_step(*args))
+    __swig_destroy__ = _FFPopSim.delete_vector_tree_step
+vector_tree_step.iterator = new_instancemethod(_FFPopSim.vector_tree_step_iterator,None,vector_tree_step)
+vector_tree_step.__nonzero__ = new_instancemethod(_FFPopSim.vector_tree_step___nonzero__,None,vector_tree_step)
+vector_tree_step.__bool__ = new_instancemethod(_FFPopSim.vector_tree_step___bool__,None,vector_tree_step)
+vector_tree_step.__len__ = new_instancemethod(_FFPopSim.vector_tree_step___len__,None,vector_tree_step)
+vector_tree_step.pop = new_instancemethod(_FFPopSim.vector_tree_step_pop,None,vector_tree_step)
+vector_tree_step.__getslice__ = new_instancemethod(_FFPopSim.vector_tree_step___getslice__,None,vector_tree_step)
+vector_tree_step.__setslice__ = new_instancemethod(_FFPopSim.vector_tree_step___setslice__,None,vector_tree_step)
+vector_tree_step.__delslice__ = new_instancemethod(_FFPopSim.vector_tree_step___delslice__,None,vector_tree_step)
+vector_tree_step.__delitem__ = new_instancemethod(_FFPopSim.vector_tree_step___delitem__,None,vector_tree_step)
+vector_tree_step.__getitem__ = new_instancemethod(_FFPopSim.vector_tree_step___getitem__,None,vector_tree_step)
+vector_tree_step.__setitem__ = new_instancemethod(_FFPopSim.vector_tree_step___setitem__,None,vector_tree_step)
+vector_tree_step.append = new_instancemethod(_FFPopSim.vector_tree_step_append,None,vector_tree_step)
+vector_tree_step.empty = new_instancemethod(_FFPopSim.vector_tree_step_empty,None,vector_tree_step)
+vector_tree_step.size = new_instancemethod(_FFPopSim.vector_tree_step_size,None,vector_tree_step)
+vector_tree_step.clear = new_instancemethod(_FFPopSim.vector_tree_step_clear,None,vector_tree_step)
+vector_tree_step.swap = new_instancemethod(_FFPopSim.vector_tree_step_swap,None,vector_tree_step)
+vector_tree_step.get_allocator = new_instancemethod(_FFPopSim.vector_tree_step_get_allocator,None,vector_tree_step)
+vector_tree_step.begin = new_instancemethod(_FFPopSim.vector_tree_step_begin,None,vector_tree_step)
+vector_tree_step.end = new_instancemethod(_FFPopSim.vector_tree_step_end,None,vector_tree_step)
+vector_tree_step.rbegin = new_instancemethod(_FFPopSim.vector_tree_step_rbegin,None,vector_tree_step)
+vector_tree_step.rend = new_instancemethod(_FFPopSim.vector_tree_step_rend,None,vector_tree_step)
+vector_tree_step.pop_back = new_instancemethod(_FFPopSim.vector_tree_step_pop_back,None,vector_tree_step)
+vector_tree_step.erase = new_instancemethod(_FFPopSim.vector_tree_step_erase,None,vector_tree_step)
+vector_tree_step.push_back = new_instancemethod(_FFPopSim.vector_tree_step_push_back,None,vector_tree_step)
+vector_tree_step.front = new_instancemethod(_FFPopSim.vector_tree_step_front,None,vector_tree_step)
+vector_tree_step.back = new_instancemethod(_FFPopSim.vector_tree_step_back,None,vector_tree_step)
+vector_tree_step.assign = new_instancemethod(_FFPopSim.vector_tree_step_assign,None,vector_tree_step)
+vector_tree_step.resize = new_instancemethod(_FFPopSim.vector_tree_step_resize,None,vector_tree_step)
+vector_tree_step.insert = new_instancemethod(_FFPopSim.vector_tree_step_insert,None,vector_tree_step)
+vector_tree_step.reserve = new_instancemethod(_FFPopSim.vector_tree_step_reserve,None,vector_tree_step)
+vector_tree_step.capacity = new_instancemethod(_FFPopSim.vector_tree_step_capacity,None,vector_tree_step)
+vector_tree_step_swigregister = _FFPopSim.vector_tree_step_swigregister
+vector_tree_step_swigregister(vector_tree_step)
+
+class vector_tree_key(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim.vector_tree_key_swiginit(self,_FFPopSim.new_vector_tree_key(*args))
+    __swig_destroy__ = _FFPopSim.delete_vector_tree_key
+vector_tree_key.iterator = new_instancemethod(_FFPopSim.vector_tree_key_iterator,None,vector_tree_key)
+vector_tree_key.__nonzero__ = new_instancemethod(_FFPopSim.vector_tree_key___nonzero__,None,vector_tree_key)
+vector_tree_key.__bool__ = new_instancemethod(_FFPopSim.vector_tree_key___bool__,None,vector_tree_key)
+vector_tree_key.__len__ = new_instancemethod(_FFPopSim.vector_tree_key___len__,None,vector_tree_key)
+vector_tree_key.pop = new_instancemethod(_FFPopSim.vector_tree_key_pop,None,vector_tree_key)
+vector_tree_key.__getslice__ = new_instancemethod(_FFPopSim.vector_tree_key___getslice__,None,vector_tree_key)
+vector_tree_key.__setslice__ = new_instancemethod(_FFPopSim.vector_tree_key___setslice__,None,vector_tree_key)
+vector_tree_key.__delslice__ = new_instancemethod(_FFPopSim.vector_tree_key___delslice__,None,vector_tree_key)
+vector_tree_key.__delitem__ = new_instancemethod(_FFPopSim.vector_tree_key___delitem__,None,vector_tree_key)
+vector_tree_key.__getitem__ = new_instancemethod(_FFPopSim.vector_tree_key___getitem__,None,vector_tree_key)
+vector_tree_key.__setitem__ = new_instancemethod(_FFPopSim.vector_tree_key___setitem__,None,vector_tree_key)
+vector_tree_key.append = new_instancemethod(_FFPopSim.vector_tree_key_append,None,vector_tree_key)
+vector_tree_key.empty = new_instancemethod(_FFPopSim.vector_tree_key_empty,None,vector_tree_key)
+vector_tree_key.size = new_instancemethod(_FFPopSim.vector_tree_key_size,None,vector_tree_key)
+vector_tree_key.clear = new_instancemethod(_FFPopSim.vector_tree_key_clear,None,vector_tree_key)
+vector_tree_key.swap = new_instancemethod(_FFPopSim.vector_tree_key_swap,None,vector_tree_key)
+vector_tree_key.get_allocator = new_instancemethod(_FFPopSim.vector_tree_key_get_allocator,None,vector_tree_key)
+vector_tree_key.begin = new_instancemethod(_FFPopSim.vector_tree_key_begin,None,vector_tree_key)
+vector_tree_key.end = new_instancemethod(_FFPopSim.vector_tree_key_end,None,vector_tree_key)
+vector_tree_key.rbegin = new_instancemethod(_FFPopSim.vector_tree_key_rbegin,None,vector_tree_key)
+vector_tree_key.rend = new_instancemethod(_FFPopSim.vector_tree_key_rend,None,vector_tree_key)
+vector_tree_key.pop_back = new_instancemethod(_FFPopSim.vector_tree_key_pop_back,None,vector_tree_key)
+vector_tree_key.erase = new_instancemethod(_FFPopSim.vector_tree_key_erase,None,vector_tree_key)
+vector_tree_key.push_back = new_instancemethod(_FFPopSim.vector_tree_key_push_back,None,vector_tree_key)
+vector_tree_key.front = new_instancemethod(_FFPopSim.vector_tree_key_front,None,vector_tree_key)
+vector_tree_key.back = new_instancemethod(_FFPopSim.vector_tree_key_back,None,vector_tree_key)
+vector_tree_key.assign = new_instancemethod(_FFPopSim.vector_tree_key_assign,None,vector_tree_key)
+vector_tree_key.resize = new_instancemethod(_FFPopSim.vector_tree_key_resize,None,vector_tree_key)
+vector_tree_key.insert = new_instancemethod(_FFPopSim.vector_tree_key_insert,None,vector_tree_key)
+vector_tree_key.reserve = new_instancemethod(_FFPopSim.vector_tree_key_reserve,None,vector_tree_key)
+vector_tree_key.capacity = new_instancemethod(_FFPopSim.vector_tree_key_capacity,None,vector_tree_key)
+vector_tree_key_swigregister = _FFPopSim.vector_tree_key_swigregister
+vector_tree_key_swigregister(vector_tree_key)
+
+class list_tree_key(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim.list_tree_key_swiginit(self,_FFPopSim.new_list_tree_key(*args))
+    __swig_destroy__ = _FFPopSim.delete_list_tree_key
+list_tree_key.iterator = new_instancemethod(_FFPopSim.list_tree_key_iterator,None,list_tree_key)
+list_tree_key.__nonzero__ = new_instancemethod(_FFPopSim.list_tree_key___nonzero__,None,list_tree_key)
+list_tree_key.__bool__ = new_instancemethod(_FFPopSim.list_tree_key___bool__,None,list_tree_key)
+list_tree_key.__len__ = new_instancemethod(_FFPopSim.list_tree_key___len__,None,list_tree_key)
+list_tree_key.pop = new_instancemethod(_FFPopSim.list_tree_key_pop,None,list_tree_key)
+list_tree_key.__getslice__ = new_instancemethod(_FFPopSim.list_tree_key___getslice__,None,list_tree_key)
+list_tree_key.__setslice__ = new_instancemethod(_FFPopSim.list_tree_key___setslice__,None,list_tree_key)
+list_tree_key.__delslice__ = new_instancemethod(_FFPopSim.list_tree_key___delslice__,None,list_tree_key)
+list_tree_key.__delitem__ = new_instancemethod(_FFPopSim.list_tree_key___delitem__,None,list_tree_key)
+list_tree_key.__getitem__ = new_instancemethod(_FFPopSim.list_tree_key___getitem__,None,list_tree_key)
+list_tree_key.__setitem__ = new_instancemethod(_FFPopSim.list_tree_key___setitem__,None,list_tree_key)
+list_tree_key.append = new_instancemethod(_FFPopSim.list_tree_key_append,None,list_tree_key)
+list_tree_key.empty = new_instancemethod(_FFPopSim.list_tree_key_empty,None,list_tree_key)
+list_tree_key.size = new_instancemethod(_FFPopSim.list_tree_key_size,None,list_tree_key)
+list_tree_key.clear = new_instancemethod(_FFPopSim.list_tree_key_clear,None,list_tree_key)
+list_tree_key.swap = new_instancemethod(_FFPopSim.list_tree_key_swap,None,list_tree_key)
+list_tree_key.get_allocator = new_instancemethod(_FFPopSim.list_tree_key_get_allocator,None,list_tree_key)
+list_tree_key.begin = new_instancemethod(_FFPopSim.list_tree_key_begin,None,list_tree_key)
+list_tree_key.end = new_instancemethod(_FFPopSim.list_tree_key_end,None,list_tree_key)
+list_tree_key.rbegin = new_instancemethod(_FFPopSim.list_tree_key_rbegin,None,list_tree_key)
+list_tree_key.rend = new_instancemethod(_FFPopSim.list_tree_key_rend,None,list_tree_key)
+list_tree_key.pop_back = new_instancemethod(_FFPopSim.list_tree_key_pop_back,None,list_tree_key)
+list_tree_key.erase = new_instancemethod(_FFPopSim.list_tree_key_erase,None,list_tree_key)
+list_tree_key.push_back = new_instancemethod(_FFPopSim.list_tree_key_push_back,None,list_tree_key)
+list_tree_key.front = new_instancemethod(_FFPopSim.list_tree_key_front,None,list_tree_key)
+list_tree_key.back = new_instancemethod(_FFPopSim.list_tree_key_back,None,list_tree_key)
+list_tree_key.assign = new_instancemethod(_FFPopSim.list_tree_key_assign,None,list_tree_key)
+list_tree_key.resize = new_instancemethod(_FFPopSim.list_tree_key_resize,None,list_tree_key)
+list_tree_key.insert = new_instancemethod(_FFPopSim.list_tree_key_insert,None,list_tree_key)
+list_tree_key.pop_front = new_instancemethod(_FFPopSim.list_tree_key_pop_front,None,list_tree_key)
+list_tree_key.push_front = new_instancemethod(_FFPopSim.list_tree_key_push_front,None,list_tree_key)
+list_tree_key.reverse = new_instancemethod(_FFPopSim.list_tree_key_reverse,None,list_tree_key)
+list_tree_key_swigregister = _FFPopSim.list_tree_key_swigregister
+list_tree_key_swigregister(list_tree_key)
+
+class map_key_edge(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim.map_key_edge_swiginit(self,_FFPopSim.new_map_key_edge(*args))
+    __swig_destroy__ = _FFPopSim.delete_map_key_edge
+map_key_edge.iterator = new_instancemethod(_FFPopSim.map_key_edge_iterator,None,map_key_edge)
+map_key_edge.__nonzero__ = new_instancemethod(_FFPopSim.map_key_edge___nonzero__,None,map_key_edge)
+map_key_edge.__bool__ = new_instancemethod(_FFPopSim.map_key_edge___bool__,None,map_key_edge)
+map_key_edge.__len__ = new_instancemethod(_FFPopSim.map_key_edge___len__,None,map_key_edge)
+map_key_edge.__getitem__ = new_instancemethod(_FFPopSim.map_key_edge___getitem__,None,map_key_edge)
+map_key_edge.__delitem__ = new_instancemethod(_FFPopSim.map_key_edge___delitem__,None,map_key_edge)
+map_key_edge.has_key = new_instancemethod(_FFPopSim.map_key_edge_has_key,None,map_key_edge)
+map_key_edge.keys = new_instancemethod(_FFPopSim.map_key_edge_keys,None,map_key_edge)
+map_key_edge.values = new_instancemethod(_FFPopSim.map_key_edge_values,None,map_key_edge)
+map_key_edge.items = new_instancemethod(_FFPopSim.map_key_edge_items,None,map_key_edge)
+map_key_edge.__contains__ = new_instancemethod(_FFPopSim.map_key_edge___contains__,None,map_key_edge)
+map_key_edge.key_iterator = new_instancemethod(_FFPopSim.map_key_edge_key_iterator,None,map_key_edge)
+map_key_edge.value_iterator = new_instancemethod(_FFPopSim.map_key_edge_value_iterator,None,map_key_edge)
+map_key_edge.__setitem__ = new_instancemethod(_FFPopSim.map_key_edge___setitem__,None,map_key_edge)
+map_key_edge.asdict = new_instancemethod(_FFPopSim.map_key_edge_asdict,None,map_key_edge)
+map_key_edge.empty = new_instancemethod(_FFPopSim.map_key_edge_empty,None,map_key_edge)
+map_key_edge.size = new_instancemethod(_FFPopSim.map_key_edge_size,None,map_key_edge)
+map_key_edge.clear = new_instancemethod(_FFPopSim.map_key_edge_clear,None,map_key_edge)
+map_key_edge.swap = new_instancemethod(_FFPopSim.map_key_edge_swap,None,map_key_edge)
+map_key_edge.get_allocator = new_instancemethod(_FFPopSim.map_key_edge_get_allocator,None,map_key_edge)
+map_key_edge.begin = new_instancemethod(_FFPopSim.map_key_edge_begin,None,map_key_edge)
+map_key_edge.end = new_instancemethod(_FFPopSim.map_key_edge_end,None,map_key_edge)
+map_key_edge.rbegin = new_instancemethod(_FFPopSim.map_key_edge_rbegin,None,map_key_edge)
+map_key_edge.rend = new_instancemethod(_FFPopSim.map_key_edge_rend,None,map_key_edge)
+map_key_edge.count = new_instancemethod(_FFPopSim.map_key_edge_count,None,map_key_edge)
+map_key_edge.erase = new_instancemethod(_FFPopSim.map_key_edge_erase,None,map_key_edge)
+map_key_edge.find = new_instancemethod(_FFPopSim.map_key_edge_find,None,map_key_edge)
+map_key_edge.lower_bound = new_instancemethod(_FFPopSim.map_key_edge_lower_bound,None,map_key_edge)
+map_key_edge.upper_bound = new_instancemethod(_FFPopSim.map_key_edge_upper_bound,None,map_key_edge)
+map_key_edge_swigregister = _FFPopSim.map_key_edge_swigregister
+map_key_edge_swigregister(map_key_edge)
+
+class map_key_node(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim.map_key_node_swiginit(self,_FFPopSim.new_map_key_node(*args))
+    __swig_destroy__ = _FFPopSim.delete_map_key_node
+map_key_node.iterator = new_instancemethod(_FFPopSim.map_key_node_iterator,None,map_key_node)
+map_key_node.__nonzero__ = new_instancemethod(_FFPopSim.map_key_node___nonzero__,None,map_key_node)
+map_key_node.__bool__ = new_instancemethod(_FFPopSim.map_key_node___bool__,None,map_key_node)
+map_key_node.__len__ = new_instancemethod(_FFPopSim.map_key_node___len__,None,map_key_node)
+map_key_node.__getitem__ = new_instancemethod(_FFPopSim.map_key_node___getitem__,None,map_key_node)
+map_key_node.__delitem__ = new_instancemethod(_FFPopSim.map_key_node___delitem__,None,map_key_node)
+map_key_node.has_key = new_instancemethod(_FFPopSim.map_key_node_has_key,None,map_key_node)
+map_key_node.keys = new_instancemethod(_FFPopSim.map_key_node_keys,None,map_key_node)
+map_key_node.values = new_instancemethod(_FFPopSim.map_key_node_values,None,map_key_node)
+map_key_node.items = new_instancemethod(_FFPopSim.map_key_node_items,None,map_key_node)
+map_key_node.__contains__ = new_instancemethod(_FFPopSim.map_key_node___contains__,None,map_key_node)
+map_key_node.key_iterator = new_instancemethod(_FFPopSim.map_key_node_key_iterator,None,map_key_node)
+map_key_node.value_iterator = new_instancemethod(_FFPopSim.map_key_node_value_iterator,None,map_key_node)
+map_key_node.__setitem__ = new_instancemethod(_FFPopSim.map_key_node___setitem__,None,map_key_node)
+map_key_node.asdict = new_instancemethod(_FFPopSim.map_key_node_asdict,None,map_key_node)
+map_key_node.empty = new_instancemethod(_FFPopSim.map_key_node_empty,None,map_key_node)
+map_key_node.size = new_instancemethod(_FFPopSim.map_key_node_size,None,map_key_node)
+map_key_node.clear = new_instancemethod(_FFPopSim.map_key_node_clear,None,map_key_node)
+map_key_node.swap = new_instancemethod(_FFPopSim.map_key_node_swap,None,map_key_node)
+map_key_node.get_allocator = new_instancemethod(_FFPopSim.map_key_node_get_allocator,None,map_key_node)
+map_key_node.begin = new_instancemethod(_FFPopSim.map_key_node_begin,None,map_key_node)
+map_key_node.end = new_instancemethod(_FFPopSim.map_key_node_end,None,map_key_node)
+map_key_node.rbegin = new_instancemethod(_FFPopSim.map_key_node_rbegin,None,map_key_node)
+map_key_node.rend = new_instancemethod(_FFPopSim.map_key_node_rend,None,map_key_node)
+map_key_node.count = new_instancemethod(_FFPopSim.map_key_node_count,None,map_key_node)
+map_key_node.erase = new_instancemethod(_FFPopSim.map_key_node_erase,None,map_key_node)
+map_key_node.find = new_instancemethod(_FFPopSim.map_key_node_find,None,map_key_node)
+map_key_node.lower_bound = new_instancemethod(_FFPopSim.map_key_node_lower_bound,None,map_key_node)
+map_key_node.upper_bound = new_instancemethod(_FFPopSim.map_key_node_upper_bound,None,map_key_node)
+map_key_node_swigregister = _FFPopSim.map_key_node_swigregister
+map_key_node_swigregister(map_key_node)
+
 LICENSE = '''FFPopSim is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. FFPopSim is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with FFPopSim. If not, see <http://www.gnu.org/licenses/>.'''
 
 import numpy as _np
@@ -524,7 +734,7 @@ class haploid_lowd(object):
             - the joint frequency of the + alleles
 
         """
-        if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+        if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
             raise ValueError("Expecting loci from 0 to L - 1.")
 
 
@@ -559,7 +769,7 @@ class haploid_lowd(object):
             - the linkage disequilibiurm between them, i.e. :math:`\chi_{ij} := \left<s_i s_j\right> - \chi_i \cdot \chi_j`.
 
         """
-        if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+        if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
             raise ValueError("Expecting loci from 0 to L - 1.")
 
 
@@ -577,7 +787,7 @@ class haploid_lowd(object):
             - the linkage disequilibiurm between them, i.e. :math:`D_{ij} := 1 / 4 \left[\left<s_i s_j\right> - \chi_i \cdot \chi_j\right]`.
 
         """
-        if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+        if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
             raise ValueError("Expecting loci from 0 to L - 1.")
 
 
@@ -595,7 +805,7 @@ class haploid_lowd(object):
             - the second moment, i.e. :math:`\left<s_i s_j\right>`, where :math:`s_i, s_j \in \{-1, 1\}`.
 
         """
-        if len(args >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
+        if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
             raise ValueError("Expecting loci from 0 to L - 1.")
 
 
@@ -1178,10 +1388,6 @@ HCF_MEMERR = _FFPopSim.HCF_MEMERR
 HCF_BADARG = _FFPopSim.HCF_BADARG
 HCF_VERBOSE = _FFPopSim.HCF_VERBOSE
 WORDLENGTH = _FFPopSim.WORDLENGTH
-
-def bitset_output():
-  """bitset_output() -> boost::dynamic_bitset< >"""
-  return _FFPopSim.bitset_output()
 HP_VERBOSE = _FFPopSim.HP_VERBOSE
 NO_GENOTYPE = _FFPopSim.NO_GENOTYPE
 HP_MINAF = _FFPopSim.HP_MINAF
@@ -1251,6 +1457,432 @@ clone._get_trait = new_instancemethod(_FFPopSim.clone__get_trait,None,clone)
 clone_swigregister = _FFPopSim.clone_swigregister
 clone_swigregister(clone)
 
+RT_VERBOSE = _FFPopSim.RT_VERBOSE
+RT_VERYLARGE = _FFPopSim.RT_VERYLARGE
+RT_CHILDNOTFOUND = _FFPopSim.RT_CHILDNOTFOUND
+RT_NODENOTFOUND = _FFPopSim.RT_NODENOTFOUND
+class tree_key(object):
+    """Key for a phylogenetic tree, with index and age."""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    index = _swig_property(_FFPopSim.tree_key_index_get, _FFPopSim.tree_key_index_set)
+    age = _swig_property(_FFPopSim.tree_key_age_get, _FFPopSim.tree_key_age_set)
+    def __eq__(self, *args, **kwargs):
+        """__eq__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___eq__(self, *args, **kwargs)
+
+    def __ne__(self, *args, **kwargs):
+        """__ne__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___ne__(self, *args, **kwargs)
+
+    def __lt__(self, *args, **kwargs):
+        """__lt__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___lt__(self, *args, **kwargs)
+
+    def __gt__(self, *args, **kwargs):
+        """__gt__(tree_key self, tree_key other) -> bool"""
+        return _FFPopSim.tree_key___gt__(self, *args, **kwargs)
+
+    def __init__(self, index=0, age=0): 
+        """
+        Initialize new tree_key.
+
+        Parameters:
+           - index: index of the key
+           - age: age of the key
+
+        """
+        _FFPopSim.tree_key_swiginit(self,_FFPopSim.new_tree_key(index, age))
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.tree_key___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.tree_key___repr__(self)
+
+    __swig_destroy__ = _FFPopSim.delete_tree_key
+tree_key.__eq__ = new_instancemethod(_FFPopSim.tree_key___eq__,None,tree_key)
+tree_key.__ne__ = new_instancemethod(_FFPopSim.tree_key___ne__,None,tree_key)
+tree_key.__lt__ = new_instancemethod(_FFPopSim.tree_key___lt__,None,tree_key)
+tree_key.__gt__ = new_instancemethod(_FFPopSim.tree_key___gt__,None,tree_key)
+tree_key.__str__ = new_instancemethod(_FFPopSim.tree_key___str__,None,tree_key)
+tree_key.__repr__ = new_instancemethod(_FFPopSim.tree_key___repr__,None,tree_key)
+tree_key_swigregister = _FFPopSim.tree_key_swigregister
+tree_key_swigregister(tree_key)
+
+class tree_step(object):
+    """Step in a phylogenetic tree search"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    pos = _swig_property(_FFPopSim.tree_step_pos_get, _FFPopSim.tree_step_pos_set)
+    step = _swig_property(_FFPopSim.tree_step_step_get, _FFPopSim.tree_step_step_set)
+    def __lt__(self, *args, **kwargs):
+        """__lt__(tree_step self, tree_step other) -> bool"""
+        return _FFPopSim.tree_step___lt__(self, *args, **kwargs)
+
+    def __gt__(self, *args, **kwargs):
+        """__gt__(tree_step self, tree_step other) -> bool"""
+        return _FFPopSim.tree_step___gt__(self, *args, **kwargs)
+
+    def __eq__(self, *args, **kwargs):
+        """__eq__(tree_step self, tree_step other) -> bool"""
+        return _FFPopSim.tree_step___eq__(self, *args, **kwargs)
+
+    def __init__(self, pos=0, step=0): 
+        """
+        Initialize new step.
+
+        Parameters:
+           - pos: position
+           - step: length of step
+
+        """
+        _FFPopSim.tree_step_swiginit(self,_FFPopSim.new_tree_step(pos, step))
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.tree_step___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.tree_step___repr__(self)
+
+    __swig_destroy__ = _FFPopSim.delete_tree_step
+tree_step.__lt__ = new_instancemethod(_FFPopSim.tree_step___lt__,None,tree_step)
+tree_step.__gt__ = new_instancemethod(_FFPopSim.tree_step___gt__,None,tree_step)
+tree_step.__eq__ = new_instancemethod(_FFPopSim.tree_step___eq__,None,tree_step)
+tree_step.__str__ = new_instancemethod(_FFPopSim.tree_step___str__,None,tree_step)
+tree_step.__repr__ = new_instancemethod(_FFPopSim.tree_step___repr__,None,tree_step)
+tree_step_swigregister = _FFPopSim.tree_step_swigregister
+tree_step_swigregister(tree_step)
+
+class tree_node(object):
+    """Node of a phylogenetic tree"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    parent_node = _swig_property(_FFPopSim.tree_node_parent_node_get, _FFPopSim.tree_node_parent_node_set)
+    _child_edges = _swig_property(_FFPopSim.tree_node__child_edges_get, _FFPopSim.tree_node__child_edges_set)
+    fitness = _swig_property(_FFPopSim.tree_node_fitness_get, _FFPopSim.tree_node_fitness_set)
+    own_key = _swig_property(_FFPopSim.tree_node_own_key_get, _FFPopSim.tree_node_own_key_set)
+    _weight_distribution = _swig_property(_FFPopSim.tree_node__weight_distribution_get, _FFPopSim.tree_node__weight_distribution_set)
+    number_of_offspring = _swig_property(_FFPopSim.tree_node_number_of_offspring_get, _FFPopSim.tree_node_number_of_offspring_set)
+    clone_size = _swig_property(_FFPopSim.tree_node_clone_size_get, _FFPopSim.tree_node_clone_size_set)
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.tree_node___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.tree_node___repr__(self)
+
+    @property
+    def child_edges(self):
+        '''Child edges of the node'''
+        return list(self._child_edges)
+
+
+    @child_edges.setter
+    def child_edges(self, es):
+        self._child_edges = list_tree_key(es)
+
+    def _get_crossover_chunk(self, *args, **kwargs):
+        """_get_crossover_chunk(tree_node self, int i) -> int"""
+        return _FFPopSim.tree_node__get_crossover_chunk(self, *args, **kwargs)
+
+    @property
+    def crossover(self):
+        '''Crossover of node'''
+        return [self._get_crossover_chunk(i) for i in xrange(2)]
+
+    @property
+    def weight_distribution(self):
+        '''Distribution of weights of this node'''
+        return list(self._weight_distribution)
+
+    @weight_distribution.setter
+    def weight_distribution(self, distr):
+        self._weight_distribution = vector_tree_step(distr)
+
+    def __init__(self): 
+        """Node of a phylogenetic tree"""
+        _FFPopSim.tree_node_swiginit(self,_FFPopSim.new_tree_node())
+    __swig_destroy__ = _FFPopSim.delete_tree_node
+tree_node.__str__ = new_instancemethod(_FFPopSim.tree_node___str__,None,tree_node)
+tree_node.__repr__ = new_instancemethod(_FFPopSim.tree_node___repr__,None,tree_node)
+tree_node._get_crossover_chunk = new_instancemethod(_FFPopSim.tree_node__get_crossover_chunk,None,tree_node)
+tree_node_swigregister = _FFPopSim.tree_node_swigregister
+tree_node_swigregister(tree_node)
+
+class tree_edge(object):
+    """Edge of a phylogenetic tree"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    parent_node = _swig_property(_FFPopSim.tree_edge_parent_node_get, _FFPopSim.tree_edge_parent_node_set)
+    own_key = _swig_property(_FFPopSim.tree_edge_own_key_get, _FFPopSim.tree_edge_own_key_set)
+    length = _swig_property(_FFPopSim.tree_edge_length_get, _FFPopSim.tree_edge_length_set)
+    number_of_offspring = _swig_property(_FFPopSim.tree_edge_number_of_offspring_get, _FFPopSim.tree_edge_number_of_offspring_set)
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.tree_edge___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.tree_edge___repr__(self)
+
+    def _get_segment_chunk(self, *args, **kwargs):
+        """_get_segment_chunk(tree_edge self, int i) -> int"""
+        return _FFPopSim.tree_edge__get_segment_chunk(self, *args, **kwargs)
+
+    @property
+    def segment(self):
+        '''Segment of edge'''
+        return [self._get_segment_chunk(i) for i in xrange(2)]
+
+    def __init__(self): 
+        """Edge of a phylogenetic tree"""
+        _FFPopSim.tree_edge_swiginit(self,_FFPopSim.new_tree_edge())
+    __swig_destroy__ = _FFPopSim.delete_tree_edge
+tree_edge.__str__ = new_instancemethod(_FFPopSim.tree_edge___str__,None,tree_edge)
+tree_edge.__repr__ = new_instancemethod(_FFPopSim.tree_edge___repr__,None,tree_edge)
+tree_edge._get_segment_chunk = new_instancemethod(_FFPopSim.tree_edge__get_segment_chunk,None,tree_edge)
+tree_edge_swigregister = _FFPopSim.tree_edge_swigregister
+tree_edge_swigregister(tree_edge)
+
+class rooted_tree(object):
+    """
+    Rooted phylogenetic tree.
+
+    This class is used to represent the phylogenetic tree of a single locus.
+    It is possible to print the tree in Newick format, to get the subtree
+    spanned by some of the leaves, and to look at the tree nodes and edges.
+
+    """
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    _edges = _swig_property(_FFPopSim.rooted_tree__edges_get, _FFPopSim.rooted_tree__edges_set)
+    _nodes = _swig_property(_FFPopSim.rooted_tree__nodes_get, _FFPopSim.rooted_tree__nodes_set)
+    _leafs = _swig_property(_FFPopSim.rooted_tree__leafs_get, _FFPopSim.rooted_tree__leafs_set)
+    root = _swig_property(_FFPopSim.rooted_tree_root_get, _FFPopSim.rooted_tree_root_set)
+    MRCA = _swig_property(_FFPopSim.rooted_tree_MRCA_get, _FFPopSim.rooted_tree_MRCA_set)
+    def __init__(self): 
+        """
+        Rooted phylogenetic tree.
+
+        This class is used to represent the phylogenetic tree of a single locus.
+        It is possible to print the tree in Newick format, to get the subtree
+        spanned by some of the leaves, and to look at the tree nodes and edges.
+
+        """
+        _FFPopSim.rooted_tree_swiginit(self,_FFPopSim.new_rooted_tree())
+    __swig_destroy__ = _FFPopSim.delete_rooted_tree
+    def external_branch_length(self):
+        """
+        Measure the length of the external branches.
+
+        Returns:
+           - length: the sum of the lengths of the external branches.
+
+        """
+        return _FFPopSim.rooted_tree_external_branch_length(self)
+
+    def total_branch_length(self):
+        """
+        Measure the length of the branches.
+
+        Returns:
+           - length: the sum of the lengths of all branches.
+
+        """
+        return _FFPopSim.rooted_tree_total_branch_length(self)
+
+    def calc_weight_distribution(self, *args, **kwargs):
+        """
+        Recalculate the weight of some internal nodes.
+
+        Parameters:
+           - subtree_root: the node whose hanging subtree is recalculated
+
+        Returns:
+           - error code: zero if successful
+
+        """
+        return _FFPopSim.rooted_tree_calc_weight_distribution(self, *args, **kwargs)
+
+    def print_newick(self):
+        """print_newick(rooted_tree self) -> std::string"""
+        return _FFPopSim.rooted_tree_print_newick(self)
+
+    def subtree_newick(self, *args, **kwargs):
+        """subtree_newick(rooted_tree self, tree_key root) -> std::string"""
+        return _FFPopSim.rooted_tree_subtree_newick(self, *args, **kwargs)
+
+    def print_weight_distribution(self, *args, **kwargs):
+        """print_weight_distribution(rooted_tree self, tree_key node_key) -> std::string"""
+        return _FFPopSim.rooted_tree_print_weight_distribution(self, *args, **kwargs)
+
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.rooted_tree___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.rooted_tree___repr__(self)
+
+    def _ancestors_at_age(self, *args, **kwargs):
+        """_ancestors_at_age(rooted_tree self, int age, tree_key subtree_root) -> vector_tree_key"""
+        return _FFPopSim.rooted_tree__ancestors_at_age(self, *args, **kwargs)
+
+    def ancestors_at_age(self, age, subtree):
+        '''Find nodes in subtree younger than a certain age
+        
+        Parameters:
+           - age: critical age to check
+           - subtree: subtree to look for nodes in
+        
+        Returns:
+           - ancestors: the ancestors at that age
+        '''
+        return list(self._ancestors_at_age(age, subtree))
+
+    def create_subtree_from_keys(self, *args, **kwargs):
+        """
+        Create a subtree from a list of leaves.
+
+        Parameters:
+           - leaves: the leaves used to contruct the subtree
+
+        Returns:
+           - subtree: the subtree spanned by those leaves.
+
+        .. note:: leaves can be a Python list or a numpy array of tree_key, or a vector_tree_key.
+
+        """
+        return _FFPopSim.rooted_tree_create_subtree_from_keys(self, *args, **kwargs)
+
+    @property
+    def edges(self):
+        '''Edges of the tree'''
+        return dict(self._edges)
+
+
+    @edges.setter
+    def edges(self, es):
+        self._edges = map_key_edge(es)
+
+    @property
+    def nodes(self):
+        '''Nodes of the tree'''
+        return dict(self._nodes)
+
+
+    @nodes.setter
+    def edges(self, ns):
+        self._nodes = map_key_node(ns)
+
+    @property
+    def leafs(self):
+        '''Leaves of the tree'''
+        return list(self._leafs)
+
+
+    @leafs.setter
+    def leafs(self, leaves):
+        self._leafs = vector_tree_key(leaves)
+
+    def to_Biopython_tree(self):
+        '''Convert the tree into Biopython format
+        
+        Returns:
+           - tree: Biopython.Phylo phylogenetic tree representation of self
+        '''
+        from cStringIO import StringIO
+        from Bio import Phylo
+         
+        treedata = self.print_newick()
+        handle = StringIO(treedata)
+        tree = Phylo.read(handle, "newick")
+        return tree
+
+rooted_tree.external_branch_length = new_instancemethod(_FFPopSim.rooted_tree_external_branch_length,None,rooted_tree)
+rooted_tree.total_branch_length = new_instancemethod(_FFPopSim.rooted_tree_total_branch_length,None,rooted_tree)
+rooted_tree.calc_weight_distribution = new_instancemethod(_FFPopSim.rooted_tree_calc_weight_distribution,None,rooted_tree)
+rooted_tree.print_newick = new_instancemethod(_FFPopSim.rooted_tree_print_newick,None,rooted_tree)
+rooted_tree.subtree_newick = new_instancemethod(_FFPopSim.rooted_tree_subtree_newick,None,rooted_tree)
+rooted_tree.print_weight_distribution = new_instancemethod(_FFPopSim.rooted_tree_print_weight_distribution,None,rooted_tree)
+rooted_tree.__str__ = new_instancemethod(_FFPopSim.rooted_tree___str__,None,rooted_tree)
+rooted_tree.__repr__ = new_instancemethod(_FFPopSim.rooted_tree___repr__,None,rooted_tree)
+rooted_tree._ancestors_at_age = new_instancemethod(_FFPopSim.rooted_tree__ancestors_at_age,None,rooted_tree)
+rooted_tree.create_subtree_from_keys = new_instancemethod(_FFPopSim.rooted_tree_create_subtree_from_keys,None,rooted_tree)
+rooted_tree_swigregister = _FFPopSim.rooted_tree_swigregister
+rooted_tree_swigregister(rooted_tree)
+
+class multi_locus_genealogy(object):
+    """Genealogy for multiple loci"""
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self): 
+        """Default constructor"""
+        _FFPopSim.multi_locus_genealogy_swiginit(self,_FFPopSim.new_multi_locus_genealogy())
+    __swig_destroy__ = _FFPopSim.delete_multi_locus_genealogy
+    def track_locus(self, *args, **kwargs):
+        """
+        Start tracking a new locus.
+
+        Parameters:
+           - new_locus: locus to be tracked
+
+        .. note:: the locus gets appended to the 'loci' array.
+
+        """
+        return _FFPopSim.multi_locus_genealogy_track_locus(self, *args, **kwargs)
+
+    def reset(self):
+        """Reset (empty) the genealogy."""
+        return _FFPopSim.multi_locus_genealogy_reset(self)
+
+    def reset_but_loci(self):
+        """reset_but_loci(multi_locus_genealogy self)"""
+        return _FFPopSim.multi_locus_genealogy_reset_but_loci(self)
+
+    def __str__(self):
+        """x.__str__() <==> str(x)"""
+        return _FFPopSim.multi_locus_genealogy___str__(self)
+
+    def __repr__(self):
+        """x.__repr__() <==> repr(x)"""
+        return _FFPopSim.multi_locus_genealogy___repr__(self)
+
+    def _get_number_of_loci(self):
+        """_get_number_of_loci(multi_locus_genealogy self) -> int"""
+        return _FFPopSim.multi_locus_genealogy__get_number_of_loci(self)
+
+    def _get_loci(self, *args, **kwargs):
+        """_get_loci(multi_locus_genealogy self, int DIM1)"""
+        return _FFPopSim.multi_locus_genealogy__get_loci(self, *args, **kwargs)
+
+    @property
+    def loci(self):
+        '''The loci that are being tracked'''
+        return self._get_loci(self._get_number_of_loci())
+
+    def get_tree(self, *args, **kwargs):
+        """
+        Get the genealogy tree for a certain locus.
+
+        Parameters:
+           - locus: site whose tree is being returned
+
+        .. note:: if you want to know what loci are being tracked, look into the 'loci'
+                  attribute.
+
+        """
+        return _FFPopSim.multi_locus_genealogy_get_tree(self, *args, **kwargs)
+
+multi_locus_genealogy.track_locus = new_instancemethod(_FFPopSim.multi_locus_genealogy_track_locus,None,multi_locus_genealogy)
+multi_locus_genealogy.reset = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset,None,multi_locus_genealogy)
+multi_locus_genealogy.reset_but_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset_but_loci,None,multi_locus_genealogy)
+multi_locus_genealogy.__str__ = new_instancemethod(_FFPopSim.multi_locus_genealogy___str__,None,multi_locus_genealogy)
+multi_locus_genealogy.__repr__ = new_instancemethod(_FFPopSim.multi_locus_genealogy___repr__,None,multi_locus_genealogy)
+multi_locus_genealogy._get_number_of_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_number_of_loci,None,multi_locus_genealogy)
+multi_locus_genealogy._get_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_loci,None,multi_locus_genealogy)
+multi_locus_genealogy.get_tree = new_instancemethod(_FFPopSim.multi_locus_genealogy_get_tree,None,multi_locus_genealogy)
+multi_locus_genealogy_swigregister = _FFPopSim.multi_locus_genealogy_swigregister
+multi_locus_genealogy_swigregister(multi_locus_genealogy)
+
 class haploid_highd(object):
     """
     Class for high-dimensional population genetics (genomes larger than ~20 loci).
@@ -1306,6 +1938,7 @@ class haploid_highd(object):
     mutation_rate = _swig_property(_FFPopSim.haploid_highd_mutation_rate_get, _FFPopSim.haploid_highd_mutation_rate_set)
     outcrossing_rate = _swig_property(_FFPopSim.haploid_highd_outcrossing_rate_get, _FFPopSim.haploid_highd_outcrossing_rate_set)
     crossover_rate = _swig_property(_FFPopSim.haploid_highd_crossover_rate_get, _FFPopSim.haploid_highd_crossover_rate_set)
+    all_polymorphic = _swig_property(_FFPopSim.haploid_highd_all_polymorphic_get, _FFPopSim.haploid_highd_all_polymorphic_set)
     recombination_model = _swig_property(_FFPopSim.haploid_highd_recombination_model_get, _FFPopSim.haploid_highd_recombination_model_set)
     circular = _swig_property(_FFPopSim.haploid_highd_circular_get, _FFPopSim.haploid_highd_circular_set)
     def set_allele_frequencies(self, *args, **kwargs):
@@ -1345,6 +1978,19 @@ class haploid_highd(object):
 
 
         return val
+
+    def track_locus_genealogy(self, *args, **kwargs):
+        """
+        Track the genealogy of some loci.
+
+        Parameters:
+           - loci: sites whose genealogy is being stored
+
+        Returns:
+           - zero if successful
+
+        """
+        return _FFPopSim.haploid_highd_track_locus_genealogy(self, *args, **kwargs)
 
     def add_genotype(self, *args, **kwargs):
         """
@@ -1533,6 +2179,19 @@ class haploid_highd(object):
         """
         return _FFPopSim.haploid_highd_get_allele_frequency(self, *args, **kwargs)
 
+    def get_derived_allele_frequency(self, *args, **kwargs):
+        """
+        Get the frequency of the derived allele at the selected locus
+
+        Parameters:
+           - locus: locus whose frequency of the derived allele is to be returned
+
+        Returns:
+           - frequency: allele frequency in the population
+
+        """
+        return _FFPopSim.haploid_highd_get_derived_allele_frequency(self, *args, **kwargs)
+
     def get_pair_frequency(self, *args, **kwargs):
         """
         Get the joint frequency of two + alleles
@@ -1559,6 +2218,19 @@ class haploid_highd(object):
 
         """
         return _FFPopSim.haploid_highd_get_chi(self, *args, **kwargs)
+
+    def get_derived_chi(self, *args, **kwargs):
+        """
+        Get :math:`\chi_i` of a derived allele
+
+        Parameters:
+            - locus: locus whose chi is to be computed
+
+        Returns:
+            - the chi of that derived allele, :math:`\chi_i := \left<s_i\right>`, where :math:`s_i \in \{\pm1\}`.
+
+        """
+        return _FFPopSim.haploid_highd_get_derived_chi(self, *args, **kwargs)
 
     def get_chi2(self, *args, **kwargs):
         """
@@ -1875,6 +2547,12 @@ class haploid_highd(object):
 
 
         return val
+
+    def _get_genealogy(self):
+        """_get_genealogy(haploid_highd self) -> multi_locus_genealogy"""
+        return _FFPopSim.haploid_highd__get_genealogy(self)
+
+    genealogy = property(_get_genealogy)
 
     def get_allele_frequencies(self, *args, **kwargs):
         """Get all allele frequencies"""
@@ -2204,6 +2882,7 @@ class haploid_highd(object):
             kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
         return axis.hist(div, **kwargs)
 
+haploid_highd.track_locus_genealogy = new_instancemethod(_FFPopSim.haploid_highd_track_locus_genealogy,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
 haploid_highd.clear_trait = new_instancemethod(_FFPopSim.haploid_highd_clear_trait,None,haploid_highd)
 haploid_highd.clear_traits = new_instancemethod(_FFPopSim.haploid_highd_clear_traits,None,haploid_highd)
@@ -2218,8 +2897,10 @@ haploid_highd._get_nonempty_clones = new_instancemethod(_FFPopSim.haploid_highd_
 haploid_highd.get_diversity_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_diversity_statistics,None,haploid_highd)
 haploid_highd.get_divergence_statistics = new_instancemethod(_FFPopSim.haploid_highd_get_divergence_statistics,None,haploid_highd)
 haploid_highd.get_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_allele_frequency,None,haploid_highd)
+haploid_highd.get_derived_allele_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_derived_allele_frequency,None,haploid_highd)
 haploid_highd.get_pair_frequency = new_instancemethod(_FFPopSim.haploid_highd_get_pair_frequency,None,haploid_highd)
 haploid_highd.get_chi = new_instancemethod(_FFPopSim.haploid_highd_get_chi,None,haploid_highd)
+haploid_highd.get_derived_chi = new_instancemethod(_FFPopSim.haploid_highd_get_derived_chi,None,haploid_highd)
 haploid_highd.get_chi2 = new_instancemethod(_FFPopSim.haploid_highd_get_chi2,None,haploid_highd)
 haploid_highd.get_LD = new_instancemethod(_FFPopSim.haploid_highd_get_LD,None,haploid_highd)
 haploid_highd.get_moment = new_instancemethod(_FFPopSim.haploid_highd_get_moment,None,haploid_highd)
@@ -2233,6 +2914,7 @@ haploid_highd._update_fitness = new_instancemethod(_FFPopSim.haploid_highd__upda
 haploid_highd.__str__ = new_instancemethod(_FFPopSim.haploid_highd___str__,None,haploid_highd)
 haploid_highd.__repr__ = new_instancemethod(_FFPopSim.haploid_highd___repr__,None,haploid_highd)
 haploid_highd.get_clone = new_instancemethod(_FFPopSim.haploid_highd_get_clone,None,haploid_highd)
+haploid_highd._get_genealogy = new_instancemethod(_FFPopSim.haploid_highd__get_genealogy,None,haploid_highd)
 haploid_highd_swigregister = _FFPopSim.haploid_highd_swigregister
 haploid_highd_swigregister(haploid_highd)
 
