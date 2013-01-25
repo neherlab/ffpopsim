@@ -11,19 +11,19 @@ sys.path.append('../pkg/python')
 import numpy as np
 import matplotlib.pyplot as plt
 import FFPopSim as h
-
+from Bio import Phylo
 
 
 # Globals
 L = 1000    # number of loci
-N = 3000    # population size
+N = 300    # population size
 
 
 # Construct class
 pop = h.haploid_highd(L)
 
-# Start tracking genealogy
-pop.track_locus_genealogy([3,6])
+# Start tracking genealogy of two loci
+pop.track_locus_genealogy([3, 60])
 
 # Test fitness landscapes
 rep = np.zeros(L)
@@ -65,3 +65,7 @@ print 'Time for evolving population for 30 generations: {:1.1f} s'.format(t1-t0)
 print pop.genealogy
 tree = pop.genealogy.get_tree(3)
 subtree = tree.create_subtree_from_keys([tree.leafs[1], tree.leafs[2]])
+
+# Convert the tree into Biopython format and plot it
+treeBio = tree.to_Biopython_tree()
+Phylo.draw(treeBio)
