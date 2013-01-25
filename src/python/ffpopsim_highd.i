@@ -902,9 +902,21 @@ Parameters:
 Returns:
    - zero if successful
 ") track_locus_genealogy;
+%exception track_locus_genealogy {
+        $action
+        if (result) {
+                PyErr_SetString(PyExc_ValueError,"Track the genealogy before initializing the population.");
+                SWIG_fail;
+        }
+}
 
 /* implement multi_locus_genealogy as a read-only property */
 %ignore genealogy;
+%feature("autodoc",
+"Genealogy of the tracked loci.
+
+.. note:: This attribute is read-only.
+") _get_genealogy;
 multi_locus_genealogy _get_genealogy() {
         return $self->genealogy;
 }

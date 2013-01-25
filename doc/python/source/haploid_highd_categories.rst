@@ -149,3 +149,12 @@ Divergence and Diversity
    haploid_highd.get_diversity_histogram
    haploid_highd.plot_divergence_histogram
    haploid_highd.plot_diversity_histogram
+
+
+Genealogies and Trees
+^^^^^^^^^^^^^^^^^^^^^
+.. autosummary::
+   :nosignatures:
+
+   haploid_highd.track_locus_genealogy
+   haploid_highd.genealogy

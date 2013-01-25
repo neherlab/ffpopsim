@@ -17,7 +17,8 @@
  *
  * - many loci (> 20, tested up to several tens of thousands): the *highd classes and functions, mainly `haploid_highd` and `hypercube_highd`.
  *   Only the observed genotypes are monitored. If a new genotype is created either by mutation or by recombination, a more resources are required.
- *   Population sizes up to \f$10^6\f$ can be modeled this way.
+ *   Population sizes up to \f$10^6\f$ can be modeled this way. Furthermore, genealogies of single loci can be tracked, and trees can be exported
+ *   to standard formats at the end.
  *
  * In addition, FFPopSim includes a specialized subclass of `haploid_highd` used for simulating evolution of the Human Immunodeficiency Virus (HIV),
  * `hivpopulation`. Viruses have a fixed genome size of 10000, and default constructor values are offered to start reasonable simulations quickly.

@@ -24595,7 +24595,13 @@ SWIGINTERN PyObject *_wrap_haploid_highd_track_locus_genealogy(PyObject *SWIGUNU
     }      
     arg2 = temp2;
   }
-  result = (int)(arg1)->track_locus_genealogy(arg2);
+  {
+    result = (int)(arg1)->track_locus_genealogy(arg2);
+    if (result) {
+      PyErr_SetString(PyExc_ValueError,"Track the genealogy before initializing the population.");
+      SWIG_fail;
+    }
+  }
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -28323,7 +28329,12 @@ static PyMethodDef SwigMethods[] = {
 		"             ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``\n"
 		"\n"
 		""},
-	 { (char *)"haploid_highd__get_genealogy", (PyCFunction)_wrap_haploid_highd__get_genealogy, METH_O, (char *)"haploid_highd__get_genealogy(haploid_highd self) -> multi_locus_genealogy"},
+	 { (char *)"haploid_highd__get_genealogy", (PyCFunction)_wrap_haploid_highd__get_genealogy, METH_O, (char *)"\n"
+		"Genealogy of the tracked loci.\n"
+		"\n"
+		".. note:: This attribute is read-only.\n"
+		"\n"
+		""},
 	 { (char *)"haploid_highd_get_allele_frequencies", (PyCFunction) _wrap_haploid_highd_get_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"Get all allele frequencies"},
 	 { (char *)"haploid_highd_get_trait_additive", (PyCFunction) _wrap_haploid_highd_get_trait_additive, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Get an array with the additive coefficients of all loci of a trait. \n"
