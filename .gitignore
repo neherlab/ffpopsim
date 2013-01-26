@@ -2,6 +2,8 @@
 profile/*.out
 profile/profile
 
+.DS_store
+
 # Package files
 pkg/python/*
 pkg/include/*
@@ -61,6 +63,9 @@ pip-log.txt
 
 # Translations
 *.mo
+
+# backup
+*~
 
 # Vim
 .*.sw[a-z]

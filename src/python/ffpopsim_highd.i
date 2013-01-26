@@ -995,6 +995,19 @@ Returns:
    - frequency: allele frequency in the population
 ") get_allele_frequency;
 
+/* get allele frequencies */
+%feature("autodoc", "Get all derived allele frequencies") get_derived_allele_frequencies;
+%pythonprepend get_derived_allele_frequencies {
+args = tuple(list(args) + [self.L])
+}
+void get_derived_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
+	if ($self->all_polymorphic){
+        for(size_t i=0; i < (size_t)$self->get_number_of_loci(); i++)
+                ARGOUT_ARRAY1[i] = $self->get_derived_allele_frequency(i);
+    }	
+}
+
+
 %feature("autodoc",
 "Get the frequency of the derived allele at the selected locus
 

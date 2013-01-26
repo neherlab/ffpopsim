@@ -57,6 +57,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
 	number_of_loci = L_in;
 	number_of_traits = n_o_traits;
 	population_size = 0;
+	number_of_clones = 0;
 	mem = false;
 	cumulants_mem = false;
 	generation = -1; //FIXME MERGE: not clear what to do!
@@ -375,9 +376,11 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
  */
 int haploid_highd::track_locus_genealogy(vector <int> loci) {
 	//Note: you must track genealogies BEFORE the population is set
-	if((generation != -1) or (get_number_of_clones() > 0))
+	if((generation != -1) or (get_number_of_clones() > 0)){
+		cerr <<"haploid_highd::track_locus_genealogy: you must track genealogies BEFORE the population is set: generation "<<generation<<"\tnumber of clones"<<get_number_of_clones()<<endl;
 		return HP_EXTINCTERR;
-
+	}
+	
 	track_genealogy=true;
 	if(HP_VERBOSE){cerr <<"haploid_highd::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
 	genealogy.reset();

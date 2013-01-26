@@ -189,8 +189,9 @@ int genealogy() {
 		pop.evolve();
 		pop.calc_stat();
 		fitstat = pop.get_fitness_statistics();
-		//cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+		cerr  <<"generations: "<<i<<" af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
 	}
+	cerr <<"check trees: "<<pop.genealogy.trees.size()<<endl;
 	for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
 		err =pop.genealogy.trees[genlocus].check_tree_integrity();
 	}
@@ -224,9 +225,10 @@ int genealogy() {
 int genealogy_infinite_sites() {
 	int L = 1000;
 	int N = 50;
-
+	int err=0;
 	haploid_highd pop(L);
 
+	pop.all_polymorphic=true;	
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
@@ -234,28 +236,34 @@ int genealogy_infinite_sites() {
 	gen_loci.push_back(100);
 	gen_loci.push_back(500);
 	gen_loci.push_back(900);
-	pop.track_locus_genealogy(gen_loci);
-	pop.all_polymorphic=true;
+	err = pop.track_locus_genealogy(gen_loci);
+	if (err) {
+		cerr <<"ERROR setting up genealogies"<<endl;
+		return -1;
+	}
+	cerr <<"number of trees: "<<pop.genealogy.trees.size()<<'\t'<<gen_loci.size()<<endl;
+
 	pop.set_wildtype(N);		// start with a population of the right size
 	vector <int> loci;
 	for(int i=0; i< L; i++) {
 		loci.assign(1, i);
-		pop.add_fitness_coefficient(0, loci);
+		pop.add_fitness_coefficient(1e-2, loci);
 		loci.clear();
 	}
 
 
 	stat_t fitstat;
-	int err;
 	gsl_histogram *SFS = gsl_histogram_alloc(20);
 	gsl_histogram_set_ranges_uniform(SFS,0,1);
-	for (int i=0; i< 500; i++) {
+	for (int i=0; i< 200; i++) {
 		pop.evolve();
 		pop.calc_stat();
 		fitstat = pop.get_fitness_statistics();
-		cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+		cerr <<"generations: "<<i<<" af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<pop.get_derived_allele_frequency(5)<<'\t'<<pop.get_derived_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
 	}
+	cerr <<"check trees: "<<pop.genealogy.trees.size()<<endl;
 	for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
+		cerr <<"at locus "<<gen_loci[genlocus]<<endl;
 		err =pop.genealogy.trees[genlocus].check_tree_integrity();
 	}
 	vector <int> clones;
@@ -294,7 +302,7 @@ int main(int argc, char **argv){
 		cout<<"Usage: "<<argv[0]<<endl;
 		status = 1;
 	} else {
-		//status += genealogy();
+		status += genealogy();
 		status += genealogy_infinite_sites();
 		//status += kingman_coalescent();
 		//status += large_populations();

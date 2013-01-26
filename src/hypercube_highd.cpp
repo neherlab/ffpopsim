@@ -265,7 +265,10 @@ int hypercube_highd::set_additive_coefficient(double value, int lindex, int expe
 // TODO: do we need this function at all?
 {
 	//check whether the locus is what was expected
-	if (coefficients_single_locus[lindex].locus==expected_locus){
+	if (coefficients_single_locus_static[expected_locus]==0 and value==0){
+		return 0;
+	}
+	else if (coefficients_single_locus[lindex].locus==expected_locus){
 		coefficients_single_locus[lindex].value=value;
 		coefficients_single_locus_static[expected_locus]=value;
 		return 0;

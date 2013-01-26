@@ -345,7 +345,7 @@ public:
 	virtual ~multi_locus_genealogy();
 	void track_locus(int new_locus);
 	void reset(){loci.clear(); trees.clear();newGenerations.clear();}
-	void reset_but_loci(){for(int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
+	void reset_but_loci(){for(unsigned int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
 	void add_generation(double baseline);
 	int extend_storage(int n);
 };
@@ -445,7 +445,7 @@ public:
 
 	// allele frequencies
 	double get_allele_frequency(int l) {if (!allele_frequencies_up_to_date){calc_allele_freqs();} return allele_frequencies[l];}
-	double get_derived_allele_frequency(int l) {if (ancestral_state[l]) {return get_allele_frequency(l);} else {return 1.0-get_allele_frequency(l);}}
+	double get_derived_allele_frequency(int l) {if (ancestral_state[l]) {return 1.0-get_allele_frequency(l);} else {return get_allele_frequency(l);}}
 
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);
