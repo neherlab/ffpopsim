@@ -278,6 +278,15 @@ struct edge_t {
 	int number_of_offspring;
 };
 
+struct poly_t {
+	int birth;
+	int sweep_time;
+	double effect;
+	double fitness;
+	double fitness_variance;
+	poly_t(int b=0, int age=0, double e=0, double f=0, double fvar=0) : birth(b), sweep_time(age), effect(e), fitness(f), fitness_variance(fvar) {};
+};
+
 
 class rooted_tree {
 public:
@@ -521,7 +530,9 @@ protected:
 	double *chi1;				//symmetric allele frequencies
 	double **chi2;				//symmetric two locus correlations
 	vector <int> ancestral_state;	//vector, that for each locus keeps track of the ancestral state. by default, all zero
-	vector <int> birth_of_allele;	//vector, that keeps track when an allele was introduced. Only needed in an infinite alleles model
+	vector <poly_t> polymorphism;	//vector, that keeps track when an allele was introduced on which background. Only needed in an infinite alleles model
+	vector <poly_t> fixed_mutations;	//vector to store all fixed mutations
+	vector <int> number_of_mutations;	//vector to store the number of mutations introduced each generation
 	void calc_allele_freqs();
 
 	// recombination details

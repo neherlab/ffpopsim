@@ -224,7 +224,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	allele_frequencies_up_to_date=false;
 	//reset the ancestral states
 	ancestral_state.assign(L(), 0);
-	birth_of_allele.assign(L(), get_generation());
+	polymorphism.assign(L(), poly_t());
 
 	// set the carrying capacity if unset
 	if(carrying_capacity < HP_NOTHING)
@@ -281,7 +281,7 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	allele_frequencies_up_to_date = false;
 	//reset the ancestral states
 	ancestral_state.assign(L(), 0);
-	birth_of_allele.assign(L(), get_generation());
+	polymorphism.assign(L(), poly_t());
 
 	// Clear population
 	population.clear();
@@ -335,7 +335,7 @@ int haploid_highd::set_wildtype(unsigned long N_in) {
 	allele_frequencies_up_to_date = false;
 	//reset the ancestral states
 	ancestral_state.assign(L(), 0);
-	birth_of_allele.assign(L(), get_generation());
+	polymorphism.assign(L(), poly_t());
 
 	// Clear population
 	population.clear();
@@ -679,6 +679,7 @@ int haploid_highd::mutate() {
 	if (HP_VERBOSE)	cerr <<"haploid_highd::mutate() ..."<<endl;
 
 	vector <int> mutations;
+	int tmp_individual=0, nmut=0;
 	size_t mutant;
 	allele_frequencies_up_to_date = false;
 	int actual_n_o_mutations,actual_n_o_mutants;
@@ -705,21 +706,32 @@ int haploid_highd::mutate() {
 	} else if (all_polymorphic){
 		if(HP_VERBOSE) cerr <<"haploid_highd::mutate(): keeping all loci polymorphic"<<endl;
 		calc_allele_freqs(); //calculate the allele frequencies
+		nmut=0;
 		for (int locus=0; locus<L(); locus++){	//loop over all loci
 			if (fabs(2*allele_frequencies[locus]-1)>1-HP_NOTHING){	//spot fixed loci
 				if ((ancestral_state[locus]==0 and (2*allele_frequencies[locus]-1)<0) or
                     (ancestral_state[locus]==1 and (2*allele_frequencies[locus]-1)>0))                
                 {	//if they are in the ancestral state
-					flip_single_locus(locus);		//introduce new allele
-					birth_of_allele[locus]=get_generation();
+					tmp_individual = flip_single_locus(locus);		//introduce new allele
+					polymorphism[locus].birth = get_generation();
+					polymorphism[locus].fitness = population[tmp_individual].fitness;
+					polymorphism[locus].fitness_variance = fitness_stat.variance;
+					nmut++;
 				}else{	//if locus is in derived state, flip coefficient of trait zero
 					trait[0].set_additive_coefficient(-trait[0].get_additive_coefficient(locus),locus,locus);
-					flip_single_locus(locus);
-					birth_of_allele[locus]=get_generation();
+					fixed_mutations.push_back(polymorphism[locus]);
+					fixed_mutations.back().sweep_time = get_generation() -fixed_mutations.back().sweep_time;
+					tmp_individual=flip_single_locus(locus);
 					ancestral_state[locus]= (ancestral_state[locus]==0)?1:0;
+					polymorphism[locus].birth = get_generation();
+					polymorphism[locus].effect = (2*ancestral_state[locus]-1)*trait[0].get_additive_coefficient(locus);
+					polymorphism[locus].fitness = population[tmp_individual].fitness;
+					polymorphism[locus].fitness_variance = fitness_stat.variance;
+					nmut++;
 				}
 			}
 		}
+		number_of_mutations.push_back(nmut);
 		calc_stat();
 
 	}else if(HP_VERBOSE) cerr <<"haploid_highd::mutate(): mutation rate is zero."<<endl;

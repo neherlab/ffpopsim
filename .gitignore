@@ -9,6 +9,7 @@ pkg/python/*
 pkg/include/*
 pkg/lib/*
 pkg/doc/*
+build/
 
 # Documentation
 doc/latex/*
@@ -79,3 +80,8 @@ Release
 
 # Do not keep the binaries
 # (they are kept in the static_gsl branch)
+
+#tests
+tests/recombination_lowd
+tests/test_genealogy
+
