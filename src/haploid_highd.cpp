@@ -714,7 +714,7 @@ int haploid_highd::mutate() {
                 {	//if they are in the ancestral state
 					tmp_individual = flip_single_locus(locus);		//introduce new allele
 					polymorphism[locus].birth = get_generation();
-					polymorphism[locus].fitness = population[tmp_individual].fitness;
+					polymorphism[locus].fitness = population[tmp_individual].fitness-fitness_stat.mean;
 					polymorphism[locus].fitness_variance = fitness_stat.variance;
 					nmut++;
 				}else{	//if locus is in derived state, flip coefficient of trait zero
