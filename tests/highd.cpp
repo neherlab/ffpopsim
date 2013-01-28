@@ -104,7 +104,7 @@ int pop_evolve() {
 
 	haploid_highd pop(L);
 
-	pop.mutation_rate = 1e-4;
+	pop.set_mutation_rate(1e-4);
 	pop.outcrossing_rate = 1;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
@@ -154,7 +154,7 @@ int pop_sampling() {
 
 	haploid_highd pop(L);
 
-	pop.mutation_rate = 1e-3;
+	pop.set_mutation_rate(1e-3);
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;

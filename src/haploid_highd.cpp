@@ -689,7 +689,7 @@ int haploid_highd::mutate() {
 	size_t mutant;
 	allele_frequencies_up_to_date = false;
 	int actual_n_o_mutations,actual_n_o_mutants;
-	if (not all_polymorphic) {
+	if (mutation_rate > HP_NOTHING and not all_polymorphic) {
 		//determine the number of individuals that are hit by at least one mutation
 		actual_n_o_mutants = gsl_ran_poisson(evo_generator, (1.0-exp(-mutation_rate*number_of_loci))*population_size);
 		produce_random_sample(min(actual_n_o_mutants, population_size));
@@ -709,7 +709,7 @@ int haploid_highd::mutate() {
 			for (int i = 0; i != actual_n_o_mutations; i++)
 				mutant=flip_single_locus(mutant, gsl_rng_uniform_int(evo_generator,number_of_loci));
 		}
-	} else if(mutation_rate > HP_NOTHING) {
+	} else if(all_polymorphic) {
 		if(HP_VERBOSE) cerr <<"haploid_highd::mutate(): keeping all loci polymorphic"<<endl;
 		calc_allele_freqs(); //calculate the allele frequencies
 		nmut=0;
@@ -726,7 +726,7 @@ int haploid_highd::mutate() {
 				}else{	//if locus is in derived state, flip coefficient of trait zero
 					trait[0].set_additive_coefficient(-trait[0].get_additive_coefficient(locus),locus,locus);
 					fixed_mutations.push_back(polymorphism[locus]);
-					fixed_mutations.back().sweep_time = get_generation() -fixed_mutations.back().sweep_time;
+					fixed_mutations.back().sweep_time = get_generation() -fixed_mutations.back().birth;
 					tmp_individual=flip_single_locus(locus);
 					ancestral_state[locus]= (ancestral_state[locus]==0)?1:0;
 					polymorphism[locus].birth = get_generation();

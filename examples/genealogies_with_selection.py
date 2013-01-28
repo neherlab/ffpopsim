@@ -15,8 +15,8 @@ sites at which mutations with identical beneficial effect are injected.\n\n"
 #selected sexual: 	N=1000 	s=0.01		r=1.0
 
 L = 1000   	#number of segregating sites
-s = 1e-6 	#single site effect
-N = 200 	#population size
+s = 1e-2 	#single site effect
+N = 10000 	#population size
 r = 0.0  	#outcrossing rate
 
 sample_size=30	#number of individuals whose genealogy is looked at

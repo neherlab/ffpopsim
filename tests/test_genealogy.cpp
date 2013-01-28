@@ -21,7 +21,7 @@ int kingman_coalescent() {
 	int nbins = 20;
 	haploid_highd pop(L);
 
-	pop.mutation_rate = 1e-3;
+	pop.set_mutation_rate(1e-3);
 	pop.outcrossing_rate = 1e-1;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
@@ -84,9 +84,8 @@ int large_populations() {
 	int L = 1000;
 	int N = 10000;
 	int nbins = 20;
-	haploid_highd pop(L);
+	haploid_highd pop(L,0,1,true);
 
-	pop.mutation_rate = 0;
 	pop.outcrossing_rate = 1e-1;
 	pop.crossover_rate = 1e-3;
 	pop.recombination_model = CROSSOVERS;
@@ -103,7 +102,6 @@ int large_populations() {
 		loci.clear();
 	}
 	pop.set_wildtype(N);		// start with a population of the right size
-	pop.all_polymorphic=true;
 	stat_t fitstat;
 	gsl_histogram *SFS = gsl_histogram_alloc(nbins);
 	double bins[nbins+1];
@@ -162,7 +160,7 @@ int genealogy() {
 
 	haploid_highd pop(L);
 
-	pop.mutation_rate = 1e-3;
+	pop.set_mutation_rate(1e-3);
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
@@ -226,9 +224,8 @@ int genealogy_infinite_sites() {
 	int L = 1000;
 	int N = 50;
 	int err=0;
-	haploid_highd pop(L);
+	haploid_highd pop(L,0,1,true);
 
-	pop.all_polymorphic=true;	
 	pop.outcrossing_rate = 1e-2;
 	pop.crossover_rate = 1e-2;
 	pop.recombination_model = CROSSOVERS;
