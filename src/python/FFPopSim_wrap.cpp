@@ -6420,7 +6420,7 @@ const double haploid_highd_participation_ratio_get(haploid_highd *h) {
 }
 
 const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
-  return (const bool) h->get_all_polymorphic();
+  return (const bool) h->is_all_polymorphic();
 }
 
 SWIGINTERN char const *clone_t___str__(clone_t *self){
@@ -6626,7 +6626,7 @@ SWIGINTERN void haploid_highd_get_allele_frequencies(haploid_highd *self,double 
                 ARGOUT_ARRAY1[i] = self->get_allele_frequency(i);
 }
 SWIGINTERN void haploid_highd_get_derived_allele_frequencies(haploid_highd *self,double *ARGOUT_ARRAY1,int DIM1){
-        if (self->get_all_polymorphic()){
+        if (self->is_all_polymorphic()){
                 for(size_t i=0; i < (size_t)self->get_number_of_loci(); i++)
                         ARGOUT_ARRAY1[i] = self->get_derived_allele_frequency(i);
     }
@@ -27121,6 +27121,52 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd__get_fixed_mutations(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< poly_t > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd__get_fixed_mutations" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = (arg1)->get_fixed_mutations();
+  resultobj = swig::from(static_cast< std::vector<poly_t,std::allocator< poly_t > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd__get_number_of_mutations(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< int > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd__get_number_of_mutations" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = (arg1)->get_number_of_mutations();
+  resultobj = swig::from(static_cast< std::vector<int,std::allocator< int > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd_set_allele_frequencies(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -30781,6 +30827,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"haploid_highd__get_mutation_rate", (PyCFunction)_wrap_haploid_highd__get_mutation_rate, METH_O, (char *)"haploid_highd__get_mutation_rate(haploid_highd self) -> double"},
 	 { (char *)"haploid_highd__set_mutation_rate", (PyCFunction) _wrap_haploid_highd__set_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_mutation_rate(haploid_highd self, double m)"},
 	 { (char *)"haploid_highd__get_polymorphisms", (PyCFunction)_wrap_haploid_highd__get_polymorphisms, METH_O, (char *)"haploid_highd__get_polymorphisms(haploid_highd self) -> vector_polymorphism"},
+	 { (char *)"haploid_highd__get_fixed_mutations", (PyCFunction)_wrap_haploid_highd__get_fixed_mutations, METH_O, (char *)"haploid_highd__get_fixed_mutations(haploid_highd self) -> vector_polymorphism"},
+	 { (char *)"haploid_highd__get_number_of_mutations", (PyCFunction)_wrap_haploid_highd__get_number_of_mutations, METH_O, (char *)"haploid_highd__get_number_of_mutations(haploid_highd self) -> _intVector"},
 	 { (char *)"haploid_highd_set_allele_frequencies", (PyCFunction) _wrap_haploid_highd_set_allele_frequencies, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Initialize the population according to the given allele frequencies in linkage equilibrium.\n"
 		"\n"

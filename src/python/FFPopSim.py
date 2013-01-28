@@ -2019,6 +2019,14 @@ class haploid_highd(object):
         """_get_polymorphisms(haploid_highd self) -> vector_polymorphism"""
         return _FFPopSim.haploid_highd__get_polymorphisms(self)
 
+    def _get_fixed_mutations(self):
+        """_get_fixed_mutations(haploid_highd self) -> vector_polymorphism"""
+        return _FFPopSim.haploid_highd__get_fixed_mutations(self)
+
+    def _get_number_of_mutations(self):
+        """_get_number_of_mutations(haploid_highd self) -> _intVector"""
+        return _FFPopSim.haploid_highd__get_number_of_mutations(self)
+
     def set_allele_frequencies(self, *args, **kwargs):
         """
         Initialize the population according to the given allele frequencies in linkage equilibrium.
@@ -2529,8 +2537,24 @@ class haploid_highd(object):
     def polymorphisms(self):
         '''Polymorphisms from all_polymorphic (read-only)'''
         if not self.all_polymorphic:
-            raise ValueError("all_polymorphic not set.")
+            raise ValueError("all_polymorphic is not set.")
         return self._get_polymorphisms()
+
+
+    @property
+    def fixed_mutations(self):
+        '''Fixed mutations from all_polymorphic (read-only)'''
+        if not self.all_polymorphic:
+            raise ValueError("all_polymorphic is not set.")
+        return self._get_fixed_mutations()
+
+
+    @property
+    def number_of_mutations(self):
+        '''Fixed mutations from all_polymorphic (read-only)'''
+        if not self.all_polymorphic:
+            raise ValueError("all_polymorphic is not set.")
+        return self._get_number_of_mutations()
 
     def _set_trait_weights(self, *args, **kwargs):
         """_set_trait_weights(haploid_highd self, double * IN_ARRAY1)"""
@@ -2995,6 +3019,8 @@ class haploid_highd(object):
 haploid_highd._get_mutation_rate = new_instancemethod(_FFPopSim.haploid_highd__get_mutation_rate,None,haploid_highd)
 haploid_highd._set_mutation_rate = new_instancemethod(_FFPopSim.haploid_highd__set_mutation_rate,None,haploid_highd)
 haploid_highd._get_polymorphisms = new_instancemethod(_FFPopSim.haploid_highd__get_polymorphisms,None,haploid_highd)
+haploid_highd._get_fixed_mutations = new_instancemethod(_FFPopSim.haploid_highd__get_fixed_mutations,None,haploid_highd)
+haploid_highd._get_number_of_mutations = new_instancemethod(_FFPopSim.haploid_highd__get_number_of_mutations,None,haploid_highd)
 haploid_highd.track_locus_genealogy = new_instancemethod(_FFPopSim.haploid_highd_track_locus_genealogy,None,haploid_highd)
 haploid_highd.add_trait_coefficient = new_instancemethod(_FFPopSim.haploid_highd_add_trait_coefficient,None,haploid_highd)
 haploid_highd.clear_trait = new_instancemethod(_FFPopSim.haploid_highd_clear_trait,None,haploid_highd)

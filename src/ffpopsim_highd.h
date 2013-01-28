@@ -403,8 +403,10 @@ public:
         } else mutation_rate=m;}
 
         // pseudo-infinite site model
-        bool get_all_polymorphic(){return all_polymorphic;}
+        bool is_all_polymorphic(){return all_polymorphic;}
         vector<poly_t> get_polymorphisms(){return polymorphism;}
+        vector<poly_t> get_fixed_mutations(){return fixed_mutations;}
+        vector<int> get_number_of_mutations(){return number_of_mutations;}
 
 	// population parameters (read only)
 	int L(){return number_of_loci;}

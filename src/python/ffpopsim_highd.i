@@ -708,11 +708,13 @@ const double max_fitness;
 %feature("autodoc", "Participation ratio (read-only)") participation_ratio;
 const double participation_ratio;
 
-%ignore get_all_polymorphic;
+%ignore is_all_polymorphic;
 %feature("autodoc", "All polymorphic? (read-only)") all_polymorphic;
 const bool all_polymorphic;
 
 %rename(_get_polymorphisms) get_polymorphisms;
+%rename(_get_fixed_mutations) get_fixed_mutations;
+%rename(_get_number_of_mutations) get_number_of_mutations;
 %pythoncode{
 @property
 def polymorphisms(self):
@@ -720,8 +722,23 @@ def polymorphisms(self):
     if not self.all_polymorphic:
         raise ValueError("all_polymorphic is not set.")
     return self._get_polymorphisms()
-}
 
+
+@property
+def fixed_mutations(self):
+    '''Fixed mutations from all_polymorphic (read-only)'''
+    if not self.all_polymorphic:
+        raise ValueError("all_polymorphic is not set.")
+    return self._get_fixed_mutations()
+
+
+@property
+def number_of_mutations(self):
+    '''Fixed mutations from all_polymorphic (read-only)'''
+    if not self.all_polymorphic:
+        raise ValueError("all_polymorphic is not set.")
+    return self._get_number_of_mutations()
+}
 
 /* trait weights */
 %ignore set_trait_weights;
@@ -1069,7 +1086,7 @@ Returns:
 args = tuple(list(args) + [self.L])
 }
 void get_derived_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
-        if ($self->get_all_polymorphic()){
+        if ($self->is_all_polymorphic()){
                 for(size_t i=0; i < (size_t)$self->get_number_of_loci(); i++)
                         ARGOUT_ARRAY1[i] = $self->get_derived_allele_frequency(i);
     }
@@ -1741,7 +1758,7 @@ const double haploid_highd_participation_ratio_get(haploid_highd *h) {
 }
 
 const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
-  return (const bool) h->get_all_polymorphic();
+  return (const bool) h->is_all_polymorphic();
 }
 %}
 /*****************************************************************************/

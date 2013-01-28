@@ -24,12 +24,8 @@ nsamples = 3	#number of trees
 burnin = 2000 	#either ~5*N or 5/s, depending on whether coalescence is dominated by drift or draft
 dt = 1000 		#time between samples
 
-#set up population
-pop=h.haploid_highd(L)
-
-#switch on infinite sites mode. mutation rate needs to be zero in this case. 
-pop.all_polymorphic=True
-pop.mutation_rate=0
+#set up population, switch on infinite sites mode
+pop=h.haploid_highd(L, all_polymorphic=True)
 
 #set the population size via the carrying capacity
 pop.carrying_capacity= N

@@ -24,11 +24,10 @@ nsamples = 3	#number of trees
 burnin = 2000 	#either ~5*N or 5/s, depending on whether coalescence is dominated by drift or draft
 dt = 1000 		#time between samples
 
-#set up population
+#set up population, switch to all_polymorphic mode
 pop=h.haploid_highd(L)
 
 #set the per-site mutation rate
-pop.all_polymorphic=True
 pop.mutation_rate=U/pop.L
 
 #set the population size via the carrying capacity
