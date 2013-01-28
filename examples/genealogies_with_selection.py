@@ -74,5 +74,5 @@ for si in xrange(nsamples):
 	Phylo.draw(subtree,label_func=lambda x:"")
 	plt.draw()
 
-plt.savefig("".join(map(str,['N=',N,'_r=',r,'_L=',L, '_s=',s,'.pdf'])))
+plt.savefig("".join(map(str,['tree_', 'N=',N,'_r=',r,'_L=',L, '_s=',s,'.pdf'])))
 

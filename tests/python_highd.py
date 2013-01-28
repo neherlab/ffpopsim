@@ -20,7 +20,7 @@ N = 300    # population size
 
 
 # Construct class
-pop = h.haploid_highd(L)
+pop = h.haploid_highd(L, all_polymorphic=False)
 
 # Start tracking genealogy of two loci
 pop.track_locus_genealogy([3, 60])

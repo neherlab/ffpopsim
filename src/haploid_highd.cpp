@@ -40,9 +40,15 @@ size_t haploid_highd::number_of_instances = 0;
  *
  * Note: The sequence is assumed to be linear (not circular). You can change this by hand if you wish so.
  */
-haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
+haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits, bool all_polymorphic_in) {
 	if (L_in < 1 or n_o_traits < 1) {
-		cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
+		if(HP_VERBOSE) cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Both L and the number of traits must be larger or equal one."<<endl;
+		throw HP_BADARG;
+	}
+
+	// Check that all_polymorphic is not used with more than one phenotypic trait
+	if  (n_o_traits > 1 and all_polymorphic_in) {
+		if(HP_VERBOSE) cerr <<"haploid_highd::haploid_highd(): Bad Arguments! Use multiple traits XOR all_polymorphic."<<endl;
 		throw HP_BADARG;
 	}
 
@@ -68,7 +74,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits) {
 	crossover_rate = 0;
 	recombination_model = CROSSOVERS;
 	fitness_max = HP_VERY_NEGATIVE;
-	all_polymorphic=false;
+	all_polymorphic=all_polymorphic_in;
 
 	//In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
@@ -683,7 +689,7 @@ int haploid_highd::mutate() {
 	size_t mutant;
 	allele_frequencies_up_to_date = false;
 	int actual_n_o_mutations,actual_n_o_mutants;
-	if (mutation_rate > HP_NOTHING) {
+	if (not all_polymorphic) {
 		//determine the number of individuals that are hit by at least one mutation
 		actual_n_o_mutants = gsl_ran_poisson(evo_generator, (1.0-exp(-mutation_rate*number_of_loci))*population_size);
 		produce_random_sample(min(actual_n_o_mutants, population_size));
@@ -703,7 +709,7 @@ int haploid_highd::mutate() {
 			for (int i = 0; i != actual_n_o_mutations; i++)
 				mutant=flip_single_locus(mutant, gsl_rng_uniform_int(evo_generator,number_of_loci));
 		}
-	} else if (all_polymorphic){
+	} else if(mutation_rate > HP_NOTHING) {
 		if(HP_VERBOSE) cerr <<"haploid_highd::mutate(): keeping all loci polymorphic"<<endl;
 		calc_allele_freqs(); //calculate the allele frequencies
 		nmut=0;
@@ -734,7 +740,7 @@ int haploid_highd::mutate() {
 		number_of_mutations.push_back(nmut);
 		calc_stat();
 
-	}else if(HP_VERBOSE) cerr <<"haploid_highd::mutate(): mutation rate is zero."<<endl;
+	} else if(HP_VERBOSE) cerr <<"haploid_highd::mutate(): mutation rate is zero."<<endl;
 
 	if (HP_VERBOSE)	cerr <<"done."<<endl;;
 	return 0;

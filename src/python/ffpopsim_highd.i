@@ -74,8 +74,45 @@ const int clone_t_number_of_traits_get(clone_t *c) {
         return (const int) c->trait.size();
 }
 %} /* attributes of clone_t */
-/*****************************************************************************/
 
+/*****************************************************************************/
+/* POLY_T                                                                    */
+/*****************************************************************************/
+%feature("autodoc", "Polymorphism history") poly_t;
+%rename (polymorphism) poly_t;
+%extend poly_t {
+/* string representations */
+%feature("autodoc", "x.__str__() <==> str(x)") __str__;
+%feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
+const char* __str__() {
+        static char buffer[255];
+        sprintf(buffer,"polymorphism: birth = %d, sweep time = %d, effect = %f, fitness = %f, fitness variance = %f",
+                       (int)($self->birth),
+                       (int)($self->sweep_time),
+                       (double)($self->effect),
+                       (double)($self->fitness),
+                       (double)($self->fitness_variance));
+        return &buffer[0];
+}
+const char* __repr__() {
+        static char buffer[255];
+        sprintf(buffer,"polymorphism(b=%d, age=%d, e=%f, f=%f, fvar=%f)",
+                       (int)($self->birth),
+                       (int)($self->sweep_time),
+                       (double)($self->effect),
+                       (double)($self->fitness),
+                       (double)($self->fitness_variance));
+        return &buffer[0];
+}
+
+/* read/write attributes */
+%feature("autodoc", "Birth generation") birth;
+%feature("autodoc", "Sweep time [in generations]") sweep_time;
+%feature("autodoc", "Fitness effect of the mutation") fitness;
+%feature("autodoc", "Relative fitness of the clone at birth") fitness;
+%feature("autodoc", "Fitness variance of the population at birth") fitness_variance;
+
+} /* extend polymorphism */
 
 /*****************************************************************************/
 /* TREE_KEY_T                                                                */
@@ -245,7 +282,6 @@ This class is used to represent the phylogenetic tree of a single locus.
 It is possible to print the tree in Newick format, to get the subtree
 spanned by some of the leaves, and to look at the tree nodes and edges.
 ") rooted_tree;
-
 %extend rooted_tree {
 
 /* string representations */
@@ -411,7 +447,6 @@ def to_Biopython_tree(self):
 /* MULTI_LOCUS_GENEALOGY                                                     */
 /*****************************************************************************/
 %feature("autodoc", "Genealogy for multiple loci") multi_locus_genealogy;
-
 %extend multi_locus_genealogy {
 
 /* string representations */
@@ -545,6 +580,8 @@ Parameters:
    - L: number of loci
    - rng_seed: seed for the random generator. If zero (default) pick a random number
    - number_of_traits: number of phenotypic traits, defaults to one
+   - all_polymorphic: option to use an infinite-sites model tracking ancestral alleles
+                      (only available with a single phenotypic trait and zero mutation rate)
 ") haploid_highd;
 %exception haploid_highd {
         try {
@@ -587,7 +624,6 @@ const char* __repr__() {
 %feature("autodoc", "current carrying capacity of the environment") carrying_capacity;
 %feature("autodoc", "outcrossing rate (probability of sexual reproduction per generation)") outcrossing_rate;
 %feature("autodoc", "crossover rate (probability of crossover per site per generation)") crossover_rate;
-%feature("autodoc", "mutation rate (per site per generation)") mutation_rate;
 %feature("autodoc",
 "Model of recombination to use
 
@@ -595,6 +631,23 @@ Available values:
    - FFPopSim.FREE_RECOMBINATION: free reassortment of all loci between parents
    - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus
 ") recombination_model;
+
+/* mutation rate */
+%rename(_get_mutation_rate) get_mutation_rate;
+%rename(_set_mutation_rate) set_mutation_rate;
+%pythoncode{
+@property
+def mutation_rate(self):
+   '''mutation rate (per site per generation)'''
+   return self._get_mutation_rate()
+
+@mutation_rate.setter
+def mutation_rate(self, m):
+    if self.all_polymorphic:
+        raise ValueError("You cannot set all_polymorphic and a nonzero mutation rate.")
+    else:
+        self._set_mutation_rate(m)
+}
 
 /* do not expose the population, but rather only nonempty clones */
 %ignore population;
@@ -652,8 +705,23 @@ const int number_of_traits;
 const double max_fitness;
 
 %ignore get_participation_ratio;
-%feature("autodoc", "Participation ratio (read-only)")participation_ratio;
+%feature("autodoc", "Participation ratio (read-only)") participation_ratio;
 const double participation_ratio;
+
+%ignore get_all_polymorphic;
+%feature("autodoc", "All polymorphic? (read-only)") all_polymorphic;
+const bool all_polymorphic;
+
+%rename(_get_polymorphisms) get_polymorphisms;
+%pythoncode{
+@property
+def polymorphisms(self):
+    '''Polymorphisms from all_polymorphic (read-only)'''
+    if not self.all_polymorphic:
+        raise ValueError("all_polymorphic is not set.")
+    return self._get_polymorphisms()
+}
+
 
 /* trait weights */
 %ignore set_trait_weights;
@@ -1001,10 +1069,10 @@ Returns:
 args = tuple(list(args) + [self.L])
 }
 void get_derived_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
-	if ($self->all_polymorphic){
-        for(size_t i=0; i < (size_t)$self->get_number_of_loci(); i++)
-                ARGOUT_ARRAY1[i] = $self->get_derived_allele_frequency(i);
-    }	
+        if ($self->get_all_polymorphic()){
+                for(size_t i=0; i < (size_t)$self->get_number_of_loci(); i++)
+                        ARGOUT_ARRAY1[i] = $self->get_derived_allele_frequency(i);
+    }
 }
 
 
@@ -1670,6 +1738,10 @@ const double haploid_highd_max_fitness_get(haploid_highd *h) {
 
 const double haploid_highd_participation_ratio_get(haploid_highd *h) {
   return (const double) h->get_participation_ratio();
+}
+
+const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
+  return (const bool) h->get_all_polymorphic();
 }
 %}
 /*****************************************************************************/
