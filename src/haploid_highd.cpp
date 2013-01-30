@@ -239,7 +239,9 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	// reset the current population
 	population.clear();
 	available_clones.clear();
-	if (track_genealogy) genealogy.reset();
+	if (track_genealogy) {
+		genealogy.reset_but_loci();
+	}
 
 	population_size = 0;
 	number_of_clones = 0;
@@ -292,7 +294,9 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	// Clear population
 	population.clear();
 	available_clones.clear();
-	if (track_genealogy) genealogy.reset();
+	if (track_genealogy) {
+		genealogy.reset_but_loci();
+	}
 
 	population_size = 0;
 	random_sample.clear();
