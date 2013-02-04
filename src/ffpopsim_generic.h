@@ -4,7 +4,7 @@
  * @author Richard Neher, Fabio Zanini
  * @version 
  * @date 2010-10-27
- * Copyright (c) 2012, Richard Neher, Fabio Zanini
+ * Copyright (c) 2012-2013, Richard Neher, Fabio Zanini
  * All rights reserved.
  *
  * This file is part of FFPopSim.

@@ -40,7 +40,7 @@ library_dirs = ['/ebio/ag-neher/share/epd_free-7.1-2-rh5-x86_64/lib']
 ############################################################################
 #                !!  DO NOT EDIT BELOW THIS LINE  !!                       #
 ############################################################################
-VERSION = '1.3'
+VERSION = '2.0'
 SRCDIR = 'src'
 PYBDIR = SRCDIR+'/python'
 

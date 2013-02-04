@@ -3,7 +3,7 @@
  *  Haploids
  *
  *
- * Copyright (c) 2012, Richard Neher, Fabio Zanini
+ * Copyright (c) 2012-2013, Richard Neher, Fabio Zanini
  * All rights reserved.
  *
  * This file is part of FFPopSim.
