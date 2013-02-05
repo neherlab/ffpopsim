@@ -79,6 +79,6 @@ haploid_highd Class Reference
    .. automethod:: haploid_highd.plot_divergence_histogram
    .. automethod:: haploid_highd.get_diversity_histogram
    .. automethod:: haploid_highd.plot_diversity_histogram
-   .. automethod:: haploid_highd.genealogy
+   .. autoattribute:: haploid_highd.genealogy
    .. automethod:: haploid_highd.track_locus_genealogy(loci)
 
