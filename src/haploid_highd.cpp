@@ -66,7 +66,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits, bool all_po
 	number_of_clones = 0;
 	mem = false;
 	cumulants_mem = false;
-	generation = -1; //FIXME MERGE: not clear what to do!
+	generation = -1;
 	circular = false;
 	carrying_capacity = 0;
 	mutation_rate = 0;
@@ -75,6 +75,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits, bool all_po
 	recombination_model = CROSSOVERS;
 	fitness_max = HP_VERY_NEGATIVE;
 	all_polymorphic=all_polymorphic_in;
+	growth_rate = 2.0;
 
 	//In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
@@ -1324,7 +1325,7 @@ double haploid_highd::relaxation_value() {
 
 	double logmean_expfitness = get_logmean_expfitness();
 	// the second term is the growth rate when we start from N << carrying capacity
-	double relax = logmean_expfitness + (fmin(0.6931*(double(population_size) / carrying_capacity - 1), 2.0)) + fitness_max;
+	double relax = logmean_expfitness + (fmin(log(growth_rate)*(double(population_size) / carrying_capacity - 1), 2.0)) + fitness_max;
 	if (HP_VERBOSE)	cerr<<"log(<exp(F-Fmax)>) = "<<logmean_expfitness<<"... relaxation value = "<<relax<<"...done."<<endl;
 	return relax;
 }

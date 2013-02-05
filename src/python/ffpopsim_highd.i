@@ -631,6 +631,21 @@ Available values:
    - FFPopSim.FREE_RECOMBINATION: free reassortment of all loci between parents
    - FFPopSim.CROSSOVERS: linear chromosome with crossover probability per locus
 ") recombination_model;
+%feature("autodoc",
+"Growth rate
+
+This value is used to determine how fast a population converges to the
+carrying capacity.
+
+This parameter must be set strictly larger than 1 (very slow growth) and not
+too big to avoid population explosion. The default is 2, which means that a
+freely expanding population (N << carrying capacity) approximately doubles in
+size every generation.
+
+Note that when the population is shrinking, in order to avoid extinction, the
+population decreases by ten times or so only. If you want a hard bottleneck,
+use the bottleneck function.
+") growth_rate;
 
 /* mutation rate */
 %rename(_get_mutation_rate) get_mutation_rate;

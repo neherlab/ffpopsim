@@ -393,6 +393,7 @@ public:
 	double crossover_rate;			// rate of crossover during sex
 	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
+	double growth_rate;			//growth rate for bottlenecks and the like
 
         // mutation rate (only if not all_polymorphic)
         double get_mutation_rate(){return mutation_rate;}
