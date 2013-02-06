@@ -2007,6 +2007,7 @@ class haploid_highd(object):
     crossover_rate = _swig_property(_FFPopSim.haploid_highd_crossover_rate_get, _FFPopSim.haploid_highd_crossover_rate_set)
     recombination_model = _swig_property(_FFPopSim.haploid_highd_recombination_model_get, _FFPopSim.haploid_highd_recombination_model_set)
     circular = _swig_property(_FFPopSim.haploid_highd_circular_get, _FFPopSim.haploid_highd_circular_set)
+    growth_rate = _swig_property(_FFPopSim.haploid_highd_growth_rate_get, _FFPopSim.haploid_highd_growth_rate_set)
     def _get_mutation_rate(self):
         """_get_mutation_rate(haploid_highd self) -> double"""
         return _FFPopSim.haploid_highd__get_mutation_rate(self)

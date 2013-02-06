@@ -27042,6 +27042,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_haploid_highd_growth_rate_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"haploid_highd_growth_rate_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_growth_rate_set" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  ecode2 = SWIG_AsVal_double(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "haploid_highd_growth_rate_set" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  if (arg1) (arg1)->growth_rate = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_haploid_highd_growth_rate_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  haploid_highd *arg1 = (haploid_highd *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  double result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_growth_rate_get" "', argument " "1"" of type '" "haploid_highd *""'"); 
+  }
+  arg1 = reinterpret_cast< haploid_highd * >(argp1);
+  result = (double) ((arg1)->growth_rate);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_haploid_highd__get_mutation_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -30824,6 +30876,38 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"haploid_highd_circular_set", _wrap_haploid_highd_circular_set, METH_VARARGS, (char *)"is the genome circular?"},
 	 { (char *)"haploid_highd_circular_get", (PyCFunction)_wrap_haploid_highd_circular_get, METH_O, (char *)"is the genome circular?"},
+	 { (char *)"haploid_highd_growth_rate_set", _wrap_haploid_highd_growth_rate_set, METH_VARARGS, (char *)"\n"
+		"Growth rate\n"
+		"\n"
+		"This value is used to determine how fast a population converges to the\n"
+		"carrying capacity.\n"
+		"\n"
+		"This parameter must be set strictly larger than 1 (very slow growth) and not\n"
+		"too big to avoid population explosion. The default is 2, which means that a\n"
+		"freely expanding population (N << carrying capacity) approximately doubles in\n"
+		"size every generation.\n"
+		"\n"
+		"Note that when the population is shrinking, in order to avoid extinction, the\n"
+		"population decreases by ten times or so only. If you want a hard bottleneck,\n"
+		"use the bottleneck function.\n"
+		"\n"
+		""},
+	 { (char *)"haploid_highd_growth_rate_get", (PyCFunction)_wrap_haploid_highd_growth_rate_get, METH_O, (char *)"\n"
+		"Growth rate\n"
+		"\n"
+		"This value is used to determine how fast a population converges to the\n"
+		"carrying capacity.\n"
+		"\n"
+		"This parameter must be set strictly larger than 1 (very slow growth) and not\n"
+		"too big to avoid population explosion. The default is 2, which means that a\n"
+		"freely expanding population (N << carrying capacity) approximately doubles in\n"
+		"size every generation.\n"
+		"\n"
+		"Note that when the population is shrinking, in order to avoid extinction, the\n"
+		"population decreases by ten times or so only. If you want a hard bottleneck,\n"
+		"use the bottleneck function.\n"
+		"\n"
+		""},
 	 { (char *)"haploid_highd__get_mutation_rate", (PyCFunction)_wrap_haploid_highd__get_mutation_rate, METH_O, (char *)"haploid_highd__get_mutation_rate(haploid_highd self) -> double"},
 	 { (char *)"haploid_highd__set_mutation_rate", (PyCFunction) _wrap_haploid_highd__set_mutation_rate, METH_VARARGS | METH_KEYWORDS, (char *)"haploid_highd__set_mutation_rate(haploid_highd self, double m)"},
 	 { (char *)"haploid_highd__get_polymorphisms", (PyCFunction)_wrap_haploid_highd__get_polymorphisms, METH_O, (char *)"haploid_highd__get_polymorphisms(haploid_highd self) -> vector_polymorphism"},
