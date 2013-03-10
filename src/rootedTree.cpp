@@ -59,6 +59,7 @@ void rooted_tree::reset(){
 	MRCA.age=-2;
 	MRCA.index=0;
 
+	//set up a trivial root node with the only child MRCA
 	root_node.own_key = root;
 	root_node.parent_node = root;
 	root_node.clone_size=-1;
@@ -68,6 +69,7 @@ void rooted_tree::reset(){
 	root_node.child_edges.clear();
 	root_node.child_edges.push_back(MRCA);
 
+	//set up a trivial MRCA node to which any genotypes are to be attached upon initialization
 	mrca_node.own_key = MRCA;
 	mrca_node.parent_node = root;
 	mrca_node.clone_size=-1;
@@ -76,12 +78,15 @@ void rooted_tree::reset(){
 	mrca_node.crossover[1]=RT_VERYLARGE;
 	mrca_node.child_edges.clear();
 
+	//produce an edge that links the MRCA to root.
 	to_root.own_key = MRCA;
 	to_root.length=mrca_node.own_key.age-root_node.own_key.age;
 	to_root.segment[0]=0;
 	to_root.segment[1]=RT_VERYLARGE;
 	to_root.number_of_offspring=-1;
 	to_root.parent_node = root;
+
+	//as of now, the only leaf is the MRCA. root, MRCA and the edge are added to respective maps
 	leafs.push_back(MRCA);
 	nodes.insert(pair<tree_key_t,node_t>(root,root_node));
 	nodes.insert(pair<tree_key_t,node_t>(MRCA,mrca_node));
@@ -92,6 +97,7 @@ void rooted_tree::reset(){
  * @brief takes a vector of nodes from the evolution class and knits it into the genealogy.
  * @params new_generation
  * @params double mean_fitness is the baseline with respect to which node fitness is measured.
+ * TODO nothing is done with the mean_fitness argument
  */
 void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fitness){
 	if (RT_VERBOSE){
@@ -126,12 +132,15 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 				while (nodes[parent_key].child_edges.size()==0){ 	//continue until offspring found
 					parent_key = erase_edge_node(parent_key);
 				}
-				//bridge nodes that have exactly one offspring
+				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
+				//are encountered or the parent is the root.
 				while (nodes[parent_key].child_edges.size()==1 and parent_key!=root){
 					parent_key = bridge_edge_node(parent_key);
 				}
 			}else if (node_pos->second.child_edges.size()==1){		//bridge nodes that have exactly one offspring
 				parent_key = bridge_edge_node(*old_leaf_key);
+				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
+				//are encountered or the parent is the root.
 				while (nodes[parent_key].child_edges.size()==1 and root!=parent_key){
 					parent_key = bridge_edge_node(parent_key);
 				}
@@ -152,7 +161,8 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 		cerr <<"rooted_tree::add_generation(). rooted_tree size: "<<edges.size()<<" edges, "<<nodes.size()<<" nodes "<<endl;
 	}
 
-	//make sure all nodes and edges are up-to-date (this is not necessary, could be called when needed)
+	//make sure all nodes and edges are up-to-date in terms of offspring
+	//number and other attributes (this is not necessary, could be called when needed)
 	update_tree();
 	return;
 }
@@ -165,14 +175,15 @@ int rooted_tree::add_terminal_node(node_t &new_node){
 	edge_t new_edge;
 	tree_key_t new_key;
 	new_key = new_node.own_key;
-	new_node.child_edges.clear();	//no kids
+	new_node.child_edges.clear();		//no kids
+	//produce an edge that links the new leaf to its parent
 	new_edge.own_key=new_key;			//reset the associated edge (has key of child node)
 	new_edge.parent_node=new_node.parent_node;
 	new_edge.number_of_offspring=1;
 	new_edge.segment[0]=new_node.crossover[0];
 	new_edge.segment[1]=new_node.crossover[1];
 	new_edge.length=new_key.age-new_node.parent_node.age;
-	nodes[new_node.parent_node].child_edges.push_back(new_key);	//add node as child of parent
+	nodes[new_node.parent_node].child_edges.push_back(new_key);			//add node as child of parent
 	edges.insert(pair<tree_key_t,edge_t>(new_key, new_edge));			//insert node and edge
 	nodes.insert(pair<tree_key_t,node_t>(new_key, new_node));
 	return 0;
@@ -187,7 +198,7 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 	if (RT_VERBOSE) {
 		cerr <<"rooted_tree::erase_edge_node(). ..."<<to_be_erased<<endl;
 	}
-
+	//iterators pointing to the elements that are to be erased, found by their key (argument)
 	map <tree_key_t,node_t>::iterator Enode = nodes.find(to_be_erased);
 	map <tree_key_t,edge_t>::iterator Eedge = edges.find(to_be_erased);
 
@@ -195,18 +206,20 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 		cerr <<"rooted_tree::erase_edge_node(): attempting to erase non-terminal node"<<endl;
 	}
 
+	//find the parents of the node that is going to be erased
 	tree_key_t parent_key = Eedge->second.parent_node;
 	map <tree_key_t,edge_t>::iterator Pedge = edges.find(parent_key);
 	map <tree_key_t,node_t>::iterator Pnode = nodes.find(parent_key);
 
+	//update the parents offspring numbers by subtracting what is lost when erasing the child
 	Pnode->second.number_of_offspring-=Eedge->second.number_of_offspring;
 	Pedge->second.number_of_offspring-=Eedge->second.number_of_offspring;
 
-
+	//take out the child and check for good result
 	if (erase_child(Pnode, to_be_erased)==RT_CHILDNOTFOUND) {
 		cerr <<"rooted_tree::erase_edge_node(): child not found"<<endl;
 	}
-
+	//update the register of nodes and edges.
 	nodes.erase(to_be_erased);
 	edges.erase(to_be_erased);
 
@@ -214,6 +227,8 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 		cerr <<"rooted_tree::erase_edge_node(). done"<<endl;
 	}
 
+	//return the parent key, since the upstream function might want to check
+	//whether the parent needs to be erased too
 	return parent_key;
 }
 
@@ -243,29 +258,35 @@ tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged) {
 	map <tree_key_t,node_t>::iterator Enode = nodes.find(to_be_bridged);
 	map <tree_key_t,edge_t>::iterator Eedge = edges.find(to_be_bridged);
 
+	//consistency checks. only nodes with exactly one child can be bridged.
 	if (Enode->second.child_edges.size()!=1 or to_be_bridged==root){
 		cerr <<"rooted_tree::bridge_edge_node(): attempting to bridge branched node or bridge root"<<endl;
 	}
 
-	//child edge and node
+	// determine the parent key
 	tree_key_t parent_key = Eedge->second.parent_node;
+
+	//find the one and only child of the node to be bridged
 	map <tree_key_t,edge_t>::iterator child_edge = edges.find(Enode->second.child_edges.front());
 	map <tree_key_t,node_t>::iterator child_node = nodes.find(Enode->second.child_edges.front());
-	child_edge->second.parent_node = Eedge->second.parent_node;	//rewire
-	child_node->second.parent_node = Eedge->second.parent_node;
-	//update the part of the chromosome transmitted along this edge to the minmum of the two edges
+	//rewire: attach the child of the node to be erased to the parent of that node.
+	child_edge->second.parent_node = parent_key;
+	child_node->second.parent_node = parent_key;
+
+	//update the part of the chromosome transmitted along this edge to the minimum of the two edges
 	//cerr  <<child_edge->second.segment[0]<<" "<<Eedge->second.segment[0]<<"  "<<child_edge->second.segment[1]<<" "<<Eedge->second.segment[1]<<endl;
 	child_edge->second.segment[0]=(child_edge->second.segment[0]<Eedge->second.segment[0])?(Eedge->second.segment[0]):(child_edge->second.segment[0]);
 	child_edge->second.segment[1]=(child_edge->second.segment[1]>Eedge->second.segment[1])?(Eedge->second.segment[1]):(child_edge->second.segment[1]);
 	child_edge->second.length+=Eedge->second.length;	//add length of edges
 	//cerr  <<child_edge->second.segment[0]<<"  "<<child_edge->second.segment[1]<<endl;
 
-	//parent node: add new child, delete old
-	map <tree_key_t,node_t>::iterator Pnode = nodes.find(Eedge->second.parent_node);
+	//find the parent node: add new child, delete old
+	map <tree_key_t,node_t>::iterator Pnode = nodes.find(parent_key);
 	Pnode->second.child_edges.push_back(child_edge->first);
 	if (erase_child(Pnode, to_be_bridged)==RT_CHILDNOTFOUND){
 		cerr <<"rooted_tree::bridge_edge_node(). child not found. index "<<to_be_bridged<<endl;
 	}
+	//erase bidged node from register
 	nodes.erase(to_be_bridged);
 	edges.erase(to_be_bridged);
 	//if the MRCA was bridged, reset the MRCA key to the child key
@@ -275,6 +296,8 @@ tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged) {
 		cerr <<"rooted_tree::bridge_edge_node(). done"<<endl;
 	}
 
+	//return the parent key, since the upstream function might want to check
+	//whether the parent needs to be erased too
 	return parent_key;
 }
 
@@ -291,11 +314,14 @@ void rooted_tree::update_tree() {
 /*
  * @brief start at a leaf and add its population to all nodes in its lineage to the MRCA
  * @params tree_key_t to the leaf at which this is supposed to start
+ * Note that before calling this for every leaf, it is assumed that the tree is reset.
+ * This could also be done recursively starting from the root.
  */
 int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 	if (RT_VERBOSE){
 		cerr <<"rooted_tree::update_leaf_to_root(). key:"<<leaf_key<<endl;
 	}
+	//find the leaf and check for its presence
 	map <tree_key_t,node_t>::iterator leaf_node = nodes.find(leaf_key);
 	map <tree_key_t,edge_t>::iterator leaf_edge = edges.find(leaf_key);
 	if (leaf_node == nodes.end() or leaf_edge == edges.end()){
@@ -303,16 +329,20 @@ int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 		return RT_NODENOTFOUND;
 	}
 
+	//count the number of offspring along the lineage in the variable increment
 	int increment = leaf_node->second.clone_size;
 	leaf_edge->second.number_of_offspring = increment;
 	map <tree_key_t,node_t>::iterator parent_node = nodes.find(leaf_edge->second.parent_node);
 	map <tree_key_t,edge_t>::iterator parent_edge = edges.find(leaf_edge->second.parent_node);
+	//walk up the tree and add this leafs contribution to every node and to the parent is the root.
 	while (root != parent_node->first){
 		parent_node->second.number_of_offspring+=increment;
 		parent_edge->second.number_of_offspring+=increment;
 
+		//TODO: this seems ugly
 		leaf_node = parent_node;
 		leaf_edge = parent_edge;
+		//find parents.
 		parent_node = nodes.find(leaf_edge->second.parent_node);
 		parent_edge = edges.find(leaf_edge->second.parent_node);
 		if (parent_node==nodes.end()){
@@ -331,6 +361,7 @@ int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 /*
  * @brief loop over all edges and calculate the site frequency spectrum of all derived neutral mutations
  * @params gsl_histogram* the histogram is accumulated and assumed to have bins between 0 and 1
+ * NOTE that this assumes number_of_offspring counts on the tree are up-to-date
  */
 void rooted_tree::SFS(gsl_histogram *sfs) {
 	map <tree_key_t,edge_t>::iterator edge = edges.begin();
@@ -368,6 +399,7 @@ void rooted_tree::clear_tree() {
 	if (RT_VERBOSE)
 		cerr <<"rooted_tree::clear_tree()..."<<endl;
 
+	//loop over all nodes and edges and reset.
 	map <tree_key_t,node_t>::iterator node = nodes.begin();
 	map <tree_key_t,edge_t>::iterator edge = edges.begin();
 
@@ -376,7 +408,7 @@ void rooted_tree::clear_tree() {
 	for (; edge!=edges.end(); edge++)
 		edge->second.number_of_offspring=0;
 
-
+	//set the leaf number_of_offspring to the clone size (which is never erased as it is a node attribute)
 	for (vector<tree_key_t>::iterator leaf=leafs.begin(); leaf!=leafs.end(); leaf++) {
 		node = nodes.find(*leaf);
 		if (node==nodes.end()) {
@@ -435,7 +467,8 @@ bool rooted_tree::check_node(tree_key_t node_key){
  * @params vector <tree_key_t> subtree_leafs the leaf to retain
  * @params rooted_tree reference to tree that is to be pruned
  *
- * note that instead of pruning, this functions builds up a new tree from scratch by walking through the super tree
+ * note that instead of pruning, this functions builds up a new tree from
+ * scratch by walking through the super tree
  */
 int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other){
 	if (RT_VERBOSE){
@@ -686,28 +719,35 @@ int rooted_tree::calc_weight_distribution(tree_key_t subtree_root){
 		return RT_NODENOTFOUND;
 	}else{
 		node->second.weight_distribution.clear();
+		//if we are dealing with a terminal set the weight distribution to [0,1]*clone_size
 		if (node->second.child_edges.size()==0){
 			step_t temp_step;
-			temp_step.pos = node->second.crossover[0];
+			temp_step.pos = node->second.crossover[0];	//step up at the left end
 			temp_step.step = node->second.clone_size;
 			node->second.weight_distribution.push_back(temp_step);
-			temp_step.pos = node->second.crossover[1];
+			temp_step.pos = node->second.crossover[1];	//step down at the right end
 			temp_step.step = -node->second.clone_size;
 			node->second.weight_distribution.push_back(temp_step);
-		}else{
-			map <tree_key_t,node_t>::iterator child_node;
+		}else{	//if an internal node, we loop of children
+			map <tree_key_t,node_t>::iterator child_node;	//iterators used for finding
 			map <tree_key_t,edge_t>::iterator child_edge;
 			step_t temp_step,cumulative_step;
+			//loop over children
 			for (list <tree_key_t>::iterator child=node->second.child_edges.begin(); child!=node->second.child_edges.end();child++)
 			{
+				//recursively call yourself
 				calc_weight_distribution(*child);
+				//find the child
 				child_node=nodes.find(*child);
 				child_edge=edges.find(*child);
 				cumulative_step.pos=0; cumulative_step.step=0;
+				//intersect the childs weight with the edge leading up to it
 				for (vector <step_t>::iterator child_step = child_node->second.weight_distribution.begin();
 						child_step != child_node->second.weight_distribution.end();child_step++)
 				{
 					temp_step = *child_step;
+					//move the position of the step up or down to the left or right edge of the
+					//transmitted segment, depending on whether the step is +/-
 					if (temp_step.step>0){
 						if(temp_step.pos<child_edge->second.segment[0]){
 							temp_step.pos = child_edge->second.segment[0];
@@ -717,6 +757,9 @@ int rooted_tree::calc_weight_distribution(tree_key_t subtree_root){
 							temp_step.pos = child_edge->second.segment[1];
 						}
 					}
+					//add step to previous step if at the same location.
+					//otherwise, add previous step and remember new one
+					//this works, since steps are sorted by position
 					if (cumulative_step.pos!=temp_step.pos){
 						node->second.weight_distribution.push_back(cumulative_step);
 						cumulative_step = temp_step;
@@ -726,6 +769,7 @@ int rooted_tree::calc_weight_distribution(tree_key_t subtree_root){
 				}
 				node->second.weight_distribution.push_back(cumulative_step);
 			}
+			//sort the steps according to position. This makes the above algorithm possible
 			sort(node->second.weight_distribution.begin(), node->second.weight_distribution.end());
 		}
 		if (RT_VERBOSE){

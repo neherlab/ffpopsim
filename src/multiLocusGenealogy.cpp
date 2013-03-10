@@ -68,6 +68,7 @@ void multi_locus_genealogy::add_generation(double baseline) {
  */
 int multi_locus_genealogy::extend_storage(int n) {
 	node_t temp_ancestor;
+	//produce a dummy ancestor and add to newGenerations
 	temp_ancestor.own_key.age=0; temp_ancestor.own_key.index=-1;
 	temp_ancestor.fitness = 0;
 	temp_ancestor.number_of_offspring = 0;
