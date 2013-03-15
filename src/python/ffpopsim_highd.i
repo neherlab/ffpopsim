@@ -145,8 +145,8 @@ Parameters:
 ") tree_key_t;
 
 /* __hash__ needs to be overloaded if __eq__ has been so to be used as a dict key */
-const int __hash__() {
-        return ($self->index) * RT_VERYLARGE + ($self->age);
+const long __hash__() {
+        return (long)(($self->index) * RT_VERYLARGE + ($self->age));
 }
 
 /* read/write attributes */
@@ -184,6 +184,11 @@ Parameters:
    - pos: position
    - step: length of step
 ") step_t;
+
+/* __hash__ needs to be overloaded if __eq__ has been so to be used as a dict key */
+const long __hash__() {
+        return (long)(($self->pos) * RT_VERYLARGE + ($self->step));
+}
 
 /* read/write attributes */
 %feature("autodoc", "Position") pos;

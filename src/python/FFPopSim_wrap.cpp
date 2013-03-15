@@ -6449,8 +6449,8 @@ SWIGINTERN char const *tree_key_t___repr__(tree_key_t *self){
         sprintf(buffer,"tree_key(%d, %d)", (int)(self->index), (int)(self->age));
         return &buffer[0];
 }
-SWIGINTERN int const tree_key_t___hash__(tree_key_t *self){
-        return (self->index) * RT_VERYLARGE + (self->age);
+SWIGINTERN long const tree_key_t___hash__(tree_key_t *self){
+        return (long)((self->index) * RT_VERYLARGE + (self->age));
 }
 SWIGINTERN char const *step_t___str__(step_t *self){
         static char buffer[255];
@@ -6461,6 +6461,9 @@ SWIGINTERN char const *step_t___repr__(step_t *self){
         static char buffer[255];
         sprintf(buffer,"tree_step(%d, %d)", (int)(self->pos), (int)(self->step));
         return &buffer[0];
+}
+SWIGINTERN long const step_t___hash__(step_t *self){
+        return (long)((self->pos) * RT_VERYLARGE + (self->step));
 }
 SWIGINTERN char const *node_t___str__(node_t *self){
         static char buffer[255];
@@ -24188,7 +24191,7 @@ SWIGINTERN PyObject *_wrap_tree_key___hash__(PyObject *SWIGUNUSEDPARM(self), PyO
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  int result;
+  long result;
   
   if (!args) SWIG_fail;
   swig_obj[0] = args;
@@ -24197,8 +24200,8 @@ SWIGINTERN PyObject *_wrap_tree_key___hash__(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___hash__" "', argument " "1"" of type '" "tree_key_t *""'"); 
   }
   arg1 = reinterpret_cast< tree_key_t * >(argp1);
-  result = (int)tree_key_t___hash__(arg1);
-  resultobj = SWIG_From_int(static_cast< int >(result));
+  result = (long)tree_key_t___hash__(arg1);
+  resultobj = SWIG_From_long(static_cast< long >(result));
   return resultobj;
 fail:
   return NULL;
@@ -24531,6 +24534,29 @@ SWIGINTERN PyObject *_wrap_tree_step___repr__(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< step_t * >(argp1);
   result = (char *)step_t___repr__(arg1);
   resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_step___hash__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  step_t *arg1 = (step_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  long result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_step_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_step___hash__" "', argument " "1"" of type '" "step_t *""'"); 
+  }
+  arg1 = reinterpret_cast< step_t * >(argp1);
+  result = (long)step_t___hash__(arg1);
+  resultobj = SWIG_From_long(static_cast< long >(result));
   return resultobj;
 fail:
   return NULL;
@@ -30699,7 +30725,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"tree_key___str__", (PyCFunction)_wrap_tree_key___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"tree_key___repr__", (PyCFunction)_wrap_tree_key___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
-	 { (char *)"tree_key___hash__", (PyCFunction)_wrap_tree_key___hash__, METH_O, (char *)"tree_key___hash__(tree_key self) -> int const"},
+	 { (char *)"tree_key___hash__", (PyCFunction)_wrap_tree_key___hash__, METH_O, (char *)"tree_key___hash__(tree_key self) -> long const"},
 	 { (char *)"delete_tree_key", (PyCFunction)_wrap_delete_tree_key, METH_O, (char *)"delete_tree_key(tree_key self)"},
 	 { (char *)"tree_key_swigregister", tree_key_swigregister, METH_VARARGS, NULL},
 	 { (char *)"tree_key_swiginit", tree_key_swiginit, METH_VARARGS, NULL},
@@ -30720,6 +30746,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"tree_step___str__", (PyCFunction)_wrap_tree_step___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"tree_step___repr__", (PyCFunction)_wrap_tree_step___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
+	 { (char *)"tree_step___hash__", (PyCFunction)_wrap_tree_step___hash__, METH_O, (char *)"tree_step___hash__(tree_step self) -> long const"},
 	 { (char *)"delete_tree_step", (PyCFunction)_wrap_delete_tree_step, METH_O, (char *)"delete_tree_step(tree_step self)"},
 	 { (char *)"tree_step_swigregister", tree_step_swigregister, METH_VARARGS, NULL},
 	 { (char *)"tree_step_swiginit", tree_step_swiginit, METH_VARARGS, NULL},
