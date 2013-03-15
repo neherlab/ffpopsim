@@ -5,7 +5,6 @@
 haploid_highd Class Reference
 =============================
 .. autoclass:: haploid_highd
-   :members:
 
    .. automethod:: haploid_highd.__init__
    .. automethod:: haploid_highd.__str__

@@ -24596,6 +24596,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tree_node_own_key_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  tree_key_t *arg2 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args,"tree_node_own_key_set",2,2,swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_own_key_set" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_node_own_key_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
+  }
+  arg2 = reinterpret_cast< tree_key_t * >(argp2);
+  if (arg1) (arg1)->own_key = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tree_node_own_key_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  node_t *arg1 = (node_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  tree_key_t *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_own_key_get" "', argument " "1"" of type '" "node_t *""'"); 
+  }
+  arg1 = reinterpret_cast< node_t * >(argp1);
+  result = (tree_key_t *)& ((arg1)->own_key);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tree_node__child_edges_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   node_t *arg1 = (node_t *) 0 ;
@@ -24694,58 +24746,6 @@ SWIGINTERN PyObject *_wrap_tree_node_fitness_get(PyObject *SWIGUNUSEDPARM(self),
   arg1 = reinterpret_cast< node_t * >(argp1);
   result = (double) ((arg1)->fitness);
   resultobj = SWIG_From_double(static_cast< double >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tree_node_own_key_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  node_t *arg1 = (node_t *) 0 ;
-  tree_key_t *arg2 = (tree_key_t *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  if (!SWIG_Python_UnpackTuple(args,"tree_node_own_key_set",2,2,swig_obj)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_own_key_set" "', argument " "1"" of type '" "node_t *""'"); 
-  }
-  arg1 = reinterpret_cast< node_t * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_tree_key_t, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tree_node_own_key_set" "', argument " "2"" of type '" "tree_key_t *""'"); 
-  }
-  arg2 = reinterpret_cast< tree_key_t * >(argp2);
-  if (arg1) (arg1)->own_key = *arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tree_node_own_key_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  node_t *arg1 = (node_t *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  tree_key_t *result = 0 ;
-  
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_node_t, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_node_own_key_get" "', argument " "1"" of type '" "node_t *""'"); 
-  }
-  arg1 = reinterpret_cast< node_t * >(argp1);
-  result = (tree_key_t *)& ((arg1)->own_key);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tree_key_t, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -30655,10 +30655,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_clone", (PyCFunction)_wrap_delete_clone, METH_O, (char *)"delete_clone(clone self)"},
 	 { (char *)"clone_swigregister", clone_swigregister, METH_VARARGS, NULL},
 	 { (char *)"clone_swiginit", clone_swiginit, METH_VARARGS, NULL},
-	 { (char *)"tree_key_index_set", _wrap_tree_key_index_set, METH_VARARGS, (char *)"tree_key_index_set(tree_key self, int index)"},
-	 { (char *)"tree_key_index_get", (PyCFunction)_wrap_tree_key_index_get, METH_O, (char *)"tree_key_index_get(tree_key self) -> int"},
-	 { (char *)"tree_key_age_set", _wrap_tree_key_age_set, METH_VARARGS, (char *)"tree_key_age_set(tree_key self, int age)"},
-	 { (char *)"tree_key_age_get", (PyCFunction)_wrap_tree_key_age_get, METH_O, (char *)"tree_key_age_get(tree_key self) -> int"},
+	 { (char *)"tree_key_index_set", _wrap_tree_key_index_set, METH_VARARGS, (char *)"Index of the key"},
+	 { (char *)"tree_key_index_get", (PyCFunction)_wrap_tree_key_index_get, METH_O, (char *)"Index of the key"},
+	 { (char *)"tree_key_age_set", _wrap_tree_key_age_set, METH_VARARGS, (char *)"Age [in generations]"},
+	 { (char *)"tree_key_age_get", (PyCFunction)_wrap_tree_key_age_get, METH_O, (char *)"Age [in generations]"},
 	 { (char *)"tree_key___eq__", (PyCFunction) _wrap_tree_key___eq__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___eq__(tree_key self, tree_key other) -> bool"},
 	 { (char *)"tree_key___ne__", (PyCFunction) _wrap_tree_key___ne__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___ne__(tree_key self, tree_key other) -> bool"},
 	 { (char *)"tree_key___lt__", (PyCFunction) _wrap_tree_key___lt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_key___lt__(tree_key self, tree_key other) -> bool"},
@@ -30676,10 +30676,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_tree_key", (PyCFunction)_wrap_delete_tree_key, METH_O, (char *)"delete_tree_key(tree_key self)"},
 	 { (char *)"tree_key_swigregister", tree_key_swigregister, METH_VARARGS, NULL},
 	 { (char *)"tree_key_swiginit", tree_key_swiginit, METH_VARARGS, NULL},
-	 { (char *)"tree_step_pos_set", _wrap_tree_step_pos_set, METH_VARARGS, (char *)"tree_step_pos_set(tree_step self, int pos)"},
-	 { (char *)"tree_step_pos_get", (PyCFunction)_wrap_tree_step_pos_get, METH_O, (char *)"tree_step_pos_get(tree_step self) -> int"},
-	 { (char *)"tree_step_step_set", _wrap_tree_step_step_set, METH_VARARGS, (char *)"tree_step_step_set(tree_step self, int step)"},
-	 { (char *)"tree_step_step_get", (PyCFunction)_wrap_tree_step_step_get, METH_O, (char *)"tree_step_step_get(tree_step self) -> int"},
+	 { (char *)"tree_step_pos_set", _wrap_tree_step_pos_set, METH_VARARGS, (char *)"Position"},
+	 { (char *)"tree_step_pos_get", (PyCFunction)_wrap_tree_step_pos_get, METH_O, (char *)"Position"},
+	 { (char *)"tree_step_step_set", _wrap_tree_step_step_set, METH_VARARGS, (char *)"Step [in generations]"},
+	 { (char *)"tree_step_step_get", (PyCFunction)_wrap_tree_step_step_get, METH_O, (char *)"Step [in generations]"},
 	 { (char *)"tree_step___lt__", (PyCFunction) _wrap_tree_step___lt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_step___lt__(tree_step self, tree_step other) -> bool"},
 	 { (char *)"tree_step___gt__", (PyCFunction) _wrap_tree_step___gt__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_step___gt__(tree_step self, tree_step other) -> bool"},
 	 { (char *)"tree_step___eq__", (PyCFunction) _wrap_tree_step___eq__, METH_VARARGS | METH_KEYWORDS, (char *)"tree_step___eq__(tree_step self, tree_step other) -> bool"},
@@ -30696,20 +30696,20 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_tree_step", (PyCFunction)_wrap_delete_tree_step, METH_O, (char *)"delete_tree_step(tree_step self)"},
 	 { (char *)"tree_step_swigregister", tree_step_swigregister, METH_VARARGS, NULL},
 	 { (char *)"tree_step_swiginit", tree_step_swiginit, METH_VARARGS, NULL},
-	 { (char *)"tree_node_parent_node_set", _wrap_tree_node_parent_node_set, METH_VARARGS, (char *)"tree_node_parent_node_set(tree_node self, tree_key parent_node)"},
-	 { (char *)"tree_node_parent_node_get", (PyCFunction)_wrap_tree_node_parent_node_get, METH_O, (char *)"tree_node_parent_node_get(tree_node self) -> tree_key"},
+	 { (char *)"tree_node_parent_node_set", _wrap_tree_node_parent_node_set, METH_VARARGS, (char *)"Parent tree key"},
+	 { (char *)"tree_node_parent_node_get", (PyCFunction)_wrap_tree_node_parent_node_get, METH_O, (char *)"Parent tree key"},
+	 { (char *)"tree_node_own_key_set", _wrap_tree_node_own_key_set, METH_VARARGS, (char *)"Own tree key"},
+	 { (char *)"tree_node_own_key_get", (PyCFunction)_wrap_tree_node_own_key_get, METH_O, (char *)"Own tree key"},
 	 { (char *)"tree_node__child_edges_set", _wrap_tree_node__child_edges_set, METH_VARARGS, (char *)"tree_node__child_edges_set(tree_node self, list_tree_key child_edges)"},
 	 { (char *)"tree_node__child_edges_get", (PyCFunction)_wrap_tree_node__child_edges_get, METH_O, (char *)"tree_node__child_edges_get(tree_node self) -> list_tree_key"},
-	 { (char *)"tree_node_fitness_set", _wrap_tree_node_fitness_set, METH_VARARGS, (char *)"tree_node_fitness_set(tree_node self, double fitness)"},
-	 { (char *)"tree_node_fitness_get", (PyCFunction)_wrap_tree_node_fitness_get, METH_O, (char *)"tree_node_fitness_get(tree_node self) -> double"},
-	 { (char *)"tree_node_own_key_set", _wrap_tree_node_own_key_set, METH_VARARGS, (char *)"tree_node_own_key_set(tree_node self, tree_key own_key)"},
-	 { (char *)"tree_node_own_key_get", (PyCFunction)_wrap_tree_node_own_key_get, METH_O, (char *)"tree_node_own_key_get(tree_node self) -> tree_key"},
+	 { (char *)"tree_node_fitness_set", _wrap_tree_node_fitness_set, METH_VARARGS, (char *)"Fitness  of the clone represented by the node"},
+	 { (char *)"tree_node_fitness_get", (PyCFunction)_wrap_tree_node_fitness_get, METH_O, (char *)"Fitness  of the clone represented by the node"},
 	 { (char *)"tree_node__weight_distribution_set", _wrap_tree_node__weight_distribution_set, METH_VARARGS, (char *)"tree_node__weight_distribution_set(tree_node self, vector_tree_step weight_distribution)"},
 	 { (char *)"tree_node__weight_distribution_get", (PyCFunction)_wrap_tree_node__weight_distribution_get, METH_O, (char *)"tree_node__weight_distribution_get(tree_node self) -> vector_tree_step"},
-	 { (char *)"tree_node_number_of_offspring_set", _wrap_tree_node_number_of_offspring_set, METH_VARARGS, (char *)"tree_node_number_of_offspring_set(tree_node self, int number_of_offspring)"},
-	 { (char *)"tree_node_number_of_offspring_get", (PyCFunction)_wrap_tree_node_number_of_offspring_get, METH_O, (char *)"tree_node_number_of_offspring_get(tree_node self) -> int"},
-	 { (char *)"tree_node_clone_size_set", _wrap_tree_node_clone_size_set, METH_VARARGS, (char *)"tree_node_clone_size_set(tree_node self, int clone_size)"},
-	 { (char *)"tree_node_clone_size_get", (PyCFunction)_wrap_tree_node_clone_size_get, METH_O, (char *)"tree_node_clone_size_get(tree_node self) -> int"},
+	 { (char *)"tree_node_number_of_offspring_set", _wrap_tree_node_number_of_offspring_set, METH_VARARGS, (char *)"Number of offspring"},
+	 { (char *)"tree_node_number_of_offspring_get", (PyCFunction)_wrap_tree_node_number_of_offspring_get, METH_O, (char *)"Number of offspring"},
+	 { (char *)"tree_node_clone_size_set", _wrap_tree_node_clone_size_set, METH_VARARGS, (char *)"Size of the clone represented by the node"},
+	 { (char *)"tree_node_clone_size_get", (PyCFunction)_wrap_tree_node_clone_size_get, METH_O, (char *)"Size of the clone represented by the node"},
 	 { (char *)"tree_node___str__", (PyCFunction)_wrap_tree_node___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"tree_node___repr__", (PyCFunction)_wrap_tree_node___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
 	 { (char *)"tree_node__get_crossover_chunk", (PyCFunction) _wrap_tree_node__get_crossover_chunk, METH_VARARGS | METH_KEYWORDS, (char *)"tree_node__get_crossover_chunk(tree_node self, int i) -> int"},
@@ -30717,14 +30717,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_tree_node", (PyCFunction)_wrap_delete_tree_node, METH_O, (char *)"delete_tree_node(tree_node self)"},
 	 { (char *)"tree_node_swigregister", tree_node_swigregister, METH_VARARGS, NULL},
 	 { (char *)"tree_node_swiginit", tree_node_swiginit, METH_VARARGS, NULL},
-	 { (char *)"tree_edge_parent_node_set", _wrap_tree_edge_parent_node_set, METH_VARARGS, (char *)"tree_edge_parent_node_set(tree_edge self, tree_key parent_node)"},
-	 { (char *)"tree_edge_parent_node_get", (PyCFunction)_wrap_tree_edge_parent_node_get, METH_O, (char *)"tree_edge_parent_node_get(tree_edge self) -> tree_key"},
-	 { (char *)"tree_edge_own_key_set", _wrap_tree_edge_own_key_set, METH_VARARGS, (char *)"tree_edge_own_key_set(tree_edge self, tree_key own_key)"},
-	 { (char *)"tree_edge_own_key_get", (PyCFunction)_wrap_tree_edge_own_key_get, METH_O, (char *)"tree_edge_own_key_get(tree_edge self) -> tree_key"},
-	 { (char *)"tree_edge_length_set", _wrap_tree_edge_length_set, METH_VARARGS, (char *)"tree_edge_length_set(tree_edge self, int length)"},
-	 { (char *)"tree_edge_length_get", (PyCFunction)_wrap_tree_edge_length_get, METH_O, (char *)"tree_edge_length_get(tree_edge self) -> int"},
-	 { (char *)"tree_edge_number_of_offspring_set", _wrap_tree_edge_number_of_offspring_set, METH_VARARGS, (char *)"tree_edge_number_of_offspring_set(tree_edge self, int number_of_offspring)"},
-	 { (char *)"tree_edge_number_of_offspring_get", (PyCFunction)_wrap_tree_edge_number_of_offspring_get, METH_O, (char *)"tree_edge_number_of_offspring_get(tree_edge self) -> int"},
+	 { (char *)"tree_edge_parent_node_set", _wrap_tree_edge_parent_node_set, METH_VARARGS, (char *)"Parent tree key"},
+	 { (char *)"tree_edge_parent_node_get", (PyCFunction)_wrap_tree_edge_parent_node_get, METH_O, (char *)"Parent tree key"},
+	 { (char *)"tree_edge_own_key_set", _wrap_tree_edge_own_key_set, METH_VARARGS, (char *)"Own tree key"},
+	 { (char *)"tree_edge_own_key_get", (PyCFunction)_wrap_tree_edge_own_key_get, METH_O, (char *)"Own tree key"},
+	 { (char *)"tree_edge_length_set", _wrap_tree_edge_length_set, METH_VARARGS, (char *)"Edge length [in generations]"},
+	 { (char *)"tree_edge_length_get", (PyCFunction)_wrap_tree_edge_length_get, METH_O, (char *)"Edge length [in generations]"},
+	 { (char *)"tree_edge_number_of_offspring_set", _wrap_tree_edge_number_of_offspring_set, METH_VARARGS, (char *)"Number of offspring"},
+	 { (char *)"tree_edge_number_of_offspring_get", (PyCFunction)_wrap_tree_edge_number_of_offspring_get, METH_O, (char *)"Number of offspring"},
 	 { (char *)"tree_edge___str__", (PyCFunction)_wrap_tree_edge___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"tree_edge___repr__", (PyCFunction)_wrap_tree_edge___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
 	 { (char *)"tree_edge__get_segment_chunk", (PyCFunction) _wrap_tree_edge__get_segment_chunk, METH_VARARGS | METH_KEYWORDS, (char *)"tree_edge__get_segment_chunk(tree_edge self, int i) -> int"},
@@ -30736,8 +30736,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"polymorphism_birth_get", (PyCFunction)_wrap_polymorphism_birth_get, METH_O, (char *)"Birth generation"},
 	 { (char *)"polymorphism_sweep_time_set", _wrap_polymorphism_sweep_time_set, METH_VARARGS, (char *)"Sweep time [in generations]"},
 	 { (char *)"polymorphism_sweep_time_get", (PyCFunction)_wrap_polymorphism_sweep_time_get, METH_O, (char *)"Sweep time [in generations]"},
-	 { (char *)"polymorphism_effect_set", _wrap_polymorphism_effect_set, METH_VARARGS, (char *)"polymorphism_effect_set(polymorphism self, double effect)"},
-	 { (char *)"polymorphism_effect_get", (PyCFunction)_wrap_polymorphism_effect_get, METH_O, (char *)"polymorphism_effect_get(polymorphism self) -> double"},
+	 { (char *)"polymorphism_effect_set", _wrap_polymorphism_effect_set, METH_VARARGS, (char *)"Fitness effect of the mutation"},
+	 { (char *)"polymorphism_effect_get", (PyCFunction)_wrap_polymorphism_effect_get, METH_O, (char *)"Fitness effect of the mutation"},
 	 { (char *)"polymorphism_fitness_set", _wrap_polymorphism_fitness_set, METH_VARARGS, (char *)"Relative fitness of the clone at birth"},
 	 { (char *)"polymorphism_fitness_get", (PyCFunction)_wrap_polymorphism_fitness_get, METH_O, (char *)"Relative fitness of the clone at birth"},
 	 { (char *)"polymorphism_fitness_variance_set", _wrap_polymorphism_fitness_variance_set, METH_VARARGS, (char *)"Fitness variance of the population at birth"},
@@ -30785,14 +30785,35 @@ static PyMethodDef SwigMethods[] = {
 		"Recalculate the weight of some internal nodes.\n"
 		"\n"
 		"Parameters:\n"
-		"   - subtree_root: the node whose hanging subtree is recalculated\n"
+		"   - subtree_root: the tree_key of the node whose hanging subtree is recalculated\n"
 		"\n"
 		"Returns:\n"
 		"   - error code: zero if successful\n"
 		"\n"
 		""},
-	 { (char *)"rooted_tree_print_newick", (PyCFunction)_wrap_rooted_tree_print_newick, METH_O, (char *)"rooted_tree_print_newick(rooted_tree self) -> std::string"},
-	 { (char *)"rooted_tree_subtree_newick", (PyCFunction) _wrap_rooted_tree_subtree_newick, METH_VARARGS | METH_KEYWORDS, (char *)"rooted_tree_subtree_newick(rooted_tree self, tree_key root) -> std::string"},
+	 { (char *)"rooted_tree_print_newick", (PyCFunction)_wrap_rooted_tree_print_newick, METH_O, (char *)"\n"
+		"Print the tree in Newick format.\n"
+		"\n"
+		"Returns:\n"
+		"   - tree: string of the tree in Newick format.\n"
+		"\n"
+		".. note:: You can pipe the output of this function to a cStingIO.StringIO\n"
+		"          for further manipulations.\n"
+		"\n"
+		""},
+	 { (char *)"rooted_tree_subtree_newick", (PyCFunction) _wrap_rooted_tree_subtree_newick, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"Print a subtree in Newick format.\n"
+		"\n"
+		"Parameters:\n"
+		"   - subtree_root: tree_key of the root of the subtree to print\n"
+		"\n"
+		"Returns:\n"
+		"   - subtree: string of the subtree in Newick format.\n"
+		"\n"
+		".. note:: You can pipe the output of this function to a cStingIO.StringIO\n"
+		"          for further manipulations.\n"
+		"\n"
+		""},
 	 { (char *)"rooted_tree_print_weight_distribution", (PyCFunction) _wrap_rooted_tree_print_weight_distribution, METH_VARARGS | METH_KEYWORDS, (char *)"rooted_tree_print_weight_distribution(rooted_tree self, tree_key node_key) -> std::string"},
 	 { (char *)"rooted_tree___str__", (PyCFunction)_wrap_rooted_tree___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"rooted_tree___repr__", (PyCFunction)_wrap_rooted_tree___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
@@ -30823,7 +30844,7 @@ static PyMethodDef SwigMethods[] = {
 		"\n"
 		""},
 	 { (char *)"multi_locus_genealogy_reset", (PyCFunction)_wrap_multi_locus_genealogy_reset, METH_O, (char *)"Reset (empty) the genealogy."},
-	 { (char *)"multi_locus_genealogy_reset_but_loci", (PyCFunction)_wrap_multi_locus_genealogy_reset_but_loci, METH_O, (char *)"multi_locus_genealogy_reset_but_loci(multi_locus_genealogy self)"},
+	 { (char *)"multi_locus_genealogy_reset_but_loci", (PyCFunction)_wrap_multi_locus_genealogy_reset_but_loci, METH_O, (char *)"Reset (empty) the genealogy but keep the loci indices."},
 	 { (char *)"multi_locus_genealogy___str__", (PyCFunction)_wrap_multi_locus_genealogy___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"multi_locus_genealogy___repr__", (PyCFunction)_wrap_multi_locus_genealogy___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
 	 { (char *)"multi_locus_genealogy__get_number_of_loci", (PyCFunction)_wrap_multi_locus_genealogy__get_number_of_loci, METH_O, (char *)"multi_locus_genealogy__get_number_of_loci(multi_locus_genealogy self) -> int"},

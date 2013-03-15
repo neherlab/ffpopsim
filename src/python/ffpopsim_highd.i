@@ -108,7 +108,7 @@ const char* __repr__() {
 /* read/write attributes */
 %feature("autodoc", "Birth generation") birth;
 %feature("autodoc", "Sweep time [in generations]") sweep_time;
-%feature("autodoc", "Fitness effect of the mutation") fitness;
+%feature("autodoc", "Fitness effect of the mutation") effect;
 %feature("autodoc", "Relative fitness of the clone at birth") fitness;
 %feature("autodoc", "Fitness variance of the population at birth") fitness_variance;
 
@@ -144,6 +144,10 @@ Parameters:
    - age: age of the key
 ") tree_key_t;
 
+/* read/write attributes */
+%feature("autodoc", "Index of the key") index;
+%feature("autodoc", "Age [in generations]") age;
+
 } /* extend tree_key_t */
 
 /*****************************************************************************/
@@ -175,6 +179,10 @@ Parameters:
    - pos: position
    - step: length of step
 ") step_t;
+
+/* read/write attributes */
+%feature("autodoc", "Position") pos;
+%feature("autodoc", "Step [in generations]") step;
 
 } /* extend step_t */
 
@@ -237,6 +245,13 @@ def weight_distribution(self, distr):
     self._weight_distribution = vector_tree_step(distr)
 }
 
+/* read/write attributes */
+%feature("autodoc", "Parent tree key") parent_node;
+%feature("autodoc", "Own tree key") own_key;
+%feature("autodoc", "Number of offspring") number_of_offspring;
+%feature("autodoc", "Fitness  of the clone represented by the node") fitness;
+%feature("autodoc", "Size of the clone represented by the node") clone_size;
+
 } /* extend node_t */
 
 /*****************************************************************************/
@@ -269,6 +284,12 @@ def segment(self):
     '''Segment of edge'''
     return [self._get_segment_chunk(i) for i in xrange(2)]
 }
+
+/* read/write attributes */
+%feature("autodoc", "Parent tree key") parent_node;
+%feature("autodoc", "Own tree key") own_key;
+%feature("autodoc", "Number of offspring") number_of_offspring;
+%feature("autodoc", "Edge length [in generations]") length;
 
 } /* extend edge_t */
 
@@ -337,7 +358,7 @@ Returns:
 "Recalculate the weight of some internal nodes.
 
 Parameters:
-   - subtree_root: the node whose hanging subtree is recalculated
+   - subtree_root: the tree_key of the node whose hanging subtree is recalculated
 
 Returns:
    - error code: zero if successful
@@ -382,6 +403,29 @@ rooted_tree create_subtree_from_keys(vector <tree_key_t> leaves) {
         $self->construct_subtree(leaves, other);
         return other;
 }
+
+%feature("autodoc",
+"Print the tree in Newick format.
+
+Returns:
+   - tree: string of the tree in Newick format.
+
+.. note:: You can pipe the output of this function to a cStingIO.StringIO
+          for further manipulations.
+") print_newick;
+
+%feature("autodoc",
+"Print a subtree in Newick format.
+
+Parameters:
+   - subtree_root: tree_key of the root of the subtree to print
+
+Returns:
+   - subtree: string of the subtree in Newick format.
+
+.. note:: You can pipe the output of this function to a cStingIO.StringIO
+          for further manipulations.
+") subtree_newick;
 
 /* cloak edges with a Pythonic flavour */
 %rename (_edges) edges;
@@ -480,6 +524,7 @@ Parameters:
 .. note:: the locus gets appended to the 'loci' array.
 ") track_locus;
 %feature("autodoc", "Reset (empty) the genealogy.") reset;
+%feature("autodoc", "Reset (empty) the genealogy but keep the loci indices.") reset_but_loci;
 
 /* loci */
 %ignore loci;

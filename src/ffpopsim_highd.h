@@ -261,9 +261,9 @@ struct step_t {
 
 struct node_t {
 	tree_key_t parent_node;
+	tree_key_t own_key;
 	list < tree_key_t > child_edges;
 	double fitness;
-	tree_key_t own_key;
 	vector <step_t> weight_distribution;
 	int number_of_offspring;
 	int clone_size;

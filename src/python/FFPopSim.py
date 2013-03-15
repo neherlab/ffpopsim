@@ -1599,9 +1599,9 @@ class tree_node(object):
     """Node of a phylogenetic tree"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     parent_node = _swig_property(_FFPopSim.tree_node_parent_node_get, _FFPopSim.tree_node_parent_node_set)
+    own_key = _swig_property(_FFPopSim.tree_node_own_key_get, _FFPopSim.tree_node_own_key_set)
     _child_edges = _swig_property(_FFPopSim.tree_node__child_edges_get, _FFPopSim.tree_node__child_edges_set)
     fitness = _swig_property(_FFPopSim.tree_node_fitness_get, _FFPopSim.tree_node_fitness_set)
-    own_key = _swig_property(_FFPopSim.tree_node_own_key_get, _FFPopSim.tree_node_own_key_set)
     _weight_distribution = _swig_property(_FFPopSim.tree_node__weight_distribution_get, _FFPopSim.tree_node__weight_distribution_set)
     number_of_offspring = _swig_property(_FFPopSim.tree_node_number_of_offspring_get, _FFPopSim.tree_node_number_of_offspring_set)
     clone_size = _swig_property(_FFPopSim.tree_node_clone_size_get, _FFPopSim.tree_node_clone_size_set)
@@ -1761,7 +1761,7 @@ class rooted_tree(object):
         Recalculate the weight of some internal nodes.
 
         Parameters:
-           - subtree_root: the node whose hanging subtree is recalculated
+           - subtree_root: the tree_key of the node whose hanging subtree is recalculated
 
         Returns:
            - error code: zero if successful
@@ -1770,11 +1770,32 @@ class rooted_tree(object):
         return _FFPopSim.rooted_tree_calc_weight_distribution(self, *args, **kwargs)
 
     def print_newick(self):
-        """print_newick(rooted_tree self) -> std::string"""
+        """
+        Print the tree in Newick format.
+
+        Returns:
+           - tree: string of the tree in Newick format.
+
+        .. note:: You can pipe the output of this function to a cStingIO.StringIO
+                  for further manipulations.
+
+        """
         return _FFPopSim.rooted_tree_print_newick(self)
 
     def subtree_newick(self, *args, **kwargs):
-        """subtree_newick(rooted_tree self, tree_key root) -> std::string"""
+        """
+        Print a subtree in Newick format.
+
+        Parameters:
+           - subtree_root: tree_key of the root of the subtree to print
+
+        Returns:
+           - subtree: string of the subtree in Newick format.
+
+        .. note:: You can pipe the output of this function to a cStingIO.StringIO
+                  for further manipulations.
+
+        """
         return _FFPopSim.rooted_tree_subtree_newick(self, *args, **kwargs)
 
     def print_weight_distribution(self, *args, **kwargs):
@@ -1901,7 +1922,7 @@ class multi_locus_genealogy(object):
         return _FFPopSim.multi_locus_genealogy_reset(self)
 
     def reset_but_loci(self):
-        """reset_but_loci(multi_locus_genealogy self)"""
+        """Reset (empty) the genealogy but keep the loci indices."""
         return _FFPopSim.multi_locus_genealogy_reset_but_loci(self)
 
     def __str__(self):
