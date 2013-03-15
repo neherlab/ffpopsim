@@ -1541,6 +1541,10 @@ class tree_key(object):
         """x.__repr__() <==> repr(x)"""
         return _FFPopSim.tree_key___repr__(self)
 
+    def __hash__(self):
+        """__hash__(tree_key self) -> int const"""
+        return _FFPopSim.tree_key___hash__(self)
+
     __swig_destroy__ = _FFPopSim.delete_tree_key
 tree_key.__eq__ = new_instancemethod(_FFPopSim.tree_key___eq__,None,tree_key)
 tree_key.__ne__ = new_instancemethod(_FFPopSim.tree_key___ne__,None,tree_key)
@@ -1548,6 +1552,7 @@ tree_key.__lt__ = new_instancemethod(_FFPopSim.tree_key___lt__,None,tree_key)
 tree_key.__gt__ = new_instancemethod(_FFPopSim.tree_key___gt__,None,tree_key)
 tree_key.__str__ = new_instancemethod(_FFPopSim.tree_key___str__,None,tree_key)
 tree_key.__repr__ = new_instancemethod(_FFPopSim.tree_key___repr__,None,tree_key)
+tree_key.__hash__ = new_instancemethod(_FFPopSim.tree_key___hash__,None,tree_key)
 tree_key_swigregister = _FFPopSim.tree_key_swigregister
 tree_key_swigregister(tree_key)
 

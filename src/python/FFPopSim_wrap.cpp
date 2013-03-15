@@ -6449,6 +6449,9 @@ SWIGINTERN char const *tree_key_t___repr__(tree_key_t *self){
         sprintf(buffer,"tree_key(%d, %d)", (int)(self->index), (int)(self->age));
         return &buffer[0];
 }
+SWIGINTERN int const tree_key_t___hash__(tree_key_t *self){
+        return (self->index) * RT_VERYLARGE + (self->age);
+}
 SWIGINTERN char const *step_t___str__(step_t *self){
         static char buffer[255];
         sprintf(buffer,"tree_step: pos = %d, step = %d", (int)(self->pos), (int)(self->step));
@@ -24179,6 +24182,29 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tree_key___hash__(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tree_key_t *arg1 = (tree_key_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_tree_key_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tree_key___hash__" "', argument " "1"" of type '" "tree_key_t *""'"); 
+  }
+  arg1 = reinterpret_cast< tree_key_t * >(argp1);
+  result = (int)tree_key_t___hash__(arg1);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_tree_key(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tree_key_t *arg1 = (tree_key_t *) 0 ;
@@ -30673,6 +30699,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"tree_key___str__", (PyCFunction)_wrap_tree_key___str__, METH_O, (char *)"x.__str__() <==> str(x)"},
 	 { (char *)"tree_key___repr__", (PyCFunction)_wrap_tree_key___repr__, METH_O, (char *)"x.__repr__() <==> repr(x)"},
+	 { (char *)"tree_key___hash__", (PyCFunction)_wrap_tree_key___hash__, METH_O, (char *)"tree_key___hash__(tree_key self) -> int const"},
 	 { (char *)"delete_tree_key", (PyCFunction)_wrap_delete_tree_key, METH_O, (char *)"delete_tree_key(tree_key self)"},
 	 { (char *)"tree_key_swigregister", tree_key_swigregister, METH_VARARGS, NULL},
 	 { (char *)"tree_key_swiginit", tree_key_swiginit, METH_VARARGS, NULL},

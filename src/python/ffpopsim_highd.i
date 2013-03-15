@@ -144,6 +144,11 @@ Parameters:
    - age: age of the key
 ") tree_key_t;
 
+/* __hash__ needs to be overloaded if __eq__ has been so to be used as a dict key */
+const int __hash__() {
+        return ($self->index) * RT_VERYLARGE + ($self->age);
+}
+
 /* read/write attributes */
 %feature("autodoc", "Index of the key") index;
 %feature("autodoc", "Age [in generations]") age;
