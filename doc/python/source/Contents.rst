@@ -17,7 +17,14 @@ Simulations in :mod:`FFPopSim` are centered around population classes. These met
    haploid_highd_categories
    hivpopulation_categories
 
-The genealogies at individual loci can be tracked within :class:`haploid_highd`, using :class:`multi_locus_genealogy`. Internally, this class itself contains instances of :class:`rooted_tree`. See :class:`haploid_highd`, the examples, or the reference pages below for more information on genealogy tracking.
+Genealogies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+:mod:`FFPopSim` can genealogies at individual loci within :class:`haploid_highd`, using :class:`multi_locus_genealogy`. Internally, this class itself contains instances of :class:`rooted_tree`.
+
+The documentation for the genealogy tracking capability is divided in two parts:
+
+* see the `website <http://webdav.tuebingen.mpg.de/interference/>`_ of our review for examples and scripts;
+* see :class:`haploid_highd` or the reference pages below for details on specific functions.
 
 Reference Pages
 ^^^^^^^^^^^^^^^
