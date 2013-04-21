@@ -422,6 +422,7 @@ public:
 
 	// initialization
 	int set_allele_frequencies(double* frequencies, unsigned long N);
+	int set_genotypes_and_ancestral_state(vector <genotype_value_pair_t> gt, vector <int> anc_state);
 	int set_genotypes(vector <genotype_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
 	int track_locus_genealogy(vector <int> loci);
@@ -469,6 +470,7 @@ public:
 	// allele frequencies
 	double get_allele_frequency(int l) {if (!allele_frequencies_up_to_date){calc_allele_freqs();} return allele_frequencies[l];}
 	double get_derived_allele_frequency(int l) {if (ancestral_state[l]) {return 1.0-get_allele_frequency(l);} else {return get_allele_frequency(l);}}
+	bool get_ancestral_state(int l) {return ancestral_state[l];}
 
 	double get_pair_frequency(int locus1, int locus2);
 	vector <double> get_pair_frequencies(vector < vector <int> > *loci);

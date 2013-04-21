@@ -1001,6 +1001,73 @@ int set_genotypes(int len1, double* genotypes, int len2, double* counts) {
 %clear (int len1, double* genotypes);
 %clear (int len2, double* counts);
 
+
+/* set genotypes with ancestral state*/
+%ignore set_genotypes(vector <genotype_value_pair_t> gt, vector <int> anc_state);
+%feature("autodoc",
+"Initialize population with fixed counts for specific genotypes.
+
+Parameters:
+   - genotypes: list of genotypes to set. Genotypes are lists of alleles,
+     e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
+   - counts: list of the number at which each of those genotypes it to be present
+   - ancestral state of the sample, a vector of 0 and 1
+.. note:: the population size and, if unset, the carrying capacity will be set
+          as the sum of the counts.
+
+**Example**: if you want to initialize 200 individuals with genotype 001 and
+             300 individuals with genotype 110, you can use
+             ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``
+") set_genotypes_and_ancestral_state;
+%pythonprepend set_genotypes_and_ancestral_state {
+if len(args) and (len(args) >= 3):
+    genotypes = args[0]
+    counts = args[1]
+    anc_state = args[2]
+    genotypes = _np.array(genotypes, float, copy=False, ndmin=2)
+    counts = _np.asarray(counts, float)
+    anc_state = _np.asarray(anc_state, float)
+    if len(genotypes) != len(counts):
+        raise ValueError('Genotypes and counts must have the same length')
+    if (len(anc_state) != self.L):
+        raise ValueError('Ancestral state vector must have length L')
+    args = tuple([genotypes.ravel(), counts] + list(args[2:]))
+}
+%exception set_genotypes_and_ancestral_state {
+  $action
+  if (result) {
+     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
+     SWIG_fail;
+  }
+}
+%pythonappend set_genotypes {
+self._nonempty_clones = _np.array(self._get_nonempty_clones())
+return None
+}
+%apply (int DIM1, double* IN_ARRAY1) {(int len1, double* genotypes), (int len2, double* counts), (int len3, double* anc_state)};
+int set_genotypes_and_ancestral_state(int len1, double* genotypes, int len2, double* counts, int len3, double* anc_state) {
+        /* We use a flattened array */
+        len1 /= len2;
+        vector<genotype_value_pair_t> gt;
+        genotype_value_pair_t temp;
+        for(size_t i = 0; i != (size_t)len2; i++) {
+                temp.genotype = boost::dynamic_bitset<>(len1);
+                for(size_t j=0; j < (size_t)len1; j++)
+                        temp.genotype[j] = (bool)genotypes[i * len1 + j];
+                temp.val = counts[i];
+                gt.push_back(temp);
+        }
+		vector <int> ancestral_state($self->L(), 0);
+		for (size_t locus=0; locus<len3; locus++){
+		  ancestral_state[locus]=(anc_state[locus]<0.5)?0:1;
+		}
+        return $self->set_genotypes_and_ancestral_state(gt, ancestral_state);
+}
+%clear (int len1, double* genotypes);
+%clear (int len2, double* counts);
+%clear (int len3, double* anc_state);
+
+
 /* evolve */
 %feature("autodoc",
 "Evolve for some generations.
@@ -1172,6 +1239,17 @@ Parameters:
 Returns:
    - frequency: allele frequency in the population
 ") get_derived_allele_frequency;
+
+/* get ancestral state of all loci */
+%feature("autodoc", "Get ancestral state of all loci") get_ancestral_states;
+%pythonprepend get_ancestral_states {
+args = tuple(list(args) + [self.L])
+}
+void get_ancestral_states(double* ARGOUT_ARRAY1, int DIM1) {
+  for(size_t i=0; i < (size_t)$self->get_number_of_loci(); i++)
+	ARGOUT_ARRAY1[i] = $self->get_ancestral_state(i);
+}
+
 
 %feature("autodoc",
 "Get the joint frequency of two + alleles
