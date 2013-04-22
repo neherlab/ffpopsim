@@ -842,6 +842,56 @@ void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
 trait_weights = property(_get_trait_weights, _set_trait_weights)
 }
 
+/* dump to file */
+%pythoncode{
+def dump(self, filename, format='bz2'):
+    '''Dump a population to binary file, for later use.
+
+    Parameters:
+       - filename: the path to the file where to store the information
+       - format: one of 'bz2' or 'plain'. Choose the former if you want compression.
+
+    .. note:: epistasis not supported yet.'''
+    try:
+        import cPickle as pickle
+    except:
+        import pickle
+
+    pop_dict = {}
+    pop_dict['genotypes'] = self.get_genotypes()
+    pop_dict['N'] = self.carrying_capacity
+    pop_dict['L'] = self.L
+    pop_dict['mu'] = self.mutation_rate
+    pop_dict['crossover_rate'] = self.crossover_rate
+    pop_dict['outcrossing_rate'] = self.outcrossing_rate
+    pop_dict['circular'] = self.circular
+    pop_dict['clone_sizes'] = self.get_clone_sizes()
+    pop_dict['recombination_model'] = self.recombination_model
+    pop_dict['traits_additive'] = [self.get_trait_additive(i) for i in range(self.number_of_traits)]
+    pop_dict['traits_epistasis'] = [self.get_trait_epistasis(i) for i in range(self.number_of_traits)]
+    pop_dict['all_polymorphic']  = self.all_polymorphic
+    pop_dict['ancestral'] = self.get_ancestral_states()
+    pop_dict['trait_weights'] = self.trait_weights
+
+    
+    with open(filename, 'wb') as f:
+        dump = pickle.dumps(pop_dict, pickle.HIGHEST_PROTOCOL)
+
+        # Try to compress if the user wishes so
+        try:
+            if format == 'bz2':
+                import bz2
+                dump = dump.encode('bz2')
+        # Fallback on uncompressed
+        except:
+            import warnings
+            warnings.warn('compression module ('+format+') not found. Defaulting to uncompressed file.')
+            format = 'plain'
+
+        # Dump to file
+        f.write(dump)
+}
+
 /* copy */
 %pythoncode{
 def copy(self, rng_seed=0):
@@ -1909,4 +1959,50 @@ const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
   return (const bool) h->is_all_polymorphic();
 }
 %}
+
+/* load haploid_highd from file */
+%pythoncode{
+def load_haploid_highd(filename, gen_loci=[]):
+    '''loads a population from a compressed pickle file and restores all parameters'''
+    try:
+        import cPickle as pickle
+    except:
+        import pickle
+
+    # Try the compressed format first
+    try:
+        import bz2
+        with bz2.BZ2File(filename, 'rb') as f:
+            pop_dict = pickle.load(f)
+    # Fallback on uncompressed
+    except:
+        with open(filename, 'rb') as f:
+            pop_dict = pickle.load(f)
+        
+
+    pop = haploid_highd(pop_dict['L'],
+                        all_polymorphic=pop_dict['all_polymorphic'],
+                        number_of_traits=len(pop_dict['traits_additive']))
+    pop.carrying_capacity = pop_dict['N']
+    if pop.all_polymorphic == False:
+        pop.mutation_rate = pop_dict['mu']
+    pop.crossover_rate = pop_dict['crossover_rate']
+    pop.outcrossing_rate = pop_dict['outcrossing_rate']
+    pop.circular = pop_dict['circular']
+
+    pop.recombination_model = pop_dict['recombination_model']
+    for i in range(pop.number_of_traits):
+        pop.set_trait_additive(pop_dict['traits_additive'][i], i)
+        for (value, loci) in pop_dict['traits_epistasis'][i]:
+            pop.add_trait_coefficient(value, loci, i)
+    
+    pop.trait_weights=pop_dict['trait_weights']
+    if len(gen_loci) > 0:
+        pop.track_locus_genealogy(gen_loci)
+    pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
+                                          pop_dict['clone_sizes'], 
+                                          pop_dict['ancestral'])
+    
+    return pop
+}
 /*****************************************************************************/
