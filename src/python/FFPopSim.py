@@ -1460,7 +1460,8 @@ def load_haploid_highd(filename, gen_loci=[]):
             pop.add_trait_coefficient(value, loci, i)
     
     pop.trait_weights=pop_dict['trait_weights']
-    if len(gen_loci)>0: pop.track_locus_genealogy(gen_loci)
+    if len(gen_loci) > 0:
+        pop.track_locus_genealogy(gen_loci)
     pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
                                           pop_dict['clone_sizes'], 
                                           pop_dict['ancestral'])
@@ -1544,6 +1545,10 @@ RT_VERBOSE = _FFPopSim.RT_VERBOSE
 RT_VERYLARGE = _FFPopSim.RT_VERYLARGE
 RT_CHILDNOTFOUND = _FFPopSim.RT_CHILDNOTFOUND
 RT_NODENOTFOUND = _FFPopSim.RT_NODENOTFOUND
+RT_FITNESS_MISSING = _FFPopSim.RT_FITNESS_MISSING
+RT_CROSSOVER_MISSING = _FFPopSim.RT_CROSSOVER_MISSING
+RT_SEGMENT_MISSING = _FFPopSim.RT_SEGMENT_MISSING
+RT_ERROR_PARSING = _FFPopSim.RT_ERROR_PARSING
 class tree_key(object):
     """Key for a phylogenetic tree, with index and age."""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -1854,6 +1859,16 @@ class rooted_tree(object):
         """print_weight_distribution(rooted_tree self, tree_key node_key) -> std::string"""
         return _FFPopSim.rooted_tree_print_weight_distribution(self, *args, **kwargs)
 
+    def read_newick(self, *args, **kwargs):
+        """
+        Read from Newick string.
+
+        Returns:
+           - zero if successful, nonzero otherwise.
+
+        """
+        return _FFPopSim.rooted_tree_read_newick(self, *args, **kwargs)
+
     def __str__(self):
         """x.__str__() <==> str(x)"""
         return _FFPopSim.rooted_tree___str__(self)
@@ -1943,6 +1958,7 @@ rooted_tree.calc_weight_distribution = new_instancemethod(_FFPopSim.rooted_tree_
 rooted_tree.print_newick = new_instancemethod(_FFPopSim.rooted_tree_print_newick,None,rooted_tree)
 rooted_tree.subtree_newick = new_instancemethod(_FFPopSim.rooted_tree_subtree_newick,None,rooted_tree)
 rooted_tree.print_weight_distribution = new_instancemethod(_FFPopSim.rooted_tree_print_weight_distribution,None,rooted_tree)
+rooted_tree.read_newick = new_instancemethod(_FFPopSim.rooted_tree_read_newick,None,rooted_tree)
 rooted_tree.__str__ = new_instancemethod(_FFPopSim.rooted_tree___str__,None,rooted_tree)
 rooted_tree.__repr__ = new_instancemethod(_FFPopSim.rooted_tree___repr__,None,rooted_tree)
 rooted_tree._ancestors_at_age = new_instancemethod(_FFPopSim.rooted_tree__ancestors_at_age,None,rooted_tree)

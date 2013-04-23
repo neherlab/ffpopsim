@@ -437,6 +437,14 @@ Returns:
           for further manipulations.
 ") subtree_newick;
 
+%feature("autodoc",
+"Read from Newick string.
+
+Returns:
+   - zero if successful, nonzero otherwise.
+") read_newick;
+
+
 /* cloak edges with a Pythonic flavour */
 %rename (_edges) edges;
 %pythoncode {

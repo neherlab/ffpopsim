@@ -211,6 +211,10 @@ struct clone_t {
 #define RT_VERYLARGE 10000000
 #define RT_CHILDNOTFOUND -35343
 #define RT_NODENOTFOUND -35765
+#define RT_FITNESS_MISSING -35722
+#define RT_CROSSOVER_MISSING -35721
+#define RT_SEGMENT_MISSING -35720
+#define RT_ERROR_PARSING 1
 
 #include <map>
 #include <set>
@@ -323,10 +327,14 @@ public:
 	string print_newick();
 	string subtree_newick(tree_key_t root);
 	string print_weight_distribution(tree_key_t node_key);
+	int read_newick(string newick_string);
 
         // construct subtrees
 	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
 
+private:
+	static int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
+	int parse_subtree(tree_key_t &parent_key, std::string &tree_s);
 
 };
 
