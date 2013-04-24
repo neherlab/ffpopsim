@@ -852,14 +852,15 @@ trait_weights = property(_get_trait_weights, _set_trait_weights)
 
 /* dump to file */
 %pythoncode{
-def dump(self, filename, format='bz2'):
+def dump(self, filename, format='bz2', include_genealogy=False):
     '''Dump a population to binary file, for later use.
 
     Parameters:
        - filename: the path to the file where to store the information
        - format: one of 'bz2' or 'plain'. Choose the former if you want compression.
+       - include_genealogy: if True, the multi_locus_genealogy is stored as well (if present).
+    '''
 
-    .. note:: epistasis not supported yet.'''
     try:
         import cPickle as pickle
     except:
@@ -881,6 +882,10 @@ def dump(self, filename, format='bz2'):
     pop_dict['ancestral'] = self.get_ancestral_states()
     pop_dict['trait_weights'] = self.trait_weights
 
+    # Genealogy
+    if include_genealogy and len(self.genealogy.loci):
+        pop_dict['trees'] = {locus: self.genealogy.get_tree(locus).print_newick() for locus in self.genealogy.loci}
+        pop_dict['_nonempty_clones'] = self._nonempty_clones
     
     with open(filename, 'wb') as f:
         dump = pickle.dumps(pop_dict, pickle.HIGHEST_PROTOCOL)
@@ -1061,7 +1066,7 @@ int set_genotypes(int len1, double* genotypes, int len2, double* counts) {
 
 
 /* set genotypes with ancestral state*/
-%ignore set_genotypes(vector <genotype_value_pair_t> gt, vector <int> anc_state);
+%ignore set_genotypes_and_ancestral_state(vector <genotype_value_pair_t> gt, vector <int> anc_state);
 %feature("autodoc",
 "Initialize population with fixed counts for specific genotypes.
 
@@ -1098,7 +1103,7 @@ if len(args) and (len(args) >= 3):
      SWIG_fail;
   }
 }
-%pythonappend set_genotypes {
+%pythonappend set_genotypes_and_ancestral_state {
 self._nonempty_clones = _np.array(self._get_nonempty_clones())
 return None
 }
@@ -1115,10 +1120,10 @@ int set_genotypes_and_ancestral_state(int len1, double* genotypes, int len2, dou
                 temp.val = counts[i];
                 gt.push_back(temp);
         }
-		vector <int> ancestral_state($self->L(), 0);
-		for (size_t locus=0; locus<len3; locus++){
-		  ancestral_state[locus]=(anc_state[locus]<0.5)?0:1;
-		}
+                vector <int> ancestral_state($self->L(), 0);
+                for (size_t locus=0; locus<len3; locus++){
+                  ancestral_state[locus]=(anc_state[locus]<0.5)?0:1;
+                }
         return $self->set_genotypes_and_ancestral_state(gt, ancestral_state);
 }
 %clear (int len1, double* genotypes);
@@ -1970,8 +1975,15 @@ const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
 
 /* load haploid_highd from file */
 %pythoncode{
-def load_haploid_highd(filename, gen_loci=[]):
-    '''loads a population from a compressed pickle file and restores all parameters'''
+def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
+    '''Load a population from a compressed pickle file
+
+    Parameters:
+       - filename: the path of the pickle file
+       - gen_loci: start tracking these loci in the population
+       - include_genealogy: load the old genealogy if present
+    '''
+
     try:
         import cPickle as pickle
     except:
@@ -2005,12 +2017,42 @@ def load_haploid_highd(filename, gen_loci=[]):
             pop.add_trait_coefficient(value, loci, i)
     
     pop.trait_weights=pop_dict['trait_weights']
-    if len(gen_loci) > 0:
-        pop.track_locus_genealogy(gen_loci)
-    pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
-                                          pop_dict['clone_sizes'], 
-                                          pop_dict['ancestral'])
+
+    # Load the genealogy and track new loci if wished
+    if include_genealogy and 'trees' in pop_dict:
+        old_loci = pop_dict['trees'].keys()
+    else:
+        old_loci = []
+    all_loci = list(set(list(old_loci) + list(gen_loci)))
+
+    if len(all_loci):
+        pop.track_locus_genealogy(all_loci)
+            
+    # Initialize the population
+    # Note: if the tree is recovered from the past, we insert empty clones to
+    # keep the labels of the leaves 
+    if include_genealogy and 'trees' in pop_dict:
+        for (locus, tree) in pop_dict['trees'].iteritems():
+            pop.genealogy.get_tree(locus).read_newick(tree)
+
+        import numpy as np
+        _nonempty_clones = pop_dict['_nonempty_clones']
+        _maxclone = _nonempty_clones.max()
+        genotypes = np.zeros((_maxclone + 1, pop.L), bool)
+        clone_sizes = np.zeros(_maxclone + 1, int)
+        genotypes[_nonempty_clones] = pop_dict['genotypes']
+        clone_sizes[_nonempty_clones] = pop_dict['clone_sizes']
+
+        pop.set_genotypes_and_ancestral_state(genotypes, 
+                                              clone_sizes, 
+                                              pop_dict['ancestral'])
+
+    else:
+        pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
+                                              pop_dict['clone_sizes'], 
+                                              pop_dict['ancestral'])
     
+
     return pop
 }
 /*****************************************************************************/

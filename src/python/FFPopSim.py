@@ -1425,8 +1425,15 @@ haploid_lowd.set_fitness_additive = new_instancemethod(_FFPopSim.haploid_lowd_se
 haploid_lowd_swigregister = _FFPopSim.haploid_lowd_swigregister
 haploid_lowd_swigregister(haploid_lowd)
 
-def load_haploid_highd(filename, gen_loci=[]):
-    '''loads a population from a compressed pickle file and restores all parameters'''
+def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
+    '''Load a population from a compressed pickle file
+
+    Parameters:
+       - filename: the path of the pickle file
+       - gen_loci: start tracking these loci in the population
+       - include_genealogy: load the old genealogy if present
+    '''
+
     try:
         import cPickle as pickle
     except:
@@ -1460,12 +1467,42 @@ def load_haploid_highd(filename, gen_loci=[]):
             pop.add_trait_coefficient(value, loci, i)
     
     pop.trait_weights=pop_dict['trait_weights']
-    if len(gen_loci) > 0:
-        pop.track_locus_genealogy(gen_loci)
-    pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
-                                          pop_dict['clone_sizes'], 
-                                          pop_dict['ancestral'])
+
     
+    if include_genealogy and 'trees' in pop_dict:
+        old_loci = pop_dict['trees'].keys()
+    else:
+        old_loci = []
+    all_loci = list(set(list(old_loci) + list(gen_loci)))
+
+    if len(all_loci):
+        pop.track_locus_genealogy(all_loci)
+            
+    
+    
+    
+    if include_genealogy and 'trees' in pop_dict:
+        for (locus, tree) in pop_dict['trees'].iteritems():
+            pop.genealogy.get_tree(locus).read_newick(tree)
+
+        import numpy as np
+        _nonempty_clones = pop_dict['_nonempty_clones']
+        _maxclone = _nonempty_clones.max()
+        genotypes = np.zeros((_maxclone + 1, pop.L), bool)
+        clone_sizes = np.zeros(_maxclone + 1, int)
+        genotypes[_nonempty_clones] = pop_dict['genotypes']
+        clone_sizes[_nonempty_clones] = pop_dict['clone_sizes']
+
+        pop.set_genotypes_and_ancestral_state(genotypes, 
+                                              clone_sizes, 
+                                              pop_dict['ancestral'])
+
+    else:
+        pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
+                                              pop_dict['clone_sizes'], 
+                                              pop_dict['ancestral'])
+    
+
     return pop
 
 HCF_MEMERR = _FFPopSim.HCF_MEMERR
@@ -2672,14 +2709,15 @@ class haploid_highd(object):
 
     trait_weights = property(_get_trait_weights, _set_trait_weights)
 
-    def dump(self, filename, format='bz2'):
+    def dump(self, filename, format='bz2', include_genealogy=False):
         '''Dump a population to binary file, for later use.
 
         Parameters:
            - filename: the path to the file where to store the information
            - format: one of 'bz2' or 'plain'. Choose the former if you want compression.
+           - include_genealogy: if True, the multi_locus_genealogy is stored as well (if present).
+        '''
 
-        .. note:: epistasis not supported yet.'''
         try:
             import cPickle as pickle
         except:
@@ -2701,6 +2739,10 @@ class haploid_highd(object):
         pop_dict['ancestral'] = self.get_ancestral_states()
         pop_dict['trait_weights'] = self.trait_weights
 
+        
+        if include_genealogy and len(self.genealogy.loci):
+            pop_dict['trees'] = {locus: self.genealogy.get_tree(locus).print_newick() for locus in self.genealogy.loci}
+            pop_dict['_nonempty_clones'] = self._nonempty_clones
         
         with open(filename, 'wb') as f:
             dump = pickle.dumps(pop_dict, pickle.HIGHEST_PROTOCOL)
@@ -2811,22 +2853,8 @@ class haploid_highd(object):
 
         return val
 
-    def set_genotypes_and_ancestral_state(self, *args):
+    def set_genotypes_and_ancestral_state(self, *args, **kwargs):
         """
-        Initialize population with fixed counts for specific genotypes.
-
-        Parameters:
-           - genotypes: list of genotypes to set. Genotypes are lists of alleles,
-             e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
-           - counts: list of the number at which each of those genotypes it to be present
-           - ancestral state of the sample, a vector of 0 and 1
-        .. note:: the population size and, if unset, the carrying capacity will be set
-                  as the sum of the counts.
-
-        **Example**: if you want to initialize 200 individuals with genotype 001 and
-                     300 individuals with genotype 110, you can use
-                     ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``
-
         Initialize population with fixed counts for specific genotypes.
 
         Parameters:
@@ -2856,7 +2884,12 @@ class haploid_highd(object):
             args = tuple([genotypes.ravel(), counts] + list(args[2:]))
 
 
-        return _FFPopSim.haploid_highd_set_genotypes_and_ancestral_state(self, *args)
+        val = _FFPopSim.haploid_highd_set_genotypes_and_ancestral_state(self, *args, **kwargs)
+        self._nonempty_clones = _np.array(self._get_nonempty_clones())
+        return None
+
+
+        return val
 
     def _get_genealogy(self):
         """

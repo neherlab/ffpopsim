@@ -3001,17 +3001,16 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[32]
 #define SWIGTYPE_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t swig_types[33]
 #define SWIGTYPE_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t swig_types[34]
-#define SWIGTYPE_p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t swig_types[35]
-#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[36]
-#define SWIGTYPE_p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t swig_types[37]
-#define SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t swig_types[38]
-#define SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[39]
-#define SWIGTYPE_p_step_t swig_types[40]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[41]
-#define SWIGTYPE_p_tree_key_t swig_types[42]
-#define SWIGTYPE_p_value_type swig_types[43]
-static swig_type_info *swig_types[45];
-static swig_module_info swig_module = {swig_types, 44, 0, 0, 0, 0};
+#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[35]
+#define SWIGTYPE_p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t swig_types[36]
+#define SWIGTYPE_p_std__vectorT_step_t_std__allocatorT_step_t_t_t swig_types[37]
+#define SWIGTYPE_p_std__vectorT_tree_key_t_std__allocatorT_tree_key_t_t_t swig_types[38]
+#define SWIGTYPE_p_step_t swig_types[39]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[40]
+#define SWIGTYPE_p_tree_key_t swig_types[41]
+#define SWIGTYPE_p_value_type swig_types[42]
+static swig_type_info *swig_types[44];
+static swig_module_info swig_module = {swig_types, 43, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -6732,7 +6731,7 @@ SWIGINTERN int haploid_highd_set_genotypes(haploid_highd *self,int len1,double *
         }
         return self->set_genotypes(gt);
 }
-SWIGINTERN int haploid_highd_set_genotypes_and_ancestral_state__SWIG_1(haploid_highd *self,int len1,double *genotypes,int len2,double *counts,int len3,double *anc_state){
+SWIGINTERN int haploid_highd_set_genotypes_and_ancestral_state(haploid_highd *self,int len1,double *genotypes,int len2,double *counts,int len3,double *anc_state){
         /* We use a flattened array */
         len1 /= len2;
         vector<genotype_value_pair_t> gt;
@@ -6744,10 +6743,10 @@ SWIGINTERN int haploid_highd_set_genotypes_and_ancestral_state__SWIG_1(haploid_h
                 temp.val = counts[i];
                 gt.push_back(temp);
         }
-		vector <int> ancestral_state(self->L(), 0);
-		for (size_t locus=0; locus<len3; locus++){
-		  ancestral_state[locus]=(anc_state[locus]<0.5)?0:1;
-		}
+                vector <int> ancestral_state(self->L(), 0);
+                for (size_t locus=0; locus<len3; locus++){
+                  ancestral_state[locus]=(anc_state[locus]<0.5)?0:1;
+                }
         return self->set_genotypes_and_ancestral_state(gt, ancestral_state);
 }
 SWIGINTERN multi_locus_genealogy haploid_highd__get_genealogy(haploid_highd *self){
@@ -27396,59 +27395,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG_0(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  haploid_highd *arg1 = (haploid_highd *) 0 ;
-  SwigValueWrapper< std::vector< genotype_value_pair_t > > arg2 ;
-  std::vector< int > arg3 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  int result;
-  
-  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_set_genotypes_and_ancestral_state" "', argument " "1"" of type '" "haploid_highd *""'"); 
-  }
-  arg1 = reinterpret_cast< haploid_highd * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "haploid_highd_set_genotypes_and_ancestral_state" "', argument " "2"" of type '" "std::vector< genotype_value_pair_t >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "haploid_highd_set_genotypes_and_ancestral_state" "', argument " "2"" of type '" "std::vector< genotype_value_pair_t >""'");
-    } else {
-      std::vector< genotype_value_pair_t > * temp = reinterpret_cast< std::vector< genotype_value_pair_t > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  {
-    std::vector<int,std::allocator< int > > *ptr = (std::vector<int,std::allocator< int > > *)0;
-    int res = swig::asptr(swig_obj[2], &ptr);
-    if (!SWIG_IsOK(res) || !ptr) {
-      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "haploid_highd_set_genotypes_and_ancestral_state" "', argument " "3"" of type '" "std::vector< int >""'"); 
-    }
-    arg3 = *ptr;
-    if (SWIG_IsNewObj(res)) delete ptr;
-  }
-  {
-    result = (int)(arg1)->set_genotypes_and_ancestral_state(arg2,arg3);
-    if (result) {
-      PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
-      SWIG_fail;
-    }
-  }
-  resultobj = SWIG_From_int(static_cast< int >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_haploid_highd_set_wildtype(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
@@ -29367,7 +29313,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG_1(PyObject *SWIGUNUSEDPARM(self), int nobjs, PyObject **swig_obj) {
+SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   haploid_highd *arg1 = (haploid_highd *) 0 ;
   int arg2 ;
@@ -29384,10 +29330,17 @@ SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG
   int is_new_object4 = 0 ;
   PyArrayObject *array6 = NULL ;
   int is_new_object6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "len1",(char *) "len2",(char *) "len3", NULL 
+  };
   int result;
   
-  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:haploid_highd_set_genotypes_and_ancestral_state",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_haploid_highd, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "haploid_highd_set_genotypes_and_ancestral_state" "', argument " "1"" of type '" "haploid_highd *""'"); 
   }
@@ -29396,7 +29349,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG
     npy_intp size[1] = {
       -1
     };
-    array2 = obj_to_array_contiguous_allow_conversion(swig_obj[1], NPY_DOUBLE,
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, NPY_DOUBLE,
       &is_new_object2);
     if (!array2 || !require_dimensions(array2, 1) ||
       !require_size(array2, size, 1)) SWIG_fail;
@@ -29407,7 +29360,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG
     npy_intp size[1] = {
       -1
     };
-    array4 = obj_to_array_contiguous_allow_conversion(swig_obj[2], NPY_DOUBLE,
+    array4 = obj_to_array_contiguous_allow_conversion(obj2, NPY_DOUBLE,
       &is_new_object4);
     if (!array4 || !require_dimensions(array4, 1) ||
       !require_size(array4, size, 1)) SWIG_fail;
@@ -29418,7 +29371,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG
     npy_intp size[1] = {
       -1
     };
-    array6 = obj_to_array_contiguous_allow_conversion(swig_obj[3], NPY_DOUBLE,
+    array6 = obj_to_array_contiguous_allow_conversion(obj3, NPY_DOUBLE,
       &is_new_object6);
     if (!array6 || !require_dimensions(array6, 1) ||
       !require_size(array6, size, 1)) SWIG_fail;
@@ -29426,7 +29379,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG
     arg7 = (double*) array_data(array6);
   }
   {
-    result = (int)haploid_highd_set_genotypes_and_ancestral_state__SWIG_1(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
+    result = (int)haploid_highd_set_genotypes_and_ancestral_state(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
     if (result) {
       PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
       SWIG_fail;
@@ -29472,118 +29425,6 @@ fail:
     }
   }
   return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_haploid_highd_set_genotypes_and_ancestral_state(PyObject *self, PyObject *args) {
-  int argc;
-  PyObject *argv[5];
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args,"haploid_highd_set_genotypes_and_ancestral_state",0,4,argv))) SWIG_fail;
-  --argc;
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (argc == 3) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_haploid_highd, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        int res = swig::asptr(argv[2], (std::vector<int,std::allocator< int > >**)(0));
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_1:
-    
-    if (argc == 4) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_haploid_highd, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          _v = is_array(argv[1]) || PySequence_Check(argv[1]);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          _v = is_array(argv[2]) || PySequence_Check(argv[2]);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          _v = is_array(argv[3]) || PySequence_Check(argv[3]);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      return _wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG_0(self, argc, argv);
-    case 2:
-      return _wrap_haploid_highd_set_genotypes_and_ancestral_state__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'haploid_highd_set_genotypes_and_ancestral_state'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    haploid_highd::set_genotypes_and_ancestral_state(std::vector< genotype_value_pair_t >,std::vector< int >)\n"
-    "    haploid_highd::set_genotypes_and_ancestral_state(int,double *,int,double *,int,double *)\n");
-  return 0;
 }
 
 
@@ -31744,21 +31585,7 @@ static PyMethodDef SwigMethods[] = {
 		"             ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``\n"
 		"\n"
 		""},
-	 { (char *)"haploid_highd_set_genotypes_and_ancestral_state", _wrap_haploid_highd_set_genotypes_and_ancestral_state, METH_VARARGS, (char *)"\n"
-		"Initialize population with fixed counts for specific genotypes.\n"
-		"\n"
-		"Parameters:\n"
-		"   - genotypes: list of genotypes to set. Genotypes are lists of alleles,\n"
-		"     e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   \n"
-		"   - counts: list of the number at which each of those genotypes it to be present\n"
-		"   - ancestral state of the sample, a vector of 0 and 1\n"
-		".. note:: the population size and, if unset, the carrying capacity will be set\n"
-		"          as the sum of the counts.\n"
-		"\n"
-		"**Example**: if you want to initialize 200 individuals with genotype 001 and\n"
-		"             300 individuals with genotype 110, you can use\n"
-		"             ``set_genotypes([[0,0,1], [1,1,0]], [200, 300])``\n"
-		"\n"
+	 { (char *)"haploid_highd_set_genotypes_and_ancestral_state", (PyCFunction) _wrap_haploid_highd_set_genotypes_and_ancestral_state, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
 		"Initialize population with fixed counts for specific genotypes.\n"
 		"\n"
 		"Parameters:\n"
@@ -31921,7 +31748,6 @@ static swig_type_info _swigt__p_std__lessT_tree_key_t_t = {"_p_std__lessT_tree_k
 static swig_type_info _swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t = {"_p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t", "std::list< tree_key_t,std::allocator< tree_key_t > > *|std::list< tree_key_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t = {"_p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t", "std::map< tree_key_t,edge_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,edge_t > > > *|std::map< tree_key_t,edge_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t = {"_p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t", "std::map< tree_key_t,node_t,std::less< tree_key_t >,std::allocator< std::pair< tree_key_t const,node_t > > > *|std::map< tree_key_t,node_t > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t = {"_p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t", "std::vector< genotype_value_pair_t,std::allocator< genotype_value_pair_t > > *|std::vector< genotype_value_pair_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_int_std__allocatorT_int_t_t = {"_p_std__vectorT_int_std__allocatorT_int_t_t", "std::vector< int,std::allocator< int > > *|std::vector< int > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t = {"_p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t", "std::vector< poly_t,std::allocator< poly_t > > *|std::vector< poly_t > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t = {"_p_std__vectorT_step_t_std__allocatorT_step_t_t_t", "std::vector< step_t,std::allocator< step_t > > *|std::vector< step_t > *", 0, 0, (void*)0, 0};
@@ -31967,7 +31793,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,
   &_swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,
   &_swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,
-  &_swigt__p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t,
   &_swigt__p_std__vectorT_int_std__allocatorT_int_t_t,
   &_swigt__p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t,
   &_swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t,
@@ -32013,7 +31838,6 @@ static swig_cast_info _swigc__p_std__lessT_tree_key_t_t[] = {  {&_swigt__p_std__
 static swig_cast_info _swigc__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t[] = {  {&_swigt__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t[] = {  {&_swigt__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t[] = {  {&_swigt__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t[] = {  {&_swigt__p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_int_std__allocatorT_int_t_t[] = {  {&_swigt__p_std__vectorT_int_std__allocatorT_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t[] = {  {&_swigt__p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_step_t_std__allocatorT_step_t_t_t[] = {  {&_swigt__p_std__vectorT_step_t_std__allocatorT_step_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -32059,7 +31883,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__listT_tree_key_t_std__allocatorT_tree_key_t_t_t,
   _swigc__p_std__mapT_tree_key_t_edge_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_edge_t_t_t_t,
   _swigc__p_std__mapT_tree_key_t_node_t_std__lessT_tree_key_t_t_std__allocatorT_std__pairT_tree_key_t_const_node_t_t_t_t,
-  _swigc__p_std__vectorT_genotype_value_pair_t_std__allocatorT_genotype_value_pair_t_t_t,
   _swigc__p_std__vectorT_int_std__allocatorT_int_t_t,
   _swigc__p_std__vectorT_poly_t_std__allocatorT_poly_t_t_t,
   _swigc__p_std__vectorT_step_t_std__allocatorT_step_t_t_t,
