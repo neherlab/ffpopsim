@@ -235,11 +235,18 @@ def child_edges(self, es):
 /* cloak crossover */
 %ignore crossover;
 int _get_crossover_chunk(int i) {return ($self->crossover)[i];}
+void _set_crossover_chunk(int value, int i) {($self->crossover)[i] = value;}
 %pythoncode {
 @property
 def crossover(self):
     '''Crossover of node'''
     return [self._get_crossover_chunk(i) for i in xrange(2)]
+
+@crossover.setter
+def crossover(self, value):
+    if len(value) != 2:
+        raise ValueError('Crossover is a pair of integers.')
+    [self._set_crossover_chunk(value[i], i) for i in xrange(2)]
 }
 
 /* cloak weight_distribution with a Pythonic flavour */
@@ -328,6 +335,8 @@ const char* __repr__() {
         sprintf(buffer,"<rooted_tree(%u nodes)>", (unsigned int)($self->nodes).size());
         return &buffer[0];
 }
+
+
 
 /* ignore weird stuff */
 %ignore SFS;
@@ -527,7 +536,6 @@ const char* __repr__() {
 }
 
 /* hide weird stuff */
-%ignore newGenerations;
 %ignore add_generation;
 %ignore extend_storage;
 
@@ -583,10 +591,67 @@ rooted_tree get_tree(int locus) {
         vector<int>::iterator index;
         index = std::find(($self->loci).begin(), ($self->loci).end(), locus);
         if(index == ($self->loci).end()) {
-                throw (int)1;
+                throw (int)RT_LOCUSNOTFOUND;
         } else
                 return ($self->trees)[(int)(index - ($self->loci).begin())];
 }
+
+%exception _set_tree {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+void _set_tree(int locus, rooted_tree &tree) {
+        vector<int>::iterator index;
+        index = std::find(($self->loci).begin(), ($self->loci).end(), locus);
+        if(index == ($self->loci).end()) {
+                throw (int)RT_LOCUSNOTFOUND;
+        } else
+                ($self->trees)[(int)(index - ($self->loci).begin())] = tree;
+}
+
+/* we need newGenerations for the tree reconstruction */
+%ignore newGenerations;
+%exception _get_newGeneration {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+vector <node_t> _get_newGeneration(int locus) {
+        int i = 0;
+        for(vector< vector<node_t> >::iterator it=$self->newGenerations.begin(); it != $self->newGenerations.end(); it++, i++) {
+                if ($self->loci[i] == locus) {
+                        return $self->newGenerations[i];
+                }
+        }
+        throw (int)RT_LOCUSNOTFOUND;
+}
+
+%exception _set_newGeneration {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+void _set_newGeneration(int locus, vector<node_t> newGeneration) {
+        int i = 0;
+        for(vector< vector<node_t> >::iterator it=$self->newGenerations.begin(); it != $self->newGenerations.end(); it++, i++) {
+                if (($self->loci)[i] == locus) {
+                        ($self->newGenerations)[i] = newGeneration;
+                        return;
+                }
+        }
+        throw (int)RT_LOCUSNOTFOUND;
+}
+
 
 } /* extend multi_locus_genealogy */
 
@@ -874,6 +939,7 @@ def dump(self, filename, format='bz2', include_genealogy=False):
     pop_dict['crossover_rate'] = self.crossover_rate
     pop_dict['outcrossing_rate'] = self.outcrossing_rate
     pop_dict['circular'] = self.circular
+    pop_dict['generation'] = self.generation
     pop_dict['clone_sizes'] = self.get_clone_sizes()
     pop_dict['recombination_model'] = self.recombination_model
     pop_dict['traits_additive'] = [self.get_trait_additive(i) for i in range(self.number_of_traits)]
@@ -886,6 +952,21 @@ def dump(self, filename, format='bz2', include_genealogy=False):
     if include_genealogy and len(self.genealogy.loci):
         pop_dict['trees'] = {locus: self.genealogy.get_tree(locus).print_newick() for locus in self.genealogy.loci}
         pop_dict['_nonempty_clones'] = self._nonempty_clones
+
+        # Save newGenerations as a non-SWIG object
+        def serialize_leaf(leaf):
+            serial = {}
+            for key in ['clone_size', 'crossover', 'fitness', 'number_of_offspring']:
+                serial[key] = getattr(leaf, key)
+            serial['own_key'] = (leaf.own_key.index, leaf.own_key.age)
+            serial['parent_node'] = (leaf.parent_node.index, leaf.parent_node.age)
+            return serial
+            
+        newGenerations = []
+        for locus in self.genealogy.loci:
+            newGenerations.append(map(serialize_leaf, self.genealogy._get_newGeneration(locus)))
+        pop_dict['_newGenerations'] = newGenerations
+
     
     with open(filename, 'wb') as f:
         dump = pickle.dumps(pop_dict, pickle.HIGHEST_PROTOCOL)
@@ -1928,6 +2009,47 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     return axis.hist(div, **kwargs)
 }
+
+
+/* add a tree to the mlg at the selected locus (used to load populations from files) */
+%exception _set_tree_in_genealogy {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+void _set_tree_in_genealogy(int locus, rooted_tree tree) {
+        multi_locus_genealogy* own_genealogy = &($self->genealogy);
+        vector<int>::iterator index;
+        index = std::find((own_genealogy->loci).begin(), (own_genealogy->loci).end(), locus);
+        if(index == (own_genealogy->loci).end()) {
+                throw (int)RT_LOCUSNOTFOUND;
+        } else
+                (own_genealogy->trees)[(int)(index - (own_genealogy->loci).begin())] = tree;
+}
+/* add a newGeneration to the mlg at the selected locus (used to load populations from files) */
+%exception _set_newGeneration_in_genealogy {
+        try {
+                $action
+        } catch (int err) {
+                PyErr_SetString(PyExc_ValueError,"Locus not found among the tracked ones.");
+                SWIG_fail;
+        }
+}
+void _set_newGeneration_in_genealogy(int locus, vector<node_t> newGeneration) {
+        multi_locus_genealogy* own_genealogy = &($self->genealogy);
+        int i = 0;
+        for(vector< vector<node_t> >::iterator it=own_genealogy->newGenerations.begin(); it != own_genealogy->newGenerations.end(); it++, i++) {
+                if ((own_genealogy->loci)[i] == locus) {
+                        (own_genealogy->newGenerations)[i] = newGeneration;
+                        return;
+                }
+        }
+        throw (int)RT_LOCUSNOTFOUND;
+}
+
 } /* extend haploid_highd */
 
 %{
@@ -2027,14 +2149,13 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
 
     if len(all_loci):
         pop.track_locus_genealogy(all_loci)
+
+    pop.generation = pop_dict['generation']
             
     # Initialize the population
     # Note: if the tree is recovered from the past, we insert empty clones to
     # keep the labels of the leaves 
     if include_genealogy and 'trees' in pop_dict:
-        for (locus, tree) in pop_dict['trees'].iteritems():
-            pop.genealogy.get_tree(locus).read_newick(tree)
-
         import numpy as np
         _nonempty_clones = pop_dict['_nonempty_clones']
         _maxclone = _nonempty_clones.max()
@@ -2042,10 +2163,26 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
         clone_sizes = np.zeros(_maxclone + 1, int)
         genotypes[_nonempty_clones] = pop_dict['genotypes']
         clone_sizes[_nonempty_clones] = pop_dict['clone_sizes']
-
         pop.set_genotypes_and_ancestral_state(genotypes, 
                                               clone_sizes, 
                                               pop_dict['ancestral'])
+        for (locus, tree_s) in pop_dict['trees'].iteritems():
+            tree = rooted_tree()
+            tree.read_newick(tree_s)
+            pop._set_tree_in_genealogy(locus, tree)
+
+        # Make nodes out of non-SWIG objects for newGenerations
+        def deserialize_leaf(serial):
+            leaf = tree_node()
+            for key in ['clone_size', 'crossover', 'fitness', 'number_of_offspring']:
+                setattr(leaf, key, serial[key])
+            leaf.own_key = tree_key(*serial['own_key'])
+            leaf.parent_node = tree_key(*serial['parent_node'])
+            return leaf
+
+        for i, locus in enumerate(old_loci):
+            pop._set_newGeneration_in_genealogy(locus, map(deserialize_leaf, pop_dict['_newGenerations'][i]))
+
 
     else:
         pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 

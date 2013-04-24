@@ -433,6 +433,47 @@ vector_polymorphism.capacity = new_instancemethod(_FFPopSim.vector_polymorphism_
 vector_polymorphism_swigregister = _FFPopSim.vector_polymorphism_swigregister
 vector_polymorphism_swigregister(vector_polymorphism)
 
+class vector_tree_node(object):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    __repr__ = _swig_repr
+    def __iter__(self): return self.iterator()
+    def __init__(self, *args): 
+        _FFPopSim.vector_tree_node_swiginit(self,_FFPopSim.new_vector_tree_node(*args))
+    __swig_destroy__ = _FFPopSim.delete_vector_tree_node
+vector_tree_node.iterator = new_instancemethod(_FFPopSim.vector_tree_node_iterator,None,vector_tree_node)
+vector_tree_node.__nonzero__ = new_instancemethod(_FFPopSim.vector_tree_node___nonzero__,None,vector_tree_node)
+vector_tree_node.__bool__ = new_instancemethod(_FFPopSim.vector_tree_node___bool__,None,vector_tree_node)
+vector_tree_node.__len__ = new_instancemethod(_FFPopSim.vector_tree_node___len__,None,vector_tree_node)
+vector_tree_node.pop = new_instancemethod(_FFPopSim.vector_tree_node_pop,None,vector_tree_node)
+vector_tree_node.__getslice__ = new_instancemethod(_FFPopSim.vector_tree_node___getslice__,None,vector_tree_node)
+vector_tree_node.__setslice__ = new_instancemethod(_FFPopSim.vector_tree_node___setslice__,None,vector_tree_node)
+vector_tree_node.__delslice__ = new_instancemethod(_FFPopSim.vector_tree_node___delslice__,None,vector_tree_node)
+vector_tree_node.__delitem__ = new_instancemethod(_FFPopSim.vector_tree_node___delitem__,None,vector_tree_node)
+vector_tree_node.__getitem__ = new_instancemethod(_FFPopSim.vector_tree_node___getitem__,None,vector_tree_node)
+vector_tree_node.__setitem__ = new_instancemethod(_FFPopSim.vector_tree_node___setitem__,None,vector_tree_node)
+vector_tree_node.append = new_instancemethod(_FFPopSim.vector_tree_node_append,None,vector_tree_node)
+vector_tree_node.empty = new_instancemethod(_FFPopSim.vector_tree_node_empty,None,vector_tree_node)
+vector_tree_node.size = new_instancemethod(_FFPopSim.vector_tree_node_size,None,vector_tree_node)
+vector_tree_node.clear = new_instancemethod(_FFPopSim.vector_tree_node_clear,None,vector_tree_node)
+vector_tree_node.swap = new_instancemethod(_FFPopSim.vector_tree_node_swap,None,vector_tree_node)
+vector_tree_node.get_allocator = new_instancemethod(_FFPopSim.vector_tree_node_get_allocator,None,vector_tree_node)
+vector_tree_node.begin = new_instancemethod(_FFPopSim.vector_tree_node_begin,None,vector_tree_node)
+vector_tree_node.end = new_instancemethod(_FFPopSim.vector_tree_node_end,None,vector_tree_node)
+vector_tree_node.rbegin = new_instancemethod(_FFPopSim.vector_tree_node_rbegin,None,vector_tree_node)
+vector_tree_node.rend = new_instancemethod(_FFPopSim.vector_tree_node_rend,None,vector_tree_node)
+vector_tree_node.pop_back = new_instancemethod(_FFPopSim.vector_tree_node_pop_back,None,vector_tree_node)
+vector_tree_node.erase = new_instancemethod(_FFPopSim.vector_tree_node_erase,None,vector_tree_node)
+vector_tree_node.push_back = new_instancemethod(_FFPopSim.vector_tree_node_push_back,None,vector_tree_node)
+vector_tree_node.front = new_instancemethod(_FFPopSim.vector_tree_node_front,None,vector_tree_node)
+vector_tree_node.back = new_instancemethod(_FFPopSim.vector_tree_node_back,None,vector_tree_node)
+vector_tree_node.assign = new_instancemethod(_FFPopSim.vector_tree_node_assign,None,vector_tree_node)
+vector_tree_node.resize = new_instancemethod(_FFPopSim.vector_tree_node_resize,None,vector_tree_node)
+vector_tree_node.insert = new_instancemethod(_FFPopSim.vector_tree_node_insert,None,vector_tree_node)
+vector_tree_node.reserve = new_instancemethod(_FFPopSim.vector_tree_node_reserve,None,vector_tree_node)
+vector_tree_node.capacity = new_instancemethod(_FFPopSim.vector_tree_node_capacity,None,vector_tree_node)
+vector_tree_node_swigregister = _FFPopSim.vector_tree_node_swigregister
+vector_tree_node_swigregister(vector_tree_node)
+
 LICENSE = '''FFPopSim is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. FFPopSim is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with FFPopSim. If not, see <http://www.gnu.org/licenses/>.'''
 
 import numpy as _np
@@ -1477,14 +1518,13 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
 
     if len(all_loci):
         pop.track_locus_genealogy(all_loci)
+
+    pop.generation = pop_dict['generation']
             
     
     
     
     if include_genealogy and 'trees' in pop_dict:
-        for (locus, tree) in pop_dict['trees'].iteritems():
-            pop.genealogy.get_tree(locus).read_newick(tree)
-
         import numpy as np
         _nonempty_clones = pop_dict['_nonempty_clones']
         _maxclone = _nonempty_clones.max()
@@ -1492,10 +1532,26 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
         clone_sizes = np.zeros(_maxclone + 1, int)
         genotypes[_nonempty_clones] = pop_dict['genotypes']
         clone_sizes[_nonempty_clones] = pop_dict['clone_sizes']
-
         pop.set_genotypes_and_ancestral_state(genotypes, 
                                               clone_sizes, 
                                               pop_dict['ancestral'])
+        for (locus, tree_s) in pop_dict['trees'].iteritems():
+            tree = rooted_tree()
+            tree.read_newick(tree_s)
+            pop._set_tree_in_genealogy(locus, tree)
+
+        
+        def deserialize_leaf(serial):
+            leaf = tree_node()
+            for key in ['clone_size', 'crossover', 'fitness', 'number_of_offspring']:
+                setattr(leaf, key, serial[key])
+            leaf.own_key = tree_key(*serial['own_key'])
+            leaf.parent_node = tree_key(*serial['parent_node'])
+            return leaf
+
+        for i, locus in enumerate(old_loci):
+            pop._set_newGeneration_in_genealogy(locus, map(deserialize_leaf, pop_dict['_newGenerations'][i]))
+
 
     else:
         pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
@@ -1582,6 +1638,7 @@ RT_VERBOSE = _FFPopSim.RT_VERBOSE
 RT_VERYLARGE = _FFPopSim.RT_VERYLARGE
 RT_CHILDNOTFOUND = _FFPopSim.RT_CHILDNOTFOUND
 RT_NODENOTFOUND = _FFPopSim.RT_NODENOTFOUND
+RT_LOCUSNOTFOUND = _FFPopSim.RT_LOCUSNOTFOUND
 RT_FITNESS_MISSING = _FFPopSim.RT_FITNESS_MISSING
 RT_CROSSOVER_MISSING = _FFPopSim.RT_CROSSOVER_MISSING
 RT_SEGMENT_MISSING = _FFPopSim.RT_SEGMENT_MISSING
@@ -1721,10 +1778,20 @@ class tree_node(object):
         """_get_crossover_chunk(tree_node self, int i) -> int"""
         return _FFPopSim.tree_node__get_crossover_chunk(self, *args, **kwargs)
 
+    def _set_crossover_chunk(self, *args, **kwargs):
+        """_set_crossover_chunk(tree_node self, int value, int i)"""
+        return _FFPopSim.tree_node__set_crossover_chunk(self, *args, **kwargs)
+
     @property
     def crossover(self):
         '''Crossover of node'''
         return [self._get_crossover_chunk(i) for i in xrange(2)]
+
+    @crossover.setter
+    def crossover(self, value):
+        if len(value) != 2:
+            raise ValueError('Crossover is a pair of integers.')
+        [self._set_crossover_chunk(value[i], i) for i in xrange(2)]
 
     @property
     def weight_distribution(self):
@@ -1742,6 +1809,7 @@ class tree_node(object):
 tree_node.__str__ = new_instancemethod(_FFPopSim.tree_node___str__,None,tree_node)
 tree_node.__repr__ = new_instancemethod(_FFPopSim.tree_node___repr__,None,tree_node)
 tree_node._get_crossover_chunk = new_instancemethod(_FFPopSim.tree_node__get_crossover_chunk,None,tree_node)
+tree_node._set_crossover_chunk = new_instancemethod(_FFPopSim.tree_node__set_crossover_chunk,None,tree_node)
 tree_node_swigregister = _FFPopSim.tree_node_swigregister
 tree_node_swigregister(tree_node)
 
@@ -2064,6 +2132,18 @@ class multi_locus_genealogy(object):
         """
         return _FFPopSim.multi_locus_genealogy_get_tree(self, *args, **kwargs)
 
+    def _set_tree(self, *args, **kwargs):
+        """_set_tree(multi_locus_genealogy self, int locus, rooted_tree tree)"""
+        return _FFPopSim.multi_locus_genealogy__set_tree(self, *args, **kwargs)
+
+    def _get_newGeneration(self, *args, **kwargs):
+        """_get_newGeneration(multi_locus_genealogy self, int locus) -> vector_tree_node"""
+        return _FFPopSim.multi_locus_genealogy__get_newGeneration(self, *args, **kwargs)
+
+    def _set_newGeneration(self, *args, **kwargs):
+        """_set_newGeneration(multi_locus_genealogy self, int locus, vector_tree_node newGeneration)"""
+        return _FFPopSim.multi_locus_genealogy__set_newGeneration(self, *args, **kwargs)
+
 multi_locus_genealogy.track_locus = new_instancemethod(_FFPopSim.multi_locus_genealogy_track_locus,None,multi_locus_genealogy)
 multi_locus_genealogy.reset = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset,None,multi_locus_genealogy)
 multi_locus_genealogy.reset_but_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy_reset_but_loci,None,multi_locus_genealogy)
@@ -2072,6 +2152,9 @@ multi_locus_genealogy.__repr__ = new_instancemethod(_FFPopSim.multi_locus_geneal
 multi_locus_genealogy._get_number_of_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_number_of_loci,None,multi_locus_genealogy)
 multi_locus_genealogy._get_loci = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_loci,None,multi_locus_genealogy)
 multi_locus_genealogy.get_tree = new_instancemethod(_FFPopSim.multi_locus_genealogy_get_tree,None,multi_locus_genealogy)
+multi_locus_genealogy._set_tree = new_instancemethod(_FFPopSim.multi_locus_genealogy__set_tree,None,multi_locus_genealogy)
+multi_locus_genealogy._get_newGeneration = new_instancemethod(_FFPopSim.multi_locus_genealogy__get_newGeneration,None,multi_locus_genealogy)
+multi_locus_genealogy._set_newGeneration = new_instancemethod(_FFPopSim.multi_locus_genealogy__set_newGeneration,None,multi_locus_genealogy)
 multi_locus_genealogy_swigregister = _FFPopSim.multi_locus_genealogy_swigregister
 multi_locus_genealogy_swigregister(multi_locus_genealogy)
 
@@ -2731,6 +2814,7 @@ class haploid_highd(object):
         pop_dict['crossover_rate'] = self.crossover_rate
         pop_dict['outcrossing_rate'] = self.outcrossing_rate
         pop_dict['circular'] = self.circular
+        pop_dict['generation'] = self.generation
         pop_dict['clone_sizes'] = self.get_clone_sizes()
         pop_dict['recombination_model'] = self.recombination_model
         pop_dict['traits_additive'] = [self.get_trait_additive(i) for i in range(self.number_of_traits)]
@@ -2743,6 +2827,21 @@ class haploid_highd(object):
         if include_genealogy and len(self.genealogy.loci):
             pop_dict['trees'] = {locus: self.genealogy.get_tree(locus).print_newick() for locus in self.genealogy.loci}
             pop_dict['_nonempty_clones'] = self._nonempty_clones
+
+            
+            def serialize_leaf(leaf):
+                serial = {}
+                for key in ['clone_size', 'crossover', 'fitness', 'number_of_offspring']:
+                    serial[key] = getattr(leaf, key)
+                serial['own_key'] = (leaf.own_key.index, leaf.own_key.age)
+                serial['parent_node'] = (leaf.parent_node.index, leaf.parent_node.age)
+                return serial
+                
+            newGenerations = []
+            for locus in self.genealogy.loci:
+                newGenerations.append(map(serialize_leaf, self.genealogy._get_newGeneration(locus)))
+            pop_dict['_newGenerations'] = newGenerations
+
         
         with open(filename, 'wb') as f:
             dump = pickle.dumps(pop_dict, pickle.HIGHEST_PROTOCOL)
@@ -3244,6 +3343,14 @@ class haploid_highd(object):
             kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
         return axis.hist(div, **kwargs)
 
+    def _set_tree_in_genealogy(self, *args, **kwargs):
+        """_set_tree_in_genealogy(haploid_highd self, int locus, rooted_tree tree)"""
+        return _FFPopSim.haploid_highd__set_tree_in_genealogy(self, *args, **kwargs)
+
+    def _set_newGeneration_in_genealogy(self, *args, **kwargs):
+        """_set_newGeneration_in_genealogy(haploid_highd self, int locus, vector_tree_node newGeneration)"""
+        return _FFPopSim.haploid_highd__set_newGeneration_in_genealogy(self, *args, **kwargs)
+
 haploid_highd._get_mutation_rate = new_instancemethod(_FFPopSim.haploid_highd__get_mutation_rate,None,haploid_highd)
 haploid_highd._set_mutation_rate = new_instancemethod(_FFPopSim.haploid_highd__set_mutation_rate,None,haploid_highd)
 haploid_highd._get_polymorphisms = new_instancemethod(_FFPopSim.haploid_highd__get_polymorphisms,None,haploid_highd)
@@ -3283,6 +3390,8 @@ haploid_highd.__str__ = new_instancemethod(_FFPopSim.haploid_highd___str__,None,
 haploid_highd.__repr__ = new_instancemethod(_FFPopSim.haploid_highd___repr__,None,haploid_highd)
 haploid_highd.get_clone = new_instancemethod(_FFPopSim.haploid_highd_get_clone,None,haploid_highd)
 haploid_highd._get_genealogy = new_instancemethod(_FFPopSim.haploid_highd__get_genealogy,None,haploid_highd)
+haploid_highd._set_tree_in_genealogy = new_instancemethod(_FFPopSim.haploid_highd__set_tree_in_genealogy,None,haploid_highd)
+haploid_highd._set_newGeneration_in_genealogy = new_instancemethod(_FFPopSim.haploid_highd__set_newGeneration_in_genealogy,None,haploid_highd)
 haploid_highd_swigregister = _FFPopSim.haploid_highd_swigregister
 haploid_highd_swigregister(haploid_highd)
 

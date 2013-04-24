@@ -87,6 +87,7 @@ import_array();
 %template(map_key_edge) std::map<tree_key_t, edge_t>;
 %template(map_key_node) std::map<tree_key_t, node_t>;
 %template(vector_polymorphism) std::vector<poly_t>;
+%template(vector_tree_node) std::vector<node_t>;
 
 /* FFPopSim typemaps */
 %include "ffpopsim_typemaps.i";
