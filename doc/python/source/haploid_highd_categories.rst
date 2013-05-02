@@ -8,12 +8,17 @@ If you have initialized for example as ``pop=haploid_highd(L)``, the prefix in y
 
 .. note:: Clicking on the name of the function will take you to a more detailed explanation listing all arguments.
 
-Initialization
-^^^^^^^^^^^^^^
+Initialization, copy, and storage
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :nosignatures:
 
    haploid_highd.__init__
+   haploid_highd.copy
+   haploid_highd.dump
+
+   load_haploid_highd
+
 
 Attributes
 ^^^^^^^^^^

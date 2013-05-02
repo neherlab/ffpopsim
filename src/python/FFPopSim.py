@@ -2799,6 +2799,8 @@ class haploid_highd(object):
            - filename: the path to the file where to store the information
            - format: one of 'bz2' or 'plain'. Choose the former if you want compression.
            - include_genealogy: if True, the multi_locus_genealogy is stored as well (if present).
+
+        .. note:: The population can be reloaded using the function FFPopSim.load_haploid_highd.
         '''
 
         try:
