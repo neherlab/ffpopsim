@@ -28,13 +28,13 @@
 /**
  * @brief Default constructor
  */
-multi_locus_genealogy::multi_locus_genealogy() {
+multi_locus_genealogy_parent::multi_locus_genealogy_parent() {
 }
 
 /**
  * @brief Default destructor
  */
-multi_locus_genealogy::~multi_locus_genealogy() {
+multi_locus_genealogy_parent::~multi_locus_genealogy_parent() {
 }
 
 /**
@@ -42,7 +42,7 @@ multi_locus_genealogy::~multi_locus_genealogy() {
  *
  * @param new_locus locus to be tracked
  */
-void multi_locus_genealogy::track_locus(int new_locus) {
+void multi_locus_genealogy_parent::track_locus(int new_locus) {
 	loci.push_back(new_locus);
 	rooted_tree temp_tree;
 	trees.push_back(temp_tree);
@@ -51,22 +51,11 @@ void multi_locus_genealogy::track_locus(int new_locus) {
 }
 
 /**
- * @brief Add a new generation to all trees.
- *
- * @param baseline the new generation to be added
- */
-void multi_locus_genealogy::add_generation(double baseline) {
-	for (unsigned int locusIndex = 0; locusIndex<trees.size(); locusIndex++){
-		trees[locusIndex].add_generation(newGenerations[locusIndex], baseline);
-	}
-}
-
-/**
  * @brief: allocates memory for a sufficient number of slots in the genealogy
  *
  * @params: the total number of slots required (should be population.size() in most cases)
  */
-int multi_locus_genealogy::extend_storage(int n) {
+int multi_locus_genealogy_parent::extend_storage(int n) {
 	node_t temp_ancestor;
 	//produce a dummy ancestor and add to newGenerations
 	temp_ancestor.own_key.age=0; temp_ancestor.own_key.index=-1;
@@ -81,3 +70,36 @@ int multi_locus_genealogy::extend_storage(int n) {
 	}
 	return 0;
 }
+
+
+
+
+/**
+ * @brief Add a new generation to all trees.
+ *
+ * @param baseline the new generation to be added
+ */
+void multi_locus_genealogy::add_generation(double baseline) {
+    for (unsigned int locusIndex = 0; locusIndex < trees.size(); locusIndex ++){
+        trees[locusIndex].add_generation(newGenerations[locusIndex], baseline);
+    }
+}
+
+
+
+/**
+ * @brief Add a new generation to all trees.
+ *
+ * @param baseline the new generation to be added
+ */
+void multi_locus_genealogy_2::add_generation(double baseline, vector < vector < node_t > > new_Generations) {
+    for (unsigned int locusIndex = 0; locusIndex<trees.size(); locusIndex++){
+        trees[locusIndex].add_generation(new_Generations[locusIndex], baseline);
+    }
+}
+
+multi_locus_genealogy_2::multi_locus_genealogy_2()
+{
+
+}
+

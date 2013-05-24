@@ -30,7 +30,7 @@
 std::ostream& operator<< ( std::ostream& os, const tree_key_t& key )
   {
     os <<"age: "<< key.age << " index "
-      << key.index;
+      << key.index << " location: " << key.location ;
     return os;
   }
 
@@ -56,8 +56,11 @@ void rooted_tree::reset(){
  	//the root node will never be touched, the MRCA moves up with the tree
 	root.age=-3;
 	root.index=0;
+    root.location = 0;
+
 	MRCA.age=-2;
-	MRCA.index=0;
+    MRCA.index=0;
+    MRCA.location = 0;
 
 	//set up a trivial root node with the only child MRCA
 	root_node.own_key = root;
@@ -233,7 +236,7 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 }
 
 
-/*
+/**
  * @brief erases a child from the list of children of a node
  * @params <tree_key_t,node_t>::iterator Pnode parent node
  * @params tree_key_t to_be_erased
@@ -325,7 +328,7 @@ int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 	map <tree_key_t,node_t>::iterator leaf_node = nodes.find(leaf_key);
 	map <tree_key_t,edge_t>::iterator leaf_edge = edges.find(leaf_key);
 	if (leaf_node == nodes.end() or leaf_edge == edges.end()){
-		cerr <<"rooted_tree::update_leaf_to_root(). leaf not found"<<endl;
+        cerr << "rooted_tree::update_leaf_to_root(). leaf not found" << endl;
 		return RT_NODENOTFOUND;
 	}
 
@@ -447,7 +450,7 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+    tree_str<<root.index<<'_'<<root_node->second.clone_size << "_"<< root.location<<":"<<edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }

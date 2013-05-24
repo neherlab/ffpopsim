@@ -1,0 +1,56 @@
+#!/usr/bin/env python
+print "Running EvoDevo script"
+import subprocess
+import os 
+import numpy as np
+import matplotlib.pyplot as plt
+import array
+Av_Num = 100;
+
+
+##Parameters of the EvoDevo simulation:
+population_size = 500
+migration_rates = []
+
+X_Axis = [0.1, 0.3, 0.5, 0.7, 1.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0]
+for i, val in enumerate(X_Axis) :
+	migration_rates.append(X_Axis[i]/population_size)
+
+
+data1 =[0]* len(X_Axis)
+data2 =[0]* len(X_Axis)
+data3 =[0]* len(X_Axis)
+for m_r_iter, m_r_val in enumerate(migration_rates) :
+	##Convert argumants to the c++ argv input:
+	generations = 5*max(1/m_r_val, population_size)
+
+	print m_r_iter, m_r_val
+	argv1 = str(m_r_val)
+	argv2 = str(population_size)
+	argv3 = str(generations)
+
+	for i in range (1, Av_Num):
+		process = subprocess.Popen(["./EvoDevo",argv1, argv2, argv3], stdout = subprocess.PIPE )
+		result = process.communicate()[0]
+		floats = [float(x) for x in result.split()]
+		data1[m_r_iter] += floats[1]
+		data2[m_r_iter] += floats[2]
+		data3[m_r_iter] += floats[3]
+	data1[m_r_iter] = data1[m_r_iter]/Av_Num 
+	data2[m_r_iter] = data2[m_r_iter] /Av_Num
+	data3[m_r_iter] = data3[m_r_iter]/Av_Num 
+print data1 
+plt.plot(X_Axis, data1, label = 'loc1')
+plt.hold(True)
+plt.plot(X_Axis, data3, label = 'loc1xloc2')
+plt.xlabel('N*m')
+plt.ylabel('Pairwise difference')
+plt.legend(loc='lower left')
+plt.show()
+plt.hold(False)
+
+
+outfile.write("\n".join(data1))
+outfile.write("\n".join(data2))
+outfile.write("\n".join(data3))
+

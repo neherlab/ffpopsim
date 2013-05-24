@@ -1,0 +1,16 @@
+#Mutation rate:  0.0001
+ #Population_size   1000
+#Sampling distance   50
+#Number of migration events: 0
+#Pairwise divergence within populations:
+#Location  1:   Location  2: Loc1 x Loc2:
+40.12   8.9456
+0   0
+39.62   10.3156
+0   0
+39.38   10.8356
+0   0
+40.24   9.5024
+0   0
+38.84   6.1344
+0   0
