@@ -1125,7 +1125,7 @@ stat_t haploid_lowd::get_fitness_statistics() {
 	for (int i = 0; i < (1<<number_of_loci); i++) {
 		temp = population.get_func(i) * fitness.get_func(i);
 		mf += temp;
-		sq += temp*temp;
+		sq += temp*fitness.get_func(i);
 	}
 	return stat_t(mf, sq - mf * mf);
 }
