@@ -227,7 +227,7 @@ public:
 
 	// construction / destruction
     haploid_highd(int L = 0, int rng_seed = 0, int number_of_traits=1, bool all_polymorphic=false);
-    int set_up(int L , int rng_seed =0, int number_of_traits=1, bool all_polymorphic=false);
+    virtual int set_up(int L , int rng_seed =0, int number_of_traits=1, bool all_polymorphic=false);
     virtual ~haploid_highd();
 
         // the population
@@ -436,7 +436,8 @@ public:
 
 	// phenotype-fitness map. By default, a linear map with equal weights is set, but weights can be reset
 	double *trait_weights;
-	virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
+    virtual double trait_function(double aTrait1, double aTrait2, double phi){return 0;}
+    virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
 	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
     void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton = 0, int own_location = 0);
     void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton, int own_location, int parent_age);

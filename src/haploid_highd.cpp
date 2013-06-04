@@ -833,7 +833,7 @@ unsigned int haploid_highd::flip_single_locus(unsigned int clonenum, int locus) 
 	for (int t = 0; t < number_of_traits; t++){
 		population[new_clone].trait[t] = population[clonenum].trait[t] + get_trait_difference(population[new_clone], population[clonenum], diff, t);
 	}
-	calc_individual_fitness_from_traits(population[new_clone]);
+    calc_individual_fitness_from_traits(population[new_clone]);
 	check_individual_maximal_fitness(population[new_clone]);
 
 	//update the last clones that is to be tracked
@@ -1105,10 +1105,13 @@ double haploid_highd::get_trait_difference(clone_t &tempgt1, clone_t &tempgt2, v
  * This function is linear in the traits with weights equal to trait_weights.
  * By default, only the first weight is different from zero.
  */
+
 void haploid_highd::calc_individual_fitness_from_traits(clone_t &tempgt) {
-	tempgt.fitness = trait_weights[0] * tempgt.trait[0];
-	for (int t = 1; t < number_of_traits; t++)
-		tempgt.fitness += trait_weights[t] * tempgt.trait[t];
+    tempgt.fitness = trait_weights[0] * tempgt.trait[0];
+    for (int t = 1; t < number_of_traits; t++)
+        {tempgt.fitness += trait_weights[t] * tempgt.trait[t];}
+    //cout << "haploid_highd" << endl;
+
 }
 
 /**

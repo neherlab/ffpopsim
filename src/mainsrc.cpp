@@ -13,7 +13,7 @@
 #include <cstring>
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
-
+#include <cmath>
 #include <boost/foreach.hpp>
 
 #define HIGHD_BADARG -1354341
@@ -25,9 +25,9 @@
 
 
 #define MUTATION_RATE 1e-3
-#define NUMBER_OF_TAITS 1
-#define SAMPLE_SIZE 1500
-#define _L 300
+#define NUMBER_OF_TAITS 2
+//#define SAMPLE_SIZE 1500
+#define _L 100
 
 
 
@@ -143,9 +143,10 @@ public:
 
 
 private:
+
     double get_genotype_av(multi_population pop, int loc, int sample_size)
     {
-        if ( pop.get_locations() < loc || loc < 0)
+        if (pop.get_locations() < loc || loc < 0)
         {
             average = variance = 0;
             return 0;
@@ -221,6 +222,7 @@ private:
 
 
 
+
 /* MAIN */
 int main(int argc, char  *argv[]){
 
@@ -234,6 +236,7 @@ int main(int argc, char  *argv[]){
         double POPULATION_SIZE = atof(argv[2]);
         const char * fileDir =  argv[3];
         int locations = atof(argv[4]);
+       // int _L = atoi(argv[5]);
         // ############################################
 
 
@@ -243,16 +246,17 @@ int main(int argc, char  *argv[]){
         // Initialize the essential parameters for the simulation and load the population
         //
         // ############################################
-        int Av_Num = 3;
+        int Av_Num = 10;
         int generation = 0;
         int N = 20, N_pop = POPULATION_SIZE;
         int GENERATIONS = 1000;
+        int SAMPLE_SIZE = N_pop / 10;
        /* if (MIGRATION_RATE != 0)
             GENERATIONS = 5 * max(double(POPULATION_SIZE), 1/MIGRATION_RATE);
         else
             GENERATIONS = POPULATION_SIZE;
 */
-        double MIGRATION_RATE = 0.0;   //1;//SELECTIVE = 0.5/POPULATION_SIZE;
+        double MIGRATION_RATE = 0.001;   //1;//SELECTIVE = 0.5/POPULATION_SIZE;
 
 
 
@@ -266,9 +270,9 @@ int main(int argc, char  *argv[]){
         for (int i = 0; i < locations; i ++)
         {
             pop.point_sub_pop(i)->set_mutation_rate(MUTATION_RATE);
-            pop.point_sub_pop(i)->outcrossing_rate = 0;
-            pop.point_sub_pop(i)->crossover_rate = 0;//1e-2;
-            pop.point_sub_pop(i)->recombination_model = CROSSOVERS;
+            pop.point_sub_pop(i)->outcrossing_rate = 0.0;
+            pop.point_sub_pop(i)->crossover_rate = 0.0;//1e-2;
+            pop.point_sub_pop(i)->recombination_model = FREE_RECOMBINATION;
         }
         vector <int> gen_loci;
         gen_loci.push_back(100);
@@ -305,25 +309,60 @@ int main(int argc, char  *argv[]){
 
         for (int i = 0; i < locations; i ++)
         {
-            for (int trait_No = 0; trait_No < n_o_traits; trait_No ++)
+
+
+            //for (int trait_No = 0; trait_No < n_o_traits; trait_No ++)
             {
-                for(int j=0; j < _L; j++)
+                for(int j=0; j < _L / 2; j++)
                 {
                     loci.assign(1, j);
-                    pop.point_sub_pop(i)->add_trait_coefficient(SELECTIVE * 2, loci, trait_No);
+                    pop.point_sub_pop(i)->add_trait_coefficient(SELECTIVE / 2, loci, 0);
                     loci.clear();
 
                 }
+
+                for(int j=_L / 2; j < _L; j++)
+                {
+                    loci.assign(1, j);
+                    pop.point_sub_pop(i)->add_trait_coefficient(0, loci, 0);
+                    loci.clear();
+
+                }
+
+
+                for(int j=0; j < _L / 2; j++)
+                {
+                    loci.assign(1, j);
+                    pop.point_sub_pop(i)->add_trait_coefficient(0, loci, 1);
+                    loci.clear();
+
+                }
+
+                for(int j=_L / 2; j < _L; j++)
+                {
+                    loci.assign(1, j);
+                    pop.point_sub_pop(i)->add_trait_coefficient(SELECTIVE / 2, loci, 1);
+                    loci.clear();
+
+                }
+
+
+
             }
+
+            /*makes no sense in the temp calculations*/
             double * weights = new double[n_o_traits];
             for (int weight_No = 0; weight_No < n_o_traits; weight_No ++)
             {
-                weights[weight_No] = pow(-1, i);
+                weights[weight_No] = 1;
             }
             pop.point_sub_pop(i)->set_trait_weights(weights);
             delete [] weights;
+            /*=======================================*/
+
             pop.point_sub_pop(i)->update_traits();
             pop.point_sub_pop(i)->update_fitness();
+
         }
 
         stat_t fitstat;
@@ -409,6 +448,9 @@ int main(int argc, char  *argv[]){
         for (int SampleNum = 0; SampleNum < Av_Num; SampleNum++)
         {
             cout << "cycle " << SampleNum << endl;
+            if (SampleNum != 0 )
+            {
+
 
         // ##############################################
         // ##############################################
@@ -435,6 +477,7 @@ int main(int argc, char  *argv[]){
             pop.set_global_generation(generation);
             pop.submit_pop_genealogy();
             pop.genealogy.add_generation(pop.max_fitness());
+        }
         }
         // ##############################################
         // ##############################################
@@ -479,7 +522,7 @@ int main(int argc, char  *argv[]){
             genotype_stat* gen_stat = new genotype_stat(pop, locNum, SAMPLE_SIZE);
             outfile << gen_stat->average << "   "<< gen_stat->variance << "    ";
             //outfile << gen_stat << endl;
-            delete [] gen_stat;
+            delete  gen_stat;
 //            outfile << pop.point_sub_pop(loc_1)->population_size << "   " << pop.point_sub_pop(loc_1)->get_fitness_statistics().mean << "   "<< pop.point_sub_pop(loc_1)->get_fitness_statistics().variance<< " ";
         }
 

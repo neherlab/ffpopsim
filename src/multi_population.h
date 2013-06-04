@@ -12,10 +12,11 @@
 #include <boost/dynamic_bitset.hpp>
 
 
+
 class multi_population
 {
     //vector <haploid_highd> sub_population;
-    haploid_highd * sub_population;
+    vector <haploid_highd*> sub_population;
     //vector <haploid_highd> sub_population;
     int population_size();
 
@@ -64,7 +65,7 @@ public:
 
 
     void reset();
-    haploid_highd * point_sub_pop(int i){return &sub_population[i];};
+    haploid_highd * point_sub_pop(int i){return sub_population[i];};
     void set_global_generation(int generation);
 
 
