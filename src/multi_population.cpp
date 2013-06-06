@@ -2,35 +2,37 @@
 
 class hh_1 : public haploid_highd{
 
-    virtual double trait_function(double aTrait1, double aTrait2, double phi = 0)
+    virtual double trait_function(double aTrait1, double aTrait2, double phi_0 = 0)
     {
-        double rho1 =  0;
+        //OFF-CENTER
+        double rho1_0 =  0;
+        double rho2_0 =  0;
+        double rho_0 = sqrt(pow(rho1_0, 2) + pow(rho2_0, 2));
+
+        //VARIANCE
+        double sigma = 1;
+
+
         double t1 = aTrait1;
-        double rho2 =  0;
         double t2 = aTrait2;
-        double t = (t1 / (sqrt(pow(t1, 2) + pow(t2, 2)) + 1e-15) * cos(phi) + t2 / (sqrt(pow(t1, 2) + pow(t2, 2)) + 1e-15) * sin(phi)) * exp(- pow(sqrt(pow(t1, 2) + pow(t2, 2)) - rho1, 2) / 1.5);
+
+        double rho = sqrt(pow(t1, 2) + pow(t2, 2));
+        double phi = 0;
+        if (rho != 0 )
+            phi = acos(t1/rho);
 
 
-        double rho = sqrt(pow (aTrait1, 2) + pow(aTrait2, 2));
-        double rho_0  = 0; //this->L();
-        //cout << rho * exp(-pow ((rho - rho_0), 2) / (rho_0)) << endl;
-        return  t; //exp(-pow ((rho), 2) / (rho_0/10)); // * cos(phi);
+        return  cos(phi - phi_0) * exp(-(pow(rho-rho_0, 2)) / (2 * sigma));
     }
 
 public:
 
     //virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
 
-    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {
-        /*tempgt.fitness = trait_weights[0] * tempgt.trait[0];
-        for (int t = 1; t < number_of_traits; t++)
-            {tempgt.fitness += trait_weights[t] * tempgt.trait[t];}*/
-        tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 0);
-        //tempgt.fitness = tempgt.trait[0] - tempgt.trait[1];
-    }
+    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 0);}
 
-    hh_1(){cout << "hh_1 is created" << endl;}
-    ~hh_1(){cout << "hh_1 is destroyed" << endl;}
+    hh_1(){}
+    ~hh_1(){}
 };
 
 class hh_2 : public haploid_highd{
@@ -56,10 +58,8 @@ class hh_2 : public haploid_highd{
 public:
 
     virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 3.14/4);}
-    hh_2(){cout << "hh_2 is created" << endl;
-    }
-    ~hh_2(){//cout << "hh_1 is destroyed" << endl;
-    }
+    hh_2(){}
+    ~hh_2(){}
 };
 
 
@@ -87,10 +87,8 @@ class hh_3 : public haploid_highd{
 public:
 
     virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 3 * 3.14/4);}
-    hh_3(){//cout << "hh_1 is created" << endl;
-    }
-    ~hh_3(){//cout << "hh_1 is destroyed" << endl;
-    }
+    hh_3(){}
+    ~hh_3(){}
 };
 
 

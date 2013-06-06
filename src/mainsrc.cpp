@@ -24,7 +24,7 @@
 #define HIGHD_VERBOSE 0
 
 
-#define MUTATION_RATE 1e-3
+#define MUTATION_RATE 1e-4
 #define NUMBER_OF_TAITS 2
 //#define SAMPLE_SIZE 1500
 #define _L 100
@@ -246,7 +246,7 @@ int main(int argc, char  *argv[]){
         // Initialize the essential parameters for the simulation and load the population
         //
         // ############################################
-        int Av_Num = 10;
+        int Av_Num = 1;
         int generation = 0;
         int N = 20, N_pop = POPULATION_SIZE;
         int GENERATIONS = 1000;
@@ -260,7 +260,7 @@ int main(int argc, char  *argv[]){
 
 
 
-        int GENERATIONS_Eq = 1000; //100 * GENERATIONS;
+        int GENERATIONS_Eq = 10000; //100 * GENERATIONS;
         int n_o_traits = NUMBER_OF_TAITS;
 
         multi_population pop(locations, _L, n_o_traits);
@@ -460,97 +460,101 @@ int main(int argc, char  *argv[]){
         // ##############################################
         // ##############################################
 
-        for (int i = 0; i < GENERATIONS; i ++)
-        {
 
-            for (int cur_loc = 0 ; cur_loc < locations; cur_loc ++)
-            {
-                if (pop.point_sub_pop(cur_loc)->population_size > 0)
+                for (int i = 0; i < GENERATIONS; i ++)
                 {
-                    pop.evolve(cur_loc, 1);
+
+                    for (int cur_loc = 0 ; cur_loc < locations; cur_loc ++)
+                    {
+                        if (pop.point_sub_pop(cur_loc)->population_size > 0)
+                        {
+                            pop.evolve(cur_loc, 1);
+                        }
+                    }
+
+                    pop.migrate();
+                    generation ++;
+
+                    pop.set_global_generation(generation);
+                    pop.submit_pop_genealogy();
+                    pop.genealogy.add_generation(pop.max_fitness());
+                }
+
+            }
+        // ##############################################
+        // ##############################################
+
+
+            ofstream outfile;
+            const char * filename = outfilename.c_str();
+            outfile.open(filename, std::ios_base::app);
+            cout << filename << endl;
+            //outfile << MIGRATION_RATE << " ";
+         /*   for (int i = 0; i < locations; i ++)
+            {
+                outfile <<  pop.point_sub_pop(i)->get_pairwise_divergence(SAMPLE_SIZE) << "    ";
+            }
+            for (int i = 0; i < locations - 1; i ++)
+            {
+                for (int j = i + 1; j < locations; j ++)
+                {
+                    outfile <<  get_inter_pop_divergence (pop, i, j, SAMPLE_SIZE) << "  ";
                 }
             }
-
-            pop.migrate();
-            generation ++;
-
-            pop.set_global_generation(generation);
-            pop.submit_pop_genealogy();
-            pop.genealogy.add_generation(pop.max_fitness());
-        }
-        }
-        // ##############################################
-        // ##############################################
-
-
-        ofstream outfile;
-        const char * filename = outfilename.c_str();
-        outfile.open(filename, std::ios_base::app);
-        cout << filename << endl;
-        //outfile << MIGRATION_RATE << " ";
-     /*   for (int i = 0; i < locations; i ++)
-        {
-            outfile <<  pop.point_sub_pop(i)->get_pairwise_divergence(SAMPLE_SIZE) << "    ";
-        }
-        for (int i = 0; i < locations - 1; i ++)
-        {
-            for (int j = i + 1; j < locations; j ++)
+            for (int i = 0; i < locations; i ++)
             {
-                outfile <<  get_inter_pop_divergence (pop, i, j, SAMPLE_SIZE) << "  ";
+                outfile <<  pop.point_sub_pop(i)->get_segregating_sites_num(SAMPLE_SIZE) << "    ";
             }
-        }
-        for (int i = 0; i < locations; i ++)
-        {
-            outfile <<  pop.point_sub_pop(i)->get_segregating_sites_num(SAMPLE_SIZE) << "    ";
-        }
 
-        for(int loc_1 = 0; loc_1 < locations; loc_1 ++)
-        {
-            for (int loc_2 = loc_1 + 1; loc_2 < locations; loc_2 ++)
+            for(int loc_1 = 0; loc_1 < locations; loc_1 ++)
             {
-                outfile << get_segregating_sites_num (pop, loc_1, loc_2, SAMPLE_SIZE) << "  ";
+                for (int loc_2 = loc_1 + 1; loc_2 < locations; loc_2 ++)
+                {
+                    outfile << get_segregating_sites_num (pop, loc_1, loc_2, SAMPLE_SIZE) << "  ";
+                }
+
+
+
+            }*/
+
+            outfile << endl;
+
+            for (int locNum = 0; locNum < locations; locNum ++)
+            {
+                genotype_stat* gen_stat = new genotype_stat(pop, locNum, SAMPLE_SIZE);
+                outfile << gen_stat->average << "   "<< gen_stat->variance << "    ";
+                //outfile << gen_stat << endl;
+                delete  gen_stat;
+    //            outfile << pop.point_sub_pop(loc_1)->population_size << "   " << pop.point_sub_pop(loc_1)->get_fitness_statistics().mean << "   "<< pop.point_sub_pop(loc_1)->get_fitness_statistics().variance<< " ";
             }
 
 
+    //        outfile << endl;
+            outfile.close();
 
-        }*/
+            stringstream  temp3 (stringstream::in | stringstream::out);
+            stringstream  temp4 (stringstream::in | stringstream::out);
+            temp3 << N_pop;
+            temp4 << SELECTIVE;
+            string tmp3 = temp3.str();
+            string tmp4 = temp4.str();
+            string out_tree_filename;
+            string outfileDir_tree;
+            outfileDir_tree.append(fileDir).append("Tree");
+            out_tree_filename.append(outfileDir_tree).append("_PopSize_").append(tmp3).append("_SelectionRate_").append(tmp4);
+            const char * tree_filename = out_tree_filename.c_str();
 
-        outfile << endl;
+            ofstream myfile_tree;
+            myfile_tree.open(tree_filename);
+             for (unsigned int genlocus = 0; genlocus < gen_loci.size(); genlocus ++){
+                //pop.genealogy.trees[genlocus].check_tree_integrity();
+                myfile_tree <<"#PRINT ENTIRE TREE"<<endl;
+                myfile_tree << pop.genealogy.trees[genlocus].print_newick()<<endl;
 
-        for (int locNum = 0; locNum < locations; locNum ++)
-        {
-            genotype_stat* gen_stat = new genotype_stat(pop, locNum, SAMPLE_SIZE);
-            outfile << gen_stat->average << "   "<< gen_stat->variance << "    ";
-            //outfile << gen_stat << endl;
-            delete  gen_stat;
-//            outfile << pop.point_sub_pop(loc_1)->population_size << "   " << pop.point_sub_pop(loc_1)->get_fitness_statistics().mean << "   "<< pop.point_sub_pop(loc_1)->get_fitness_statistics().variance<< " ";
-        }
+            }
+             myfile_tree.close();
 
 
-//        outfile << endl;
-        outfile.close();
-
-        stringstream  temp3 (stringstream::in | stringstream::out);
-        stringstream  temp4 (stringstream::in | stringstream::out);
-        temp3 << N_pop;
-        temp4 << MIGRATION_RATE;
-        string tmp3 = temp3.str();
-        string tmp4 = temp4.str();
-        string out_tree_filename;
-        string outfileDir_tree;
-        outfileDir_tree.append(fileDir).append("Tree");
-        out_tree_filename.append(outfileDir_tree).append("_PopSize_").append(tmp3).append("_MigrationRate_").append(tmp4);
-        const char * tree_filename = out_tree_filename.c_str();
-
-        ofstream myfile_tree;
-        myfile_tree.open(tree_filename);
-         for (unsigned int genlocus = 0; genlocus < gen_loci.size(); genlocus ++){
-            //pop.genealogy.trees[genlocus].check_tree_integrity();
-            myfile_tree <<"#PRINT ENTIRE TREE"<<endl;
-            myfile_tree << pop.genealogy.trees[genlocus].print_newick()<<endl;
-
-        }
-         myfile_tree.close();
 
         }
 

@@ -450,7 +450,7 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-    tree_str<<root.index<<'_'<<root_node->second.clone_size << "_"<< root.location<<":"<<edge->second.length;
+    tree_str<<root.index<<'_'<<root_node->second.clone_size << "_"<< root.location <<  ":"<<edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
