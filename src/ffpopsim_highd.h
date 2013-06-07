@@ -226,6 +226,8 @@ public:
 	// construction / destruction
     haploid_highd(int L = 0, int rng_seed = 0, int number_of_traits=1, bool all_polymorphic=false);
     virtual ~haploid_highd();
+    int set_up(int L , int rng_seed =0, int number_of_traits=1, bool all_polymorphic=false);
+
 
         // the population
 	vector <clone_t> population;
@@ -362,7 +364,7 @@ public:
 
 
 
-protected:
+//protected:
 	// random number generator
 	gsl_rng* evo_generator;
 	gsl_rng* label_generator;
@@ -446,7 +448,6 @@ protected:
     vector <int> clones_needed_for_recombination;
 private:
 	// Memory management is private, subclasses must take care only of their own memory
-    int set_up(int L , int rng_seed =0, int number_of_traits=1, bool all_polymorphic=false);
 	bool mem;
 	bool cumulants_mem;
 	int allocate_mem();

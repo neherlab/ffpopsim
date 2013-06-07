@@ -1,11 +1,6 @@
 #ifndef MULTILOCUSGENEALOGY_H
 #define MULTILOCUSGENEALOGY_H
 
-
-#ifndef rooted_tree_H_
-#define rooted_tree_H_
-
-
 #include <map>
 #include <set>
 #include <vector>
@@ -15,7 +10,35 @@
 #include <list>
 #include <gsl/gsl_histogram.h>
 
+
+#define HCF_MEMERR -131545
+#define HCF_BADARG -131546
+#define HCF_VERBOSE 0
+#define WORDLENGTH 28 	//length used to chop bitsets into words
+
+#ifndef rooted_tree_H_
+#define rooted_tree_H_
+#define RT_VERBOSE 0
+#define RT_VERYLARGE 10000000
+#define RT_CHILDNOTFOUND -35343
+#define RT_NODENOTFOUND -35765
+#define RT_LOCUSNOTFOUND -35762
+#define RT_FITNESS_MISSING -35722
+#define RT_CROSSOVER_MISSING -35721
+#define RT_SEGMENT_MISSING -35720
+#define RT_ERROR_PARSING 1
+
+
 using namespace std;
+
+/*
+ *	@brief a class that implements a rooted tree to store genealogies
+ *
+ *	Nodes and edges are stored as maps with a key that holds the age (rather the time) when the node lived
+ *	and the index in the population at that time. The nodes themselves are sufficient to reconstruct the tree
+ *	since they contain keys of parents and children
+ */
+
 struct tree_key_t
 {
 
@@ -144,8 +167,11 @@ public:
     string print_newick();
     string subtree_newick(tree_key_t root);
     string print_weight_distribution(tree_key_t node_key);
-    int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
+	int read_newick(string newick_string);
 
+private:
+    int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
+    int parse_subtree(tree_key_t &parent_key, std::string &tree_s);
         // construct subtrees
     int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
 
