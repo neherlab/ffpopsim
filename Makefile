@@ -283,7 +283,7 @@ python: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%) $(
 
 python-install:
 	$(PYTHON) setup.py install --skip-build --install-lib=$(PKGDIR)/python
-	$(PYTHON) setup.py install --skip-build
+	$(PYTHON) setup.py install --skip-build --root=$(DESTDIR)
 
 clean-python:
 	cd $(PKGDIR); rm -rf python

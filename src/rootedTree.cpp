@@ -833,3 +833,241 @@ int rooted_tree::ancestors_at_age(int age, tree_key_t subtree_root, vector <tree
 	return nanc;
 }
 
+/**
+ * @brief Parse a label from the newick representation
+ *
+ * @param label the string with the label
+ * @param index where to store the index
+ * @param clone_size where to store the clone_size
+ * @param branch_length where to store the branch_length
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int rooted_tree::parse_label(std::string label, int *index, int *clone_size, int *branch_length) {
+	std::vector<std::string> strs;
+	strs = boost::split(strs, label, boost::is_any_of(":_"));
+	if(strs.size() < 3) {
+		if (RT_VERBOSE) std::cerr<<"Error parsing "<<label<<"."<<std::endl;
+		return RT_ERROR_PARSING;
+	}
+	std::stringstream(strs[0]) >> (*index);
+	std::stringstream(strs[1]) >> (*clone_size);
+	std::stringstream(strs[2]) >> (*branch_length);
+
+	return 0;
+}
+
+/**
+ * @brief Parse a Newick substring and add the nodes to the tree
+ *
+ * @param parent_key the parent key to hang the subtree from
+ * @param tree_s the Newick substring to parse
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int rooted_tree::parse_subtree(tree_key_t &parent_key, std::string &tree_s) {
+
+		std::string own_label;
+		tree_key_t own_key;
+		node_t own_node;
+		int index, clone_size, branch_length;
+		int status = 0;
+
+		// Is this a leaf?
+		size_t close_posn = tree_s.find_last_of(")");
+		if (close_posn == std::string::npos) {
+			// Leaf
+			own_label = tree_s;
+			if (RT_VERBOSE) std::cerr<<"Leaf";
+		} else {
+			// Internal node
+			own_label = tree_s.substr(close_posn + 1, tree_s.length() - close_posn - 1);
+			if (RT_VERBOSE) std::cerr<<"Internal node";
+		}
+
+		if (RT_VERBOSE) {
+			std::cerr<<" of tree_key_t("<<parent_key.index<<", "<<parent_key.age<<"): ";
+			std::cerr<<tree_s<<std::endl;
+		}
+
+		// Parse own label
+		status = parse_label(own_label,
+				     &index,
+				     &clone_size,
+				     &branch_length);
+		if (status) {
+			if (RT_VERBOSE) std::cerr<<"Error while parsing label: "<<own_label<<std::endl;
+			return RT_ERROR_PARSING;	
+		}
+		own_key.index = index;
+		own_key.age = parent_key.age + branch_length;
+
+		// Make the current node
+		own_node.parent_node = parent_key;
+		own_node.own_key = own_key;
+		own_node.number_of_offspring = 0;
+		own_node.clone_size = clone_size;
+		own_node.fitness = RT_FITNESS_MISSING;
+		own_node.crossover[0] = RT_CROSSOVER_MISSING;
+		own_node.crossover[1] = RT_CROSSOVER_MISSING;
+		add_terminal_node(own_node);
+
+		// Only if not a leaf, find out about subtrees
+		if (close_posn == std::string::npos) {
+			leafs.push_back(own_key);
+			return status;
+		}
+		std::vector<std::string> subtrees;
+        	std::string subtext;
+		int plevel = 0;
+		int prev = 1;
+		char c;
+		size_t posn = 1;
+		for(std::string::iterator it=tree_s.begin() + 1; posn != close_posn; it++, posn++) {
+			c = (*it);
+			if (c == '(') {
+				plevel++;
+			} else if (c == ')') {
+				plevel--;
+			} else if ((c == ',') and (plevel == 0)) {
+				subtext = tree_s.substr(prev, posn - prev);
+				subtrees.push_back(subtext);
+				prev = posn + 1;	
+			}
+		}
+		subtext = tree_s.substr(prev, close_posn - prev);
+		subtrees.push_back(subtext);
+		
+		// OK, now you have the subtrees with a lot of string copying around
+		if (RT_VERBOSE) {
+			std::cerr<<"Subtrees of tree_key_t("<<own_key.index<<", "<<own_key.age<<"): ";
+			for(std::vector<std::string>::iterator it=subtrees.begin(); it != subtrees.end(); it++) {
+				std::cerr<<(*it)<<"\t";
+			}
+			std::cerr<<std::endl;
+		}
+
+		// Add recursively all children
+		for(std::vector<std::string>::iterator it=subtrees.begin(); it != subtrees.end(); it++) {
+				status = parse_subtree(own_key, (*it));
+			}
+
+		//FIXME
+		return status;
+}
+
+/**
+ * @brief Read a newick strong and make the tree from there
+ *
+ * @param tree_s the newick string
+ *
+ * @returns zero if successful, error codes otherwise
+ */
+int rooted_tree::read_newick(string tree_s) {
+
+	int status = 0;
+        if(RT_VERBOSE) std::cout<<"Tree in:  "<<tree_s<<std::endl;
+
+        // Check for open and closed parentheses
+        unsigned long nopen = 0, nclose = 0;
+	for(std::string::iterator i=tree_s.begin(); i != tree_s.end(); i++) {
+		if ((*i) == '(')
+			nopen++;
+		else if ((*i) == ')')
+			nclose++;
+	}
+	if (nopen != nclose) {
+		if (RT_VERBOSE) std::cerr<<"Newick file corrupted (parentheses not matching)"<<std::endl;
+		return 1;
+	}
+
+	// Parse
+	tree_key_t tmp_key;
+	node_t tmp_node;
+	edge_t tmp_edge;
+	std::string tmp_s;
+	int index, clone_size, branch_length;
+	std::string root_label;
+
+	// is it a trivial tree?
+	size_t close_posn = tree_s.find_last_of(")");
+	if (close_posn == std::string::npos)
+		root_label = tree_s.substr(0, tree_s.length() - 1);
+	else
+		root_label = tree_s.substr(close_posn + 1, tree_s.length() - close_posn - 2);
+
+	// The first level of parsing is special because:
+	// 1. there is a single node (the root)
+	// 2. the node must be added to the tree is a special way
+	// 3. the label ends with a semicolon and a newline (probably, FIXME)
+	if (RT_VERBOSE) std::cerr<<"Root label: "<<root_label<<std::endl;
+	status = parse_label(root_label,
+			     &index,
+			     &clone_size,
+			     &branch_length);
+	if (status) {
+		if (RT_VERBOSE) std::cerr<<"Error while parsing root label"<<std::endl;
+		return RT_ERROR_PARSING;	
+	}
+	// Make the MRCA node
+	reset();
+	leafs.clear();
+	tmp_key.index = index;
+	tmp_key.age = branch_length + root.age;
+	tmp_node.parent_node = MRCA;
+	tmp_node.own_key = tmp_key;
+	tmp_node.number_of_offspring = 0; // updated later
+	tmp_node.clone_size = clone_size;
+	tmp_node.fitness = RT_FITNESS_MISSING;
+	tmp_node.crossover[0] = RT_CROSSOVER_MISSING;
+	tmp_node.crossover[1] = RT_CROSSOVER_MISSING;
+	add_terminal_node(tmp_node);
+	bridge_edge_node(MRCA);
+
+	// is it a trivial tree?
+	if (close_posn == std::string::npos) {
+		leafs.push_back(tmp_key);
+	} else {
+		// Find out about subtrees
+		std::vector<std::string> subtrees;
+		std::vector<std::string>::iterator it;
+        	std::string subtext;
+		int plevel = 0;
+		int prev = 1;
+		char c;
+		size_t posn = 1;
+		for(std::string::iterator its=tree_s.begin() + 1; posn != close_posn; its++, posn++) {
+			c = (*its);
+			if (c == '(')
+				plevel++;
+			else if (c == ')')
+				plevel--;
+			else if ((c == ',') and (plevel == 0)) {
+				subtext = tree_s.substr(prev, posn - prev);
+				subtrees.push_back(subtext);
+				prev = posn + 1;
+			}
+		}
+		subtext = tree_s.substr(prev, close_posn - prev);
+		subtrees.push_back(subtext);
+
+		// OK, now you have the subtrees with a lot of string copying around
+		if (RT_VERBOSE) {
+			std::cerr<<"Subtrees:"<<std::endl;
+			for(it=subtrees.begin(); it != subtrees.end(); it++)
+				std::cerr<<(*it)<<std::endl;
+		}
+
+		// Add recursively all children
+		for(it=subtrees.begin(); it != subtrees.end(); it++)
+				status = parse_subtree(tmp_key, (*it));
+	}
+
+	// update number of offspring
+	update_tree();
+
+	// Now the tree is done. Let us print newick to test
+	if (RT_VERBOSE) std::cout<<"Tree out: "<<print_newick()<<std::endl;
+
+	return status;
+}

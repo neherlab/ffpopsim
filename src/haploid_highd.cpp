@@ -280,10 +280,13 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
 	return 0;
 }
 
+
+
 /**
  * @brief Initialize the population with genotype counts
  *
  * @param gt vector of genotype_value_pair with genotypes and sizes
+ * @params vector that specifies the ancestral state of the sample. 
  *
  * @returns 0 if successful, nonzero otherwise.
  *
@@ -291,7 +294,24 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
  * The carrying capacity is also set to the same number if it is still unset.
  */
 int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
-	if (HP_VERBOSE) cerr <<"haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt)...";
+  vector <int> tmp_ancestral_state(L(), 0); 
+  return set_genotypes_and_ancestral_state(gt, tmp_ancestral_state);
+}
+
+
+/**
+ * @brief Initialize the population with genotype counts
+ *
+ * @param gt vector of genotype_value_pair with genotypes and sizes
+ * @params vector that specifies the ancestral state of the sample. 
+ *
+ * @returns 0 if successful, nonzero otherwise.
+ *
+ * *Note*: the population size is set as the total sum of counts of all genotypes.
+ * The carrying capacity is also set to the same number if it is still unset.
+ */
+int haploid_highd::set_genotypes_and_ancestral_state(vector <genotype_value_pair_t> gt, vector <int>anc_state) {
+	if (HP_VERBOSE) cerr <<"haploid_highd::set_genotypes_and_ancestral_state(vector <genotype_value_pair_t> gt)...";
 
 	allele_frequencies_up_to_date = false;
 	//reset the ancestral states
@@ -314,6 +334,14 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
 	last_clone = 0;
 	provide_at_least(gt.size());
 
+	if (anc_state.size()==L()){
+	  for (size_t locus=0; locus<L(); locus++){
+		ancestral_state[locus]=anc_state[locus];
+	  }
+	}else{
+	  cerr <<"haploid_highd::set_genotypes_and_ancestral_state: length of ancestral state vector must equal number of loci"<<endl;
+	  return HP_BADARG;
+	}
 	for(size_t i = 0; i < gt.size(); i++) {
 		add_genotype(gt[i].genotype, gt[i].val);
 		population_size += gt[i].val;
