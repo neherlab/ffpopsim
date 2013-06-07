@@ -436,7 +436,6 @@ public:
 
 	// phenotype-fitness map. By default, a linear map with equal weights is set, but weights can be reset
 	double *trait_weights;
-    virtual double trait_function(double aTrait1, double aTrait2, double phi){return 0;}
     virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
 	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
     void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton = 0, int own_location = 0);

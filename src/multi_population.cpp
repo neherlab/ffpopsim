@@ -433,6 +433,23 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
     sub_population[new_location]->newGenerations[locusIndex][dest].crossover[0] = left;
     sub_population[new_location]->newGenerations[locusIndex][dest].crossover[1] = right;
 
+    if (sub_population[new_location]->number_of_traits != sub_population[new_location]->newGenerations[locusIndex][dest].traits.size())
+    {
+        sub_population[new_location]->newGenerations[locusIndex][dest].traits.clear();
+        for (int traitNo = 0; traitNo < sub_population[new_location]->number_of_traits; traitNo ++)
+        {
+            sub_population[new_location]->newGenerations[locusIndex][dest].traits.push_back(sub_population[new_location]->population[dest].trait[traitNo]);
+        }
+    }else
+    {
+        for (int traitNo = 0; traitNo < sub_population[new_location]->number_of_traits; traitNo ++)
+        {
+            sub_population[new_location]->newGenerations[locusIndex][dest].traits[traitNo] = sub_population[new_location]->population[dest].trait[traitNo];
+
+        }
+    }
+
+
     //cout << "New node created!  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.index << endl;
     //cout << "Parent:  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.index << endl;
 

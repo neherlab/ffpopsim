@@ -1010,6 +1010,23 @@ void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent,
     newGenerations[locusIndex][dest].clone_size=cs;
     newGenerations[locusIndex][dest].crossover[0]=left;
     newGenerations[locusIndex][dest].crossover[1]=right;
+    if (number_of_traits != newGenerations[locusIndex][dest].traits.size())
+    {
+        newGenerations[locusIndex][dest].traits.clear();
+        for (int traitNo = 0; traitNo < number_of_traits; traitNo ++)
+        {
+            newGenerations[locusIndex][dest].traits.push_back(population[dest].trait[traitNo]);
+
+        }
+    }else
+    {
+        for (int traitNo = 0; traitNo < number_of_traits; traitNo ++)
+        {
+            newGenerations[locusIndex][dest].traits[traitNo] = population[dest].trait[traitNo];
+
+        }
+    }
+
 
     //cout << "New node created!  " << " age = " << newGenerations[locusIndex][dest].own_key.age << " location = " << newGenerations[locusIndex][dest].own_key.location << " index = " << newGenerations[locusIndex][dest].own_key.index << endl;
 

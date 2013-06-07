@@ -82,9 +82,11 @@ struct node_t {
     double fitness;
     tree_key_t own_key;
     vector <step_t> weight_distribution;
+    vector < double > traits;
     int number_of_offspring;
     int clone_size;
     int crossover[2];
+
 };
 
 

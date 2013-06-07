@@ -450,7 +450,13 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-    tree_str<<root.index<<'_'<<root_node->second.clone_size << "_"<< root.location <<  ":"<<edge->second.length;
+    tree_str<<root.index<<'_'<<root_node->second.clone_size << "_LOC_"<< root.location;
+    for (int traitNo = 0; traitNo < root_node->second.traits.size(); traitNo ++)
+    {
+        tree_str << setprecision(2);
+        tree_str << "_T"<<traitNo<<"_"<< root_node->second.traits[traitNo];
+    }
+    tree_str << ":" << edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
