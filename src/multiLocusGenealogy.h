@@ -144,6 +144,7 @@ public:
     string print_newick();
     string subtree_newick(tree_key_t root);
     string print_weight_distribution(tree_key_t node_key);
+    int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
 
         // construct subtrees
     int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
