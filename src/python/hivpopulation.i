@@ -27,12 +27,19 @@
 %feature("autodoc", "x.__repr__() <==> repr(x)") __repr__;
 const char* __str__() {
         static char buffer[255];
-        sprintf(buffer,"hivgene: start: %d, end: %d", $self->start, $self->end);
+        if($self->second_start + $self->second_end)
+                sprintf(buffer,"hivgene: start 1st exon: %d, end 1st exon: %d, start 2nd exon: %d, end 2nd exon: %d",
+                               $self->start, $self->end, $self->second_start, $self->second_end);
+        else
+                sprintf(buffer,"hivgene: start: %d, end: %d", $self->start, $self->end);
         return &buffer[0];
 }
 const char* __repr__() {
         static char buffer[255];
-        sprintf(buffer,"hivgene(%d, %d)", $self->start, $self->end);
+        if($self->second_start + $self->second_end)
+                sprintf(buffer,"hivgene(%d, %d, %d, %d)", $self->start, $self->end, $self->second_start, $self->second_end);
+        else
+                sprintf(buffer,"hivgene(%d, %d)", $self->start, $self->end);
         return &buffer[0];
 }
 
@@ -75,8 +82,9 @@ relative importance for viral fitness is set by the ``treatment`` attribute::
 
 By default, ``treatment`` is set to zero, to simulate non-treated patients.
 
-The gene structure of HIV is not modelled explicitely, except for a stub of
-1000 sites between position 7000 and 8000 to roughly model the _env_ gene.
+The gene structure of HIV is modelled roughly, including only start/end positions
+for the exons, using HXB2 as a reference. Different genes do not get automatically
+different fitness landscapes.
 "
 %enddef
 %feature("autodoc", DOCSTRING_HIVPOPULATION) hivpopulation;

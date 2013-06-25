@@ -37,7 +37,17 @@
  * *Note*: the genome length is 10000 (see HIVGENOME).
  * *Note*: exceptions are propagated from the base class constructor (haploid_highd).
  */
-hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, rng_seed, 2), env(ENV_START, ENV_END), treatment(0) {
+hivpopulation::hivpopulation(int N_in, int rng_seed, double mutation_rate_in, double coinfection_rate_in, double crossover_rate_in) : haploid_highd(HIVGENOME, rng_seed, 2),
+	            gag(GAG_START, GAG_END),
+	            pol(POL_START, POL_END),
+	            env(ENV_START, ENV_END),
+	            nef(NEF_START, NEF_END),
+	            vif(VIF_START, VIF_END),
+	            vpu(VPU_START, VPU_END),
+	            vpr(VPR_START, VPR_END),
+	            tat(TAT1_START, TAT1_END, TAT2_START, TAT2_END),
+	            rev(REV1_START, REV1_END, REV2_START, REV2_END),
+		    treatment(0) {
 
 	outcrossing_rate = coinfection_rate_in;
 	mutation_rate = mutation_rate_in;
