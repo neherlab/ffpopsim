@@ -341,6 +341,13 @@ vector <int> myfunction2 () {
 ...
 }
 \end{minted}
+\textbf{Note}: when working with objects, you sometimes want a function to
+return a copy of the object. For instance, you do not want the na\"ive Python
+user to modify the genealogy within \texttt{haploid\_highd}, for fear of damage.
+Sometimes, however, you want to use pointers, to \textit{modify extant objects}. For
+instance, if your population has an attribute called \texttt{location} which is
+a struct and you want to modify it from Python, you will need a pointer to the
+extant object, not a copy!
 
 \subsection{Converting \texttt{std::<whatever>} into Python builtins}
 Standard translation tables for STL objects can be less than optimal. If
