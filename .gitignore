@@ -19,11 +19,18 @@ doc/python/build
 # Executables/ test files
 tests/lowd
 tests/highd
+tests/hivpopulation
+tests/recombination_lowd
+tests/test_genealogy
 tests/test.npz
 tests/test.txt
 tests/FFPopSim.py
 tests/FFPopSim.pyc
 tests/_FFPopSim.so
+
+# SWIG generated files (they are kept in the static-gsl branch)
+src/python/FFPopSim.py
+src/python/FFPopSim_wrap.cpp
 
 # Compiled Object files
 *.slo
@@ -114,8 +121,3 @@ Release
 
 # Do not keep the binaries
 # (they are kept in the static_gsl branch)
-
-#tests
-tests/recombination_lowd
-tests/test_genealogy
-
