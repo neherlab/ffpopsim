@@ -19,11 +19,18 @@ doc/python/build
 # Executables/ test files
 tests/lowd
 tests/highd
+tests/hivpopulation
+tests/recombination_lowd
+tests/test_genealogy
 tests/test.npz
 tests/test.txt
 tests/FFPopSim.py
 tests/FFPopSim.pyc
 tests/_FFPopSim.so
+
+# SWIG generated files (they are kept in the static-gsl branch)
+src/python/FFPopSim.py
+src/python/FFPopSim_wrap.cpp
 
 # Compiled Object files
 *.slo
@@ -65,6 +72,40 @@ pip-log.txt
 # Translations
 *.mo
 
+# LaTeX stuff
+doc/swig/*.acn
+doc/swig/*.acr
+doc/swig/*.alg
+doc/swig/*.aux
+doc/swig/*.bbl
+doc/swig/*.blg
+doc/swig/*.dvi
+doc/swig/*.fls
+doc/swig/*.fdb_latexmk
+doc/swig/*.glg
+doc/swig/*.glo
+doc/swig/*.gls
+doc/swig/*.idx
+doc/swig/*.ilg
+doc/swig/*.ind
+doc/swig/*.ist
+doc/swig/*.lof
+doc/swig/*.log
+doc/swig/*.lot
+doc/swig/*.maf
+doc/swig/*.mtc
+doc/swig/*.mtc0
+doc/swig/*.nav
+doc/swig/*.nlo
+doc/swig/*.out
+doc/swig/*.pdfsync
+doc/swig/*.ps
+doc/swig/*.snm
+doc/swig/*.synctex.gz
+doc/swig/*.toc
+doc/swig/*.vrb
+doc/swig/*.xdy
+
 # backup
 *~
 
@@ -80,8 +121,3 @@ Release
 
 # Do not keep the binaries
 # (they are kept in the static_gsl branch)
-
-#tests
-tests/recombination_lowd
-tests/test_genealogy
-

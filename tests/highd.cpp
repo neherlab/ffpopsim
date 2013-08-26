@@ -117,11 +117,13 @@ int pop_evolve() {
 		loci.clear();
 	}
 	stat_t fitstat;
+	cerr <<"    "<<"af5\t"<<"af50\t"<<"Fitness mean\t"<<"Fitness var"<<endl;
+	cerr <<"---------------------------------------------"<<endl;
 	for (int i=0; i< 10; i++) {
 		pop.evolve();
 		pop.calc_stat();
 		fitstat = pop.get_fitness_statistics();
-		cerr <<"af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
+		cerr <<i<<": "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
 	}
 	pop.calc_stat();
 
@@ -339,74 +341,6 @@ int pop_sampling() {
 //}
 //
 //
-///* Test end-user subclass initialization */
-//int hiv_initialize() {
-//
-//	int N = 1000;
-//	hivpopulation pop(N);
-//
-//	cout<<"Env start: "<<pop.env.start<<", env end: "<<pop.env.end<<endl;
-//
-//
-//	if(HIGHD_VERBOSE)
-//		cerr<<"L = "<<pop.get_number_of_loci()<<", N = "<<pop.carrying_capacity<<endl;
-//	return 0;
-//
-//	if(HIGHD_VERBOSE) {
-//		cerr<<"Mutation rate: "<<pop.mutation_rate<<", ";
-//		cerr<<"coinfection rate: "<<pop.outcrossing_rate<<endl;
-//	}
-//	return 0;
-//}
-//
-///* Test end-user subclass evolution and output */
-//int hiv_evolve() {
-//	int N = 1000;
-//	ifstream model("hiv_model.dat", ifstream::in);
-//
-//	hivpopulation pop(N, 0, 2e-5, 1e-3, 1e-3);
-//
-//	if(HIGHD_VERBOSE) cerr<<"Reading model coefficients...";
-//	pop.read_replication_coefficients(model);
-//	if(HIGHD_VERBOSE) cerr<<"read!"<<endl;
-//
-//	// err checks for extinction
-//	int err = pop.evolve(10);
-//	if(err==0) {
-//		vector <int> sample;
-//		pop.random_clones(10, &sample);
-//
-//		if(HIGHD_VERBOSE) {
-//			cerr<<"Number of clones: "<<pop.get_number_of_clones()<<endl;
-//			cerr<<"Random individuals:";
-//			for(unsigned int i=0; i < sample.size(); i++)
-//				cout<<" "<<sample[i];
-//			cout<<endl;
-//		}
-//	}
-//	return bool(err);
-//}
-//
-//
-//int hiv_multiple_evolution() {
-//	int N = 1000, err=0;
-//	ifstream model("hiv_model.dat", ifstream::in);
-//
-//	for(size_t i=0; i < 5; i++) {
-//		if(HIGHD_VERBOSE) cerr<<"Population n. "<<i<<"...";
-//		hivpopulation pop(N, 0, 2e-5, 1e-3, 1e-3);
-//
-//		if(HIGHD_VERBOSE) cerr<<"Reading model coefficients...";
-//		pop.read_replication_coefficients(model);
-//		if(HIGHD_VERBOSE) cerr<<"read!"<<endl;
-//
-//		for(size_t j = 0; j < 5; j++)
-//			err += pop.evolve(50);
-//		if(HIGHD_VERBOSE) cerr<<"done"<<endl;
-//	}
-//
-//	return err;
-//}
 
 /* MAIN */
 int main(int argc, char **argv){
@@ -426,9 +360,7 @@ int main(int argc, char **argv){
 //		status += pop_Hamming();
 //		status += pop_divdiv();
 //		status += pop_histograms();
-//		status += hiv_initialize();
-//		status += hiv_evolve();
-//		status += hiv_multiple_evolution();
+
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;

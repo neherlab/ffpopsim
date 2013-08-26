@@ -39,8 +39,31 @@
 #define HIVGENOME 10000
 
 // HIV genes
-#define ENV_START 7000
-#define ENV_END 8000
+//  - coordinates refer to HXB2
+//  - HXB2 is not exactly 10000 bases long, but this makes no relevant difference
+#define GAG_START 789
+#define GAG_END 2292
+#define POL_START 2087
+#define POL_END 5096
+#define ENV_START 6314
+#define ENV_END 8795
+#define NEF_START 8796
+#define NEF_END 9417
+#define VIF_START 5040
+#define VIF_END 5619
+#define VPR_START 5558
+#define VPR_END 5850
+#define VPU_START 6061
+#define VPU_END 6310
+#define REV1_START 5969
+#define REV1_END 6045
+#define REV2_START 8378
+#define REV2_END 8653
+#define TAT1_START 5830
+#define TAT1_END 6045
+#define TAT2_START 8378
+#define TAT2_END 8469
+
 
 
 /**
@@ -53,7 +76,10 @@
 struct hivgene {
 	unsigned int start;
 	unsigned int end;
-	hivgene(unsigned int start_in=0, unsigned int end_in=HIVGENOME);
+	unsigned int second_start;
+	unsigned int second_end;
+	hivgene(unsigned int start_in=0, unsigned int end_in=HIVGENOME,
+		unsigned int second_start_in=0, unsigned int second_end_in=0);
 };
 
 /**
@@ -79,7 +105,15 @@ public:
 	virtual ~hivpopulation();
 
 	// genes
+	hivgene gag;
+	hivgene pol;
 	hivgene env;
+	hivgene nef;
+	hivgene vif;
+	hivgene vpu;
+	hivgene vpr;
+	hivgene tat;
+	hivgene rev;
 
 	// treatment (set/get)
 	void set_treatment(double t){treatment=t; update_traits(); update_fitness();}
