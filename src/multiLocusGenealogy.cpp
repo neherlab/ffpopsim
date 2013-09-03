@@ -81,7 +81,10 @@ int multi_locus_genealogy_parent::extend_storage(int n) {
  */
 void multi_locus_genealogy::add_generation(double baseline) {
     for (unsigned int locusIndex = 0; locusIndex < trees.size(); locusIndex ++){
+
+
         trees[locusIndex].add_generation(newGenerations[locusIndex], baseline);
+
     }
 }
 

@@ -103,7 +103,8 @@ void rooted_tree::reset(){
  * TODO nothing is done with the mean_fitness argument
  */
 void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fitness){
-	if (RT_VERBOSE){
+    int sampling_rate = 1000;
+    if (RT_VERBOSE){
 		cerr <<"rooted_tree::add_generation(). Number of leafs to add: "<<new_generation.size()<<endl;
 	}
 
@@ -123,7 +124,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 		cerr <<"rooted_tree::add_generation(). rooted_tree size: "<<edges.size()<<" edges, "<<nodes.size()<<" nodes "<<endl;
 	}
 
-	//go over the previous leafs and delete those that leave no offspring, bridge those with one
+    //go over the previous leafs and delete those that leave no offspring, bridge those with one
 	map <tree_key_t,edge_t>::iterator edge_pos = edges.end();
 	map <tree_key_t,node_t>::iterator node_pos = nodes.end();
 	tree_key_t parent_key;
@@ -137,14 +138,14 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 				}
 				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
 				//are encountered or the parent is the root.
-				while (nodes[parent_key].child_edges.size()==1 and parent_key!=root){
+                while (nodes[parent_key].child_edges.size()==1 and parent_key!=root and parent_key.age % sampling_rate != 0){
 					parent_key = bridge_edge_node(parent_key);
 				}
-			}else if (node_pos->second.child_edges.size()==1){		//bridge nodes that have exactly one offspring
+            }else if (node_pos->second.child_edges.size()==1 and parent_key.age % sampling_rate != 0 ){		//bridge nodes that have exactly one offspring
 				parent_key = bridge_edge_node(*old_leaf_key);
 				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
 				//are encountered or the parent is the root.
-				while (nodes[parent_key].child_edges.size()==1 and root!=parent_key){
+                while (nodes[parent_key].child_edges.size()==1 and root!=parent_key and parent_key.age % sampling_rate != 0 ){
 					parent_key = bridge_edge_node(parent_key);
 				}
 			}
@@ -461,6 +462,32 @@ string rooted_tree::subtree_newick(tree_key_t root){
 	return tree_str.str();
 }
 
+string rooted_tree::print_genotypes() {
+    return genotypes_newick(MRCA)+";";
+}
+
+string rooted_tree::genotypes_newick(tree_key_t root){
+    stringstream tree_str;
+    map <tree_key_t,node_t>::iterator root_node = nodes.find(root);
+    map <tree_key_t,edge_t>::iterator edge = edges.find(root);
+    if (root_node->second.child_edges.size()>0){
+        list <tree_key_t>::iterator child = root_node->second.child_edges.begin();
+        tree_str.str();
+        tree_str <<"("<< genotypes_newick(*child);
+        child++;
+        for (;child!=root_node->second.child_edges.end(); child++){
+            tree_str<<","+genotypes_newick(*child);
+        }
+        tree_str<<")";
+    }
+    tree_str << root.location << '_'<< root.age << "_"<<root_node->second.clone_size << "_"<< root_node->second.allele_freqs;
+    tree_str << ":" << edge->second.length;
+    //tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
+    return tree_str.str();
+}
+
+
+
 /*
  * @brief returns true of the tree_key_t node_key is part of the tree, false otherwise
  */
@@ -616,7 +643,7 @@ int rooted_tree::delete_one_child_nodes(tree_key_t subtree_root){
 	for (list <tree_key_t>::iterator child = tempchildren.begin(); child!=tempchildren.end(); child++){
 		delete_one_child_nodes(*child);	//apply function to children
 	}
-	//if only one child, bridge this node
+    //if only one child, bridge this node
 	if (node->second.child_edges.size()==1){
 		bridge_edge_node(subtree_root);
 	}

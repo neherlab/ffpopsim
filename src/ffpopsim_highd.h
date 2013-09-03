@@ -363,8 +363,8 @@ public:
 
 
 
-
 //protected:
+
 	// random number generator
 	gsl_rng* evo_generator;
 	gsl_rng* label_generator;
@@ -441,6 +441,14 @@ public:
 	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
     void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton = 0, int own_location = 0);
     void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton, int own_location, int parent_age);
+
+    /*Fitness map for multi-population*/
+    double phi_0;
+    double rho_0;
+    virtual void set_phi_0 (double aPhi_0){phi_0 = aPhi_0; return;}
+    virtual double get_phi_0 (){return phi_0;}
+    virtual void set_offset(double aRho){rho_0 = aRho; return;}
+    virtual double get_offset(){return rho_0;}
 
 
     // These two vectors are used to recycle dead clones

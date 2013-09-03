@@ -1055,6 +1055,9 @@ void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent,
         }
     }
 
+    newGenerations[locusIndex][dest].allele_freqs = population[dest].genotype;
+
+
 
     //cout << "New node created!  " << " age = " << newGenerations[locusIndex][dest].own_key.age << " location = " << newGenerations[locusIndex][dest].own_key.location << " index = " << newGenerations[locusIndex][dest].own_key.index << endl;
 
@@ -1429,7 +1432,7 @@ double haploid_highd::relaxation_value() {
 
 	double logmean_expfitness = get_logmean_expfitness();
 	// the second term is the growth rate when we start from N << carrying capacity
-	double relax = logmean_expfitness + (fmin(log(growth_rate)*(double(population_size) / carrying_capacity - 1), 2.0)) + fitness_max;
+    double relax = logmean_expfitness + (log(growth_rate)*(double(population_size) / carrying_capacity - 1)) + fitness_max;
 	if (HP_VERBOSE)	cerr<<"log(<exp(F-Fmax)>) = "<<logmean_expfitness<<"... relaxation value = "<<relax<<"...done."<<endl;
 	return relax;
 }

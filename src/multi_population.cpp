@@ -1,105 +1,119 @@
 #include "multi_population.h"
 
-class hh_1 : public haploid_highd{
+//#define SELECT 0.01
+class hh_source : public haploid_highd{
 
-    virtual double trait_function(double aTrait1, double aTrait2, double phi_0 = 0)
+    //Center of the distribution in polar coordinates:
+    //double phi_0 = 0;
+    //double rho_0 = 0;
+    //VARIANCE
+    double sigma;
+
+
+    virtual double trait_function(double aTrait1, double aTrait2)
     {
-        //OFF-CENTER
-        double rho1_0 =  0;
-        double rho2_0 =  0;
-        double rho_0 = sqrt(pow(rho1_0, 2) + pow(rho2_0, 2));
-
-        //VARIANCE
-        double sigma = 1;
-
-
         double t1 = aTrait1;
         double t2 = aTrait2;
+        double t1_0 = cos(phi_0) * rho_0;
+        double t2_0 = sin(phi_0) * rho_0;
 
-        double rho = sqrt(pow(t1, 2) + pow(t2, 2));
-        double phi = 0;
-        if (rho != 0 )
-            phi = acos(t1/rho);
-
-
-        return  cos(phi - phi_0) * exp(-(pow(rho-rho_0, 2)) / (2 * sigma));
+        return  trait_weights[0] / 5 * exp(-  ( (pow(t1, 2)) + pow(t2, 2) )  / (200));
     }
 
 public:
 
-    //virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
+    //get/set methods for fitness map parameters
+    void set_phi_0 (double aPhi_0){phi_0 = aPhi_0; return;}
+    double get_phi_0 (){return phi_0;}
+    void set_offset(double aRho){rho_0 = aRho; return;}
+    double get_offset(){return rho_0;}
 
-    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 0);}
+    //This method doeas the job of trait -> fitness conversion
+    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1]);}
 
-    hh_1(){}
+    hh_source()
+    {
+        phi_0 = 0;
+        rho_0 = 0;
+        sigma = 100;
+    }
+    ~hh_source(){}
+};
+
+class hh_1 : public haploid_highd{
+    //Center of the distribution in polar coordinates:
+    //double phi_0 = 0;
+    //double rho_0 = 0;
+    //VARIANCE
+    double sigma;
+
+
+
+    virtual double trait_function(double aTrait1, double aTrait2)
+    {
+        double t1 = aTrait1;
+        double t2 = aTrait2;
+        double rho = 0;
+        //double t1_0 = cos(phi_0) * rho_0;
+        //double t2_0 = sin(phi_0) * rho_0;
+
+        rho = sqrt(pow((t1 + 1e-5), 2) + pow((t2 + 1e-5), 2));
+
+
+        double d_phi = acos( ((t1 + 1e-5) * cos(phi_0) + (t2 + 1e-5) * sin(phi_0)) / rho);
+
+        //cout << t1 << " " << t2 << "  "<< d_phi<< endl;
+        return   trait_weights[0] / 5 * exp(1) *  rho / rho_0 * exp(- rho / rho_0) * exp(- pow((d_phi), 2) / sigma);
+
+    }
+
+public:
+
+    //get/set methods for fitness map parameters
+    void set_phi_0 (double aPhi_0)
+    {
+        double new_phi = aPhi_0;
+        while (new_phi < 0 )
+        {
+                new_phi = new_phi + 2 * 3.14;
+        }
+
+        while (new_phi > 2 * 3.14)
+        {
+                new_phi = new_phi - 2 * 3.14;
+        }
+
+        phi_0 = new_phi;
+        return;
+    }
+    double get_phi_0 (){return phi_0;}
+    void set_offset(double aRho){rho_0 = aRho; return;}
+    double get_offset(){return rho_0;}
+
+    //This method doeas the job of trait -> fitness conversion
+    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1]);}
+
+    hh_1()
+    {
+        phi_0 = 3.14 / 4;
+        rho_0 = 8;
+        sigma = 0.1;
+    }
+
+
     ~hh_1(){}
 };
 
-class hh_2 : public haploid_highd{
-
-    virtual double trait_function(double aTrait1, double aTrait2, double phi_0 = 0)
-    {
-        double rho1_0 =  1;
-        double rho2_0 =  0;
-        double sigma = 1;
-
-        double rho_0 = sqrt(pow(rho1_0, 2) + pow(rho2_0, 2));
-        double t1 = aTrait1;
-        double t2 = aTrait2;
-
-        double rho = sqrt(pow(t1, 2) + pow(t2, 2));
-        double phi = 0;
-        if (rho != 0 )
-            phi = acos(t1/rho);
-
-        return  cos(phi - phi_0) * exp(-(pow(rho-rho_0, 2)) / (2 * sigma));
-    }
-
-public:
-
-    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 3.14/4);}
-    hh_2(){}
-    ~hh_2(){}
-};
 
 
-
-class hh_3 : public haploid_highd{
-
-    virtual double trait_function(double aTrait1, double aTrait2, double phi_0 = 0)
-    {
-        double rho1_0 =  1;
-        double rho2_0 =  0;
-        double sigma = 1;
-
-        double rho_0 = sqrt(pow(rho1_0, 2) + pow(rho2_0, 2));
-        double t1 = aTrait1;
-        double t2 = aTrait2;
-
-        double rho = sqrt(pow(t1, 2) + pow(t2, 2));
-        double phi = 0;
-        if (rho != 0 )
-            phi = acos(t1/rho);
-
-        return  cos(phi - phi_0) * exp(-(pow(rho-rho_0, 2)) / (2 * sigma));
-    }
-
-public:
-
-    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1], 3 * 3.14/4);}
-    hh_3(){}
-    ~hh_3(){}
-};
-
-
-multi_population::multi_population(int new_locations, int L_in, int n_o_traits)
+multi_population::multi_population(int new_locations, int L_in, int n_o_traits, int rng_seed)
 {
 
     //sub_population = new haploid_highd[new_locations]; //.push_back(haploid_highd());
 
 
     //Location number check:
-    if (new_locations < 3)
+    if (new_locations < 2)
     {
         if (HP_VERBOSE)
             cerr << "too few locations provided for the required type of simulations!"<< endl;
@@ -110,24 +124,24 @@ multi_population::multi_population(int new_locations, int L_in, int n_o_traits)
 
    haploid_highd* loc;
 
-   loc = new hh_2();
-   loc->set_up(L_in, 0, n_o_traits);
+   loc = new hh_source();
+   loc->set_up(L_in, rng_seed, n_o_traits);
    sub_population.push_back(loc);
 
 
-   loc = new hh_3();
-   loc->set_up(L_in, 0, n_o_traits);
+   for (int i = 1; i < new_locations; i ++)
+   {
+       loc = new hh_1();
+       loc->set_up(L_in, rng_seed, n_o_traits);
+       sub_population.push_back(loc);
+   }
+
+
+   /*loc = new hh_1();
+   loc->set_up(L_in, rng_seed, n_o_traits);
    sub_population.push_back(loc);
+*/
 
-
-   for (int i = 2; i < new_locations; i ++)
-    {
-
-        loc = new hh_1();
-        loc->set_up(L_in, 0, n_o_traits);
-        sub_population.push_back(loc);
-
-    }
    cout << sub_population.size() << endl;
 
     number_of_locations = new_locations;
@@ -146,9 +160,6 @@ multi_population::~multi_population()
      {
         //delete sub_population[i];
      }
-
-
-
 }
 
 
@@ -169,7 +180,7 @@ int multi_population::population_size()
 void multi_population::reset()
 {
     number_of_locations = 0;
-    //sub_population.clear();
+    sub_population.clear();
 
 }
 
@@ -223,6 +234,7 @@ int multi_population::submit_pop_genealogy()
                 {
                     genealogy.newGenerations[loc_No].push_back(sub_population[i]->newGenerations[loc_No][node_No]);
                     genealogy.newGenerations[loc_No].back().own_key.location = i;
+
                     //cout << "Node added to newGenerations   "<< genealogy.newGenerations[loc_No].back().own_key <<" size: "<< genealogy.newGenerations[loc_No].back().clone_size << endl;// "   " << genealogy.newGenerations[loc_No].back().own_key.location << "  " << endl;
                     //cout << "Parent:    "<< genealogy.newGenerations[loc_No].back().parent_node << endl;
 
@@ -250,7 +262,7 @@ double multi_population::max_fitness()
     double return_value = 0;
     for (int i = 0; i < number_of_locations; i ++)
     {
-        if (return_value < sub_population[i]->get_max_fitness())
+        if (return_value > sub_population[i]->get_max_fitness())
             return_value = sub_population[i]->get_max_fitness();
 
     }
@@ -268,14 +280,47 @@ double multi_population::max_fitness()
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-int multi_population::migrate()
+int multi_population::migrate(int source)
 {
     //cout << endl << endl << "In migrate()" << endl;
-    for (int i = 0; i < number_of_locations; i ++)
+    int i = source;//locationNum;
+    //for (int i = 1; i < number_of_locations; i ++)
     {
         int actual_no_migrants = determine_number_of_migrants(i);
         if (actual_no_migrants > 0)
         {
+            //cout << "Migrants from location "<< i << ":  "<< actual_no_migrants << endl;
+            sub_population[i]->produce_random_sample(actual_no_migrants);
+            for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
+            {
+                int migrant_clone_No = sub_population[i]->random_clone();
+                int migrant_clone_destination = determine_migration_destination();
+                if (i != migrant_clone_destination){
+
+                    transfer_clone(i, migrant_clone_destination, migrant_clone_No);
+                    number_of_migration_events ++;
+                }
+            }
+            sub_population[i]->random_sample.clear();
+        }
+    }
+return 0;
+}
+
+
+int multi_population::migrate()
+{
+    //cout << endl << endl << "In migrate()" << endl;
+    //int i = locationNum;
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+
+        cout << "Source: " << i << endl;
+        int actual_no_migrants = determine_number_of_migrants(i);
+        if (actual_no_migrants > 0)
+        {
+            cout << "Mr: " << actual_no_migrants << endl;
+
             //cout << "Migrants from location "<< i << ":  "<< actual_no_migrants << endl;
             sub_population[i]->produce_random_sample(actual_no_migrants);
 
@@ -287,8 +332,9 @@ int multi_population::migrate()
 
                 int migrant_clone_destination = determine_migration_destination();
                 //cout << "Clone "<< migrant_clone_No << " is to migrate now to "<< migrant_clone_destination << "..." << endl;
-
+                cout << "Source " << i << " Dest: " << migrant_clone_destination << endl;
                 if (i != migrant_clone_destination){
+
                     transfer_clone(i, migrant_clone_destination, migrant_clone_No);
                     number_of_migration_events ++;
                 }
@@ -399,7 +445,9 @@ void multi_population::set_global_generation(int new_generation)
     generation = new_generation;
     for (int i = 0; i < number_of_locations; i ++)
     {
-        sub_population[i]->generation = new_generation;
+
+            sub_population[i]->generation = new_generation;
+
     }
     return;
 
@@ -448,6 +496,9 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
 
         }
     }
+
+     sub_population[new_location]->newGenerations[locusIndex][dest].allele_freqs = sub_population[new_location]->population[dest].genotype;
+
 
 
     //cout << "New node created!  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.index << endl;
@@ -583,13 +634,6 @@ unsigned int multi_population::flip_single_locus(int location, unsigned int clon
 }
 
 
-
-
-
-
-
-
-
 unsigned int multi_population::flip_single_locus(int location, int locus) {
     if (sub_population[location]->available_clones.size() == 0)
         sub_population[location]->provide_at_least(1);
@@ -616,11 +660,11 @@ int multi_population::evolve(int location, int gen) {
     // calculate an effective outcrossing rate to include the case of very rare crossover rates.
     // Since a recombination without crossovers is a waste of time, we scale down outcrossing probability
     // and scale up crossover rate so that at least one crossover is guaranteed to happen.
-    if (sub_population[location]->recombination_model == CROSSOVERS)
+    /* if (sub_population[location]->recombination_model == CROSSOVERS)
         sub_population[location]->outcrossing_rate_effective = sub_population[location]->outcrossing_rate * (1 - exp(-sub_population[location]->number_of_loci * sub_population[location]->crossover_rate));
     else
         sub_population[location]->outcrossing_rate_effective = sub_population[location]->outcrossing_rate;
-
+    */
     // evolve cycle
     while((err == 0) && (g < gen)) {
         if (HP_VERBOSE) cerr << "generation " << generation << endl;

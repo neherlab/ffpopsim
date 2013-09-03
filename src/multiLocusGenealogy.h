@@ -8,8 +8,8 @@
 #include <string>
 #include <sstream>
 #include <list>
-#include <gsl/gsl_histogram.h>
-
+#include <boost/dynamic_bitset.hpp>
+//#include <gsl/gsl_histogram.h>
 
 #define HCF_MEMERR -131545
 #define HCF_BADARG -131546
@@ -106,10 +106,10 @@ struct node_t {
     tree_key_t own_key;
     vector <step_t> weight_distribution;
     vector < double > traits;
+    boost::dynamic_bitset<> allele_freqs;
     int number_of_offspring;
     int clone_size;
     int crossover[2];
-
 };
 
 
@@ -166,6 +166,8 @@ public:
         // print tree or subtrees
     string print_newick();
     string subtree_newick(tree_key_t root);
+    string print_genotypes();
+    string genotypes_newick(tree_key_t root);
     string print_weight_distribution(tree_key_t node_key);
 	int read_newick(string newick_string);
 

@@ -23,7 +23,6 @@ class multi_population
     int number_of_locations;
     int track_genealogy;
     double fitness_max;
-    int generation;
 
     double migration_rate;
 
@@ -36,10 +35,12 @@ class multi_population
 
 
 public:
+    int generation;
+
 
     int get_locations () {return number_of_locations;};
 
-    multi_population(int new_locations, int L_in, int n_o_traits = 1);
+    multi_population(int new_locations, int L_in, int n_o_traits = 1, int rng_seed = 0);
     ~multi_population();
 
     int set_theonly_wildtype(int new_location, int new_N);
