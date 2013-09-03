@@ -256,6 +256,7 @@ public:
 
 	// population parameters (read only)
 	int L(){return number_of_loci;}
+    int get_number_of_loci(){return number_of_loci;}
     void set_number_of_loci(int L_in){number_of_loci = L_in;}
 	int N(){return population_size;}
 	int get_population_size() {return population_size;}
