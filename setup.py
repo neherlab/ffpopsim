@@ -35,7 +35,7 @@ includes = ['/usr/include', '/usr/local/include', '/opt/local/include']
 
 # Please add your shared library folders to the following list, where the linker
 # can find GSL and Python 2.7
-library_dirs = ['/ebio/ag-neher/share/epd_free-7.1-2-rh5-x86_64/lib']
+library_dirs = []
 
 ############################################################################
 #                !!  DO NOT EDIT BELOW THIS LINE  !!                       #
