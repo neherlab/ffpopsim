@@ -1260,6 +1260,7 @@ Returns:
 ") flip_single_locus;
 
 /* genealogy */
+%ignore track_locus_genealogy(vector <int>, int);
 %feature("autodoc",
 "
 Track the genealogy of some loci.

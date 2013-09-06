@@ -11,8 +11,6 @@
 #include <gsl/gsl_eigen.h>
 #include <boost/dynamic_bitset.hpp>
 
-
-
 class multi_population
 {
     //vector <haploid_highd> sub_population;

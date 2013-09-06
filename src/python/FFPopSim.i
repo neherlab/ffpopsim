@@ -60,6 +60,7 @@ For more usage examples, please consult the ``tests`` and ``examples`` folders.
 #include "../ffpopsim_lowd.h"
 #include "../ffpopsim_highd.h"
 #include "../hivpopulation.h"
+#include "../multi_population.h"
 %}
 
 /* STL typemaps */
@@ -113,3 +114,8 @@ import_array();
 /* hivpopulation.h (HIV-SPECIFIC) */
 %include "hivpopulation.i";
 %include "../hivpopulation.h";
+
+/* multi-population.h */ 
+%include "multi_population.i"
+%include "../multi_population.h"
+

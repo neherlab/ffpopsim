@@ -566,7 +566,7 @@ int haploid_highd::evolve(int gen) {
 		generation++;
 
 		//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
-		if (track_genealogy) genealogy.add_generation(fitness_max);
+        if (track_genealogy) genealogy.add_generation(fitness_max);
 
 	}
 	if (HP_VERBOSE) {
