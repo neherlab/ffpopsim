@@ -27,7 +27,7 @@
 /*
  * this overloads the ostream operator to output keys of nodes and edges
  */
-std::ostream& operator<< ( std::ostream& os, const tree_key_t& key )
+std::ostream& operator << ( std::ostream& os, const tree_key_t& key )
   {
     os <<"age: "<< key.age << " index "
       << key.index << " location: " << key.location ;
@@ -429,8 +429,11 @@ void rooted_tree::clear_tree() {
 /*
  * @brief return tree in newick format as string
  */
-string rooted_tree::print_newick() {
-	return subtree_newick(MRCA)+";";
+string rooted_tree::print_newick(bool genotypes) {
+    if (!genotypes)
+        return subtree_newick(MRCA)+";";
+    else
+        return subtree_newick_genotypes(MRCA)+";";
 }
 
 /*
@@ -462,21 +465,17 @@ string rooted_tree::subtree_newick(tree_key_t root){
 	return tree_str.str();
 }
 
-string rooted_tree::print_genotypes() {
-    return genotypes_newick(MRCA)+";";
-}
-
-string rooted_tree::genotypes_newick(tree_key_t root){
+string rooted_tree::subtree_newick_genotypes(tree_key_t root){
     stringstream tree_str;
     map <tree_key_t,node_t>::iterator root_node = nodes.find(root);
     map <tree_key_t,edge_t>::iterator edge = edges.find(root);
     if (root_node->second.child_edges.size()>0){
         list <tree_key_t>::iterator child = root_node->second.child_edges.begin();
         tree_str.str();
-        tree_str <<"("<< genotypes_newick(*child);
+        tree_str <<"("<< subtree_newick_genotypes(*child);
         child++;
         for (;child!=root_node->second.child_edges.end(); child++){
-            tree_str<<","+genotypes_newick(*child);
+            tree_str<<","+subtree_newick_genotypes(*child);
         }
         tree_str<<")";
     }
@@ -1091,7 +1090,7 @@ int rooted_tree::read_newick(string tree_s) {
 	}
 
 	// update number of offspring
-	update_tree();
+    update_tree();
 
 	// Now the tree is done. Let us print newick to test
 	if (RT_VERBOSE) std::cout<<"Tree out: "<<print_newick()<<std::endl;

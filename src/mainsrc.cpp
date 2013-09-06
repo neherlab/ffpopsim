@@ -34,14 +34,14 @@ void shift_landscape (multi_population* pop, double delta_phi)
 {
     for (int i = 0; i < pop->get_locations(); i ++)
     {
-        pop->point_sub_pop(i)->set_phi_0(pop->point_sub_pop(i)->get_phi_0() + delta_phi);
+        pop->point_sub_pop(i)->phi_0 = pop->point_sub_pop(i)->phi_0 + delta_phi;
     }
 }
 
 void shift_landscape_random (multi_population* pop, int location, double sigma = 3.14/8)
 {
-    double delta_phi = gsl_ran_gaussian_ziggurat (pop->point_sub_pop(location)->evo_generator, sigma);
-    pop->point_sub_pop(location)->set_phi_0(pop->point_sub_pop(location)->get_phi_0() + delta_phi);
+    double delta_phi = 0; //gsl_ran_gaussian_ziggurat (pop->point_sub_pop(location)->evo_generator, sigma);
+    pop->point_sub_pop(location)->phi_0 = pop->point_sub_pop(location)->phi_0 + delta_phi;
     return;
 }
 
@@ -336,7 +336,7 @@ int generation = 0;
               for (unsigned int genlocus = 0; genlocus < gen_loci.size(); genlocus ++){
                 //pop.genealogy.trees[genlocus].check_tree_integrity();
                 // myfile_tree <<"#PRINT ENTIRE TREE"<<endl;
-                 myfile_tree << pop.genealogy.trees[genlocus].print_genotypes()<<endl;
+                 myfile_tree << pop.genealogy.trees[genlocus].print_newick(true)<<endl;
              }
               myfile_tree.close();
 

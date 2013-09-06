@@ -65,201 +65,7 @@
 #define HP_WRONGBINSERR 7
 #define HP_RUNTIMEERR 8
 
-#define RT_VERYLARGE 10000000
-#define RT_CHILDNOTFOUND -35343
-#define RT_NODENOTFOUND -35765
-
-#define RT_VERBOSE 0
-#define RT_VERYLARGE 10000000
-#define RT_CHILDNOTFOUND -35343
-#define RT_NODENOTFOUND -35765
-#define RT_LOCUSNOTFOUND -35762
-#define RT_FITNESS_MISSING -35722
-#define RT_CROSSOVER_MISSING -35721
-#define RT_SEGMENT_MISSING -35720
-#define RT_ERROR_PARSING 1
-
-
 using namespace std;
-
-/*
- *	@brief a class that implements a rooted tree to store genealogies
- *
- *	Nodes and edges are stored as maps with a key that holds the age (rather the time) when the node lived
- *	and the index in the population at that time. The nodes themselves are sufficient to reconstruct the tree
- *	since they contain keys of parents and children
- */
-
-struct tree_key_t
-{
-
-    int location;
-    int age;
-    int index;
-
-
-
-    bool operator == (const tree_key_t &other)  {return (age == other.age) && (index == other.index) && (location == other.location);}
-    bool operator != (const tree_key_t &other)  {return (age != other.age) || (index != other.index) || (location != other.location);}
-    bool operator < (const tree_key_t &other) const
-    {
-                if(age < other.age) return true;
-                else if (age > other.age) return false;
-                else
-                {
-                    if (location < other.location) return true;
-                    else if ( location > other.location) return false;
-                    else {return (index < other.index); }
-                }
-
-    }
-    bool operator > (const tree_key_t &other) const
-    {
-                if(age > other.age) return true;
-                else if (age < other.age) return false;
-                else
-                {
-                    if (location > other.location) return true;
-                    else if ( location < other.location) return false;
-                    return (index < other.index);
-                }
-
-    }
-    tree_key_t(int index = 0, int age = 0, int location = 0) : index (index), age (age), location (location)  {};
-
-};
-
-std::ostream& operator<< ( std::ostream& os, const tree_key_t& key );
-
-struct step_t {
-    int pos;
-    int step;
-    bool operator<(const step_t &other) const {
-                if(pos < other.pos) return true;
-                else return false;
-        }
-    bool operator>(const step_t &other) const {
-                if(pos > other.pos) return true;
-                else return false;
-        }
-    bool operator==(const step_t &other) const {
-                if(pos == other.pos) return true;
-                else return false;
-        }
-        step_t(int pos=0, int step=0) : pos(pos), step(step) {};
-};
-
-
-struct node_t {
-    tree_key_t parent_node;
-    list < tree_key_t > child_edges;
-    double fitness;
-    tree_key_t own_key;
-    vector <step_t> weight_distribution;
-    vector < double > traits;
-    boost::dynamic_bitset<> genotype;
-    int number_of_offspring;
-    int clone_size;
-    int crossover[2];
-};
-
-
-struct edge_t {
-    tree_key_t parent_node;
-    tree_key_t own_key;
-    int segment[2];
-    int length;
-    int number_of_offspring;
-};
-
-struct poly_t {
-    int birth;
-    int sweep_time;
-    double effect;
-    double fitness;
-    double fitness_variance;
-    poly_t(int b=0, int age=0, double e=0, double f=0, double fvar=0) :
-                birth(b), sweep_time(age), effect(e), fitness(f), fitness_variance(fvar) {};
-};
-
-
-class rooted_tree {
-public:
-    map < tree_key_t , edge_t > edges;
-    map < tree_key_t , node_t > nodes;
-    vector <tree_key_t> leafs;
-    tree_key_t root;
-    tree_key_t MRCA;
-
-    rooted_tree();
-    virtual ~rooted_tree();
-    void reset();
-    void add_generation(vector <node_t> &new_generation, double mean_fitness);
-    int add_terminal_node(node_t &newNode);
-    tree_key_t erase_edge_node(tree_key_t to_be_erased);
-    tree_key_t bridge_edge_node(tree_key_t to_be_bridged);
-    int external_branch_length();
-    int total_branch_length();
-    int ancestors_at_age(int age, tree_key_t subtree_root, vector <tree_key_t> &ancestors);
-    int update_leaf_to_root(tree_key_t leaf);
-    void update_tree();
-    int calc_weight_distribution(tree_key_t subtree_root);
-    void SFS(gsl_histogram *sfs);
-
-    tree_key_t get_MRCA(){return MRCA;};
-    int erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t to_be_erased);
-    int delete_extra_children(tree_key_t subtree_root);
-    int delete_one_child_nodes(tree_key_t subtree_root);
-    bool check_node(tree_key_t node);
-    int check_tree_integrity();
-    void clear_tree();
-
-        // print tree or subtrees
-    string print_newick();
-    string subtree_newick(tree_key_t root);
-    string print_genotypes();
-    string genotypes_newick(tree_key_t root);
-    string print_weight_distribution(tree_key_t node_key);
-    int read_newick(string newick_string);
-
-    // construct subtrees
-    int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
-
-private:
-    int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
-    int parse_subtree(tree_key_t &parent_key, std::string &tree_s);
-
-
-};
-
-
-/*
- * @brief short wrapper class that handles trees at different places in the genome
- *
- * the class contains a vector of rooted_tree instances that hold the genealogy
- *  in different places. In addition, there is a rooted_tree called subtree
- *  that is used on demand
- *
- *  Created on: Oct 14, 2012
- *      Author: richard
- */
-
-class multi_locus_genealogy {
-public:
-    vector <int> loci;				//vector of loci (positions on a genome) whose genealogy is to be tracked
-    vector <rooted_tree> trees;                     //vector of rooted trees (one per locus)
-    vector < vector < node_t > > newGenerations;	//used by the evolving class to store the new generation
-
-    multi_locus_genealogy();
-    ~multi_locus_genealogy();
-    void track_locus(int new_locus);
-    void reset(){loci.clear(); trees.clear(); newGenerations.clear();}
-    void reset_but_loci(){for(unsigned int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
-    void add_generation(double mean_fitness);
-    //virtual void add_generation(double baseline, vector < vector < node_t > >  new_Generations){};
-    int extend_storage(int n);
-};
-
 
 /**
  * @brief Trait coefficient for a set of loci.
@@ -399,6 +205,188 @@ struct clone_t {
 };
 
 
+/*
+ *	@brief a class that implements a rooted tree to store genealogies
+ *
+ *	Nodes and edges are stored as maps with a key that holds the age (rather the time) when the node lived
+ *	and the index in the population at that time. The nodes themselves are sufficient to reconstruct the tree
+ *	since they contain keys of parents and children
+ */
+
+#ifndef rooted_tree_H_
+#define rooted_tree_H_
+#define RT_VERBOSE 0
+#define RT_VERYLARGE 10000000
+#define RT_CHILDNOTFOUND -35343
+#define RT_NODENOTFOUND -35765
+#define RT_LOCUSNOTFOUND -35762
+#define RT_FITNESS_MISSING -35722
+#define RT_CROSSOVER_MISSING -35721
+#define RT_SEGMENT_MISSING -35720
+#define RT_ERROR_PARSING 1
+
+struct tree_key_t
+{
+
+    int age;
+    int index;
+    int location;
+    bool operator == (const tree_key_t &other)  {return (age == other.age) && (index == other.index) && (location == other.location);}
+    bool operator != (const tree_key_t &other)  {return (age != other.age) || (index != other.index) || (location != other.location);}
+    bool operator < (const tree_key_t &other) const {
+                if(age < other.age) return true;
+                else if (age > other.age) return false;
+                else if (location < other.location) return true;
+                else if (location > other.location) return false;
+                else {return (index < other.index);}
+    }
+    bool operator > (const tree_key_t &other) const {
+                if(age > other.age) return true;
+                else if (age < other.age) return false;
+                else if (location > other.location) return true;
+                else if (location < other.location) return false;
+                return (index > other.index);
+    }
+    tree_key_t(int index = 0, int age = 0, int location = 0) : index (index), age (age), location (location)  {};
+
+};
+
+std::ostream& operator<< ( std::ostream& os, const tree_key_t& key );
+
+struct step_t {
+	int pos;
+	int step;
+	bool operator<(const step_t &other) const {
+                if(pos < other.pos) return true;
+                else return false;
+        }
+	bool operator>(const step_t &other) const {
+                if(pos > other.pos) return true;
+                else return false;
+        }
+	bool operator==(const step_t &other) const {
+                if(pos == other.pos) return true;
+                else return false;
+        }
+        step_t(int pos=0, int step=0) : pos(pos), step(step) {};
+};
+
+
+struct node_t {
+    tree_key_t parent_node;
+    tree_key_t own_key;
+    list < tree_key_t > child_edges;
+    double fitness;
+    vector <step_t> weight_distribution;
+    int number_of_offspring;
+    int clone_size;
+    int crossover[2];
+    vector < double > traits;
+    boost::dynamic_bitset<> genotype;
+};
+
+
+struct edge_t {
+	tree_key_t parent_node;
+	tree_key_t own_key;
+	int segment[2];
+	int length;
+	int number_of_offspring;
+};
+
+struct poly_t {
+	int birth;
+	int sweep_time;
+	double effect;
+	double fitness;
+	double fitness_variance;
+	poly_t(int b=0, int age=0, double e=0, double f=0, double fvar=0) :
+                birth(b), sweep_time(age), effect(e), fitness(f), fitness_variance(fvar) {};
+};
+
+
+class rooted_tree {
+public:
+    map < tree_key_t , edge_t > edges;
+    map < tree_key_t , node_t > nodes;
+    vector <tree_key_t> leafs;
+    tree_key_t root;
+    tree_key_t MRCA;
+    rooted_tree();
+    virtual ~rooted_tree();
+    void reset();
+    void add_generation(vector <node_t> &new_generation, double mean_fitness);
+    int add_terminal_node(node_t &newNode);
+    tree_key_t erase_edge_node(tree_key_t to_be_erased);
+    tree_key_t bridge_edge_node(tree_key_t to_be_bridged);
+    int external_branch_length();
+    int total_branch_length();
+    int ancestors_at_age(int age, tree_key_t subtree_root, vector <tree_key_t> &ancestors);
+    int update_leaf_to_root(tree_key_t leaf);
+    void update_tree();
+    int calc_weight_distribution(tree_key_t subtree_root);
+    void SFS(gsl_histogram *sfs);
+
+    tree_key_t get_MRCA(){return MRCA;};
+    int erase_child(map <tree_key_t,node_t>::iterator Pnode, tree_key_t to_be_erased);
+    int delete_extra_children(tree_key_t subtree_root);
+    int delete_one_child_nodes(tree_key_t subtree_root);
+    bool check_node(tree_key_t node);
+    int check_tree_integrity();
+    void clear_tree();
+
+        // print tree or subtrees
+    string print_newick(bool genotypes = false);
+    string subtree_newick(tree_key_t root);
+    string subtree_newick_genotypes(tree_key_t root);
+
+    string print_weight_distribution(tree_key_t node_key);
+    int read_newick(string newick_string);
+
+        // construct subtrees
+	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
+
+private:
+    //FIXME static?
+    int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
+    int parse_subtree(tree_key_t &parent_key, std::string &tree_s);
+
+
+};
+
+#endif /* rooted_tree_H_ */
+
+/*
+ * @brief short wrapper class that handles trees at different places in the genome
+ *
+ * the class contains a vector of rooted_tree instances that hold the genealogy
+ *  in different places. In addition, there is a rooted_tree called subtree
+ *  that is used on demand
+ *
+ *  Created on: Oct 14, 2012
+ *      Author: richard
+ */
+
+#ifndef MULTILOCUSGENEALOGY_H_
+#define MULTILOCUSGENEALOGY_H_
+class multi_locus_genealogy {
+public:
+    vector <int> loci;				//vector of loci (positions on a genome) whose genealogy is to be tracked
+    vector <rooted_tree> trees;                     //vector of rooted trees (one per locus)
+    vector < vector < node_t > > newGenerations;	//used by the evolving class to store the new generation
+
+    multi_locus_genealogy();
+    virtual ~multi_locus_genealogy();
+    void track_locus(int new_locus);
+    void reset(){loci.clear(); trees.clear(); newGenerations.clear();}
+    void reset_but_loci(){for(unsigned int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
+    void add_generation(double mean_fitness);
+    int extend_storage(int n);
+};
+#endif /* MULTILOCUSGENEALOGY_H_ */
+
+
+
 /**
  * @brief Population class for high-dimensional simulations.
  *
@@ -413,15 +401,18 @@ struct clone_t {
  * - genetic structure (linkage disequilibrium, allele frequencies, number of clones).
  */
 class haploid_highd {
+    friend class multi_population;
 public:
+    /*Fitness map for multi-population*/
+    double phi_0;
+    double rho_0;
 	// genotype to traits maps, which in turn are used in the trait-to-fitness map
 	hypercube_highd *trait;
 
 	// construction / destruction
-    haploid_highd(int L = 0, int rng_seed = 0, int number_of_traits=1, bool all_polymorphic=false);
+    haploid_highd(int L=0, int rng_seed=0, int number_of_traits=1, bool all_polymorphic=false);
     virtual ~haploid_highd();
     int set_up(int L , int rng_seed = 0, int number_of_traits = 1, bool all_polymorphic = false);
-
 
         // the population
 	vector <clone_t> population;
@@ -450,8 +441,7 @@ public:
 
 	// population parameters (read only)
 	int L(){return number_of_loci;}
-    int get_number_of_loci(){return number_of_loci;}
-    void set_number_of_loci(int L_in){number_of_loci = L_in;}
+	int get_number_of_loci(){return number_of_loci;}
 	int N(){return population_size;}
 	int get_population_size() {return population_size;}
 	int get_generation(){return generation;}
@@ -468,7 +458,6 @@ public:
     int track_locus_genealogy(vector <int> loci) {return track_locus_genealogy(loci, 1);};
     int track_locus_genealogy(vector <int> loci, int new_track_genealogy);
 
-
 	// modify population
 	void add_genotype(boost::dynamic_bitset<> genotype, int n=1);
 
@@ -484,7 +473,7 @@ public:
 	void set_random_epistasis(double epistasis_std){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"Please use set_random_trait_epistasis."<<endl; throw (int)HP_BADARG;} trait[0].epistatic_std=epistasis_std;}
 
 	// evolution
-    int evolve(int gen=1);
+	int evolve(int gen=1);	
 	int bottleneck(int size_of_bottleneck);
 	unsigned int flip_single_locus(int locus);
 
@@ -546,23 +535,18 @@ public:
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 
+    vector <int> random_sample;
+    void produce_random_sample(int size=1000);
+
     // genealogy
-    //vector < vector < node_t > > newGenerations;
-    int extend_storage(int n);
     multi_locus_genealogy genealogy;
-    int track_genealogy;
 
-
-
-//protected:
-
-	// random number generator
-	gsl_rng* evo_generator;
-	gsl_rng* label_generator;
-	int seed;
-	int get_random_seed();
-	vector <int> random_sample;
-	void produce_random_sample(int size=1000);
+protected:
+    // random number generator
+    gsl_rng* evo_generator;
+    gsl_rng* label_generator;
+    int seed;
+    int get_random_seed();
 
 	// population parameters
 	int number_of_loci;
@@ -586,7 +570,17 @@ public:
 	double participation_ratio;
 	int partition_cumulative(vector <unsigned int> &partition_cum);
 	int provide_at_least(int n);
-	int last_clone;
+    int last_clone;
+
+
+    // phenotype-fitness map. By default, a linear map with equal weights is set, but weights can be reset
+    double *trait_weights;
+    virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
+    virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
+    void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton = 0, int own_location = 0);
+    void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton, int own_location, int parent_age);
+
+
 
 	// allele_frequencies
 	bool allele_frequencies_up_to_date;
@@ -611,40 +605,23 @@ public:
 	int add_recombinants();
 	int recombine(int parent1, int parent2);
 	int recombine_crossover(int parent1, int parent2, int ng);
-
-	// fitness and traits
-	double fitness_max;
-	stat_t fitness_stat;
-	stat_t *trait_stat;
-	double **trait_covariance;
-	void calc_fitness_stat();
-	void calc_trait_stat();
-	void calc_individual_traits(clone_t &tempgt);
-	void calc_individual_fitness(clone_t &tempgt);
-	void calc_individual_traits(int clonenum){calc_individual_traits(population[clonenum]);}
-	void calc_individual_fitness(int clonenum){calc_individual_fitness(population[clonenum]);}
-	void check_individual_maximal_fitness(clone_t &tempgt){fitness_max = fmax(fitness_max, tempgt.fitness);}
-	double get_trait_difference(clone_t &tempgt1, clone_t &tempgt2, vector<int>& diffpos, int traitnum);
-
-	// phenotype-fitness map. By default, a linear map with equal weights is set, but weights can be reset
-	double *trait_weights;
-    virtual void calc_individual_fitness_from_traits(clone_t &tempgt);
-	virtual void calc_individual_fitness_from_traits(int clonenum) {calc_individual_fitness_from_traits(population[clonenum]);}
-    void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton = 0, int own_location = 0);
-    void add_clone_to_genealogy(int locus, int dest, int parent, int left, int right, int cs, int n, int parent_locaton, int own_location, int parent_age);
-
-    /*Fitness map for multi-population*/
-    double phi_0;
-    double rho_0;
-    virtual void set_phi_0 (double aPhi_0){phi_0 = aPhi_0; return;}
-    virtual double get_phi_0 (){return phi_0;}
-    virtual void set_offset(double aRho){rho_0 = aRho; return;}
-    virtual double get_offset(){return rho_0;}
+    // fitness and traits
+    double fitness_max;
+    stat_t fitness_stat;
+    stat_t *trait_stat;
+    double **trait_covariance;
+    void calc_fitness_stat();
+    void calc_trait_stat();
+    void calc_individual_traits(clone_t &tempgt);
+    void calc_individual_fitness(clone_t &tempgt);
+    void calc_individual_traits(int clonenum){calc_individual_traits(population[clonenum]);}
+    void calc_individual_fitness(int clonenum){calc_individual_fitness(population[clonenum]);}
+    void check_individual_maximal_fitness(clone_t &tempgt){fitness_max = fmax(fitness_max, tempgt.fitness);}
+    double get_trait_difference(clone_t &tempgt1, clone_t &tempgt2, vector<int>& diffpos, int traitnum);
 
 
-    // These two vectors are used to recycle dead clones
-    vector <int> available_clones;
-    vector <int> clones_needed_for_recombination;
+    int track_genealogy;
+
 private:
 	// Memory management is private, subclasses must take care only of their own memory
 	bool mem;
@@ -652,7 +629,9 @@ private:
 	int allocate_mem();
 	int free_mem();
 
-
+	// These two vectors are used to recycle dead clones
+	vector <int> available_clones;
+	vector <int> clones_needed_for_recombination;
 
 	boost::dynamic_bitset<> rec_pattern;
 
@@ -661,6 +640,3 @@ private:
 };
 
 #endif /* FFPOPSIM_HIGHD_H_ */
-
-
-

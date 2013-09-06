@@ -426,11 +426,15 @@ rooted_tree create_subtree_from_keys(vector <tree_key_t> leaves) {
 %feature("autodoc",
 "Print the tree in Newick format.
 
+Parameters:
+   - genotypes: print genotypes in labels
+ 
 Returns:
    - tree: string of the tree in Newick format.
 
 .. note:: You can pipe the output of this function to a cStingIO.StringIO
           for further manipulations.
+
 ") print_newick;
 
 %feature("autodoc",
@@ -445,6 +449,19 @@ Returns:
 .. note:: You can pipe the output of this function to a cStingIO.StringIO
           for further manipulations.
 ") subtree_newick;
+
+%feature("autodoc",
+"Print a subtree in Newick format with genotypes in labels.
+
+Parameters:
+   - subtree_root: tree_key of the root of the subtree to print
+
+Returns:
+   - subtree: string of the subtree in Newick format with genotypes in labels.
+
+.. note:: You can pipe the output of this function to a cStingIO.StringIO
+          for further manipulations.
+") subtree_newick_genotypes;
 
 %feature("autodoc",
 "Read from Newick string.
@@ -720,6 +737,9 @@ Parameters:
                 SWIG_fail;
         }
 }
+
+/* ignore set-up func */
+%ignore set_up;
 
 /* string representations */
 %feature("autodoc", "x.__str__() <==> str(x)") __str__;
@@ -1259,6 +1279,7 @@ Returns:
    - index: index of the new clone with the flipped locus
 ") flip_single_locus;
 
+
 /* genealogy */
 %ignore track_locus_genealogy(vector <int>, int);
 %feature("autodoc",
@@ -1790,6 +1811,9 @@ def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
 }
 
 /* get random clones/genotypes */
+%ignore random_sample;
+%ignore produce_random_sample;
+
 %pythoncode {
 def random_genomes(self, n):
     '''Get a sample of random genomes from the population
