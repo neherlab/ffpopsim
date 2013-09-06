@@ -480,7 +480,7 @@ string rooted_tree::genotypes_newick(tree_key_t root){
         }
         tree_str<<")";
     }
-    tree_str << root.location << '_'<< root.age << "_"<<root_node->second.clone_size << "_"<< root_node->second.allele_freqs;
+    tree_str << root.location << '_'<< root.age << "_"<<root_node->second.clone_size << "_"<< root_node->second.genotype;
     tree_str << ":" << edge->second.length;
     //tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
     return tree_str.str();
@@ -706,16 +706,16 @@ int rooted_tree::check_tree_integrity(){
 	for (node = nodes.begin(); node!=nodes.end(); node++){
 		if (root != node->first){
 			nedges+=node->second.child_edges.size();
-			if (node->second.child_edges.size()==1){
-				err++;
-				cerr <<"node "<<node->first<<" is degenerate (only one child)! ERROR"<<endl;
+            if (node->second.child_edges.size()==1){
+                //err++;
+                //cerr <<"node "<<node->first<<" is degenerate (only one child)! ERROR"<<endl;
 			}
 			nnodes++;
 			edge=edges.find(node->first);
 			if (edge!=edges.end()){
 				if (edge->second.parent_node != node->second.parent_node){
-					err++;
-					cerr <<"edge and node "<<node->first<<" do not have the same parent! ERROR"<<endl;
+                    err++;
+                    cerr <<"edge and node "<<node->first<<" do not have the same parent! ERROR"<<endl;
 				}
 			}else{
 				err++;
@@ -724,7 +724,7 @@ int rooted_tree::check_tree_integrity(){
 		}else{nnodes++;nedges++;}
 	}
 	if ( nnodes!=nodes.size() ){
-		err++;
+        err++;
 		cerr <<"number of nodes encountered does not equal the size of nodes. ERROR"<<endl;
 	}
 	if ( nedges!=edges.size() ){

@@ -106,7 +106,7 @@ struct node_t {
     tree_key_t own_key;
     vector <step_t> weight_distribution;
     vector < double > traits;
-    boost::dynamic_bitset<> allele_freqs;
+    boost::dynamic_bitset<> genotype;
     int number_of_offspring;
     int clone_size;
     int crossover[2];
@@ -171,11 +171,12 @@ public:
     string print_weight_distribution(tree_key_t node_key);
 	int read_newick(string newick_string);
 
+    // construct subtrees
+    int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
+
 private:
     int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
     int parse_subtree(tree_key_t &parent_key, std::string &tree_s);
-        // construct subtrees
-    int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
 
 
 };
@@ -193,22 +194,22 @@ private:
  *      Author: richard
  */
 
-class multi_locus_genealogy_parent {
+class multi_locus_genealogy {
 public:
     vector <int> loci;				//vector of loci (positions on a genome) whose genealogy is to be tracked
     vector <rooted_tree> trees;                     //vector of rooted trees (one per locus)
     vector < vector < node_t > > newGenerations;	//used by the evolving class to store the new generation
 
-    multi_locus_genealogy_parent();
-    virtual ~multi_locus_genealogy_parent();
+    multi_locus_genealogy();
+    ~multi_locus_genealogy();
     void track_locus(int new_locus);
     void reset(){loci.clear(); trees.clear(); newGenerations.clear();}
     void reset_but_loci(){for(unsigned int i=0; i<loci.size(); i++){trees[i].reset();newGenerations[i].clear();}}
-    virtual void add_generation(double mean_fitness){};
-    virtual void add_generation(double baseline, vector < vector < node_t > >  new_Generations){};
-    virtual int extend_storage(int n);
+    void add_generation(double mean_fitness);
+    //virtual void add_generation(double baseline, vector < vector < node_t > >  new_Generations){};
+    int extend_storage(int n);
 };
-
+/*
 class multi_locus_genealogy : public multi_locus_genealogy_parent{
 
 public:
@@ -225,9 +226,6 @@ public:
     multi_locus_genealogy_2();
     multi_locus_genealogy_2(vector < vector < node_t > >  new_Generations);
     void add_generation(double baseline, vector < vector < node_t > >  new_Generations);
-
 };
-
-
-
+*/
 #endif /* MULTILOCUSGENEALOGY_H_ */

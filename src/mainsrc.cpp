@@ -125,7 +125,6 @@ void sample(multi_population* pop, string traits_file_name)
 
 
 
-/* MAIN */
 int main(int argc, char  *argv[]){
         // ############################################
         //
@@ -147,7 +146,7 @@ int main(int argc, char  *argv[]){
         // Initialize the essential parameters for the simulation and load the population
         //
         // ############################################
-        int generation = 0;
+
         int N = 20, N_pop = POPULATION_SIZE;
         multi_population pop(locations, _L, NUMBER_OF_TAITS, 0);
         pop.set_migration_rate(MIGRATION_RATE);
@@ -224,7 +223,7 @@ int main(int argc, char  *argv[]){
         //pop.point_sub_pop(0)->set_wildtype(100);
 
 
-        pop.set_global_generation(generation);
+        pop.set_global_generation(0);
         pop.submit_pop_genealogy();
         pop.genealogy.add_generation(pop.max_fitness());
 
@@ -234,24 +233,19 @@ int main(int argc, char  *argv[]){
         gsl_histogram *SFS = gsl_histogram_alloc(20);
         gsl_histogram_set_ranges_uniform(SFS,0,1);
         // ############################################
-
+int generation = 0;
         for (int i = 0; i < 10000; i ++)
         {
-            for (int cur_loc = 0 ; cur_loc < locations; cur_loc ++)
-            {
-                if (pop.point_sub_pop(cur_loc)->N() > 0)
-                {
-                    pop.point_sub_pop(cur_loc)->update_traits();
-                    pop.point_sub_pop(cur_loc)->update_fitness();
-                    pop.evolve(cur_loc, 1);
-                }
-            }
+            //pop.migrate(0);
+            pop.evolve();
             pop.migrate(0);
+
             generation ++;
             pop.set_global_generation(generation);
+
             pop.submit_pop_genealogy();
             pop.genealogy.add_generation(pop.max_fitness());
-            if (i % 100 == 0) cout << "generation: " << generation << "   " << pop.point_sub_pop(0)->N() << endl;
+            if (i % 1 == 0) cout << "generation: " << pop.generation << "   " << pop.point_sub_pop(0)->N() << endl;
         }
 
 
@@ -290,42 +284,32 @@ int main(int argc, char  *argv[]){
         //myfile_params << "Random shift ends at " << SHIFT_END << " generation" << endl;
         //myfile_params << "Fitness shifts according to the procedure described " << endl;
 
+
         myfile_params.close();
 
 
-        for (int i = 0; i < GENERATIONS_Eq; i ++)
-        {
-            for (int cur_loc = 0 ; cur_loc < locations; cur_loc ++)
-            {
-                if (pop.point_sub_pop(cur_loc)->N() > 0)
-                {
-                    pop.point_sub_pop(cur_loc)->update_traits();
-                    pop.point_sub_pop(cur_loc)->update_fitness();
-                    pop.evolve(cur_loc, 1);
-                    //pop.migrate(0);
+//        for (int i = 0; i < GENERATIONS_Eq; i ++)
+//        {
 
-                }
-            }
-            //pop.migrate(0);
-            generation ++;
-            pop.set_global_generation(generation);
-            pop.submit_pop_genealogy();
-            pop.genealogy.add_generation(pop.max_fitness());
-            /*if ((i > SHIFT_BEGIN) && (i < SHIFT_END) && (i % SHIFT_RATE == 0))
-            {
-                //double delta_rho = 100 / ((SHIFT_BEGIN -  SHIFT_END ) / SHIFT_RATE);
-                //shift_landscape(&pop, delta_rho);
-            }*/
-            //if ((i % 100 == 0))
-            {
-                cout << "generation: " << generation << "   " << pop.point_sub_pop(0)->N() << endl;
-                sample(&pop, traits_file_name);
-                sample_genotypes(&pop, genotype_file_name, i);
-                shift_landscape(&pop, 3.14/(4.5e7) * generation);
-                cout <<"delta phi = "<< 3.14/(4.5e7) * generation << endl;
+//            //pop.migrate(0);
+//            pop.evolve(1);
+//            pop.submit_pop_genealogy();
+//            pop.genealogy.add_generation(pop.max_fitness());
+//            /*if ((i > SHIFT_BEGIN) && (i < SHIFT_END) && (i % SHIFT_RATE == 0))
+//            {
+//                //double delta_rho = 100 / ((SHIFT_BEGIN -  SHIFT_END ) / SHIFT_RATE);
+//                //shift_landscape(&pop, delta_rho);
+//            }*/
+//            //if ((i % 100 == 0))
+//            {
+//                cout << "generation: " << generation << "   " << pop.point_sub_pop(0)->N() << endl;
+//                sample(&pop, traits_file_name);
+//                sample_genotypes(&pop, genotype_file_name, i);
+//                shift_landscape(&pop, 3.14/(4.5e7) * generation);
+//                cout <<"delta phi = "<< 3.14/(4.5e7) * generation << endl;
 
-            }
-        }
+//            }
+//        }
 
 
 

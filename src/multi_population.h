@@ -44,35 +44,33 @@ public:
     ~multi_population();
 
     int set_theonly_wildtype(int new_location, int new_N);
-
     multi_locus_genealogy genealogy;
     int track_locus_genealogy(vector<int> loci);
     int submit_subpop_genealogy(int sub_pop_No);
     int submit_pop_genealogy();
     double max_fitness();
 
+    int evolve_local(int location, int gen);
+    int evolve(int gen = 1);
     int migrate();
     int migrate(int source);
-    int determine_number_of_migrants(haploid_highd sub_population);
-    int pickup_migrant(haploid_highd sub_population);
-    int transfer_clone(int sub_pop_source, int sub_pop_destination, int source);
-
     int number_of_migration_events;
 
     int determine_number_of_migrants(int sub_pop_No);
     int determine_migration_destination();
     int determine_migrant(int sub_pop_num);
-
-
-
     void reset();
     haploid_highd * point_sub_pop(int i){return sub_population[i];};
     void set_global_generation(int generation);
+   int set_migration_rate(double new_rate){migration_rate = new_rate; return 0;};
+
+protected:
+
+    int determine_number_of_migrants(haploid_highd sub_population);
+    int pickup_migrant(haploid_highd sub_population);
+    int transfer_clone(int sub_pop_source, int sub_pop_destination, int source);
 
 
-    int evolve(int location, int gen);
-
-    int set_migration_rate(double new_rate){migration_rate = new_rate; return 0;};
 
 
 };

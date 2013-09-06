@@ -226,7 +226,7 @@ public:
 	// construction / destruction
     haploid_highd(int L = 0, int rng_seed = 0, int number_of_traits=1, bool all_polymorphic=false);
     virtual ~haploid_highd();
-    int set_up(int L , int rng_seed =0, int number_of_traits=1, bool all_polymorphic=false);
+    int set_up(int L , int rng_seed = 0, int number_of_traits = 1, bool all_polymorphic = false);
 
 
         // the population
@@ -272,7 +272,7 @@ public:
 	int set_genotypes(vector <genotype_value_pair_t> gt);
 	int set_wildtype(unsigned long N);
 	int track_locus_genealogy(vector <int> loci);
-    int track_locus_genealogy_outside(int new_track_genealogy, vector <int> loci);
+    int track_locus_genealogy(vector <int> loci, int new_track_genealogy = 1);
 
 
 	// modify population
@@ -315,10 +315,6 @@ public:
 	stat_t get_diversity_statistics(unsigned int n_sample=1000);
 	stat_t get_divergence_statistics(unsigned int n_sample=1000);
 
-    double get_pairwise_divergence(int sample_size = 100);
-    double get_segregating_sites_num (int sample_size);
-
-
 	// allele frequencies
 	double get_allele_frequency(int l) {if (!allele_frequencies_up_to_date){calc_allele_freqs();} return allele_frequencies[l];}
 	double get_derived_allele_frequency(int l) {if (ancestral_state[l]) {return 1.0-get_allele_frequency(l);} else {return get_allele_frequency(l);}}
@@ -356,10 +352,10 @@ public:
 	int read_ms_sample(istream &gts, int skip_locus, int multiplicity);
 	int read_ms_sample_sparse(istream &gts, int skip_locus, int multiplicity, int distance);
 
-        // genealogy
-    vector < vector < node_t > > newGenerations;
+    // genealogy
+    //vector < vector < node_t > > newGenerations;
     int extend_storage(int n);
-    multi_locus_genealogy_2 genealogy;
+    multi_locus_genealogy genealogy;
     int track_genealogy;
 
 
