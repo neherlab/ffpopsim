@@ -624,7 +624,7 @@ int multi_population::evolve(int gen)
     //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
     for (int location = 0; location < number_of_locations; location ++)
     {
-       // if (track_genealogy) sub_population[location]->genealogy.add_generation(fitness_max); //, sub_population[location]->genealogy.newGenerations);
+       if (track_genealogy == 1) sub_population[location]->genealogy.add_generation(fitness_max); //, sub_population[location]->genealogy.newGenerations);
     }
 }
 

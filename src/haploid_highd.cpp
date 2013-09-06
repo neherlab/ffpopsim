@@ -442,30 +442,6 @@ int haploid_highd::track_locus_genealogy(vector <int> loci, int new_track_geneal
 
 
 
-//int haploid_highd::track_locus_genealogy(int new_track_genealogy, vector <int> loci)
-//{
-//    //Note: you must track genealogies BEFORE the population is set
-//    if((generation != -1) or (get_number_of_clones() > 0)){
-//        cerr <<"haploid_highd::track_locus_genealogy: you must track genealogies BEFORE the population is set: generation "<<generation<<"\tnumber of clones"<<get_number_of_clones()<<endl;
-//        return HP_EXTINCTERR;
-//    }
-//
-//    track_genealogy = new_track_genealogy;
-//    if(HP_VERBOSE){cerr <<"haploid_highd::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
-//    genealogy.reset();
-//    for (unsigned int i=0; i<loci.size(); i++){
-//        vector <node_t> temp_generation;
-//        genealogy.newGenerations.push_back(temp_generation);
-//        genealogy.track_locus(loci[i]);
-//    }
-//    genealogy.extend_storage(10 + population.size());
-//    if (HP_VERBOSE){cerr<<"done\n";}
-//    return 0;
-//}
-//
-
-
-
 /**
  * @brief calculate and store allele frequencies
  *
@@ -630,7 +606,7 @@ int haploid_highd::select_gametes() {
 		cerr <<"haploid_highd::select_gametes(): outcrossing_rate needs to be <=1 and >=0, got: "<<outcrossing_rate_effective<<'\n';
 		return HP_BADARG;
 	}
-    //to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
+	//to speed things up, reserve the expected amount of memory for sex gametes and the new population (+10%)
 	sex_gametes.clear();
 	clones_needed_for_recombination.clear();
 	clones_needed_for_recombination.reserve(number_of_clones*outcrossing_rate_effective*1.1);
@@ -669,7 +645,7 @@ int haploid_highd::select_gametes() {
 			}
 			if (track_genealogy){
 				for (unsigned int locus=0; locus<genealogy.loci.size(); locus++){
-                                add_clone_to_genealogy(locus, clone_index, clone_index, 0,number_of_loci,os,(os>0), genealogy.newGenerations[locus].at(clone_index).own_key.location, genealogy.newGenerations[locus].at(clone_index).own_key.location);
+					add_clone_to_genealogy(locus, clone_index, clone_index, 0,number_of_loci,os,(os>0), genealogy.newGenerations[locus].at(clone_index).own_key.location, genealogy.newGenerations[locus].at(clone_index).own_key.location);
 				}
 			}
 		}
@@ -1014,7 +990,7 @@ int haploid_highd::recombine(int parent1, int parent2) {
 
 void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent, int left, int right, int cs, int n, int parent_location, int own_location){
 	if (HP_VERBOSE) {
-        cerr <<"haploid_highd::add_clone_to_genealogy(): dest:  "<<dest<<" parent: "<<parent<<"  "<<genealogy.newGenerations[locusIndex].size()<<endl;
+		cerr <<"haploid_highd::add_clone_to_genealogy(): dest:  "<<dest<<" parent: "<<parent<<"  "<<genealogy.newGenerations[locusIndex].size()<<endl;
 		tree_key_t temp;
 		temp.age = generation - 1;
 		temp.index = parent;
@@ -1055,14 +1031,6 @@ void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent,
     }
 
     genealogy.newGenerations[locusIndex][dest].genotype = population[dest].genotype;
-
-
-
-    //cout << "New node created!  " << " age = " << newGenerations[locusIndex][dest].own_key.age << " location = " << newGenerations[locusIndex][dest].own_key.location << " index = " << newGenerations[locusIndex][dest].own_key.index << endl;
-
-
-
-
 	if (HP_VERBOSE) {
 		cerr <<"haploid_highd::add_clone_to_genealogy(): done"<<endl;
 	}
