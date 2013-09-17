@@ -43,12 +43,14 @@ class multi_population
     int evolve_local(int location, int gen=1);
 
 
+
+
 public:
 
     void reset();
-    haploid_highd * point_sub_pop(int i){return sub_population[i];};
     multi_population(int new_locations, int L_in, int n_o_traits = 1, int rng_seed = 0);
     ~multi_population();
+    haploid_highd * point_sub_pop(int i){return sub_population[i];};
 
     //parameteres
     int get_locations () {return number_of_locations;};

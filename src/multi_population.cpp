@@ -444,12 +444,6 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
 
 
 
-    //cout << "New node created!  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.index << endl;
-    //cout << "Parent:  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.index << endl;
-
-
-
-
     if (HP_VERBOSE) {
         cerr <<"multi_population::add_clone_to_genealogy(): done"<<endl;
     }
