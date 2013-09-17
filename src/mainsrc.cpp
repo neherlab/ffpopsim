@@ -307,7 +307,7 @@ int main(int argc, char  *argv[]){
              for (unsigned int genlocus = 0; genlocus < gen_loci.size(); genlocus ++){
                //pop.genealogy.trees[genlocus].check_tree_integrity();
                // myfile_tree <<"#PRINT ENTIRE TREE"<<endl;
-                myfile_tree << pop.genealogy.trees[genlocus].print_newick()<<endl;
+                //myfile_tree << pop.genealogy.trees[genlocus].print_newick()<<endl;
             }
              myfile_tree.close();
 
@@ -319,7 +319,7 @@ int main(int argc, char  *argv[]){
               for (unsigned int genlocus = 0; genlocus < gen_loci.size(); genlocus ++){
                 //pop.genealogy.trees[genlocus].check_tree_integrity();
                 // myfile_tree <<"#PRINT ENTIRE TREE"<<endl;
-                 myfile_tree << pop.genealogy.trees[genlocus].print_newick(true)<<endl;
+                 //myfile_tree << pop.genealogy.trees[genlocus].print_newick(true)<<endl;
              }
               myfile_tree.close();
 

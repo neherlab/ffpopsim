@@ -116,7 +116,7 @@ int pop_evolve() {
 		pop.add_fitness_coefficient(0.01, loci);
 		loci.clear();
 	}
-	cout << pop.track_genealogy << endl;
+	//cout << pop.track_genealogy << endl;
     stat_t fitstat;
 	cerr <<"    "<<"af5\t"<<"af50\t"<<"Fitness mean\t"<<"Fitness var"<<endl;
 	cerr <<"---------------------------------------------"<<endl;

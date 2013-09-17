@@ -13,7 +13,7 @@
 
 class multi_population
 {
-    const double static MAX_MIGRATION_RATE = 0.5;
+    double MAX_MIGRATION_RATE;
     //vector <haploid_highd> sub_population;
     vector <haploid_highd*> sub_population;
     //vector <haploid_highd> sub_population;
@@ -33,9 +33,17 @@ class multi_population
     int determine_migration_destination();
     int determine_migrant(int sub_pop_num);
 
+    //genealogy
+    multi_locus_genealogy genealogy;
+    int submit_subpop_genealogy(int sub_pop_No);
+    int submit_pop_genealogy();
+    void set_global_generation(int generation);
+
+    //evolution
+    int evolve_local(int location, int gen=1);
+
 
 public:
-
 
     void reset();
     haploid_highd * point_sub_pop(int i){return sub_population[i];};
@@ -71,16 +79,11 @@ public:
     void set_trait_weights(double* weights);
 
     //genealogy
-    multi_locus_genealogy genealogy;
     int track_locus_genealogy(vector<int> loci);
-    int submit_subpop_genealogy(int sub_pop_No);
-    int submit_pop_genealogy();
-    void set_global_generation(int generation);
-
+    string print_newick();
 
 
     //evolution
-    int evolve_local(int location, int gen);
     int evolve(int gen = 1);
     int migrate();
     int migrate(int source);

@@ -108,48 +108,33 @@ public:
 
 multi_population::multi_population(int new_locations, int L_in, int n_o_traits, int rng_seed)
 {
-
-    //sub_population = new haploid_highd[new_locations]; //.push_back(haploid_highd());
-
-
-    //Location number check:
-    if (new_locations < 2)
+    if (new_locations < 0)
     {
         if (HP_VERBOSE)
             cerr << "too few locations provided for the required type of simulations!"<< endl;
-        //throw(HP_BADARG);
+        throw(HP_BADARG);
     }
 
+    try {
+        haploid_highd* loc;
+        for (int i = 0; i < new_locations; i ++)
 
+        {
+           loc = new haploid_highd();
+           loc->set_up(L_in, rng_seed, n_o_traits);
+           sub_population.push_back(loc);
+        }
 
-   haploid_highd* loc;
-
-   loc = new hh_source();
-   loc->set_up(L_in, rng_seed, n_o_traits);
-   sub_population.push_back(loc);
-
-
-   for (int i = 1; i < new_locations; i ++)
-   {
-       loc = new hh_1();
-       loc->set_up(L_in, rng_seed, n_o_traits);
-       sub_population.push_back(loc);
-   }
-
-
-   /*loc = new hh_1();
-   loc->set_up(L_in, rng_seed, n_o_traits);
-   sub_population.push_back(loc);
-*/
-
-   cout << sub_population.size() << endl;
-   L = L_in;
-    generation = 0;
-    number_of_locations = new_locations;
-    track_genealogy = 0; //No genealogy by default
-    migration_rate = 0.0; //No migration by default
-    number_of_migration_events = 0;
-
+       L = L_in;
+       generation = 0;
+       number_of_locations = new_locations;
+       track_genealogy = 0; //No genealogy by default
+       migration_rate = 0.0; //No migration by default
+       number_of_migration_events = 0;
+    }catch (int err)
+    {
+        throw err;
+    }
 }
 
 
