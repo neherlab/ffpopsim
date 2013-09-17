@@ -1,7 +1,12 @@
 #include "multi_population.h"
 
-
+//#define SELECT 0.01
 class hh_source : public haploid_highd{
+
+    //Center of the distribution in polar coordinates:
+    //double phi_0 = 0;
+    //double rho_0 = 0;
+    //VARIANCE
     double sigma;
 
 
@@ -36,7 +41,14 @@ public:
 };
 
 class hh_1 : public haploid_highd{
+    //Center of the distribution in polar coordinates:
+    //double phi_0 = 0;
+    //double rho_0 = 0;
+    //VARIANCE
     double sigma;
+
+
+
     virtual double trait_function(double aTrait1, double aTrait2)
     {
         double t1 = aTrait1;
@@ -44,11 +56,19 @@ class hh_1 : public haploid_highd{
         double rho = 0;
         //double t1_0 = cos(phi_0) * rho_0;
         //double t2_0 = sin(phi_0) * rho_0;
+
         rho = sqrt(pow((t1 + 1e-5), 2) + pow((t2 + 1e-5), 2));
+
+
         double d_phi = acos( ((t1 + 1e-5) * cos(phi_0) + (t2 + 1e-5) * sin(phi_0)) / rho);
+
+        //cout << t1 << " " << t2 << "  "<< d_phi<< endl;
         return   trait_weights[0] / 5 * exp(1) *  rho / rho_0 * exp(- rho / rho_0) * exp(- pow((d_phi), 2) / sigma);
+
     }
+
 public:
+
     //get/set methods for fitness map parameters
     void set_phi_0 (double aPhi_0)
     {
@@ -86,106 +106,67 @@ public:
 
 
 
-/**
-  * @brief Default constructor for simulating multiple populations
-  * @param new_locations number of locations to be simulated
-  * @param L_in number of loci
-  * @param n_o_traits number of traits
-  */
 multi_population::multi_population(int new_locations, int L_in, int n_o_traits, int rng_seed)
 {
-<<<<<<< Updated upstream
-    if (new_locations < 0)
-    {
-        if (HP_VERBOSE)
-            cerr << "too few locations provided for the required type of simulations!"<< endl;
-        throw(HP_BADARG);
-    }
 
-    try {
-        haploid_highd* loc;
-        for (int i = 0; i < new_locations; i ++)
-
-        {
-           loc = new haploid_highd();
-           loc->set_up(L_in, rng_seed, n_o_traits);
-           sub_population.push_back(loc);
-        }
-
-       L = L_in;
-       generation = 0;
-       number_of_locations = new_locations;
-       track_genealogy = 0; //No genealogy by default
-       migration_rate = 0.0; //No migration by default
-       number_of_migration_events = 0;
-    }catch (int err)
-    {
-        throw err;
-    }
-=======
+    //sub_population = new haploid_highd[new_locations]; //.push_back(haploid_highd());
 
 
     //Location number check:
-    if (new_locations < 1)
+    if (new_locations < 2)
     {
         if (HP_VERBOSE)
-            cerr << "You must specify at least one location!"<< endl;
-        throw(HP_BADARG);
+            cerr << "too few locations provided for the required type of simulations!"<< endl;
+        //throw(HP_BADARG);
     }
 
+
+
    haploid_highd* loc;
-   //FIXME: set the fitness landscape from outside (may be, provide uilities)
-   try{
-       loc = new hh_source();
+
+   loc = new hh_source();
+   loc->set_up(L_in, rng_seed, n_o_traits);
+   sub_population.push_back(loc);
+
+
+   for (int i = 1; i < new_locations; i ++)
+   {
+       loc = new hh_1();
        loc->set_up(L_in, rng_seed, n_o_traits);
        sub_population.push_back(loc);
-
-       for (int i = 1; i < new_locations; i ++)
-       {
-           loc = new hh_1();
-           loc->set_up(L_in, rng_seed, n_o_traits);
-           sub_population.push_back(loc);
-       }
-   }catch (int e){
-       throw e;
    }
 
-    set_global_generation(0);
+
+   /*loc = new hh_1();
+   loc->set_up(L_in, rng_seed, n_o_traits);
+   sub_population.push_back(loc);
+*/
+
+   cout << sub_population.size() << endl;
+   L = L_in;
+    generation = 0;
     number_of_locations = new_locations;
     track_genealogy = 0; //No genealogy by default
     migration_rate = 0.0; //No migration by default
     number_of_migration_events = 0;
-    number_of_loci = L_in;
->>>>>>> Stashed changes
+
 }
 
 
 
-/**
-  * @brief Memory release here
-*/
+
 multi_population::~multi_population()
 {
-    reset();
     for (int i = 0; i < number_of_locations; i ++)
      {
-        //sub_population[i].~haploid_highd();
         //delete sub_population[i];
      }
 }
 
 
 
-<<<<<<< Updated upstream
 
 int multi_population::N()
-=======
-/**
-  * @brief Returns overall size of the population
-  @return size of the population
-  */
-int multi_population::population_size()
->>>>>>> Stashed changes
 {
     int size = 0;
     for (int i = 0; i < number_of_locations; i ++)
@@ -201,110 +182,11 @@ void multi_population::reset()
 {
     number_of_locations = 0;
     sub_population.clear();
- }
 
-void multi_population::set_carrying_capacity(int N) {
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->carrying_capacity = N;
-    }
-}
-void multi_population::set_mutation_rate(double mu) {
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->set_mutation_rate(mu);
-    }
-}
-void multi_population::set_outcrossing_rate(double o_rate) {
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->outcrossing_rate = o_rate;
-    }
-}
-void multi_population::set_crossover_rate(double c_rate) {
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->crossover_rate = c_rate;//1e-2;
-    }
-}
-
-void multi_population::set_recombination_model(int rec_model){
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->recombination_model = rec_model;
-    }
-}
-
-void multi_population::set_trait_coefficients(int coefficient, vector <int> loci, int trait_no)
-{
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->add_trait_coefficient(0, loci, 1);
-    }
-}
-
-void multi_population::set_trait_weights(double* new_weights)
-{
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->set_trait_weights(new_weights);
-    }
-}
-
-void multi_population::update_traits()
-{
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->update_traits();
-    }
-}
-void multi_population::update_fitness()
-{
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->update_fitness();
-    }
 }
 
 
-int multi_population::add_random_genotype(int N)
-{
-    if(N == 0) {
-        if (HP_VERBOSE) cerr<<"the desired population size must be at least 1."<<endl;
-        return HP_BADARG;
-    }
-    // set the carrying capacity if unset
-    if(get_carrying_capacity() < HP_NOTHING)
-            set_carrying_capacity(N * 100);
-    //point_sub_pop(0)->allele_frequencies_up_to_date = false;
 
-    boost::dynamic_bitset<> genotype(number_of_loci);
-    bool r = 0;
-    for( int i = 0 ;i < genotype.size() ;i++ )
-     {
-         r = rand() % 2;
-         if (r)
-            genotype[i] = 1;
-         else
-            genotype[i] = 0;
-     }
-     point_sub_pop(0)->add_genotype(genotype, N);
-     
-     if (track_genealogy == 2)
-     {
-         cout << "initialization generation..." << endl;
-         submit_pop_genealogy();
-         genealogy.add_generation(max_fitness());
-     }
-     set_global_generation(0);
-     return 0;
-}
-/**
-  * @brief Function to enable tracking global genealogy of the multiple populations.
-  * This is overloaded version of the haploid_highd::track_locus_genealogy().
-  * If only genealogy of a local sub-population is needed, haploid_highd::track_locus_genealogy() should be used instead.
-  * @param vector <int> loci loci to track
-  */
 int multi_population::track_locus_genealogy(vector <int > loci)
 {
     if(HP_VERBOSE){cerr <<"MULTI_POPULATION::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
@@ -328,9 +210,6 @@ int multi_population::track_locus_genealogy(vector <int > loci)
     return 0;
 }
 
-/**
-  * @brief submits all local genealogies to the global storage
-  */
 int multi_population::submit_pop_genealogy()
 {
     genealogy.newGenerations.clear();
@@ -351,22 +230,22 @@ int multi_population::submit_pop_genealogy()
                 {
                     genealogy.newGenerations[loc_No].push_back(sub_population[i]->genealogy.newGenerations[loc_No][node_No]);
                     genealogy.newGenerations[loc_No].back().own_key.location = i;
+
+                    //cout << "Node added to newGenerations   "<< genealogy.newGenerations[loc_No].back().own_key <<" size: "<< genealogy.newGenerations[loc_No].back().clone_size << endl;// "   " << genealogy.newGenerations[loc_No].back().own_key.location << "  " << endl;
+                    //cout << "Parent:    "<< genealogy.newGenerations[loc_No].back().parent_node << endl;
                 }
             }
         }
     }
     return 0;
 }
-/**
-  * @brief returns maximal overall fitness of the population
-  @return maximal fitness of the population
-  */
+
 double multi_population::max_fitness()
 {
     double return_value = 0;
     for (int i = 0; i < number_of_locations; i ++)
     {
-        if (return_value < sub_population[i]->get_max_fitness())
+        if (return_value > sub_population[i]->get_max_fitness())
             return_value = sub_population[i]->get_max_fitness();
 
     }
@@ -375,82 +254,89 @@ double multi_population::max_fitness()
 
 
 /**
- * @brief Migrate random individual from specified source to a random destination location
- * @param source number of source location
+ @brief multi_population::migrate
+ * @return
  */
+
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 int multi_population::migrate(int source)
 {
-    int actual_no_migrants = determine_number_of_migrants(source);
-    if (actual_no_migrants > 0)
+    //cout << endl << endl << "In migrate()" << endl;
+   //for (int i = 1; i < number_of_locations; i ++)
     {
-        //cout << "Migrants from location "<< i << ":  "<< actual_no_migrants << endl;
-        sub_population[source]->produce_random_sample(actual_no_migrants);
-        for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
+        int actual_no_migrants = determine_number_of_migrants(source);
+        if (actual_no_migrants > 0)
         {
-            int migrant_clone_No = sub_population[source]->random_clone();
-            int migrant_clone_destination = determine_migration_destination();
-            if (source != migrant_clone_destination){
+            //cout << "Migrants from location "<< i << ":  "<< actual_no_migrants << endl;
+            sub_population[source]->produce_random_sample(actual_no_migrants);
+            for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
+            {
+                int migrant_clone_No = sub_population[source]->random_clone();
+                int migrant_clone_destination = determine_migration_destination();
+                if (source != migrant_clone_destination){
 
-                transfer_clone(source, migrant_clone_destination, migrant_clone_No);
-                number_of_migration_events ++;
+                    transfer_clone(source, migrant_clone_destination, migrant_clone_No);
+                    number_of_migration_events ++;
+                }
             }
+            sub_population[source]->random_sample.clear();
         }
-        sub_population[source]->random_sample.clear();
     }
-    return 0;
+return 0;
 }
 
-/**
- * @brief Migrate random individual from a random source to a random destination location
- * @param source number of source location
- */
+
 int multi_population::migrate()
 {
+    //cout << endl << endl << "In migrate()" << endl;
+    //int i = locationNum;
     for (int i = 0; i < number_of_locations; i ++)
     {
         int actual_no_migrants = determine_number_of_migrants(i);
         if (actual_no_migrants > 0)
         {
             sub_population[i]->produce_random_sample(actual_no_migrants);
+
+
             for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
             {
                 int migrant_clone_No = sub_population[i]->random_clone();
+
+
                 int migrant_clone_destination = determine_migration_destination();
+                //cout << "Clone "<< migrant_clone_No << " is to migrate now to "<< migrant_clone_destination << "..." << endl;
                 cout << "Source " << i << " Dest: " << migrant_clone_destination << endl;
-                if (i != migrant_clone_destination)
-                {
+                if (i != migrant_clone_destination){
+
                     transfer_clone(i, migrant_clone_destination, migrant_clone_No);
                     number_of_migration_events ++;
                 }
+
+
             }
             sub_population[i]->random_sample.clear();
+
         }
+
+
     }
-    return 0;
+
+return 0;
 }
 
 
-/**
-  @brief Determine number of migratinf individuals
-  The number is derived form the migration rate and the size of a local sub-population
-  @param sub_pop_no source location to migrate from
-  */
 int multi_population::determine_number_of_migrants(int sub_pop_No)
 {
-<<<<<<< Updated upstream
     int number_of_migrants = gsl_ran_poisson(sub_population[sub_pop_No]->evo_generator, sub_population[sub_pop_No]->N()*migration_rate);
     number_of_migrants = number_of_migrants > MAX_MIGRATION_RATE * point_sub_pop(sub_pop_No)->N() ?
                 MAX_MIGRATION_RATE * point_sub_pop(sub_pop_No)->N() : number_of_migrants;
-=======
-    int number_of_migrants;
-    number_of_migrants = gsl_ran_poisson(sub_population[sub_pop_No]->evo_generator, sub_population[sub_pop_No]->N()*migration_rate);
->>>>>>> Stashed changes
     return number_of_migrants;
 }
 
-/**
-  @brief Finds random location to migrate to
-  */
 int multi_population::determine_migration_destination()
 {
   int destination;
@@ -460,14 +346,6 @@ int multi_population::determine_migration_destination()
 
 }
 
-/**
-  @brief Pick individuum and rasfers it into another location
-  This function takes an individum with specified index at the specified location, finds available index in the destination location and transfers clone there. Genealogy is up-dated if needed.
-  @param sub_pop_source source location
-  @param sub_pop_destination destination location
-  @param source index of the clone from which the individuum will be taken
-  @return 0
-  */
 int multi_population::transfer_clone(int sub_pop_source, int sub_pop_destination, int source)
 {
     if (sub_population[sub_pop_source]->last_clone < source)
@@ -533,23 +411,10 @@ void multi_population::set_global_generation(int new_generation)
     return;
 }
 
-/**
-  @brief Creating record for the migrating clone in the global genealogy
-  @param locusIndex index of the genealogy tree to
-  @param old_location location of the parent
-  @param new_location new location of the migrating individuum
-  @param dest index of the new clone in the population vector
-  @param parent index of the parent clone in population vector of the source location
-  @param left recombination parameter
-  @param right recombination parameter
-  @param cs recombination parameter
-  @param n number of offsprings
-  */
-
 void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_location, int new_location,  int dest, int parent, int left, int right, int cs, int n)
 {
 
-    if (1) {
+    if (HP_VERBOSE) {
         cerr <<"multi_population::add_migrating_clone_to_genealogy(): dest:  "<<dest<<" parent: "<<parent<<endl;
         tree_key_t temp;
         temp = sub_population[old_location]->genealogy.newGenerations[locusIndex][parent].parent_node;
@@ -592,23 +457,21 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
 
      sub_population[new_location]->genealogy.newGenerations[locusIndex][dest].genotype = sub_population[new_location]->population[dest].genotype;
 
-<<<<<<< Updated upstream
 
 
-=======
->>>>>>> Stashed changes
+    //cout << "New node created!  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.index << endl;
+    //cout << "Parent:  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.index << endl;
+
+
+
+
     if (HP_VERBOSE) {
         cerr <<"multi_population::add_clone_to_genealogy(): done"<<endl;
     }
     return;
 }
 
-/**
-  * @brief mutate a sub-population in a specified location
-  * This function is overloaded version of haploid_highd::mutate()
-  * @param location number
-  @return 0
-  */
+
  int multi_population::mutate(int location)
 {
 
@@ -677,13 +540,7 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
 }
 
 
-/**
-  @brief A single mutation event of a specified individuum in a specified location\
-  @param location
-  @param clonenum
-  @param locus
-  @return index of the new clone
-  */
+
 unsigned int multi_population::flip_single_locus(int location, unsigned int clonenum, int locus) {
     // produce new genotype
     int new_clone = sub_population[location]->available_clones.back();
@@ -716,11 +573,15 @@ unsigned int multi_population::flip_single_locus(int location, unsigned int clon
 
     if (track_genealogy == 2) {
         for (unsigned int genlocus=0; genlocus<genealogy.loci.size(); genlocus++) {
+
+
             add_migrating_clone_to_genealogy(
                     genlocus, location, location, new_clone, clonenum,
                     sub_population[location]->genealogy.newGenerations[genlocus][clonenum].crossover[0],
                     sub_population[location]->genealogy.newGenerations[genlocus][clonenum].crossover[1], 1, 1
                     );
+
+
             sub_population[location]->genealogy.newGenerations[genlocus][clonenum].clone_size--;
         }
     }
@@ -730,23 +591,13 @@ unsigned int multi_population::flip_single_locus(int location, unsigned int clon
     return new_clone;
 }
 
-/**
-  @brief A single mutation event of a randomly chosen individuum in a specified location
-  @param location
-  @param locus
-  */
+
 unsigned int multi_population::flip_single_locus(int location, int locus) {
     if (sub_population[location]->available_clones.size() == 0)
         sub_population[location]->provide_at_least(1);
     return flip_single_locus(location, sub_population[location]->random_clone(), locus);
 }
 
-/**
-  @brief perform evolve cycle on the population
-  This function is the overloaded version of the haploid_highd::evolve(int gen)
-  @param gen number of generations to evolve
-  @return 0 if OK, number of errors occured otherwise;
-  */
 int multi_population::evolve(int gen)
 {
     int err = 0;
@@ -767,7 +618,6 @@ int multi_population::evolve(int gen)
         }
         if (N() == 0)
         {
-<<<<<<< Updated upstream
             //TODO throw population went extinct exception!!!
             cerr << "Unfortunately, poplation went extinct!" << endl;
             throw HP_EXTINCTERR;
@@ -787,56 +637,23 @@ int multi_population::evolve(int gen)
             submit_pop_genealogy();
             genealogy.add_generation(max_fitness());
         }
-=======
-            sub_population[cur_loc]->update_traits();
-            sub_population[cur_loc]->update_fitness();
-            //evolve of the haploid highd (not used)
-            //err +=  sub_population[cur_loc].evolve_loc(cur_loc, gen);
-            //evolve() of the multi_pop
-            err += evolve_local(cur_loc, gen);
-
-        }
     }
-    //migrate();
-
-
-    //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
-    for (int location = 0; location < number_of_locations; location ++)
-    {
-       if (track_genealogy == 1) sub_population[location]->genealogy.add_generation(fitness_max);
->>>>>>> Stashed changes
-    }
-//    if (track_genealogy == 2)
-//    {
-//        submit_pop_genealogy();
-//        genealogy.add_generation(max_fitness());
-//    }
-    //generation ++;
-    //set_global_generation(generation);
-    cout << population_size() << endl;
-    return err;
 }
 
-<<<<<<< Updated upstream
 
-=======
-/**
-  * @brief perform evolve cycle on a sub-population in a specified location
-  * @param location location number
-  * @param gen number of generations to evolve
-  @return 0 if OK, number of errors occured otherwise;
-
-  */
->>>>>>> Stashed changes
 int multi_population::evolve_local(int location, int gen) {
     if (HP_VERBOSE) cerr<<"multi_population::evolve(int gen)...";
     if (sub_population[location]->population_size == 0)
         return 0;
     if (N() == 0)
     {
+
         cout << "Population went extinct!" << endl;
         return 0;
     }
+
+
+
     int err=0, g=0;
     sub_population[location]->allele_frequencies_up_to_date = false;
     // calculate an effective outcrossing rate to include the case of very rare crossover rates.
@@ -849,22 +666,21 @@ int multi_population::evolve_local(int location, int gen) {
 
     // evolve cycle
     while((err == 0) && (g < gen)) {
-        if (1) cerr << "generation " << generation << endl;
+        if (HP_VERBOSE) cerr << "generation " << generation << endl;
         sub_population[location]->random_sample.clear();			//discard the old random sample
         if(err==0) err=sub_population[location]->select_gametes();	//select a new set of gametes (partitioned into sex and asex)
         else if(HP_VERBOSE) cerr<<"Error in select_gametes()"<<endl;
         sort(sub_population[location]->available_clones.begin(), sub_population[location]->available_clones.end(), std::greater<int>()); //sort clones in order to use the first ones again and again
-        //if(err==0) err=sub_population[location]->add_recombinants();	//do the recombination between pairs of sex gametes
-        //else if(HP_VERBOSE) cerr<<"Error in recombine()"<<endl;
+        if(err==0) err=sub_population[location]->add_recombinants();	//do the recombination between pairs of sex gametes
+        else if(HP_VERBOSE) cerr<<"Error in recombine()"<<endl;
         if(err==0 && sub_population[location]->N() > 0) err=mutate(location);		//mutation step
         else if(HP_VERBOSE) cerr<<"Error in mutate()"<<endl;
         sub_population[location]->random_sample.clear();			//discard the old random sample
         g++;
         //sub_population[location]->generation++;
-        //FIXME increment generation?
         //generation ++;
     }
-    if (1) {
+    if (HP_VERBOSE) {
         if(err==0) cerr<<"done."<<endl;
         else cerr<<"error "<<err<<"."<<endl;
     }

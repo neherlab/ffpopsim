@@ -224,5 +224,33 @@ Parameters:
 %ignore    update_fitness;
 
 
-} /* extend multi_population */
-   
+%ignore   point_sub_pop;
+%ignore   get_locations;
+%ignore   N;
+%ignore   get_generation;
+%ignore   max_fitness;
+%ignore   number_of_migration_events;
+%ignore   set_migration_rate;
+%ignore   get_migration_rate;
+%ignore   set_mutation_rate;
+%ignore   get_mutation_rate;
+%ignore   set_carrying_capacity;
+%ignore   get_carrying_capacity;
+%ignore   set_outcrossing_rate;
+%ignore   get_outcrossing_rate;
+%ignore   set_crossover_rate;
+%ignore   get_crossover_rate;
+%ignore   set_recombination_model;
+%ignore   get_recombination_model;
+%ignore   set_trait_coefficient;
+%ignore   set_trait_weights;
+%ignore   genealogy;
+%ignore   track_locus_genealogy;
+%ignore   submit_subpop_genealogy;
+%ignore   submit_pop_genealogy;
+%ignore   set_global_generation;
+%ignore   evolve_local;
+%ignore   evolve;
+%ignore   migrate;
+%ignore   add_random_genotype;
+} /*extend multi_population*/ 
