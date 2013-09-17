@@ -93,6 +93,7 @@ int haploid_highd::set_up(int L_in, int rng_seed, int n_o_traits, bool all_polym
 	if(err)	throw err;
 
 	number_of_instances++;
+    return err;
 }
 
 /**

@@ -148,6 +148,7 @@ int main(int argc, char  *argv[]){
         // ############################################
 
         int N = 20, N_pop = POPULATION_SIZE;
+<<<<<<< Updated upstream
         multi_population pop(locations, _L, NUMBER_OF_TAITS, 2);
         pop.set_migration_rate(MIGRATION_RATE);
 
@@ -156,6 +157,18 @@ int main(int argc, char  *argv[]){
         pop.set_crossover_rate(0.0);
         pop.set_outcrossing_rate(0.0);
         pop.set_recombination_model(0);
+=======
+        multi_population pop(locations, _L, NUMBER_OF_TAITS, 1);
+        pop.set_migration_rate(MIGRATION_RATE);
+        for (int i = 0; i < locations; i ++)
+        {
+            pop.point_sub_pop(i)->carrying_capacity =  10;
+            pop.point_sub_pop(i)->set_mutation_rate(0.0);
+            pop.point_sub_pop(i)->outcrossing_rate = 0.0;
+            pop.point_sub_pop(i)->crossover_rate = 0.0;//1e-2;
+            pop.point_sub_pop(i)->recombination_model = FREE_RECOMBINATION;
+        }
+>>>>>>> Stashed changes
 
         vector <int> gen_loci;
         gen_loci.push_back(100);
@@ -194,6 +207,7 @@ int main(int argc, char  *argv[]){
         //# Set the population and track the genealogy for the population
         //#
         //#############################################
+<<<<<<< Updated upstream
 //        boost::dynamic_bitset<> genotype(_L);
 //            bool r = 0;
 //            for( int i = 0 ;i < genotype.size() ;i++ )
@@ -205,6 +219,21 @@ int main(int argc, char  *argv[]){
 //                   genotype[i] = 0;
 //            }
 //            pop.point_sub_pop(0)->add_genotype(genotype, 1000);
+=======
+        boost::dynamic_bitset<> genotype(_L);
+            bool r = 0;
+            for( int i = 0 ;i < genotype.size() ;i++ )
+            {
+                r = rand() % 2;
+                if (r)
+                   genotype[i] = 1;
+                else
+                   genotype[i] = 0;
+            }
+            pop.point_sub_pop(0)->add_genotype(genotype, 1);
+
+        //pop.point_sub_pop(0)->set_wildtype(100);
+>>>>>>> Stashed changes
 
 //        //pop.point_sub_pop(0)->set_wildtype(100);
 
@@ -219,6 +248,7 @@ int main(int argc, char  *argv[]){
         gsl_histogram *SFS = gsl_histogram_alloc(20);
         gsl_histogram_set_ranges_uniform(SFS,0,1);
         // ############################################
+<<<<<<< Updated upstream
         //int generation = 0;
         for (int i = 0; i < 1000; i ++)
         {
@@ -228,19 +258,21 @@ int main(int argc, char  *argv[]){
 
 
             if (i % 1 == 0) cout << "generation: " << pop.get_generation() << "   " << pop.N() << endl;
+=======
+        int generation = 0;
+        for (int i = 0; i < 1000; i ++)
+        {
+            //pop.migrate(0);
+            pop.evolve();
+            //pop.migrate(0);
+            pop.genealogy.trees[0].check_tree_integrity();
+            generation ++;
+            pop.set_global_generation(generation);
+>>>>>>> Stashed changes
 
         }
 
 
-        // ##############################################
-        // ##############################################
-        // ##                                          ##
-        // ##               EVOLVE CYCLE               ##
-        // ##                                          ##
-        // ##############################################
-        // ##############################################
-        /*set the shift constant*/
-        //double delta_phi = 3.14/4;
 
         stringstream temp1 (stringstream::in | stringstream::out);
         temp1 << "_N_" << N_pop<< "_S_" << argv[1] << "_Mu_" << MUTATION_RATE << "_Mig_" << MIGRATION_RATE; // << "_Time_";

@@ -138,14 +138,14 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 				}
 				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
 				//are encountered or the parent is the root.
-                while (nodes[parent_key].child_edges.size()==1 and parent_key!=root and parent_key.age % sampling_rate != 0){
+                while (nodes[parent_key].child_edges.size()==1 and parent_key!=root){
 					parent_key = bridge_edge_node(parent_key);
 				}
-            }else if (node_pos->second.child_edges.size()==1 and parent_key.age % sampling_rate != 0 ){		//bridge nodes that have exactly one offspring
+            }else if (node_pos->second.child_edges.size()==1){		//bridge nodes that have exactly one offspring
 				parent_key = bridge_edge_node(*old_leaf_key);
 				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
 				//are encountered or the parent is the root.
-                while (nodes[parent_key].child_edges.size()==1 and root!=parent_key and parent_key.age % sampling_rate != 0 ){
+                while (nodes[parent_key].child_edges.size()==1 and root!=parent_key){
 					parent_key = bridge_edge_node(parent_key);
 				}
 			}
@@ -706,8 +706,8 @@ int rooted_tree::check_tree_integrity(){
 		if (root != node->first){
 			nedges+=node->second.child_edges.size();
             if (node->second.child_edges.size()==1){
-                //err++;
-                //cerr <<"node "<<node->first<<" is degenerate (only one child)! ERROR"<<endl;
+                err++;
+                cerr <<"node "<<node->first<<" is degenerate (only one child)! ERROR"<<endl;
 			}
 			nnodes++;
 			edge=edges.find(node->first);

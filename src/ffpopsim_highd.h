@@ -231,7 +231,7 @@ struct tree_key_t
     int age;
     int index;
     int location;
-    bool operator == (const tree_key_t &other)  {return (age == other.age) && (index == other.index) && (location == other.location);}
+     bool operator == (const tree_key_t &other)  {return (age == other.age) && (index == other.index) && (location == other.location);}
     bool operator != (const tree_key_t &other)  {return (age != other.age) || (index != other.index) || (location != other.location);}
     bool operator < (const tree_key_t &other) const {
                 if(age < other.age) return true;
@@ -470,7 +470,7 @@ public:
 	// modify fitness (shortcuts: they only make sense if number_of_traits=1)
 	int add_fitness_coefficient(double value, vector <int> loci){if(number_of_traits>1) throw (int)HP_BADARG; return add_trait_coefficient(value, loci, 0);}
 	void clear_fitness(){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"What do you mean by fitness?"<<endl; throw (int)HP_BADARG;} clear_traits();}
-	void set_random_epistasis(double epistasis_std){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"Please use set_random_trait_epistasis."<<endl; throw (int)HP_BADARG;} trait[0].epistatic_std=epistasis_std;}
+    void set_random_epistasis(double epistasis_std){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"Please use set_random_trait_epistasis."<<endl; throw (int)HP_BADARG;} trait[0].epistatic_std=epistasis_std;}
 
 	// evolution
 	int evolve(int gen=1);	
@@ -512,7 +512,7 @@ public:
 	double get_moment(int locus1, int locus2){return 4 * get_pair_frequency(locus1, locus2) + 1 - 2 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}
 
 	// fitness/phenotype readout
-	void set_trait_weights(double *weights){for(int t=0; t<number_of_traits; t++) trait_weights[t] = weights[t];}
+    void set_trait_weights(double *weights){for(int t=0; t<number_of_traits; t++) trait_weights[t] = weights[t];}
 	double get_trait_weight(int t){return trait_weights[t];}
 	double get_fitness(int n) {calc_individual_fitness(population[n]); return population[n].fitness;}
 	int get_clone_size(int n) {return population[n].clone_size;}
@@ -627,7 +627,7 @@ private:
 	bool mem;
 	bool cumulants_mem;
 	int allocate_mem();
-	int free_mem();
+    int free_mem();
 
 	// These two vectors are used to recycle dead clones
 	vector <int> available_clones;
