@@ -13,11 +13,11 @@
 
 class multi_population
 {
+    const double static MAX_MIGRATION_RATE = 0.5;
     //vector <haploid_highd> sub_population;
     vector <haploid_highd*> sub_population;
     //vector <haploid_highd> sub_population;
-    int population_size();
-
+    int L;
     int number_of_locations;
     int track_genealogy;
     double fitness_max;
@@ -28,39 +28,66 @@ class multi_population
     int mutate(int location);
     unsigned int flip_single_locus(int location, unsigned int clonenum, int locus);
     unsigned int flip_single_locus(int location, int locus);
-
-
+    int generation;
+    int determine_number_of_migrants(int sub_pop_No);
+    int determine_migration_destination();
+    int determine_migrant(int sub_pop_num);
 
 
 public:
-    int generation;
 
 
-    int get_locations () {return number_of_locations;};
-
+    void reset();
+    haploid_highd * point_sub_pop(int i){return sub_population[i];};
     multi_population(int new_locations, int L_in, int n_o_traits = 1, int rng_seed = 0);
     ~multi_population();
 
-    int set_theonly_wildtype(int new_location, int new_N);
+    //parameteres
+    int get_locations () {return number_of_locations;};
+    int N();
+    int get_generation(){return generation;}
+    double max_fitness();
+    int number_of_migration_events;
+
+    void set_migration_rate(double new_rate){migration_rate = new_rate;};
+    double get_migration_rate(){return migration_rate;};
+
+    void set_mutation_rate(double mu);
+    double get_mutation_rate(){return point_sub_pop(0)->get_mutation_rate();};
+
+    void set_carrying_capacity(int capacity);
+    int get_carrying_capacity(){return point_sub_pop(0)->carrying_capacity;};
+
+    void set_outcrossing_rate(double o_rate);
+    double get_outcrossing_rate(){return point_sub_pop(0)->outcrossing_rate;}
+
+    void set_crossover_rate(double c_rate);
+    double get_crossover_rate(){return point_sub_pop(0)->crossover_rate;};
+
+    void set_recombination_model(int r_model);
+    int  get_recombination_model(){return point_sub_pop(0)->recombination_model;};
+
+    void set_trait_coefficient(double coefficient, vector<int> loci, int trait_no);
+    void set_trait_weights(double* weights);
+
+    //genealogy
     multi_locus_genealogy genealogy;
     int track_locus_genealogy(vector<int> loci);
     int submit_subpop_genealogy(int sub_pop_No);
     int submit_pop_genealogy();
-    double max_fitness();
+    void set_global_generation(int generation);
 
+
+
+    //evolution
     int evolve_local(int location, int gen);
     int evolve(int gen = 1);
     int migrate();
     int migrate(int source);
-    int number_of_migration_events;
 
-    int determine_number_of_migrants(int sub_pop_No);
-    int determine_migration_destination();
-    int determine_migrant(int sub_pop_num);
-    void reset();
-    haploid_highd * point_sub_pop(int i){return sub_population[i];};
-    void set_global_generation(int generation);
-   int set_migration_rate(double new_rate){migration_rate = new_rate; return 0;};
+
+    //init population
+    void add_random_genotype(int N_in);
 
 protected:
 

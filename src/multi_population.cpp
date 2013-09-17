@@ -143,7 +143,7 @@ multi_population::multi_population(int new_locations, int L_in, int n_o_traits, 
 */
 
    cout << sub_population.size() << endl;
-
+   L = L_in;
     generation = 0;
     number_of_locations = new_locations;
     track_genealogy = 0; //No genealogy by default
@@ -166,12 +166,12 @@ multi_population::~multi_population()
 
 
 
-int multi_population::population_size()
+int multi_population::N()
 {
     int size = 0;
     for (int i = 0; i < number_of_locations; i ++)
     {
-        size += sub_population[i]->population.size();
+        size += sub_population[i]->N();
     }
 
     return size;
@@ -197,7 +197,7 @@ int multi_population::track_locus_genealogy(vector <int > loci)
         genealogy.newGenerations.push_back(temp_generation);
         genealogy.track_locus(loci[i]);
     }
-    genealogy.extend_storage(10 + population_size());
+    genealogy.extend_storage(10 + N());
     if (HP_VERBOSE){cerr<<"done\n";}
 
     //set_global_generation(-1);
@@ -296,14 +296,9 @@ int multi_population::migrate()
     //int i = locationNum;
     for (int i = 0; i < number_of_locations; i ++)
     {
-
-        cout << "Source: " << i << endl;
         int actual_no_migrants = determine_number_of_migrants(i);
         if (actual_no_migrants > 0)
         {
-            cout << "Mr: " << actual_no_migrants << endl;
-
-            //cout << "Migrants from location "<< i << ":  "<< actual_no_migrants << endl;
             sub_population[i]->produce_random_sample(actual_no_migrants);
 
 
@@ -336,10 +331,9 @@ return 0;
 
 int multi_population::determine_number_of_migrants(int sub_pop_No)
 {
-    int number_of_migrants;
-    number_of_migrants = gsl_ran_poisson(sub_population[sub_pop_No]->evo_generator, sub_population[sub_pop_No]->N()*migration_rate);
-
-
+    int number_of_migrants = gsl_ran_poisson(sub_population[sub_pop_No]->evo_generator, sub_population[sub_pop_No]->N()*migration_rate);
+    number_of_migrants = number_of_migrants > MAX_MIGRATION_RATE * point_sub_pop(sub_pop_No)->N() ?
+                MAX_MIGRATION_RATE * point_sub_pop(sub_pop_No)->N() : number_of_migrants;
     return number_of_migrants;
 }
 
@@ -607,32 +601,51 @@ unsigned int multi_population::flip_single_locus(int location, int locus) {
 int multi_population::evolve(int gen)
 {
     int err = 0;
-    for (int cur_loc = 0 ; cur_loc < number_of_locations; cur_loc ++)
+    int g = 0;
+    while (g < gen && err == 0)
     {
-        if (sub_population[cur_loc]->N() > 0)
+        for (int cur_loc = 0 ; cur_loc < number_of_locations; cur_loc ++)
         {
-            sub_population[cur_loc]->update_traits();
-            sub_population[cur_loc]->update_fitness();
-            //evolve of the haploid highd (not used)
-            //err +=  sub_population[cur_loc].evolve_loc(cur_loc, gen);
-            //evolve() of the multi_pop
-            err += evolve_local(cur_loc, gen);
+            if (sub_population[cur_loc]->N() > 0)
+            {
+                sub_population[cur_loc]->update_traits();
+                sub_population[cur_loc]->update_fitness();
+                //evolve of the haploid highd (not used)
+                //err +=  sub_population[cur_loc].evolve_loc(cur_loc, gen);
+                //evolve() of the multi_pop
+                err += evolve_local(cur_loc, 1);
+            }
+        }
+        if (N() == 0)
+        {
+            //TODO throw population went extinct exception!!!
+            cerr << "Unfortunately, poplation went extinct!" << endl;
+            throw HP_EXTINCTERR;
+        }
+        migrate();
+        generation ++;
+        g++;
+        set_global_generation(generation);
+
+        //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
+        for (int location = 0; location < number_of_locations; location ++)
+        {
+           if (track_genealogy == 1) sub_population[location]->genealogy.add_generation(fitness_max);
+        }
+        if (track_genealogy == 2)
+        {
+            submit_pop_genealogy();
+            genealogy.add_generation(max_fitness());
         }
     }
-
-
-    //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
-    for (int location = 0; location < number_of_locations; location ++)
-    {
-       if (track_genealogy == 1) sub_population[location]->genealogy.add_generation(fitness_max); //, sub_population[location]->genealogy.newGenerations);
-    }
 }
+
 
 int multi_population::evolve_local(int location, int gen) {
     if (HP_VERBOSE) cerr<<"multi_population::evolve(int gen)...";
     if (sub_population[location]->population_size == 0)
         return 0;
-    if (population_size() == 0)
+    if (N() == 0)
     {
 
         cout << "Population went extinct!" << endl;
@@ -675,3 +688,76 @@ int multi_population::evolve_local(int location, int gen) {
 }
 
 
+
+void multi_population::set_mutation_rate(double rate){
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+
+        point_sub_pop(i)->set_mutation_rate(rate);
+    }
+}
+
+void multi_population::set_carrying_capacity(int capacity){
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+        point_sub_pop(i)->carrying_capacity = capacity;
+    }
+}
+
+void multi_population::set_outcrossing_rate(double o_rate){
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+        point_sub_pop(i)->outcrossing_rate = o_rate;
+    }
+}
+
+void multi_population::set_crossover_rate(double c_rate){
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+        point_sub_pop(i)->crossover_rate = c_rate;
+    }
+}
+
+void multi_population::set_recombination_model(int r_model){
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+        point_sub_pop(i)->recombination_model = FREE_RECOMBINATION;
+    }
+}
+
+void multi_population::set_trait_coefficient(double coefficient, vector<int> loci, int trait_no){
+    for (int i = 0; i < number_of_locations; i ++)
+    {
+        point_sub_pop(i)->add_trait_coefficient(coefficient, loci, trait_no);
+        point_sub_pop(i)->update_traits();
+        point_sub_pop(i)->update_fitness();
+    }
+}
+
+void multi_population::set_trait_weights(double* weights){
+    for (int i = 0; i < number_of_locations; i ++){
+        point_sub_pop(i)->set_trait_weights(weights);
+        point_sub_pop(i)->update_traits();
+        point_sub_pop(i)->update_fitness();
+    }
+
+}
+
+void multi_population::add_random_genotype(int N_in){
+    boost::dynamic_bitset<> genotype(L);
+    bool r = 0;
+    for( int i = 0 ;i < genotype.size() ;i ++ )
+    {
+        r = rand() % 2;
+        if (r)
+           genotype[i] = 1;
+        else
+           genotype[i] = 0;
+    }
+    point_sub_pop(0)->add_genotype(genotype, N_in); //FIXME we can only set genotype to location 0, otherwise genealogy gets crazy.
+    set_global_generation(0);
+    if (track_genealogy == 2){
+        submit_pop_genealogy();
+        genealogy.add_generation(max_fitness());
+    }
+}
