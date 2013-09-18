@@ -66,6 +66,7 @@ int haploid_highd::set_up(int L_in, int rng_seed, int n_o_traits, bool all_polym
 		throw HP_MEMERR;
 	}
 
+
 	// Set attributes
 	number_of_loci = L_in;
 	number_of_traits = n_o_traits;
@@ -84,7 +85,10 @@ int haploid_highd::set_up(int L_in, int rng_seed, int n_o_traits, bool all_polym
 	all_polymorphic = all_polymorphic_in;
 	growth_rate = 2.0;
 
-	//In case no seed is provided, get one from the OS
+    last_clone = 0;
+    available_clones.clear();
+
+    //In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
 
 	// Note: we should clean up the mess made by allocate_mem(). This requires more fine-grained
@@ -1347,9 +1351,11 @@ int haploid_highd::random_clones(unsigned int n_o_individuals, vector <int> *sam
 void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
 	if(n > 0) {
 		allele_frequencies_up_to_date = false;
-		if (available_clones.size() == 0)
+        cout << last_clone << endl;
+        if (available_clones.size() == 0)
 			provide_at_least(1);
-		int new_gt = available_clones.back();
+        cout << last_clone << endl;
+        int new_gt = available_clones.back();
 		available_clones.pop_back();
 
 		population[new_gt].genotype = genotype;

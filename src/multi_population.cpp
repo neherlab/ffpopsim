@@ -62,7 +62,6 @@ class hh_1 : public haploid_highd{
 
         double d_phi = acos( ((t1 + 1e-5) * cos(phi_0) + (t2 + 1e-5) * sin(phi_0)) / rho);
 
-        //cout << t1 << " " << t2 << "  "<< d_phi<< endl;
         return   trait_weights[0] / 5 * exp(1) *  rho / rho_0 * exp(- rho / rho_0) * exp(- pow((d_phi), 2) / sigma);
 
     }
@@ -113,36 +112,26 @@ multi_population::multi_population(int new_locations, int L_in, int n_o_traits, 
 
 
     //Location number check:
-    if (new_locations < 2)
+    if (new_locations < 1)
     {
         if (HP_VERBOSE)
             cerr << "too few locations provided for the required type of simulations!"<< endl;
-        //throw(HP_BADARG);
+        throw(HP_BADARG);
     }
 
+    try{
+        haploid_highd* loc;
+        for (int i = 0; i < new_locations; i ++)
+        {
+            loc = new haploid_highd();
+            loc->set_up(L_in, rng_seed, n_o_traits);
+            sub_population.push_back(loc);
+        }
+    }catch (int err){
+               throw err;
+    }
 
-
-   haploid_highd* loc;
-
-   loc = new hh_source();
-   loc->set_up(L_in, rng_seed, n_o_traits);
-   sub_population.push_back(loc);
-
-
-   for (int i = 1; i < new_locations; i ++)
-   {
-       loc = new hh_1();
-       loc->set_up(L_in, rng_seed, n_o_traits);
-       sub_population.push_back(loc);
-   }
-
-
-   /*loc = new hh_1();
-   loc->set_up(L_in, rng_seed, n_o_traits);
-   sub_population.push_back(loc);
-*/
-
-   cout << sub_population.size() << endl;
+   MAX_MIGRATION_RATE = 0.5;
    L = L_in;
     generation = 0;
     number_of_locations = new_locations;
@@ -187,7 +176,7 @@ void multi_population::reset()
 
 
 
-int multi_population::track_locus_genealogy(vector <int > loci)
+void multi_population::track_locus_genealogy(vector <int > loci)
 {
     if(HP_VERBOSE){cerr <<"MULTI_POPULATION::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
     genealogy.reset();
@@ -207,7 +196,7 @@ int multi_population::track_locus_genealogy(vector <int > loci)
         point_sub_pop(location_No)->track_locus_genealogy(loci, 2);
     }
     track_genealogy = 2;
-    return 0;
+    return;
 }
 
 int multi_population::submit_pop_genealogy()
@@ -219,9 +208,9 @@ int multi_population::submit_pop_genealogy()
         genealogy.newGenerations.push_back(temp_generation);
 
     }
+
     for (int i = 0; i < number_of_locations; i ++)
     {
-
         for (unsigned int loc_No = 0; loc_No < genealogy.trees.size(); loc_No ++)
         {
             for (unsigned int node_No = 0; node_No <= sub_population[i]->last_clone; node_No ++)
@@ -230,9 +219,6 @@ int multi_population::submit_pop_genealogy()
                 {
                     genealogy.newGenerations[loc_No].push_back(sub_population[i]->genealogy.newGenerations[loc_No][node_No]);
                     genealogy.newGenerations[loc_No].back().own_key.location = i;
-
-                    //cout << "Node added to newGenerations   "<< genealogy.newGenerations[loc_No].back().own_key <<" size: "<< genealogy.newGenerations[loc_No].back().clone_size << endl;// "   " << genealogy.newGenerations[loc_No].back().own_key.location << "  " << endl;
-                    //cout << "Parent:    "<< genealogy.newGenerations[loc_No].back().parent_node << endl;
                 }
             }
         }
@@ -263,15 +249,12 @@ double multi_population::max_fitness()
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-int multi_population::migrate(int source)
+void multi_population::migrate(int source)
 {
-    //cout << endl << endl << "In migrate()" << endl;
-   //for (int i = 1; i < number_of_locations; i ++)
-    {
+
         int actual_no_migrants = determine_number_of_migrants(source);
         if (actual_no_migrants > 0)
         {
-            //cout << "Migrants from location "<< i << ":  "<< actual_no_migrants << endl;
             sub_population[source]->produce_random_sample(actual_no_migrants);
             for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
             {
@@ -285,15 +268,13 @@ int multi_population::migrate(int source)
             }
             sub_population[source]->random_sample.clear();
         }
-    }
-return 0;
+
+return;
 }
 
 
-int multi_population::migrate()
+void multi_population::migrate()
 {
-    //cout << endl << endl << "In migrate()" << endl;
-    //int i = locationNum;
     for (int i = 0; i < number_of_locations; i ++)
     {
         int actual_no_migrants = determine_number_of_migrants(i);
@@ -308,8 +289,6 @@ int multi_population::migrate()
 
 
                 int migrant_clone_destination = determine_migration_destination();
-                //cout << "Clone "<< migrant_clone_No << " is to migrate now to "<< migrant_clone_destination << "..." << endl;
-                cout << "Source " << i << " Dest: " << migrant_clone_destination << endl;
                 if (i != migrant_clone_destination){
 
                     transfer_clone(i, migrant_clone_destination, migrant_clone_No);
@@ -325,7 +304,7 @@ int multi_population::migrate()
 
     }
 
-return 0;
+return;
 }
 
 
@@ -457,10 +436,6 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
 
      sub_population[new_location]->genealogy.newGenerations[locusIndex][dest].genotype = sub_population[new_location]->population[dest].genotype;
 
-
-
-    //cout << "New node created!  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].own_key.index << endl;
-    //cout << "Parent:  " << " age = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.age << " location = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.location << " index = " << sub_population[new_location].newGenerations[locusIndex][dest].parent_node.index << endl;
 
 
 
@@ -618,7 +593,6 @@ int multi_population::evolve(int gen)
         }
         if (N() == 0)
         {
-            //TODO throw population went extinct exception!!!
             cerr << "Unfortunately, poplation went extinct!" << endl;
             throw HP_EXTINCTERR;
         }
@@ -648,7 +622,7 @@ int multi_population::evolve_local(int location, int gen) {
     if (N() == 0)
     {
 
-        cout << "Population went extinct!" << endl;
+        cerr << "Population went extinct!" << endl;
         return 0;
     }
 
@@ -743,7 +717,7 @@ void multi_population::set_trait_weights(double* weights){
 
 }
 
-void multi_population::add_random_genotype(int N_in){
+void multi_population::set_random_genotype(int N_in){
     boost::dynamic_bitset<> genotype(L);
     bool r = 0;
     for( int i = 0 ;i < genotype.size() ;i ++ )
@@ -754,10 +728,42 @@ void multi_population::add_random_genotype(int N_in){
         else
            genotype[i] = 0;
     }
+
+
+    for (int i = 0; i < number_of_locations; i ++ ){
+
+        point_sub_pop(i)->allele_frequencies_up_to_date = false;
+
+    // Clear population
+    point_sub_pop(i)->population.clear();
+    point_sub_pop(i)->available_clones.clear();
+    if (track_genealogy) {
+        point_sub_pop(i)->genealogy.reset_but_loci();
+    }
+
+    point_sub_pop(i)->population_size = 0;
+    point_sub_pop(i)->random_sample.clear();
+
+    // Initialize the clones and calculate the population size
+    point_sub_pop(i)->number_of_clones = 0;
+    point_sub_pop(i)->last_clone = 0;
+    point_sub_pop(i)->provide_at_least(N_in);
+    }
     point_sub_pop(0)->add_genotype(genotype, N_in); //FIXME we can only set genotype to location 0, otherwise genealogy gets crazy.
-    set_global_generation(0);
+    //set_global_generation(0); //FIXME
+    // set the carrying capacity if unset
+    if(get_carrying_capacity() < HP_NOTHING){set_carrying_capacity(N());}
+    // Calculate all statistics to be sure
+    set_global_generation(generation++);
+    for (int i = 0; i < number_of_locations; i ++){
+        point_sub_pop(i)->calc_stat();
+    }
+    //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present)
+    if (track_genealogy == 1){genealogy.add_generation(fitness_max);}
+
     if (track_genealogy == 2){
         submit_pop_genealogy();
         genealogy.add_generation(max_fitness());
     }
+    if (HP_VERBOSE) cerr <<"done."<<endl;
 }

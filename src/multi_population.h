@@ -33,6 +33,12 @@ class multi_population
     int determine_migration_destination();
     int determine_migrant(int sub_pop_num);
 
+    int submit_subpop_genealogy(int sub_pop_No);
+    int submit_pop_genealogy();
+    void set_global_generation(int generation);
+    int evolve_local(int location, int gen);
+    void migrate();
+    void migrate(int source);
 
 public:
 
@@ -72,22 +78,18 @@ public:
 
     //genealogy
     multi_locus_genealogy genealogy;
-    int track_locus_genealogy(vector<int> loci);
-    int submit_subpop_genealogy(int sub_pop_No);
-    int submit_pop_genealogy();
-    void set_global_generation(int generation);
+    void track_locus_genealogy(vector<int> loci);
+
 
 
 
     //evolution
-    int evolve_local(int location, int gen);
+
     int evolve(int gen = 1);
-    int migrate();
-    int migrate(int source);
 
 
     //init population
-    void add_random_genotype(int N_in);
+    void set_random_genotype(int N_in);
 
 protected:
 

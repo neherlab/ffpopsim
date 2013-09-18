@@ -33,12 +33,12 @@ The class offers a number of functions, but an example will explain the basic id
    import numpy as np
    import matplotlib.pyplot as plt
    import FFPopSim as h
-   c = h.haploid_highd(300)       # 300 loci
-   pop.set_wildtype(1000)         # start with 1000 wildtype individuals
-   pop.mutation_rate = 1e-4       # mutation rate per site per generation
-   pop.outcrossing_rate = 1e-1    # probability of sexual reproduction per gen
-   pop.crossover_rate = 1e-2      # probability of crossover per site per gen
-   pop.evolve(100)                # evolve for 100 generations
+   c = h.multi_population(10, 300)  # 10 'locations' 300 loci
+   pop.add_random_genotype(1000)    # start with 1000 individuals having the same random genotype
+   pop.mutation_rate = 1e-4         # mutation rate per site per generation
+   pop.outcrossing_rate = 1e-1      # probability of sexual reproduction per gen
+   pop.crossover_rate = 1e-2        # probability of crossover per site per gen
+   pop.evolve(100)                  # evolve for 100 generations
    c.plot_divergence_histogram()
    plt.show()
    ######################################
@@ -119,15 +119,21 @@ def max_fitness(self):
     return self._max_fitness()
 }
 
-%rename (_get_global_generation) get_global_generation;
+%rename (_get_generation) get_generation;
 %pythoncode{
 @property
 def generation(self):
     '''Current generation (read-only)'''
-    return self._get_global_generation()
+    return self._get_generation()
 }
 
-%feature("autodoc", "Total number of the migration events (read-only)") number_of_migration_events;
+%rename(_number_of_migration_events) number_of_migration_events;
+%pythoncode{
+@property
+def number_of_migrations(self):
+    '''Number of the migration events (read-only)'''
+    return self._number_of_migration_events
+}
 
 %rename (_set_carrying_capacity) set_carrying_capacity;
 %rename (_get_carrying_capacity) get_carrying_capacity;
@@ -141,13 +147,12 @@ def carrying_capacity(self, N):
     self._set_carrying_capacity(N)
 }
 
-
-%rename(_population_size) population_size;
+%rename(_N) N;
 %pythoncode{
 @property
-def population_size(self):
-    '''Size of the overall population (read-only)'''
-    return self._population_size()
+def N(self):
+    '''population size (read-only)'''
+    return self._N()
 }
 
 %rename(_set_mutation_rate) set_mutation_rate;
@@ -163,13 +168,11 @@ def mutation_rate(self, mu):
     self._set_mutation_rate(mu)
 }
 
-
 %ignore set_trait_coefficients;
 %ignore set_trait_weights;
 
 
 /* genealogy */
-%ignore track_locus_genealogy(vector <int>, int);
 %feature("autodoc",
 "Track the genealogy of some loci.
 
@@ -179,13 +182,7 @@ def mutation_rate(self, mu):
    Returns:
    - zero if successful, error code otherwise
 ") track_locus_genealogy;
-%exception track_locus_genealogy {
-        $action
-        if (result) {
-                PyErr_SetString(PyExc_ValueError,"Track the genealogy before initializing the population.");
-                SWIG_fail;
-        }
-}
+
 
 %ignore    genealogy;
 
@@ -197,20 +194,18 @@ def mutation_rate(self, mu):
 Parameters:
    - gen: number of generations, defaults to one
 ") evolve;
-%exception evolve {
-  $action
-  if (result) {
-     PyErr_SetString(PyExc_RuntimeError,"Error in the C++ function.");
-     SWIG_fail;
-  }
-}
- /* initialize wildtype */
+
+
+
+/* initialize population */
 %feature("autodoc",
 "Initialize a population of N individuals with the same random genotype
 
 Parameters:
    - N: the number of individuals
-")add_random_genotype;
+")set_random_genotype;
+
+
 
 %ignore    update_traits;
 %ignore    reset;
@@ -222,35 +217,6 @@ Parameters:
 %ignore    set_recombination_model;
 %ignore    get_recombination_model;
 %ignore    update_fitness;
-
-
 %ignore   point_sub_pop;
-%ignore   get_locations;
-%ignore   N;
-%ignore   get_generation;
-%ignore   max_fitness;
-%ignore   number_of_migration_events;
-%ignore   set_migration_rate;
-%ignore   get_migration_rate;
-%ignore   set_mutation_rate;
-%ignore   get_mutation_rate;
-%ignore   set_carrying_capacity;
-%ignore   get_carrying_capacity;
-%ignore   set_outcrossing_rate;
-%ignore   get_outcrossing_rate;
-%ignore   set_crossover_rate;
-%ignore   get_crossover_rate;
-%ignore   set_recombination_model;
-%ignore   get_recombination_model;
-%ignore   set_trait_coefficient;
-%ignore   set_trait_weights;
-%ignore   genealogy;
-%ignore   track_locus_genealogy;
-%ignore   submit_subpop_genealogy;
-%ignore   submit_pop_genealogy;
-%ignore   set_global_generation;
-%ignore   evolve_local;
-%ignore   evolve;
-%ignore   migrate;
-%ignore   add_random_genotype;
+
 } /*extend multi_population*/ 
