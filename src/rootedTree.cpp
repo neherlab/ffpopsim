@@ -52,6 +52,7 @@ void rooted_tree::reset(){
  	nodes.clear();
  	edges.clear();
  	leafs.clear();
+	sampled_leafs.clear();
 
  	//the root node will never be touched, the MRCA moves up with the tree
 	root.age=-3;
@@ -110,8 +111,15 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 	//add new leafs to a temporary vector and to the tree
 	for (; new_leaf!=new_generation.end(); new_leaf++){
 		if (new_leaf->clone_size>0){	//restrict to those with positive clone sizes, all others are dummies
-			add_terminal_node(*new_leaf);
+			add_terminal_node(*new_leaf, mean_fitness);
 			new_leafs.push_back(new_leaf->own_key);
+
+			if (new_leaf->sampled>0){
+				sampled_leafs.push_back(new_leaf->own_key);
+				if (RT_VERBOSE>2){
+					cerr <<"rooted_tree::add_generation(). sampled leaf. "<<new_leaf->own_key<<" nsamples:"<<new_leaf->sampled<<endl;
+				}
+			}
 		}
 	}
 
@@ -127,22 +135,34 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 	for(vector <tree_key_t>::iterator old_leaf_key=leafs.begin(); old_leaf_key!=leafs.end(); old_leaf_key++){
 		node_pos = nodes.find(*old_leaf_key);
 		if (node_pos!=nodes.end()){
-			if (node_pos->second.child_edges.size()==0){			//no offspring -> delete
+			if (node_pos->second.child_edges.size()==0 and node_pos->second.sampled==0){			//no offspring -> delete
 				parent_key = erase_edge_node(*old_leaf_key);
 				while (nodes[parent_key].child_edges.size()==0){ 	//continue until offspring found
-					parent_key = erase_edge_node(parent_key);
+					if (nodes[parent_key].sampled==0){
+						parent_key = erase_edge_node(parent_key);
+					}else{
+						parent_key = nodes[parent_key].parent_node;
+					}
 				}
 				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
 				//are encountered or the parent is the root.
 				while (nodes[parent_key].child_edges.size()==1 and parent_key!=root){
-					parent_key = bridge_edge_node(parent_key);
+					if (nodes[parent_key].sampled==0){
+						parent_key = bridge_edge_node(parent_key);
+					}else{
+						parent_key = nodes[parent_key].parent_node;
+					}
 				}
-			}else if (node_pos->second.child_edges.size()==1){		//bridge nodes that have exactly one offspring
+			}else if (node_pos->second.child_edges.size()==1 and node_pos->second.sampled==0){		//bridge nodes that have exactly one offspring
 				parent_key = bridge_edge_node(*old_leaf_key);
 				//bridge upstream nodes that have exactly one offspring until either multiple offsprings
 				//are encountered or the parent is the root.
 				while (nodes[parent_key].child_edges.size()==1 and root!=parent_key){
-					parent_key = bridge_edge_node(parent_key);
+					if (nodes[parent_key].sampled==0){
+						parent_key = bridge_edge_node(parent_key);
+					}else{
+						parent_key = nodes[parent_key].parent_node;
+					}
 				}
 			}
 		}else{
@@ -163,7 +183,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 
 	//make sure all nodes and edges are up-to-date in terms of offspring
 	//number and other attributes (this is not necessary, could be called when needed)
-	update_tree();
+	//update_tree();
 	return;
 }
 
@@ -171,7 +191,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
  * @brief basic operation that attached a node to the tree
  * @params node_t reference to the newly added node
  */
-int rooted_tree::add_terminal_node(node_t &new_node){
+int rooted_tree::add_terminal_node(node_t &new_node, double mean_fitness){
 	edge_t new_edge;
 	tree_key_t new_key;
 	new_key = new_node.own_key;
@@ -186,6 +206,7 @@ int rooted_tree::add_terminal_node(node_t &new_node){
 	nodes[new_node.parent_node].child_edges.push_back(new_key);			//add node as child of parent
 	edges.insert(pair<tree_key_t,edge_t>(new_key, new_edge));			//insert node and edge
 	nodes.insert(pair<tree_key_t,node_t>(new_key, new_node));
+	nodes[new_key].fitness-=mean_fitness;
 	return 0;
 }
 
@@ -204,6 +225,9 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 
 	if (Enode->second.child_edges.size()>0) {
 		cerr <<"rooted_tree::erase_edge_node(): attempting to erase non-terminal node"<<endl;
+	}
+	if (Enode->second.sampled>0) {
+		cerr <<"rooted_tree::erase_edge_node(): attempting to erase sampled node"<<endl;
 	}
 
 	//find the parents of the node that is going to be erased
@@ -259,8 +283,8 @@ tree_key_t rooted_tree::bridge_edge_node(tree_key_t to_be_bridged) {
 	map <tree_key_t,edge_t>::iterator Eedge = edges.find(to_be_bridged);
 
 	//consistency checks. only nodes with exactly one child can be bridged.
-	if (Enode->second.child_edges.size()!=1 or to_be_bridged==root){
-		cerr <<"rooted_tree::bridge_edge_node(): attempting to bridge branched node or bridge root"<<endl;
+	if ((Enode->second.sampled>0 or Enode->second.child_edges.size()!=1) or to_be_bridged==root){
+		cerr <<"rooted_tree::bridge_edge_node(): attempting to bridge branched node or bridge root: "<<to_be_bridged<<" nsample: "<<Enode->second.sampled<<endl;
 	}
 
 	// determine the parent key
@@ -422,6 +446,23 @@ void rooted_tree::clear_tree() {
 	}
 }
 
+
+/*
+ * @brief return tree in newick format as string
+ */
+string rooted_tree::print_sequences() {
+	stringstream seq_str;
+	map <tree_key_t,node_t>::iterator node;
+	for (vector<tree_key_t>::iterator sampled_leaf = sampled_leafs.begin();
+	     sampled_leaf!=sampled_leafs.end(); sampled_leaf++){
+		node= nodes.find(*sampled_leaf);
+		seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<"_"<<node->second.fitness
+			<<"\n"<<node->second.sequence<<"\n";
+	}
+	return seq_str.str();
+}
+
+
 /*
  * @brief return tree in newick format as string
  */
@@ -447,7 +488,7 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<"_"<<root_node->second.fitness<<":"<<edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
@@ -556,6 +597,9 @@ int rooted_tree::construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tre
 	return 0;
 }
 
+
+
+
 /*
  * @brief function that recursively deletes all children that no longer exist
  * @params takes as an argument the key of the root of the subtree that is to be handled
@@ -608,7 +652,7 @@ int rooted_tree::delete_one_child_nodes(tree_key_t subtree_root){
 		delete_one_child_nodes(*child);	//apply function to children
 	}
 	//if only one child, bridge this node
-	if (node->second.child_edges.size()==1){
+	if (node->second.child_edges.size()==1 and node->second.sampled==0){
 		bridge_edge_node(subtree_root);
 	}
 
@@ -670,9 +714,11 @@ int rooted_tree::check_tree_integrity(){
 	for (node = nodes.begin(); node!=nodes.end(); node++){
 		if (root != node->first){
 			nedges+=node->second.child_edges.size();
-			if (node->second.child_edges.size()==1){
+			if (node->second.child_edges.size()==1 and node->second.sampled==0){
 				err++;
 				cerr <<"node "<<node->first<<" is degenerate (only one child)! ERROR"<<endl;
+			}else if (node->second.child_edges.size()==1 and node->second.sampled){
+				cerr <<"node "<<node->first<<" is degenerate (only one child) but is sampled OK"<<endl;			
 			}
 			nnodes++;
 			edge=edges.find(node->first);
@@ -687,6 +733,17 @@ int rooted_tree::check_tree_integrity(){
 			}
 		}else{nnodes++;nedges++;}
 	}
+	//check sampled nodes
+	for (vector <tree_key_t>::iterator sampled_leaf=sampled_leafs.begin(); sampled_leaf!=sampled_leafs.end(); sampled_leaf++){
+		if (check_node(*sampled_leaf)){
+			node = nodes.find(*sampled_leaf);
+			cerr <<"sampled_leaf "<<*sampled_leaf<<" found OK"<<endl;
+		}else{
+			err++;
+			cerr <<"sampled_leaf "<<*sampled_leaf<<" not found ERROR!"<<endl;
+		}
+	}
+
 	if ( nnodes!=nodes.size() ){
 		err++;
 		cerr <<"number of nodes encountered does not equal the size of nodes. ERROR"<<endl;
@@ -901,7 +958,7 @@ int rooted_tree::parse_subtree(tree_key_t &parent_key, std::string &tree_s) {
 		own_node.fitness = RT_FITNESS_MISSING;
 		own_node.crossover[0] = RT_CROSSOVER_MISSING;
 		own_node.crossover[1] = RT_CROSSOVER_MISSING;
-		add_terminal_node(own_node);
+		add_terminal_node(own_node, 0);
 
 		// Only if not a leaf, find out about subtrees
 		if (close_posn == std::string::npos) {
@@ -1012,7 +1069,7 @@ int rooted_tree::read_newick(string tree_s) {
 	tmp_node.fitness = RT_FITNESS_MISSING;
 	tmp_node.crossover[0] = RT_CROSSOVER_MISSING;
 	tmp_node.crossover[1] = RT_CROSSOVER_MISSING;
-	add_terminal_node(tmp_node);
+	add_terminal_node(tmp_node, 0);
 	bridge_edge_node(MRCA);
 
 	// is it a trivial tree?

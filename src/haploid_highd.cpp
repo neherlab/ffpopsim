@@ -76,7 +76,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits, bool all_po
 	fitness_max = HP_VERY_NEGATIVE;
 	all_polymorphic=all_polymorphic_in;
 	growth_rate = 2.0;
-
+	tree_sample=0;
 	//In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
 
@@ -555,6 +555,9 @@ int haploid_highd::evolve(int gen) {
 		g++;
 		generation++;
 
+		if (tree_sample){
+			take_tree_sample(tree_sample);
+		}
 		//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
 		if (track_genealogy) genealogy.add_generation(fitness_max);
 
@@ -993,6 +996,7 @@ void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent,
 	genealogy.newGenerations[locusIndex][dest].fitness= population[dest].fitness;
 	genealogy.newGenerations[locusIndex][dest].number_of_offspring=n;
 	genealogy.newGenerations[locusIndex][dest].clone_size=cs;
+	genealogy.newGenerations[locusIndex][dest].sampled=0;	
 	genealogy.newGenerations[locusIndex][dest].crossover[0]=left;
 	genealogy.newGenerations[locusIndex][dest].crossover[1]=right;
 	if (HP_VERBOSE) {
@@ -1299,6 +1303,29 @@ int haploid_highd::random_clones(unsigned int n_o_individuals, vector <int> *sam
 	return 0;
 }
 
+
+/**
+ * @brief: mark a fraction of all leaves as sampled such that they will not be erased 
+ * from the tree in the next round. 
+ * @param sample size
+ */
+void haploid_highd::take_tree_sample(unsigned int sample_size){
+	if (track_genealogy) {
+		for (unsigned int genlocus=0; genlocus<genealogy.loci.size(); genlocus++){
+			// take random sample of size sample_size
+			// loop over sample and increment the sample counter
+			vector <int> clones;
+			produce_random_sample(sample_size);
+			random_clones(sample_size, &clones);
+			for (vector <int>::iterator ci=clones.begin(); ci!=clones.end(); ci++){
+				genealogy.newGenerations[genlocus][*ci].sampled++;
+				genealogy.newGenerations[genlocus][*ci].sequence=population[*ci].genotype;
+
+			}
+		}
+	}	
+}
+
 /**
  * @brief Add the genotype specified by a bitset to the current population in in n copies
  *
@@ -1332,6 +1359,7 @@ void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
 			leaf.own_key.index=new_gt;
 			leaf.number_of_offspring = 1;
 			leaf.clone_size = n;
+			leaf.sampled=0;
 			leaf.crossover[0]=0;
 			leaf.crossover[1]=number_of_loci;
 			for (unsigned int locusIndex=0; locusIndex<genealogy.loci.size(); locusIndex++){
