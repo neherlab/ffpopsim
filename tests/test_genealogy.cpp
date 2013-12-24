@@ -17,13 +17,13 @@
 // test neutral evolution
 int kingman_coalescent() {
 	int L = 1000;
-	int N = 100;
+	int N = 200;
 	int nbins = 20;
 	haploid_highd pop(L);
 
 	pop.set_mutation_rate(1e-3);
 	pop.outcrossing_rate = 1e-1;
-	pop.crossover_rate = 1e-2;
+	pop.crossover_rate = 1e-5;
 	pop.recombination_model = CROSSOVERS;
 	vector <int> gen_loci;
 	gen_loci.push_back(100);
@@ -31,18 +31,23 @@ int kingman_coalescent() {
 	gen_loci.push_back(900);
 	pop.track_locus_genealogy(gen_loci);
 
+
 	pop.set_wildtype(N);		// start with a population of the right size
 
 	stat_t fitstat;
 	gsl_histogram *SFS = gsl_histogram_alloc(nbins);
 	gsl_histogram_set_ranges_uniform(SFS,0,1);
-	int nrun=500,T[4];
+	int nrun=5,T[4];
 	T[0]=0;T[1]=0; T[2]=0; T[3]=0;
 	pop.evolve(4*N);
 	for (int n=0; n<nrun; n++){
 		cout <<n<<" out of "<<nrun<<endl;
 		pop.evolve(N);
-
+		pop.genealogy.trees[1].check_tree_integrity();
+		pop.tree_sample=10;
+		pop.evolve(1);
+		pop.genealogy.trees[1].check_tree_integrity();
+		pop.tree_sample=0;
 		vector <int> clones;
 		vector <tree_key_t> clone_keys;
 		rooted_tree subtree;
@@ -75,6 +80,10 @@ int kingman_coalescent() {
 
 	cout <<"COALESCENCE TIMES"<<endl;
 	cout <<T[0]/norm<<'\t'<<T[1]/norm<<'\t'<<T[2]/norm<<'\t'<<T[3]/norm<<endl;
+	rooted_tree sample_tree;
+	pop.genealogy.trees[1].construct_subtree(pop.genealogy.trees[1].sampled_leafs, sample_tree);
+	cout <<sample_tree.print_newick()<<endl;
+
 	return 0;
 }
 
@@ -299,9 +308,9 @@ int main(int argc, char **argv){
 		cout<<"Usage: "<<argv[0]<<endl;
 		status = 1;
 	} else {
-		status += genealogy();
-		status += genealogy_infinite_sites();
-		//status += kingman_coalescent();
+		//status += genealogy();
+		//status += genealogy_infinite_sites();
+		status += kingman_coalescent();
 		//status += large_populations();
 	}
 	cout<<"Number of errors: "<<status<<endl;
