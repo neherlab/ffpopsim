@@ -429,11 +429,12 @@ void rooted_tree::clear_tree() {
 /*
  * @brief return tree in newick format as string
  */
-string rooted_tree::print_newick(bool genotypes) {
-    if (!genotypes)
-        return subtree_newick(MRCA)+";";
-    else
-        return subtree_newick_genotypes(MRCA)+";";
+/*string rooted_tree::print_newick() {
+    return subtree_newick(MRCA)+";";
+}
+*/
+string rooted_tree::print_newick(bool genotypes, bool traits) {
+    return subtree_newick(MRCA, genotypes, traits)+";";
 }
 
 /*
@@ -454,32 +455,39 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-    tree_str<<root.index<<'_'<<root_node->second.clone_size << "_LOC_"<< root.location;
-    for (int traitNo = 0; traitNo < root_node->second.traits.size(); traitNo ++)
-    {
-        tree_str << setprecision(2);
-        tree_str << "_T"<<traitNo<<"_"<< root_node->second.traits[traitNo];
-    }
+    tree_str<<root.index<<'_'<<root_node->second.clone_size << '_'<< root.location;
     tree_str << ":" << edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
 
-string rooted_tree::subtree_newick_genotypes(tree_key_t root){
+string rooted_tree::subtree_newick(tree_key_t root, bool genotypes, bool traits){
     stringstream tree_str;
     map <tree_key_t,node_t>::iterator root_node = nodes.find(root);
     map <tree_key_t,edge_t>::iterator edge = edges.find(root);
     if (root_node->second.child_edges.size()>0){
         list <tree_key_t>::iterator child = root_node->second.child_edges.begin();
         tree_str.str();
-        tree_str <<"("<< subtree_newick_genotypes(*child);
+        tree_str <<"("<< subtree_newick(*child, genotypes, traits);
         child++;
         for (;child!=root_node->second.child_edges.end(); child++){
-            tree_str<<","+subtree_newick_genotypes(*child);
+            tree_str<<","+subtree_newick(*child, genotypes, traits);
         }
         tree_str<<")";
     }
-    tree_str << root.location << '_'<< root.age << "_"<<root_node->second.clone_size << "_"<< root_node->second.genotype;
+
+    tree_str<<root.index<<'_'<<root_node->second.clone_size << '_'<< root.location;
+    if (traits){
+        for (int traitNo = 0; traitNo < root_node->second.traits.size(); traitNo ++)
+        {
+            tree_str << setprecision(2);
+            tree_str << "_T"<<traitNo<<"_"<< root_node->second.traits[traitNo];
+        }
+    }
+    if(genotypes){
+        tree_str << '_' << root_node->second.genotype;
+
+    }
     tree_str << ":" << edge->second.length;
     //tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
     return tree_str.str();
@@ -1093,7 +1101,7 @@ int rooted_tree::read_newick(string tree_s) {
     update_tree();
 
 	// Now the tree is done. Let us print newick to test
-	if (RT_VERBOSE) std::cout<<"Tree out: "<<print_newick()<<std::endl;
+    if (RT_VERBOSE) std::cout<<"Tree out: "<< print_newick(false, false)<<std::endl;
 
 	return status;
 }

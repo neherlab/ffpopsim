@@ -88,34 +88,85 @@ phenotypic traits together.
 
 /*Properties*/
 
-%rename(_get_migration_rate) get_migration_rate;
-%rename(_set_migration_rate) set_migration_rate;
+%feature("autodoc",
+"Set the maximal migrating part of the population.
+
+Parameters:
+   - critical_migration_rate: Maximal rate of the popualtion that can migrate to other locations.
+
+") set_critical_migration_rate;
+%exception set_critical_migration_rate {
+    try {
+        $action
+    }catch (int err) {
+        PyErr_SetString(PyExc_RuntimeError,"The value of the migration rate must be from 0 to 1");
+        SWIG_fail;  
+    }
+}
+%rename(_get_critical_migration_rate) get_critical_migration_rate;
 %pythoncode{
 @property
-def migration_rate(self):
-   '''Populational migration rate'''
-   return self._get_migration_rate()
-
-@migration_rate.setter
-def migration_rate(self, m):
-        self._set_migration_rate(m)
+def critical_migration_rate(self):
+   '''Critical migration rate (Read-only)'''
+   return self._get_critical_migration_rate()
 }
 
+/*Migration rates*/
+%ignore set_migration_rates (vector < vector < double > > new_migration_rates);
 
-%rename(_get_number_of_locations) get_locations;
+%feature("autodoc", 
+"
+Set matrix for the migration rates between locations.
+
+Parameters: 
+   - migration_rates: migration rates matrix. Rows of the matrix are source locations, columns - destinations.
+
+Returns:
+   - zero if successful
+")set_migration_rates;
+%pythonprepend set_migration_rates {
+    m_rates = args[0]
+    m_rates = _np.array(m_rates, float, copy=False, ndmin=2) 
+    args = tuple ([m_rates.ravel()])
+}
+%exception set_migration_rates {
+    try{
+         $action
+    }catch (int err) {
+        PyErr_SetString(PyExc_RuntimeError,"Wrong migration rate values.\nDo they exceed the critical migration rate of the population?");          
+        SWIG_fail;                                              
+    }
+}
+%apply (int DIM1, double* IN_ARRAY1){(int len1, double* m_rates)};
+int set_migration_rates(int len1, double* m_rates){
+    vector < vector < double > > migration_rates;
+    vector <double> temp_m_rates;
+    for (int i = 0; i < $self->get_number_of_locations(); i ++){
+        temp_m_rates.clear();
+        for (int j = 0; j < $self->get_number_of_locations(); j ++){
+            temp_m_rates.push_back(m_rates[i * $self->get_number_of_locations() + j]);
+        }
+        migration_rates.push_back(temp_m_rates);
+    }
+    return $self->set_migration_rates(migration_rates);
+}
+%clear (int len1, double* migration_rates);
+
+
+%ignore get_number_of_locations;
+%rename(_get_number_of_locations) get_number_of_locations;
 %pythoncode{
 @property
-def locations_number(self):
+def number_of_locations(self):
     '''Number of locations (read-only)'''
     return self._get_number_of_locations()
 }
-
 
 %rename(_max_fitness) max_fitness;
 %pythoncode{
 @property
 def max_fitness(self):
-    '''Maximal fitness of the population (read-only)'''
+    '''Maximal fitnes of the population (read-only)'''
     return self._max_fitness()
 }
 
@@ -135,42 +186,145 @@ def number_of_migrations(self):
     return self._number_of_migration_events
 }
 
-%rename (_set_carrying_capacity) set_carrying_capacity;
-%rename (_get_carrying_capacity) get_carrying_capacity;
-%pythoncode{
-@property
-def carrying_capacity(self):
-    '''Carrying capacity of the population'''
-    return self._get_carrying_capacity()
-@carrying_capacity.setter
-def carrying_capacity(self, N):
-    self._set_carrying_capacity(N)
+/*Carrying capacities*/
+%feature("autodoc", 
+"
+Set location-specific carrying capacities of the population.
+
+Parameters: 
+   - carrying_capacities: list of carrying capacity values for each location
+
+Returns:
+   - zero if successful
+")set_carrying_capacities;
+%exception set_carrying_capacities {
+        try{
+            $action
+        }  catch (int err) {
+            if (err == HP_BADARG)
+                   PyErr_SetString(PyExc_ValueError,
+                                "Size mismatch between the input array and number of locations. \nYou must provide carrying capacity for each location once.");
+            SWIG_fail;
+        }
 }
 
-%rename(_N) N;
-%pythoncode{
+%ignore get_carrying_capacities;
+void _get_carrying_capacities(int DIM1, double* ARGOUT_ARRAY1) {
+        for(int i=0; i < (int)DIM1; i++)
+                ARGOUT_ARRAY1[i] = ($self->get_carrying_capacity(i));
+}
+%pythoncode {
+@property
+def carrying_capacities(self):
+    '''Location-specific carrying capacities of the population (read-only)'''
+    return self._get_carrying_capacities(self.number_of_locations)
+}
+
+%ignore get_carrying_capacity;
+
+/*Mutation rates*/
+%feature("autodoc", 
+"
+Set location-specific mutation rates of the population.
+
+Parameters: 
+   - mutation_rates: list of mutation rate values for each location
+
+Returns:
+   - zero if successful
+")set_mutaiton_rates;
+%exception set_mutaiton_rates {
+        try{
+            $action
+        }  catch (int err) {
+            if (err == HP_BADARG)
+                   PyErr_SetString(PyExc_ValueError,
+                  "Size mismatch between the input array and number of locations. \nYou must provide mutaiton rate for each location once.");
+            SWIG_fail;
+        }
+}
+
+%ignore get_mutation_rates;
+void _get_mutation_rates(int DIM1, double* ARGOUT_ARRAY1) {
+        for(size_t i=0; i < (size_t)DIM1; i++)
+                ARGOUT_ARRAY1[i] = ($self->get_mutation_rate(i));
+}
+%pythoncode {
+@property
+def mutation_rates(self):
+    '''Location-specific mutation rates of the population (read-only)'''
+    return self._get_mutation_rates(self.number_of_locations)
+}
+
+
+
+%ignore N;
+void _N(int DIM1, int* ARGOUT_ARRAY1){
+    for (int i = 0; i < DIM1; i++){
+        ARGOUT_ARRAY1[i] = $self->N(i);
+    } 
+}
+%pythoncode {
 @property
 def N(self):
-    '''population size (read-only)'''
-    return self._N()
+   '''Population size (read-only)'''
+   return self._N(self.number_of_locations)
 }
 
-%rename(_set_mutation_rate) set_mutation_rate;
-%rename(_get_mutation_rate) get_mutation_rate;
-%pythoncode
-{
+
+%rename (_L) L;
+%pythoncode{
 @property
-def mutation_rate(self):
-    '''Mutation rate per locus'''
-    return self._get_mutation_rate()
-@mutation_rate.setter
-def mutation_rate(self, mu):
-    self._set_mutation_rate(mu)
+def L(self):
+   '''Number of loci (read-only)'''
+   return self._L()
 }
 
-%ignore set_trait_coefficients;
+/* trait weights */
 %ignore set_trait_weights;
+%pythonprepend _set_trait_weights {
+if len(args) and (len(args[0]) != self.get_number_of_traits()):
+    raise ValueError('The weights must be a sequence of length equal to the number of traits.')
+}
+void _set_trait_weights(double* IN_ARRAY1, int DIM1) {
+        /* call the C++ method */
+        $self->set_trait_weights(IN_ARRAY1);
+        $self->update_fitness();
+}
+%feature("autodoc",
+"weight of each trait on fitness
 
+.. note:: Fitness is updated automatically when the weights are changed.
+") _get_trait_weights;
+%pythonprepend _get_trait_weights {
+    args = tuple(list(args) + [self.get_number_of_traits()])
+}
+void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
+        /* check trait number */
+        if(DIM1 != $self->get_number_of_traits())
+                throw HP_BADARG; 
+
+        /* set the output array */
+        for(size_t t=0; t < (size_t)DIM1; t++)
+                ARGOUT_ARRAY1[t] = $self->get_trait_weight(t);
+}
+%pythoncode {
+trait_weights = property(_get_trait_weights, _set_trait_weights)
+}
+
+/* trait coefficients */
+%feature("autodoc",
+"Add a coefficient to the trait landscape.
+ 
+Parameters:
+   - value: value of the coefficient
+   - loci: array/list of loci indexed by the coefficient.
+   - t: number of the trait to be changed
+
+**Example**: to set a second-order epistatic term :math:`t_{ij} = 0.1`, use ``add_trait_coefficient(0.1, [i, j])``.
+
+.. warning:: the -/+ basis is used throughout the library. If you are used to the 0/1 basis, keep in mind that the interaction series-expansion is different.
+") set_trait_coefficient;
 
 /* genealogy */
 %feature("autodoc",
@@ -184,7 +338,21 @@ def mutation_rate(self, mu):
 ") track_locus_genealogy;
 
 
-%ignore    genealogy;
+
+/* implement multi_locus_genealogy as a read-only property */
+%ignore genealogy;
+%feature("autodoc",
+"Genealogy of the tracked loci.
+
+.. note:: This attribute is read-only.
+") _get_genealogy;
+multi_locus_genealogy _get_genealogy() {
+        return $self->genealogy;
+}
+%pythoncode {
+   genealogy = property(_get_genealogy)
+}
+
 
 
 /*evolution*/
@@ -194,6 +362,21 @@ def mutation_rate(self, mu):
 Parameters:
    - gen: number of generations, defaults to one
 ") evolve;
+%exception evolve {
+        try {
+                $action
+        } catch (int err) {
+            if (err == HP_EXTINCTERR)
+                   PyErr_SetString(PyExc_ValueError,
+                                "Unfortunately, the popualtion went extinct. No further simulation possible. Aborting.");
+            else 
+                   PyErr_SetString(PyExc_ValueError,
+                                "Unknown exception is thrown. Aborting.");
+
+            SWIG_fail;
+        }
+}
+
 
 
 
@@ -217,6 +400,55 @@ Parameters:
 %ignore    set_recombination_model;
 %ignore    get_recombination_model;
 %ignore    update_fitness;
-%ignore   point_sub_pop;
+%ignore    point_sub_pop;
 
+%pythoncode {
+def random_genomes(self, n, location=-1):
+    '''Get a sample of random genomes from the population
+
+    Parameters:
+       - n: number of random genomes to compute
+       - location: location to sample genome from. default -1 leads to sampling from entire population
+
+    Returns:
+       - gts: (n x L) bool matrix with the n genotypes
+    '''
+
+    L = self._L()
+    genotypes = _np.zeros((n, L), bool)
+    for i in xrange(genotypes.shape[0]):
+        genotypes[i] = self.get_genotype(self.get_random_clone(location))
+    return genotypes
+}
+
+%feature("autodoc",
+"Get a clonal genotype
+
+Parameters: 
+   - clone: clone 
+
+Returns:
+   - genotype: clonal genotype as numpy array of length L 
+")get_genotype;
+
+%feature("autodoc",
+"Get random clone
+
+Returns:
+   - clone
+")get_random_clone;
+%exception get_random_clone {
+        try {
+                $action
+        } catch (int err) {
+            if (err == HP_BADARG)
+                   PyErr_SetString(PyExc_ValueError,
+                                "Location with this index does not exist!");
+            else 
+                   PyErr_SetString(PyExc_ValueError,
+                                "Unknown exception is thrown. Aborting.");
+
+            SWIG_fail;
+        }
+}
 } /*extend multi_population*/ 

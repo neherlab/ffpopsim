@@ -124,6 +124,4 @@ Release
 
 
 #build files from QT-Creator
-EvoDevo/
-EvoDevo-build-desktop-Qt_4_8_2_in_PATH__System__Debug/
-EvoDevo-build-desktop-Qt_4_8_2_in_PATH__System__Release/
+EvoDevo/*

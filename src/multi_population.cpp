@@ -40,68 +40,7 @@ public:
     ~hh_source(){}
 };
 
-class hh_1 : public haploid_highd{
-    //Center of the distribution in polar coordinates:
-    //double phi_0 = 0;
-    //double rho_0 = 0;
-    //VARIANCE
-    double sigma;
 
-
-
-    virtual double trait_function(double aTrait1, double aTrait2)
-    {
-        double t1 = aTrait1;
-        double t2 = aTrait2;
-        double rho = 0;
-        //double t1_0 = cos(phi_0) * rho_0;
-        //double t2_0 = sin(phi_0) * rho_0;
-
-        rho = sqrt(pow((t1 + 1e-5), 2) + pow((t2 + 1e-5), 2));
-
-
-        double d_phi = acos( ((t1 + 1e-5) * cos(phi_0) + (t2 + 1e-5) * sin(phi_0)) / rho);
-
-        return   trait_weights[0] / 5 * exp(1) *  rho / rho_0 * exp(- rho / rho_0) * exp(- pow((d_phi), 2) / sigma);
-
-    }
-
-public:
-
-    //get/set methods for fitness map parameters
-    void set_phi_0 (double aPhi_0)
-    {
-        double new_phi = aPhi_0;
-        while (new_phi < 0 )
-        {
-                new_phi = new_phi + 2 * 3.14;
-        }
-
-        while (new_phi > 2 * 3.14)
-        {
-                new_phi = new_phi - 2 * 3.14;
-        }
-
-        phi_0 = new_phi;
-        return;
-    }
-    double get_phi_0 (){return phi_0;}
-    void set_offset(double aRho){rho_0 = aRho; return;}
-    double get_offset(){return rho_0;}
-
-    //This method doeas the job of trait -> fitness conversion
-    virtual void calc_individual_fitness_from_traits(clone_t &tempgt) {tempgt.fitness = trait_function(tempgt.trait[0], tempgt.trait[1]);}
-
-    hh_1()
-    {
-        phi_0 = 3.14 / 4;
-        rho_0 = 8;
-        sigma = 0.1;
-    }
-
-
-    ~hh_1(){}
-};
 
 
 
@@ -120,61 +59,78 @@ multi_population::multi_population(int new_locations, int L_in, int n_o_traits, 
     }
 
     try{
-        haploid_highd* loc;
+        environmental_hh* loc;
         for (int i = 0; i < new_locations; i ++)
         {
-            loc = new haploid_highd();
+            loc = new environmental_hh();
             loc->set_up(L_in, rng_seed, n_o_traits);
             sub_population.push_back(loc);
         }
     }catch (int err){
-               throw err;
+            throw err;
     }
-
-   MAX_MIGRATION_RATE = 0.5;
-   L = L_in;
+    number_of_traits = n_o_traits;
+    MAX_MIGRATION_RATE = 0.5;
+    number_of_loci = L_in;
     generation = 0;
     number_of_locations = new_locations;
+    mutation_rates.resize(number_of_locations);
+    carrying_capacities.resize(number_of_locations);
+
+    vector <double> temp;
+    for (int i = 0; i < number_of_locations; i ++){
+        temp.push_back(0);
+    }
+
+    for (int i = 0; i < number_of_locations; i ++){
+        migration_rates.push_back(temp);
+    }
+
+
     track_genealogy = 0; //No genealogy by default
-    migration_rate = 0.0; //No migration by default
+    critical_migration_rate = 0.0; //No migration by default
     number_of_migration_events = 0;
+    //population_sizes.resize(new_locations);
+    for (int i = 0; i < new_locations; i ++ ){
+        //population_sizes[i] = 0;
+    }
+
 
 }
-
-
-
 
 multi_population::~multi_population()
 {
     for (int i = 0; i < number_of_locations; i ++)
      {
+        //population_sizes.clear();
+        sub_population.clear();
         //delete sub_population[i];
      }
 }
 
-
-
-
-int multi_population::N()
-{
-    int size = 0;
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        size += sub_population[i]->N();
+int multi_population::N(int i){
+    if (i == -1){
+        int size = 0;
+        for (int loc = 0; loc < number_of_locations; loc ++){
+            size = size + point_sub_pop(0 )->N();
+        }
+        return size;
+    }else{
+        if (i < 0 || i > number_of_locations){
+            cout << "No location found!!" << endl;
+            throw (HP_BADARG);
+        }
+        return point_sub_pop(i)->N();
     }
-
-    return size;
 }
-
 
 void multi_population::reset()
 {
     number_of_locations = 0;
     sub_population.clear();
+    //population_sizes.clear();
 
 }
-
-
 
 void multi_population::track_locus_genealogy(vector <int > loci)
 {
@@ -233,7 +189,6 @@ double multi_population::max_fitness()
     {
         if (return_value > sub_population[i]->get_max_fitness())
             return_value = sub_population[i]->get_max_fitness();
-
     }
     return return_value;
 }
@@ -246,83 +201,71 @@ double multi_population::max_fitness()
 
 
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-void multi_population::migrate(int source)
-{
-
-        int actual_no_migrants = determine_number_of_migrants(source);
-        if (actual_no_migrants > 0)
-        {
-            sub_population[source]->produce_random_sample(actual_no_migrants);
-            for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
-            {
-                int migrant_clone_No = sub_population[source]->random_clone();
-                int migrant_clone_destination = determine_migration_destination();
-                if (source != migrant_clone_destination){
-
-                    transfer_clone(source, migrant_clone_destination, migrant_clone_No);
-                    number_of_migration_events ++;
-                }
-            }
-            sub_population[source]->random_sample.clear();
-        }
-
-return;
+void multi_population::set_critical_migration_rate(double new_rate){
+    if (new_rate < 0 || new_rate > 1){
+        cout << "Do you really want to set this value?" << endl;
+        throw(HP_BADARG);
+    }
+    critical_migration_rate = new_rate;
 }
 
+void multi_population::set_migration_rates(vector<double> new_migration_rates, int source){
+    if (new_migration_rates.size() != number_of_locations ||
+            source < 0 ||
+            source >= number_of_locations){
+        cout << "Bad argument! Either array size mismatch, or location does not exist" << endl;
+        throw(HP_BADARG);
+    }
+    double total_m_r = 0;
+    for (int i = 0; i < number_of_locations; i ++){
+        total_m_r += new_migration_rates[i];
+    }
+    if (total_m_r > critical_migration_rate){
+        cout << "Migration values exceed critical migration rate of the population!!" << endl;
+        throw(HP_BADARG);
+    }
+    for (int i = 0; i < number_of_locations; i ++){
+        migration_rates[source][i] = new_migration_rates[i];
+    }
+    return;
+}
 
-void multi_population::migrate()
-{
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        int actual_no_migrants = determine_number_of_migrants(i);
-        if (actual_no_migrants > 0)
-        {
-            sub_population[i]->produce_random_sample(actual_no_migrants);
-
-
-            for (int migrant = 0; migrant < actual_no_migrants; migrant ++)
-            {
-                int migrant_clone_No = sub_population[i]->random_clone();
-
-
-                int migrant_clone_destination = determine_migration_destination();
-                if (i != migrant_clone_destination){
-
-                    transfer_clone(i, migrant_clone_destination, migrant_clone_No);
-                    number_of_migration_events ++;
-                }
-
-
-            }
-            sub_population[i]->random_sample.clear();
-
+int multi_population::set_migration_rates(vector< vector<double> > new_migration_rates){
+    if (new_migration_rates.size() != number_of_locations){
+        cout << "" << endl;
+        throw(HP_BADARG);
+    }
+    for (int i = 0; i < number_of_locations; i ++){
+        if (new_migration_rates[i].size() != number_of_locations){
+            cout << "The size of the migration matrix must be (locations X locations) !!" << endl;
+            throw(HP_BADARG);
+        }else{
+            set_migration_rates(new_migration_rates[i], i);
         }
-
-
     }
 
-return;
+    return 0;
 }
 
-
-int multi_population::determine_number_of_migrants(int sub_pop_No)
-{
-    int number_of_migrants = gsl_ran_poisson(sub_population[sub_pop_No]->evo_generator, sub_population[sub_pop_No]->N()*migration_rate);
-    number_of_migrants = number_of_migrants > MAX_MIGRATION_RATE * point_sub_pop(sub_pop_No)->N() ?
-                MAX_MIGRATION_RATE * point_sub_pop(sub_pop_No)->N() : number_of_migrants;
-    return number_of_migrants;
-}
-
-int multi_population::determine_migration_destination()
-{
-  int destination;
-  if (number_of_locations == 1) destination = 0;
-  else destination = gsl_rng_uniform_int(sub_population[0]->evo_generator, number_of_locations);
-  return destination;
-
+void multi_population::migrate(){
+    vector <int> pop_sizes;
+    for (int i = 0; i < number_of_locations; i ++){
+        pop_sizes.push_back(point_sub_pop(i)->N());
+    }
+    for (int source = 0; source < number_of_locations; source ++){
+        for (int destination = 0; destination < number_of_locations; destination ++){
+            double m_r = migration_rates[source][destination];//particular rate of migration between the locations
+            int migrants_num = pop_sizes[source] * m_r;
+            if (migrants_num > 0 && source != destination){
+                for (int clone_num = 0; clone_num < migrants_num; clone_num ++){
+                    int migrant_clone_No = sub_population[source]->random_clone();
+                    transfer_clone(source, destination, migrant_clone_No);
+                    number_of_migration_events ++;
+                }
+            }
+        }
+    }
+    return;
 }
 
 int multi_population::transfer_clone(int sub_pop_source, int sub_pop_destination, int source)
@@ -378,7 +321,6 @@ int multi_population::transfer_clone(int sub_pop_source, int sub_pop_destination
     return 0;
 
 }
-
 
 void multi_population::set_global_generation(int new_generation)
 {
@@ -446,8 +388,7 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
     return;
 }
 
-
- int multi_population::mutate(int location)
+int multi_population::mutate(int location)
 {
 
     if (HP_VERBOSE)	cerr <<"multi_population::mutate() ..."<<endl;
@@ -514,8 +455,6 @@ void multi_population::add_migrating_clone_to_genealogy(int locusIndex, int old_
     return 0;
 }
 
-
-
 unsigned int multi_population::flip_single_locus(int location, unsigned int clonenum, int locus) {
     // produce new genotype
     int new_clone = sub_population[location]->available_clones.back();
@@ -566,7 +505,6 @@ unsigned int multi_population::flip_single_locus(int location, unsigned int clon
     return new_clone;
 }
 
-
 unsigned int multi_population::flip_single_locus(int location, int locus) {
     if (sub_population[location]->available_clones.size() == 0)
         sub_population[location]->provide_at_least(1);
@@ -575,12 +513,12 @@ unsigned int multi_population::flip_single_locus(int location, int locus) {
 
 int multi_population::evolve(int gen)
 {
+    cout << N() << endl;
     int err = 0;
     int g = 0;
     while (g < gen && err == 0)
     {
-        for (int cur_loc = 0 ; cur_loc < number_of_locations; cur_loc ++)
-        {
+        for (int cur_loc = 0 ; cur_loc < number_of_locations; cur_loc ++){
             if (sub_population[cur_loc]->N() > 0)
             {
                 sub_population[cur_loc]->update_traits();
@@ -591,8 +529,7 @@ int multi_population::evolve(int gen)
                 err += evolve_local(cur_loc, 1);
             }
         }
-        if (N() == 0)
-        {
+        if (N() == 0){
             cerr << "Unfortunately, poplation went extinct!" << endl;
             throw HP_EXTINCTERR;
         }
@@ -600,7 +537,7 @@ int multi_population::evolve(int gen)
         generation ++;
         g++;
         set_global_generation(generation);
-
+        update_population_size();
         //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
         for (int location = 0; location < number_of_locations; location ++)
         {
@@ -614,20 +551,15 @@ int multi_population::evolve(int gen)
     }
 }
 
-
 int multi_population::evolve_local(int location, int gen) {
     if (HP_VERBOSE) cerr<<"multi_population::evolve(int gen)...";
     if (sub_population[location]->population_size == 0)
         return 0;
     if (N() == 0)
     {
-
         cerr << "Population went extinct!" << endl;
         return 0;
     }
-
-
-
     int err=0, g=0;
     sub_population[location]->allele_frequencies_up_to_date = false;
     // calculate an effective outcrossing rate to include the case of very rare crossover rates.
@@ -654,6 +586,7 @@ int multi_population::evolve_local(int location, int gen) {
         //sub_population[location]->generation++;
         //generation ++;
     }
+    cout << N()<< endl;
     if (HP_VERBOSE) {
         if(err==0) cerr<<"done."<<endl;
         else cerr<<"error "<<err<<"."<<endl;
@@ -661,21 +594,53 @@ int multi_population::evolve_local(int location, int gen) {
     return err;
 }
 
-
-
-void multi_population::set_mutation_rate(double rate){
+void multi_population::set_mutation_rates(vector<double> rates){
+    if (rates.size() != number_of_locations){
+        if (HP_VERBOSE){
+            cout << "The input vector size must match thre number of the locations!" << endl;
+        }
+        throw (HP_BADARG);
+    }
+    mutation_rates = rates;
     for (int i = 0; i < number_of_locations; i ++)
     {
 
-        point_sub_pop(i)->set_mutation_rate(rate);
+        point_sub_pop(i)->set_mutation_rate(mutation_rates[i]);
+    }
+
+}
+
+double multi_population::get_mutation_rate(int location){
+    if (location < 0 || location >= number_of_locations){
+        if (HP_VERBOSE){
+            cout << "Cannot return mutation rate for the location: "<< location << ". No locaiton found!" << endl;
+        }
+        throw (HP_BADARG);
+    }
+    return mutation_rates[location];
+}
+
+void multi_population::set_carrying_capacities(vector<int> capacities){
+    if (capacities.size() != number_of_locations){
+        if (HP_VERBOSE){
+            cout << "The input vector size must match thre number of the locations!" << endl;
+        }
+        throw (HP_BADARG);
+    }
+    carrying_capacities = capacities;
+    for (int i = 0; i < number_of_locations; i ++){
+        point_sub_pop(i)->carrying_capacity = carrying_capacities[i];
     }
 }
 
-void multi_population::set_carrying_capacity(int capacity){
-    for (int i = 0; i < number_of_locations; i ++)
-    {
-        point_sub_pop(i)->carrying_capacity = capacity;
+double multi_population::get_carrying_capacity(int location){
+    if (location < 0 || location >= number_of_locations){
+        if (HP_VERBOSE){
+            cout << "Cannot return carrying capacity for the location: "<< location << ". No locaiton found!" << endl;
+        }
+        throw (HP_BADARG);
     }
+    return carrying_capacities[location];
 }
 
 void multi_population::set_outcrossing_rate(double o_rate){
@@ -700,8 +665,7 @@ void multi_population::set_recombination_model(int r_model){
 }
 
 void multi_population::set_trait_coefficient(double coefficient, vector<int> loci, int trait_no){
-    for (int i = 0; i < number_of_locations; i ++)
-    {
+    for (int i = 0; i < number_of_locations; i ++){
         point_sub_pop(i)->add_trait_coefficient(coefficient, loci, trait_no);
         point_sub_pop(i)->update_traits();
         point_sub_pop(i)->update_fitness();
@@ -714,13 +678,57 @@ void multi_population::set_trait_weights(double* weights){
         point_sub_pop(i)->update_traits();
         point_sub_pop(i)->update_fitness();
     }
-
 }
 
+clone_t multi_population::get_random_clone(int location){
+
+    int index = 0;
+    int clone_index = 0; //point_sub_pop(index)->random_clone();
+
+    if (location == -1){
+        if (number_of_locations > 1){
+            //get random location
+            vector<int> non_empty_locations;
+            for (int i = 0; i < number_of_locations; i ++){
+                if (point_sub_pop(i)->N() > 0)
+                    non_empty_locations.push_back(i);
+            }
+            if (non_empty_locations.size() > 1){
+                index = gsl_ran_flat(point_sub_pop(0)->evo_generator, 0, non_empty_locations.size());
+                clone_index = point_sub_pop(non_empty_locations[index])->random_clone();
+                return point_sub_pop(non_empty_locations[index])->population[clone_index];
+            }else{
+                clone_index = point_sub_pop(non_empty_locations[0])->random_clone();
+                return point_sub_pop(non_empty_locations[0])->population[clone_index];
+            }
+        }else{
+            clone_index = point_sub_pop(0)->random_clone();
+            return point_sub_pop(0)->population[clone_index];
+        }
+    }else{
+        if (location > number_of_locations){
+            cout << "Location with this number does not exist!" << endl;
+            throw HP_BADARG;
+        }
+        if (point_sub_pop(location)->N() < 1){
+            cout << "Location spot is empty! returning dummy clone" << endl;
+
+
+        }
+        clone_index = point_sub_pop(location)->random_clone();
+        return point_sub_pop(location)->population[clone_index];
+    }
+}
+
+boost::dynamic_bitset<> multi_population::get_genotype(clone_t clone){
+    return clone.genotype;
+}
+
+
 void multi_population::set_random_genotype(int N_in){
-    boost::dynamic_bitset<> genotype(L);
+    boost::dynamic_bitset<> genotype(number_of_loci);
     bool r = 0;
-    for( int i = 0 ;i < genotype.size() ;i ++ )
+    for( uint i = 0 ;i < genotype.size() ;i ++ )
     {
         r = rand() % 2;
         if (r)
@@ -728,12 +736,8 @@ void multi_population::set_random_genotype(int N_in){
         else
            genotype[i] = 0;
     }
-
-
     for (int i = 0; i < number_of_locations; i ++ ){
-
         point_sub_pop(i)->allele_frequencies_up_to_date = false;
-
     // Clear population
     point_sub_pop(i)->population.clear();
     point_sub_pop(i)->available_clones.clear();
@@ -752,7 +756,13 @@ void multi_population::set_random_genotype(int N_in){
     point_sub_pop(0)->add_genotype(genotype, N_in); //FIXME we can only set genotype to location 0, otherwise genealogy gets crazy.
     //set_global_generation(0); //FIXME
     // set the carrying capacity if unset
-    if(get_carrying_capacity() < HP_NOTHING){set_carrying_capacity(N());}
+    if(get_carrying_capacity(0) < HP_NOTHING){
+        vector <int> capacities;
+        for(int i = 0; i < number_of_locations; i ++){
+            capacities.push_back(N());
+        }
+        set_carrying_capacities(capacities);
+    }
     // Calculate all statistics to be sure
     set_global_generation(generation++);
     for (int i = 0; i < number_of_locations; i ++){
@@ -766,4 +776,31 @@ void multi_population::set_random_genotype(int N_in){
         genealogy.add_generation(max_fitness());
     }
     if (HP_VERBOSE) cerr <<"done."<<endl;
+    update_population_size();
+}
+
+void multi_population::set_environment(double rho, double phi, int location){
+    if (location == -1){
+        for (int loc = 0; loc < number_of_locations; loc ++){
+            set_environment(rho,phi,loc);
+        }
+    }else{
+        if (location < 0 || location > number_of_locations){
+            throw HP_BADARG;
+        }
+        point_sub_pop(location)->setRho0(rho);
+        point_sub_pop(location)->setPhi0(phi);
+    }
+}
+
+void multi_population::update_population_size(){
+    for (int i = 0; i < number_of_locations; i ++){
+        //population_sizes[i] = point_sub_pop(i)->N();
+    }
+
+}
+void multi_population::update_fitness(){
+    for (int loc =0; loc < number_of_locations; loc ++){
+        point_sub_pop(loc)->update_fitness();
+    }
 }

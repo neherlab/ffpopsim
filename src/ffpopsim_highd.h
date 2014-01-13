@@ -336,9 +336,10 @@ public:
     void clear_tree();
 
         // print tree or subtrees
-    string print_newick(bool genotypes = false);
+    //string print_newick();
+    string print_newick(bool genotypes = false, bool traits = false);
     string subtree_newick(tree_key_t root);
-    string subtree_newick_genotypes(tree_key_t root);
+    string subtree_newick(tree_key_t root, bool genotypes, bool traits);
 
     string print_weight_distribution(tree_key_t node_key);
     int read_newick(string newick_string);

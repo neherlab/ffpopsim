@@ -428,6 +428,7 @@ rooted_tree create_subtree_from_keys(vector <tree_key_t> leaves) {
 
 Parameters:
    - genotypes: print genotypes in labels
+   - traits: print trait values in labels
  
 Returns:
    - tree: string of the tree in Newick format.
@@ -450,18 +451,6 @@ Returns:
           for further manipulations.
 ") subtree_newick;
 
-%feature("autodoc",
-"Print a subtree in Newick format with genotypes in labels.
-
-Parameters:
-   - subtree_root: tree_key of the root of the subtree to print
-
-Returns:
-   - subtree: string of the subtree in Newick format with genotypes in labels.
-
-.. note:: You can pipe the output of this function to a cStingIO.StringIO
-          for further manipulations.
-") subtree_newick_genotypes;
 
 %feature("autodoc",
 "Read from Newick string.

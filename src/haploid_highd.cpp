@@ -656,7 +656,7 @@ int haploid_highd::select_gametes() {
 		}
 	}
 	last_clone = new_last_clone;
-	if(population_size + sex_gametes.size() < 1) {
+    if(population_size < 1) { //  + sex_gametes.size() < 1) {
 		err = HP_EXTINCTERR;
 		if (HP_VERBOSE) cerr<<"error "<<err<<". The population went extinct!"<<endl;
 	}
