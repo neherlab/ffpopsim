@@ -34,6 +34,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
@@ -42,9 +43,10 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_eigen.h>
+
+
 #include <boost/dynamic_bitset.hpp>
 #include <boost/algorithm/string.hpp>
-
 #define MIN(a,b) (a<b)?a:b
 #define MAX(a,b) (a>b)?a:b
 #define RNG gsl_rng_taus2		//choose the random number generator algorithm, see http://www.gnu.org/software/gsl/manual/html_node/Random-number-generator-algorithms.html

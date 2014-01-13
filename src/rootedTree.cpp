@@ -27,10 +27,10 @@
 /*
  * this overloads the ostream operator to output keys of nodes and edges
  */
-std::ostream& operator<< ( std::ostream& os, const tree_key_t& key )
+std::ostream& operator << ( std::ostream& os, const tree_key_t& key )
   {
     os <<"age: "<< key.age << " index "
-      << key.index;
+      << key.index << " location: " << key.location ;
     return os;
   }
 
@@ -57,8 +57,11 @@ void rooted_tree::reset(){
  	//the root node will never be touched, the MRCA moves up with the tree
 	root.age=-3;
 	root.index=0;
+    root.location = 0;
+
 	MRCA.age=-2;
-	MRCA.index=0;
+    MRCA.index=0;
+    MRCA.location = 0;
 
 	//set up a trivial root node with the only child MRCA
 	root_node.own_key = root;
@@ -101,7 +104,8 @@ void rooted_tree::reset(){
  * TODO nothing is done with the mean_fitness argument
  */
 void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fitness){
-	if (RT_VERBOSE){
+    int sampling_rate = 1000;
+    if (RT_VERBOSE){
 		cerr <<"rooted_tree::add_generation(). Number of leafs to add: "<<new_generation.size()<<endl;
 	}
 
@@ -128,7 +132,7 @@ void rooted_tree::add_generation(vector <node_t> &new_generation, double mean_fi
 		cerr <<"rooted_tree::add_generation(). rooted_tree size: "<<edges.size()<<" edges, "<<nodes.size()<<" nodes "<<endl;
 	}
 
-	//go over the previous leafs and delete those that leave no offspring, bridge those with one
+    //go over the previous leafs and delete those that leave no offspring, bridge those with one
 	map <tree_key_t,edge_t>::iterator edge_pos = edges.end();
 	map <tree_key_t,node_t>::iterator node_pos = nodes.end();
 	tree_key_t parent_key;
@@ -257,7 +261,7 @@ tree_key_t rooted_tree::erase_edge_node(tree_key_t to_be_erased){
 }
 
 
-/*
+/**
  * @brief erases a child from the list of children of a node
  * @params <tree_key_t,node_t>::iterator Pnode parent node
  * @params tree_key_t to_be_erased
@@ -349,7 +353,7 @@ int rooted_tree::update_leaf_to_root(tree_key_t leaf_key) {
 	map <tree_key_t,node_t>::iterator leaf_node = nodes.find(leaf_key);
 	map <tree_key_t,edge_t>::iterator leaf_edge = edges.find(leaf_key);
 	if (leaf_node == nodes.end() or leaf_edge == edges.end()){
-		cerr <<"rooted_tree::update_leaf_to_root(). leaf not found"<<endl;
+        cerr << "rooted_tree::update_leaf_to_root(). leaf not found" << endl;
 		return RT_NODENOTFOUND;
 	}
 
@@ -457,7 +461,7 @@ string rooted_tree::print_sequences() {
 	     sampled_leaf!=sampled_leafs.end(); sampled_leaf++){
 		node= nodes.find(*sampled_leaf);
 		seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<"_"<<node->second.fitness
-			<<"\n"<<node->second.sequence<<"\n";
+			<<"\n"<<node->second.genotype<<"\n";
 	}
 	return seq_str.str();
 }
@@ -466,8 +470,12 @@ string rooted_tree::print_sequences() {
 /*
  * @brief return tree in newick format as string
  */
-string rooted_tree::print_newick() {
-	return subtree_newick(MRCA)+";";
+/*string rooted_tree::print_newick() {
+    return subtree_newick(MRCA)+";";
+}
+*/
+string rooted_tree::print_newick(bool genotypes, bool traits) {
+    return subtree_newick(MRCA, genotypes, traits)+";";
 }
 
 /*
@@ -488,10 +496,45 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<"_"<<root_node->second.fitness<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<"_"<<root_node->second.fitness<< '_'<< root.location<<":"<<edge->second.length;
+	tree_str << ":" << edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
+
+string rooted_tree::subtree_newick(tree_key_t root, bool genotypes, bool traits){
+    stringstream tree_str;
+    map <tree_key_t,node_t>::iterator root_node = nodes.find(root);
+    map <tree_key_t,edge_t>::iterator edge = edges.find(root);
+    if (root_node->second.child_edges.size()>0){
+        list <tree_key_t>::iterator child = root_node->second.child_edges.begin();
+        tree_str.str();
+        tree_str <<"("<< subtree_newick(*child, genotypes, traits);
+        child++;
+        for (;child!=root_node->second.child_edges.end(); child++){
+            tree_str<<","+subtree_newick(*child, genotypes, traits);
+        }
+        tree_str<<")";
+    }
+
+    tree_str<<root.index<<'_'<<root_node->second.clone_size << '_'<< root.location;
+    if (traits){
+        for (int traitNo = 0; traitNo < root_node->second.traits.size(); traitNo ++)
+        {
+            tree_str << setprecision(2);
+            tree_str << "_T"<<traitNo<<"_"<< root_node->second.traits[traitNo];
+        }
+    }
+    if(genotypes){
+        tree_str << '_' << root_node->second.genotype;
+
+    }
+    tree_str << ":" << edge->second.length;
+    //tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
+    return tree_str.str();
+}
+
+
 
 /*
  * @brief returns true of the tree_key_t node_key is part of the tree, false otherwise
@@ -724,8 +767,8 @@ int rooted_tree::check_tree_integrity(){
 			edge=edges.find(node->first);
 			if (edge!=edges.end()){
 				if (edge->second.parent_node != node->second.parent_node){
-					err++;
-					cerr <<"edge and node "<<node->first<<" do not have the same parent! ERROR"<<endl;
+                    err++;
+                    cerr <<"edge and node "<<node->first<<" do not have the same parent! ERROR"<<endl;
 				}
 			}else{
 				err++;
@@ -745,7 +788,7 @@ int rooted_tree::check_tree_integrity(){
 	}
 
 	if ( nnodes!=nodes.size() ){
-		err++;
+        err++;
 		cerr <<"number of nodes encountered does not equal the size of nodes. ERROR"<<endl;
 	}
 	if ( nedges!=edges.size() ){
@@ -1112,10 +1155,10 @@ int rooted_tree::read_newick(string tree_s) {
 	}
 
 	// update number of offspring
-	update_tree();
+    update_tree();
 
 	// Now the tree is done. Let us print newick to test
-	if (RT_VERBOSE) std::cout<<"Tree out: "<<print_newick()<<std::endl;
+    if (RT_VERBOSE) std::cout<<"Tree out: "<< print_newick(false, false)<<std::endl;
 
 	return status;
 }

@@ -165,39 +165,39 @@ int large_populations() {
 /* Test evolution */
 int genealogy() {
 	int L = 1000;
-	int N = 50;
+	int err = 0;
+    int N = 50;
 
-	haploid_highd pop(L);
+    haploid_highd pop(L);
 
-	pop.set_mutation_rate(1e-3);
-	pop.outcrossing_rate = 1e-2;
-	pop.crossover_rate = 1e-2;
-	pop.recombination_model = CROSSOVERS;
-	vector <int> gen_loci;
-	gen_loci.push_back(100);
-	gen_loci.push_back(500);
-	gen_loci.push_back(900);
-	pop.track_locus_genealogy(gen_loci);
+    pop.set_mutation_rate(1e-3);
+    pop.outcrossing_rate = 0;
+    pop.crossover_rate = 0;
+    pop.recombination_model = CROSSOVERS;
+    vector <int> gen_loci;
+    gen_loci.push_back(100);
+    gen_loci.push_back(500);
+    gen_loci.push_back(900);
+    pop.track_locus_genealogy(gen_loci);
 
-	pop.set_wildtype(N);		// start with a population of the right size
-	vector <int> loci;
-	for(int i=0; i< L; i++) {
-		loci.assign(1, i);
-		pop.add_fitness_coefficient(1e-2, loci);
-		loci.clear();
-	}
+    pop.set_wildtype(N);		// start with a population of the right size
+    vector <int> loci;
+    for(int i=0; i< L; i++) {
+        loci.assign(1, i);
+        pop.add_fitness_coefficient(1e-2, loci);
+        loci.clear();
+    }
 
 
-	stat_t fitstat;
-	int err;
-	gsl_histogram *SFS = gsl_histogram_alloc(20);
-	gsl_histogram_set_ranges_uniform(SFS,0,1);
+    stat_t fitstat;
+    gsl_histogram *SFS = gsl_histogram_alloc(20);
+    gsl_histogram_set_ranges_uniform(SFS,0,1);
 	for (int i=0; i< 500; i++) {
 		pop.evolve();
 		pop.calc_stat();
 		fitstat = pop.get_fitness_statistics();
 		cerr  <<"generations: "<<i<<" af: "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
-	}
+  }
 	cerr <<"check trees: "<<pop.genealogy.trees.size()<<endl;
 	for (unsigned int genlocus=0; genlocus<gen_loci.size(); genlocus++){
 		err =pop.genealogy.trees[genlocus].check_tree_integrity();

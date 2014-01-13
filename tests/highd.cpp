@@ -116,11 +116,12 @@ int pop_evolve() {
 		pop.add_fitness_coefficient(0.01, loci);
 		loci.clear();
 	}
-	stat_t fitstat;
+	//cout << pop.track_genealogy << endl;
+    stat_t fitstat;
 	cerr <<"    "<<"af5\t"<<"af50\t"<<"Fitness mean\t"<<"Fitness var"<<endl;
 	cerr <<"---------------------------------------------"<<endl;
 	for (int i=0; i< 10; i++) {
-		pop.evolve();
+        pop.evolve();
 		pop.calc_stat();
 		fitstat = pop.get_fitness_statistics();
 		cerr <<i<<": "<<pop.get_allele_frequency(5)<<'\t'<<pop.get_allele_frequency(50)<<'\t'<<fitstat.mean<<'\t'<<fitstat.variance<<'\n';
@@ -350,17 +351,17 @@ int main(int argc, char **argv){
 		cout<<"Usage: "<<argv[0]<<endl;
 		status = 1;
 	} else {
-//		status = library_access();
-//		status += sample_initialize();
-//		status += hc_initialize();
-//		status += hc_setting();
-//		status += pop_initialize();
-		status += pop_evolve();
-//		status += pop_sampling();
+        status = library_access();
+        status += sample_initialize();
+        status += hc_initialize();
+        status += hc_setting();
+        status += pop_initialize();
+        status += pop_evolve();
+		status += pop_sampling();
 //		status += pop_Hamming();
 //		status += pop_divdiv();
 //		status += pop_histograms();
-
+//
 	}
 	cout<<"Number of errors: "<<status<<endl;
 	return status;

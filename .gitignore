@@ -121,3 +121,7 @@ Release
 
 # Do not keep the binaries
 # (they are kept in the static_gsl branch)
+
+
+#build files from QT-Creator
+EvoDevo/*
