@@ -338,9 +338,9 @@ public:
     int check_tree_integrity();
     void clear_tree();
 
-        // print tree or subtrees
-    //string print_newick();
-    string print_newick(bool genotypes = false, bool traits = false);
+    // print tree or subtrees
+    string print_newick();
+    string print_newick(bool genotypes, bool traits);
     string subtree_newick(tree_key_t root);
     string subtree_newick(tree_key_t root, bool genotypes, bool traits);
 

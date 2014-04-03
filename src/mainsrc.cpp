@@ -55,8 +55,6 @@ int main(int argc, char  *argv[]){
           multi_population pop(2, 100, 1, 1);
           //pop.set_migration_rate(0.1);
 
-          //pop.set_carrying_capacity(100);
-//        pop.set_mutation_rate(0.001);
 //        pop.set_crossover_rate(0.0);
 //        pop.set_outcrossing_rate(0.0);
 //        pop.set_recombination_model(0);
@@ -88,76 +86,6 @@ int main(int argc, char  *argv[]){
           pop.set_migration_rates(m_r);
 
 
-          // ############################################
-
-
-//        // ############################################
-
-//        //#############################################
-//        //#
-//        //# Set genotype -> trait -> fitness maps
-//        //#
-//        //#############################################
-//        vector <int> loci;
-//        for(int j = 0; j < _L ; j++){
-//            loci.push_back(j);
-//        }
-//        for (int trait_no = 0; trait_no < NUMBER_OF_TAITS; trait_no ++){
-//            pop.set_trait_coefficient(0.2, loci, trait_no);
-//        }
-//        /*Set trait weights*/
-//        double * weights = new double[NUMBER_OF_TAITS];
-//        for (int weight_No = 0; weight_No < NUMBER_OF_TAITS; weight_No ++)
-//        {
-//            weights[weight_No] = SELECTIVE;
-//        }
-//        pop.set_trait_weights(weights);
-//        delete [] weights;
-
-
-
-
-//        //#############################################
-//        //#
-//        //# Set the population and track the genealogy for the population
-//        //#
-//        //#############################################
-
-////        boost::dynamic_bitset<> genotype(_L);
-////            bool r = 0;
-////            for( int i = 0 ;i < genotype.size() ;i++ )
-////            {
-////                r = rand() % 2;
-////                if (r)
-////                   genotype[i] = 1;
-////                else
-////                   genotype[i] = 0;
-////            }
-////            pop.point_sub_pop(0)->add_genotype(genotype, 1000);
-
-////        //pop.point_sub_pop(0)->set_wildtype(100);
-
-
-////        pop.set_global_generation(0);
-////        pop.submit_pop_genealogy();
-////        pop.genealogy.add_generation(pop.max_fitness());
-
-
-
-//        stat_t fitstat;
-//        gsl_histogram *SFS = gsl_histogram_alloc(20);
-//        gsl_histogram_set_ranges_uniform(SFS,0,1);
-//        // ############################################
-
-        //int generation = 0;
-
-          vector < vector <double > > m = pop.get_migration_rates();
-          for (int i = 0; i < 2; i ++){
-              for (int j = 0; j < 2; j ++){
-                  cout << m[i][j] << "  ";
-              }
-              cout << endl;
-          }
 
 
         for (int i = 0; i < 1000; i ++)
