@@ -1121,11 +1121,12 @@ double haploid_lowd::allele_entropy() {
 stat_t haploid_lowd::get_fitness_statistics() {
 	if (population.get_state()==HC_COEFF) population.fft_coeff_to_func();
 
-	double mf = 0, sq = 0, temp;
+	double mf = 0, sqf = 0, tempp, tempf;
 	for (int i = 0; i < (1<<number_of_loci); i++) {
-		temp = population.get_func(i) * fitness.get_func(i);
-		mf += temp;
-		sq += temp*temp;
+		tempp = population.get_func(i);
+	        tempf = fitness.get_func(i);
+		mf += tempp * tempf;
+		sqf += tempp * tempf * tempf;
 	}
-	return stat_t(mf, sq - mf * mf);
+	return stat_t(mf, sqf - mf * mf);
 }
