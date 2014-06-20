@@ -1,0 +1,7 @@
+include CHANGELOG
+include COPYING
+include INSTALL
+include Makefile
+include src/*.h
+include src/python/*.i
+include src/python/*.swg

@@ -724,6 +724,57 @@ void get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
                 ARGOUT_ARRAY1[i] = $self->get_fitness(i);
 }
 
+/* get fitness coefficients (Fourier space) */
+%feature("autodoc",
+"Get fitness coefficient of a combination (bitset) of loci
+
+Parameters:
+    - loci_bitset: Bitset of loci interested by the coefficient (see below). This can either be an integer or in binary format, e.g. 5 = 0b101 
+
+.. note:: Examples for loci_bitset:
+   - 0: fitness baseline for the population
+   - (1 << X): additive coefficient for locus X
+   - (1 << X) + (1 << Y): epistatic (2-locus) coefficient between loci X and Y
+
+.. note:: Remember that FFPopSim uses 1/-1 based hypercubes.
+
+Returns:
+    - the fitness coefficient of that combination of loci.
+") get_fitness_coefficient;
+%pythonprepend get_fitness_coefficient {
+if len(args) and (args[0] >= (1<<self.L)):
+    raise ValueError("Expecting an individual between 0 and 2^L - 1.")
+}
+
+%feature("autodoc",
+"Get all fitness coefficients.
+
+The order of the coefficient is by bitset of interested loci:
+- the population baseline is at position 0
+- the additive term of locus X is at position (1 << X), i.e. 2^X
+- the 2-locus epistatic term between loci X and Y is at (1 << X) + (1 << Y), i.e. 2^X + 2^Y
+and so on.
+
+For instance, the following indices contain:
+0 aka 0b0: baseline for the population
+1 aka 0b1: additive coefficient for the first locus
+2 aka 0b10: additive coefficient for the second locus
+3 aka 0b11: epistatic coefficient bewteen locus one and two
+4 aka 0b100: additive coefficient for the third locus
+5 aka 0b101: epistatic coefficient between locus one and three
+6 aka 0b110: epistatic coefficient between locus two and three
+7 aka 0b111: epistatic coefficient among loci one, two, and three (3-locus term)
+and so on.
+") get_fitness_coefficients;
+%pythonprepend get_fitness_coefficients {
+args = tuple([1<<self.L] + list(args))
+}
+void get_fitness_coefficients(int DIM1, double* ARGOUT_ARRAY1) {
+        for(size_t i=0; i < (size_t)DIM1; i++)
+                ARGOUT_ARRAY1[i] = $self->get_fitness_coefficient(i);
+}
+
+
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
 %pythoncode {
 def get_fitness_histogram(self, n_sample=1000, **kwargs):

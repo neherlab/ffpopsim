@@ -205,6 +205,7 @@ public:
 
 	// fitness/phenotype readout
 	double get_fitness(int genotype) {return fitness.get_func(genotype);}
+	double get_fitness_coefficient(int bitset_loci) {return fitness.get_coeff(bitset_loci);}
 	stat_t get_fitness_statistics();
 
 protected:

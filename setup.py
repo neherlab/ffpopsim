@@ -47,10 +47,21 @@ PYBDIR = SRCDIR+'/python'
 includes = includes + npdis.misc_util.get_numpy_include_dirs()
 libs = ['gsl', 'gslcblas']
 
-# Setup function
+# Auxiliary functions
+def read(fname):
+    import os
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+
+# Setup
 setup(name='FFPopSim',
       author='Fabio Zanini, Richard Neher',
       author_email='fabio.zanini@tuebingen.mpg.de, richard.neher@tuebingen.mpg.de',
+      description='C++/Python library for population genetics.',
+      long_description=read('README'),
+      license='GPL3',
+      url='http://webdav.tuebingen.mpg.de/ffpopsim/',
+
       version=VERSION,
       package_dir={'': PYBDIR},
 
@@ -58,7 +69,7 @@ setup(name='FFPopSim',
       py_modules=['FFPopSim'],
 
       # This is the C++ extension
-      ext_modules=[Extension('_FFPopSim', [PYBDIR+'/FFPopSim_wrap.cpp',
+      ext_modules=[Extension('_FFPopSim', sources = [PYBDIR+'/FFPopSim_wrap.cpp',
                                            SRCDIR+'/haploid_highd.cpp', 
                                            SRCDIR+'/haploid_lowd.cpp', 
                                            SRCDIR+'/hivpopulation.cpp',
