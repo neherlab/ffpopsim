@@ -30,7 +30,7 @@ print pop.get_mutation_rates(direction=0)
 print pop.get_mutation_rates(direction=1)
 
 # Test setting / getting fitness
-pop.set_fitness_additive([0.02,0.03,0.04,0.02])
+pop.set_fitness_additive([0.02,0.03,0.04,0.01])
 pop.get_fitnesses()
 
 # Test allele frequency readout
