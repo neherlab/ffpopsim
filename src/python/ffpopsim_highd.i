@@ -478,7 +478,7 @@ def nodes(self):
 
 
 @nodes.setter
-def edges(self, ns):
+def nodes(self, ns):
     self._nodes = map_key_node(ns)
 }
 
