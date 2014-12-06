@@ -2,7 +2,7 @@
 
 * Licence:	GPL3
 * Author:	Richard Neher, Fabio Zanini
-* Date:		2012/09/12
+* Creation:	2012/09/12
 
 Description:
 ------------
