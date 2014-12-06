@@ -34,7 +34,7 @@ from numpy import distutils as npdis
 includes = ['/usr/include', '/usr/local/include', '/opt/local/include']
 
 # Please add your shared library folders to the following list, where the linker
-# can find GSL and Python 2.7
+# can find GSL and Python 2.X
 library_dirs = []
 
 ############################################################################

@@ -14,6 +14,6 @@ install:
   - sudo apt-get install -y gsl-bin libgsl0-dbg libgsl0-dev libgsl0ldbl libboost-all-dev swig
 
 script:
- - make src tests
- - make python
+ - make PYTHON=$PYTHON src tests
+ - make PYTHON=$PYTHON python
 
