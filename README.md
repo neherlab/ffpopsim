@@ -1,6 +1,8 @@
-Licence:	GPL3
-Author:		Richard Neher, Fabio Zanini
-Date:		2012/09/12
+[![Build Status](https://travis-ci.org/iosonofabio/ffpopsim.svg?branch=travis)](https://travis-ci.org/iosonofabio/ffpopsim)
+
+* Licence:	GPL3
+* Author:	Richard Neher, Fabio Zanini
+* Creation:	2012/09/12
 
 Description:
 ------------
