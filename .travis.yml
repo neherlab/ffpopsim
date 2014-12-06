@@ -1,11 +1,15 @@
-language: cpp
-compiler:
-  - gcc
-script: make src tests
+language: python
+python:
+  - "2.7"
+  - "2.6"
 
 before_install:
   - sudo apt-get update -qq
 
 install:
   - sudo apt-get install -y gsl-bin libgsl0-dbg libgsl0-dev libgsl0ldbl libboost-all-dev swig
+
+script:
+ - make src tests
+ - make python
 
