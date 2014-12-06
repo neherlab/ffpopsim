@@ -58,7 +58,7 @@ setup(name='FFPopSim',
       author='Fabio Zanini, Richard Neher',
       author_email='fabio.zanini@tuebingen.mpg.de, richard.neher@tuebingen.mpg.de',
       description='C++/Python library for population genetics.',
-      long_description=read('README'),
+      long_description=read('README.md'),
       license='GPL3',
       url='http://webdav.tuebingen.mpg.de/ffpopsim/',
 
