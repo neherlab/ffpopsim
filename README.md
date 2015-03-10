@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/iosonofabio/ffpopsim.svg?branch=travis)](https://travis-ci.org/iosonofabio/ffpopsim)
+[![Build Status](https://travis-ci.org/iosonofabio/ffpopsim.svg?branch=master)](https://travis-ci.org/iosonofabio/ffpopsim)
+[![Documentation Status](https://readthedocs.org/projects/ffpopsim/badge/?version=latest)](https://readthedocs.org/projects/ffpopsim/?badge=latest)
 
 * Licence:	GPL3
 * Author:	Richard Neher, Fabio Zanini
