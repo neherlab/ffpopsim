@@ -61,12 +61,13 @@ void _get_trait(int DIM1, double* ARGOUT_ARRAY1) {
         for(size_t i=0; i < (size_t)DIM1; i++)
                 ARGOUT_ARRAY1[i] = ($self->trait)[i];
 }
-%pythoncode {
+%pythoncode
+%{
 @property
 def trait(self):
     '''Traits vector of the clone'''
     return self._get_trait(self.number_of_traits)
-}
+%}
 
 } /* extend clone_t */
 %{
@@ -219,7 +220,8 @@ const char* __repr__() {
 
 /* cloak child_edges with a Pythonic flavour */
 %rename (_child_edges) child_edges;
-%pythoncode {
+%pythoncode
+%{
 @property
 def child_edges(self):
     '''Child edges of the node'''
@@ -229,14 +231,15 @@ def child_edges(self):
 @child_edges.setter
 def child_edges(self, es):
     self._child_edges = list_tree_key(es)
-}
+%}
 
 
 /* cloak crossover */
 %ignore crossover;
 int _get_crossover_chunk(int i) {return ($self->crossover)[i];}
 void _set_crossover_chunk(int value, int i) {($self->crossover)[i] = value;}
-%pythoncode {
+%pythoncode
+%{
 @property
 def crossover(self):
     '''Crossover of node'''
@@ -247,11 +250,12 @@ def crossover(self, value):
     if len(value) != 2:
         raise ValueError('Crossover is a pair of integers.')
     [self._set_crossover_chunk(value[i], i) for i in xrange(2)]
-}
+%}
 
 /* cloak weight_distribution with a Pythonic flavour */
 %rename (_weight_distribution) weight_distribution;
-%pythoncode {
+%pythoncode
+%{
 @property
 def weight_distribution(self):
     '''Distribution of weights of this node'''
@@ -260,7 +264,7 @@ def weight_distribution(self):
 @weight_distribution.setter
 def weight_distribution(self, distr):
     self._weight_distribution = vector_tree_step(distr)
-}
+%}
 
 /* read/write attributes */
 %feature("autodoc", "Parent tree key") parent_node;
@@ -295,12 +299,13 @@ const char* __repr__() {
 /* cloak segment */
 %ignore segment;
 int _get_segment_chunk(int i) {return ($self->segment)[i];}
-%pythoncode {
+%pythoncode
+%{
 @property
 def segment(self):
     '''Segment of edge'''
     return [self._get_segment_chunk(i) for i in xrange(2)]
-}
+%}
 
 /* read/write attributes */
 %feature("autodoc", "Parent tree key") parent_node;
@@ -390,7 +395,8 @@ vector <tree_key_t> _ancestors_at_age(int age, tree_key_t subtree_root) {
         $self->ancestors_at_age(age, subtree_root, ancestors);
         return ancestors;
 }
-%pythoncode {
+%pythoncode
+%{
 def ancestors_at_age(self, age, subtree):
     '''Find nodes in subtree younger than a certain age
     
@@ -402,7 +408,7 @@ def ancestors_at_age(self, age, subtree):
        - ancestors: the ancestors at that age
     '''
     return list(self._ancestors_at_age(age, subtree))
-}
+%}
 
 /* construct subtree */
 %ignore construct_subtree;
@@ -456,7 +462,8 @@ Returns:
 
 /* cloak edges with a Pythonic flavour */
 %rename (_edges) edges;
-%pythoncode {
+%pythoncode
+%{
 @property
 def edges(self):
     '''Edges of the tree'''
@@ -466,11 +473,12 @@ def edges(self):
 @edges.setter
 def edges(self, es):
     self._edges = map_key_edge(es)
-}
+%}
 
 /* cloak nodes with a Pythonic flavour */
 %rename (_nodes) nodes;
-%pythoncode {
+%pythoncode
+%{
 @property
 def nodes(self):
     '''Nodes of the tree'''
@@ -480,11 +488,12 @@ def nodes(self):
 @nodes.setter
 def nodes(self, ns):
     self._nodes = map_key_node(ns)
-}
+%}
 
 /* cloak leafs with a Pythonic flavour */
 %rename (_leafs) leafs;
-%pythoncode {
+%pythoncode
+%{
 @property
 def leafs(self):
     '''Leaves of the tree'''
@@ -494,9 +503,10 @@ def leafs(self):
 @leafs.setter
 def leafs(self, leaves):
     self._leafs = vector_tree_key(leaves)
-}
+%}
 
-%pythoncode {
+%pythoncode
+%{
 def to_Biopython_tree(self):
     '''Convert the tree into Biopython format
     
@@ -510,7 +520,7 @@ def to_Biopython_tree(self):
     handle = StringIO(treedata)
     tree = Phylo.read(handle, "newick")
     return tree
-}
+%}
 
 } /* extend rooted_tree */
 
@@ -561,12 +571,13 @@ void _get_loci(int DIM1, int* ARGOUT_ARRAY1) {
         for(size_t i = 0; i < ($self->loci).size(); i++)
                 ARGOUT_ARRAY1[i] = ($self->loci)[i];
 }
-%pythoncode {
+%pythoncode
+%{
 @property
 def loci(self):
     '''The loci that are being tracked'''
     return self._get_loci(self._get_number_of_loci())
-}
+%}
 
 /* trees */
 %ignore trees;
@@ -778,7 +789,8 @@ use the bottleneck function.
 /* mutation rate */
 %rename(_get_mutation_rate) get_mutation_rate;
 %rename(_set_mutation_rate) set_mutation_rate;
-%pythoncode{
+%pythoncode
+%{
 @property
 def mutation_rate(self):
    '''mutation rate (per site per generation)'''
@@ -790,7 +802,7 @@ def mutation_rate(self, m):
         raise ValueError("You cannot set all_polymorphic and a nonzero mutation rate.")
     else:
         self._set_mutation_rate(m)
-}
+%}
 
 /* do not expose the population, but rather only nonempty clones */
 %ignore population;
@@ -858,7 +870,8 @@ const bool all_polymorphic;
 %rename(_get_polymorphisms) get_polymorphisms;
 %rename(_get_fixed_mutations) get_fixed_mutations;
 %rename(_get_number_of_mutations) get_number_of_mutations;
-%pythoncode{
+%pythoncode
+%{
 @property
 def polymorphisms(self):
     '''Polymorphisms from all_polymorphic (read-only)'''
@@ -881,7 +894,7 @@ def number_of_mutations(self):
     if not self.all_polymorphic:
         raise ValueError("all_polymorphic is not set.")
     return self._get_number_of_mutations()
-}
+%}
 
 /* trait weights */
 %ignore set_trait_weights;
@@ -911,12 +924,14 @@ void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
         for(size_t t=0; t < (size_t)DIM1; t++)
                 ARGOUT_ARRAY1[t] = $self->get_trait_weight(t);
 }
-%pythoncode {
+%pythoncode
+%{
 trait_weights = property(_get_trait_weights, _set_trait_weights)
-}
+%}
 
 /* dump to file */
-%pythoncode{
+%pythoncode
+%{
 def dump(self, filename, format='bz2', include_genealogy=False):
     '''Dump a population to binary file, for later use.
 
@@ -986,10 +1001,11 @@ def dump(self, filename, format='bz2', include_genealogy=False):
 
         # Dump to file
         f.write(dump)
-}
+%}
 
 /* copy */
-%pythoncode{
+%pythoncode
+%{
 def copy(self, rng_seed=0):
     '''Copy population into new instance.
     
@@ -1019,10 +1035,11 @@ def copy(self, rng_seed=0):
     pop.generation = self.generation
     
     return pop
-}
+%}
 
 /* status function */
-%pythoncode {
+%pythoncode
+%{
 def status(self):
     '''Print a status list of the population parameters'''
     parameters = (('number of loci', 'L'),
@@ -1050,7 +1067,7 @@ def status(self):
             else:
                 par = 'CROSSOVERS'
         print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
-}
+%}
 
 /* initialize wildtype */
 %feature("autodoc",
@@ -1288,9 +1305,10 @@ Returns:
 multi_locus_genealogy _get_genealogy() {
         return $self->genealogy;
 }
-%pythoncode {
+%pythoncode
+%{
 genealogy = property(_get_genealogy)
-}
+%}
 
 /* statistics */
 %feature("autodoc", "Calculate trait and fitness statistics for the population") calc_stat;
@@ -1641,14 +1659,15 @@ Returns:
    - fitness: fitness value of that clone
 ") get_fitness;
 
-%pythoncode {
+%pythoncode
+%{
 def get_fitnesses(self):
     '''Get the fitness of all clones.'''
     f = _np.zeros(self.number_of_clones)
     for i in xrange(self.number_of_clones):
         f[i] = self.get_fitness(i)
     return f
-}
+%}
 
 /* traits of clones */
 %pythonprepend get_trait {
@@ -1672,7 +1691,8 @@ Returns:
    - trait: value of that trait for that clone
 ") get_trait;
 
-%pythoncode {
+%pythoncode
+%{
 def get_traits(self):
     '''Get all traits from all clones'''
     t = _np.zeros((self.number_of_clones, self.number_of_traits))
@@ -1680,7 +1700,7 @@ def get_traits(self):
         for j in xrange(self.number_of_traits):
             t[i, j] = self.get_trait(i, j)
     return t
-}
+%}
 
 /* get clone sizes */
 %pythonprepend get_clone_size {
@@ -1701,14 +1721,15 @@ Returns:
    - size: size of the selected clone
 ") get_clone_size;
 
-%pythoncode {
+%pythoncode
+%{
 def get_clone_sizes(self):
     '''Get the size of all clones.'''
     s = _np.zeros(self.number_of_clones, int)
     for i in xrange(self.number_of_clones):
         s[i] = self.get_clone_size(i)
     return s
-}
+%}
 
 /* get genotypes */
 %pythonprepend get_genotype {
@@ -1732,7 +1753,8 @@ Returns:
    - genotype: Boolean array of the genotype
 ") get_genotype;
 
-%pythoncode {
+%pythoncode
+%{
 def get_genotypes(self):
     '''Get all genotypes of the population.
 
@@ -1745,7 +1767,7 @@ def get_genotypes(self):
     for i in xrange(self.number_of_clones):
         genotypes[i] = self.get_genotype(i)
     return genotypes
-}
+%}
 
 /* unique clones */
 %feature("autodoc",
@@ -1758,7 +1780,8 @@ the size equal to the sum of the sizes of the duplicates.
 
 /* Hamming distance (full Python reimplementation) */
 %ignore distance_Hamming;
-%pythoncode {
+%pythoncode
+%{
 def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
     '''Calculate the Hamming distance between two genotypes
 
@@ -1786,10 +1809,11 @@ def distance_Hamming(self, clone_gt1, clone_gt2, chunks=None, every=1):
         clone_gt1 = clone_gt1[ind]
         clone_gt2 = clone_gt2[ind]
     return (clone_gt1 != clone_gt2).sum()
-}
+%}
 
 /* get random clones/genotypes */
-%pythoncode {
+%pythoncode
+%{
 def random_genomes(self, n):
     '''Get a sample of random genomes from the population
 
@@ -1805,7 +1829,7 @@ def random_genomes(self, n):
     for i in xrange(genotypes.shape[0]):
         genotypes[i] = self.get_genotype(self.random_clone())
     return genotypes
-}
+%}
 
 %feature("autodoc",
 "Get a random clone
@@ -1817,7 +1841,8 @@ Returns:
 val = (self._nonempty_clones == val).nonzero()[0][0]
 }
 %ignore random_clones;
-%pythoncode{
+%pythoncode
+%{
 def random_clones(self, n):
     '''Get random clones
     
@@ -1828,13 +1853,14 @@ def random_clones(self, n):
        - clones: clone indices
     '''
     return _np.array([self.random_clone() for i in xrange(n)], int)
-}
+%}
 
 /* divergence/diversity/fitness distributions and plot */
 %ignore get_divergence_histogram;
 %ignore get_diversity_histogram;
 %ignore get_fitness_histogram;
-%pythoncode {
+%pythoncode
+%{
 def get_fitness_histogram(self, n_sample=1000, **kwargs):
     '''Calculate the fitness histogram of a population sample.
 
@@ -2010,7 +2036,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     if 'bins' not in kwargs:
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     return axis.hist(div, **kwargs)
-}
+%}
 
 
 /* add a tree to the mlg at the selected locus (used to load populations from files) */
@@ -2098,7 +2124,8 @@ const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
 %}
 
 /* load haploid_highd from file */
-%pythoncode{
+%pythoncode
+%{
 def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
     '''Load a population from a compressed pickle file
 
@@ -2193,5 +2220,5 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
     
 
     return pop
-}
+%}
 /*****************************************************************************/

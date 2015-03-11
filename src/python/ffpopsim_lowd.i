@@ -25,7 +25,8 @@
 /*****************************************************************************/
 /* additional helper functions                                               */
 /*****************************************************************************/
-%pythoncode {
+%pythoncode
+%{
 def binarify(gt, L=0):
     '''Transform an integer into a binary sequence on the L hypercube.
 
@@ -72,7 +73,7 @@ def integerify(b):
     L = len(b)
     a = [(1<<(L-l-1)) for l in xrange(L)]
     return _np.dot(b,a)
-}
+%}
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -144,7 +145,8 @@ const char* __repr__() {
 }
 
 /* copy */
-%pythoncode{
+%pythoncode
+%{
 def copy(self, rng_seed=0):
     '''Copy population into new instance.
     
@@ -175,7 +177,7 @@ def copy(self, rng_seed=0):
     pop.generation = self.generation
     
     return pop
-}
+%}
 
 /* ignore hypercubes */
 %ignore fitness;
@@ -226,12 +228,14 @@ Available values:
      SWIG_fail;
   }
 }
-%pythoncode {
+%pythoncode
+%{
 recombination_model = property(_get_recombination_model, _set_recombination_model)
-}
+%}
 
 /* status function */
-%pythoncode {
+%pythoncode
+%{
 def status(self):
     '''Print a status list of the population parameters'''
     parameters = (('number of loci', 'L'),
@@ -256,7 +260,7 @@ def status(self):
             else:
                 par = 'CROSSOVERS'
         print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
-}
+%}
 
 /* initialize frequencies */
 %feature("autodoc",
@@ -300,7 +304,8 @@ int _set_genotypes(int len1, double* indices, int len2, double* vals) {
 }
 %clear (int len1, double* indices);
 %clear (int len2, double* vals);
-%pythoncode {
+%pythoncode
+%{
 def set_genotypes(self, genotypes, counts):
     '''Initialize population with fixed counts for specific genotypes.
 
@@ -318,7 +323,7 @@ def set_genotypes(self, genotypes, counts):
         raise ValueError('Indices and counts must have the same length')
     if self._set_genotypes(genotypes, counts):
         raise RuntimeError('Error in the C++ function.')
-}
+%}
 
 /* initialize wildtype */
 %feature("autodoc",
@@ -349,7 +354,8 @@ if len(args) and (args[0] >= self.L - 1):
     raise ValueError("Expecting a locus from 0 to L - 2.")
 }
 
-%pythoncode {
+%pythoncode
+%{
 def get_recombination_rates(self):
     '''Get recombination rates.
 
@@ -370,10 +376,11 @@ Returns:
         return _np.array([self.get_recombination_rate(i) for i in xrange(self.L - 1)])
     else:
         raise RuntimeError('Recombination model not found')
-}
+%}
 
 %rename (_set_recombination_rates) set_recombination_rates;
-%pythoncode {
+%pythoncode
+%{
 def set_recombination_rates(self, rates, model=None):
     '''Set the recombination rate(s).
 
@@ -422,11 +429,12 @@ Parameters:
     else:
         self._set_recombination_rates(rates, model)
 
-}
+%}
 
 /* mutation rate(s) */
 %rename (_get_mutation_rate) get_mutation_rate;
-%pythoncode {
+%pythoncode
+%{
 def get_mutation_rates(self, locus=None, direction=None):
     '''Get one or several mutation rates.
 
@@ -468,7 +476,7 @@ landscape.
                 return mrs[0,0]
             else:
                 return mrs
-}
+%}
 
 %ignore set_mutation_rates;
 int _set_mutation_rates(double *IN_ARRAY2, int DIM1, int DIM2) {
@@ -479,7 +487,8 @@ int _set_mutation_rates(double *IN_ARRAY2, int DIM1, int DIM2) {
         delete[] mrs;
         return result;
 }
-%pythoncode{        
+%pythoncode
+%{        
 def set_mutation_rates(self, rates, rates_back=None):
     '''Set the mutation rate(s).
 
@@ -511,7 +520,7 @@ Parameters:
 
     if self._set_mutation_rates(ratesm):
         raise RuntimeError('Error in the C++ function.')
-}
+%}
 
 /* evolve */
 %feature("autodoc",
@@ -580,11 +589,12 @@ if len(args) and (args[0] >= (1<<self.L)):
     raise ValueError("Expecting an individual from 0 to 2^L - 1.")
 }
 
-%pythoncode {
+%pythoncode
+%{
 def get_genotype_frequencies(self):
     '''Get the frequency of each genotype.'''
     return _np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
-}
+%}
 
 /* get allele frequencies */
 %feature("autodoc",
@@ -601,11 +611,12 @@ if len(args) and (args[0] >= (self.L)):
     raise ValueError("Expecting a locus from 0 to L - 1.")
 }
 
-%pythoncode {
+%pythoncode
+%{
 def get_allele_frequencies(self):
     '''Get the frequencies of all + alleles'''
     return _np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
-}
+%}
 
 %feature("autodoc",
 "Get the frequency of genotypes with the + allele at both loci.
@@ -682,7 +693,8 @@ if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
 }
 
 /* random sampling */
-%pythoncode {
+%pythoncode
+%{
 def random_genomes(self, n_sample):
     '''Get random genomes according sampled from the population. 
     
@@ -698,7 +710,7 @@ def random_genomes(self, n_sample):
     sample = _np.concatenate([_np.repeat(ind[i], counts[i]) for i in xrange(len(ind))])
     _np.random.shuffle(sample)
     return sample
-}
+%}
 
 /* get fitness */
 %feature("autodoc",
@@ -776,7 +788,8 @@ void get_fitness_coefficients(int DIM1, double* ARGOUT_ARRAY1) {
 
 
 /* divergence/diversity/fitness distributions and plot (full Python implementations) */
-%pythoncode {
+%pythoncode
+%{
 def get_fitness_histogram(self, n_sample=1000, **kwargs):
     '''Get the histogram of the fitness of a sample from the population.
 
@@ -967,7 +980,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     if 'bins' not in kwargs:
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     axis.hist(div, **kwargs)
-}
+%}
 
 /* set fitness landscape */
 %apply (int DIM1, double* IN_ARRAY1) {(int len1, double* indices), (int len2, double* vals)};
@@ -994,7 +1007,8 @@ int _set_fitness_coeff(int len1, double* indices, int len2, double* vals) {
 }
 %clear (int len1, double* indices);
 %clear (int len2, double* vals);
-%pythoncode {
+%pythoncode
+%{
 def set_fitness_function(self, genotypes, values):
     '''Set the fitness landscape for individual genotypes.
 
@@ -1030,7 +1044,7 @@ def set_fitness_coefficients(self, coefficients, values):
     if self._set_fitness_coeff(coefficients, values):
         raise RuntimeError('Error in the C++ function.')
 
-}
+%}
 
 /* set additive fitness component */
 %feature("autodoc",
