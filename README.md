@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/iosonofabio/ffpopsim.svg?branch=master)](https://travis-ci.org/iosonofabio/ffpopsim)
-[![Documentation Status](https://readthedocs.org/projects/ffpopsim/badge/?version=readthedocs)](https://readthedocs.org/projects/ffpopsim/?badge=readthedocs)
+[![Documentation Status](https://readthedocs.org/projects/ffpopsim/badge/?version=latest)](https://readthedocs.org/projects/ffpopsim/?badge=latest)
 [![License](https://img.shields.io/badge/license-GPL3-blue.svg)](http://www.gnu.org/copyleft/gpl.html)
 
 * License:	GPL3
