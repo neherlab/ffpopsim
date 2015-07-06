@@ -129,7 +129,8 @@ const char* __repr__() {
 }
 
 /* copy */
-%pythoncode{
+%pythoncode
+%{
 def copy(self, rng_seed=0):
     '''Copy population into new instance.
     
@@ -156,7 +157,7 @@ def copy(self, rng_seed=0):
     pop._set_generation(self.generation)
     
     return pop
-}
+%}
 
 /* we have two traits anyway */
 %ignore add_fitness_coefficient;
@@ -201,7 +202,8 @@ Parameters:
    - length: store a chunk from ``start`` to this length
 ") write_genotypes;
 
-%pythoncode {
+%pythoncode
+%{
 def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0, length=0):
     '''Store random genotypes into a compressed file.
 
@@ -224,11 +226,12 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
         rcl = self.random_clone()
         d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl)[start:start+length]
     np.savez_compressed(filename, **d)    
-}
+%}
 
 
 /* set trait landscape */
-%pythoncode {
+%pythoncode
+%{
 def set_trait_landscape(self,
                         traitnumber=0,
                         lethal_fraction=0.05,
@@ -355,14 +358,15 @@ def set_trait_landscape(self,
         self.add_trait_coefficient(mlc[1], np.asarray(mlc[0], int), traitnumber)
     self._update_traits()
     self._update_fitness()
-}
+%}
 
 /* helper functions for replication and resistance */
 /* There is a reason why they are not properties, namely because you will never be able
 to set them by slicing, e.g. pop.additive_replication[4:6] = 3. In order to implement
 this functionality we would need a whole subclass of ndarray with its own set/get
 methods, and nobody is really keen on doing this. */
-%pythoncode{
+%pythoncode
+%{
 def get_replication_additive(self):
     '''The additive part of the replication lansdscape.
 
@@ -417,10 +421,11 @@ def set_resistance_additive(self, coefficients):
     self.set_trait_additive(coefficients, 1)
 
 
-}
+%}
 
 /* Generate random landscapes */
-%pythoncode{
+%pythoncode
+%{
 def set_replication_landscape(self,
                         lethal_fraction=0.05,
                         deleterious_fraction=0.8,
@@ -533,7 +538,7 @@ def set_resistance_landscape(self,
                         valley_strength=valley_strength)
 
 
-}
+%}
 } /* extend hivpopulation */
 
 %{
