@@ -549,6 +549,7 @@ int multi_population::evolve(int gen)
             genealogy.add_generation(max_fitness());
         }
     }
+    return 0;
 }
 
 int multi_population::evolve_local(int location, int gen) {
@@ -735,6 +736,54 @@ void multi_population::set_random_genotype(int N_in){
            genotype[i] = 1;
         else
            genotype[i] = 0;
+    }
+    for (int i = 0; i < number_of_locations; i ++ ){
+        point_sub_pop(i)->allele_frequencies_up_to_date = false;
+    // Clear population
+    point_sub_pop(i)->population.clear();
+    point_sub_pop(i)->available_clones.clear();
+    if (track_genealogy) {
+        point_sub_pop(i)->genealogy.reset_but_loci();
+    }
+
+    point_sub_pop(i)->population_size = 0;
+    point_sub_pop(i)->random_sample.clear();
+
+    // Initialize the clones and calculate the population size
+    point_sub_pop(i)->number_of_clones = 0;
+    point_sub_pop(i)->last_clone = 0;
+    point_sub_pop(i)->provide_at_least(N_in);
+    }
+    point_sub_pop(0)->add_genotype(genotype, N_in); //FIXME we can only set genotype to location 0, otherwise genealogy gets crazy.
+    //set_global_generation(0); //FIXME
+    // set the carrying capacity if unset
+    if(get_carrying_capacity(0) < HP_NOTHING){
+        vector <int> capacities;
+        for(int i = 0; i < number_of_locations; i ++){
+            capacities.push_back(N());
+        }
+        set_carrying_capacities(capacities);
+    }
+    // Calculate all statistics to be sure
+    set_global_generation(generation++);
+    for (int i = 0; i < number_of_locations; i ++){
+        point_sub_pop(i)->calc_stat();
+    }
+    //add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present)
+    if (track_genealogy == 1){genealogy.add_generation(fitness_max);}
+
+    if (track_genealogy == 2){
+        submit_pop_genealogy();
+        genealogy.add_generation(max_fitness());
+    }
+    if (HP_VERBOSE) cerr <<"done."<<endl;
+    update_population_size();
+}
+void multi_population::set_wildtype(int N_in){
+    boost::dynamic_bitset<> genotype(number_of_loci);
+    for( uint i = 0 ;i < genotype.size() ;i ++ )
+    {
+	    genotype[i] =0;
     }
     for (int i = 0; i < number_of_locations; i ++ ){
         point_sub_pop(i)->allele_frequencies_up_to_date = false;

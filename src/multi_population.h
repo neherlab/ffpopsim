@@ -118,6 +118,7 @@ public:
     void set_carrying_capacities(vector<int> capacities);
     double get_carrying_capacity(int location);
     vector<int> get_carrying_capacities(){return carrying_capacities;}
+    void set_tree_sample(vector <int> tree_sample){for (size_t i=0; i<number_of_locations; i++) sub_population[i]->tree_sample=tree_sample[i];}
 
     //trais and phenotype
     int get_number_of_traits(){return number_of_traits;}
@@ -149,7 +150,7 @@ public:
 
     //init population
     void set_random_genotype(int N_in);
-
+    void set_wildtype(int N_in);
 protected:
 
     int determine_number_of_migrants(haploid_highd sub_population);

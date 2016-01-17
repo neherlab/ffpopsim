@@ -516,8 +516,7 @@ string rooted_tree::subtree_newick(tree_key_t root, bool genotypes, bool traits)
         }
         tree_str<<")";
     }
-
-    tree_str<<root.index<<'_'<<root_node->second.clone_size << '_'<< root.location;
+    tree_str<<root.index<<"_"<<root.age<<'_'<<root_node->second.clone_size << '_'<< root_node->second.fitness;
     if (traits){
         for (int traitNo = 0; traitNo < root_node->second.traits.size(); traitNo ++)
         {
