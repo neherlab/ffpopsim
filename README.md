@@ -29,7 +29,7 @@ Documentation and examples are online at:
 
 http://webdav.tuebingen.mpg.de/ffpopsim/
 
-http://ffpopsim.readthedocs.org/en/latest/
+http://ffpopsim.readthedocs.io/en/latest/
 
 (The latter only for the Python interface.)
 
