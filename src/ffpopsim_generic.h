@@ -34,7 +34,6 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
@@ -43,7 +42,6 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_eigen.h>
-
 
 #include <boost/dynamic_bitset.hpp>
 #include <boost/algorithm/string.hpp>

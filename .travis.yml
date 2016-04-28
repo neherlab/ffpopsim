@@ -1,0 +1,19 @@
+language: python
+
+env:
+ - PYTHON=python
+
+python:
+  - "2.7"
+  - "2.6"
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install -y gsl-bin libgsl0-dbg libgsl0-dev libgsl0ldbl libboost-all-dev swig
+
+script:
+ - make PYTHON=$PYTHON src tests
+ - make PYTHON=$PYTHON python
+

@@ -42,7 +42,9 @@ Optional dependencies
 -------------------------------------------------------------------
 The C wrapper for Python, in case you want to regenerate it, requires:
 
-- SWIG (http://www.swig.org)
+- SWIG 1.3 or 2.0 (http://www.swig.org)
+
+NOTE: support for SWIG 3 is not implemented yet.
 
 The C++ documentation, in case you want to rebuild it, requires:
 

@@ -460,8 +460,10 @@ string rooted_tree::print_sequences() {
 	for (vector<tree_key_t>::iterator sampled_leaf = sampled_leafs.begin();
 	     sampled_leaf!=sampled_leafs.end(); sampled_leaf++){
 		node= nodes.find(*sampled_leaf);
-		seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<"_"<<node->second.fitness
-			<<"\n"<<node->second.genotype<<"\n";
+		for (size_t si=0; si<node->second.sampled; si++){
+		    seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<'-'<<si<<"_"<<node->second.fitness
+			    <<"\n"<<node->second.genotype<<"\n";
+		}
 	}
 	return seq_str.str();
 }
@@ -470,10 +472,10 @@ string rooted_tree::print_sequences() {
 /*
  * @brief return tree in newick format as string
  */
-/*string rooted_tree::print_newick() {
+string rooted_tree::print_newick() {
     return subtree_newick(MRCA)+";";
 }
-*/
+
 string rooted_tree::print_newick(bool genotypes, bool traits) {
     return subtree_newick(MRCA, genotypes, traits)+";";
 }
@@ -496,7 +498,7 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<"_"<<root_node->second.fitness<< '_'<< root.location<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<'_'<<root_node->second.sampled<<"_"<<root_node->second.fitness<< '_'<< root.location;
 	tree_str << ":" << edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
