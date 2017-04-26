@@ -24,6 +24,26 @@
  */
 
 #include "ffpopsim_highd.h"
+
+
+namespace{
+/*
+* Function to name the tree node as well as the alignment entry
+*/
+ostream& operator<< (ostream& out, map <tree_key_t,node_t>::iterator &c){
+
+//std::ostream &clone_name(std::ostream &out, const Clone &c){
+    out << c->first.index << "_"
+        << c->first.age   << "_"
+        << c->second.clone_size << "_"
+        << c->second.fitness;
+
+    return out;
+}
+
+}
+
+
 /*
  * this overloads the ostream operator to output keys of nodes and edges
  */
@@ -460,9 +480,10 @@ string rooted_tree::print_sequences() {
 	for (vector<tree_key_t>::iterator sampled_leaf = sampled_leafs.begin();
 	     sampled_leaf!=sampled_leafs.end(); sampled_leaf++){
 		node= nodes.find(*sampled_leaf);
+
 		for (size_t si=0; si<node->second.sampled; si++){
-		    seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<'-'<<si<<"_"<<node->second.fitness
-			    <<"\n"<<node->second.genotype<<"\n";
+            seq_str << ">" << node << "\n"
+                    << node->second.genotype << "\n";
 		}
 	}
 	return seq_str.str();
@@ -498,7 +519,7 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<'_'<<root_node->second.sampled<<"_"<<root_node->second.fitness<< '_'<< root.location;
+    tree_str << root_node;
 	tree_str << ":" << edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
