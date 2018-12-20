@@ -6,7 +6,7 @@
 * Author:	Richard Neher, Fabio Zanini
 * Creation:	2012/09/12
 
-Description:
+Description
 ------------
 ![Genetic drift and draft](/data/drift_vs_draft.png)
 
@@ -14,20 +14,27 @@ Description:
 
 FFPopSim is easy to use via the Python interface and can be extended or modified both at the C++ or Python level.
 
-The official sources for FFPopSim are online at:
 
-http://code.google.com/p/ffpopsim/
-
-The development happens at github:
+Downloads
+---------
+The official sources and releases are online at:
 
 https://github.com/neherlab/ffpopsim
 
 https://github.com/iosonofabio/ffpopsim
 
+Docs
+----
 Documentation and examples are online at:
 
 http://webdav.tuebingen.mpg.de/ffpopsim/
 
+http://ffpopsim.readthedocs.io/en/latest/
+
+(The latter only for the Python interface.)
+
+Install
+-------
 To install the library, read the INSTALL file.
 The two configuration files are:
 
