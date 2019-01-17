@@ -447,8 +447,8 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
-	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
+	//tree_str<<root.index<<'_'root.age<<'_'<<root_node->second.clone_size<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
 
@@ -888,7 +888,7 @@ int rooted_tree::parse_subtree(tree_key_t &parent_key, std::string &tree_s) {
 				     &branch_length);
 		if (status) {
 			if (RT_VERBOSE) std::cerr<<"Error while parsing label: "<<own_label<<std::endl;
-			return RT_ERROR_PARSING;	
+			return RT_ERROR_PARSING;
 		}
 		own_key.index = index;
 		own_key.age = parent_key.age + branch_length;
@@ -923,12 +923,12 @@ int rooted_tree::parse_subtree(tree_key_t &parent_key, std::string &tree_s) {
 			} else if ((c == ',') and (plevel == 0)) {
 				subtext = tree_s.substr(prev, posn - prev);
 				subtrees.push_back(subtext);
-				prev = posn + 1;	
+				prev = posn + 1;
 			}
 		}
 		subtext = tree_s.substr(prev, close_posn - prev);
 		subtrees.push_back(subtext);
-		
+
 		// OK, now you have the subtrees with a lot of string copying around
 		if (RT_VERBOSE) {
 			std::cerr<<"Subtrees of tree_key_t("<<own_key.index<<", "<<own_key.age<<"): ";
@@ -998,7 +998,7 @@ int rooted_tree::read_newick(string tree_s) {
 			     &branch_length);
 	if (status) {
 		if (RT_VERBOSE) std::cerr<<"Error while parsing root label"<<std::endl;
-		return RT_ERROR_PARSING;	
+		return RT_ERROR_PARSING;
 	}
 	// Make the MRCA node
 	reset();

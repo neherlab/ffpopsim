@@ -2,7 +2,7 @@
  * @file popgen_highd.h
  * @brief Header file for high-dimensional simulations
  * @author Richard Neher, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-19
  *
  * Copyright (c) 2012-2013, Richard Neher, Fabio Zanini
@@ -451,7 +451,7 @@ public:
 	void set_random_epistasis(double epistasis_std){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"Please use set_random_trait_epistasis."<<endl; throw (int)HP_BADARG;} trait[0].epistatic_std=epistasis_std;}
 
 	// evolution
-	int evolve(int gen=1);	
+	int evolve(int gen=1);
 	int bottleneck(int size_of_bottleneck);
 	unsigned int flip_single_locus(int locus);
 
@@ -538,7 +538,7 @@ protected:
 	int select_gametes();
 	double relaxation_value();
 	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
-	
+
 	unsigned int flip_single_locus(unsigned int clonenum, int locus);
 	void shuffle_genotypes();
 	int new_generation();
@@ -567,6 +567,7 @@ protected:
 	int *genome;				//Auxiliary array holding the positions along the genome
 	int *crossovers;
 	void reassortment_pattern();
+	void chromosome_segregation_pattern();
 	void crossover_pattern();
 	vector <int> sex_gametes;		//array holding the indices of gametes
 	int add_recombinants();

@@ -1,8 +1,8 @@
 /**
  * @file popgen.h
- * @brief Header file with the classes and types provided with the library. 
+ * @brief Header file with the classes and types provided with the library.
  * @author Richard Neher, Fabio Zanini
- * @version 
+ * @version
  * @date 2010-10-27
  * Copyright (c) 2012-2013, Richard Neher, Fabio Zanini
  * All rights reserved.
@@ -48,6 +48,7 @@
 #define FREE_RECOMBINATION 1
 #define CROSSOVERS 2
 #define SINGLE_CROSSOVER 3
+#define CHROMOSOMES 4
 
 using namespace std;
 
@@ -82,7 +83,7 @@ struct stat_t {
 
 /**
  * @brief Sample of any scalar property.
- * 
+ *
  * This class is used to store samples of scalar quantities used in the evolution of the population,
  * for instance fitness or allele frequencies. I enables simple manipulations (mean, variance, etc.).
  */
