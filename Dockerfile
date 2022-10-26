@@ -1,4 +1,4 @@
-FROM debian:10 as base
+FROM debian:8 as base
 
 SHELL ["bash", "-euxo", "pipefail", "-c"]
 
@@ -15,7 +15,7 @@ RUN set -euxo pipefail >/dev/null \
   gnupg \
   gsl-bin \
   libboost-all-dev \
-  libgsl-dev \
+  libgsl0-dev \
   lsb-release \
   python \
   python-numpy \
