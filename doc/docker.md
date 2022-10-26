@@ -37,14 +37,15 @@ and CPUs for the VM, in Docker Desktop settings.
 
 There is a convenience helper dev script `./docker-dev`, which:
 
-- runs `docker build`, producing `neherlab/ffpopsim_builder` docker image, including all necessary dependencies and
-  tools
-- runs `docker run` command, starting a container based on `neherlab/ffpopsim_builder` image
+- runs `docker build`, taking definition in the `Dockerfile` and producing docker image tagged `neherlab/ffpopsim_builder`, including all necessary dependencies and tools (the image is stores somewhere in the system directories and you only interact with it using `docker` commands and its tag).
+- runs `docker run` command, starting a container based on `neherlab/ffpopsim_builder` image.
 - the arguments to the script are passed through to `docker run` (more specifically, the bash shell inside the
-  container)
-- the project directory is mounted into `/workdir` inside the container
+  container).
+- the project directory is mounted into `/workdir` inside the container.
 
-This will run `make` inside the container, which builds both C++ and Python artifacts:
+Note: to run the script, you might need to install `readlink` utility. On Ubuntu: `apt-get install coreutils`
+
+Run `make` inside the container, which builds both C++ and Python artifacts:
 
 ```bash
 ./docker-dev make
@@ -72,7 +73,7 @@ For more commands, see the original dev documentation in the `INSTALL` file and 
 
 Note: the first build might take some time
 
-Note: that these containers are throwaway and nothing persists inside them across runs. But you can persist files
+Note: these containers are throwaway and nothing persists inside them across runs. But you can persist files
 to `/workdir` and they will appear in the project directory.
 
 Note: docker access to the host filesystem is limited to the project directory, so you cannot go anywhere above it
