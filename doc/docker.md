@@ -2,31 +2,36 @@
 
 ### Install Docker
 
-If you are on Linux, install "Docker Engine": https://docs.docker.com/engine/install/ubuntu/
-It will run natively, without a VM.
+#### Linux
 
-If you are on macOS or Windows, install "Docker Desktop":
-https://docs.docker.com/get-docker/
-These OS don't have a Linux kernel, so they can only run Docker in a VM. Make sure to configure sufficient amount of RAM
-and CPUs for the VM, in Docker Desktop settings.
+If you are on Linux, install "Docker Engine": https://docs.docker.com/engine/install/ubuntu/
+
+It will run natively, without a VM.
 
 A couple of additional handy commands:
 
-Allow current user to run docker on Linux without sudo (adding the user into the `docker` group):
+Ubuntu: allow current user to run docker on Linux without sudo (adding the user into the `docker` group):
 
 ```bash
-sudo groupadd docker 2> /dev/null
-sudo gpasswd -a ${USER} docker > /dev/null
+sudo groupadd docker
+sudo gpasswd -a ${USER} docker
 
 ```
 
 (reopen the shell for it to have effect)
 
-Restart docker services:
+Ubuntu: restart docker services:
 
 ```bash
 sudo systemctl restart docker.{service,socket} containerd.service
 ```
+
+#### Other OS
+
+If you are on macOS or Windows, install "Docker Desktop": https://docs.docker.com/get-docker/
+
+These OS don't have a Linux kernel, so they can only run Docker in a VM. Make sure to configure sufficient amount of RAM
+and CPUs for the VM, in Docker Desktop settings.
 
 ### Build and run ffpopsim in Docker using dev script (recommended)
 
