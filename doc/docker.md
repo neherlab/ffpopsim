@@ -51,7 +51,21 @@ Run `make` inside the container, which builds both C++ and Python artifacts:
 ./docker-dev make
 ```
 
-You can run arbitrary commands:
+The results will be in `pkg/` dir. Notably, the python package is in the `pkg/python`. You can import it into python code by adding it to the `PYTHONPATH`, either in shell:
+
+```
+PYTHONPATH='pkg/python' python my_script.py
+```
+
+or in the caller script itself
+
+```python
+import sys
+sys.path.append('pkg/python')
+```
+
+
+You can also use dev script to run arbitrary commands inside the container, including Python and bash:
 
 ```bash
 ./docker-dev bash -c "PYTHONPATH='pkg/python' python -c 'import FFPopSim as h; pop = h.haploid_lowd(5); print pop'"
@@ -63,17 +77,17 @@ and arbitrary scripts:
 ./docker-dev python my_script.py
 ```
 
-or start a bash shell into the container:
+or start a long-running bash shell into the container:
 
 ```bash
 ./docker-dev
 ```
 
-For more commands, see the original dev documentation in the `INSTALL` file and in the docs website.
+For more available commands, see the original dev documentation in the `INSTALL` file and in the docs website.
 
-Note: the first build might take some time
+Note: the first run might take some time, because that's when the docker image is built. Same as if you modify the `Dockerfile` - the image is then rebuilt.
 
-Note: these containers are throwaway and nothing persists inside them across runs. But you can persist files
+Note: these containers are throw-away and nothing persists inside them across runs. But you can persist files
 to `/workdir` and they will appear in the project directory.
 
 Note: docker access to the host filesystem is limited to the project directory, so you cannot go anywhere above it
