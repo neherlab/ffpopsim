@@ -17,6 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with FFPopSim. If not, see <http://www.gnu.org/licenses/>.
  */
+// #pragma SWIG nowarn=302,511
+
+%feature("kwargs","1");
+%feature("compactdefaultargs","1");
+
 %define DOCSTRING
 "C++/Python library for population genetics.
 
@@ -52,7 +57,6 @@ For more usage examples, please consult the ``tests`` and ``examples`` folders.
 "
 %enddef
 %module(docstring=DOCSTRING) FFPopSim;
-// #pragma SWIG nowarn=302,511
 
 /* Include in the wrap code (note that the multiple header are redundant) */
 %{
@@ -95,8 +99,6 @@ import_array();
 
 /* activate autodoc */
 %feature("autodoc", "1");
-
-%feature("kwargs","1");
 
 /**************************************************************
  * CODE TO BE WRAPPED
