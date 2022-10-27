@@ -4,10 +4,10 @@ from matplotlib import pyplot as plt
 import random as rd
 from Bio import Phylo
 
-print("This script is meant to illustrate and explore the effect of\n\)
+print("This script is meant to illustrate and explore the effect of\n\
 purifying selection on genealogies in asexual and sexual populations. \n\n\
 Simulations are performed using an finite sites model with L sites\n\
-with recurrent mutations.\n\n"
+with recurrent mutations.\n\n")
 
 #suggested values
 #asexual: 	N=10000	s=0.01	r=0.0	U=0.1
