@@ -51,7 +51,7 @@ def binarify(gt, L=0):
         L=1
         while gt > ((1<<L) - 1):
             L += 1
-    return _np.array(map(lambda l: bool(gt&(1<<(L-l-1))),range(L)))
+    return _np.array(list(map(lambda l: bool(gt&(1<<(L-l-1))),range(L))))
 
 
 def integerify(b):
