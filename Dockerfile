@@ -56,6 +56,7 @@ ENV GID=$GID
 ENV TERM="xterm-256color"
 ENV HOME="/home/${USER}"
 ENV PATH="/usr/lib/llvm-${CLANG_VERSION}/bin:${HOME}/.local/bin:${PATH}"
+ENV SHELL="/bin/bash"
 
 RUN set -euxo pipefail >/dev/null \
 && \
