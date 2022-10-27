@@ -61,7 +61,7 @@ or
 The results will be in `pkg/` dir. Notably, the python package is in the `pkg/python`. You can import it into python code by adding it to the `PYTHONPATH`, either in shell:
 
 ```
-PYTHONPATH='pkg/python' python my_script.py
+PYTHONPATH='pkg/python' python3 my_script.py
 ```
 
 or in the caller script itself
@@ -75,13 +75,13 @@ sys.path.append('pkg/python')
 You can also use dev script to run arbitrary commands inside the container, including Python and bash:
 
 ```bash
-./docker-dev bash -c "PYTHONPATH='pkg/python' python -c 'import FFPopSim as h; pop = h.haploid_lowd(5); print pop'"
+./docker-dev bash -c "PYTHONPATH='pkg/python' python3 -c 'import FFPopSim as h; pop = h.haploid_lowd(5); print(pop)'"
 ```
 
 and arbitrary scripts:
 
 ```bash
-./docker-dev python my_script.py
+./docker-dev python3 my_script.py
 ```
 
 or start a long-running bash shell into the container:
@@ -128,11 +128,11 @@ And run it (as many times as you want) with:
 ```
 docker run -it --rm --init \
   --name=neherlab-ffpopsim_builder \
-  --user=1000:1000 \
+  --user=$(id -u):$(id -u) \
   --volume=$(pwd):/workdir \
   --workdir=/workdir/ \
-  --env=UID=1000 \
-  --env=GID=1000 \
+  --env=UID=$(id -u) \
+  --env=GID=$(id -g) \
   --env=USER=user \
   --env=GROUP=user \
   neherlab/ffpopsim_builder \
@@ -159,10 +159,6 @@ http://localhost:15000
 Run code interactively and draw plots:
 
 ```python
-# Build FFPopSim, supressing some of the warnings.
-# This is interchangeable with the `make` command in normal terminal.
-!make -j $(nproc) CFLAGS='-w' CXXFLAGS='-w' >/dev/null
-
 # Add FFPopSim to PYTHONPATH
 import sys
 sys.path.append('pkg/python')
@@ -185,12 +181,7 @@ c.plot_diversity_histogram()
 
 ```
 
-You can install dependencies temporarily from the Lab cells, through `conda` (slow, good dependency resolution) or `pip` (fast, weak dependency resolution):
-
-```
-import sys
-!conda install --yes --quiet --prefix {sys.prefix} numpy
-```
+You can install dependencies temporarily from the Lab cells:
 
 ```
 import sys
