@@ -55,7 +55,7 @@
 # Please set your Python 2.7 executable if you want to build the Python
 # bindings. If you are only interested in the C++ part of the library,
 # comment out the following line
-PYTHON := python3
+PYTHON := python3 -W ignore::DeprecationWarning
 
 # Note: please look in 'setup.py' if you are building the Python extension!
 #       You can call distutils with 'setup.py' directly if you prefer. The
