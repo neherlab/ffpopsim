@@ -58,7 +58,6 @@ print("\nPlot coalescent trees:")
 fig=plt.figure(figsize=(7,10))
 fig.suptitle("".join(map(str,['N=',N,'  r=',r,'  L=',L, '  s=',s])), fontsize=18)
 for si in range(nsamples):
-	print("sample",si,"out of",nsamples)
 	#evolve a while before sampling the next tree
 	pop.evolve(dt)
 

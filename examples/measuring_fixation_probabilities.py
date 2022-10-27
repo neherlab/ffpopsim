@@ -35,7 +35,6 @@ bc= 0.5*(bins[:-1]+bins[1:])
 dx = bins[1:]-bins[:-1]
 SFS=np.zeros(len(bc))
 for si in range(nsamples):
-	print("sample",si,"out of",nsamples)
 	pop.evolve(100)
 	af=pop.get_derived_allele_frequencies()
 	y,x = np.histogram(af,bins=bins)

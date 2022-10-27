@@ -47,12 +47,11 @@ nloci = len(pop.genealogy.loci)
 SFS = []
 for si in range(nsamples):
 	pop.evolve(pop.N)
-	print("sample", si, "out of", nsamples)
 	for locus in pop.genealogy.loci:
 		BPtree = pop.genealogy.get_tree(locus).to_Biopython_tree()
 		sample_size,tmpSFS = get_SFS(BPtree)
 		SFS.extend(tmpSFS.tolist())
-	
+
 SFS=np.asarray(SFS)
 y,x = np.histogram(SFS[:,0], weights = SFS[:,1], bins=np.logspace(-1.5,0,11))
 bincenters = 0.5*(x[1:]+x[:-1])
