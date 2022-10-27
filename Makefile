@@ -313,7 +313,7 @@ $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE): $(PYBDIR)/$(SWIG_MODULE) $(PYBDIR)
 	$(SWIG) $(SWIGFLAGS) -o $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(SWIG_MODULE)
 
 clean-swig:
-	cd $(PYBDIR); rm -f $(SWIG_WRAP) $(PYMODULE)
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(PYMODULE) $(SOMODULE) *egg-info
 
 ##==========================================================================
 # PYTHON DOCUMENTATION
