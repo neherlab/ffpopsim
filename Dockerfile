@@ -19,6 +19,7 @@ RUN set -euxo pipefail >/dev/null \
   libgsl-dev \
   libpcre3-dev \
   lsb-release \
+  parallel \
   python3 \
   python3-dev \
   python3-distutils \
