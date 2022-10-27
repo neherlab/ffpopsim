@@ -1,4 +1,4 @@
-FROM debian:10.13 as base
+FROM debian:11.5 as base
 
 SHELL ["bash", "-euxo", "pipefail", "-c"]
 
@@ -9,6 +9,7 @@ RUN set -euxo pipefail >/dev/null \
 && apt-get install -qq --no-install-recommends --yes \
   apt-transport-https \
   bash \
+  bison \
   build-essential \
   ca-certificates \
   curl \
@@ -16,6 +17,7 @@ RUN set -euxo pipefail >/dev/null \
   gsl-bin \
   libboost-all-dev \
   libgsl-dev \
+  libpcre3-dev \
   lsb-release \
   python3 \
   python3-dev \
@@ -24,13 +26,21 @@ RUN set -euxo pipefail >/dev/null \
   python3-setuptools \
   python3-wheel \
   sudo \
-  swig \
   time \
 >/dev/null \
 && apt-get clean autoclean >/dev/null \
 && apt-get autoremove --yes >/dev/null \
 && rm -rf /var/lib/apt/lists/*
 
+# Install swig v3
+RUN set -euxo pipefail >/dev/null \
+&& git clone --recursive --branch="v3.0.12" "https://github.com/swig/swig" "/tmp/build/swig" \
+&& cd "/tmp/build/swig" \
+&& ./autogen.sh \
+&& ./configure --prefix="/usr/local" \
+&& make -j $(nproc) \
+&& make install \
+&& rm -rf "/tmp/build/swig"
 
 # Setup a non-root user, group and home directory.
 # This user is also configured to run `sudo` without password (inside container).
@@ -87,6 +97,7 @@ RUN set -euxo pipefail >/dev/null \
 # Import matplotlib the first time to build the font cache.
 RUN set -euxo pipefail >/dev/null \
 && python3 -c "import matplotlib.pyplot" \
+
 
 USER ${USER}
 
