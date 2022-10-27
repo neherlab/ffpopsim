@@ -38,7 +38,7 @@ if __name__ == '__main__':
     
     # evolve and plot histograms
     x0 = pop.get_fitness_statistics().mean
-    for i in xrange(4):
+    for i in range(4):
         pop.evolve(250)
         h = pop.get_fitness_histogram()
         x = h[1][:-1] - x0

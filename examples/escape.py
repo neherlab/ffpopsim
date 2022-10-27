@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     # check what genotypes reach high frequencies
     ind = []
-    for i in xrange(1<<L):
+    for i in range(1<<L):
         if (genotype_frequencies[:,i] > 0.01).any():
             ind.append(i)
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
     n_plots = len(ind)
-    colors = [cm.jet(int(255.0 * i / (n_plots))) for i in xrange(n_plots)]
+    colors = [cm.jet(int(255.0 * i / (n_plots))) for i in range(n_plots)]
     lstyles = [[1,0],
                [2, 4, 7, 4],
                [7, 4],

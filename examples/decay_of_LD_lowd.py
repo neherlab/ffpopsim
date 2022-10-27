@@ -32,7 +32,7 @@ pop.set_mutation_rates(mu)          # assign the mutation rate
 pop.set_genotypes([0, 2**L - 1],
                   [N/2, N/2])
 
-print "\nTrack LD and compare to deterministic expectations\n"
+print("\nTrack LD and compare to deterministic expectations\n")
 
 pop.status()
 
@@ -40,10 +40,10 @@ pop.status()
 LD_trajectories = [[pop.generation, pop.get_LD(0,1), pop.get_LD(0,2), pop.get_LD(0,3)]]
 
 # evolve with accuracy of 5 generations and save LD along the way
-for ii in xrange(50):
+for ii in range(50):
 
     pop.evolve(5)
-    
+
     # get LD and time
     LD_trajectories.append([pop.generation, pop.get_LD(0,1), pop.get_LD(0,2), pop.get_LD(0,3)])
 
@@ -51,7 +51,7 @@ LD_trajectories=np.array(LD_trajectories)
 
 # plot the LD trajectories and compare to exponential decay
 cols = ['r', 'b', 'g', 'm', 'c']
-for ii in xrange(LD_trajectories.shape[1]-1):
+for ii in range(LD_trajectories.shape[1]-1):
     plt.plot(LD_trajectories[:,0], LD_trajectories[:,ii+1], color=cols[ii], label=r'$D_{0'+str(ii+1)+'}$')
     plt.plot(LD_trajectories[:,0], 0.25 * np.exp(-LD_trajectories[:,0] * r * (ii+1)), ls='--', color=cols[ii])
 

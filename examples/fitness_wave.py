@@ -45,7 +45,7 @@ class haploid_lowd_track(h.haploid_lowd):
     def plot_tracks(self):
         '''Plot the tracked histograms'''
         l = len(self.fitness_wave)
-        colors = cm.jet([int(255.0 * i / l) for i in xrange(l)])
+        colors = cm.jet([int(255.0 * i / l) for i in range(l)])
 
         # plot each histogram
         for i, (g, dist) in enumerate(self.fitness_wave):
@@ -75,8 +75,8 @@ r = 0.01                            # recombination rate
 
 # script
 if __name__ == '__main__':
-    print "This script illustrates subclassing of FFPopSim."
-    print "In addition to FFPopSim, this class tracks the fitness \ndistribution and allows plotting of its history.\n"
+    print("This script illustrates subclassing of FFPopSim.")
+    print("In addition to FFPopSim, this class tracks the fitness \ndistribution and allows plotting of its history.\n")
 
 
     # set up population
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     pop.status()
     
     # track fitness distribution withfive points and 200 generations between each other
-    for i in xrange(5):
+    for i in range(5):
         pop.evolve(200)
 
     # plot the fitness wave

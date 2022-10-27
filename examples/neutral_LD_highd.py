@@ -39,7 +39,7 @@ pop.set_genotypes([np.zeros(L), np.ones(L)],[N/2, N/2])
 ld_points = np.arange(5,L-1,100)
 locus_pairs = [ [L/2, l1] for l1 in ld_points]
 
-print "Evolve for >> N generations and measure correlations between loci, aka LD."
+print("Evolve for >> N generations and measure correlations between loci, aka LD.")
 pop.status()
 pop.evolve(10 * N)                      # evolve for 10N generations to equilibrate
 
@@ -53,7 +53,7 @@ for ii in range(nsamples):
     pop.evolve(0.1 * N)             # N / 10 generations between successive samples
 
     if (ii%100==0):
-        print ii, "out of", nsamples, "samples"
+        print(ii, "out of", nsamples, "samples")
 
     # get allele frequencies
     af = pop.get_allele_frequencies()

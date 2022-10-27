@@ -35,7 +35,7 @@ pop.set_recombination_rates(r)      # recombination rate (CROSSOVERS model by de
 pop.carrying_capacity = N           # set the population size
 pop.set_genotypes([0], [N])
 
-print "Evolve for >> N generations and compare allele frequency distributions \nto expectations from diffusion theory."
+print("Evolve for >> N generations and compare allele frequency distributions \nto expectations from diffusion theory.")
 pop.status()
 pop.evolve(10 * N)                  # run for 10N generations to equilibrate
 

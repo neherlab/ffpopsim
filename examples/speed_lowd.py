@@ -29,10 +29,10 @@ mu = 0.001                      # mutation rate
 G = 100                         # generations
 
 # 1. multiple crossovers
-print "\ngeneral recombination"
+print("\ngeneral recombination")
 exec_time = []
 for L in range(2,Lmax_general+1):
-    print L,"loci, maximum",Lmax_general,
+    print(L,"loci, maximum",Lmax_general,)
     # set up population
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.carrying_capacity = N   # set the population size
@@ -52,16 +52,16 @@ for L in range(2,Lmax_general+1):
     pop.evolve(G)
     t2=time.time()
 
-    print "time required for",G,"generations:",round(t2-t1,3),'s'
+    print("time required for",G,"generations:",round(t2-t1,3),'s')
     exec_time.append([L, t2-t1])            # store the execution time
 exec_time=np.array(exec_time)
 
 
 # 2. single crossover recombination
-print "\nsingle crossover"
+print("\nsingle crossover")
 exec_time_single_xo = []
 for L in range(2,Lmax_single_xo+1):
-    print L,"loci, maximum",Lmax_single_xo,
+    print(L,"loci, maximum",Lmax_single_xo,)
 
     # set up population
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
@@ -82,17 +82,17 @@ for L in range(2,Lmax_single_xo+1):
     pop.evolve(G)
     t2=time.time()
     
-    print "time required for",G,"generations:",round(t2-t1,3),'s'
+    print("time required for",G,"generations:",round(t2-t1,3),'s')
     exec_time_single_xo.append([L, t2-t1])  # store the execution time
     
 exec_time_single_xo=np.array(exec_time_single_xo)
 
 
 # 3. without recombination
-print "\nno recombination"
+print("\nno recombination")
 exec_time_norec = []
 for L in range(2,Lmax_single_xo+1):
-    print L,"loci, maximum",Lmax_single_xo,
+    print(L,"loci, maximum",Lmax_single_xo,)
 
     # set up population
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
@@ -111,7 +111,7 @@ for L in range(2,Lmax_single_xo+1):
     pop.evolve_norec(G)
     t2=time.time()
 
-    print "time required for",G,"generations:",round(t2-t1,3),'s'
+    print("time required for",G,"generations:",round(t2-t1,3),'s')
     exec_time_norec.append([L, t2-t1])      # store the execution time
 
 exec_time_norec=np.array(exec_time_norec)
