@@ -48,9 +48,9 @@ for L in Llist_MB:
         t1=time.time()
         pop.evolve(G)
         t2=time.time()
-        print(L, "bases, human like, population size:", N,)
-        print("time required for", G, "generations:",)
-        print(round(t2 - t1, 3), "seconds")
+        # print(L, "bases, human like, population size:", N,)
+        # print("time required for", G, "generations:",)
+        # print(round(t2 - t1, 3), "seconds")
 
         # set additive fitness landscape and repeat
         selection_coefficients = np.zeros(L)
@@ -63,9 +63,9 @@ for L in Llist_MB:
         pop.evolve(G)
         t4=time.time()
 
-        print(L, "bases, human like, population size:", N,)
-        print("time required for", G, "generations with selection:",)
-        print(round(t4 - t3, 3), "seconds")
+        # print(L, "bases, human like, population size:", N,)
+        # print("time required for", G, "generations with selection:",)
+        # print(round(t4 - t3, 3), "seconds")
 
         exec_time.append([N, t2 - t1, t4 - t3])    # store the execution time
 

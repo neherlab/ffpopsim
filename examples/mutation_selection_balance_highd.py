@@ -1,7 +1,7 @@
 '''
 author:     Richard Neher, Fabio Zanini
 date:       11/07/12
-content:    Example on the steady state distribution of allele frequency in a 
+content:    Example on the steady state distribution of allele frequency in a
             balance between mutation and genetic drift using haploid_highd.
 '''
 # Import modules (setting the path should not be necessary when the module is
@@ -48,8 +48,8 @@ for ii in range(nsamples):
     pop.evolve(0.1 * N)                 # N / 10 generations between successive samples
 
     # print(output every 100 generations)
-    if (ii % 100 == 0):
-        print(ii, "out of", nsamples, ". Population size: ", pop.population_size, "Number of clones", pop.number_of_clones)
+    # if (ii % 100 == 0):
+    #     print(ii, "out of", nsamples, ". Population size: ", pop.population_size, "Number of clones", pop.number_of_clones)
 
     # get allele frequencies
     allele_frequencies[ii,:] = pop.get_allele_frequencies()
