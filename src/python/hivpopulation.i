@@ -63,7 +63,7 @@ idea::
    import numpy as np
    import matplotlib.pyplot as plt
    import FFPopSim as h
-   
+
    c = h.hivpopulation(2000)        # Create a population of 2000 individuals
    c.evolve(100)                    # Evolve (neutrally) for 100 generations
    c.plot_divergence_histogram()
@@ -133,7 +133,7 @@ const char* __repr__() {
 %{
 def copy(self, rng_seed=0):
     '''Copy population into new instance.
-    
+
     Parameters:
        - rng_seed: random number to initialize the new population
     '''
@@ -151,11 +151,11 @@ def copy(self, rng_seed=0):
 
     # Population parameters
     pop.carrying_capacity = self.carrying_capacity
-    pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())    
+    pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())
 
     # Evolution
     pop._set_generation(self.generation)
-    
+
     return pop
 %}
 
@@ -217,7 +217,7 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
     The genotypes can be read using numpy.load.
     '''
 
-    import numpy as np 
+    import numpy as np
     L = self.number_of_loci
     if length <= 0:
         length = L - start
@@ -225,7 +225,7 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
     for i in xrange(sample_size):
         rcl = self.random_clone()
         d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl)[start:start+length]
-    np.savez_compressed(filename, **d)    
+    np.savez_compressed(filename, **d)
 %}
 
 
@@ -266,7 +266,7 @@ def set_trait_landscape(self,
 
     .. note:: the effects of deleterious and beneficial sites are exponentially
               distributed, i.e. most of them will still be almost neutral.
-    
+
     .. note:: fractions refer to first and second positions only. For instance,
               by default, 80% of first and second positions outside env are
               deleterious.
@@ -275,7 +275,7 @@ def set_trait_landscape(self,
     '''
 
     import numpy as np
-    
+
     # Clear trait
     self.clear_trait(traitnumber)
 
@@ -297,18 +297,18 @@ def set_trait_landscape(self,
                              (random_numbers < (lethal_fraction + deleterious_fraction)) & \
                              (random_numbers < (1 - adaptive_fraction)) & \
                              onetwo_vector)
-    
+
     # Decide how strong mutations are
     single_locus_effects=np.zeros(L)
     single_locus_effects[np.where(deleterious_mutations)] = -np.random.exponential(effect_size_deleterious, deleterious_mutations.sum())
     single_locus_effects[np.where(adaptive_mutations)] = np.random.exponential(effect_size_adaptive, adaptive_mutations.sum())
     single_locus_effects[np.where(lethal_mutations)] = -effect_size_lethal
-    
+
     # Mutations in env are treated separately
     env_position = (aL >= self.env.start) & (aL < self.env.end)
     env_mutations = (random_numbers > (1 - env_fraction)) & onetwo_vector & env_position
     single_locus_effects[np.where(env_mutations)] = np.random.exponential(effect_size_env, env_mutations.sum())
-        
+
     # Call the C++ routines
     self.set_trait_additive(single_locus_effects, traitnumber)
 
@@ -323,7 +323,7 @@ def set_trait_landscape(self,
         f2 = depression*0.25
         f12 = depression*0.25 - strength*0.5
         return loci, f1,f2,f12
-     
+
     def add_valley(depth=0.1, height=0.01):
         '''Note: we are in the +-1 basis.'''
         f1 = height*0.25
@@ -337,18 +337,18 @@ def set_trait_landscape(self,
         d = int(np.random.exponential(10) + 1)
         valley_str = np.random.exponential(valley_strength)
         if number_valleys:
-            print 'valley:', pos*3, valley_str
+            print('valley:', pos*3, valley_str)
         (f1,f2,f12)=add_valley(valley_str)
         single_locus_effects[pos*3+1]+=f1
         single_locus_effects[(pos+d)*3+1]+=f2
         multi_locus_coefficients.append([[pos*3+1, (pos+d)*3+1], f12])
-    
+
     # Set epitopes (bumps, i.e. f_DM < d_WT << f_SM)
     for ei in xrange(number_epitopes):
         pos = np.random.random_integers(L/3-10)
         epi_strength = np.random.exponential(epitope_strength)
         if number_epitopes:
-                print 'epitope', pos*3, epi_strength
+                print('epitope', pos*3, epi_strength)
         epi, f1,f2,f12=add_epitope(epi_strength)
         single_locus_effects[(pos+epi[0])*3+1]+=f1
         single_locus_effects[(pos+epi[1])*3+1]+=f2
@@ -441,7 +441,7 @@ def set_replication_landscape(self,
                         valley_strength=0.1,
                         ):
     '''Set the phenotypic landscape for the replication capacity of HIV.
-    
+
     Parameters:
        - lethal_fraction: fraction of lethal sites
        - deleterious_fraction: fraction of deleterious sites
@@ -459,7 +459,7 @@ def set_replication_landscape(self,
 
     .. note:: the effects of deleterious and beneficial sites are exponentially
               distributed, i.e. most of them will still be almost neutral.
-    
+
     .. note:: fractions refer to first and second positions only. For instance,
               by default, 80% of first and second positions outside env are
               deleterious.
@@ -497,7 +497,7 @@ def set_resistance_landscape(self,
                         valley_strength=0.1,
                         ):
     '''Set the phenotypic landscape for the drug resistance of HIV.
-    
+
     Parameters:
        - lethal_fraction: fraction of lethal sites
        - deleterious_fraction: fraction of deleterious sites
@@ -515,7 +515,7 @@ def set_resistance_landscape(self,
 
     .. note:: the effects of deleterious and beneficial sites are exponentially
               distributed, i.e. most of them will still be almost neutral.
-    
+
     .. note:: fractions refer to first and second positions only. For instance,
               by default, 80% of first and second positions outside env are
               deleterious.

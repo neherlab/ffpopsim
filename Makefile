@@ -55,7 +55,7 @@
 # Please set your Python 2.7 executable if you want to build the Python
 # bindings. If you are only interested in the C++ part of the library,
 # comment out the following line
-PYTHON := python2.7
+PYTHON := python3
 
 # Note: please look in 'setup.py' if you are building the Python extension!
 #       You can call distutils with 'setup.py' directly if you prefer. The
@@ -305,7 +305,7 @@ clean-python-all:
 ##==========================================================================
 # SWIG (USED FOR PYTHON BINDINGS)
 ##==========================================================================
-SWIGFLAGS := -c++ -python -O -castmode -keyword
+SWIGFLAGS := -c++ -python -py3 -O -castmode -keyword
 
 swig: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE)
 
@@ -313,7 +313,7 @@ $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE): $(PYBDIR)/$(SWIG_MODULE) $(PYBDIR)
 	$(SWIG) $(SWIGFLAGS) -o $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(SWIG_MODULE)
 
 clean-swig:
-	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(PYMODULE) $(SOMODULE) *egg-info
+	cd $(PYBDIR); rm -rf $(SWIG_WRAP) $(PYMODULE) $(SOMODULE) *egg-info *.egg
 
 ##==========================================================================
 # PYTHON DOCUMENTATION

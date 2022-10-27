@@ -43,23 +43,23 @@
                         PyErr_SetString(PyExc_ValueError, "Expecting an array of bool.");
                         SWIG_fail;
                 }
-                temp[i] = (bool)tmplong; 
-        }      
+                temp[i] = (bool)tmplong;
+        }
         $1 = temp;
 }
 %typemap(out) boost::dynamic_bitset<>
 {
-        unsigned long L = $1.size();
-        npy_intp dims[1] = {(npy_intp) L};
-        PyObject *array = PyArray_ZEROS(1, dims, NPY_BOOL, 0);
-        if (!array) SWIG_fail;
+       unsigned long L = $1.size();
+       npy_intp dims[1] = {(npy_intp) L};
+       auto *array = reinterpret_cast<PyArrayObject*>(PyArray_ZEROS(1, dims, NPY_BOOL, 0));
+       if (!array) SWIG_fail;
 
-        /* no checks on memory alignments, since we create a new array */
-        bool *ptr = (bool *)PyArray_DATA(array);
-        for(int i=0; i < L; i++, ptr++)
-                if($1.test(i))
-                        *ptr = true;
-        $result = array;
+       /* no checks on memory alignments, since we create a new array */
+       bool *ptr = (bool *)PyArray_DATA(array);
+       for(int i=0; i < L; i++, ptr++)
+               if($1.test(i))
+                       *ptr = true;
+       $result = reinterpret_cast<PyObject*>(array);
 }
 
 /* STL::Vector (FIX) */
@@ -83,23 +83,23 @@
                         PyErr_SetString(PyExc_ValueError, "Expecting an array of double.");
                         SWIG_fail;
                 }
-        }      
+        }
         $1 = temp;
 
 
 }
 %typemap(out) std::vector<double>
 {
-        unsigned long L = $1.size();
-        npy_intp dims[1] = {(npy_intp) L};
-        PyObject *array = PyArray_ZEROS(1, dims, NPY_FLOAT, 0);
-        if (!array) SWIG_fail;
+       unsigned long L = $1.size();
+       npy_intp dims[1] = {(npy_intp) L};
+       auto *array = reinterpret_cast<PyArrayObject*>(PyArray_ZEROS(1, dims, NPY_FLOAT, 0));
+       if (!array) SWIG_fail;
 
-        /* no checks on memory alignments, since we create a new array */
-        double *ptr = (double *)PyArray_DATA(array);
-        for(std::vector<double>::iterator iter = $1.begin(); iter != $1.end(); iter++, ptr++)
-                *ptr = *iter;
-        $result = array;
+       /* no checks on memory alignments, since we create a new array */
+       double *ptr = (double *)PyArray_DATA(array);
+       for(std::vector<double>::iterator iter = $1.begin(); iter != $1.end(); iter++, ptr++)
+               *ptr = *iter;
+       $result = reinterpret_cast<PyObject*>(array);
 }
 
 /* array of length L */
@@ -156,11 +156,11 @@
         if((!(circular)) && (L != Lint - 1)) {
                 PyErr_SetString(PyExc_ValueError, "Expecting an array of length L-1.");
                 SWIG_fail;
-        }        
+        }
         if((circular) && (L != Lint)) {
                 PyErr_SetString(PyExc_ValueError, "Expecting an array of length L.");
                 SWIG_fail;
-        } 
+        }
 
         /* Create C array from Python list */
         $1 = new double[L];
@@ -195,8 +195,8 @@
                         PyErr_SetString(PyExc_ValueError, "Expecting an array of positive integers (the loci).");
                         SWIG_fail;
                 }
-                temp.push_back((int)tmplong); 
-        }      
+                temp.push_back((int)tmplong);
+        }
         $1 = temp;
 }
 %typemap(out) vector<coeff_t> {
@@ -210,7 +210,7 @@
                 /* set the i-th coefficient */
                 tmpcoeff = &($1.at(i));
                 tmpval = tmpcoeff->value;
-                tmporder = tmpcoeff->order; 
+                tmporder = tmpcoeff->order;
                 tmpitem = PyTuple_New(2);
                 /* set the value */
                 PyTuple_SET_ITEM(tmpitem, 0, PyFloat_FromDouble(tmpval));
