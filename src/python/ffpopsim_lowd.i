@@ -45,7 +45,7 @@ def binarify(gt, L=0):
        Out[1]: array([False, False, False,  True,  True], dtype=bool)
 
        In [2]: FFPopSim.binarify(0b11, 5)
-       Out[2]: array([False, False, False,  True,  True], dtype=bool)       
+       Out[2]: array([False, False, False,  True,  True], dtype=bool)
     '''
     if not L:
         L=1
@@ -71,7 +71,7 @@ def integerify(b):
        Out[1]: 3
     '''
     L = len(b)
-    a = [(1<<(L-l-1)) for l in xrange(L)]
+    a = [(1<<(L-l-1)) for l in range(L)]
     return _np.dot(b,a)
 %}
 /*****************************************************************************/
@@ -90,18 +90,18 @@ The class offers a number of functions, but an example will explain the basic id
     import numpy as np
     import matplotlib.pyplot as plt
     import FFPopSim as h
-    
+
     c = h.haploid_lowd(5)               # 5 loci
 
     # initialize with 300 individuals with genotype 00000,
     # and 700 with genotype 00010
     c.set_genotypes([0, 2], [300, 700])
- 
+
     # set an additive fitness landscape with these coefficients
     c.set_fitness_additive([0.02,0.03,0.04,0.02, -0.03])
     # Note: we are in the -/+ basis, so
-    #        F[10000] - F[00000] = 2 * 0.02 
-    # Hence the coefficients are half of the effect of mutation on fitness 
+    #        F[10000] - F[00000] = 2 * 0.02
+    # Hence the coefficients are half of the effect of mutation on fitness
 
     c.evolve(100)                       # evolve for 100 generations
     c.plot_diversity_histogram()
@@ -117,7 +117,7 @@ The class offers a number of functions, but an example will explain the basic id
 
 Parameters:
     - L : number of loci (at least 1)
-    - rng_seed : seed for the random number generator    
+    - rng_seed : seed for the random number generator
 "
 %enddef
 %feature("autodoc", DOCSTRING_HAPLOID_LOWD_INIT) haploid_lowd;
@@ -149,7 +149,7 @@ const char* __repr__() {
 %{
 def copy(self, rng_seed=0):
     '''Copy population into new instance.
-    
+
     Parameters:
        - rng_seed: random number to initialize the new population
     '''
@@ -175,7 +175,7 @@ def copy(self, rng_seed=0):
 
     # Evolution
     pop.generation = self.generation
-    
+
     return pop
 %}
 
@@ -259,7 +259,7 @@ def status(self):
                 par = 'SINGLE_CROSSOVER'
             else:
                 par = 'CROSSOVERS'
-        print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
+        print(('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par))
 %}
 
 /* initialize frequencies */
@@ -373,7 +373,7 @@ Returns:
                           'hence recombination rates are not defined.'+
                           ' Could you possibly mean outcrossing rate?'))
     elif rm in [SINGLE_CROSSOVER, CROSSOVERS]:
-        return _np.array([self.get_recombination_rate(i) for i in xrange(self.L - 1)])
+        return _np.array([self.get_recombination_rate(i) for i in range(self.L - 1)])
     else:
         raise RuntimeError('Recombination model not found')
 %}
@@ -412,7 +412,7 @@ Parameters:
     if model not in (CROSSOVERS, SINGLE_CROSSOVER):
         raise ValueError("Model not recognized.")
     if (self.circular and (model == SINGLE_CROSSOVER)):
-        raise ValueError("Single crossover not available for circular genomes.") 
+        raise ValueError("Single crossover not available for circular genomes.")
 
     # Check whether the chromosome is circular
     if self.circular:
@@ -465,13 +465,13 @@ landscape.
                 return mrs
     else:
         if direction is not None:
-            mrs = _np.array([self._get_mutation_rate(l, direction) for l in xrange(self.L)])
+            mrs = _np.array([self._get_mutation_rate(l, direction) for l in range(self.L)])
             if len(_np.unique(mrs)) == 1:
                 return mrs[0]
             else:
                 return mrs
         else:
-            mrs = _np.array([[self._get_mutation_rate(l, d) for l in xrange(self.L)] for d in [0,1]])
+            mrs = _np.array([[self._get_mutation_rate(l, d) for l in range(self.L)] for d in [0,1]])
             if len(_np.unique(mrs)) == 1:
                 return mrs[0,0]
             else:
@@ -488,7 +488,7 @@ int _set_mutation_rates(double *IN_ARRAY2, int DIM1, int DIM2) {
         return result;
 }
 %pythoncode
-%{        
+%{
 def set_mutation_rates(self, rates, rates_back=None):
     '''Set the mutation rate(s).
 
@@ -593,7 +593,7 @@ if len(args) and (args[0] >= (1<<self.L)):
 %{
 def get_genotype_frequencies(self):
     '''Get the frequency of each genotype.'''
-    return _np.array([self.get_genotype_frequency(l) for l in xrange(1<<self.L)])
+    return _np.array([self.get_genotype_frequency(l) for l in range(1<<self.L)])
 %}
 
 /* get allele frequencies */
@@ -615,7 +615,7 @@ if len(args) and (args[0] >= (self.L)):
 %{
 def get_allele_frequencies(self):
     '''Get the frequencies of all + alleles'''
-    return _np.array([self.get_allele_frequency(l) for l in xrange(self.L)])
+    return _np.array([self.get_allele_frequency(l) for l in range(self.L)])
 %}
 
 %feature("autodoc",
@@ -696,18 +696,18 @@ if (len(args) >= 2) and ((args[0] >= (self.L)) or (args[1] >= (self.L))):
 %pythoncode
 %{
 def random_genomes(self, n_sample):
-    '''Get random genomes according sampled from the population. 
-    
+    '''Get random genomes according sampled from the population.
+
     Parameters:
         - n_sample: number of random genomes to sample
-    
+
     Returns:
         - integers corresponding to random genomes in the population.
     '''
     counts = _np.random.multinomial(n_sample, self.get_genotype_frequencies())
     ind = counts.nonzero()[0]
     counts = counts[ind]
-    sample = _np.concatenate([_np.repeat(ind[i], counts[i]) for i in xrange(len(ind))])
+    sample = _np.concatenate([_np.repeat(ind[i], counts[i]) for i in range(len(ind))])
     _np.random.shuffle(sample)
     return sample
 %}
@@ -717,7 +717,7 @@ def random_genomes(self, n_sample):
 "Get fitness values of a genotype
 
 Parameters:
-    - genotype: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101 
+    - genotype: genotype whose fitness is to be calculated. This can either be an integer or in binary format, e.g. 5 = 0b101
 
 Returns:
     - the fitness of that genotype.
@@ -741,7 +741,7 @@ void get_fitnesses(int DIM1, double* ARGOUT_ARRAY1) {
 "Get fitness coefficient of a combination (bitset) of loci
 
 Parameters:
-    - loci_bitset: Bitset of loci interested by the coefficient (see below). This can either be an integer or in binary format, e.g. 5 = 0b101 
+    - loci_bitset: Bitset of loci interested by the coefficient (see below). This can either be an integer or in binary format, e.g. 5 = 0b101
 
 .. note:: Examples for loci_bitset:
    - 0: fitness baseline for the population
@@ -804,7 +804,7 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
     gt = self.random_genomes(n_sample)
 
     # Calculate fitness
-    fit = _np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
+    fit = _np.array([self.get_fitness(gt[i]) for i in range(n_sample)])
 
     return _np.histogram(fit, **kwargs)
 
@@ -824,7 +824,7 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
     gt = self.random_genomes(n_sample)
 
     # Calculate fitness
-    fit = _np.array([self.get_fitness(gt[i]) for i in xrange(n_sample)])
+    fit = _np.array([self.get_fitness(gt[i]) for i in range(n_sample)])
 
     # Plot
     if axis is None:
@@ -851,7 +851,7 @@ def get_divergence_statistics(self, n_sample=1000):
     gt = self.random_genomes(n_sample)
 
     # Calculate divegence
-    div = _np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt[i], L).sum() for i in range(n_sample)], int)
 
     return stat(div.mean(), div.var())
 
@@ -874,7 +874,7 @@ def get_divergence_histogram(self, bins=10, n_sample=1000, **kwargs):
     gt = self.random_genomes(n_sample)
 
     # Calculate divergence
-    div = _np.array([binarify(gt[i], self.L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt[i], self.L).sum() for i in range(n_sample)], int)
 
     return _np.histogram(div, bins=bins, **kwargs)
 
@@ -894,7 +894,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     gt = self.random_genomes(n_sample)
 
     # Calculate divegence
-    div = _np.array([binarify(gt[i], L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt[i], L).sum() for i in range(n_sample)], int)
 
     # Plot
     if axis is None:
@@ -902,7 +902,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
         axis = fig.add_subplot(111)
         axis.set_title('Divergence histogram')
         axis.set_xlabel('Divergence')
-    
+
     if 'bins' not in kwargs:
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     axis.hist(div, **kwargs)
@@ -923,7 +923,7 @@ def get_diversity_statistics(self, n_sample=1000):
     gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
-    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in range(n_sample)], int)
 
     return stat(div.mean(), div.var())
 
@@ -947,7 +947,7 @@ def get_diversity_histogram(self, bins=10, n_sample=1000, **kwargs):
     gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
-    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in range(n_sample)], int)
 
     # Calculate histogram
     return _np.histogram(div, bins=bins, **kwargs)
@@ -968,7 +968,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     gt2 = self.random_genomes(n_sample)
 
     # Calculate diversity
-    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in xrange(n_sample)], int)
+    div = _np.array([binarify(gt1[i] ^ gt2[i], self.L).sum() for i in range(n_sample)], int)
 
     # Plot
     if axis is None:
@@ -976,7 +976,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
         axis = fig.add_subplot(111)
         axis.set_title('Diversity histogram')
         axis.set_xlabel('Diversity')
-    
+
     if 'bins' not in kwargs:
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     axis.hist(div, **kwargs)

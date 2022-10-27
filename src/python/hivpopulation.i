@@ -144,7 +144,7 @@ def copy(self, rng_seed=0):
                         crossover_rate=self.crossover_rate)
 
     # Fitness
-    for i in xrange(self.number_of_traits):
+    for i in range(self.number_of_traits):
         pop.set_trait_additive(self.get_trait_additive(i), i)
         for coeff in self.get_trait_epistasis(i):
             pop.add_trait_coefficient(coeff[0], coeff[1], i)
@@ -222,7 +222,7 @@ def write_genotypes_compressed(self, filename, sample_size, gt_label='', start=0
     if length <= 0:
         length = L - start
     d = {}
-    for i in xrange(sample_size):
+    for i in range(sample_size):
         rcl = self.random_clone()
         d['>'+str(i)+'_GT-'+gt_label+'_'+str(rcl)] = self.get_genotype(rcl)[start:start+length]
     np.savez_compressed(filename, **d)
@@ -332,7 +332,7 @@ def set_trait_landscape(self,
         return (f1,f2,f12)
 
     # Set fitness valleys
-    for vi in xrange(number_valleys):
+    for vi in range(number_valleys):
         pos = np.random.random_integers(L/3-100)
         d = int(np.random.exponential(10) + 1)
         valley_str = np.random.exponential(valley_strength)
@@ -344,7 +344,7 @@ def set_trait_landscape(self,
         multi_locus_coefficients.append([[pos*3+1, (pos+d)*3+1], f12])
 
     # Set epitopes (bumps, i.e. f_DM < d_WT << f_SM)
-    for ei in xrange(number_epitopes):
+    for ei in range(number_epitopes):
         pos = np.random.random_integers(L/3-10)
         epi_strength = np.random.exponential(epitope_strength)
         if number_epitopes:

@@ -243,13 +243,13 @@ void _set_crossover_chunk(int value, int i) {($self->crossover)[i] = value;}
 @property
 def crossover(self):
     '''Crossover of node'''
-    return [self._get_crossover_chunk(i) for i in xrange(2)]
+    return [self._get_crossover_chunk(i) for i in range(2)]
 
 @crossover.setter
 def crossover(self, value):
     if len(value) != 2:
         raise ValueError('Crossover is a pair of integers.')
-    [self._set_crossover_chunk(value[i], i) for i in xrange(2)]
+    [self._set_crossover_chunk(value[i], i) for i in range(2)]
 %}
 
 /* cloak weight_distribution with a Pythonic flavour */
@@ -304,7 +304,7 @@ int _get_segment_chunk(int i) {return ($self->segment)[i];}
 @property
 def segment(self):
     '''Segment of edge'''
-    return [self._get_segment_chunk(i) for i in xrange(2)]
+    return [self._get_segment_chunk(i) for i in range(2)]
 %}
 
 /* read/write attributes */
@@ -399,11 +399,11 @@ vector <tree_key_t> _ancestors_at_age(int age, tree_key_t subtree_root) {
 %{
 def ancestors_at_age(self, age, subtree):
     '''Find nodes in subtree younger than a certain age
-    
+
     Parameters:
        - age: critical age to check
        - subtree: subtree to look for nodes in
-    
+
     Returns:
        - ancestors: the ancestors at that age
     '''
@@ -509,13 +509,13 @@ def leafs(self, leaves):
 %{
 def to_Biopython_tree(self):
     '''Convert the tree into Biopython format
-    
+
     Returns:
        - tree: Biopython.Phylo phylogenetic tree representation of self
     '''
-    from cStringIO import StringIO
+    from io import StringIO
     from Bio import Phylo
-     
+
     treedata = self.print_newick()
     handle = StringIO(treedata)
     tree = Phylo.read(handle, "newick")
@@ -706,7 +706,7 @@ These can be set directly from Python (since the genotypic space has a finite
 number of elements).
 
 **Note**: fitness is not a phenotypic trait directly, but rather a function of *all*
-phenotypic traits together. 
+phenotypic traits together.
 "
 %enddef
 %feature("autodoc", DOCSTRING_HAPLOID_HIGHD) haploid_highd;
@@ -807,7 +807,7 @@ def mutation_rate(self, m):
 /* do not expose the population, but rather only nonempty clones */
 %ignore population;
 %rename (_get_nonempty_clones) get_nonempty_clones;
-%feature("autodoc", 
+%feature("autodoc",
 "Get a single clone
 
 Parameters:
@@ -918,7 +918,7 @@ args = tuple(list(args) + [self.number_of_traits])
 void _get_trait_weights(double* ARGOUT_ARRAY1, int DIM1) {
         /* check trait number */
         if(DIM1 != $self->get_number_of_traits())
-                throw HP_BADARG; 
+                throw HP_BADARG;
 
         /* set the output array */
         for(size_t t=0; t < (size_t)DIM1; t++)
@@ -978,13 +978,13 @@ def dump(self, filename, format='bz2', include_genealogy=False):
             serial['own_key'] = (leaf.own_key.index, leaf.own_key.age)
             serial['parent_node'] = (leaf.parent_node.index, leaf.parent_node.age)
             return serial
-            
+
         newGenerations = []
         for locus in self.genealogy.loci:
             newGenerations.append(map(serialize_leaf, self.genealogy._get_newGeneration(locus)))
         pop_dict['_newGenerations'] = newGenerations
 
-    
+
     with open(filename, 'wb') as f:
         dump = pickle.dumps(pop_dict, pickle.HIGHEST_PROTOCOL)
 
@@ -1008,7 +1008,7 @@ def dump(self, filename, format='bz2', include_genealogy=False):
 %{
 def copy(self, rng_seed=0):
     '''Copy population into new instance.
-    
+
     Parameters:
        - rng_seed: random number to initialize the new population
     '''
@@ -1022,18 +1022,18 @@ def copy(self, rng_seed=0):
     pop.circular = self.circular
 
     # Fitness
-    for i in xrange(self.number_of_traits):
+    for i in range(self.number_of_traits):
         pop.set_trait_additive(self.get_trait_additive(i), i)
         for coeff in self.get_trait_epistasis(i):
             pop.add_trait_coefficient(coeff[0], coeff[1], i)
 
     # Population parameters
     pop.carrying_capacity = self.carrying_capacity
-    pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())    
+    pop.set_genotypes(self.get_genotypes(), self.get_clone_sizes())
 
     # Evolution
     pop.generation = self.generation
-    
+
     return pop
 %}
 
@@ -1066,7 +1066,7 @@ def status(self):
                 par = 'FREE_RECOMBINATION'
             else:
                 par = 'CROSSOVERS'
-        print ('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par)
+        print(('{:<'+str(lenmax + 2)+'s}').format(strin)+'\t'+str(par))
 %}
 
 /* initialize wildtype */
@@ -1115,7 +1115,7 @@ return None
 
 Parameters:
    - genotypes: list of genotypes to set. Genotypes are lists of alleles,
-     e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
+     e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111
    - counts: list of the number at which each of those genotypes it to be present
 
 .. note:: the population size and, if unset, the carrying capacity will be set
@@ -1172,7 +1172,7 @@ int set_genotypes(int len1, double* genotypes, int len2, double* counts) {
 
 Parameters:
    - genotypes: list of genotypes to set. Genotypes are lists of alleles,
-     e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111   
+     e.g. [[0,0,1,0], [0,1,1,1]] for genotypes 0010 and 0111
    - counts: list of the number at which each of those genotypes it to be present
    - ancestral state of the sample, a vector of 0 and 1
 .. note:: the population size and, if unset, the carrying capacity will be set
@@ -1323,7 +1323,7 @@ Returns:
    - stat: structure with mean and variance of divergence in the population
 ") get_divergence_statistics;
 
-%feature("autodoc", 
+%feature("autodoc",
 "Get the mean and variance of the diversity in the population.
 
 Parameters:
@@ -1493,7 +1493,7 @@ Parameters:
 
 /* get single locus effects */
 %feature("autodoc",
-"Get an array with the additive coefficients of all loci of a trait. 
+"Get an array with the additive coefficients of all loci of a trait.
 
 Parameters:
    - t: number of the trait
@@ -1559,7 +1559,7 @@ if len(args) and (len(args[0]) != self.L):
 void set_trait_additive(int DIM1, double* IN_ARRAY1, int t=0) {
         /* reset trait landscape */
         $self->trait[t].reset_additive();
-        
+
         /* set the new coefficients */
         vector <int> loci(1,0);
         for(size_t i = 0; i < (size_t)DIM1; i++) {
@@ -1582,7 +1582,7 @@ if len(args) and (len(args[0]) != self.L):
 void set_fitness_additive(int DIM1, double *IN_ARRAY1) {
         /* reset trait landscape */
         $self->trait[0].reset_additive();
-        
+
         /* set the new coefficients */
         vector <int> loci(1,0);
         for(size_t i = 0; i < (size_t)DIM1; i++) {
@@ -1599,7 +1599,7 @@ void set_fitness_additive(int DIM1, double *IN_ARRAY1) {
 
 %feature("autodoc",
 "Add a coefficient to the trait landscape.
- 
+
 Parameters:
    - value: value of the coefficient
    - loci: array/list of loci indexed by the coefficient.
@@ -1664,7 +1664,7 @@ Returns:
 def get_fitnesses(self):
     '''Get the fitness of all clones.'''
     f = _np.zeros(self.number_of_clones)
-    for i in xrange(self.number_of_clones):
+    for i in range(self.number_of_clones):
         f[i] = self.get_fitness(i)
     return f
 %}
@@ -1696,8 +1696,8 @@ Returns:
 def get_traits(self):
     '''Get all traits from all clones'''
     t = _np.zeros((self.number_of_clones, self.number_of_traits))
-    for i in xrange(self.number_of_clones):
-        for j in xrange(self.number_of_traits):
+    for i in range(self.number_of_clones):
+        for j in range(self.number_of_traits):
             t[i, j] = self.get_trait(i, j)
     return t
 %}
@@ -1711,7 +1711,7 @@ if len(args):
     args[0] = self._nonempty_clones[args[0]]
     args = tuple(args)
 }
-%feature("autodoc", 
+%feature("autodoc",
 "Get the size of a clone
 
 Parameters:
@@ -1726,7 +1726,7 @@ Returns:
 def get_clone_sizes(self):
     '''Get the size of all clones.'''
     s = _np.zeros(self.number_of_clones, int)
-    for i in xrange(self.number_of_clones):
+    for i in range(self.number_of_clones):
         s[i] = self.get_clone_size(i)
     return s
 %}
@@ -1764,7 +1764,7 @@ def get_genotypes(self):
     .. note:: this function does not return the sizes of each clone.
     '''
     genotypes = _np.zeros((self.number_of_clones, self.number_of_loci), bool)
-    for i in xrange(self.number_of_clones):
+    for i in range(self.number_of_clones):
         genotypes[i] = self.get_genotype(i)
     return genotypes
 %}
@@ -1831,7 +1831,7 @@ def random_genomes(self, n):
 
     L = self.number_of_loci
     genotypes = _np.zeros((n, L), bool)
-    for i in xrange(genotypes.shape[0]):
+    for i in range(genotypes.shape[0]):
         genotypes[i] = self.get_genotype(self.random_clone())
     return genotypes
 %}
@@ -1850,14 +1850,14 @@ val = (self._nonempty_clones == val).nonzero()[0][0]
 %{
 def random_clones(self, n):
     '''Get random clones
-    
+
     Parameters:
        - n: number of random clones to return
-    
+
     Returns:
        - clones: clone indices
     '''
-    return _np.array([self.random_clone() for i in xrange(n)], int)
+    return _np.array([self.random_clone() for i in range(n)], int)
 %}
 
 /* divergence/diversity/fitness distributions and plot */
@@ -1876,11 +1876,11 @@ def get_fitness_histogram(self, n_sample=1000, **kwargs):
        - h: numpy.histogram of fitness in the population
     '''
 
-    fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
+    fit = [self.get_fitness(self.random_clone()) for i in range(n_sample)]
     h = _np.histogram(fit, **kwargs)
     return h
-    
-    
+
+
 def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
     '''Plot a distribution of fitness of a population sample.
 
@@ -1894,16 +1894,16 @@ def plot_fitness_histogram(self, axis=None, n_sample=1000, **kwargs):
     '''
 
     import matplotlib.pyplot as plt
-    fit = [self.get_fitness(self.random_clone()) for i in xrange(n_sample)]
-    
+    fit = [self.get_fitness(self.random_clone()) for i in range(n_sample)]
+
     if axis is None:
         fig = plt.figure()
         axis = fig.add_subplot(111)
         axis.set_title('Fitness histogram')
         axis.set_xlabel('Fitness')
     return axis.hist(fit, **kwargs)
-    
-    
+
+
 def get_divergence_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, **kwargs):
     '''Get the divergence histogram restricted to those chunks of the genome.
 
@@ -1925,10 +1925,10 @@ def get_divergence_histogram(self, bins=10, chunks=None, every=1, n_sample=1000,
         chunks = _np.asarray(chunks)
         if (_np.rank(chunks) != 2) or (chunks.shape[1] != 2):
             raise ValueError('Please input an N x 2 matrix with the chunks initial and (final+1) positions')
-    
+
     # Get the random genotypes
     genotypes = self.random_genomes(n_sample)
-    
+
     # Restrict to the chunks
     if chunks is not None:
         ind = _np.zeros(genotypes.shape[1], bool)
@@ -1937,14 +1937,14 @@ def get_divergence_histogram(self, bins=10, chunks=None, every=1, n_sample=1000,
             inde = inde[(inde % every) == 0] + chunk[0]
             ind[inde] = True
         genotypes = genotypes[:,ind]
-    
+
     # Calculate divergence
     div = genotypes.sum(axis=1)
-    
+
     # Calculate histogram
     return _np.histogram(div, bins=bins, **kwargs)
-    
-    
+
+
 def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     '''Plot the divergence histogram of a population sample.
 
@@ -1952,7 +1952,7 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
        - axis: an axis to use. A new figure is created by default
        - n_sample: number of individuals to sample
        - kwargs: further optional keyword arguments to matplotlib.pyplot.hist
-    
+
     Returns:
        - return value of axis.hist(...)
     '''
@@ -1960,18 +1960,18 @@ def plot_divergence_histogram(self, axis=None, n_sample=1000, **kwargs):
     import matplotlib.pyplot as plt
     genotypes = self.random_genomes(n_sample)
     div = genotypes.sum(axis=1)
-     
+
     if axis is None:
         fig = plt.figure()
         axis = fig.add_subplot(111)
         axis.set_title('Divergence histogram')
         axis.set_xlabel('Divergence')
-    
+
     if 'bins' not in kwargs:
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     return axis.hist(div, **kwargs)
-    
-    
+
+
 def get_diversity_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, **kwargs):
     '''Get the diversity histogram restricted to those chunks of the genome.
 
@@ -1993,10 +1993,10 @@ def get_diversity_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, 
         chunks = _np.asarray(chunks)
         if (_np.rank(chunks) != 2) or (chunks.shape[1] != 2):
             raise ValueError('Please input an N x 2 matrix with the chunks initial and (final+1) positions')
-    
+
     # Get the random genotypes
     genotypes = self.random_genomes(2 * n_sample)
-    
+
     # Restrict to the chunks
     if chunks is not None:
         ind = _np.zeros(genotypes.shape[1], bool)
@@ -2005,12 +2005,12 @@ def get_diversity_histogram(self, bins=10, chunks=None, every=1, n_sample=1000, 
             inde = inde[(inde % every) == 0] + chunk[0]
             ind[inde] = True
         genotypes = genotypes[:,ind]
-    
+
     # Calculate diversity
     genotypes1 = genotypes[:genotypes.shape[0] / 2]
     genotypes2 = genotypes[-genotypes1.shape[0]:]
     div = (genotypes1 != genotypes2).sum(axis=1)
-    
+
     # Calculate histogram
     return _np.histogram(div, bins=bins, **kwargs)
 
@@ -2022,7 +2022,7 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
        - axis: an axis to use. A new figure is created by default
        - n_sample: number of individuals to sample
        - kwargs: further optional keyword arguments to matplotlib.pyplot.hist
-    
+
     Returns:
        - return value of axis.hist(...)
     '''
@@ -2031,13 +2031,13 @@ def plot_diversity_histogram(self, axis=None, n_sample=1000, **kwargs):
     genotypes1 = self.random_genomes(n_sample)
     genotypes2 = self.random_genomes(n_sample)
     div = (genotypes1 != genotypes2).sum(axis=1)
-    
+
     if axis is None:
         fig = plt.figure()
         axis = fig.add_subplot(111)
         axis.set_title('Diversity histogram')
         axis.set_xlabel('Diversity')
-    
+
     if 'bins' not in kwargs:
         kwargs['bins'] = _np.arange(10) * max(1, (div.max() + 1 - div.min()) / 10) + div.min()
     return axis.hist(div, **kwargs)
@@ -2154,7 +2154,7 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
     except:
         with open(filename, 'rb') as f:
             pop_dict = pickle.load(f)
-        
+
 
     pop = haploid_highd(pop_dict['L'],
                         all_polymorphic=pop_dict['all_polymorphic'],
@@ -2171,7 +2171,7 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
         pop.set_trait_additive(pop_dict['traits_additive'][i], i)
         for (value, loci) in pop_dict['traits_epistasis'][i]:
             pop.add_trait_coefficient(value, loci, i)
-    
+
     pop.trait_weights=pop_dict['trait_weights']
 
     # Load the genealogy and track new loci if wished
@@ -2185,10 +2185,10 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
         pop.track_locus_genealogy(all_loci)
 
     pop.generation = pop_dict['generation']
-            
+
     # Initialize the population
     # Note: if the tree is recovered from the past, we insert empty clones to
-    # keep the labels of the leaves 
+    # keep the labels of the leaves
     if include_genealogy and 'trees' in pop_dict:
         import numpy as np
         _nonempty_clones = pop_dict['_nonempty_clones']
@@ -2197,8 +2197,8 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
         clone_sizes = np.zeros(_maxclone + 1, int)
         genotypes[_nonempty_clones] = pop_dict['genotypes']
         clone_sizes[_nonempty_clones] = pop_dict['clone_sizes']
-        pop.set_genotypes_and_ancestral_state(genotypes, 
-                                              clone_sizes, 
+        pop.set_genotypes_and_ancestral_state(genotypes,
+                                              clone_sizes,
                                               pop_dict['ancestral'])
         for (locus, tree_s) in pop_dict['trees'].iteritems():
             tree = rooted_tree()
@@ -2219,10 +2219,10 @@ def load_haploid_highd(filename, gen_loci=[], include_genealogy=False):
 
 
     else:
-        pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'], 
-                                              pop_dict['clone_sizes'], 
+        pop.set_genotypes_and_ancestral_state(pop_dict['genotypes'],
+                                              pop_dict['clone_sizes'],
                                               pop_dict['ancestral'])
-    
+
 
     return pop
 %}
