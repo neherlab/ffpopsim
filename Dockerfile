@@ -1,4 +1,4 @@
-FROM debian:11.5 as base
+FROM debian:10.13 as base
 
 SHELL ["bash", "-euxo", "pipefail", "-c"]
 

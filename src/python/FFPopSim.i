@@ -36,9 +36,9 @@ A simple example routine is the following::
     import numpy as np
     import matplotlib.pyplot as plt
     import FFPopSim as h
-    
+
     c = h.haploid_lowd(4)
-    c.set_allele_frequencies([0,0.3,0.6,0.9], N=1000) 
+    c.set_allele_frequencies([0,0.3,0.6,0.9], N=1000)
     c.evolve(100)
     c.plot_diversity_histogram()
     plt.show()
@@ -48,10 +48,11 @@ which evolves a population with 4 loci for 100 generations starting from fixed
 allele frequencies, under neutral conditions, and plots the diversity
 histogram afterwards.
 
-For more usage examples, please consult the ``tests`` and ``examples`` folders. 
+For more usage examples, please consult the ``tests`` and ``examples`` folders.
 "
 %enddef
 %module(docstring=DOCSTRING) FFPopSim;
+// #pragma SWIG nowarn=302,511
 
 /* Include in the wrap code (note that the multiple header are redundant) */
 %{
@@ -94,6 +95,8 @@ import_array();
 
 /* activate autodoc */
 %feature("autodoc", "1");
+
+%feature("kwargs","1");
 
 /**************************************************************
  * CODE TO BE WRAPPED
