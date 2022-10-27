@@ -2,6 +2,7 @@ FROM debian:8 as base
 
 SHELL ["bash", "-euxo", "pipefail", "-c"]
 
+# Install system dependencies
 RUN set -euxo pipefail >/dev/null \
 && export DEBIAN_FRONTEND=noninteractive \
 && apt-get update -qq --yes \
@@ -12,14 +13,10 @@ RUN set -euxo pipefail >/dev/null \
   ca-certificates \
   curl \
   git \
-  gnupg \
   gsl-bin \
   libboost-all-dev \
   libgsl0-dev \
   lsb-release \
-  python \
-  python-numpy \
-  python-pip \
   sudo \
   swig \
   time \
@@ -28,6 +25,9 @@ RUN set -euxo pipefail >/dev/null \
 && apt-get autoremove --yes >/dev/null \
 && rm -rf /var/lib/apt/lists/*
 
+
+# Setup a non-root user, group and home directory.
+# This user is also configured to run `sudo` without password (inside container).
 ARG USER=user
 ARG GROUP=user
 ARG UID
@@ -40,17 +40,6 @@ ENV GID=$GID
 ENV TERM="xterm-256color"
 ENV HOME="/home/${USER}"
 ENV PATH="/usr/lib/llvm-${CLANG_VERSION}/bin:${HOME}/.local/bin:${PATH}"
-
-# Install Python dependencies
-RUN set -euxo pipefail >/dev/null \
-&& curl -fsSL https://bootstrap.pypa.io/pip/2.7/get-pip.py | python
-
-RUN set -euxo pipefail >/dev/null \
-&& pip install --index-url=https://pypi.python.org/simple/ --user \
-  biopython==1.76 \
-  matplotlib \
-  numpy \
-  pandas
 
 RUN set -euxo pipefail >/dev/null \
 && \
@@ -76,6 +65,50 @@ RUN set -euxo pipefail >/dev/null \
 && echo "foo ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
 && touch ${HOME}/.hushlogin \
 && chown -R ${UID}:${GID} "${HOME}"
+
+
+# Switch to non-root user
+USER ${USER}
+
+
+# Install Python, conda and mamba
+ARG PYTHON_VERSION="2.7.15"
+ARG CONDA_DIR="${HOME}/conda"
+ENV PATH="${HOME}/bin:${CONDA_DIR}/bin:${PATH}"
+ENV XDG_CACHE_HOME="${HOME}/.cache/"
+ENV MPLBACKEND="Agg"
+
+RUN set -euxo pipefail >/dev/null \
+&& export CONDA_DIR="${CONDA_DIR}" \
+&& export PYTHON_VERSION="${PYTHON_VERSION}" \
+&& mkdir -p "${CONDA_DIR}/bin" \
+&& echo "show_channel_urls: true"     >> "${CONDA_DIR}/.condarc" \
+&& echo "auto_update_conda: false"    >> "${CONDA_DIR}/.condarc" \
+&& echo "channels:"                   >> "${CONDA_DIR}/.condarc" \
+&& echo "  - conda-forge"             >> "${CONDA_DIR}/.condarc" \
+&& echo "  - defaults"                >> "${CONDA_DIR}/.condarc" \
+&& echo "  - bioconda"                >> "${CONDA_DIR}/.condarc" \
+&& curl -fksSL "https://micro.mamba.pm/api/micromamba/linux-64/latest" | tar -C "${CONDA_DIR}/bin" --strip-components=1 -xvj "bin/micromamba"
+
+RUN set -euxo pipefail >/dev/null \
+&& micromamba install --yes \
+  --root-prefix="${CONDA_DIR}" \
+  --prefix="${CONDA_DIR}" \
+  python=${PYTHON_VERSION} \
+  conda==4.8.3 \
+  mamba==0.1.0
+
+
+# Install pip dependencies from `requirements.txt`.
+# If you want to add a dependency, add it to `requirements.txt` in the project root.
+COPY /requirements.txt /
+RUN set -euxo pipefail >/dev/null \
+&& pip install --user -r /requirements.txt
+
+
+# Import matplotlib the first time to build the font cache.
+RUN set -euxo pipefail >/dev/null \
+&& python -c "import matplotlib.pyplot" \
 
 USER ${USER}
 

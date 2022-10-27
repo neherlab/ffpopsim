@@ -33,6 +33,15 @@ export GROUP=user
 export NICE="nice -14 ionice -c2 -n3"
 export TIME="/usr/bin/time --quiet -f \"\nCmd : %C\nTime: %E\nMem : %M KB\n\""
 
+JUPYTER=0
+
+case "${1:-}" in
+"jupyter" | "j")
+  shift
+  JUPYTER=1
+  ;;
+esac
+
 DOCKER_TARGET="base"
 DOCKER_IMAGE_VERSION="$(./scripts/docker_build_checksum.sh)"
 
@@ -54,7 +63,18 @@ if ! docker inspect --format '{{.Id}}' "${DOCKER_REPO}:${DOCKER_TARGET}-${DOCKER
     >/dev/null
 fi
 
-COMMAND="${NICE} ${TIME} ${*@Q:-bash}"
+PORTS=""
+if [ "${JUPYTER}" == "1" ]; then
+  PORTS="-p 15000:15000"
+  COMMAND="jupyter ${COMMAND:-lab --ip='0.0.0.0' --port=15000 --LabApp.token='' --JupyterApp.answer_yes=True --ExtensionApp.open_browser=False --no-browser}"
+else
+  if [ -z "${*:-}" ]; then
+    COMMAND="bash"
+  else
+    COMMAND="$(printf " %q" "${@}")"
+  fi
+fi
+
 
 ${NICE} docker run -it --rm \
   --network=host \
@@ -70,5 +90,6 @@ ${NICE} docker run -it --rm \
   --env="GROUP=${GROUP}" \
   --env="PS1=\${USER}@\${HOST}" \
   --ulimit core=0 \
+  ${PORTS} \
   "${DOCKER_REPO}:${DOCKER_TARGET}-${DOCKER_IMAGE_VERSION}" \
   bash -c "set -euo pipefail; ${HANDLE_SIGINT}; ${COMMAND} ${SUCCESS_OR_FAILURE}"

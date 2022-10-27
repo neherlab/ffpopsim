@@ -51,6 +51,13 @@ Run `make` inside the container, which builds both C++ and Python artifacts:
 ./docker-dev make
 ```
 
+or
+
+```bash
+./docker-dev make -j $(nproc)
+```
+
+
 The results will be in `pkg/` dir. Notably, the python package is in the `pkg/python`. You can import it into python code by adding it to the `PYTHONPATH`, either in shell:
 
 ```
@@ -80,8 +87,15 @@ and arbitrary scripts:
 or start a long-running bash shell into the container:
 
 ```bash
-./docker-dev
+./docker-dev bash
 ```
+
+or start a long-running python shell into the container:
+
+```bash
+./docker-dev ipython
+```
+
 
 For more available commands, see the original dev documentation in the `INSTALL` file and in the docs website.
 
@@ -127,3 +141,60 @@ docker run -it --rm --init \
 
 Substitute your command instead of `bash` in the end.
 
+
+### Run Jupyter Lab in docker
+
+The dev script has a shortcut command `jupyter` or `j`, which starts a [Jupyter Lab](https://jupyter.org/) server from inside container, with access to all dependencies and to project directory:
+
+```bash
+./docker-dev j
+```
+
+Keep this command running and then open a browser at
+
+```plaintext
+http://localhost:15000
+```
+
+Run code interactively and draw plots:
+
+```python
+# Build FFPopSim, supressing some of the warnings.
+# This is interchangeable with the `make` command in normal terminal.
+!make -j $(nproc) CFLAGS='-w' CXXFLAGS='-w' >/dev/null
+
+# Add FFPopSim to PYTHONPATH
+import sys
+sys.path.append('pkg/python')
+
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import FFPopSim as h
+
+%matplotlib inline
+%reload_ext autoreload
+%autoreload 2
+
+sns.set()
+
+c = h.haploid_lowd(4)
+c.set_allele_frequencies([0,0.3,0.6,0.9], N=1000) 
+c.evolve(100)
+c.plot_diversity_histogram()
+
+```
+
+You can install dependencies temporarily from the Lab cells, through `conda` (slow, good dependency resolution) or `pip` (fast, weak dependency resolution):
+
+```
+import sys
+!conda install --yes --quiet --prefix {sys.prefix} numpy
+```
+
+```
+import sys
+!{sys.executable} -m pip install --quiet --upgrade numpy
+```
+
+Note, all Python code and shell commands in these notebooks are running inside the container. The container will be discarded as soon as it is stopped. Only changes to project directory will persist across runs, e.g. notebooks, checkpoints and generated data saved into project dir will stay. The project dir is mounted into container to the path `/workdir` and this is the default working directory.

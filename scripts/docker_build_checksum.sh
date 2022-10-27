@@ -15,6 +15,7 @@ cat \
   Dockerfile \
   Makefile \
   docker-dev \
+  requirements.txt \
   scripts/docker_build_checksum.sh \
   setup.py \
 | sha256sum | cut -f 1 -d " "
