@@ -51,11 +51,19 @@ Run `make` inside the container, which builds both C++ and Python artifacts:
 ./docker-dev make
 ```
 
-or
+or if you want to use all CPU cores:
 
 ```bash
 ./docker-dev make -j $(nproc)
 ```
+
+or to silence some of the warnings:
+
+```
+make -j $(nproc) CFLAGS='-w' CXXFLAGS='-w' SWIGFLAGS='-w302,511'
+```
+
+(but it is better to fix them when we have soem more time).
 
 
 The results will be in `pkg/` dir. Notably, the python package is in the `pkg/python`. You can import it into python code by adding it to the `PYTHONPATH`, either in shell:
@@ -84,7 +92,23 @@ and arbitrary scripts:
 ./docker-dev python3 my_script.py
 ```
 
-or start a long-running bash shell into the container:
+a good starting point is examples in the examples directory:
+
+
+```bash
+./docker-dev python3 'examples/example.py'
+```
+
+You can also run all of them using this convenience script:
+
+```bash
+./docker-dev ./run-examples
+```
+
+(which is useful for testing your code changes)
+
+
+You can start a long-running bash shell into the container:
 
 ```bash
 ./docker-dev bash
