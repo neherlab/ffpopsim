@@ -17,7 +17,8 @@ RUN set -euxo pipefail >/dev/null \
   gsl-bin \
   libboost-all-dev \
   libgsl-dev \
-  libpcre3-dev \
+  libpcre2-dev \
+  libpcre3-dev  \
   lsb-release \
   parallel \
   python3 \
@@ -35,7 +36,7 @@ RUN set -euxo pipefail >/dev/null \
 
 # Install swig v3
 RUN set -euxo pipefail >/dev/null \
-&& git clone --recursive --branch="v3.0.12" "https://github.com/swig/swig" "/tmp/build/swig" \
+&& git clone --recursive --branch="v4.1.0" "https://github.com/swig/swig" "/tmp/build/swig" \
 && cd "/tmp/build/swig" \
 && ./autogen.sh \
 && ./configure --prefix="/usr/local" \

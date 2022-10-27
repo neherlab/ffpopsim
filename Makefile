@@ -305,7 +305,7 @@ clean-python-all:
 ##==========================================================================
 # SWIG (USED FOR PYTHON BINDINGS)
 ##==========================================================================
-SWIGFLAGS := -c++ -python -py3 -O -castmode -keyword
+SWIGFLAGS := -c++ -python -O -castmode -keyword
 
 swig: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE)
 
