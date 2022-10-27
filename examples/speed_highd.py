@@ -94,7 +94,7 @@ G = 100             # generations
 
 exec_time_virus = {}
 Nlist = [1000, 3000, 10000, 30000, 100000, 300000, 1000000]
-Llist_virus = [1e3, 3e3, 1e4]
+Llist_virus = [int(1e3), int(3e3), int(1e4)]
 for L in Llist_virus:
     exec_time = []
     for N in Nlist:
