@@ -112,9 +112,9 @@ for L in Llist_virus:
         t1=time.time()
         pop.evolve(G)
         t2=time.time()
-        print("Population size:", N, "genome length:",L)
-        print("time required for", G, "generations:",)
-        print(round(t2 - t1, 3), "seconds")
+        # print("Population size:", N, "genome length:",L)
+        # print("time required for", G, "generations:",)
+        # print(round(t2 - t1, 3), "seconds")
 
         # set additive fitness landscape and repeat
         selection_coefficients = np.zeros(L)
@@ -126,7 +126,7 @@ for L in Llist_virus:
         t3=time.time()
         pop.evolve(G)
         t4=time.time()
-        print("Population size:",N,"time required for", G ,"generations with selection:",round(t4-t3,3),"seconds")
+        # print("Population size:",N,"time required for", G ,"generations with selection:",round(t4-t3,3),"seconds")
 
         exec_time.append([N, t2-t1,t4-t3])    # store the execution time
 
