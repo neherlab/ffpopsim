@@ -48,11 +48,11 @@ from Bio import Phylo as P
 plt.figure()
 BPtree1 = sub_tree1.to_Biopython_tree()
 BPtree1.ladderize()
-P.draw(BPtree1, label_func=lambda x:'', ax=plt.subplot(121))
+P.draw(BPtree1, label_func=lambda x:'', axes=plt.subplot(121))
 
 BPtree2 = sub_tree2.to_Biopython_tree()
 BPtree2.ladderize()
-P.draw(BPtree2, label_func=lambda x:'', ax=plt.subplot(122))
+P.draw(BPtree2, label_func=lambda x:'', axes=plt.subplot(122))
 plt.savefig('trees.png')
 
 trajectory = np.array(trajectory)
