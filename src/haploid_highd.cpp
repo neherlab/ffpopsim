@@ -1312,12 +1312,12 @@ int haploid_highd::random_clones(unsigned int n_o_individuals, vector <int> *sam
  */
 void haploid_highd::take_tree_sample(unsigned int sample_size){
 	if (track_genealogy) {
+		vector <int> clones;
+		produce_random_sample(sample_size);
+		random_clones(sample_size, &clones);
 		for (unsigned int genlocus=0; genlocus<genealogy.loci.size(); genlocus++){
 			// take random sample of size sample_size
 			// loop over sample and increment the sample counter
-			vector <int> clones;
-			produce_random_sample(sample_size);
-			random_clones(sample_size, &clones);
 			for (vector <int>::iterator ci=clones.begin(); ci!=clones.end(); ci++){
 				genealogy.newGenerations[genlocus][*ci].sampled++;
 				genealogy.newGenerations[genlocus][*ci].sequence=population[*ci].genotype;
