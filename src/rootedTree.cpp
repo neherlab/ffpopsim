@@ -456,7 +456,7 @@ string rooted_tree::print_sequences() {
 	for (vector<tree_key_t>::iterator sampled_leaf = sampled_leafs.begin();
 	     sampled_leaf!=sampled_leafs.end(); sampled_leaf++){
 		node= nodes.find(*sampled_leaf);
-		seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<"_"<<node->second.fitness
+		seq_str <<">"<<sampled_leaf->index<<"_"<<sampled_leaf->age<<"_"<<node->second.clone_size<<node->second.sampled<<"_"<<node->second.fitness
 			<<"\n"<<node->second.sequence<<"\n";
 	}
 	return seq_str.str();
@@ -488,7 +488,7 @@ string rooted_tree::subtree_newick(tree_key_t root){
 		}
 		tree_str<<")";
 	}
-	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<"_"<<root_node->second.fitness<<":"<<edge->second.length;
+	tree_str<<root.index<<'_'<<root.age<<'_'<<root_node->second.clone_size<<'_'<<root_node->second.sampled<<"_"<<root_node->second.fitness<<":"<<edge->second.length;
 	//tree_str<<root.index<<'_'<<root.age<<":"<<edge->second.length;
 	return tree_str.str();
 }
@@ -718,7 +718,7 @@ int rooted_tree::check_tree_integrity(){
 				err++;
 				cerr <<"node "<<node->first<<" is degenerate (only one child)! ERROR"<<endl;
 			}else if (node->second.child_edges.size()==1 and node->second.sampled){
-				cerr <<"node "<<node->first<<" is degenerate (only one child) but is sampled OK"<<endl;			
+				cerr <<"node "<<node->first<<" is degenerate (only one child) but is sampled OK"<<endl;
 			}
 			nnodes++;
 			edge=edges.find(node->first);
@@ -945,7 +945,7 @@ int rooted_tree::parse_subtree(tree_key_t &parent_key, std::string &tree_s) {
 				     &branch_length);
 		if (status) {
 			if (RT_VERBOSE) std::cerr<<"Error while parsing label: "<<own_label<<std::endl;
-			return RT_ERROR_PARSING;	
+			return RT_ERROR_PARSING;
 		}
 		own_key.index = index;
 		own_key.age = parent_key.age + branch_length;
@@ -980,12 +980,12 @@ int rooted_tree::parse_subtree(tree_key_t &parent_key, std::string &tree_s) {
 			} else if ((c == ',') and (plevel == 0)) {
 				subtext = tree_s.substr(prev, posn - prev);
 				subtrees.push_back(subtext);
-				prev = posn + 1;	
+				prev = posn + 1;
 			}
 		}
 		subtext = tree_s.substr(prev, close_posn - prev);
 		subtrees.push_back(subtext);
-		
+
 		// OK, now you have the subtrees with a lot of string copying around
 		if (RT_VERBOSE) {
 			std::cerr<<"Subtrees of tree_key_t("<<own_key.index<<", "<<own_key.age<<"): ";
@@ -1055,7 +1055,7 @@ int rooted_tree::read_newick(string tree_s) {
 			     &branch_length);
 	if (status) {
 		if (RT_VERBOSE) std::cerr<<"Error while parsing root label"<<std::endl;
-		return RT_ERROR_PARSING;	
+		return RT_ERROR_PARSING;
 	}
 	// Make the MRCA node
 	reset();
