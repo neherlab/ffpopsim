@@ -408,7 +408,7 @@ public:
         // mutation rate (only if not all_polymorphic)
         double get_mutation_rate(){return mutation_rate;}
         void set_mutation_rate(double m){
-        if(all_polymorphic){
+        if(all_polymorphic && m != 0.0){
                 if(HP_VERBOSE) cerr<<"Cannot set the mutation rate with all_polymorphic."<<endl;
                 throw HP_BADARG;
         } else mutation_rate=m;}

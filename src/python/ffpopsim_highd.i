@@ -799,7 +799,7 @@ def mutation_rate(self):
 
 @mutation_rate.setter
 def mutation_rate(self, m):
-    if self.all_polymorphic:
+    if self.all_polymorphic and m != 0:
         raise ValueError("You cannot set all_polymorphic and a nonzero mutation rate.")
     else:
         self._set_mutation_rate(m)
