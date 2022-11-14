@@ -760,6 +760,7 @@ const char* __repr__() {
 
 /* read/write attributes */
 %feature("autodoc", "is the genome circular?") circular;
+%feature("autodoc", "All polymorphic?") all_polymorphic;
 %feature("autodoc", "current carrying capacity of the environment") carrying_capacity;
 %feature("autodoc", "outcrossing rate (probability of sexual reproduction per generation)") outcrossing_rate;
 %feature("autodoc", "crossover rate (probability of crossover per site per generation)") crossover_rate;
@@ -798,7 +799,7 @@ def mutation_rate(self):
 
 @mutation_rate.setter
 def mutation_rate(self, m):
-    if self.all_polymorphic:
+    if self.all_polymorphic and m != 0:
         raise ValueError("You cannot set all_polymorphic and a nonzero mutation rate.")
     else:
         self._set_mutation_rate(m)
@@ -862,10 +863,6 @@ const double max_fitness;
 %ignore get_participation_ratio;
 %feature("autodoc", "Participation ratio (read-only)") participation_ratio;
 const double participation_ratio;
-
-%ignore is_all_polymorphic;
-%feature("autodoc", "All polymorphic? (read-only)") all_polymorphic;
-const bool all_polymorphic;
 
 %rename(_get_polymorphisms) get_polymorphisms;
 %rename(_get_fixed_mutations) get_fixed_mutations;
@@ -1387,7 +1384,7 @@ Returns:
 args = tuple(list(args) + [self.L])
 }
 void get_derived_allele_frequencies(double* ARGOUT_ARRAY1, int DIM1) {
-        if ($self->is_all_polymorphic()){
+        if ($self->get_all_polymorphic()){
                 for(size_t i=0; i < (size_t)$self->get_number_of_loci(); i++)
                         ARGOUT_ARRAY1[i] = $self->get_derived_allele_frequency(i);
     }
@@ -2124,8 +2121,13 @@ const double haploid_highd_participation_ratio_get(haploid_highd *h) {
 }
 
 const bool haploid_highd_all_polymorphic_get(haploid_highd *h) {
-  return (const bool) h->is_all_polymorphic();
+  return (const bool) h->get_all_polymorphic();
 }
+
+void haploid_highd_all_polymorphic_set(haploid_highd *h, bool all_polymorphic) {
+  h->set_all_polymorphic(all_polymorphic);
+}
+
 %}
 
 /* load haploid_highd from file */
