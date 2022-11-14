@@ -2,7 +2,7 @@
  * @file popgen_highd.h
  * @brief Header file for high-dimensional simulations
  * @author Richard Neher, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-19
  *
  * Copyright (c) 2012-2013, Richard Neher, Fabio Zanini
@@ -403,6 +403,7 @@ public:
 	int recombination_model;		//model of recombination to be used
 	bool circular;				//topology of the chromosome
 	double growth_rate;			//growth rate for bottlenecks and the like
+	bool all_polymorphic;			// switch that makes sure every locus is polymorphic in an infinite alleles model when mutation rate is 0
 
         // mutation rate (only if not all_polymorphic)
         double get_mutation_rate(){return mutation_rate;}
@@ -413,7 +414,8 @@ public:
         } else mutation_rate=m;}
 
         // pseudo-infinite site model
-        bool is_all_polymorphic(){return all_polymorphic;}
+        bool get_all_polymorphic(){return all_polymorphic;}
+        void set_all_polymorphic(bool ap){ all_polymorphic = ap; }
         vector<poly_t> get_polymorphisms(){return polymorphism;}
         vector<poly_t> get_fixed_mutations(){return fixed_mutations;}
         vector<int> get_number_of_mutations(){return number_of_mutations;}
@@ -451,7 +453,7 @@ public:
 	void set_random_epistasis(double epistasis_std){if(number_of_traits>1){if(HP_VERBOSE) cerr<<"Please use set_random_trait_epistasis."<<endl; throw (int)HP_BADARG;} trait[0].epistatic_std=epistasis_std;}
 
 	// evolution
-	int evolve(int gen=1);	
+	int evolve(int gen=1);
 	int bottleneck(int size_of_bottleneck);
 	unsigned int flip_single_locus(int locus);
 
@@ -538,7 +540,7 @@ protected:
 	int select_gametes();
 	double relaxation_value();
 	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
-	
+
 	unsigned int flip_single_locus(unsigned int clonenum, int locus);
 	void shuffle_genotypes();
 	int new_generation();
@@ -555,7 +557,6 @@ protected:
 	double *gamete_allele_frequencies;
 	double *chi1;				//symmetric allele frequencies
 	double **chi2;				//symmetric two locus correlations
-	bool all_polymorphic;                   // switch that makes sure every locus is polymorphic in an infinite alleles model when mutation rate is 0
 	vector <int> ancestral_state;	//vector, that for each locus keeps track of the ancestral state. by default, all zero
 	vector <poly_t> polymorphism;	//vector, that keeps track when an allele was introduced on which background. Only needed in an infinite alleles model
 	vector <poly_t> fixed_mutations;	//vector to store all fixed mutations
