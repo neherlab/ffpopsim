@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+# Prepares a release of a new version
+#
+#  Usage example:
+#    ./scripts/release 3.0.1
+
+
+set -euo pipefail
+
+: "${1:?Version is required}"
+
+version=$1
+
+function ask_confirmation_or_exit() {
+  choice=
+  while [ "$choice" != "y" ]; do
+    read -r -p "${1} | Type 'y' or 'n' >> " choice
+    case "$choice" in
+    y | Y)
+      break
+      ;;
+    n | N)
+      echo "Aborted by user."
+      exit 0
+      ;;
+    *)
+      echo "Invalid answer. Type 'y' or 'n' (without quotation marks), or hit Ctrl+C to exit forcefully." >/dev/stderr
+      ;;
+    esac
+  done
+}
+
+printf "\n * Creating release '${version}'"
+
+if [ -n "$(git status -s)" ]; then
+  echo "Uncommitted changes detected. Refusing to proceed." >/dev/stderr
+  echo "Stash or commit the changes and retry."  >/dev/stderr
+  exit 1
+fi
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "${branch}" != "master" ] && [ "${branch}" != "main" ] ; then
+  ask_confirmation_or_exit "You are trying to make a release from branch '${branch}'. Releases from branches that are not 'master' or 'main' are discouraged. Consider discussing with the team first. Do you want to proceed anyway?"
+  echo "Proceeding to releasing from branch '${branch}'."
+fi
+
+printf "\n * Bumping version"
+sed -i'' "s|VERSION = '.*'|VERSION = '${version}'|g" setup.py
+
+if [ -z "$(git status -s)" ]; then
+  echo "Version bump had no effect. Double-check that the version number you are providing is correct and is not the same as the current version." >/dev/stderr
+  exit 1
+fi
+
+printf "\nThe following changes were made. Please check them thoroughly:\n-----------------------------------\n"
+git --no-pager diff --unified=0 --no-prefix --no-commit-id
+printf "\n-----------------------------------\n\n"
+
+ask_confirmation_or_exit "Do you want to commit this changes to the current branch '${branch}' and to create a new local git tag '${version}'? (This will only modify your local git repo and will not yet have any effect globally)."
+
+printf "\n * Committing changes locally"
+git add -A >/dev/null
+git commit -m "chore: release ${version}"
+
+printf "\n * Creating git tag"
+git tag "${version}" >/dev/null
+
+ask_confirmation_or_exit "Release '${version}' is created locally. The changes listed above are now committed to your local branch '${branch}', and a local git tag '${version}' is created. (Pushing these changes and the tag will trigger a build on a CI server and publication of the release to PyPi, so that it is available to the whole world). Do you want to proceed?"
+
+printf "\n * Pushing branch '${branch}'"
+git push origin "${branch}"
+
+printf "\n * Pushing tag '${version}'"
+git push origin "${version}"
+
+printf "\n * Released successfully! 🎉"
+echo ""
+echo "You can check build status here:"
+echo "  https://github.com/neherlab/ffpopsim/actions"
+echo ""
+echo "After the build, the package will be available here:"
+echo "  https://pypi.org/project/FFPopSim"
