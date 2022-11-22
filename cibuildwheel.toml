@@ -34,17 +34,23 @@ test-skip = [
   "*s390x*",
 ]
 
+
 linux.before-test = [
   "yum install -y parallel >/dev/null",
   "pip install biopython matplotlib numpy pandas pygments scipy"
 ]
+
+linux.test-command = [
+  "cd {project} && bash ./run-examples --skip-slow"
+]
+
 
 macos.before-test = [
   "brew install parallel >/dev/null",
   "pip install biopython matplotlib numpy pandas pygments scipy"
 ]
 
-test-command = [
-  "cd {project} && bash ./run-examples --skip-slow"
+# Tests are very slow on mac, so only do basics
+linux.test-command = [
+  "cd {project} && python examples/example.py"
 ]
-
