@@ -1,6 +1,3 @@
-import sys
-sys.path.append('pkg/python')
-
 import FFPopSim as h
 import numpy as np
 from matplotlib import pyplot as plt

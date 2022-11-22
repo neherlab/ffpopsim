@@ -83,7 +83,7 @@ sys.path.append('pkg/python')
 You can also use dev script to run arbitrary commands inside the container, including Python and bash:
 
 ```bash
-./docker-dev bash -c "PYTHONPATH='pkg/python' python3 -c 'import FFPopSim as h; pop = h.haploid_lowd(5); print(pop)'"
+./docker-dev bash -c 'export PYTHONPATH="$(pwd)/pkg/python" && python3 -c "import FFPopSim as h; pop = h.haploid_lowd(5); print(pop)"'
 ```
 
 and arbitrary scripts:
@@ -96,13 +96,13 @@ a good starting point is examples in the examples directory:
 
 
 ```bash
-./docker-dev python3 'examples/example.py'
+./docker-dev bash -c 'export PYTHONPATH="$(pwd)/pkg/python" && python3 "examples/example.py"'
 ```
 
 You can also run all of them using this convenience script:
 
 ```bash
-./docker-dev ./run-examples
+./docker-dev bash -c 'export PYTHONPATH="$(pwd)/pkg/python" && ./run-examples'
 ```
 
 (which is useful for testing your code changes)

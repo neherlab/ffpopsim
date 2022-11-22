@@ -5,8 +5,7 @@ content:    Genotype condensation is driven by epistasis.
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import time
 import numpy as np

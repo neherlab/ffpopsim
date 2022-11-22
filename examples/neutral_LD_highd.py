@@ -9,8 +9,7 @@ content:    Example of haploid_highd demonstrating the balance between
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -62,7 +61,7 @@ for ii in range(nsamples):
     templd = [pop.get_LD(l1,l2) for l1,l2 in locus_pairs]
     LD.append(templd)
     rsq.append([templd[pi]**2/(af[l1]*(1-af[l1])*af[l2]*(1-af[l2])+1e-10) for pi,(l1,l2) in enumerate(locus_pairs)])
-    
+
 
 # plot the result
 plt.figure()

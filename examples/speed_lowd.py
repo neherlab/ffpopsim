@@ -11,8 +11,7 @@ content:    Example of haploid_lowd on the algorithm runtime complexity.
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,13 +36,13 @@ for L in range(2,Lmax_general+1):
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.carrying_capacity = N   # set the population size
 
-    # set and additive fitness function with random coefficients. 
+    # set and additive fitness function with random coefficients.
     # Note that FFPopSim models fitness landscapes in the -1/+1 basis
     pop.set_fitness_additive(0.01 * np.random.randn(L))
 
     pop.set_recombination_rates(r)  # recombination rates
     pop.set_mutation_rates(mu)      # mutation rate
-    
+
     # initialize the population with N individuals in linkage equilibrium
     pop.set_allele_frequencies(0.2 * np.ones(L), N)
 
@@ -67,11 +66,11 @@ for L in range(2,Lmax_single_xo+1):
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.carrying_capacity = N   # set the population size
 
-    # set and additive fitness function with random coefficients. 
+    # set and additive fitness function with random coefficients.
     pop.set_fitness_additive(0.01 * np.random.randn(L))
-    
+
     # assign the recombination rates, assume SINGLE CROSSOVER (otherwise everything is the same)
-    pop.set_recombination_rates(r, h.SINGLE_CROSSOVER)  
+    pop.set_recombination_rates(r, h.SINGLE_CROSSOVER)
     pop.set_mutation_rates(mu)      # mutation rate
 
     # initialize the population with N individuals in linkage equilibrium
@@ -81,10 +80,10 @@ for L in range(2,Lmax_single_xo+1):
     t1=time.time()
     pop.evolve(G)
     t2=time.time()
-    
+
     print("time required for",G,"generations:",round(t2-t1,3),'s')
     exec_time_single_xo.append([L, t2-t1])  # store the execution time
-    
+
 exec_time_single_xo=np.array(exec_time_single_xo)
 
 
@@ -98,9 +97,9 @@ for L in range(2,Lmax_single_xo+1):
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.carrying_capacity = N   # set the population size
 
-    # set and additive fitness function with random coefficients. 
+    # set and additive fitness function with random coefficients.
     pop.set_fitness_additive(0.01 * np.random.randn(L))
-    
+
     pop.set_mutation_rates(mu)      # mutation rate
 
     # initialize the population with N individuals in linkage equilibrium

@@ -5,8 +5,7 @@ content:    Example on genetic drift using haploid_highd
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -31,7 +30,7 @@ pop.set_allele_frequencies(initial_allele_frequencies, pop.carrying_capacity)
 
 # evolve for 2000 generations and track the allele frequencies
 maxgen = 2000
-allele_frequencies = [pop.get_allele_frequencies()] 
+allele_frequencies = [pop.get_allele_frequencies()]
 tp = [pop.generation]
 
 print("Illustrate genetic drift on allele frequency trajectories.")

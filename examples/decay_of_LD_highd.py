@@ -6,8 +6,7 @@ content:    Example of haploid_highd on linkage relaxation via recombination
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -56,7 +55,7 @@ for ii in range(50):
     # get LD and time
     LD_trajectories.append([pop.get_LD(l1,l2) for l1,l2 in locus_pairs])
     tp.append(pop.generation)
-    
+
 LD_trajectories = np.array(LD_trajectories)
 tp = np.array(tp)
 

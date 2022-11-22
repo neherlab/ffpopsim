@@ -1,6 +1,3 @@
-import sys
-sys.path.append('pkg/python')
-
 import FFPopSim as h
 
 c = h.haploid_lowd(4)

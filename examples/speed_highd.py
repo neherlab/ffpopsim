@@ -10,8 +10,7 @@ content:    Example of haploid_lowd on the algorithm runtime complexity.
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt

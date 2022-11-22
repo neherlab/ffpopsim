@@ -8,8 +8,7 @@ content:    Example of the hivpopulation subclass. This example is similar to
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,16 +25,16 @@ effect_size_adap = 0.03         # mean selection coefficient of beneficial allel
 if __name__ == '__main__':
 
     pop = h.hivpopulation(N)    # create population with default parameters
-    
+
     # set random replication/fitness landscape
     pop.set_replication_landscape(adaptive_fraction=adaptive_fraction,
                                   effect_size_adaptive=effect_size_adap)
-    
+
     # prepare figure
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
     colors = ['b', 'r', 'g', 'cyan']
-    
+
     # evolve and plot histograms
     x0 = pop.get_fitness_statistics().mean
     for i in range(4):

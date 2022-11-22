@@ -7,8 +7,7 @@ content:    Example of haploid_highd showing how neutral alleles are affected
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -45,7 +44,7 @@ while pop.generation < maxgen:
     pop.evolve(10)
 
     # save allele frequencies and time
-    allele_frequencies.append(pop.get_allele_frequencies()) 
+    allele_frequencies.append(pop.get_allele_frequencies())
     tp.append(pop.generation)
 
     # every 200 generations, make one of the deleterious mutations beneficial

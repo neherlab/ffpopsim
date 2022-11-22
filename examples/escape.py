@@ -21,8 +21,7 @@ documentation for more information on those topics.
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,7 +43,7 @@ if __name__ == '__main__':
 
     pop = h.haploid_lowd(L)     # produce an instance of haploid_lowd with L loci
     pop.set_genotypes([0],[N])  # start with a wildtype population
-    
+
     pop.set_recombination_rates(r)  # set recombination rate
     pop.set_mutation_rates(mu)      # set mutation rate
     pop.set_fitness_additive(f)     # set fitness landscape

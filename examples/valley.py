@@ -6,8 +6,7 @@ content:    Find the time for valley crossing
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -43,7 +42,7 @@ if __name__ == '__main__':
                [2, 4, 5, 4],
                [7, 4, 7, 4]]
     colors=['b', 'g', 'r', 'm', 'c']
-    
+
     # cycle over mutation rates
     for k, mu in enumerate(mutation_rates):
 
@@ -54,10 +53,10 @@ if __name__ == '__main__':
             times = np.zeros_like(rs)
             dtimes = np.zeros_like(rs)
 
-            for i, r in enumerate(rs):    
+            for i, r in enumerate(rs):
                 ttmp = []
                 for j in range(50):
-        
+
                     # set up population
                     pop = h.haploid_lowd(L)         # produce an instance of haploid_lowd with L loci
 
@@ -78,18 +77,18 @@ if __name__ == '__main__':
                     gens = 100
                     while (pop.get_genotype_frequency(0b1111) < 0.5) and (pop.generation < 1e6):
                         pop.evolve(gens)
-                    
+
                     if (pop.generation < 1e6):
             	       	ttmp.append(pop.generation)
-                    else: 
+                    else:
                         ttmp.append(np.nan)
                         break
-                    
+
                 # store crossing times
                 times[i] = np.mean(ttmp)
                 dtimes[i] = np.std(ttmp)
                 print('r = '+str(r)+'\tTime to cross the valley: '+str(times[i])+' generations' )
-        
+
             # save results in a text file
             np.savetxt('valley_mu_'+str(mu)+'.dat',zip(rs,times, dtimes))
 

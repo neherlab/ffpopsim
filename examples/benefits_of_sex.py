@@ -6,8 +6,7 @@ content:    Compare the speed of evolution at different recombination rates.
 '''
 # Import modules (setting the path should not be necessary when the module is
 # installed in the PYTHONPATH)
-import sys
-sys.path.insert(0, '../pkg/python')
+
 
 import argparse
 import numpy as np
@@ -38,7 +37,7 @@ for r in outcrossing_rates:
     print("\nEvolving a population with outcrossing rate",r)
     pop.outcrossing_rate = r                    # set outcrossing rates
     pop.set_wildtype(params.pop)                # initialize a wildtype population of size params.pop
-    
+
     # simulate for params.Ttraj generations and record the mean fitness,
     # fitness variance, participation ratio and the number of clones
     pfit = pop.get_fitness_statistics()
@@ -49,15 +48,15 @@ for r in outcrossing_rates:
         # append current statistics to the list
         pfit = pop.get_fitness_statistics()
         popstat.append([gen,pfit.mean, pfit.variance, pop.participation_ratio, pop.number_of_clones])
-        
+
         # evolve for dt generations and clean up
         pop.evolve(params.dt)
         pop.unique_clones()
         pop.calc_stat()
-    
+
     # cast population statistics to an array to allow slicing
     popstat = np.array(popstat)
-    
+
     # plot quantities of interest
     plt.figure(1)
     plt.plot(popstat[:,0],popstat[:,-2], label='r='+str(r))
