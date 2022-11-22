@@ -1,10 +1,11 @@
 [project]
 name = "FFPopSim"
 version = "3.1.0"
-description = "Simulate large populations that are polymorphic at many loci"
+description = "Library to simulate evolution of large populations that are polymorphic at many loci."
 authors = [
-  { name = "Fabio Zanini", email = "fabio.zanini@tuebingen.mpg.de" },
-  { name = "Richard Neher", email = "richard.neher@tuebingen.mpg.de" },
+  { name = "Fabio Zanini"},
+  { name = "Richard Neher", email = "richard.neher@unibas.ch" },
+  { name = "Ivan Aksamentov" },
 ]
 readme = "README.md"
 requires-python = ">=3.6"
