@@ -73,7 +73,7 @@ jobs:
         env:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
 
-      - name: "Upload build artifacts on ${{ matrix.os }} for py${{ matrix.python-version }}"
+      - name: "Upload build artifacts (${{ matrix.os }}, py${{ matrix.python-version }})"
         uses: actions/upload-artifact@v3
         with:
           name: dist
