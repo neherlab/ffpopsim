@@ -35,17 +35,16 @@ test-skip = [
 ]
 
 linux.before-test = [
-  "yum install -y parallel time >/dev/null",
+  "yum install -y parallel >/dev/null",
   "pip install biopython matplotlib numpy pandas pygments scipy"
 ]
 
 macos.before-test = [
-  "export PATH=\"$(brew --prefix)/opt/gnu-time/libexec/gnubin:$PATH\"",
-  "brew install gnu-time parallel >/dev/null",
+  "brew install parallel >/dev/null",
   "pip install biopython matplotlib numpy pandas pygments scipy"
 ]
 
 test-command = [
-  "cd {project} && ./run-examples --skip-slow"
+  "cd {project} && bash ./run-examples --skip-slow"
 ]
 

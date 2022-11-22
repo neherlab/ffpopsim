@@ -3,11 +3,10 @@
 # Runs all Python examples in `examples/` directory
 
 # Dependencies:
-# sudo apt-get install parallel time
+# sudo apt-get install parallel
 # pip3 install biopython matplotlib numpy pandas pygments scipy
 
 set -euo pipefail
-shopt -s globstar nullglob
 trap 'echo 🟦 Cancelled; exit 0' INT
 
 SKIP_SLOW=0
@@ -48,7 +47,7 @@ function run_example() {
   fi
 
   pushd "examples/" >/dev/null
-  if (/usr/bin/time -f 'Time: %E\nMem:  %M KB\n' python3 "${example}" 2>&1 1>/dev/null | pygmentize -l pytb -O style=material); then
+  if (python3 "${example}" 2>&1 1>/dev/null | pygmentize -l pytb -O style=material); then
     printf '🟩 SUCCESS "%s"\n\n\n' "${example}"
     return 0
   else
