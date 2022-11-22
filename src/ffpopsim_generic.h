@@ -28,6 +28,7 @@
 #include <time.h>
 #include <cmath>
 #include <vector>
+#include <map>
 #include <bitset>
 #include <string>
 #include <sstream>
