@@ -13,6 +13,8 @@ else:
 import numpy as np
 
 setup_args = dict(
+  py_modules=["FFPopSim"],
+  package_dir={ '': 'src/python' },
   ext_modules = [
     Extension(
       '_FFPopSim',

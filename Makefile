@@ -292,7 +292,6 @@ SOMODULE := $(SWIG_MODULE:%.i=_%.so)
 python: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%) $(DISTUTILS_SETUP)
 	rm -rf $(PKGDIR)/python
 	$(PYTHON) setup.py install --single-version-externally-managed --root=. --install-lib=$(PKGDIR)/python
-	cp src/python/FFPopSim.py $(PKGDIR)/python/
 	rm -rf *.egg-info $(PKGDIR)/python/*.egg-info
 
 python-install:
