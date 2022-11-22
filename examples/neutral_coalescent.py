@@ -1,3 +1,6 @@
+import sys
+sys.path.append('pkg/python')
+
 import FFPopSim as h
 import numpy as np
 from matplotlib import pyplot as plt
@@ -6,9 +9,9 @@ import random as rd
 L=100
 
 pop=h.haploid_highd(L)
-pop.outcrossing_rate=0.1
+pop.outcrossing_rate=0.0
 pop.crossover_rate=1.0/pop.L
-pop.mutation_rate=5.0/pop.L
+pop.mutation_rate=0.1/pop.L
 pop.carrying_capacity=30
 
 #track the loci 10, 50 and 90
@@ -20,7 +23,7 @@ pop.set_wildtype(pop.carrying_capacity)
 pop.status()
 
 #evolve population for several coalescent times
-pop.evolve(4*pop.N)
+pop.evolve(1*pop.N)
 
 #get tree at locus 10
 tree = pop.genealogy.get_tree(10)
@@ -46,11 +49,15 @@ BPtree = tree.to_Biopython_tree()
 plt.figure()
 P.draw(BPtree)
 
-#in absence of recombination, trees at all three loci are identical. 
-#with crossovers, tree decouple with increasing outcrossing rate. 
+#in absence of recombination, trees at all three loci are identical.
+#with crossovers, tree decouple with increasing outcrossing rate.
 for locus in pop.genealogy.loci:
 	BPtree = pop.genealogy.get_tree(locus).to_Biopython_tree()
 	plt.figure()
 	plt.title('Tree at locus '+str(locus))
 	P.draw(BPtree)
 
+plt.savefig('tree.png')
+
+with open('test.fasta', 'w') as fh:
+    fh.write(tree.print_sequences())

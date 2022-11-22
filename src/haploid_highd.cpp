@@ -76,7 +76,7 @@ haploid_highd::haploid_highd(int L_in, int rng_seed, int n_o_traits, bool all_po
 	fitness_max = HP_VERY_NEGATIVE;
 	all_polymorphic=all_polymorphic_in;
 	growth_rate = 2.0;
-
+	tree_sample=0;
 	//In case no seed is provided, get one from the OS
 	seed = rng_seed ? rng_seed : get_random_seed();
 
@@ -280,7 +280,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
  * @brief Initialize the population with genotype counts
  *
  * @param gt vector of genotype_value_pair with genotypes and sizes
- * @params vector that specifies the ancestral state of the sample. 
+ * @params vector that specifies the ancestral state of the sample.
  *
  * @returns 0 if successful, nonzero otherwise.
  *
@@ -288,7 +288,7 @@ int haploid_highd::set_allele_frequencies(double* freq, unsigned long N_in) {
  * The carrying capacity is also set to the same number if it is still unset.
  */
 int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
-  vector <int> tmp_ancestral_state(L(), 0); 
+  vector <int> tmp_ancestral_state(L(), 0);
   return set_genotypes_and_ancestral_state(gt, tmp_ancestral_state);
 }
 
@@ -297,7 +297,7 @@ int haploid_highd::set_genotypes(vector <genotype_value_pair_t> gt) {
  * @brief Initialize the population with genotype counts
  *
  * @param gt vector of genotype_value_pair with genotypes and sizes
- * @params vector that specifies the ancestral state of the sample. 
+ * @params vector that specifies the ancestral state of the sample.
  *
  * @returns 0 if successful, nonzero otherwise.
  *
@@ -419,7 +419,7 @@ int haploid_highd::track_locus_genealogy(vector <int> loci) {
 		cerr <<"haploid_highd::track_locus_genealogy: you must track genealogies BEFORE the population is set: generation "<<generation<<"\tnumber of clones"<<get_number_of_clones()<<endl;
 		return HP_EXTINCTERR;
 	}
-	
+
 	track_genealogy=true;
 	if(HP_VERBOSE){cerr <<"haploid_highd::track_locus_genealogy(vector <int> loci)... number of loci="<<loci.size();}
 	genealogy.reset();
@@ -555,6 +555,9 @@ int haploid_highd::evolve(int gen) {
 		g++;
 		generation++;
 
+		if (tree_sample){
+			take_tree_sample(tree_sample);
+		}
 		//add the current generation to the genealogies and prune (i.e. remove parts that do not contribute the present.
 		if (track_genealogy) genealogy.add_generation(fitness_max);
 
@@ -590,7 +593,7 @@ int haploid_highd::select_gametes() {
 	int os,o, nrec=0;
 	int err = 0;
 	population_size = 0;
-	
+
 	//sanity check
 	if (outcrossing_rate_effective>1 or outcrossing_rate_effective<-HP_NOTHING) {
 		cerr <<"haploid_highd::select_gametes(): outcrossing_rate needs to be <=1 and >=0, got: "<<outcrossing_rate_effective<<'\n';
@@ -749,7 +752,7 @@ int haploid_highd::mutate() {
 		for (int locus=0; locus<L(); locus++){	//loop over all loci
 			if (fabs(2*allele_frequencies[locus]-1)>1-HP_NOTHING){	//spot fixed loci
 				if ((ancestral_state[locus]==0 and (2*allele_frequencies[locus]-1)<0) or
-                    (ancestral_state[locus]==1 and (2*allele_frequencies[locus]-1)>0))                
+                    (ancestral_state[locus]==1 and (2*allele_frequencies[locus]-1)>0))
                 {	//if they are in the ancestral state
 					tmp_individual = flip_single_locus(locus);		//introduce new allele
 					polymorphism[locus].birth = get_generation();
@@ -824,7 +827,8 @@ unsigned int haploid_highd::flip_single_locus(unsigned int clonenum, int locus) 
 	// calculate traits and fitness
 	vector<int> diff(1, locus);
 	for (int t = 0; t < number_of_traits; t++){
-		population[new_clone].trait[t] = population[clonenum].trait[t] + get_trait_difference(population[new_clone], population[clonenum], diff, t);
+		population[new_clone].trait[t] = population[clonenum].trait[t] \
+				+ get_trait_difference(population[new_clone], population[clonenum], diff, t);
 	}
 	calc_individual_fitness_from_traits(population[new_clone]);
 	check_individual_maximal_fitness(population[new_clone]);
@@ -993,6 +997,7 @@ void haploid_highd::add_clone_to_genealogy(int locusIndex, int dest, int parent,
 	genealogy.newGenerations[locusIndex][dest].fitness= population[dest].fitness;
 	genealogy.newGenerations[locusIndex][dest].number_of_offspring=n;
 	genealogy.newGenerations[locusIndex][dest].clone_size=cs;
+	genealogy.newGenerations[locusIndex][dest].sampled=0;
 	genealogy.newGenerations[locusIndex][dest].crossover[0]=left;
 	genealogy.newGenerations[locusIndex][dest].crossover[1]=right;
 	if (HP_VERBOSE) {
@@ -1299,6 +1304,29 @@ int haploid_highd::random_clones(unsigned int n_o_individuals, vector <int> *sam
 	return 0;
 }
 
+
+/**
+ * @brief: mark a fraction of all leaves as sampled such that they will not be erased
+ * from the tree in the next round.
+ * @param sample size
+ */
+void haploid_highd::take_tree_sample(unsigned int sample_size){
+	if (track_genealogy) {
+		vector <int> clones;
+		produce_random_sample(sample_size);
+		random_clones(sample_size, &clones);
+		for (unsigned int genlocus=0; genlocus<genealogy.loci.size(); genlocus++){
+			// take random sample of size sample_size
+			// loop over sample and increment the sample counter
+			for (vector <int>::iterator ci=clones.begin(); ci!=clones.end(); ci++){
+				genealogy.newGenerations[genlocus][*ci].sampled++;
+				genealogy.newGenerations[genlocus][*ci].sequence=population[*ci].genotype;
+
+			}
+		}
+	}
+}
+
 /**
  * @brief Add the genotype specified by a bitset to the current population in in n copies
  *
@@ -1332,6 +1360,7 @@ void haploid_highd::add_genotype(boost::dynamic_bitset<> genotype, int n) {
 			leaf.own_key.index=new_gt;
 			leaf.number_of_offspring = 1;
 			leaf.clone_size = n;
+			leaf.sampled=0;
 			leaf.crossover[0]=0;
 			leaf.crossover[1]=number_of_loci;
 			for (unsigned int locusIndex=0; locusIndex<genealogy.loci.size(); locusIndex++){
@@ -1711,7 +1740,7 @@ int haploid_highd::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
 		if((*ck_iter)[1] < (*ck_iter)[0]) return HP_BADARG;
 		if((*ck_iter)[1] >= (unsigned int)number_of_loci) return HP_BADARG;
 		if((*ck_iter)[0] >= (unsigned int)number_of_loci) return HP_BADARG;
-		
+
 		for(pos = (*ck_iter)[0]; pos < (*ck_iter)[1]; pos += every)
 			d += (unsigned int)(gt1[pos] != gt2[pos]);
 	}
@@ -1732,13 +1761,13 @@ int haploid_highd::distance_Hamming(boost::dynamic_bitset<> gt1, boost::dynamic_
  *
  * *Note*: the vector is taken in input by reference for performance reasons, since it can get huge.
  */
-int haploid_highd::partition_cumulative(vector <unsigned int> &partition_cum) {	
+int haploid_highd::partition_cumulative(vector <unsigned int> &partition_cum) {
 	if(population.size() == 0)
 		return HP_EXTINCTERR;
 
 	partition_cum.clear();
 	partition_cum.push_back(population[0].clone_size);
-	if(population.size() > 1) 
+	if(population.size() > 1)
 		for(vector<clone_t>::iterator pop_iter = population.begin() + 1; pop_iter != population.end(); pop_iter++)
 			partition_cum.push_back(pop_iter->clone_size + partition_cum.back());
 	return 0;
@@ -1749,7 +1778,7 @@ int haploid_highd::partition_cumulative(vector <unsigned int> &partition_cum) {
  *
  * @param n_sample size of the statistical sample to use (the whole pop is often too large)
  *
- * @returns mean and variance of the divergence in a stat_t 
+ * @returns mean and variance of the divergence in a stat_t
  */
 stat_t haploid_highd::get_divergence_statistics(unsigned int n_sample) {
 	stat_t div;
@@ -1803,7 +1832,7 @@ stat_t haploid_highd::get_diversity_statistics(unsigned int n_sample) {
  * @brief Calculate histogram of fitness from traits
  *
  * @param hist pointer to the gsl_histogram to fill
- * @param bins number of bins in the histogram 
+ * @param bins number of bins in the histogram
  *
  * *Note*: the output histogram might have less bins than requested if the sample size is too small.
  *
@@ -1851,7 +1880,7 @@ int haploid_highd::get_fitness_histogram(gsl_histogram **hist, unsigned int bins
 	bins = min(n_sample / 30, bins);
 
 	double width = (fitmax - fitmin_hist) / (bins - 1);
-	*hist = gsl_histogram_alloc(bins); 
+	*hist = gsl_histogram_alloc(bins);
 	gsl_histogram_set_ranges_uniform(*hist, fitmin_hist - 0.5 * width, fitmax + 0.5 * width);
 
 	// Fill and scale histogram
@@ -1930,12 +1959,12 @@ int haploid_highd::get_divergence_histogram(gsl_histogram **hist, unsigned int b
 	}
 
 	// Fill and scale histogram
-	*hist = gsl_histogram_alloc(binsnew); 
+	*hist = gsl_histogram_alloc(binsnew);
 	gsl_histogram_set_ranges_uniform(*hist, dmin - 0.5 * width, dmax + 0.5 * width);
 	for (size_t i = 0; i < n_sample; i++)
 		gsl_histogram_increment(*hist, divs[i]);
 	gsl_histogram_scale(*hist, 1/(double)n_sample);
-	
+
 	if (HP_VERBOSE) cerr<<"done.";
 	return 0;
 }
@@ -2002,14 +2031,14 @@ int haploid_highd::get_diversity_histogram(gsl_histogram **hist, unsigned int bi
 		if (HP_VERBOSE) cerr<<"wrong bins!: "<<"binsnew: "<<binsnew<<", bins: "<<bins<<", delta: "<<(dmax - dmin)<<endl;
 		return HP_WRONGBINSERR;
 	}
-	
+
 	// Fill and scale histogram
-	*hist = gsl_histogram_alloc(binsnew); 
+	*hist = gsl_histogram_alloc(binsnew);
 	gsl_histogram_set_ranges_uniform(*hist, dmin - 0.5 * width, dmax + 0.5 * width);
 	for (size_t i = 0; i < n_sample; i++)
 		gsl_histogram_increment(*hist, divs[i]);
 	gsl_histogram_scale(*hist, 1 / (double)n_sample);
-	
+
 	if (HP_VERBOSE) cerr<<"done.";
 	return 0;
 }

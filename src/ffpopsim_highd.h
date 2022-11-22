@@ -272,7 +272,9 @@ struct node_t {
 	vector <step_t> weight_distribution;
 	int number_of_offspring;
 	int clone_size;
+	int sampled;
 	int crossover[2];
+	boost::dynamic_bitset<> sequence;
 };
 
 struct edge_t {
@@ -299,6 +301,7 @@ public:
 	map < tree_key_t , edge_t > edges;
 	map < tree_key_t , node_t > nodes;
 	vector <tree_key_t> leafs;
+	vector <tree_key_t> sampled_leafs;
 	tree_key_t root;
 	tree_key_t MRCA;
 
@@ -306,7 +309,7 @@ public:
 	virtual ~rooted_tree();
 	void reset();
 	void add_generation(vector <node_t> &new_generation, double mean_fitness);
-	int add_terminal_node(node_t &newNode);
+	int add_terminal_node(node_t &newNode, double mean_fitness);
 	tree_key_t erase_edge_node(tree_key_t to_be_erased);
 	tree_key_t bridge_edge_node(tree_key_t to_be_bridged);
 	int external_branch_length();
@@ -326,6 +329,7 @@ public:
 
         // print tree or subtrees
 	string print_newick();
+	string print_sequences();
 	string subtree_newick(tree_key_t root);
 	string print_weight_distribution(tree_key_t node_key);
 	int read_newick(string newick_string);
@@ -517,6 +521,7 @@ public:
 
         // genealogy
 	multi_locus_genealogy genealogy;
+	int tree_sample;
 
 protected:
 	// random number generator
@@ -540,7 +545,7 @@ protected:
 	int select_gametes();
 	double relaxation_value();
 	double get_logmean_expfitness();	// Log of the population exp-average of the fitness: log[<exp(F)>_{population}]
-
+void take_tree_sample(unsigned int sample_size);
 	unsigned int flip_single_locus(unsigned int clonenum, int locus);
 	void shuffle_genotypes();
 	int new_generation();
