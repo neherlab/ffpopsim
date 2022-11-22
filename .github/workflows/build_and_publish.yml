@@ -23,6 +23,8 @@ concurrency:
 
 jobs:
   run_cpp_tests:
+    name: "Run C++ tests"
+
     runs-on: ubuntu-22.04
 
     steps:
@@ -31,6 +33,10 @@ jobs:
         with:
           fetch-depth: 1
           submodules: true
+
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get install build-essential gsl-bin libboost-all-dev libgsl-dev
 
       - name: "Run C++ tests"
         run: |
