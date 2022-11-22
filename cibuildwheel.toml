@@ -36,7 +36,7 @@ test-skip = [
 
 before-test = [
   "yum install -y parallel time >/dev/null",
-  "pip install biopython matplotlib numpy pandas scipy"
+  "pip install biopython matplotlib numpy pandas pygments scipy"
 ]
 
 test-command = [

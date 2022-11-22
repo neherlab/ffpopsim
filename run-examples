@@ -4,6 +4,7 @@
 
 # Dependencies:
 # sudo apt-get install parallel time
+# pip3 install biopython matplotlib numpy pandas pygments scipy
 
 set -euo pipefail
 shopt -s globstar nullglob
