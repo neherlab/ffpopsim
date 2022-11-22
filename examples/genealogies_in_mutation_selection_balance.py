@@ -65,7 +65,7 @@ for si in range(nsamples):
 	pop.evolve(dt)
 
 	#draw a sample from the population, convert its genealogy to a BioPython tree object and plot
-	tree = pop.genealogy.get_tree(L/2)
+	tree = pop.genealogy.get_tree(L//2)
 	subtree = tree.create_subtree_from_keys(rd.sample(tree.leafs,sample_size)).to_Biopython_tree()
 	subtree.ladderize()
 	plt.subplot(3,1,si+1)
