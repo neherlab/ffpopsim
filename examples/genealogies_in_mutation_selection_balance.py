@@ -42,7 +42,7 @@ pop.crossover_rate = 1.0/pop.L
 pop.set_fitness_additive(np.ones(L)*s)
 
 #track the genealogy at a central locus L/2 (which one doesn't matter in the asexual case)
-pop.track_locus_genealogy([L/2])
+pop.track_locus_genealogy([L//2])
 
 #initialize the populations
 pop.set_wildtype(pop.carrying_capacity)
