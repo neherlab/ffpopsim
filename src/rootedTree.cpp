@@ -24,6 +24,12 @@
  */
 
 #include "ffpopsim_highd.h"
+
+using std::map;
+using std::pair;
+using std::set;
+using std::stringstream;
+
 /*
  * this overloads the ostream operator to output keys of nodes and edges
  */

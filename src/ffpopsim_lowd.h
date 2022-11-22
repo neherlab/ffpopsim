@@ -2,7 +2,7 @@
  * @file popgen_lowd.h
  * @brief Header file for low-dimensional simulations
  * @author Richard Neher, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-19
  *
  * Copyright (c) 2012-2013, Richard Neher,Fabio Zanini
@@ -32,7 +32,10 @@
 #define HC_COEFF -1			//hypercube_lowd.coeff is up-to-date
 #define HC_FUNC_EQ_COEFF 0		//hypercube_lowd.func equal hypercube_lowd.coeff
 
-using namespace std;
+using std::list;
+using std::map;
+using std::string;
+using std::vector;
 
 /**
  * @brief Binary hypercube_lowd used in low-dimensional simulations.
@@ -76,11 +79,11 @@ public:
 	void set_state(int s){state=s;}
 
 	//in and out
-	int read_coeff(istream &in);
-	int write_func(ostream &out);
-	int write_coeff(ostream &in,  bool label=false);
-	int read_func(istream &out);
-	int read_func_labeled(istream &in);
+	int read_coeff(std::istream &in);
+	int write_func(std::ostream &out);
+	int write_coeff(std::ostream &in,  bool label=false);
+	int read_func(std::istream &out);
+	int read_func_labeled(std::istream &in);
 
 	//analysis
 	int signature(int point);
@@ -189,7 +192,7 @@ public:
 
 	// genotype readout
 	double get_genotype_frequency(int genotype){return population.get_func(genotype);}
-	
+
 	// allele frequencies
 	double get_allele_frequency(int locus){return 0.5 * (1 + get_chi(locus));}
 	double get_pair_frequency(int locus1, int locus2){return 0.25 * (get_moment(locus1, locus2) - 1) + 0.5 * (get_allele_frequency(locus1) + get_allele_frequency(locus2));}

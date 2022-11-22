@@ -2,7 +2,7 @@
  * @file recombination_lowd.cpp
  * @brief Test recombination routine for haploid_lowd
  * @author Richard Neher, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-08-28
  *
  * Tests for the recombination routine in haploid_lowd are performed,
@@ -16,6 +16,12 @@
 
 /* Be verbose? */
 #define LOWD_VERBOSE 1
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::setw;
 
 /* Declaration */
 class haploid_lowd_test : public haploid_lowd {
@@ -98,11 +104,11 @@ int haploid_lowd_test::test_recombinant_distribution(){
 
 				// print debugging info
 				for (int locus=number_of_loci - 1; locus >= 0; locus--) {
-					cout<<((rec_pattern&(1<<locus))?1:0);	
+					cout<<((rec_pattern&(1<<locus))?1:0);
 				}
 				cout<<"\t"<<rec_pattern<<endl;
 				for (int locus=0; locus<number_of_loci-1; locus++) {
-					cout<<(locus<=crossover_point?" ":(locus==(crossover_point+1)?"|":" "));					
+					cout<<(locus<=crossover_point?" ":(locus==(crossover_point+1)?"|":" "));
 				}
 				cout<<endl<<endl;
 
@@ -328,7 +334,7 @@ int haploid_lowd_test::test_single_crossover_set_rates() {
 			for(int i=0; i < set_size; i++) cout<<((i <= locus)?1:0);
 			cout<<"\t"<<recombination_patterns[subset][locus]<<endl;
 			for(int i=0; i < set_size; i++) cout<<ii[i];
-				
+
 			cout<<endl<<endl;
 		}
 	}

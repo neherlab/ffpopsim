@@ -22,6 +22,19 @@
  */
 #include "ffpopsim_lowd.h"
 
+using std::cerr;
+using std::endl;
+using std::ifstream;
+using std::ios;
+using std::istream;
+using std::list;
+using std::map;
+using std::ofstream;
+using std::ostream;
+using std::setw;
+using std::string;
+using std::vector;
+
 //default constructor
 hypercube_lowd::hypercube_lowd() {
 	mem=false;
