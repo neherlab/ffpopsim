@@ -12,7 +12,6 @@ keywords = ["packaging", "dependency", "infer", "pyproject.toml"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: C++",
-  "License :: OSI Approved :: GPL3",
   "Operating System :: OS Independent",
   "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
