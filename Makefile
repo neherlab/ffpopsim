@@ -299,11 +299,11 @@ python-install:
 	$(PYTHON) setup.py install --skip-build --root=$(DESTDIR)
 
 clean-python:
-	cd $(PKGDIR); rm -rf python
+	rm -rf build pkg/python
 	$(PYTHON) setup.py clean
 
 clean-python-all:
-	cd $(PKGDIR); rm -rf python
+	rm -rf build pkg/python .cache
 	$(PYTHON) setup.py clean --all
 
 ##==========================================================================
