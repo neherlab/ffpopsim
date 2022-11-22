@@ -262,6 +262,12 @@ $(TESTSDIR)/$(TESTS_GENEALOGY): $(TESTSDIR)/$(TESTS_OBJECT_GENEALOGY) $(SRCDIR)/
 $(TESTSDIR)/$(TESTS_OBJECT_GENEALOGY): $(TESTSDIR)/$(TESTS_SOURCE_GENEALOGY)
 	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
+run-tests:
+	cd "tests" && ./highd
+	cd "tests" && ./hivpopulation
+	cd "tests" && ./lowd
+	cd "tests" && ./recombination_lowd
+	cd "tests" && ./test_genealogy
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD) $(TESTS_GENEALOGY) $(TESTS_LOWD_REC)
