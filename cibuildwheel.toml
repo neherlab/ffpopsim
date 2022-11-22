@@ -34,8 +34,14 @@ test-skip = [
   "*s390x*",
 ]
 
-before-test = [
+linux.before-test = [
   "yum install -y parallel time >/dev/null",
+  "pip install biopython matplotlib numpy pandas pygments scipy"
+]
+
+macos.before-test = [
+  "export PATH=\"$(brew --prefix)/opt/gnu-time/libexec/gnubin:$PATH\"",
+  "brew install gnu-time parallel >/dev/null",
   "pip install biopython matplotlib numpy pandas pygments scipy"
 ]
 
