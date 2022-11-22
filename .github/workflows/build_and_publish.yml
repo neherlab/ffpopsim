@@ -37,7 +37,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           export DEBIAN_FRONTEND=noninteractive
-          sudo apt-get update -qq --yes
+          sudo apt-get update -qq --yes >/dev/null
           sudo apt-get install -qq --yes build-essential gsl-bin libboost-all-dev libgsl-dev >/dev/null
 
       - name: "Run C++ tests"
@@ -68,12 +68,6 @@ jobs:
           config-file: cibuildwheel.toml
         env:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
-
-      - name: "Run Python examples"
-        run: |
-          pip3 install -r requirements.txt
-          pip3 install wheelhouse/*.whl
-          make run-python-examples-fast
 
       - name: "Upload build artifacts on ${{ matrix.os }} for py${{ matrix.python-version }}"
         uses: actions/upload-artifact@v3

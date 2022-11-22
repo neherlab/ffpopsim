@@ -25,3 +25,20 @@ macos.before-build = [
   "brew install boost gsl",
   "make swig",
 ]
+
+
+test-skip = [
+  "*aarch64*",
+  "*arm64*",
+  "*ppc64*",
+  "*s390x*",
+]
+
+before-test = [
+  "pip install -r requirements.txt"
+]
+
+test-command = [
+  "./run-examples --skip-slow"
+]
+
