@@ -1,3 +1,16 @@
+## 3.1.2 (2022-11-22)
+
+### Fix missing property `rooted_tree.sampled_leafs`
+
+The `sampled_leafs` property of `rooted_tree` is now correctly exposed to Python bindings.
+
+### Internal improvements
+
+ - cleanup C++ global namespace
+ - run C++ tests in CI
+ - run subset of Python examples in CI
+ - improve and cleanup CI
+
 ## 3.1.0 (2022-11-22)
 
 ### Add support to track genealogies with samples from multiple time points
