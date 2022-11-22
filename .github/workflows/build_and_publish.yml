@@ -36,11 +36,17 @@ jobs:
 
       - name: "Install dependencies"
         run: |
-          sudo apt-get install build-essential gsl-bin libboost-all-dev libgsl-dev
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -qq --yes >/dev/null
+          sudo apt-get install -qq --yes build-essential gsl-bin libboost-all-dev libgsl-dev >/dev/null
+
+      - name: "Build C++ tests"
+        run: |
+          make tests
 
       - name: "Run C++ tests"
         run: |
-          make tests run-tests
+          make run-tests
 
   build_wheels:
     name: "Build wheel (${{ matrix.os }}, py${{ matrix.python-version }})"
@@ -66,10 +72,6 @@ jobs:
           config-file: cibuildwheel.toml
         env:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
-
-      - name: "Run Python examples"
-        run: |
-          make run-python-examples-fast
 
       - name: "Upload build artifacts on ${{ matrix.os }} for py${{ matrix.python-version }}"
         uses: actions/upload-artifact@v3
