@@ -52,10 +52,10 @@
 #			PLATFORM-DEPENDENT OPTIONS			   #
 #									   #
 ############################################################################
-# Please set your Python 2.7 executable if you want to build the Python
+# Please set your Python 3 executable if you want to build the Python
 # bindings. If you are only interested in the C++ part of the library,
 # comment out the following line
-PYTHON := python3 -W ignore::DeprecationWarning
+PYTHON := python3
 
 # Note: please look in 'setup.py' if you are building the Python extension!
 #       You can call distutils with 'setup.py' directly if you prefer. The
@@ -284,11 +284,10 @@ SOMODULE := $(SWIG_MODULE:%.i=_%.so)
 
 # Recipes
 python: $(PYBDIR)/$(SWIG_WRAP) $(PYBDIR)/$(PYMODULE) $(SOURCES:%=$(SRCDIR)/%) $(DISTUTILS_SETUP)
-	mkdir -p $(PKGDIR)/python
-	$(PYTHON) setup.py clean --all
-	$(PYTHON) setup.py install --install-lib=$(PYBDIR)
-	$(PYTHON) setup.py install --install-lib=$(PKGDIR)/python
-	$(PYTHON) setup.py clean
+	rm -rf $(PKGDIR)/python
+	$(PYTHON) setup.py install --single-version-externally-managed --root=. --install-lib=$(PKGDIR)/python
+	cp src/python/FFPopSim.py $(PKGDIR)/python/
+	rm -rf *.egg-info $(PKGDIR)/python/*.egg-info
 
 python-install:
 	$(PYTHON) setup.py install --skip-build --install-lib=$(PKGDIR)/python
