@@ -270,7 +270,7 @@ run-tests:
 	cd "tests" && ./test_genealogy
 
 clean-tests:
-	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD) $(TESTS_GENEALOGY) $(TESTS_LOWD_REC)
+	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD) $(TESTS_GENEALOGY) $(TESTS_LOWD_REC) $(TESTS_HIVPOP)
 
 ##==========================================================================
 # PYTHON BINDINGS
