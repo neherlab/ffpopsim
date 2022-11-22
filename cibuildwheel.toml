@@ -39,6 +39,6 @@ before-test = [
 ]
 
 test-command = [
-  "./run-examples --skip-slow"
+  "cd {project} && ./run-examples --skip-slow"
 ]
 
