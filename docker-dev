@@ -84,6 +84,9 @@ ${NICE} docker run -it --rm \
   --user="$(id -u):$(id -g)" \
   --volume="${PROJECT_ROOT_DIR}:/workdir" \
   --workdir="/workdir/${PACKAGE_DIR_REL}" \
+  --env="CC=ccache gcc" \
+  --env="CXX=ccache g++" \
+  --env="CCACHE_DIR=.cache/ccache" \
   --env="UID=$(id -u)" \
   --env="GID=$(id -g)" \
   --env="USER=${USER}" \

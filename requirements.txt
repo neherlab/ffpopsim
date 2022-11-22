@@ -6,5 +6,8 @@ matplotlib==3.6.0
 notebook==6.5.1
 numpy==1.23.4
 pandas==1.5.1
+ppsetuptools
 scipy==1.9.3
 seaborn==0.12.1
+setuptools
+wheel

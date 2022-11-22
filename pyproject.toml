@@ -1,6 +1,32 @@
+[project]
+name = "FFPopSim"
+version = "3.0.0"
+description = "Simulate large populations that are polymorphic at many loci"
+authors = [
+  { name = "Fabio Zanini", email = "fabio.zanini@tuebingen.mpg.de" },
+  { name = "Richard Neher", email = "richard.neher@tuebingen.mpg.de" },
+]
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["packaging", "dependency", "infer", "pyproject.toml"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: C++",
+  "License :: OSI Approved :: GPL3",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+[project.urls]
+homepage = "https://github.com/neherlab/ffpopsim"
+documentation = "https://readthedocs.org/projects/ffpopsim"
+repository = "https://github.com/neherlab/ffpopsim"
+
+
 [build-system]
+build-backend = "setuptools.build_meta"
 requires = [
   "numpy",
+  "ppsetuptools",
   "setuptools",
   "wheel",
 ]
