@@ -46,7 +46,7 @@ if [ "${branch}" != "master" ] && [ "${branch}" != "main" ] ; then
 fi
 
 printf "\n * Bumping version"
-sed -i'' "s|version = '.*'|version = '${version}'|g" pyproject.toml
+sed -i'' "s|version = \".*\"|version = \"${version}\"|g" pyproject.toml
 
 if [ -z "$(git status -s)" ]; then
   echo "Version bump had no effect. Double-check that the version number you are providing is correct and is not the same as the current version." >/dev/stderr
