@@ -71,6 +71,8 @@ jobs:
 
       - name: "Run Python examples"
         run: |
+          pip3 install -r requirements.txt
+          pip3 install wheelhouse/*.whl
           make run-python-examples-fast
 
       - name: "Upload build artifacts on ${{ matrix.os }} for py${{ matrix.python-version }}"
