@@ -36,7 +36,9 @@ jobs:
 
       - name: "Install dependencies"
         run: |
-          sudo apt-get install build-essential gsl-bin libboost-all-dev libgsl-dev
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -qq --yes
+          sudo apt-get install -qq --yes build-essential gsl-bin libboost-all-dev libgsl-dev >/dev/null
 
       - name: "Run C++ tests"
         run: |
