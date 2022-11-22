@@ -43,7 +43,7 @@ int sample::set_up(int n)
 {
 	if (n<1)
 	{
-		cerr <<"sample::set_up(): number of values has to be greater than zero! Got: "<<bins<<endl;
+		std::cerr <<"sample::set_up(): number of values has to be greater than zero! Got: "<<bins<<std::endl;
 		return SAMPLE_ERROR;
 	}
 	else
@@ -59,7 +59,7 @@ int sample::set_distribution(int bins_in)
 {
 	if (bins_in<1)
 	{
-		cerr <<"sample::set_distribution(): number of bins has to be greater than zero! Got: "<<bins<<endl;
+		std::cerr <<"sample::set_distribution(): number of bins has to be greater than zero! Got: "<<bins<<std::endl;
 		return SAMPLE_ERROR;
 	}
 	else
@@ -75,7 +75,7 @@ int sample::calc_mean()
 	double v;
 	if (mem_values==false)
 	{
-		cerr <<"sample::calc_mean(): Set values first!"<<endl;
+		std::cerr <<"sample::calc_mean(): Set values first!"<<std::endl;
 		return SAMPLE_ERROR;
 	}
 	mean=0;
@@ -97,7 +97,7 @@ int sample::calc_variance()
 	double v;
 	if (mem_values==false)
 	{
-		cerr <<"sample::calc_variance(): Set values first!"<<endl;
+		std::cerr <<"sample::calc_variance(): Set values first!"<<std::endl;
 		return SAMPLE_ERROR;
 	}
 	calc_mean();
@@ -120,7 +120,7 @@ int sample::calc_distribution()
 {
 	if (mem_values==false)
 	{
-		cerr <<"sample::calc_distribution(): Set values first!"<<endl;
+		std::cerr <<"sample::calc_distribution(): Set values first!"<<std::endl;
 		return SAMPLE_ERROR;
 	}
 	double min=values[0], max=values[0];
@@ -146,16 +146,16 @@ int sample::calc_distribution()
 }
 
 //print allele frequencies to stream
-int sample::print_distribution(ostream &out)
+int sample::print_distribution(std::ostream &out)
 {
 	if (out.bad())
 	{
-		cerr <<"sample::print_distribution(): bad stream\n";
+		std::cerr <<"sample::print_distribution(): bad stream\n";
 		return SAMPLE_ERROR;
 	}
 	calc_distribution();
-	for (int l=0; l<bins; l++) out <<setw(15)<<gsl_histogram_get(distribution, l);
-	out <<endl;
+	for (int l=0; l<bins; l++) out <<std::setw(15)<<gsl_histogram_get(distribution, l);
+	out <<std::endl;
 	return 0;
 }
 

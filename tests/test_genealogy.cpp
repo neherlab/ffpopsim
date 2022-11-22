@@ -2,7 +2,7 @@
  * @file test_genealogies.cpp
  * @brief Tests for the genealogies in the high-dimensional simulation library.
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-20
  */
 
@@ -13,6 +13,11 @@
 
 /* Be verbose? */
 #define HIGHD_VERBOSE 1
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ifstream;
 
 // test neutral evolution
 int kingman_coalescent() {

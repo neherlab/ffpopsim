@@ -2,7 +2,7 @@
  * @file highd.cpp
  * @brief Tests for the high-dimensional simulation library.
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-20
  */
 
@@ -13,6 +13,11 @@
 
 /* Be verbose? */
 #define HIV_VERBOSE 1
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ifstream;
 
 /* Test end-user subclass initialization */
 int hiv_initialize() {

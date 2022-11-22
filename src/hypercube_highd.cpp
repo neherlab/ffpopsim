@@ -23,6 +23,19 @@
  */
 #include "ffpopsim_highd.h"
 
+using std::cerr;
+using std::endl;
+using std::ifstream;
+using std::ios;
+using std::istream;
+using std::list;
+using std::map;
+using std::ofstream;
+using std::ostream;
+using std::setw;
+using std::string;
+using std::vector;
+
 hypercube_highd::hypercube_highd()
 {
 mem=false;

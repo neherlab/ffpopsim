@@ -29,6 +29,23 @@
 #include <math.h>
 #include "ffpopsim_highd.h"
 
+using std::cerr;
+using std::endl;
+using std::ifstream;
+using std::ios;
+using std::istream;
+using std::list;
+using std::map;
+using std::max;
+using std::max_element;
+using std::min;
+using std::min_element;
+using std::ofstream;
+using std::ostream;
+using std::setw;
+using std::string;
+using std::vector;
+
 /* Initialize the number of instances to zero */
 size_t haploid_highd::number_of_instances = 0;
 

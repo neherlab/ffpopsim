@@ -37,8 +37,14 @@
 #define HCF_VERBOSE 0
 #define WORDLENGTH 28 	//length used to chop bitsets into words
 
-using namespace std;
-
+using std::cerr;
+using std::endl;
+using std::istream;
+using std::list;
+using std::map;
+using std::ostream;
+using std::string;
+using std::vector;
 
 /**
  * @brief Trait coefficient for a set of loci.
@@ -225,8 +231,6 @@ struct clone_t {
 #include <sstream>
 #include <list>
 #include <gsl/gsl_histogram.h>
-
-using namespace std;
 
 struct tree_key_t {
 	int index;

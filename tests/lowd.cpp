@@ -2,7 +2,7 @@
  * @file lowd.cpp
  * @brief Tests for the low-dimensional simulation library.
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-20
  */
 /* Include directives */
@@ -13,6 +13,10 @@
 
 /* Be verbose? */
 #define LOWD_VERBOSE 1
+
+using std::cerr;
+using std::cout;
+using std::endl;
 
 /* Test generic library access */
 int library_access() {
@@ -32,7 +36,7 @@ int library_access() {
 int sample_initialize() {
 	int N = 5;
 
-	sample sam;
+	::sample sam;
 	sam.set_up(N);
 
 	for(int i=0; i< N; i++)
@@ -66,7 +70,7 @@ int hc_setting() {
 	hc.reset();
 	hc.additive(additive);
 	hc.fft_coeff_to_func();
-	
+
 	if(LOWD_VERBOSE){
 		cerr<<"Func values: ";
 		for(int gt=0; gt < (1<<L); gt++)
@@ -87,8 +91,8 @@ int pop_initialize() {
 
 	haploid_lowd pop(L, 3);
 	if(LOWD_VERBOSE)
-		cerr<<"L = "<<pop.L()<<endl;	
-	return 0;	
+		cerr<<"L = "<<pop.L()<<endl;
+	return 0;
 }
 
 /* Test evolution from allele frequencies */
@@ -108,14 +112,14 @@ int pop_evolve_af() {
 	double* rr = new double[L-1];
 	for(int i=0; i < L-1; i++)
 		rr[i] = 0.01;
-	pop.set_recombination_rates(rr);	
+	pop.set_recombination_rates(rr);
 	pop.set_mutation_rates(1e-2);
 	pop.evolve(5);
 
 	if(LOWD_VERBOSE) {
 		cerr<<"Population size: "<<pop.N()<<endl;
 	}
-	return 0;	
+	return 0;
 }
 
 /* Test evolution from genotype frequencies */
@@ -136,14 +140,14 @@ int pop_evolve_gf() {
 	double* rr = new double[L-1];
 	for(int i=0; i < L-1; i++)
 		rr[i] = 0.01;
-	pop.set_recombination_rates(rr);	
+	pop.set_recombination_rates(rr);
 	pop.set_mutation_rates(1e-2);
 	pop.evolve(5);
 
 	if(LOWD_VERBOSE) {
 		cerr<<"Population size: "<<pop.N()<<endl;
 	}
-	return 0;	
+	return 0;
 }
 
 
@@ -166,7 +170,7 @@ int pop_observables() {
 
 	}
 
-	return 0;	
+	return 0;
 }
 
 /* MAIN */

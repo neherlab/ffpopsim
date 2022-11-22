@@ -2,7 +2,7 @@
  * @file highd.cpp
  * @brief Tests for the high-dimensional simulation library.
  * @author Richard Neher, Boris Shraiman, Fabio Zanini
- * @version 
+ * @version
  * @date 2012-04-20
  */
 
@@ -13,6 +13,10 @@
 
 /* Be verbose? */
 #define HIGHD_VERBOSE 1
+
+using std::cerr;
+using std::cout;
+using std::endl;
 
 /* Test generic library access */
 int library_access() {
@@ -37,7 +41,7 @@ int library_access() {
 int sample_initialize() {
 	int N = 5;
 
-	sample sam;
+	::sample sam;
 	sam.set_up(N);
 
 	for(int i=0; i< N; i++)
@@ -75,8 +79,8 @@ int hc_setting() {
 		loci.assign(1, myints[i]);
 		hc.add_coefficient(values[i], loci);
 		loci.clear();
-	}	
-	
+	}
+
 	if(HIGHD_VERBOSE){
 		cerr<<"Coefficient indices and values: ";
 		for(int i=0; i<4; i++) {
@@ -93,8 +97,8 @@ int pop_initialize() {
 
 	haploid_highd pop(L, 3, 1);
 	if(HIGHD_VERBOSE)
-		cerr<<"L = "<<pop.get_number_of_loci()<<endl;	
-	return 0;	
+		cerr<<"L = "<<pop.get_number_of_loci()<<endl;
+	return 0;
 }
 
 /* Test evolution */
@@ -142,7 +146,7 @@ int pop_evolve() {
 		cerr<<"Fitness mean and variance: "<<fitness.mean<<", "<<fitness.variance<<endl;
 	}
 
-	return 0;	
+	return 0;
 }
 
 

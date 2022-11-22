@@ -25,6 +25,19 @@
  */
 #include "ffpopsim_lowd.h"
 
+using std::cerr;
+using std::endl;
+using std::ifstream;
+using std::ios;
+using std::istream;
+using std::list;
+using std::map;
+using std::ofstream;
+using std::ostream;
+using std::setw;
+using std::string;
+using std::vector;
+
 /* Initialize the number of instances to zero */
 size_t haploid_lowd::number_of_instances=0;
 
@@ -57,7 +70,7 @@ haploid_lowd::haploid_lowd(int L_in, int rng_seed) {
 	// control than we currently have.
 	int err = allocate_mem();
 	if(err)	throw err;
-	
+
 	number_of_instances++;
 }
 
@@ -240,7 +253,7 @@ int haploid_lowd::free_recombination_mem() {
 int haploid_lowd::set_mutation_rates(double m) {
 	if (not mem) {
 		cerr<<"haploid_lowd::set_mutation_rates(): allocate memory first!"<<endl;
-		return HG_MEMERR;	
+		return HG_MEMERR;
 	}
 
 	for (int fb = 0; fb < 2; fb++)
@@ -325,7 +338,7 @@ int haploid_lowd::set_recombination_model(int rec_model) {
 		case FREE_RECOMBINATION: break;
 		case SINGLE_CROSSOVER: break;
 		case CROSSOVERS: break;
-		default: return HG_BADARG; break;	
+		default: return HG_BADARG; break;
 	}
 
 	int err = 0;
@@ -373,13 +386,13 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 	// one cannot assign recombination rates to free recombination
 	if (rec_model == FREE_RECOMBINATION) {
 		if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): You cannot set recombination rates to free recombination!"<<endl;
-		return HG_BADARG;	
+		return HG_BADARG;
 	}
 
 	// recombination model must be in the allowed list of models
 	if ((rec_model != CROSSOVERS) and (rec_model != SINGLE_CROSSOVER)) {
 		if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Recombination model not recognized."<<endl;
-		return HG_BADARG;	
+		return HG_BADARG;
 	}
 
 	// single crossover cannot work for circular genomes, and the crossover probabilities
@@ -387,15 +400,15 @@ int haploid_lowd::set_recombination_rates(double *rec_rates, int rec_model) {
 	if (rec_model == SINGLE_CROSSOVER) {
 		if (circular) {
 			if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Single crossover not available for circular genomes."<<endl;
-			return HG_BADARG;	
+			return HG_BADARG;
 		}
-	
+
 		double sum = 0;
 		for (int locus = 0; locus != number_of_loci - 1; locus++)
 			sum += rec_rates[locus];
 		if(sum > 1) {
 			if(HG_VERBOSE) cerr <<"haploid_lowd::set_recombination_rates(): Sum of crossover rates is greater than one!"<<endl;
-			return HG_BADARG;	
+			return HG_BADARG;
 		}
 	}
 
@@ -461,7 +474,7 @@ int haploid_lowd::set_recombination_rates_general(double *rec_rates) {
 		strandswitches=0;
 		for (int locus = 0; locus < number_of_loci; locus++) {
 			newstrand=((i&(1<<locus))>0)?1:0;	//determine the parent of current locus
-	
+
 			// For circular genomes all rates are specified.
 			// for linear genomes the first rate is set to a large number, e.g. 50
 			rr = circular?rec_rates[locus]:(locus?rec_rates[locus - 1]:50);
@@ -986,7 +999,7 @@ int haploid_lowd::calculate_recombinants_single() {
 	//normalization of the distribution
 	recombinants.coeff[0]=1.0/(1<<number_of_loci);
 	if(HG_VERBOSE >= 2) cerr<<0<<"  "<<recombinants.coeff[0]<<endl;
-	
+
 	double *RP = recombination_patterns[0];
 
 	//loop of all coefficients of the distribution of recombinants
@@ -995,7 +1008,7 @@ int haploid_lowd::calculate_recombinants_single() {
 		// 1. everything is contributed by the same parent i
 		recombinants.coeff[i] = 2*RP[number_of_loci-1] * population.coeff[i] * population.coeff[0];
 		if(HG_VERBOSE >= 3) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[i]<<endl;
-		
+
 		// 2. both parents contribute in variable proportions
 		for (crossover_point=0; crossover_point < number_of_loci-1; crossover_point++) {
 			rec_pattern=(2<<crossover_point)-1;
@@ -1004,8 +1017,8 @@ int haploid_lowd::calculate_recombinants_single() {
 			maternal_alleles=(i&rec_pattern);
 			recombinants.coeff[i] += 2*RP[crossover_point] * population.coeff[maternal_alleles] * population.coeff[paternal_alleles];
 			if(HG_VERBOSE >= 3) cerr<<i<<"  "<<recombinants.coeff[i]<<"  "<<population.coeff[paternal_alleles]<<endl;
-		}		
-		
+		}
+
 		//normalize: the factor 1<<number_of_loci is due to a peculiarity of the fft algorithm
 		recombinants.coeff[i]*=(1<<(number_of_loci));
 		if(HG_VERBOSE >= 2) cerr<<i<<"  "<<recombinants.coeff[i]<<endl;
