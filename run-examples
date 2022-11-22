@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Runs all Python examples in `examples/` directory
+
+set -euo pipefail
+shopt -s globstar nullglob
+trap 'echo 🟦 Cancelled; exit 0' INT
+
+function run_example() {
+  set -euo pipefail
+
+  example=$(basename -- "${1}")
+
+  printf '%s\n' '--------------------------------------------------------'
+  printf '\n⬜ BEGIN   "%s"\n' "${example}"
+
+  pushd "examples/" >/dev/null
+    if (PYTHONPATH='../pkg/python' python3 "${example}" 2>&1 1>/dev/null | pygmentize -l pytb -O style=material); then
+      printf '🟩 SUCCESS "%s"\n\n\n' "${example}"
+      return 0
+    else
+      printf '\n🟥 FAILURE "%s"\n\n\n' "${example}"
+      return 1
+    fi
+  popd >/dev/null
+
+}
+
+export -f run_example
+
+
+find "examples/" -maxdepth 1 -type f -iname '*.py' | sort | parallel -j "$(nproc)" run_example
+

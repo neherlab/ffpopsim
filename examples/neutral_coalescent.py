@@ -24,21 +24,21 @@ pop.evolve(4*pop.N)
 
 #get tree at locus 10
 tree = pop.genealogy.get_tree(10)
-print "\nTree statistics:"
-print "Branch length:", tree.total_branch_length()
-print "External branch length:", tree.external_branch_length()
-print "Number of leafs:", len(tree.leafs)
-print "Number of internal nodes:", len(tree.nodes)-len(tree.leafs)
-print "Time to MRCA:", pop.generation - tree.MRCA.age
+print("\nTree statistics:")
+print("Branch length:", tree.total_branch_length())
+print("External branch length:", tree.external_branch_length())
+print("Number of leafs:", len(tree.leafs))
+print("Number of internal nodes:", len(tree.nodes)-len(tree.leafs))
+print("Time to MRCA:", pop.generation - tree.MRCA.age)
 
 
 #produce a subtree with of a sample of leafs
 n = 5
 subsample = rd.sample(tree.leafs, n)
 sub_tree = tree.create_subtree_from_keys(subsample)
-print "\nSubtree with",n,"leafs"
-print sub_tree.print_newick()
-print "Each tree label is composed of the index if the individual and the size of the clone"
+print("\nSubtree with",n,"leafs")
+print(sub_tree.print_newick())
+print("Each tree label is composed of the index if the individual and the size of the clone")
 
 #trees can be exported as a BioPython tree structure
 from Bio import Phylo as P

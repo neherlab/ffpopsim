@@ -34,10 +34,10 @@ maxgen = 2000
 allele_frequencies = [pop.get_allele_frequencies()] 
 tp = [pop.generation]
 
-print "Illustrate genetic drift on allele frequency trajectories."
-pop.status()    #print status message
+print("Illustrate genetic drift on allele frequency trajectories.")
+pop.status()    #print(status message)
 while pop.generation < maxgen:
-    if (pop.generation%(maxgen/10)==0): print pop.generation,"out of",maxgen, "generations"
+    if (pop.generation%(maxgen/10)==0): print(pop.generation,"out of",maxgen, "generations")
     pop.evolve(10)
 
     # save allele frequencies and time
@@ -49,7 +49,7 @@ allele_frequencies = np.array(allele_frequencies)
 
 # plot the result
 plt.figure()
-for locus in xrange(5,pop.L,50):                # plot a few neutral trajectories
+for locus in range(5,pop.L,50):                # plot a few neutral trajectories
     plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus), lw=2)
 
 plt.title('Genetic Drift')

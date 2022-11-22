@@ -4,10 +4,10 @@ from matplotlib import pyplot as plt
 import random as rd
 from Bio import Phylo
 
-print "This script is meant to illustrate and explore the effect of\n\
+print("This script is meant to illustrate and explore the effect of\n\
 purifying selection on genealogies in asexual and sexual populations. \n\n\
 Simulations are performed using an finite sites model with L sites\n\
-with recurrent mutations.\n\n"
+with recurrent mutations.\n\n")
 
 #suggested values
 #asexual: 	N=10000	s=0.01	r=0.0	U=0.1
@@ -47,21 +47,20 @@ pop.track_locus_genealogy([L/2])
 #initialize the populations
 pop.set_wildtype(pop.carrying_capacity)
 
-print "Population parameters:"
+print("Population parameters:")
 pop.status()
 
 #burn in
-print "\nEquilibrate:"
+print("\nEquilibrate:")
 while pop.generation<burnin:
-	print "Burn in: at", pop.generation, "out of", burnin, "generations"
+	print("Burn in: at", pop.generation, "out of", burnin, "generations")
 	pop.evolve(100)
 
 
-print "\nPlot coalescent trees:"
+print("\nPlot coalescent trees:")
 fig=plt.figure(figsize=(7,10))
 fig.suptitle("".join(map(str,['N=',N,'  r=',r,'  L=',L, '  U=',U,'  s=',s])), fontsize=18)
-for si in xrange(nsamples):
-	print "sample",si,"out of",nsamples
+for si in range(nsamples):
 	#evolve a while before sampling the next tree
 	pop.evolve(dt)
 

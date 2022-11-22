@@ -50,7 +50,7 @@ while pop.generation < maxgen:
 
     # every 200 generations, make one of the deleterious mutations beneficial
     if (pop.generation % 200 == 0):
-        print "generation:", pop.generation, 'out of', maxgen
+        print("generation:", pop.generation, 'out of', maxgen)
 
         # update fitness function
         selection_coefficients[m*np.random.randint(0,25)] = 0.01
@@ -63,11 +63,11 @@ allele_frequencies = np.array(allele_frequencies)
 plt.figure()
 
 # plot the selected mutations
-for locus in xrange(0,pop.L,m):
+for locus in range(0,pop.L,m):
     plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus),lw=2, ls='--')
 
 # plot some neutral sites
-for locus in xrange(5,pop.L,50):
+for locus in range(5,pop.L,50):
     plt.plot(tp, allele_frequencies[:,locus], c=cm.cool(locus), lw=2)
 
 plt.title('Drift and draft')

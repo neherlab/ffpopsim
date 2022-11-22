@@ -3,11 +3,11 @@ import numpy as np
 from matplotlib import pyplot as plt
 import random as rd
 
-print 'FFPopSim uses a finite sites implementation with a genome \n\
+print('FFPopSim uses a finite sites implementation with a genome \n\
 of fixed length L. One can, however, specify the number of segregating sites \n\
 and FFPopSim will keep these sites polymorphic by introducing a mutation \n\
 in a random individual as soon as the previous polymorphism at this site \n\
-disappears or fixes.'
+disappears or fixes.')
 
 L=1000
 
@@ -17,7 +17,7 @@ pop.crossover_rate=1.0/pop.L
 #switch on infinite sites mode
 pop.all_polymorphic=True
 pop.mutation_rate=0
-#mutation rate needs to be zero in this case. 
+#mutation rate needs to be zero in this case.
 pop.carrying_capacity=1000
 pop.set_fitness_additive(np.ones(L)*0.01)
 #initialize the populations
@@ -34,8 +34,7 @@ bins[0]=0; bins[-1]=1
 bc= 0.5*(bins[:-1]+bins[1:])
 dx = bins[1:]-bins[:-1]
 SFS=np.zeros(len(bc))
-for si in xrange(nsamples):
-	print "sample",si,"out of",nsamples
+for si in range(nsamples):
 	pop.evolve(100)
 	af=pop.get_derived_allele_frequencies()
 	y,x = np.histogram(af,bins=bins)

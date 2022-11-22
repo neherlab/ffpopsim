@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
             for i, r in enumerate(rs):    
                 ttmp = []
-                for j in xrange(50):
+                for j in range(50):
         
                     # set up population
                     pop = h.haploid_lowd(L)         # produce an instance of haploid_lowd with L loci
@@ -88,7 +88,7 @@ if __name__ == '__main__':
                 # store crossing times
                 times[i] = np.mean(ttmp)
                 dtimes[i] = np.std(ttmp)
-                print 'r = '+str(r)+'\tTime to cross the valley: '+str(times[i])+' generations' 
+                print('r = '+str(r)+'\tTime to cross the valley: '+str(times[i])+' generations' )
         
             # save results in a text file
             np.savetxt('valley_mu_'+str(mu)+'.dat',zip(rs,times, dtimes))

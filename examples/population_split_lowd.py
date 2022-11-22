@@ -41,7 +41,7 @@ pop2 = pop.copy()
 g = []
 af1 = []
 af2 = []
-for i in xrange(100):
+for i in range(100):
     pop.evolve(10)
     pop2.evolve(10)
     af1.append(pop.get_allele_frequencies())
@@ -51,8 +51,8 @@ af1 = np.array(af1)
 af2 = np.array(af2)
 
 # Plot the allele frequencies
-colors = [cm.jet(int(255.0 * i / af1.shape[1])) for i in xrange(af1.shape[1])]
-for i in xrange(af1.shape[1]):
+colors = [cm.jet(int(255.0 * i / af1.shape[1])) for i in range(af1.shape[1])]
+for i in range(af1.shape[1]):
     plt.plot(g, af1[:, i], color=colors[i], ls='-')
     plt.plot(g, af2[:, i], color=colors[i], ls='--')
 

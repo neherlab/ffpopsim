@@ -1,0 +1,27 @@
+[tool.cibuildwheel]
+
+build-frontend = "build"
+
+skip = [
+  "*i686",
+  "*musl*",
+  "*ppc64le",
+  "*s390x",
+  "*win32",
+  "pp*",
+]
+
+macos.archs = ["x86_64", "arm64"]
+
+build-verbosity = 1
+
+linux.before-build = [
+  "yum makecache fast",
+  "yum install -y boost-devel gsl-devel >/dev/null",
+  "make swig",
+]
+
+macos.before-build = [
+  "brew install boost gsl",
+  "make swig",
+]
