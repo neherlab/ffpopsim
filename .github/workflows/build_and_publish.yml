@@ -40,9 +40,13 @@ jobs:
           sudo apt-get update -qq --yes >/dev/null
           sudo apt-get install -qq --yes build-essential gsl-bin libboost-all-dev libgsl-dev >/dev/null
 
+      - name: "Build C++ tests"
+        run: |
+          make tests
+
       - name: "Run C++ tests"
         run: |
-          make tests run-tests
+          make run-tests
 
   build_wheels:
     name: "Build wheel (${{ matrix.os }}, py${{ matrix.python-version }})"
