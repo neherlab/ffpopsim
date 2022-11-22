@@ -337,6 +337,8 @@ public:
         // construct subtrees
 	int construct_subtree(vector <tree_key_t> subtree_leafs, rooted_tree &other);
 
+	vector <tree_key_t> get_sampled_leafs() const { return sampled_leafs; }
+	void set_sampled_leafs(const vector <tree_key_t>& leafs) { sampled_leafs = leafs; }
 private:
 	static int parse_label(std::string label, int *index, int *clone_size, int *branch_length);
 	int parse_subtree(tree_key_t &parent_key, std::string &tree_s);

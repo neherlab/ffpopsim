@@ -505,6 +505,19 @@ def leafs(self, leaves):
     self._leafs = vector_tree_key(leaves)
 %}
 
+%rename (_sampled_leafs) sampled_leafs;
+%pythoncode
+%{
+@property
+def sampled_leafs(self):
+    return list(self._sampled_leafs)
+
+
+@leafs.setter
+def sampled_leafs(self, leaves):
+    self._sampled_leafs = vector_tree_key(leaves)
+%}
+
 %pythoncode
 %{
 def to_Biopython_tree(self):
