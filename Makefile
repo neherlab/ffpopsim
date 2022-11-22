@@ -298,6 +298,12 @@ python-install:
 	$(PYTHON) setup.py install --skip-build --install-lib=$(PKGDIR)/python
 	$(PYTHON) setup.py install --skip-build --root=$(DESTDIR)
 
+run-python-examples:
+	./run-examples
+
+run-python-examples-fast:
+	./run-examples --skip-slow
+
 clean-python:
 	rm -rf build pkg/python
 	$(PYTHON) setup.py clean

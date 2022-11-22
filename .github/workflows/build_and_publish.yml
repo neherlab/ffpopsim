@@ -22,6 +22,20 @@ concurrency:
 
 
 jobs:
+  run_cpp_tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: "Run C++ tests"
+        run: |
+          make tests run-tests
+
   build_wheels:
     name: "Build wheel (${{ matrix.os }}, py${{ matrix.python-version }})"
 
@@ -46,6 +60,10 @@ jobs:
           config-file: cibuildwheel.toml
         env:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
+
+      - name: "Run Python examples"
+        run: |
+          make run-python-examples-fast
 
       - name: "Upload build artifacts on ${{ matrix.os }} for py${{ matrix.python-version }}"
         uses: actions/upload-artifact@v3
@@ -79,7 +97,7 @@ jobs:
   publish_to_pypi:
     name: "Publish to PyPI"
 
-    needs: [ build_wheels, make_sdist ]
+    needs: [ run_cpp_tests, build_wheels, make_sdist ]
 
     runs-on: ubuntu-22.04
 

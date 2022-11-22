@@ -2,26 +2,58 @@
 
 # Runs all Python examples in `examples/` directory
 
+# Dependencies:
+# sudo apt-get install parallel time
+
 set -euo pipefail
 shopt -s globstar nullglob
 trap 'echo 🟦 Cancelled; exit 0' INT
+
+SKIP_SLOW=0
+
+case "${1:-}" in
+"--skip-slow")
+  shift
+  SKIP_SLOW=1
+  ;;
+esac
+
+export SKIP_SLOW
+
 
 function run_example() {
   set -euo pipefail
 
   example=$(basename -- "${1}")
 
+  # List of examples that are slow to run. We skip them in CI.
+  slow_examples=( \
+    "benefits_of_sex.py" \
+    "genealogies_with_selection.py" \
+    "measuring_fixation_probabilities.py" \
+    "multi_sample_adaptive.py" \
+    "mutation_selection_balance_highd.py" \
+    "neutral_LD_highd.py" \
+    "speed_highd.py" \
+    "speed_lowd.py" \
+  )
+
   printf '%s\n' '--------------------------------------------------------'
   printf '\n⬜ BEGIN   "%s"\n' "${example}"
 
+  if [ "${SKIP_SLOW}" == "1" ] && [[ " ${slow_examples[*]} " =~ ${example} ]]; then
+    echo "Skipping slow example '${example}' due to '--skip-slow' argument"
+    return 0
+  fi
+
   pushd "examples/" >/dev/null
-    if (PYTHONPATH='../pkg/python' python3 "${example}" 2>&1 1>/dev/null | pygmentize -l pytb -O style=material); then
-      printf '🟩 SUCCESS "%s"\n\n\n' "${example}"
-      return 0
-    else
-      printf '\n🟥 FAILURE "%s"\n\n\n' "${example}"
-      return 1
-    fi
+  if (/usr/bin/time -f 'Time: %E\nMem:  %M KB\n' python3 "${example}" 2>&1 1>/dev/null | pygmentize -l pytb -O style=material); then
+    printf '🟩 SUCCESS "%s"\n\n\n' "${example}"
+    return 0
+  else
+    printf '\n🟥 FAILURE "%s"\n\n\n' "${example}"
+    return 1
+  fi
   popd >/dev/null
 
 }
