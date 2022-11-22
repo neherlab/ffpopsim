@@ -12,6 +12,7 @@ RUN set -euxo pipefail >/dev/null \
   bison \
   build-essential \
   ca-certificates \
+  ccache \
   curl \
   git \
   gsl-bin \
@@ -23,10 +24,7 @@ RUN set -euxo pipefail >/dev/null \
   parallel \
   python3 \
   python3-dev \
-  python3-distutils \
   python3-pip \
-  python3-setuptools \
-  python3-wheel \
   sudo \
   time \
 >/dev/null \

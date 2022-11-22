@@ -131,3 +131,5 @@ examples/tree_N=10000_r=0.0_L=1000_s=0.01.pdf
 examples/tree_N=200_r=0.0_L=1000_U=0.1_s=-1e-06.pdf
 
 examples/*.png
+
+/\.cache
