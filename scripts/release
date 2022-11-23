@@ -31,7 +31,7 @@ function ask_confirmation_or_exit() {
   done
 }
 
-printf "\n * Creating release '${version}'"
+printf "\n * Creating release '${version}'\n\n"
 
 if [ -n "$(git status -s)" ]; then
   echo "Uncommitted changes detected. Refusing to proceed." >/dev/stderr
@@ -59,22 +59,24 @@ printf "\n-----------------------------------\n\n"
 
 ask_confirmation_or_exit "Do you want to commit this changes to the current branch '${branch}' and to create a new local git tag '${version}'? (This will only modify your local git repo and will not yet have any effect globally)."
 
-printf "\n * Committing changes locally"
+printf "\n * Committing changes locally\n"
 git add -A >/dev/null
 git commit -m "chore: release ${version}"
 
-printf "\n * Creating git tag"
+printf "\n * Creating git tag\n"
 git tag "${version}" >/dev/null
 
-ask_confirmation_or_exit "Release '${version}' is created locally. The changes listed above are now committed to your local branch '${branch}', and a local git tag '${version}' is created. (Pushing these changes and the tag will trigger a build on a CI server and publication of the release to PyPi, so that it is available to the whole world). Do you want to proceed?"
+echo ""
 
-printf "\n * Pushing branch '${branch}'"
+ask_confirmation_or_exit "Release '${version}' is created locally. The changes listed above are now committed to your local branch '${branch}', and a local git tag '${version}' is created. Pushing these changes and the tag will trigger a build on a CI server and publication of the release to PyPi, so that it is available to the whole world. Do you want to push?"
+
+printf "\n * Pushing branch '${branch}'\n"
 git push origin "${branch}"
 
-printf "\n * Pushing tag '${version}'"
+printf "\n * Pushing tag '${version}'\n"
 git push origin "${version}"
 
-printf "\n * Released successfully! 🎉"
+printf "\n * Released successfully! 🎉\n"
 echo ""
 echo "You can check build status here:"
 echo "  https://github.com/neherlab/ffpopsim/actions"
