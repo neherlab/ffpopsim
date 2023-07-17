@@ -12,7 +12,7 @@ The Python bindings are also distributed as ready-to-use binary files (see
 to do so.
 
 - On Linux, FFPopSim is expected to be compatible with all distributions, provided
-  they are up to date (glibc 2.14 recommended).
+  they are up to date.
 
 - On Mac OSX, only Intel CPUs are expected to work, and only **Mac OSX 10.6 or
   later**. If you have an earlier Mac computer, you can still try to build the
@@ -22,12 +22,9 @@ to do so.
 Runtime Requirements
 --------------------
 
-- Python_ 2.7 (no Python 3 support yet): older Python versions will *never* be
-  supported, but Python 3 might become so in the future. If you have only Python
-  2.6 or earlier, consider using the EPD_ Python distribution or updating your
-  system.
+- Python_ 3
 
-- NumPy_ 1.6: if your Python distribution has only NumPy 1.5 or earlier,
+- NumPy_: if your Python distribution has only NumPy 1.5 or earlier,
   consider using the EPD_ Python distribution, building FFPopSim from source, or
   updating your system. It is recommended to import numpy explicitely before
   using the library, as shown in the examples.
@@ -51,7 +48,7 @@ Building Requirements
 In order to build the Python bindings to FFPopSim, you need the following programs:
 
    - a C++ compiler, e.g. GCC_
-   - Python_ 2.7+ (no Python 3 support yet), including header files
+   - Python_ 3, including header files
    - NumPy_, including header files and shared libraries
    - GSL_, the GNU Scientific library
    - BOOST_, the C++ extension library
@@ -65,11 +62,11 @@ will need the following programs:
 
 Finally, if you want to rebuild the documentation, you will need the following programs:
 
-   - Sphinx_, the Python documentation generator, for Python 2.x
+   - Sphinx_, the Python documentation generator, for Python
 
-The building process has been tested on Python 2.7, Numpy 1.6, gcc 4.7, gsl 1.15, boost
-1.50. The regeneration part has been tested on SWIG 2.0. The documentation has been
-created with Sphinx 1.1.
+The building process has been tested on Debian 10, Python 3.9, Numpy 1.23, gcc 10, gsl 2.6, boost
+1.74. The regeneration part has been tested on SWIG 4.1.0. The documentation has been
+created with Sphinx 3.4.
 
 .. _GCC: http://gcc.gnu.org/
 .. _GSL: http://www.gnu.org/software/gsl/
