@@ -10,9 +10,21 @@ The installation of the FFPopSim Python module is done via the programs Make and
 distutils_. Please refer also to the `INSTALL` file if the instructions below do
 not satisfy your needs (or generate errors!).
 
+
+Using pip
+^^^^^^^^^
+The simplest way to install FFPopSim is using pip:
+
+.. code-block:: bash
+
+    pip install FFPopSim
+
+The package page on PyPI is at https://pypi.org/project/FFPopSim/
+
+
 Using the binaries
 ^^^^^^^^^^^^^^^^^^
-The simplest way to install FFPopSim is using the binaries provided for 32 and
+Another way to install FFPopSim is using the binaries provided for 32 and
 64 bit Linux and Mac OSX (10.6+) systems. You can choose either way:
 
 #. copy manually the files from ``build/<your arch>`` into a folder included in
