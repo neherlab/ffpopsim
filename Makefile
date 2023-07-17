@@ -361,3 +361,35 @@ $(PROFILE_OBJECT:%=$(PFLDIR)/%): $(PROFILE_SOURCE:%=$(PFLDIR)/%)
 	$(CXX) $(PROFILE_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 #############################################################################
+
+
+export UID=$(shell id -u)
+export GID=$(shell id -g)
+
+docs:
+	@$(MAKE) --no-print-directory -C doc/python html
+
+docs-clean:
+	rm -rf doc/python/build
+
+SHELL := /bin/bash
+.ONESHELL:
+docker-docs:
+	set -euxo pipefail
+
+	docker build -t ffpopsim-docs-builder \
+	--network=host \
+	--build-arg UID=$(shell id -u) \
+	--build-arg GID=$(shell id -g) \
+	doc/python
+
+	docker run -it --rm \
+	--network=host \
+	--name=ffpopsim-docs-builder-$(shell date +%s) \
+	--init \
+	--user=$(shell id -u):$(shell id -g) \
+	--volume=$(shell pwd):/home/user/src \
+	--publish=8000:8000 \
+	--workdir=/home/user/src \
+	--env 'TERM=xterm-256colors' \
+	ffpopsim-docs-builder

@@ -1,0 +1,25 @@
+name: org.neherlab.ffpopsim.docs
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - anaconda-client
+  - boost-cpp
+  - gcc
+  - gcc_linux-64
+  - gsl==2.7
+  - gxx
+  - gxx_linux-64
+  - make==4.3
+  - numpy
+  - pip
+  - recommonmark
+  - requests
+  - sphinx
+  - swig==4.0.2
+  - pip:
+    - sphinx-argparse
+    - sphinx-autobuild
+    - sphinx-markdown-tables
+    - sphinx-rtd-theme
+    - sphinx-tabs
