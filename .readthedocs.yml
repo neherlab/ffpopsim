@@ -1,3 +1,4 @@
+---
 version: 2
 
 conda:
@@ -5,13 +6,3 @@ conda:
 
 sphinx:
   configuration: doc/python/source/conf.py
-
-build:
-  os: ubuntu-22.04
-  tools:
-    python: "3.11"
-  jobs:
-    pre_build:
-      - conda env create -f environment.yml --name org.neherlab.ffpopsim.docs
-      - conda activate org.neherlab.ffpopsim.docs
-      - make -j8 swig python
