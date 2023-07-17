@@ -14,7 +14,6 @@ Description
 
 FFPopSim is easy to use via the Python interface and can be extended or modified both at the C++ or Python level.
 
-
 Downloads
 ---------
 The official sources and releases are online at:
@@ -35,6 +34,13 @@ http://ffpopsim.readthedocs.io/en/latest/
 
 Install
 -------
+
+To install using pip:
+
+```bash
+pip install FFPopSim
+```
+
 To install the library, read the INSTALL file.
 The two configuration files are:
 
