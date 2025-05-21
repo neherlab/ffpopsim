@@ -22,7 +22,7 @@ jobs:
   run_cpp_tests:
     name: "Run C++ tests"
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: "Checkout code"
@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-22.04, macOS-11 ]
+        os: [ ubuntu-24.04, macOS-11 ]
         python-version: [ 36, 37, 38, 39, 310, 311 ]
 
     steps:
@@ -79,7 +79,7 @@ jobs:
   make_sdist:
     name: "Make source distribution"
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: "Checkout code"
@@ -106,7 +106,7 @@ jobs:
 
     needs: [ run_cpp_tests, build_wheels, make_sdist ]
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: true
