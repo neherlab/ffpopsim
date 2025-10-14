@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           submodules: true
@@ -58,20 +58,20 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           submodules: true
 
       - name: "Build wheel (${{ matrix.os }}, py${{ matrix.python-version }})"
-        uses: pypa/cibuildwheel@v2.11.1
+        uses: pypa/cibuildwheel@v2.21.3
         with:
           config-file: cibuildwheel.toml
         env:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
 
       - name: "Upload build artifacts (${{ matrix.os }}, py${{ matrix.python-version }})"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: ./wheelhouse/*.whl
@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           submodules: true
@@ -94,7 +94,7 @@ jobs:
           pipx run build --sdist
 
       - name: "Upload build artifacts"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "dist"
           path: "dist/*.tar.gz"
@@ -113,7 +113,7 @@ jobs:
 
     steps:
       - name: "Download build artifacts"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: "dist"
           path: "dist"
