@@ -99,7 +99,7 @@ jobs:
 
       - name: "Build sdist"
         run: |
-          pip3 install pipx ppsetuptools
+          pip3 install pipx
           pipx run build --sdist
 
       - name: "Upload build artifacts"
