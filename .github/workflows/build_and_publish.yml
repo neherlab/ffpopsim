@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-24.04, macOS-11 ]
+        os: [ ubuntu-24.04, macOS-13 ]
         python-version: [ 36, 37, 38, 39, 310, 311 ]
 
     steps:
@@ -73,7 +73,7 @@ jobs:
       - name: "Upload build artifacts (${{ matrix.os }}, py${{ matrix.python-version }})"
         uses: actions/upload-artifact@v4
         with:
-          name: dist
+          name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ./wheelhouse/*.whl
 
   make_sdist:
@@ -96,7 +96,7 @@ jobs:
       - name: "Upload build artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "dist"
+          name: "dist-sdist"
           path: "dist/*.tar.gz"
 
   publish_to_pypi:
@@ -115,8 +115,12 @@ jobs:
       - name: "Download build artifacts"
         uses: actions/download-artifact@v4
         with:
-          name: "dist"
-          path: "dist"
+          path: "artifacts"
+
+      - name: "Collect all artifacts into dist folder"
+        run: |
+          mkdir -p dist
+          find artifacts -type f \( -name '*.whl' -o -name '*.tar.gz' \) -exec cp {} dist/ \;
 
       - name: "Publish to PyPI"
         if: startsWith(github.ref, 'refs/tags')
