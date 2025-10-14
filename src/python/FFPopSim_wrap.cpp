@@ -27182,7 +27182,7 @@ SWIGINTERN PyObject *_wrap_haploid_lowd_get_fitnesses(PyObject *self, PyObject *
   haploid_lowd_get_fitnesses(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -27231,7 +27231,7 @@ SWIGINTERN PyObject *_wrap_haploid_lowd_get_fitness_coefficients(PyObject *self,
   haploid_lowd_get_fitness_coefficients(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -27976,7 +27976,7 @@ SWIGINTERN PyObject *_wrap_clone__get_trait(PyObject *self, PyObject *args, PyOb
   clone_t__get_trait(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -31348,7 +31348,7 @@ SWIGINTERN PyObject *_wrap_multi_locus_genealogy__get_loci(PyObject *self, PyObj
   multi_locus_genealogy__get_loci(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -34190,7 +34190,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd__get_trait_weights(PyObject *self, PyOb
   haploid_highd__get_trait_weights(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -34472,7 +34472,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_get_allele_frequencies(PyObject *self, 
   haploid_highd_get_allele_frequencies(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -34521,7 +34521,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_get_derived_allele_frequencies(PyObject
   haploid_highd_get_derived_allele_frequencies(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -34570,7 +34570,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_get_ancestral_states(PyObject *self, Py
   haploid_highd_get_ancestral_states(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
@@ -34630,7 +34630,7 @@ SWIGINTERN PyObject *_wrap_haploid_highd_get_trait_additive(PyObject *self, PyOb
   haploid_highd_get_trait_additive(arg1,arg2,arg3,arg4);
   resultobj = SWIG_Py_Void();
   {
-    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 0);
+    resultobj = SWIG_Python_AppendOutput(resultobj, (PyObject*)array2, 1);
   }
   return resultobj;
 fail:
