@@ -13,8 +13,8 @@ skip = [
 
 macos.archs = ["x86_64", "arm64"]
 
-# GSL libraries from Homebrew require macOS 13.0 minimum
-macos.environment = {MACOSX_DEPLOYMENT_TARGET = "13.0"}
+# GSL libraries from Homebrew require macOS 14.0 minimum for macOS 15 runners
+macos.environment = {MACOSX_DEPLOYMENT_TARGET = "14.0"}
 
 build-verbosity = 1
 
