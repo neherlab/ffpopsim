@@ -37,21 +37,40 @@ test-skip = [
 
 
 linux.before-test = [
-  "yum install -y parallel >/dev/null",
   "pip install 'biopython' 'matplotlib' 'numpy<2' 'pandas' 'pygments' 'scipy'"
 ]
 
+# Run examples serially (one at a time) without parallel to avoid memory issues in CI
 linux.test-command = [
-  "cd {project} && bash ./run-examples --skip-slow"
+  """cd {project}/examples && for f in *.py; do
+    case "$f" in
+      benefits_of_sex.py|genealogies_with_selection.py|measuring_fixation_probabilities.py|multi_sample_adaptive.py|mutation_selection_balance_highd.py|neutral_LD_highd.py|speed_highd.py|speed_lowd.py)
+        echo "Skipping slow example: $f"
+        ;;
+      *)
+        echo "Testing $f..."
+        MPLBACKEND=Agg python3 "$f" || exit 1
+        ;;
+    esac
+  done"""
 ]
 
 
 macos.before-test = [
-  "brew install parallel >/dev/null",
   "pip install 'biopython' 'matplotlib' 'numpy<2' 'pandas' 'pygments' 'scipy'"
 ]
 
-# Run same tests as Linux for consistency
+# Run same tests as Linux for consistency - serially without parallel
 macos.test-command = [
-  "cd {project} && bash ./run-examples --skip-slow"
+  """cd {project}/examples && for f in *.py; do
+    case "$f" in
+      benefits_of_sex.py|genealogies_with_selection.py|measuring_fixation_probabilities.py|multi_sample_adaptive.py|mutation_selection_balance_highd.py|neutral_LD_highd.py|speed_highd.py|speed_lowd.py)
+        echo "Skipping slow example: $f"
+        ;;
+      *)
+        echo "Testing $f..."
+        MPLBACKEND=Agg python3 "$f" || exit 1
+        ;;
+    esac
+  done"""
 ]
