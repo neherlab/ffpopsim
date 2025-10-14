@@ -11,8 +11,7 @@ skip = [
   "pp*",
 ]
 
-macos.archs = ["x86_64", "arm64"]
-
+# Architecture is set per-runner in the workflow file to avoid cross-compilation
 # GSL libraries from Homebrew require macOS 14.0 minimum
 macos.environment = {MACOSX_DEPLOYMENT_TARGET = "14.0"}
 
@@ -25,14 +24,6 @@ linux.before-build = [
 
 macos.before-build = [
   "brew install boost gsl",
-]
-
-
-test-skip = [
-  "*aarch64*",
-  "*arm64*",
-  "*ppc64*",
-  "*s390x*",
 ]
 
 

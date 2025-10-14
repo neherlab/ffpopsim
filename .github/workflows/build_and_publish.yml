@@ -71,12 +71,12 @@ jobs:
           CIBW_BUILD: "cp${{ matrix.python-version}}-*"
           # Override deployment target to 14.0 for all macOS runners
           MACOSX_DEPLOYMENT_TARGET: "14.0"
-          # Skip cross-architecture testing to avoid brew/Rosetta issues
-          CIBW_TEST_SKIP: >-
+          # Build only native architecture on each runner (no cross-compilation)
+          CIBW_ARCHS_MACOS: >-
             ${{
-              matrix.os == 'macos-14' && '*macosx_x86_64* *aarch64* *ppc64* *s390x*' ||
-              matrix.os == 'macos-15-intel' && '*macosx_arm64* *aarch64* *ppc64* *s390x*' ||
-              '*aarch64* *arm64* *ppc64* *s390x*'
+              matrix.os == 'macos-14' && 'arm64' ||
+              matrix.os == 'macos-15-intel' && 'x86_64' ||
+              'auto'
             }}
 
       - name: "Upload build artifacts (${{ matrix.os }}, py${{ matrix.python-version }})"
