@@ -187,9 +187,18 @@ int haploid_highd::free_mem() {
 		cerr <<"haploid_highd::free_mem(): No memory allocated!\n";
 		return HP_BADARG;
 	} else {
+		delete [] genome;
+		delete [] crossovers;
 		delete [] allele_frequencies;
 		delete [] gamete_allele_frequencies;
 		delete [] trait;
+		delete [] trait_stat;
+		for (int t = 0; t < number_of_traits; t++){
+			delete [] trait_covariance[t];
+		}
+		delete [] trait_covariance;
+		delete [] trait_weights;
+		gsl_rng_free(evo_generator);
 		mem = false;
 		return 0;
 	}
@@ -203,6 +212,10 @@ int haploid_highd::free_mem() {
 int haploid_highd::provide_at_least(int n) {
 	//calculate the number of clones that need to be newly allocated. Allow for some slack
 	//to avoid calling this too often
+	// BUG FIX: Check if we already have enough clones to avoid unsigned arithmetic underflow
+	if (available_clones.size() >= n) {
+		return 0;  // We already have enough clones available
+	}
 	int needed_gts = n - available_clones.size() + 100 + 0.1 * population.size();
 
 	//allocate at the necessary memory

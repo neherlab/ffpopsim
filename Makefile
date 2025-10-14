@@ -55,7 +55,7 @@
 # Please set your Python 3 executable if you want to build the Python
 # bindings. If you are only interested in the C++ part of the library,
 # comment out the following line
-PYTHON := python3
+PYTHON := micromamba run -n ffpopsim11 python
 
 # Note: please look in 'setup.py' if you are building the Python extension!
 #       You can call distutils with 'setup.py' directly if you prefer. The
@@ -73,11 +73,19 @@ OPTIMIZATION_LEVEL := O2
 
 # Please use the following variable for additional flags to the C++ compiler,
 # such as include folders (e.g. -I/opt/local/include)
-CXXFLAGS = -c -Wall -$(OPTIMIZATION_LEVEL) -fPIC
+GSL_CFLAGS := $(shell gsl-config --cflags 2>/dev/null)
+# Try to find Boost in common locations (macOS Homebrew, MacPorts, or standard Linux paths)
+BOOST_INCLUDE := $(shell \
+	if [ -d /opt/homebrew/opt/boost/include ]; then echo "-I/opt/homebrew/opt/boost/include"; \
+	elif [ -d /usr/local/opt/boost/include ]; then echo "-I/usr/local/opt/boost/include"; \
+	elif [ -d /opt/local/include/boost ]; then echo "-I/opt/local/include"; \
+	fi)
+CXXFLAGS = -c -Wall -$(OPTIMIZATION_LEVEL) -fPIC -std=c++11 $(GSL_CFLAGS) $(BOOST_INCLUDE)
 
 # Please use the following variable for additional flags to the linker, such
 # as library folders for GSL (e.g. -L/opt/local/lib)
-LDFLAGS = -$(OPTIMIZATION_LEVEL)
+GSL_LDFLAGS := $(shell gsl-config --libs 2>/dev/null | sed 's/-lgsl -lgslcblas//')
+LDFLAGS = -$(OPTIMIZATION_LEVEL) $(GSL_LDFLAGS)
 
 # Additional options used to regenerate the SWIG files or to rebuild the docs.
 
@@ -263,11 +271,7 @@ $(TESTSDIR)/$(TESTS_OBJECT_GENEALOGY): $(TESTSDIR)/$(TESTS_SOURCE_GENEALOGY)
 	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 run-tests:
-	cd "tests" && ./highd
-	cd "tests" && ./hivpopulation
-	cd "tests" && ./lowd
-	cd "tests" && ./recombination_lowd
-	cd "tests" && ./test_genealogy
+	cd tests && ./highd && ./hivpopulation && ./lowd && ./recombination_lowd && ./test_genealogy
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD) $(TESTS_GENEALOGY) $(TESTS_LOWD_REC) $(TESTS_HIVPOP)
