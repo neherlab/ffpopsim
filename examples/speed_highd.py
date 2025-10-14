@@ -41,7 +41,7 @@ for L in Llist_MB:
 
         pop.set_wildtype(N)                     # set a wildtype population of size N
 
-        pop.evolve(1.0 / (L * (mu + r)))        # evolve until equilibrium
+        pop.evolve(int(1.0 / (L * (mu + r))))   # evolve until equilibrium
 
         # run for G generations to measure execution time
         t1=time.time()
