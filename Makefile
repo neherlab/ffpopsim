@@ -80,7 +80,7 @@ BOOST_INCLUDE := $(shell \
 	elif [ -d /usr/local/opt/boost/include ]; then echo "-I/usr/local/opt/boost/include"; \
 	elif [ -d /opt/local/include/boost ]; then echo "-I/opt/local/include"; \
 	fi)
-CXXFLAGS = -c -Wall -$(OPTIMIZATION_LEVEL) -fPIC $(GSL_CFLAGS) $(BOOST_INCLUDE)
+CXXFLAGS = -c -Wall -$(OPTIMIZATION_LEVEL) -fPIC -std=c++11 $(GSL_CFLAGS) $(BOOST_INCLUDE)
 
 # Please use the following variable for additional flags to the linker, such
 # as library folders for GSL (e.g. -L/opt/local/lib)
@@ -271,11 +271,7 @@ $(TESTSDIR)/$(TESTS_OBJECT_GENEALOGY): $(TESTSDIR)/$(TESTS_SOURCE_GENEALOGY)
 	$(CXX) $(TESTS_CXXFLAGS) -c $(@:.o=.cpp) -o $@
 
 run-tests:
-	cd "tests" && ./highd
-	cd "tests" && ./hivpopulation
-	cd "tests" && ./lowd
-	cd "tests" && ./recombination_lowd
-	cd "tests" && ./test_genealogy
+	cd tests && ./highd && ./hivpopulation && ./lowd && ./recombination_lowd && ./test_genealogy
 
 clean-tests:
 	cd $(TESTSDIR); rm -rf *.o $(TESTS_LOWD) $(TESTS_HIGHD) $(TESTS_GENEALOGY) $(TESTS_LOWD_REC) $(TESTS_HIVPOP)

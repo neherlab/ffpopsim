@@ -59,6 +59,7 @@ setup_args = dict(
       include_dirs=[np.get_include()] + get_gsl_include() + get_boost_include(),
       library_dirs=get_gsl_lib_dirs(),
       libraries=['gsl', 'gslcblas'],
+      extra_compile_args=['-std=c++11'],
       py_limited_api = True
     )
   ]
