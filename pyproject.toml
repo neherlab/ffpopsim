@@ -8,7 +8,7 @@ authors = [
   { name = "Ivan Aksamentov" },
 ]
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.10"
 keywords = ["packaging", "dependency", "infer", "pyproject.toml"]
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -25,8 +25,7 @@ repository = "https://github.com/neherlab/ffpopsim"
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-  "numpy",
-  "ppsetuptools",
+  "numpy<2",
   "setuptools",
   "wheel",
 ]

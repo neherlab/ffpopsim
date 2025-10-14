@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 # vim: fdm=indent
 
-import sys
 import subprocess
 import os
 
-# Python 3.6 compatibility: Python 3.6 has no compatible version of setuptools that supports
-# PEP-517 (the `pyproject.toml`-based config), so we use a shim package `ppsetuptools` instead.
-if sys.version_info >= (3, 7):
-  from setuptools import setup, Extension
-else:
-  from ppsetuptools import setup, Extension
-
+from setuptools import setup, Extension
 import numpy as np
 
 # Get GSL include paths
