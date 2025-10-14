@@ -31,18 +31,11 @@ linux.before-test = [
   "pip install 'biopython' 'matplotlib' 'numpy<2' 'pandas' 'pygments' 'scipy'"
 ]
 
-# Run examples serially (one at a time) without parallel to avoid memory issues in CI
+# Run ALL examples serially (one at a time) - including slow ones after memory fixes
 linux.test-command = [
   """cd {project}/examples && for f in *.py; do
-    case "$f" in
-      benefits_of_sex.py|genealogies_with_selection.py|measuring_fixation_probabilities.py|multi_sample_adaptive.py|mutation_selection_balance_highd.py|neutral_LD_highd.py|speed_highd.py|speed_lowd.py)
-        echo "Skipping slow example: $f"
-        ;;
-      *)
-        echo "Testing $f..."
-        MPLBACKEND=Agg python3 "$f" || exit 1
-        ;;
-    esac
+    echo "Testing $f..."
+    MPLBACKEND=Agg python3 "$f" || exit 1
   done"""
 ]
 
@@ -51,17 +44,10 @@ macos.before-test = [
   "pip install 'biopython' 'matplotlib' 'numpy<2' 'pandas' 'pygments' 'scipy'"
 ]
 
-# Run same tests as Linux for consistency - serially without parallel
+# Run ALL examples serially - including slow ones after memory fixes
 macos.test-command = [
   """cd {project}/examples && for f in *.py; do
-    case "$f" in
-      benefits_of_sex.py|genealogies_with_selection.py|measuring_fixation_probabilities.py|multi_sample_adaptive.py|mutation_selection_balance_highd.py|neutral_LD_highd.py|speed_highd.py|speed_lowd.py)
-        echo "Skipping slow example: $f"
-        ;;
-      *)
-        echo "Testing $f..."
-        MPLBACKEND=Agg python3 "$f" || exit 1
-        ;;
-    esac
+    echo "Testing $f..."
+    MPLBACKEND=Agg python3 "$f" || exit 1
   done"""
 ]
