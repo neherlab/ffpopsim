@@ -187,9 +187,18 @@ int haploid_highd::free_mem() {
 		cerr <<"haploid_highd::free_mem(): No memory allocated!\n";
 		return HP_BADARG;
 	} else {
+		delete [] genome;
+		delete [] crossovers;
 		delete [] allele_frequencies;
 		delete [] gamete_allele_frequencies;
 		delete [] trait;
+		delete [] trait_stat;
+		for (int t = 0; t < number_of_traits; t++){
+			delete [] trait_covariance[t];
+		}
+		delete [] trait_covariance;
+		delete [] trait_weights;
+		gsl_rng_free(evo_generator);
 		mem = false;
 		return 0;
 	}
