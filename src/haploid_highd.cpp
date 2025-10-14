@@ -212,6 +212,10 @@ int haploid_highd::free_mem() {
 int haploid_highd::provide_at_least(int n) {
 	//calculate the number of clones that need to be newly allocated. Allow for some slack
 	//to avoid calling this too often
+	// BUG FIX: Check if we already have enough clones to avoid unsigned arithmetic underflow
+	if (available_clones.size() >= n) {
+		return 0;  // We already have enough clones available
+	}
 	int needed_gts = n - available_clones.size() + 100 + 0.1 * population.size();
 
 	//allocate at the necessary memory
