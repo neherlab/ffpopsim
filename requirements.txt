@@ -1,14 +1,14 @@
 biopython==1.79
 ipykernel==6.16.2
-ipython==8.5.0
-jupyterlab==3.5.0
+ipython==8.10.0
+jupyterlab==3.6.7
 matplotlib==3.6.0
 notebook==6.5.1
 numpy==1.23.4
 pandas==1.5.1
 ppsetuptools
 pygments
-scipy==1.9.3
+scipy==1.10.0
 seaborn==0.12.1
 setuptools
 wheel
