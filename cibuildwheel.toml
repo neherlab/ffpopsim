@@ -38,7 +38,7 @@ test-skip = [
 
 linux.before-test = [
   "yum install -y parallel >/dev/null",
-  "pip install biopython matplotlib numpy pandas pygments scipy"
+  "pip install 'biopython' 'matplotlib' 'numpy<2' 'pandas' 'pygments' 'scipy'"
 ]
 
 linux.test-command = [
@@ -48,10 +48,10 @@ linux.test-command = [
 
 macos.before-test = [
   "brew install parallel >/dev/null",
-  "pip install biopython matplotlib numpy pandas pygments scipy"
+  "pip install 'biopython' 'matplotlib' 'numpy<2' 'pandas' 'pygments' 'scipy'"
 ]
 
-# Tests are very slow on mac, so only do basics
+# Run same tests as Linux for consistency
 macos.test-command = [
-  "cd {project} && python examples/example.py"
+  "cd {project} && bash ./run-examples --skip-slow"
 ]
