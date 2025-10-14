@@ -65,7 +65,7 @@ plt.figure()
 for locus in range(L):
 
     # make histogram
-    y,x = np.histogram(allele_frequencies[:,locus], bins=af_bins, normed='True')
+    y,x = np.histogram(allele_frequencies[:,locus], bins=af_bins, density=True)
 
     # plot
     plt.plot(bc, y, color=plt.cm.jet(locus*4))
@@ -78,7 +78,7 @@ plt.ylabel(r'Allele frequency distribution $f(\nu)$')
 # compare explicitly to diffusion theory by normalizing to the diffusion theory prediction
 plt.figure()
 for locus in range(L):
-    y,x = np.histogram(allele_frequencies[:,locus], bins=af_bins, normed='True')
+    y,x = np.histogram(allele_frequencies[:,locus], bins=af_bins, density=True)
 
     # calculate the diffusion theory single locus result
     diffusion_theory = bc**(2*N*mu-1)*(1-bc)**(2*N*mu-1)*np.exp(2*N*s[locus]*bc)
