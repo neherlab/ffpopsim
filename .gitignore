@@ -28,9 +28,8 @@ tests/FFPopSim.py
 tests/FFPopSim.pyc
 tests/_FFPopSim.so
 
-# SWIG generated files (they are kept in the static-gsl branch)
-src/python/FFPopSim.py
-src/python/FFPopSim_wrap.cpp
+# SWIG generated Python module (FFPopSim.py is kept in repo)
+# Wrapper is now committed to ensure consistent SWIG 4.3.1 across platforms
 
 # Compiled Object files
 *.slo
