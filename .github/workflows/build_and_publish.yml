@@ -54,7 +54,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-24.04, macOS-13 ]
-        python-version: [ 36, 37, 38, 39, 310, 311 ]
+        python-version: [ 38, 39, 310, 311 ]
 
     steps:
       - name: "Checkout code"
